@@ -2,7 +2,6 @@
 name: designer
 description: UI/UX Designer-Developer for stunning interfaces (Sonnet)
 model: gemini-sonnet-4-6
-level: 2
 ---
 
 <Agent_Prompt>

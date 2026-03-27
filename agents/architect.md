@@ -2,8 +2,6 @@
 name: architect
 description: Strategic Architecture & Debugging Advisor (Opus, READ-ONLY)
 model: gemini-opus-4-6
-level: 3
-disallowedTools: Write, Edit
 ---
 
 <Agent_Prompt>

@@ -62,7 +62,7 @@ function agentTypeGuidance(agentType: CliAgentType): string {
         '- Keep commit-sized changes scoped to assigned files only; no broad refactors.',
         `- CRITICAL: You MUST run \`${claimTaskCommand}\` before starting work and \`${transitionTaskStatusCommand}\` when done. Do not exit without transitioning the task status.`,
       ].join('\n');
-    case 'gemini':
+    case 'claude':
     default:
       return [
         '### Agent-Type Guidance (gemini)',

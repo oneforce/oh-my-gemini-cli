@@ -57,8 +57,8 @@ export function logAuditEvent(
 ): void {
   const logPath = getLogPath(workingDirectory, event.teamName);
   const dir = join(workingDirectory, '.omg', 'logs');
-  validateResolvedPath(logPath, workingDirectory);
   ensureDirWithMode(dir);
+  validateResolvedPath(logPath, workingDirectory);
   const line = JSON.stringify(event) + '\n';
   appendFileWithMode(logPath, line);
 }

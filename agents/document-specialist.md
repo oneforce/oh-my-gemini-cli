@@ -2,8 +2,6 @@
 name: document-specialist
 description: External Documentation & Reference Specialist
 model: gemini-sonnet-4-6
-level: 2
-disallowedTools: Write, Edit
 ---
 
 <Agent_Prompt>

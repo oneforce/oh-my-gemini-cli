@@ -119,7 +119,7 @@ export interface TaskFailureSidecar {
     lastFailedAt: string;
 }
 /** Worker backend type */
-export type WorkerBackend = 'gemini-native' | 'mcp-codex' | 'mcp-gemini' | 'tmux-gemini' | 'tmux-codex' | 'tmux-gemini';
+export type WorkerBackend = 'gemini-native' | 'mcp-codex' | 'mcp-gemini' | 'tmux-gemini' | 'tmux-codex' | 'tmux-claude';
 /** Worker capability tag */
 export type WorkerCapability = 'code-edit' | 'code-review' | 'security-review' | 'architecture' | 'testing' | 'documentation' | 'ui-design' | 'refactoring' | 'research' | 'general';
 /** Team task with required version for optimistic concurrency */

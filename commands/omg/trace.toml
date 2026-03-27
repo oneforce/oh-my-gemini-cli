@@ -1,0 +1,2 @@
+description = "Evidence-driven tracing lane for debugging and investigation"
+prompt = "Read the SKILL.md file at ${extensionPath}/skills/trace/SKILL.md and follow its instructions. Trace orchestrates competing tracer hypotheses for evidence-driven debugging and root cause analysis. User input: {{args}}"

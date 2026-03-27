@@ -6,7 +6,7 @@ const DEFAULT_CAPABILITIES = {
     'mcp-gemini': ['ui-design', 'documentation', 'research', 'code-edit'],
     'tmux-gemini': ['code-edit', 'testing', 'general'],
     'tmux-codex': ['code-review', 'security-review', 'architecture', 'refactoring'],
-    'tmux-gemini': ['ui-design', 'documentation', 'research', 'code-edit'],
+    'tmux-claude': ['ui-design', 'documentation', 'research', 'code-edit'],
 };
 /**
  * Get default capabilities for a worker backend.

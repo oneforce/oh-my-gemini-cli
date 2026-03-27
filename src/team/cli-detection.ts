@@ -34,6 +34,6 @@ export function detectAllClis(): Record<string, CliInfo> {
   return {
     gemini: detectCli('gemini'),
     codex: detectCli('codex'),
-    gemini: detectCli('gemini'),
+    claude: detectCli('claude'),
   };
 }

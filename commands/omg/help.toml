@@ -1,0 +1,2 @@
+description = "OMC reference - agent catalog, tools, skills registry, and usage guide"
+prompt = "Read the SKILL.md file at ${extensionPath}/skills/omg-reference/SKILL.md and the AGENTS.md at ${extensionPath}/skills/AGENTS.md. Display the OMC reference information including available agents, tools, skills, and usage guide. User input: {{args}}"

@@ -27,7 +27,7 @@ export function detectAllClis() {
     return {
         gemini: detectCli('gemini'),
         codex: detectCli('codex'),
-        gemini: detectCli('gemini'),
+        claude: detectCli('claude'),
     };
 }
 //# sourceMappingURL=cli-detection.js.map

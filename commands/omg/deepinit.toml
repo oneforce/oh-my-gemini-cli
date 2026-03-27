@@ -1,0 +1,2 @@
+description = "Deep codebase initialization with hierarchical AGENTS.md documentation"
+prompt = "Read the SKILL.md file at ${extensionPath}/skills/deepinit/SKILL.md and follow its instructions. Initialize the codebase with deep analysis and generate hierarchical AGENTS.md documentation. User input: {{args}}"

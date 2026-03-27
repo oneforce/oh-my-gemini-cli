@@ -1,0 +1,2 @@
+description = "Setup and configure oh-my-gemini-cli (the ONLY command you need to learn)"
+prompt = "Read the SKILL.md file at ${extensionPath}/skills/omg-setup/SKILL.md and follow its instructions to set up OMC. User flags/args: {{args}}"

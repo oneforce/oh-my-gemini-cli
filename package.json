@@ -1,7 +1,7 @@
 {
   "name": "oh-my-gemini-cli",
   "version": "4.9.1",
-  "description": "Multi-agent orchestration system for Gemini Code - Inspired by oh-my-opencode",
+  "description": "Multi-agent orchestration system for Gemini Code CLI - Inspired by oh-my-opencode",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -19,6 +19,7 @@
   "files": [
     "dist",
     "agents",
+    "commands",
     "bridge",
     "bridge/mcp-server.cjs",
     "bridge/team-bridge.cjs",
@@ -34,6 +35,7 @@
     "docs",
     ".gemini-plugin",
     ".mcp.json",
+    "gemini-extension.json",
     "README.md",
     "LICENSE"
   ],
@@ -68,7 +70,7 @@
     "prepublishOnly": "npm run build && npm run compose-docs"
   },
   "dependencies": {
-    "@anthropic-ai/gemini-agent-sdk": "^0.1.0",
+    "@anthropic-ai/claude-agent-sdk": "^0.1.0",
     "@ast-grep/napi": "^0.31.0",
     "@modelcontextprotocol/sdk": "^1.26.0",
     "@types/better-sqlite3": "^7.6.13",
@@ -117,8 +119,7 @@
     "multi-agent",
     "orchestration",
     "omg",
-    "gemini-cli",
-    "anthropic",
+    "gemini-code-cli",
     "llm"
   ],
   "publishConfig": {

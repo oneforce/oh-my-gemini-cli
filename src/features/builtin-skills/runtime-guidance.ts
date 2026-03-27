@@ -3,7 +3,7 @@ import { isCliAvailable, type CliAgentType } from '../../team/model-contract.js'
 export interface SkillRuntimeAvailability {
   gemini: boolean;
   codex: boolean;
-  gemini: boolean;
+  claude: boolean;
 }
 
 export function detectSkillRuntimeAvailability(
@@ -12,7 +12,7 @@ export function detectSkillRuntimeAvailability(
   return {
     gemini: detector('gemini'),
     codex: detector('codex'),
-    gemini: detector('gemini'),
+    claude: detector('claude'),
   };
 }
 

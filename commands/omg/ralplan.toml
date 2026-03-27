@@ -1,0 +1,2 @@
+description = "Consensus planning via Planner/Architect/Critic pipeline"
+prompt = "Read the SKILL.md file at ${extensionPath}/skills/ralplan/SKILL.md and follow its instructions. Ralplan runs a 3-stage consensus planning pipeline (Planner, Architect, Critic) for validated implementation plans. User input: {{args}}"

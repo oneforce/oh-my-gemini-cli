@@ -2,7 +2,7 @@ import { type CliAgentType } from '../../team/model-contract.js';
 export interface SkillRuntimeAvailability {
     gemini: boolean;
     codex: boolean;
-    gemini: boolean;
+    claude: boolean;
 }
 export declare function detectSkillRuntimeAvailability(detector?: (agentType: CliAgentType) => boolean): SkillRuntimeAvailability;
 export declare function renderSkillRuntimeGuidance(skillName: string, availability?: SkillRuntimeAvailability): string;

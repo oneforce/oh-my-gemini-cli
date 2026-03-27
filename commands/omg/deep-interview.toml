@@ -1,0 +1,2 @@
+description = "Socratic deep interview with ambiguity gating before autonomous execution"
+prompt = "Read the SKILL.md file at ${extensionPath}/skills/deep-interview/SKILL.md and follow its instructions. Deep interview uses Socratic questioning with mathematical ambiguity gating to crystallize requirements before autonomous execution. User input: {{args}}"

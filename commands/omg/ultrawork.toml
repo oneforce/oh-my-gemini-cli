@@ -1,0 +1,2 @@
+description = "Parallel execution engine for high-throughput task completion"
+prompt = "Read the SKILL.md file at ${extensionPath}/skills/ultrawork/SKILL.md and follow its instructions. Ultrawork is a parallel execution engine that breaks tasks into independent work items and executes them concurrently for maximum throughput. User input: {{args}}"

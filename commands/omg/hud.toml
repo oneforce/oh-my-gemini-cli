@@ -1,0 +1,2 @@
+description = "Configure HUD display options (layout, presets, display elements)"
+prompt = "Read the SKILL.md file at ${extensionPath}/skills/hud/SKILL.md and follow its instructions. Configure the OMC HUD display settings for status visualization. User input: {{args}}"

@@ -2,7 +2,6 @@
 name: debugger
 description: Root-cause analysis, regression isolation, stack trace analysis, build/compilation error resolution
 model: gemini-sonnet-4-6
-level: 3
 ---
 
 <Agent_Prompt>

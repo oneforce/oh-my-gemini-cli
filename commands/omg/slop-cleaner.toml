@@ -1,0 +1,2 @@
+description = "Clean AI-generated code slop with regression-safe, deletion-first workflow"
+prompt = "Read the SKILL.md file at ${extensionPath}/skills/ai-slop-cleaner/SKILL.md and follow its instructions. Clean AI-generated code slop using a regression-safe, deletion-first workflow with optional reviewer-only mode. User input: {{args}}"

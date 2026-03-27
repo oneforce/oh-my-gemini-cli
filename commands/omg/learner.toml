@@ -1,0 +1,2 @@
+description = "Extract a learned skill from the current conversation"
+prompt = "Read the SKILL.md file at ${extensionPath}/skills/learner/SKILL.md and follow its instructions. Extract patterns, techniques, or knowledge from the current conversation and save them as a reusable skill. User input: {{args}}"

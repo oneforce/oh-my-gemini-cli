@@ -52,7 +52,7 @@ describe('isOmcHook', () => {
 
   it('is case-insensitive', () => {
     expect(isOmcHook('node ~/.gemini/hooks/OMC-hook.mjs')).toBe(true);
-    expect(isOmcHook('bash $HOME/.gemini/hooks/OH-MY-CLAUDECODE.sh')).toBe(true);
+    expect(isOmcHook('bash $HOME/.gemini/hooks/OH-MY-GEMINI-CLI.sh')).toBe(true);
   });
 });
 
@@ -88,7 +88,7 @@ describe('isOmcHook detection', () => {
 
   it('uses case-insensitive matching', () => {
     expect(isOmcHook('node ~/.gemini/hooks/OMC-hook.mjs')).toBe(true);
-    expect(isOmcHook('OH-MY-CLAUDECODE-detector.sh')).toBe(true);
+    expect(isOmcHook('OH-MY-GEMINI-CLI-detector.sh')).toBe(true);
   });
 });
 

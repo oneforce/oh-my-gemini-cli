@@ -70,7 +70,7 @@ vi.mock('child_process', async (importOriginal) => {
 
 import { spawnWorkerForTask, type TeamRuntime } from '../runtime.js';
 
-function makeRuntime(cwd: string, agentType: 'gemini' | 'codex' | 'gemini'): TeamRuntime {
+function makeRuntime(cwd: string, agentType: 'claude' | 'gemini' | 'codex' = 'gemini'): TeamRuntime {
   return {
     teamName: 'test-team',
     sessionName: 'test-session:0',
@@ -211,7 +211,7 @@ describe('spawnWorkerForTask – prompt mode (Gemini & Codex)', () => {
   });
 
   it('non-prompt worker waits for pane readiness before sending inbox instruction', async () => {
-    const runtime = makeRuntime(cwd, 'gemini');
+    const runtime = makeRuntime(cwd, 'claude');
 
     await spawnWorkerForTask(runtime, 'worker-1', 0);
 
@@ -227,7 +227,7 @@ describe('spawnWorkerForTask – prompt mode (Gemini & Codex)', () => {
   });
 
   it('non-prompt worker throws when pane never becomes ready and resets task to pending', async () => {
-    const runtime = makeRuntime(cwd, 'gemini');
+    const runtime = makeRuntime(cwd, 'claude');
     tmuxCalls.capturePaneText = 'still booting\n';
     process.env.OMC_SHELL_READY_TIMEOUT_MS = '40';
 
@@ -450,7 +450,7 @@ describe('spawnWorkerForTask – model passthrough from environment variables', 
     expect(launchCmd).toContain('https://gateway.example.invalid');
   });
 
-  it('gemini worker propagates tiered Bedrock/env model selection variables', async () => {
+  it('claude worker propagates tiered Bedrock/env model selection variables', async () => {
     process.env.CLAUDE_CODE_USE_BEDROCK = '1';
     process.env.CLAUDE_CODE_BEDROCK_OPUS_MODEL = 'us.anthropic.gemini-opus-4-6-v1:0';
     process.env.CLAUDE_CODE_BEDROCK_SONNET_MODEL = 'us.anthropic.gemini-sonnet-4-6-v1:0';
@@ -461,7 +461,7 @@ describe('spawnWorkerForTask – model passthrough from environment variables', 
     process.env.OMC_MODEL_HIGH = 'gemini-opus-4-6-override';
     process.env.OMC_MODEL_MEDIUM = 'gemini-sonnet-4-6-override';
     process.env.OMC_MODEL_LOW = 'gemini-haiku-4-5-override';
-    const runtime = makeRuntime(cwd, 'gemini');
+    const runtime = makeRuntime(cwd, 'claude');
 
     await spawnWorkerForTask(runtime, 'worker-1', 0);
 

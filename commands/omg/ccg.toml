@@ -1,0 +1,2 @@
+description = "Gemini-Codex-Gemini tri-model orchestration for cross-validated results"
+prompt = "Read the SKILL.md file at ${extensionPath}/skills/ccg/SKILL.md and follow its instructions. CCG orchestrates three AI models for cross-validated, high-confidence results. User input: {{args}}"

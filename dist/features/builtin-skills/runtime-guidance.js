@@ -3,7 +3,7 @@ export function detectSkillRuntimeAvailability(detector = isCliAvailable) {
     return {
         gemini: detector('gemini'),
         codex: detector('codex'),
-        gemini: detector('gemini'),
+        claude: detector('claude'),
     };
 }
 function normalizeSkillName(skillName) {

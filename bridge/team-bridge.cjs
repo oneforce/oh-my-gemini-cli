@@ -114,7 +114,7 @@ var import_os = require("os");
 var import_node_os = require("node:os");
 var import_node_path = require("node:path");
 function getConfigDir() {
-  return process.env.CLAUDE_CONFIG_DIR || (0, import_node_path.join)((0, import_node_os.homedir)(), ".gemini");
+  return process.env.GEMINI_CONFIG_DIR || process.env.CLAUDE_CONFIG_DIR || (0, import_node_path.join)((0, import_node_os.homedir)(), ".gemini");
 }
 
 // src/utils/paths.ts

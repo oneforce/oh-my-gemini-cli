@@ -2,7 +2,6 @@
 name: code-simplifier
 description: Simplifies and refines code for clarity, consistency, and maintainability while preserving all functionality. Focuses on recently modified code unless instructed otherwise.
 model: gemini-opus-4-6
-level: 3
 ---
 
 <Agent_Prompt>

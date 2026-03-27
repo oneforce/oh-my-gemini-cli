@@ -2,7 +2,6 @@
 name: test-engineer
 description: Test strategy, integration/e2e coverage, flaky test hardening, TDD workflows
 model: gemini-sonnet-4-6
-level: 3
 ---
 
 <Agent_Prompt>

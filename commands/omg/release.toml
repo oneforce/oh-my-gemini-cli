@@ -1,0 +1,2 @@
+description = "Automated release workflow for oh-my-gemini-cli"
+prompt = "Read the SKILL.md file at ${extensionPath}/skills/release/SKILL.md and follow its instructions. Run the automated release workflow including version bumping, changelog generation, and publishing. User input: {{args}}"

@@ -1,0 +1,26 @@
+{
+  "name": "oh-my-gemini-cli",
+  "version": "4.9.1",
+  "description": "Multi-agent orchestration system for Gemini Code CLI",
+  "contextFileName": "GEMINI.md",
+  "author": {
+    "name": "oh-my-gemini-cli contributors"
+  },
+  "repository": "https://github.com/Yeachan-Heo/oh-my-gemini-cli",
+  "homepage": "https://github.com/Yeachan-Heo/oh-my-gemini-cli",
+  "license": "MIT",
+  "keywords": [
+    "gemini-code-cli",
+    "extension",
+    "multi-agent",
+    "orchestration",
+    "automation"
+  ],
+  "skills": "./skills/",
+  "mcpServers": {
+    "t": {
+      "command": "node",
+      "args": ["${extensionPath}${/}bridge${/}mcp-server.cjs"]
+    }
+  }
+}

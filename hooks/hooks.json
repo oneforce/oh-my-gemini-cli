@@ -1,19 +1,19 @@
 {
   "description": "OMC orchestration hooks with async capabilities",
   "hooks": {
-    "UserPromptSubmit": [
+    "BeforeAgent": [
       {
         "matcher": "*",
         "hooks": [
           {
             "type": "command",
-            "command": "node \"$CLAUDE_PLUGIN_ROOT\"/scripts/run.cjs \"$CLAUDE_PLUGIN_ROOT\"/scripts/keyword-detector.mjs",
-            "timeout": 5
+            "command": "node \"${extensionPath}${/}scripts${/}run.cjs\" \"${extensionPath}${/}scripts${/}keyword-detector.mjs\"",
+            "timeout": 5000
           },
           {
             "type": "command",
-            "command": "node \"$CLAUDE_PLUGIN_ROOT\"/scripts/run.cjs \"$CLAUDE_PLUGIN_ROOT\"/scripts/skill-injector.mjs",
-            "timeout": 3
+            "command": "node \"${extensionPath}${/}scripts${/}run.cjs\" \"${extensionPath}${/}scripts${/}skill-injector.mjs\"",
+            "timeout": 3000
           }
         ]
       }
@@ -24,13 +24,13 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node \"$CLAUDE_PLUGIN_ROOT\"/scripts/run.cjs \"$CLAUDE_PLUGIN_ROOT\"/scripts/session-start.mjs",
-            "timeout": 5
+            "command": "node \"${extensionPath}${/}scripts${/}run.cjs\" \"${extensionPath}${/}scripts${/}session-start.mjs\"",
+            "timeout": 5000
           },
           {
             "type": "command",
-            "command": "node \"$CLAUDE_PLUGIN_ROOT\"/scripts/run.cjs \"$CLAUDE_PLUGIN_ROOT\"/scripts/project-memory-session.mjs",
-            "timeout": 5
+            "command": "node \"${extensionPath}${/}scripts${/}run.cjs\" \"${extensionPath}${/}scripts${/}project-memory-session.mjs\"",
+            "timeout": 5000
           }
         ]
       },
@@ -39,8 +39,8 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node \"$CLAUDE_PLUGIN_ROOT\"/scripts/run.cjs \"$CLAUDE_PLUGIN_ROOT\"/scripts/setup-init.mjs",
-            "timeout": 30
+            "command": "node \"${extensionPath}${/}scripts${/}run.cjs\" \"${extensionPath}${/}scripts${/}setup-init.mjs\"",
+            "timeout": 30000
           }
         ]
       },
@@ -49,129 +49,81 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node \"$CLAUDE_PLUGIN_ROOT\"/scripts/run.cjs \"$CLAUDE_PLUGIN_ROOT\"/scripts/setup-maintenance.mjs",
-            "timeout": 60
+            "command": "node \"${extensionPath}${/}scripts${/}run.cjs\" \"${extensionPath}${/}scripts${/}setup-maintenance.mjs\"",
+            "timeout": 60000
           }
         ]
       }
     ],
-    "PreToolUse": [
+    "BeforeTool": [
       {
         "matcher": "*",
         "hooks": [
           {
             "type": "command",
-            "command": "node \"$CLAUDE_PLUGIN_ROOT\"/scripts/run.cjs \"$CLAUDE_PLUGIN_ROOT\"/scripts/pre-tool-enforcer.mjs",
-            "timeout": 3
+            "command": "node \"${extensionPath}${/}scripts${/}run.cjs\" \"${extensionPath}${/}scripts${/}pre-tool-enforcer.mjs\"",
+            "timeout": 3000
           }
         ]
       }
     ],
-    "PermissionRequest": [
-      {
-        "matcher": "Bash",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "node \"$CLAUDE_PLUGIN_ROOT\"/scripts/run.cjs \"$CLAUDE_PLUGIN_ROOT\"/scripts/permission-handler.mjs",
-            "timeout": 5
-          }
-        ]
-      }
-    ],
-    "PostToolUse": [
+    "AfterTool": [
       {
         "matcher": "*",
         "hooks": [
           {
             "type": "command",
-            "command": "node \"$CLAUDE_PLUGIN_ROOT\"/scripts/run.cjs \"$CLAUDE_PLUGIN_ROOT\"/scripts/post-tool-verifier.mjs",
-            "timeout": 3
+            "command": "node \"${extensionPath}${/}scripts${/}run.cjs\" \"${extensionPath}${/}scripts${/}post-tool-verifier.mjs\"",
+            "timeout": 3000
           },
           {
             "type": "command",
-            "command": "node \"$CLAUDE_PLUGIN_ROOT\"/scripts/run.cjs \"$CLAUDE_PLUGIN_ROOT\"/scripts/project-memory-posttool.mjs",
-            "timeout": 3
-          }
-        ]
-      }
-    ],
-    "PostToolUseFailure": [
-      {
-        "matcher": "*",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "node \"$CLAUDE_PLUGIN_ROOT\"/scripts/run.cjs \"$CLAUDE_PLUGIN_ROOT\"/scripts/post-tool-use-failure.mjs",
-            "timeout": 3
-          }
-        ]
-      }
-    ],
-    "SubagentStart": [
-      {
-        "matcher": "*",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "node \"$CLAUDE_PLUGIN_ROOT\"/scripts/run.cjs \"$CLAUDE_PLUGIN_ROOT\"/scripts/subagent-tracker.mjs start",
-            "timeout": 3
-          }
-        ]
-      }
-    ],
-    "SubagentStop": [
-      {
-        "matcher": "*",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "node \"$CLAUDE_PLUGIN_ROOT\"/scripts/run.cjs \"$CLAUDE_PLUGIN_ROOT\"/scripts/subagent-tracker.mjs stop",
-            "timeout": 5
+            "command": "node \"${extensionPath}${/}scripts${/}run.cjs\" \"${extensionPath}${/}scripts${/}project-memory-posttool.mjs\"",
+            "timeout": 3000
           },
           {
             "type": "command",
-            "command": "node \"$CLAUDE_PLUGIN_ROOT\"/scripts/run.cjs \"$CLAUDE_PLUGIN_ROOT\"/scripts/verify-deliverables.mjs",
-            "timeout": 5
+            "command": "node \"${extensionPath}${/}scripts${/}run.cjs\" \"${extensionPath}${/}scripts${/}post-tool-use-failure.mjs\"",
+            "timeout": 3000
           }
         ]
       }
     ],
-    "PreCompact": [
+    "PreCompress": [
       {
         "matcher": "*",
         "hooks": [
           {
             "type": "command",
-            "command": "node \"$CLAUDE_PLUGIN_ROOT\"/scripts/run.cjs \"$CLAUDE_PLUGIN_ROOT\"/scripts/pre-compact.mjs",
-            "timeout": 10
+            "command": "node \"${extensionPath}${/}scripts${/}run.cjs\" \"${extensionPath}${/}scripts${/}pre-compact.mjs\"",
+            "timeout": 10000
           },
           {
             "type": "command",
-            "command": "node \"$CLAUDE_PLUGIN_ROOT\"/scripts/run.cjs \"$CLAUDE_PLUGIN_ROOT\"/scripts/project-memory-precompact.mjs",
-            "timeout": 5
+            "command": "node \"${extensionPath}${/}scripts${/}run.cjs\" \"${extensionPath}${/}scripts${/}project-memory-precompact.mjs\"",
+            "timeout": 5000
           }
         ]
       }
     ],
-    "Stop": [
+    "AfterAgent": [
       {
         "matcher": "*",
         "hooks": [
           {
             "type": "command",
-            "command": "node \"$CLAUDE_PLUGIN_ROOT\"/scripts/run.cjs \"$CLAUDE_PLUGIN_ROOT\"/scripts/context-guard-stop.mjs",
-            "timeout": 5
+            "command": "node \"${extensionPath}${/}scripts${/}run.cjs\" \"${extensionPath}${/}scripts${/}context-guard-stop.mjs\"",
+            "timeout": 5000
           },
           {
             "type": "command",
-            "command": "node \"$CLAUDE_PLUGIN_ROOT\"/scripts/run.cjs \"$CLAUDE_PLUGIN_ROOT\"/scripts/persistent-mode.cjs",
-            "timeout": 10
+            "command": "node \"${extensionPath}${/}scripts${/}run.cjs\" \"${extensionPath}${/}scripts${/}persistent-mode.cjs\"",
+            "timeout": 10000
           },
           {
             "type": "command",
-            "command": "node \"$CLAUDE_PLUGIN_ROOT\"/scripts/run.cjs \"$CLAUDE_PLUGIN_ROOT\"/scripts/code-simplifier.mjs",
-            "timeout": 5
+            "command": "node \"${extensionPath}${/}scripts${/}run.cjs\" \"${extensionPath}${/}scripts${/}code-simplifier.mjs\"",
+            "timeout": 5000
           }
         ]
       }
@@ -182,8 +134,8 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node \"$CLAUDE_PLUGIN_ROOT\"/scripts/run.cjs \"$CLAUDE_PLUGIN_ROOT\"/scripts/session-end.mjs",
-            "timeout": 30
+            "command": "node \"${extensionPath}${/}scripts${/}run.cjs\" \"${extensionPath}${/}scripts${/}session-end.mjs\"",
+            "timeout": 30000
           }
         ]
       }

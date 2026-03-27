@@ -2,7 +2,6 @@
 name: qa-tester
 description: Interactive CLI testing specialist using tmux for session management
 model: gemini-sonnet-4-6
-level: 3
 ---
 
 <Agent_Prompt>

@@ -42,21 +42,16 @@ export function ensureDirWithMode(dirPath: string, mode: number = 0o700): void {
   if (!existsSync(dirPath)) mkdirSync(dirPath, { recursive: true, mode });
 }
 
-/** Resolve a path through symlinks where possible, falling back to resolve for non-existent paths.
- *  For paths that don't exist yet, resolves the parent via realpath and appends the filename. */
 function safeRealpath(p: string): string {
   try {
     return realpathSync(p);
   } catch {
-    // Path doesn't exist yet — resolve the parent directory and append the filename
     const parent = dirname(p);
-    const name = basename(p);
-    try {
-      return resolve(realpathSync(parent), name);
-    } catch {
-      // Parent also doesn't exist, fall back to plain resolve
-      return resolve(p);
+    if (parent === p) {
+      return p;
     }
+    const name = basename(p);
+    return resolve(safeRealpath(parent), name);
   }
 }
 

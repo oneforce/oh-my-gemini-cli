@@ -343,7 +343,7 @@ export const POST_TOOL_USE_SCRIPT_NODE = loadTemplate("post-tool-use.mjs");
  */
 export const HOOKS_SETTINGS_CONFIG_NODE = {
     hooks: {
-        UserPromptSubmit: [
+        BeforeAgent: [
             {
                 hooks: [
                     {
@@ -369,7 +369,7 @@ export const HOOKS_SETTINGS_CONFIG_NODE = {
                 ],
             },
         ],
-        PreToolUse: [
+        BeforeTool: [
             {
                 hooks: [
                     {
@@ -381,7 +381,7 @@ export const HOOKS_SETTINGS_CONFIG_NODE = {
                 ],
             },
         ],
-        PostToolUse: [
+        AfterTool: [
             {
                 hooks: [
                     {
@@ -393,19 +393,7 @@ export const HOOKS_SETTINGS_CONFIG_NODE = {
                 ],
             },
         ],
-        PostToolUseFailure: [
-            {
-                hooks: [
-                    {
-                        type: "command",
-                        command: isWindows()
-                            ? 'node "%USERPROFILE%\\.gemini\\hooks\\post-tool-use-failure.mjs"'
-                            : 'node "$HOME/.gemini/hooks/post-tool-use-failure.mjs"',
-                    },
-                ],
-            },
-        ],
-        Stop: [
+        AfterAgent: [
             {
                 hooks: [
                     {

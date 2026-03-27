@@ -1,0 +1,2 @@
+description = "N coordinated agents on shared task list using native teams"
+prompt = "Read the SKILL.md file at ${extensionPath}/skills/team/SKILL.md and follow its instructions. Spawn N coordinated agents working on a shared task list for parallel collaborative execution. User input: {{args}}"

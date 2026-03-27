@@ -1,0 +1,2 @@
+description = "Ask Gemini, Codex, or other AI via local CLI and capture a reusable artifact"
+prompt = "Read the SKILL.md file at ${extensionPath}/skills/ask/SKILL.md and follow its instructions. Route a question to an external AI provider and capture the response as a reusable artifact. User input: {{args}}"

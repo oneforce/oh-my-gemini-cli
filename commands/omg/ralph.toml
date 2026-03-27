@@ -1,0 +1,2 @@
+description = "Self-referential loop until task completion with configurable verification"
+prompt = "Read the SKILL.md file at ${extensionPath}/skills/ralph/SKILL.md and follow its instructions. Ralph is a self-referential execution loop that keeps working until the task is complete, with configurable verification and review steps. User input: {{args}}"

@@ -4,7 +4,7 @@ import { validateTeamName } from './team-name.js';
 import { normalizeToCcAlias } from '../features/delegation-enforcer.js';
 import { isBedrock, isVertexAI, isProviderSpecificModelId } from '../config/models.js';
 
-export type CliAgentType = 'gemini' | 'codex' | 'gemini';
+export type CliAgentType = 'gemini' | 'codex' | 'claude';
 
 export interface CliAgentContract {
   agentType: CliAgentType;
@@ -151,8 +151,8 @@ export const _testInternals = {
 };
 
 const CONTRACTS: Record<CliAgentType, CliAgentContract> = {
-  gemini: {
-    agentType: 'gemini',
+  claude: {
+    agentType: 'claude',
     binary: 'gemini',
     installInstructions: 'Install Gemini CLI: https://gemini.ai/download',
     buildLaunchArgs(model?: string, extraFlags: string[] = []): string[] {

@@ -1,0 +1,2 @@
+description = "Cancel any active OMC mode (autopilot, ralph, ultrawork, ultraqa, team)"
+prompt = "Read the SKILL.md file at ${extensionPath}/skills/cancel/SKILL.md and follow its instructions. Cancel the currently active OMC execution mode and clean up state files. User input: {{args}}"

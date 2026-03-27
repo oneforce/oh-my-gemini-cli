@@ -1,0 +1,2 @@
+description = "Manage local skills - list, add, remove, search, edit"
+prompt = "Read the SKILL.md file at ${extensionPath}/skills/skill/SKILL.md and follow its instructions. Manage OMC skills: list available skills, add new ones, remove, search, or edit existing skills. Subcommands: list, add, remove, search, edit, setup. User input: {{args}}"

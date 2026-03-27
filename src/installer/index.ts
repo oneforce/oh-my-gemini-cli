@@ -262,9 +262,9 @@ const OMC_HOOK_FILENAMES = new Set([
  */
 export function isOmcHook(command: string): boolean {
   const lowerCommand = command.toLowerCase();
-  // Match "omg" as a path segment or word boundary
-  // Matches: /omg/, /omg-, omg/, -omg, _omg, omg_
-  const omgPattern = /(?:^|[\/\\_-])omg(?:$|[\/\\_-])/;
+  // Match "omg" or "omc" as a path segment or word boundary
+  // Matches: /omg/, /omc-, omg/, -omg, _omc, omg_
+  const omgPattern = /(?:^|[\/\\_-])(omg|omc)(?:$|[\/\\_-])/;
   const fullNamePattern = /oh-my-gemini-cli/;
   if (omgPattern.test(lowerCommand) || fullNamePattern.test(lowerCommand)) {
     return true;

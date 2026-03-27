@@ -1,0 +1,2 @@
+description = "Full autonomous execution from idea to working code"
+prompt = "Read the SKILL.md file at ${extensionPath}/skills/autopilot/SKILL.md and follow its instructions. Autopilot takes a brief product idea and autonomously handles the full lifecycle: requirements analysis, technical design, planning, parallel implementation, QA cycling, and multi-perspective validation. User input: {{args}}"

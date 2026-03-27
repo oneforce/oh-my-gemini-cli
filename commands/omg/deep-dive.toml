@@ -1,0 +1,2 @@
+description = "2-stage pipeline: trace then deep-interview for investigation and requirements"
+prompt = "Read the SKILL.md file at ${extensionPath}/skills/deep-dive/SKILL.md and follow its instructions. Deep-dive runs a 2-stage pipeline: first causal investigation (trace), then requirements crystallization (deep-interview). User input: {{args}}"

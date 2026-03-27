@@ -97,8 +97,8 @@ export const _testInternals = {
     getTrustedPrefixes,
 };
 const CONTRACTS = {
-    gemini: {
-        agentType: 'gemini',
+    claude: {
+        agentType: 'claude',
         binary: 'gemini',
         installInstructions: 'Install Gemini CLI: https://gemini.ai/download',
         buildLaunchArgs(model, extraFlags = []) {

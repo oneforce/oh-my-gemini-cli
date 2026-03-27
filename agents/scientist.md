@@ -2,8 +2,6 @@
 name: scientist
 description: Data analysis and research execution specialist
 model: gemini-sonnet-4-6
-level: 3
-disallowedTools: Write, Edit
 ---
 
 <Agent_Prompt>

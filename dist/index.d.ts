@@ -93,7 +93,7 @@ export interface OmcSession {
  * @example
  * ```typescript
  * import { createOmcSession } from 'oh-my-gemini-cli';
- * import { query } from '@anthropic-ai/gemini-agent-sdk';
+ * import { query } from '@anthropic-ai/claude-agent-sdk';
  *
  * const session = createOmcSession();
  *

@@ -91,9 +91,9 @@ describe('model-contract', () => {
     });
   });
   describe('getContract', () => {
-    it('returns contract for gemini', () => {
-      const c = getContract('gemini');
-      expect(c.agentType).toBe('gemini');
+    it('returns contract for claude', () => {
+      const c = getContract('claude');
+      expect(c.agentType).toBe('claude');
       expect(c.binary).toBe('gemini');
     });
     it('returns contract for codex', () => {
@@ -112,8 +112,8 @@ describe('model-contract', () => {
   });
 
   describe('buildLaunchArgs', () => {
-    it('gemini includes --dangerously-skip-permissions', () => {
-      const args = buildLaunchArgs('gemini', { teamName: 't', workerName: 'w', cwd: '/tmp' });
+    it('claude includes --dangerously-skip-permissions', () => {
+      const args = buildLaunchArgs('claude', { teamName: 't', workerName: 'w', cwd: '/tmp' });
       expect(args).toContain('--dangerously-skip-permissions');
     });
     it('codex includes --dangerously-bypass-approvals-and-sandbox', () => {
@@ -132,26 +132,26 @@ describe('model-contract', () => {
       expect(args).toContain('--model');
       expect(args).toContain('gpt-4');
     });
-    it('normalizes full Gemini model ID to alias for gemini agent (issue #1415)', () => {
-      const args = buildLaunchArgs('gemini', { teamName: 't', workerName: 'w', cwd: '/tmp', model: 'gemini-sonnet-4-6' });
+    it('normalizes full Gemini model ID to alias for claude agent (issue #1415)', () => {
+      const args = buildLaunchArgs('claude', { teamName: 't', workerName: 'w', cwd: '/tmp', model: 'gemini-sonnet-4-6' });
       expect(args).toContain('--model');
       expect(args).toContain('sonnet');
       expect(args).not.toContain('gemini-sonnet-4-6');
     });
-    it('passes Bedrock model ID through without normalization for gemini agent (issue #1695)', () => {
-      const args = buildLaunchArgs('gemini', { teamName: 't', workerName: 'w', cwd: '/tmp', model: 'us.anthropic.gemini-opus-4-6-v1:0' });
+    it('passes Bedrock model ID through without normalization for claude agent (issue #1695)', () => {
+      const args = buildLaunchArgs('claude', { teamName: 't', workerName: 'w', cwd: '/tmp', model: 'us.anthropic.gemini-opus-4-6-v1:0' });
       expect(args).toContain('--model');
       expect(args).toContain('us.anthropic.gemini-opus-4-6-v1:0');
       expect(args).not.toContain('opus');
     });
     it('passes Bedrock ARN model ID through without normalization (issue #1695)', () => {
       const arn = 'arn:aws:bedrock:us-east-2:123456789012:inference-profile/global.anthropic.gemini-sonnet-4-6-v1:0';
-      const args = buildLaunchArgs('gemini', { teamName: 't', workerName: 'w', cwd: '/tmp', model: arn });
+      const args = buildLaunchArgs('claude', { teamName: 't', workerName: 'w', cwd: '/tmp', model: arn });
       expect(args).toContain('--model');
       expect(args).toContain(arn);
     });
     it('passes Vertex AI model ID through without normalization (issue #1695)', () => {
-      const args = buildLaunchArgs('gemini', { teamName: 't', workerName: 'w', cwd: '/tmp', model: 'vertex_ai/gemini-sonnet-4-6@20250514' });
+      const args = buildLaunchArgs('claude', { teamName: 't', workerName: 'w', cwd: '/tmp', model: 'vertex_ai/gemini-sonnet-4-6@20250514' });
       expect(args).toContain('--model');
       expect(args).toContain('vertex_ai/gemini-sonnet-4-6@20250514');
       expect(args).not.toContain('sonnet');
@@ -316,8 +316,8 @@ describe('model-contract', () => {
       expect(c.promptModeFlag).toBe('-i');
     });
 
-    it('gemini does not support prompt mode', () => {
-      expect(isPromptModeAgent('gemini')).toBe(false);
+    it('claude does not support prompt mode', () => {
+      expect(isPromptModeAgent('claude')).toBe(false);
     });
 
     it('codex supports prompt mode (positional argument, no flag)', () => {
@@ -338,7 +338,7 @@ describe('model-contract', () => {
     });
 
     it('getPromptModeArgs returns empty array for non-prompt-mode agents', () => {
-      expect(getPromptModeArgs('gemini', 'Read inbox')).toEqual([]);
+      expect(getPromptModeArgs('claude', 'Read inbox')).toEqual([]);
     });
   });
 

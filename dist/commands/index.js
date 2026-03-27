@@ -118,7 +118,7 @@ export function expandCommand(name, args = '') {
  * @example
  * ```typescript
  * import { expandCommandPrompt } from 'oh-my-gemini-cli';
- * import { query } from '@anthropic-ai/gemini-agent-sdk';
+ * import { query } from '@anthropic-ai/claude-agent-sdk';
  *
  * const prompt = expandCommandPrompt('ultrawork', 'Refactor the auth module');
  *

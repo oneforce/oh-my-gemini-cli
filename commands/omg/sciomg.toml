@@ -1,0 +1,2 @@
+description = "Orchestrate parallel scientist agents for comprehensive analysis"
+prompt = "Read the SKILL.md file at ${extensionPath}/skills/sciomg/SKILL.md and follow its instructions. Orchestrate parallel scientist agents for comprehensive, multi-perspective analysis with AUTO mode. User input: {{args}}"

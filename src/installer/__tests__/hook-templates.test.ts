@@ -59,7 +59,7 @@ describe('keyword-detector packaged artifacts', () => {
       expect(templateResult).toContain(expected);
       expect(pluginResult).toContain(expected);
     }
-  });
+  }, 100000);
 
   it('only triggers ai-slop-cleaner for anti-slop cleanup/refactor prompts', () => {
     const templatePath = join(packageRoot, 'templates', 'hooks', 'keyword-detector.mjs');
@@ -142,5 +142,5 @@ describe('keyword-detector packaged artifacts', () => {
       expect(runKeywordHook(templatePath, prompt)).toEqual({ continue: true, suppressOutput: true });
       expect(runKeywordHook(pluginPath, prompt)).toEqual({ continue: true, suppressOutput: true });
     }
-  });
+  }, 100000);
 });

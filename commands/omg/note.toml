@@ -1,0 +1,2 @@
+description = "Agentic memory system for writers - track characters, relationships, and scenes"
+prompt = "Read the SKILL.md file at ${extensionPath}/skills/writer-memory/SKILL.md and follow its instructions. Manage writer memory: track characters, relationships, scenes, and themes. Subcommands: init, char, rel, scene, query, validate, synopsis, status, export. User input: {{args}}"

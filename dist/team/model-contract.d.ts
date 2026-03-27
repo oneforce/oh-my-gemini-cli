@@ -1,4 +1,4 @@
-export type CliAgentType = 'gemini' | 'codex' | 'gemini';
+export type CliAgentType = 'gemini' | 'codex' | 'claude';
 export interface CliAgentContract {
     agentType: CliAgentType;
     binary: string;

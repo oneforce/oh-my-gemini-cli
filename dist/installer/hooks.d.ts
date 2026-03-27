@@ -89,7 +89,7 @@ export declare const POST_TOOL_USE_SCRIPT_NODE: string;
  */
 export declare const HOOKS_SETTINGS_CONFIG_NODE: {
     hooks: {
-        UserPromptSubmit: {
+        BeforeAgent: {
             hooks: {
                 type: "command";
                 command: string;
@@ -101,25 +101,19 @@ export declare const HOOKS_SETTINGS_CONFIG_NODE: {
                 command: string;
             }[];
         }[];
-        PreToolUse: {
+        BeforeTool: {
             hooks: {
                 type: "command";
                 command: string;
             }[];
         }[];
-        PostToolUse: {
+        AfterTool: {
             hooks: {
                 type: "command";
                 command: string;
             }[];
         }[];
-        PostToolUseFailure: {
-            hooks: {
-                type: "command";
-                command: string;
-            }[];
-        }[];
-        Stop: {
+        AfterAgent: {
             hooks: {
                 type: "command";
                 command: string;

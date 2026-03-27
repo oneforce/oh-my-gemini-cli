@@ -1,0 +1,2 @@
+description = "Strategic planning with optional interview workflow"
+prompt = "Read the SKILL.md file at ${extensionPath}/skills/plan/SKILL.md and follow its instructions. Create a strategic implementation plan. Supports optional deep-interview workflow for requirements clarification before planning. User input: {{args}}"

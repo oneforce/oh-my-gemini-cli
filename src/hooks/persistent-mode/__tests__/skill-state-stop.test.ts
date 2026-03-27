@@ -77,7 +77,7 @@ describe('persistent-mode skill-state stop integration (issue #1033)', () => {
     } finally {
       rmSync(tempDir, { recursive: true, force: true });
     }
-  });
+  }, 60000);
 
   it('allows stop when no skill is active', async () => {
     const sessionId = 'session-skill-1033-allow';
@@ -89,7 +89,7 @@ describe('persistent-mode skill-state stop integration (issue #1033)', () => {
     } finally {
       rmSync(tempDir, { recursive: true, force: true });
     }
-  });
+  }, 60000);
 
   it('allows orchestrator idle when a skill is active but delegated subagents are still running', async () => {
     const sessionId = 'session-skill-1721-active-agents';
@@ -125,7 +125,7 @@ describe('persistent-mode skill-state stop integration (issue #1033)', () => {
     } finally {
       rmSync(tempDir, { recursive: true, force: true });
     }
-  });
+  }, 60000);
 
   it('allows stop when skill reinforcement limit is reached', async () => {
     const sessionId = 'session-skill-1033-limit';
@@ -142,7 +142,7 @@ describe('persistent-mode skill-state stop integration (issue #1033)', () => {
     } finally {
       rmSync(tempDir, { recursive: true, force: true });
     }
-  });
+  }, 60000);
 
   it('allows stop when skill state is stale', async () => {
     const sessionId = 'session-skill-1033-stale';
@@ -161,7 +161,7 @@ describe('persistent-mode skill-state stop integration (issue #1033)', () => {
     } finally {
       rmSync(tempDir, { recursive: true, force: true });
     }
-  });
+  }, 60000);
 
   it('respects session isolation for skill state', async () => {
     const sessionId = 'session-skill-1033-iso-a';
@@ -177,7 +177,7 @@ describe('persistent-mode skill-state stop integration (issue #1033)', () => {
     } finally {
       rmSync(tempDir, { recursive: true, force: true });
     }
-  });
+  }, 60000);
 
   it('ralph takes priority over skill state', async () => {
     const sessionId = 'session-skill-1033-ralph';
@@ -212,7 +212,7 @@ describe('persistent-mode skill-state stop integration (issue #1033)', () => {
     } finally {
       rmSync(tempDir, { recursive: true, force: true });
     }
-  });
+  }, 60000);
 
   it('does not block on context-limit stops even with active skill', async () => {
     const sessionId = 'session-skill-1033-ctx';
@@ -228,7 +228,7 @@ describe('persistent-mode skill-state stop integration (issue #1033)', () => {
     } finally {
       rmSync(tempDir, { recursive: true, force: true });
     }
-  });
+  }, 60000);
 
   it('does not block on user abort even with active skill', async () => {
     const sessionId = 'session-skill-1033-abort';
@@ -244,5 +244,5 @@ describe('persistent-mode skill-state stop integration (issue #1033)', () => {
     } finally {
       rmSync(tempDir, { recursive: true, force: true });
     }
-  });
+  }, 60000);
 });

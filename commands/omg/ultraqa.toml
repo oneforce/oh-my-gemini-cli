@@ -1,0 +1,2 @@
+description = "QA cycling workflow - test, verify, fix, repeat until goal met"
+prompt = "Read the SKILL.md file at ${extensionPath}/skills/ultraqa/SKILL.md and follow its instructions. UltraQA runs automated QA cycles: test, verify, fix, repeat until all quality goals are met. User input: {{args}}"

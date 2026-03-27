@@ -5,7 +5,7 @@
  * createSdkMcpServer helper for use by subagents.
  */
 
-import { createSdkMcpServer, tool } from "@anthropic-ai/gemini-agent-sdk";
+import { createSdkMcpServer, tool } from "@anthropic-ai/claude-agent-sdk";
 import { lspTools } from "../tools/lsp-tools.js";
 import { astTools } from "../tools/ast-tools.js";
 import { pythonReplTool } from "../tools/python-repl/index.js";

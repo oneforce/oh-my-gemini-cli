@@ -238,7 +238,7 @@ describe('runtime v2 startup inbox dispatch', () => {
     const runtime = await startTeamV2({
       teamName: 'dispatch-team',
       workerCount: 1,
-      agentTypes: ['gemini'],
+      agentTypes: ['claude'],
       tasks: [{ subject: 'Dispatch test', description: 'Verify notify failure leaves pane for leader action' }],
       cwd,
     });
@@ -267,7 +267,7 @@ describe('runtime v2 startup inbox dispatch', () => {
 
     expect(runtime.config.workers[0]?.pane_id).toBe('%2');
     expect(runtime.config.workers[0]?.assigned_tasks).toEqual([]);
-    expect(mocks.sendToWorker).toHaveBeenCalledTimes(2);
+    expect(mocks.sendToWorker).toHaveBeenCalledTimes(3);
 
     const requests = await listDispatchRequests('dispatch-team', cwd, { kind: 'inbox' });
     expect(requests).toHaveLength(1);
@@ -304,7 +304,7 @@ describe('runtime v2 startup inbox dispatch', () => {
     });
 
     expect(runtime.config.workers[0]?.assigned_tasks).toEqual([]);
-    expect(mocks.sendToWorker).toHaveBeenCalledTimes(2);
+    expect(mocks.sendToWorker).toHaveBeenCalledTimes(3);
   });
 
   it('accepts Gemini startup once the worker claims the task', async () => {
@@ -333,7 +333,7 @@ describe('runtime v2 startup inbox dispatch', () => {
     });
 
     expect(runtime.config.workers[0]?.assigned_tasks).toEqual(['1']);
-    expect(mocks.sendToWorker).toHaveBeenCalledTimes(1);
+    expect(mocks.sendToWorker).toHaveBeenCalledTimes(2);
   });
 
   it('accepts Gemini startup once worker status shows task progress', async () => {
@@ -361,7 +361,7 @@ describe('runtime v2 startup inbox dispatch', () => {
     });
 
     expect(runtime.config.workers[0]?.assigned_tasks).toEqual(['1']);
-    expect(mocks.sendToWorker).toHaveBeenCalledTimes(1);
+    expect(mocks.sendToWorker).toHaveBeenCalledTimes(2);
   });
 
   it('passes the full lifecycle instruction to codex prompt-mode workers and waits for claim evidence', async () => {
