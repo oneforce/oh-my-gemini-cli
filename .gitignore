@@ -1,0 +1,22 @@
+node_modules/
+*.log
+.DS_Store
+.omc/
+.omc/
+.idea/
+.claude/
+
+# Windows reserved names (prevent accidental creation)
+nul
+NUL
+.omx/
+.env
+
+# Local root-level script output
+/done.json
+/farewell.txt
+benchmarks/harsh-critic/results/
+benchmarks/harsh-critic/scoring/*.js
+benchmarks/harsh-critic/scoring/*.d.ts
+benchmarks/harsh-critic/scoring/*.js.map
+benchmarks/harsh-critic/scoring/*.d.ts.map
