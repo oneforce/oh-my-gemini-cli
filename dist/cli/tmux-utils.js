@@ -1,6 +1,6 @@
 /**
- * tmux utility functions for omc native shell launch
- * Adapted from oh-my-codex patterns for omc
+ * tmux utility functions for omg native shell launch
+ * Adapted from oh-my-codex patterns for omg
  */
 import { execFileSync } from 'child_process';
 import { basename } from 'path';
@@ -17,11 +17,11 @@ export function isTmuxAvailable() {
     }
 }
 /**
- * Check if claude CLI is available on the system
+ * Check if gemini CLI is available on the system
  */
-export function isClaudeAvailable() {
+export function isGeminiAvailable() {
     try {
-        execFileSync('claude', ['--version'], { stdio: 'ignore' });
+        execFileSync('gemini', ['--version'], { stdio: 'ignore' });
         return true;
     }
     catch {
@@ -48,15 +48,15 @@ export function resolveLaunchPolicy(env = process.env, args = []) {
     // Ghostty-based terminal) set CMUX_SURFACE_ID but not TMUX.  tmux
     // attach-session fails in these environments because the host PTY is
     // not directly compatible, leaving orphaned detached sessions.
-    // Fall back to direct mode so Claude launches without tmux wrapping.
+    // Fall back to direct mode so Gemini launches without tmux wrapping.
     if (env.CMUX_SURFACE_ID)
         return 'direct';
     return 'outside-tmux';
 }
 /**
  * Build tmux session name from directory, git branch, and UTC timestamp
- * Format: omc-{dir}-{branch}-{utctimestamp}
- * e.g.  omc-myproject-dev-20260221143052
+ * Format: omg-{dir}-{branch}-{utctimestamp}
+ * e.g.  omg-myproject-dev-20260221143052
  */
 export function buildTmuxSessionName(cwd) {
     const dirToken = sanitizeTmuxToken(basename(cwd));
@@ -82,7 +82,7 @@ export function buildTmuxSessionName(cwd) {
         `${pad(now.getUTCHours())}` +
         `${pad(now.getUTCMinutes())}` +
         `${pad(now.getUTCSeconds())}`;
-    const name = `omc-${dirToken}-${branchToken}-${utcTimestamp}`;
+    const name = `omg-${dirToken}-${branchToken}-${utcTimestamp}`;
     return name.length > 120 ? name.slice(0, 120) : name;
 }
 /**
@@ -152,7 +152,7 @@ export function isHudWatchPane(pane) {
     const command = `${pane.startCommand} ${pane.currentCommand}`.toLowerCase();
     return /\bhud\b/.test(command)
         && /--watch\b/.test(command)
-        && (/\bomc(?:\.js)?\b/.test(command) || /\bnode\b/.test(command));
+        && (/\bomg(?:\.js)?\b/.test(command) || /\bnode\b/.test(command));
 }
 /**
  * Find HUD watch pane IDs in current window

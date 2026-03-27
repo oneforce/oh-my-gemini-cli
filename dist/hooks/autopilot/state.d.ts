@@ -100,7 +100,7 @@ export declare function transitionToComplete(directory: string, sessionId?: stri
  */
 export declare function transitionToFailed(directory: string, error: string, sessionId?: string): TransitionResult;
 /**
- * Get a prompt for Claude to execute the transition
+ * Get a prompt for Gemini to execute the transition
  */
 export declare function getTransitionPrompt(fromPhase: string, toPhase: string): string;
 //# sourceMappingURL=state.d.ts.map

@@ -8,7 +8,7 @@ describe('pruneOldStateFiles', () => {
     let stateDir;
     beforeEach(() => {
         testDir = mkdtempSync(join(tmpdir(), 'prune-test-'));
-        stateDir = join(testDir, '.omc', 'state');
+        stateDir = join(testDir, '.omg', 'state');
         mkdirSync(stateDir, { recursive: true });
     });
     afterEach(() => {

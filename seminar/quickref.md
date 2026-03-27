@@ -1,11 +1,11 @@
-# oh-my-claudecode Quick Reference Card
-**v3.6.3 | github.com/Yeachan-Heo/oh-my-claudecode**
+# oh-my-gemini-cli Quick Reference Card
+**v3.6.3 | github.com/Yeachan-Heo/oh-my-gemini-cli**
 
 ## Install
 ```bash
-/plugin marketplace add https://github.com/Yeachan-Heo/oh-my-claudecode
-/plugin install oh-my-claudecode
-/oh-my-claudecode:omc-setup
+/plugin marketplace add https://github.com/Yeachan-Heo/oh-my-gemini-cli
+/plugin install oh-my-gemini-cli
+/oh-my-gemini-cli:omg-setup
 ```
 
 ## Execution Modes
@@ -59,17 +59,17 @@
 ## Key Commands
 | Command | Purpose |
 |---------|---------|
-| `/oh-my-claudecode:omc-setup` | Initial setup wizard |
-| `/oh-my-claudecode:hud setup` | Enable HUD statusline |
-| `/oh-my-claudecode:omc-doctor` | Diagnose issues |
-| `/oh-my-claudecode:omc-help` | Show usage guide |
-| `/oh-my-claudecode:cancel` | Stop current operation |
-| `/oh-my-claudecode:note` | Save compaction-resilient note |
-| `/oh-my-claudecode:learner` | Extract reusable skill |
-| `/oh-my-claudecode:analyze` | Deep analysis/debugging |
-| `/oh-my-claudecode:deepsearch` | Thorough codebase search |
-| `/oh-my-claudecode:ultraqa` | QA cycling (test/fix/repeat) |
-| `/oh-my-claudecode:tdd` | Test-driven development mode |
+| `/oh-my-gemini-cli:omg-setup` | Initial setup wizard |
+| `/oh-my-gemini-cli:hud setup` | Enable HUD statusline |
+| `/oh-my-gemini-cli:omg-doctor` | Diagnose issues |
+| `/oh-my-gemini-cli:omg-help` | Show usage guide |
+| `/oh-my-gemini-cli:cancel` | Stop current operation |
+| `/oh-my-gemini-cli:note` | Save compaction-resilient note |
+| `/oh-my-gemini-cli:learner` | Extract reusable skill |
+| `/oh-my-gemini-cli:analyze` | Deep analysis/debugging |
+| `/oh-my-gemini-cli:deepsearch` | Thorough codebase search |
+| `/oh-my-gemini-cli:ultraqa` | QA cycling (test/fix/repeat) |
+| `/oh-my-gemini-cli:tdd` | Test-driven development mode |
 
 ## Natural Language (No Commands Needed)
 - "build me a todo app" → Autopilot activates
@@ -88,20 +88,20 @@
 | `writing` | Sonnet | 0.5 | medium | Documentation |
 
 ## Plan Notepads (Wisdom Capture)
-**Location:** `.omc/notepads/{plan-name}/`
+**Location:** `.omg/notepads/{plan-name}/`
 - `learnings.md` - Technical discoveries and patterns
 - `decisions.md` - Architectural and design decisions
 - `issues.md` - Known issues and workarounds
 - `problems.md` - Blockers and challenges
 
 ## State Files
-- `.omc/state/ultrapilot-state.json` - Ultrapilot session
-- `.omc/state/ultrapilot-ownership.json` - File ownership
-- `.omc/state/swarm-{id}.json` - Swarm coordination
-- `.omc/state/pipeline-{id}.json` - Pipeline progress
+- `.omg/state/ultrapilot-state.json` - Ultrapilot session
+- `.omg/state/ultrapilot-ownership.json` - File ownership
+- `.omg/state/swarm-{id}.json` - Swarm coordination
+- `.omg/state/pipeline-{id}.json` - Pipeline progress
 
 ## Configuration
-**File:** `~/.claude/.omc-config.json`
+**File:** `~/.gemini/.omg-config.json`
 ```json
 {
   "defaultExecutionMode": "ultrawork",  // or ""
@@ -129,10 +129,10 @@ Before claiming completion:
 - **LSP diagnostics:** Full project type checking with `lsp_diagnostics_directory`
 
 ## Resources
-- **GitHub:** github.com/Yeachan-Heo/oh-my-claudecode
+- **GitHub:** github.com/Yeachan-Heo/oh-my-gemini-cli
 - **Docs:** /docs/REFERENCE.md
-- **Website:** yeachan-heo.github.io/oh-my-claudecode-website
-- **NPM:** `npm i -g oh-my-claudecode`
+- **Website:** yeachan-heo.github.io/oh-my-gemini-cli-website
+- **NPM:** `npm i -g oh-my-gemini-cli`
 - **Discord:** (community support - link in GitHub)
 
 ---

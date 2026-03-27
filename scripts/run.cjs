@@ -24,7 +24,7 @@ const { join, basename, dirname } = require('path');
 
 const target = process.argv[2];
 if (!target) {
-  // Nothing to run — exit cleanly so Claude Code hooks are never blocked.
+  // Nothing to run — exit cleanly so Gemini Code hooks are never blocked.
   process.exit(0);
 }
 
@@ -42,7 +42,7 @@ if (!target) {
  *      same script name and use that instead.
  *   4. If all else fails, return null (caller exits cleanly).
  *
- * See: https://github.com/Yeachan-Heo/oh-my-claudecode/issues/1007
+ * See: https://github.com/Yeachan-Heo/oh-my-gemini-cli/issues/1007
  */
 function resolveTarget(targetPath) {
   // Fast path: target exists (common case)
@@ -57,13 +57,13 @@ function resolveTarget(targetPath) {
   }
 
   // Fallback: scan plugin cache for the same script in the latest version.
-  // CLAUDE_PLUGIN_ROOT is e.g. ~/.claude/plugins/cache/omc/oh-my-claudecode/4.2.14
+  // CLAUDE_PLUGIN_ROOT is e.g. ~/.gemini/plugins/cache/omg/oh-my-gemini-cli/4.2.14
   // We look one level up for sibling version directories.
   try {
     const pluginRoot = process.env.CLAUDE_PLUGIN_ROOT;
     if (!pluginRoot) return null;
 
-    const cacheBase = dirname(pluginRoot);          // .../oh-my-claudecode/
+    const cacheBase = dirname(pluginRoot);          // .../oh-my-gemini-cli/
     const scriptRelative = targetPath.slice(pluginRoot.length); // /scripts/persistent-mode.cjs
 
     if (!scriptRelative || !existsSync(cacheBase)) return null;

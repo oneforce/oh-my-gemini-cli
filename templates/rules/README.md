@@ -1,13 +1,13 @@
 # Rules Templates
 
-This directory contains rule templates that you can copy to your project's `.claude/rules/` directory.
+This directory contains rule templates that you can copy to your project's `.gemini/rules/` directory.
 
 ## How to Use
 
-1. Create a `.claude/rules/` directory in your project root
+1. Create a `.gemini/rules/` directory in your project root
 2. Copy the templates you want to use
 3. Customize them for your project
-4. Rules in `.claude/rules/*.md` will be auto-discovered and injected into context
+4. Rules in `.gemini/rules/*.md` will be auto-discovered and injected into context
 
 ## Available Templates
 
@@ -22,18 +22,18 @@ This directory contains rule templates that you can copy to your project's `.cla
 
 ## Auto-Discovery
 
-When you place rules in `.claude/rules/`, they are automatically discovered by oh-my-claudecode and injected into the context for all agents working in your project.
+When you place rules in `.gemini/rules/`, they are automatically discovered by oh-my-gemini-cli and injected into the context for all agents working in your project.
 
 ## Example
 
 ```bash
 # Copy templates to your project
-mkdir -p .claude/rules
-cp templates/rules/security.md .claude/rules/
-cp templates/rules/testing.md .claude/rules/
+mkdir -p .gemini/rules
+cp templates/rules/security.md .gemini/rules/
+cp templates/rules/testing.md .gemini/rules/
 
 # Customize for your project
-# Edit .claude/rules/security.md to add project-specific checks
+# Edit .gemini/rules/security.md to add project-specific checks
 ```
 
 ## Customization

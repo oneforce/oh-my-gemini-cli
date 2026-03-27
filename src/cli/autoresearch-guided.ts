@@ -329,7 +329,7 @@ export function spawnAutoresearchTmux(missionDir: string, slug: string): void {
     throw new Error('tmux is required for background autoresearch execution. Install tmux and try again.');
   }
 
-  const sessionName = `omc-autoresearch-${slug}`;
+  const sessionName = `omg-autoresearch-${slug}`;
 
   try {
     execFileSync('tmux', ['has-session', '-t', sessionName], { stdio: 'ignore' });
@@ -346,8 +346,8 @@ export function spawnAutoresearchTmux(missionDir: string, slug: string): void {
   }
 
   const repoRoot = resolveMissionRepoRoot(missionDir);
-  const omcPath = resolve(join(__dirname, '..', '..', 'bin', 'omc.js'));
-  const command = buildTmuxShellCommand(process.execPath, [omcPath, 'autoresearch', missionDir]);
+  const omgPath = resolve(join(__dirname, '..', '..', 'bin', 'omg.js'));
+  const command = buildTmuxShellCommand(process.execPath, [omgPath, 'autoresearch', missionDir]);
   const wrappedCommand = wrapWithLoginShell(command);
 
   execFileSync('tmux', ['new-session', '-d', '-s', sessionName, '-c', repoRoot, wrappedCommand], { stdio: 'ignore' });
@@ -403,13 +403,13 @@ export function spawnAutoresearchSetupTmux(repoRoot: string): void {
     throw new Error('tmux is required for autoresearch setup. Install tmux and try again.');
   }
 
-  const sessionName = `omc-autoresearch-setup-${Date.now().toString(36)}`;
+  const sessionName = `omg-autoresearch-setup-${Date.now().toString(36)}`;
   const codexHome = prepareAutoresearchSetupCodexHome(repoRoot, sessionName);
-  const claudeCommand = buildTmuxShellCommand('env', [`CODEX_HOME=${codexHome}`, 'claude', CLAUDE_BYPASS_FLAG]);
-  const wrappedClaudeCommand = wrapWithLoginShell(claudeCommand);
+  const geminiCommand = buildTmuxShellCommand('env', [`CODEX_HOME=${codexHome}`, 'gemini', CLAUDE_BYPASS_FLAG]);
+  const wrappedGeminiCommand = wrapWithLoginShell(geminiCommand);
   const paneId = execFileSync(
     'tmux',
-    ['new-session', '-d', '-P', '-F', '#{pane_id}', '-s', sessionName, '-c', repoRoot, wrappedClaudeCommand],
+    ['new-session', '-d', '-P', '-F', '#{pane_id}', '-s', sessionName, '-c', repoRoot, wrappedGeminiCommand],
     { encoding: 'utf-8' },
   ).trim();
 
@@ -420,7 +420,7 @@ export function spawnAutoresearchSetupTmux(repoRoot: string): void {
     execFileSync('tmux', ['send-keys', '-t', paneId, 'Enter'], { stdio: 'ignore' });
   }
 
-  console.log('\nAutoresearch setup launched in background Claude session.');
+  console.log('\nAutoresearch setup launched in background Gemini session.');
   console.log(`  Session:  ${sessionName}`);
   console.log(`  Starter:  ${buildAutoresearchSetupSlashCommand()}`);
   console.log(`  CODEX_HOME: ${quoteShellArg(codexHome)}`);

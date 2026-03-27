@@ -19,7 +19,7 @@ export const ralplanAdapter = {
         return config.planning === false;
     },
     getPrompt(context) {
-        const specPath = context.specPath || ".omc/autopilot/spec.md";
+        const specPath = context.specPath || ".omg/autopilot/spec.md";
         const planPath = context.planPath || resolveAutopilotPlanPath();
         if (context.config.planning === "ralplan") {
             return `## PIPELINE STAGE: RALPLAN (Consensus Planning)
@@ -36,7 +36,7 @@ ${getExpansionPrompt(context.idea)}
 
 After the spec is created at \`${specPath}\`, invoke the RALPLAN consensus workflow:
 
-Use the \`/oh-my-claudecode:ralplan\` skill to create a consensus-driven implementation plan.
+Use the \`/oh-my-gemini-cli:ralplan\` skill to create a consensus-driven implementation plan.
 The plan should be saved to: \`${planPath}\`
 
 The RALPLAN process will:

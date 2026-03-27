@@ -133,10 +133,10 @@ The `lsp_diagnostics_directory` tool supports two strategies:
 
 1. Define tool in appropriate file (`lsp-tools.ts`, `ast-tools.ts`, or new file)
 2. Export from `index.ts` (add to `allCustomTools`)
-3. Update `src/mcp/omc-tools-server.ts` if exposed via MCP
+3. Update `src/mcp/omg-tools-server.ts` if exposed via MCP
 4. Update `docs/REFERENCE.md` (MCP Tools section)
 5. Update agent tool assignments in `src/agents/definitions.ts` if needed
-6. Update `docs/CLAUDE.md` (Agent Tool Matrix) if assigned to agents
+6. Update `docs/GEMINI.md` (Agent Tool Matrix) if assigned to agents
 
 ### Testing Requirements
 

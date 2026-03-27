@@ -43,7 +43,7 @@ describe('state root resolution priority: config > manifest > cwd-walk', () => {
     let cwd;
     const teamName = 'priority-test-team';
     async function seedBase() {
-        const base = join(cwd, '.omc', 'state', 'team', teamName);
+        const base = join(cwd, '.omg', 'state', 'team', teamName);
         await mkdir(join(base, 'tasks'), { recursive: true });
         await mkdir(join(base, 'mailbox'), { recursive: true });
         await writeFile(join(base, 'tasks', 'task-1.json'), JSON.stringify({
@@ -58,7 +58,7 @@ describe('state root resolution priority: config > manifest > cwd-walk', () => {
         return base;
     }
     beforeEach(async () => {
-        cwd = await mkdtemp(join(tmpdir(), 'omc-phase1-priority-'));
+        cwd = await mkdtemp(join(tmpdir(), 'omg-phase1-priority-'));
     });
     afterEach(async () => {
         delete process.env.OMC_TEAM_STATE_ROOT;
@@ -69,10 +69,10 @@ describe('state root resolution priority: config > manifest > cwd-walk', () => {
         await writeFile(join(base, 'config.json'), JSON.stringify({
             name: teamName,
             task: 'test',
-            agent_type: 'claude',
+            agent_type: 'gemini',
             worker_count: 1,
             max_workers: 20,
-            workers: [{ name: 'worker-1', index: 1, role: 'claude', assigned_tasks: [] }],
+            workers: [{ name: 'worker-1', index: 1, role: 'gemini', assigned_tasks: [] }],
             created_at: '2026-03-15T00:00:00.000Z',
             next_task_id: 2,
             team_state_root: base,
@@ -89,7 +89,7 @@ describe('state root resolution priority: config > manifest > cwd-walk', () => {
     it('uses config.team_state_root over manifest.team_state_root when both present', async () => {
         const base = await seedBase();
         // Create a separate "wrong" directory that manifest points to
-        const wrongRoot = join(cwd, 'wrong-root', '.omc', 'state', 'team', teamName);
+        const wrongRoot = join(cwd, 'wrong-root', '.omg', 'state', 'team', teamName);
         await mkdir(join(wrongRoot, 'tasks'), { recursive: true });
         await mkdir(join(wrongRoot, 'mailbox'), { recursive: true });
         // Manifest points to wrong root
@@ -103,10 +103,10 @@ describe('state root resolution priority: config > manifest > cwd-walk', () => {
         await writeFile(join(base, 'config.json'), JSON.stringify({
             name: teamName,
             task: 'test',
-            agent_type: 'claude',
+            agent_type: 'gemini',
             worker_count: 1,
             max_workers: 20,
-            workers: [{ name: 'worker-1', index: 1, role: 'claude', assigned_tasks: [] }],
+            workers: [{ name: 'worker-1', index: 1, role: 'gemini', assigned_tasks: [] }],
             created_at: '2026-03-15T00:00:00.000Z',
             next_task_id: 2,
             team_state_root: base,
@@ -126,10 +126,10 @@ describe('state root resolution priority: config > manifest > cwd-walk', () => {
         await writeFile(join(base, 'config.json'), JSON.stringify({
             name: teamName,
             task: 'test',
-            agent_type: 'claude',
+            agent_type: 'gemini',
             worker_count: 1,
             max_workers: 20,
-            workers: [{ name: 'worker-1', index: 1, role: 'claude', assigned_tasks: [] }],
+            workers: [{ name: 'worker-1', index: 1, role: 'gemini', assigned_tasks: [] }],
             created_at: '2026-03-15T00:00:00.000Z',
             next_task_id: 2,
             team_state_root: base,

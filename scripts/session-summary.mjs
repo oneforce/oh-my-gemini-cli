@@ -3,7 +3,7 @@
  * Session Summary Generator
  *
  * Standalone script that generates a brief (<20 char) summary of the current
- * Claude Code session using `claude -p`.
+ * Gemini Code session using `gemini -p`.
  *
  * Usage:
  *   node session-summary.mjs <transcript_path> <state_dir> <session_id> [--verbose]
@@ -12,7 +12,7 @@
  * 1. Counts user message turns from the transcript JSONL
  * 2. Checks cached summary in <state_dir>/session-summary.json
  * 3. If turns >= 10 and (no cache or turns - lastTurnCount >= 10), generates
- *    a new summary via `claude -p`
+ *    a new summary via `gemini -p`
  * 4. Writes the result to the state file
  *
  * Exit codes:
@@ -132,7 +132,7 @@ function writeSummaryState(stateDir, sessionId, state) {
 }
 
 /**
- * Generate summary using `claude -p`.
+ * Generate summary using `gemini -p`.
  */
 function generateSummary(conversationContext) {
   const prompt = `You are a session labeler. Given the conversation below, produce a SHORT label (under 20 characters, in the same language as the conversation) that summarizes what the user is working on. Output ONLY the label text, nothing else. No quotes, no explanation.
@@ -150,7 +150,7 @@ ${conversationContext}
 Label:`;
 
   try {
-    const result = execFileSync('claude', ['-p', prompt], {
+    const result = execFileSync('gemini', ['-p', prompt], {
       encoding: 'utf-8',
       timeout: 30_000,
       stdio: ['pipe', 'pipe', 'pipe'],
@@ -159,7 +159,7 @@ Label:`;
     const summary = result.trim().slice(0, 19); // Enforce <20 chars
     return summary || null;
   } catch (error) {
-    log('claude -p failed:', error.message);
+    log('gemini -p failed:', error.message);
     return null;
   }
 }
@@ -206,7 +206,7 @@ async function main() {
     process.exit(1);
   }
 
-  // 4. Generate summary via claude -p
+  // 4. Generate summary via gemini -p
   log('generating summary...');
   const summary = generateSummary(context);
 

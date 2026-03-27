@@ -10,7 +10,7 @@ function makeTempDir() {
     return tempDir;
 }
 function writeSubagentTrackingState(tempDir, agents) {
-    const stateDir = join(tempDir, '.omc', 'state');
+    const stateDir = join(tempDir, '.omg', 'state');
     mkdirSync(stateDir, { recursive: true });
     writeFileSync(join(stateDir, 'subagent-tracking.json'), JSON.stringify({
         agents,
@@ -42,8 +42,8 @@ describe('skill-state', () => {
         it('returns none for instant/read-only skills', () => {
             expect(getSkillProtection('trace')).toBe('none');
             expect(getSkillProtection('hud')).toBe('none');
-            expect(getSkillProtection('omc-help')).toBe('none');
-            expect(getSkillProtection('omc-doctor')).toBe('none');
+            expect(getSkillProtection('omg-help')).toBe('none');
+            expect(getSkillProtection('omg-doctor')).toBe('none');
         });
         it('returns light only for explicitly protected simple utility skills', () => {
             expect(getSkillProtection('skill')).toBe('light');
@@ -66,28 +66,28 @@ describe('skill-state', () => {
             expect(getSkillProtection('unknown-skill')).toBe('none');
             expect(getSkillProtection('my-custom-skill')).toBe('none');
         });
-        it('strips oh-my-claudecode: prefix', () => {
-            expect(getSkillProtection('oh-my-claudecode:plan')).toBe('medium');
-            expect(getSkillProtection('oh-my-claudecode:ralph')).toBe('none');
+        it('strips oh-my-gemini-cli: prefix', () => {
+            expect(getSkillProtection('oh-my-gemini-cli:plan')).toBe('medium');
+            expect(getSkillProtection('oh-my-gemini-cli:ralph')).toBe('none');
         });
         it('is case-insensitive', () => {
             expect(getSkillProtection('SKILL')).toBe('light');
             expect(getSkillProtection('Plan')).toBe('medium');
         });
         it('returns none for project custom skills with same name as OMC skills (issue #1581)', () => {
-            // rawSkillName without oh-my-claudecode: prefix → project custom skill
+            // rawSkillName without oh-my-gemini-cli: prefix → project custom skill
             expect(getSkillProtection('plan', 'plan')).toBe('none');
             expect(getSkillProtection('review', 'review')).toBe('none');
             expect(getSkillProtection('tdd', 'tdd')).toBe('none');
         });
         it('returns protection for OMC skills when rawSkillName has prefix', () => {
-            expect(getSkillProtection('plan', 'oh-my-claudecode:plan')).toBe('medium');
-            expect(getSkillProtection('deepinit', 'oh-my-claudecode:deepinit')).toBe('heavy');
+            expect(getSkillProtection('plan', 'oh-my-gemini-cli:plan')).toBe('medium');
+            expect(getSkillProtection('deepinit', 'oh-my-gemini-cli:deepinit')).toBe('heavy');
         });
         it('returns none for other plugin skills with rawSkillName', () => {
-            // ouroboros:plan, claude-mem:make-plan etc. should not get OMC protection
+            // ouroboros:plan, gemini-mem:make-plan etc. should not get OMC protection
             expect(getSkillProtection('plan', 'ouroboros:plan')).toBe('none');
-            expect(getSkillProtection('make-plan', 'claude-mem:make-plan')).toBe('none');
+            expect(getSkillProtection('make-plan', 'gemini-mem:make-plan')).toBe('none');
         });
         it('falls back to map lookup when rawSkillName is not provided', () => {
             // Backward compatibility: no rawSkillName → use SKILL_PROTECTION map
@@ -141,16 +141,16 @@ describe('skill-state', () => {
             const state = writeSkillActiveState(tempDir, 'phase-resume', 'session-1');
             expect(state).toBeNull();
             expect(readSkillActiveState(tempDir, 'session-1')).toBeNull();
-            expect(existsSync(join(tempDir, '.omc', 'state', 'sessions', 'session-1'))).toBe(false);
+            expect(existsSync(join(tempDir, '.omg', 'state', 'sessions', 'session-1'))).toBe(false);
         });
         it('creates state file on disk', () => {
             writeSkillActiveState(tempDir, 'skill', 'session-1');
-            const stateDir = join(tempDir, '.omc', 'state', 'sessions', 'session-1');
+            const stateDir = join(tempDir, '.omg', 'state', 'sessions', 'session-1');
             const files = existsSync(stateDir);
             expect(files).toBe(true);
         });
         it('strips namespace prefix from skill name', () => {
-            const state = writeSkillActiveState(tempDir, 'oh-my-claudecode:plan', 'session-1');
+            const state = writeSkillActiveState(tempDir, 'oh-my-gemini-cli:plan', 'session-1');
             expect(state.skill_name).toBe('plan');
         });
         it('does not write state for project custom skills with same name as OMC skills (issue #1581)', () => {
@@ -160,7 +160,7 @@ describe('skill-state', () => {
             expect(readSkillActiveState(tempDir, 'session-1')).toBeNull();
         });
         it('writes state for OMC skills when rawSkillName has prefix', () => {
-            const state = writeSkillActiveState(tempDir, 'plan', 'session-1', 'oh-my-claudecode:plan');
+            const state = writeSkillActiveState(tempDir, 'plan', 'session-1', 'oh-my-gemini-cli:plan');
             expect(state).not.toBeNull();
             expect(state.skill_name).toBe('plan');
             expect(state.max_reinforcements).toBe(5);
@@ -188,7 +188,7 @@ describe('skill-state', () => {
             expect(state.active).toBe(true);
         });
         it('returns null for invalid JSON', () => {
-            const stateDir = join(tempDir, '.omc', 'state', 'sessions', 'session-1');
+            const stateDir = join(tempDir, '.omg', 'state', 'sessions', 'session-1');
             mkdirSync(stateDir, { recursive: true });
             writeFileSync(join(stateDir, 'skill-active-state.json'), 'not json');
             expect(readSkillActiveState(tempDir, 'session-1')).toBeNull();
@@ -345,7 +345,7 @@ describe('skill-state', () => {
             const past = new Date(Date.now() - 10 * 60 * 1000).toISOString();
             state.started_at = past;
             state.last_checked_at = past;
-            const statePath = join(tempDir, '.omc', 'state', 'sessions', 'session-1', 'skill-active-state.json');
+            const statePath = join(tempDir, '.omg', 'state', 'sessions', 'session-1', 'skill-active-state.json');
             writeFileSync(statePath, JSON.stringify(state, null, 2));
             const result = checkSkillActiveState(tempDir, 'session-1');
             expect(result.shouldBlock).toBe(false);

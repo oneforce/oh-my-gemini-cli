@@ -34,13 +34,13 @@ const EDGE_TEAM_IO = 'test-edge-io';
 // task-file-ops tests use canonical path via cwd
 let TASK_TEST_CWD;
 let TASKS_DIR;
-// inbox-outbox tests still use the legacy ~/.claude/teams path (inbox-outbox.ts
-// was not changed in this refactor and still uses getClaudeConfigDir internally)
-const TEAMS_IO_DIR = join(homedir(), '.claude', 'teams', EDGE_TEAM_IO);
+// inbox-outbox tests still use the legacy ~/.gemini/teams path (inbox-outbox.ts
+// was not changed in this refactor and still uses getGeminiConfigDir internally)
+const TEAMS_IO_DIR = join(homedir(), '.gemini', 'teams', EDGE_TEAM_IO);
 const HB_DIR = join(tmpdir(), 'test-edge-hb');
 const REG_DIR = join(tmpdir(), 'test-edge-reg');
 const REG_TEAM = 'test-edge-reg-team';
-const CONFIG_DIR = join(homedir(), '.claude', 'teams', REG_TEAM);
+const CONFIG_DIR = join(homedir(), '.gemini', 'teams', REG_TEAM);
 function writeTaskHelper(task) {
     mkdirSync(TASKS_DIR, { recursive: true });
     writeFileSync(join(TASKS_DIR, `${task.id}.json`), JSON.stringify(task, null, 2));
@@ -62,8 +62,8 @@ function makeHeartbeat(overrides) {
 // ============================================================
 describe('task-file-ops edge cases', () => {
     beforeEach(() => {
-        TASK_TEST_CWD = join(tmpdir(), `omc-edge-tasks-${Date.now()}-${Math.random().toString(36).slice(2)}`);
-        TASKS_DIR = join(TASK_TEST_CWD, '.omc', 'state', 'team', EDGE_TEAM_TASKS, 'tasks');
+        TASK_TEST_CWD = join(tmpdir(), `omg-edge-tasks-${Date.now()}-${Math.random().toString(36).slice(2)}`);
+        TASKS_DIR = join(TASK_TEST_CWD, '.omg', 'state', 'team', EDGE_TEAM_TASKS, 'tasks');
         mkdirSync(TASKS_DIR, { recursive: true });
     });
     afterEach(() => {
@@ -503,7 +503,7 @@ describe('heartbeat edge cases', () => {
     });
     describe('readHeartbeat with corrupt JSON file', () => {
         it('returns null for corrupt heartbeat file', () => {
-            const dir = join(HB_DIR, '.omc', 'state', 'team-bridge', 'test-team');
+            const dir = join(HB_DIR, '.omg', 'state', 'team-bridge', 'test-team');
             mkdirSync(dir, { recursive: true });
             writeFileSync(join(dir, 'w1.heartbeat.json'), 'NOT JSON');
             expect(readHeartbeat(HB_DIR, 'test-team', 'w1')).toBeNull();
@@ -514,7 +514,7 @@ describe('heartbeat edge cases', () => {
             writeHeartbeat(HB_DIR, makeHeartbeat({ workerName: 'good1' }));
             writeHeartbeat(HB_DIR, makeHeartbeat({ workerName: 'good2' }));
             // Write a corrupt heartbeat file
-            const dir = join(HB_DIR, '.omc', 'state', 'team-bridge', 'test-team');
+            const dir = join(HB_DIR, '.omg', 'state', 'team-bridge', 'test-team');
             writeFileSync(join(dir, 'corrupt.heartbeat.json'), '{bad json{{{');
             const heartbeats = listHeartbeats(HB_DIR, 'test-team');
             expect(heartbeats).toHaveLength(2);
@@ -534,7 +534,7 @@ describe('heartbeat edge cases', () => {
     describe('cleanupTeamHeartbeats with non-heartbeat files', () => {
         it('removes all files in the team directory including non-heartbeat ones', () => {
             writeHeartbeat(HB_DIR, makeHeartbeat({ workerName: 'w1' }));
-            const dir = join(HB_DIR, '.omc', 'state', 'team-bridge', 'test-team');
+            const dir = join(HB_DIR, '.omg', 'state', 'team-bridge', 'test-team');
             // Write an extra non-heartbeat file
             writeFileSync(join(dir, 'other-file.txt'), 'not a heartbeat');
             cleanupTeamHeartbeats(HB_DIR, 'test-team');
@@ -593,9 +593,9 @@ describe('tmux-session edge cases', () => {
         it('each part is truncated to 50 chars independently', () => {
             const longName = 'a'.repeat(100);
             const result = sessionName(longName, longName);
-            // 'omc-team-' + 50 chars + '-' + 50 chars = 110 total
+            // 'omg-team-' + 50 chars + '-' + 50 chars = 110 total
             expect(result.length).toBe(110);
-            expect(result).toBe(`omc-team-${'a'.repeat(50)}-${'a'.repeat(50)}`);
+            expect(result).toBe(`omg-team-${'a'.repeat(50)}-${'a'.repeat(50)}`);
         });
     });
     describe('sanitizeName preserves case', () => {
@@ -610,7 +610,7 @@ describe('tmux-session edge cases', () => {
 describe('team-registration edge cases', () => {
     beforeEach(() => {
         mkdirSync(REG_DIR, { recursive: true });
-        mkdirSync(join(REG_DIR, '.omc', 'state'), { recursive: true });
+        mkdirSync(join(REG_DIR, '.omg', 'state'), { recursive: true });
         mkdirSync(CONFIG_DIR, { recursive: true });
     });
     afterEach(() => {
@@ -619,14 +619,14 @@ describe('team-registration edge cases', () => {
     });
     describe('readProbeResult with corrupt JSON', () => {
         it('returns null for malformed probe result file', () => {
-            const probePath = join(REG_DIR, '.omc', 'state', 'config-probe-result.json');
+            const probePath = join(REG_DIR, '.omg', 'state', 'config-probe-result.json');
             writeFileSync(probePath, 'NOT JSON');
             expect(readProbeResult(REG_DIR)).toBeNull();
         });
     });
     describe('listMcpWorkers with malformed shadow registry', () => {
         it('returns empty when shadow registry is corrupt JSON', () => {
-            const shadowPath = join(REG_DIR, '.omc', 'state', 'team-mcp-workers.json');
+            const shadowPath = join(REG_DIR, '.omg', 'state', 'team-mcp-workers.json');
             writeFileSync(shadowPath, '{bad');
             // Should not throw and return whatever was parsed from config (empty since config not set up for this team)
             const workers = listMcpWorkers(REG_TEAM, REG_DIR);
@@ -687,7 +687,7 @@ describe('team-registration edge cases', () => {
     });
     describe('unregisterMcpWorker with corrupt shadow registry', () => {
         it('does not throw when shadow registry is malformed', () => {
-            const shadowPath = join(REG_DIR, '.omc', 'state', 'team-mcp-workers.json');
+            const shadowPath = join(REG_DIR, '.omg', 'state', 'team-mcp-workers.json');
             writeFileSync(shadowPath, 'NOT JSON');
             expect(() => unregisterMcpWorker(REG_TEAM, 'w1', REG_DIR)).not.toThrow();
         });
@@ -716,7 +716,7 @@ describe('team-registration edge cases', () => {
     describe('shadow registry handles missing workers array gracefully', () => {
         it('registers successfully when shadow registry has no workers field', () => {
             // Shadow file exists but has no "workers" key — (registry.workers || []) guard handles it
-            const shadowPath = join(REG_DIR, '.omc', 'state', 'team-mcp-workers.json');
+            const shadowPath = join(REG_DIR, '.omg', 'state', 'team-mcp-workers.json');
             writeFileSync(shadowPath, JSON.stringify({ teamName: REG_TEAM }));
             // Should not throw
             expect(() => registerMcpWorker(REG_TEAM, 'w1', 'codex', 'gpt-5', 'sess1', '/cwd', REG_DIR)).not.toThrow();
@@ -732,7 +732,7 @@ describe('team-registration edge cases', () => {
             writeFileSync(configPath, JSON.stringify({
                 teamName: REG_TEAM,
                 members: [
-                    { name: 'claude-agent', backendType: 'subprocess', agentType: 'claude' },
+                    { name: 'gemini-agent', backendType: 'subprocess', agentType: 'gemini' },
                     { name: 'mcp-w1', backendType: 'tmux', agentType: 'mcp-codex' },
                 ],
             }));

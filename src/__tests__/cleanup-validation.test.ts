@@ -1,9 +1,9 @@
 import { describe, it, expect } from 'vitest';
 
 describe('Cleanup Validation', () => {
-  it('omc-plan skill resolves correctly', async () => {
+  it('omg-plan skill resolves correctly', async () => {
     const { getBuiltinSkill } = await import('../features/builtin-skills/skills.js');
-    const skill = getBuiltinSkill('omc-plan');
+    const skill = getBuiltinSkill('omg-plan');
     expect(skill).toBeDefined();
   });
 
@@ -25,10 +25,10 @@ describe('Cleanup Validation', () => {
     expect('DEPRECATED_KEYWORD_PATTERNS' in keywordModule).toBe(false);
   });
 
-  it('PluginConfig.agents matches 19-agent registry + omc', async () => {
+  it('PluginConfig.agents matches 19-agent registry + omg', async () => {
     const { DEFAULT_CONFIG } = await import('../config/loader.js');
     const agentKeys = Object.keys(DEFAULT_CONFIG.agents || {});
-    expect(agentKeys).toContain('omc');
+    expect(agentKeys).toContain('omg');
     expect(agentKeys).toContain('explore');
     expect(agentKeys).toContain('architect');
     expect(agentKeys).toContain('executor');

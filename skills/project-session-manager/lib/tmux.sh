@@ -33,9 +33,9 @@ psm_create_tmux_session() {
     return 0
 }
 
-# Launch Claude Code in tmux session
-# Usage: psm_launch_claude <session_name>
-psm_launch_claude() {
+# Launch Gemini Code in tmux session
+# Usage: psm_launch_gemini <session_name>
+psm_launch_gemini() {
     local session_name="$1"
 
     if ! tmux has-session -t "$session_name" 2>/dev/null; then
@@ -43,8 +43,8 @@ psm_launch_claude() {
         return 1
     fi
 
-    # Send claude command to the session
-    tmux send-keys -t "$session_name" "claude" Enter
+    # Send gemini command to the session
+    tmux send-keys -t "$session_name" "gemini" Enter
 
     echo "launched|$session_name"
     return 0

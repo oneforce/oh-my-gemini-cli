@@ -179,7 +179,7 @@ describe('permission-handler', () => {
       const safeCases = [
         {
           desc: 'git commit with HEREDOC message',
-          cmd: `git commit -m "$(cat <<'EOF'\nCommit message here.\n\nCo-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>\nEOF\n)"`,
+          cmd: `git commit -m "$(cat <<'EOF'\nCommit message here.\n\nCo-Authored-By: Gemini Opus 4.6 <noreply@anthropic.com>\nEOF\n)"`,
         },
         {
           desc: 'git commit with unquoted EOF delimiter',
@@ -191,7 +191,7 @@ describe('permission-handler', () => {
         },
         {
           desc: 'git commit with long multi-line message',
-          cmd: `git commit -m "$(cat <<'EOF'\nfeat: add authentication module\n\nThis adds OAuth2 support with:\n- Google provider\n- GitHub provider\n- Session management\n\nCloses #123\n\nCo-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>\nEOF\n)"`,
+          cmd: `git commit -m "$(cat <<'EOF'\nfeat: add authentication module\n\nThis adds OAuth2 support with:\n- Google provider\n- GitHub provider\n- Session management\n\nCloses #123\n\nCo-Authored-By: Gemini Opus 4.6 <noreply@anthropic.com>\nEOF\n)"`,
         },
         {
           desc: 'git commit --amend with heredoc',
@@ -267,8 +267,8 @@ describe('permission-handler', () => {
   });
 
   describe('isActiveModeRunning', () => {
-    const testDir = '/tmp/omc-permission-test';
-    const stateDir = path.join(testDir, '.omc', 'state');
+    const testDir = '/tmp/omg-permission-test';
+    const stateDir = path.join(testDir, '.omg', 'state');
 
     beforeEach(() => {
       // Clean up any existing test directory
@@ -363,8 +363,8 @@ describe('permission-handler', () => {
   });
 
   describe('processPermissionRequest', () => {
-    const testDir = '/tmp/omc-permission-test';
-    const stateDir = path.join(testDir, '.omc', 'state');
+    const testDir = '/tmp/omg-permission-test';
+    const stateDir = path.join(testDir, '.omg', 'state');
 
     beforeEach(() => {
       if (fs.existsSync(testDir)) {
@@ -472,9 +472,9 @@ describe('permission-handler', () => {
 
     describe('heredoc command handling (Issue #608)', () => {
       it('should respect explicit ask rules for git commit heredoc commands', () => {
-        fs.mkdirSync(path.join(testDir, '.claude'), { recursive: true });
+        fs.mkdirSync(path.join(testDir, '.gemini'), { recursive: true });
         fs.writeFileSync(
-          path.join(testDir, '.claude', 'settings.local.json'),
+          path.join(testDir, '.gemini', 'settings.local.json'),
           JSON.stringify({ permissions: { ask: ['Bash(git commit:*)'] } }, null, 2),
         );
 
@@ -486,7 +486,7 @@ describe('permission-handler', () => {
       });
 
       it('should auto-allow git commit with heredoc message', () => {
-        const cmd = `git commit -m "$(cat <<'EOF'\nfeat: add new feature\n\nDetailed description here.\n\nCo-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>\nEOF\n)"`;
+        const cmd = `git commit -m "$(cat <<'EOF'\nfeat: add new feature\n\nDetailed description here.\n\nCo-Authored-By: Gemini Opus 4.6 <noreply@anthropic.com>\nEOF\n)"`;
         const result = processPermissionRequest(createInput(cmd));
         expect(result.continue).toBe(true);
         expect(result.hookSpecificOutput?.decision?.behavior).toBe('allow');

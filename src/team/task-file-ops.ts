@@ -6,10 +6,10 @@
  * Read/write/scan task JSON files with atomic writes (temp + rename).
  *
  * Canonical task storage path:
- *   {cwd}/.omc/state/team/{teamName}/tasks/{id}.json
+ *   {cwd}/.omg/state/team/{teamName}/tasks/{id}.json
  *
  * Legacy path (read-only fallback during migration):
- *   ~/.claude/tasks/{teamName}/{id}.json
+ *   ~/.gemini/tasks/{teamName}/{id}.json
  *
  * New writes always go to the canonical path. Reads check the canonical
  * path first; if the file is absent there, the legacy path is tried so
@@ -18,7 +18,7 @@
 
 import { readFileSync, readdirSync, existsSync, openSync, closeSync, unlinkSync, writeSync, statSync, constants as fsConstants } from 'fs';
 import { join } from 'path';
-import { getClaudeConfigDir } from '../utils/paths.js';
+import { getGeminiConfigDir } from '../utils/paths.js';
 import type { TaskFile, TaskFileUpdate, TaskFailureSidecar } from './types.js';
 import { sanitizeName } from './tmux-session.js';
 import { atomicWriteJson, validateResolvedPath, ensureDirWithMode } from './fs-utils.js';
@@ -165,23 +165,23 @@ function sanitizeTaskId(taskId: string): string {
 
 /**
  * Returns the canonical tasks directory for a team.
- * All new writes go here: {cwd}/.omc/state/team/{teamName}/tasks/
+ * All new writes go here: {cwd}/.omg/state/team/{teamName}/tasks/
  */
 function canonicalTasksDir(teamName: string, cwd?: string): string {
   const root = cwd ?? process.cwd();
   const dir = getTaskStoragePath(root, sanitizeName(teamName));
-  validateResolvedPath(dir, join(root, '.omc', 'state', 'team'));
+  validateResolvedPath(dir, join(root, '.omg', 'state', 'team'));
   return dir;
 }
 
 /**
  * Returns the legacy tasks directory for a team.
- * Used only for read-fallback: ~/.claude/tasks/{teamName}/
+ * Used only for read-fallback: ~/.gemini/tasks/{teamName}/
  */
 function legacyTasksDir(teamName: string): string {
-  const claudeConfigDir = getClaudeConfigDir();
-  const dir = getLegacyTaskStoragePath(claudeConfigDir, sanitizeName(teamName));
-  validateResolvedPath(dir, join(claudeConfigDir, 'tasks'));
+  const geminiConfigDir = getGeminiConfigDir();
+  const dir = getLegacyTaskStoragePath(geminiConfigDir, sanitizeName(teamName));
+  validateResolvedPath(dir, join(geminiConfigDir, 'tasks'));
   return dir;
 }
 

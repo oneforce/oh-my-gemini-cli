@@ -17853,8 +17853,8 @@ function paneLooksReady(captured) {
   const lastLine = lines[lines.length - 1];
   if (/^\s*[›>❯]\s*/u.test(lastLine)) return true;
   const hasCodexPromptLine = lines.some((line) => /^\s*›\s*/u.test(line));
-  const hasClaudePromptLine = lines.some((line) => /^\s*❯\s*/u.test(line));
-  return hasCodexPromptLine || hasClaudePromptLine;
+  const hasGeminiPromptLine = lines.some((line) => /^\s*❯\s*/u.test(line));
+  return hasCodexPromptLine || hasGeminiPromptLine;
 }
 function paneTailContainsLiteralLine(captured, text) {
   return normalizeTmuxCapture(captured).includes(normalizeTmuxCapture(text));
@@ -17980,7 +17980,7 @@ async function isWorkerAlive(paneId) {
 async function killWorkerPanes(opts) {
   const { paneIds, leaderPaneId, teamName, cwd, graceMs = 1e4 } = opts;
   if (!paneIds.length) return;
-  const shutdownPath = (0, import_path.join)(cwd, ".omc", "state", "team", teamName, "shutdown.json");
+  const shutdownPath = (0, import_path.join)(cwd, ".omg", "state", "team", teamName, "shutdown.json");
   try {
     await import_promises.default.writeFile(shutdownPath, JSON.stringify({ requestedAt: Date.now() }));
     const aliveChecks = await Promise.all(paneIds.map((id) => isWorkerAlive(id)));
@@ -18175,13 +18175,13 @@ function validateResolvedPath(resolvedPath, expectedBase) {
 
 // src/team/git-worktree.ts
 function getWorktreePath(repoRoot, teamName, workerName) {
-  return (0, import_node_path.join)(repoRoot, ".omc", "worktrees", sanitizeName(teamName), sanitizeName(workerName));
+  return (0, import_node_path.join)(repoRoot, ".omg", "worktrees", sanitizeName(teamName), sanitizeName(workerName));
 }
 function getBranchName(teamName, workerName) {
-  return `omc-team/${sanitizeName(teamName)}/${sanitizeName(workerName)}`;
+  return `omg-team/${sanitizeName(teamName)}/${sanitizeName(workerName)}`;
 }
 function getMetadataPath(repoRoot, teamName) {
-  return (0, import_node_path.join)(repoRoot, ".omc", "state", "team-bridge", sanitizeName(teamName), "worktrees.json");
+  return (0, import_node_path.join)(repoRoot, ".omg", "state", "team-bridge", sanitizeName(teamName), "worktrees.json");
 }
 function readMetadata(repoRoot, teamName) {
   const metaPath = getMetadataPath(repoRoot, teamName);
@@ -18195,7 +18195,7 @@ function readMetadata(repoRoot, teamName) {
 function writeMetadata(repoRoot, teamName, entries) {
   const metaPath = getMetadataPath(repoRoot, teamName);
   validateResolvedPath(metaPath, repoRoot);
-  const dir = (0, import_node_path.join)(repoRoot, ".omc", "state", "team-bridge", sanitizeName(teamName));
+  const dir = (0, import_node_path.join)(repoRoot, ".omg", "state", "team-bridge", sanitizeName(teamName));
   ensureDirWithMode(dir);
   atomicWriteJson(metaPath, entries);
 }
@@ -18229,8 +18229,8 @@ function cleanupTeamWorktrees(teamName, repoRoot) {
 }
 
 // src/mcp/team-job-convergence.ts
-function readResultArtifact(omcJobsDir, jobId) {
-  const artifactPath = (0, import_path3.join)(omcJobsDir, `${jobId}-result.json`);
+function readResultArtifact(omgJobsDir, jobId) {
+  const artifactPath = (0, import_path3.join)(omgJobsDir, `${jobId}-result.json`);
   if (!(0, import_fs3.existsSync)(artifactPath)) return { kind: "none" };
   let raw;
   try {
@@ -18259,8 +18259,8 @@ function readResultArtifact(omcJobsDir, jobId) {
     };
   }
 }
-function convergeJobWithResultArtifact(job, jobId, omcJobsDir) {
-  const artifact = readResultArtifact(omcJobsDir, jobId);
+function convergeJobWithResultArtifact(job, jobId, omgJobsDir) {
+  const artifact = readResultArtifact(omgJobsDir, jobId);
   if (artifact.kind === "none") return { job, changed: false };
   if (artifact.kind === "terminal") {
     const changed2 = job.status !== artifact.status || job.result !== artifact.raw;
@@ -18304,7 +18304,7 @@ function clearScopedTeamState(job) {
   } catch (error2) {
     return `team state cleanup skipped (invalid teamName): ${error2 instanceof Error ? error2.message : String(error2)}`;
   }
-  const stateDir = (0, import_path3.join)(job.cwd, ".omc", "state", "team", job.teamName);
+  const stateDir = (0, import_path3.join)(job.cwd, ".omg", "state", "team", job.teamName);
   let worktreeMessage = "worktree cleanup skipped.";
   try {
     cleanupTeamWorktrees(job.teamName, job.cwd);
@@ -18324,14 +18324,14 @@ function clearScopedTeamState(job) {
 }
 
 // src/mcp/team-server.ts
-var omcTeamJobs = /* @__PURE__ */ new Map();
-var OMC_JOBS_DIR = process.env.OMC_JOBS_DIR || (0, import_path4.join)((0, import_os.homedir)(), ".omc", "team-jobs");
+var omgTeamJobs = /* @__PURE__ */ new Map();
+var OMC_JOBS_DIR = process.env.OMC_JOBS_DIR || (0, import_path4.join)((0, import_os.homedir)(), ".omg", "team-jobs");
 var DEPRECATION_CODE = "deprecated_cli_only";
 var TEAM_CLI_REPLACEMENT_HINTS = {
-  omc_run_team_start: "omc team start",
-  omc_run_team_status: "omc team status <job_id>",
-  omc_run_team_wait: "omc team wait <job_id>",
-  omc_run_team_cleanup: "omc team cleanup <job_id>"
+  omg_run_team_start: "omg team start",
+  omg_run_team_status: "omg team status <job_id>",
+  omg_run_team_wait: "omg team wait <job_id>",
+  omg_run_team_cleanup: "omg team cleanup <job_id>"
 };
 function isDeprecatedTeamToolName(name) {
   return Object.prototype.hasOwnProperty.call(TEAM_CLI_REPLACEMENT_HINTS, name);
@@ -18348,7 +18348,7 @@ function buildCliReplacement(toolName, args) {
     return TEAM_CLI_REPLACEMENT_HINTS[toolName];
   }
   const parsed = typeof args === "object" && args !== null ? args : {};
-  if (toolName === "omc_run_team_start") {
+  if (toolName === "omg_run_team_start") {
     const teamName = typeof parsed.teamName === "string" ? parsed.teamName.trim() : "";
     const cwd = typeof parsed.cwd === "string" ? parsed.cwd.trim() : "";
     const newWindow = parsed.newWindow === true;
@@ -18356,7 +18356,7 @@ function buildCliReplacement(toolName, args) {
     const tasks = Array.isArray(parsed.tasks) ? parsed.tasks.map(
       (task) => typeof task === "object" && task !== null && typeof task.description === "string" ? task.description.trim() : ""
     ).filter(Boolean) : [];
-    const flags = ["omc", "team", "start"];
+    const flags = ["omg", "team", "start"];
     if (teamName) flags.push("--name", quoteCliValue(teamName));
     if (cwd) flags.push("--cwd", quoteCliValue(cwd));
     if (newWindow) flags.push("--new-window");
@@ -18368,7 +18368,7 @@ function buildCliReplacement(toolName, args) {
         flags.push("--agent", quoteCliValue(agentTypes.join(",")));
       }
     } else {
-      flags.push("--agent", '"claude"');
+      flags.push("--agent", '"gemini"');
     }
     if (tasks.length > 0) {
       for (const task of tasks) {
@@ -18380,16 +18380,16 @@ function buildCliReplacement(toolName, args) {
     return flags.join(" ");
   }
   const jobId = typeof parsed.job_id === "string" ? parsed.job_id.trim() : "<job_id>";
-  if (toolName === "omc_run_team_status") {
-    return `omc team status --job-id ${quoteCliValue(jobId)}`;
+  if (toolName === "omg_run_team_status") {
+    return `omg team status --job-id ${quoteCliValue(jobId)}`;
   }
-  if (toolName === "omc_run_team_wait") {
+  if (toolName === "omg_run_team_wait") {
     const timeoutMs = typeof parsed.timeout_ms === "number" && Number.isFinite(parsed.timeout_ms) ? ` --timeout-ms ${Math.floor(parsed.timeout_ms)}` : "";
-    return `omc team wait --job-id ${quoteCliValue(jobId)}${timeoutMs}`;
+    return `omg team wait --job-id ${quoteCliValue(jobId)}${timeoutMs}`;
   }
-  if (toolName === "omc_run_team_cleanup") {
+  if (toolName === "omg_run_team_cleanup") {
     const graceMs = typeof parsed.grace_ms === "number" && Number.isFinite(parsed.grace_ms) ? ` --grace-ms ${Math.floor(parsed.grace_ms)}` : "";
-    return `omc team cleanup --job-id ${quoteCliValue(jobId)}${graceMs}`;
+    return `omg team cleanup --job-id ${quoteCliValue(jobId)}${graceMs}`;
   }
   return TEAM_CLI_REPLACEMENT_HINTS[toolName];
 }
@@ -18401,7 +18401,7 @@ function createDeprecatedCliOnlyEnvelopeWithArgs(toolName, args) {
       text: JSON.stringify({
         code: DEPRECATION_CODE,
         tool: toolName,
-        message: "Legacy team MCP runtime tools are deprecated. Use the omc team CLI instead.",
+        message: "Legacy team MCP runtime tools are deprecated. Use the omg team CLI instead.",
         cli_replacement: cliReplacement
       })
     }],
@@ -18431,12 +18431,12 @@ async function loadPaneIds(jobId) {
   }
 }
 function validateJobId(job_id) {
-  if (!/^omc-[a-z0-9]{1,12}$/.test(job_id)) {
-    throw new Error(`Invalid job_id: "${job_id}". Must match /^omc-[a-z0-9]{1,12}$/`);
+  if (!/^omg-[a-z0-9]{1,12}$/.test(job_id)) {
+    throw new Error(`Invalid job_id: "${job_id}". Must match /^omg-[a-z0-9]{1,12}$/`);
   }
 }
 function saveJobState(jobId, job) {
-  omcTeamJobs.set(jobId, job);
+  omgTeamJobs.set(jobId, job);
   persistJob(jobId, job);
   return job;
 }
@@ -18455,7 +18455,7 @@ function makeJobResponse(jobId, job, extra = {}) {
 }
 var startSchema = external_exports.object({
   teamName: external_exports.string().describe('Slug name for the team (e.g. "auth-review")'),
-  agentTypes: external_exports.array(external_exports.string()).describe('Agent type per worker: "claude", "codex", or "gemini"'),
+  agentTypes: external_exports.array(external_exports.string()).describe('Agent type per worker: "gemini", "codex", or "gemini"'),
   tasks: external_exports.array(external_exports.object({
     subject: external_exports.string().describe("Brief task title"),
     description: external_exports.string().describe("Full task description")
@@ -18464,31 +18464,31 @@ var startSchema = external_exports.object({
   newWindow: external_exports.boolean().optional().describe("Spawn workers in a dedicated tmux window instead of splitting the current window")
 });
 var statusSchema = external_exports.object({
-  job_id: external_exports.string().describe("Job ID returned by omc_run_team_start")
+  job_id: external_exports.string().describe("Job ID returned by omg_run_team_start")
 });
 var waitSchema = external_exports.object({
-  job_id: external_exports.string().describe("Job ID returned by omc_run_team_start"),
+  job_id: external_exports.string().describe("Job ID returned by omg_run_team_start"),
   timeout_ms: external_exports.number().optional().describe("Maximum wait time in ms (default: 300000, max: 3600000)"),
   nudge_delay_ms: external_exports.number().optional().describe("Milliseconds a pane must be idle before nudging (default: 30000)"),
   nudge_max_count: external_exports.number().optional().describe("Maximum nudges per pane (default: 3)"),
   nudge_message: external_exports.string().optional().describe('Message sent as nudge (default: "Continue working on your assigned task and report concrete progress (not ACK-only).")')
 });
 var cleanupSchema = external_exports.object({
-  job_id: external_exports.string().describe("Job ID returned by omc_run_team_start"),
+  job_id: external_exports.string().describe("Job ID returned by omg_run_team_start"),
   grace_ms: external_exports.number().optional().describe("Grace period in ms before force-killing panes (default: 10000)")
 });
 async function handleStart(args) {
   if (typeof args === "object" && args !== null && Object.prototype.hasOwnProperty.call(args, "timeoutSeconds")) {
     throw new Error(
-      "omc_run_team_start no longer accepts timeoutSeconds. Remove timeoutSeconds and use omc_run_team_wait timeout_ms to limit the wait call only (workers keep running until completion or explicit omc_run_team_cleanup)."
+      "omg_run_team_start no longer accepts timeoutSeconds. Remove timeoutSeconds and use omg_run_team_wait timeout_ms to limit the wait call only (workers keep running until completion or explicit omg_run_team_cleanup)."
     );
   }
   const input = startSchema.parse(args);
   validateTeamName(input.teamName);
-  const jobId = `omc-${Date.now().toString(36)}`;
+  const jobId = `omg-${Date.now().toString(36)}`;
   const runtimeCliPath = (0, import_path4.join)(__dirname, "runtime-cli.cjs");
   const job = { status: "running", startedAt: Date.now(), teamName: input.teamName, cwd: input.cwd };
-  omcTeamJobs.set(jobId, job);
+  omgTeamJobs.set(jobId, job);
   const child = (0, import_child_process3.spawn)("node", [runtimeCliPath], {
     env: { ...process.env, OMC_JOB_ID: jobId, OMC_JOBS_DIR },
     stdio: ["pipe", "pipe", "pipe"]
@@ -18529,13 +18529,13 @@ async function handleStart(args) {
     persistJob(jobId, job);
   });
   return {
-    content: [{ type: "text", text: JSON.stringify({ jobId, pid: job.pid, message: "Team started. Poll with omc_run_team_status." }) }]
+    content: [{ type: "text", text: JSON.stringify({ jobId, pid: job.pid, message: "Team started. Poll with omg_run_team_status." }) }]
   };
 }
 async function handleStatus(args) {
   const { job_id } = statusSchema.parse(args);
   validateJobId(job_id);
-  let job = omcTeamJobs.get(job_id) ?? loadJobFromDisk(job_id);
+  let job = omgTeamJobs.get(job_id) ?? loadJobFromDisk(job_id);
   if (!job) {
     return { content: [{ type: "text", text: JSON.stringify({ error: `No job found: ${job_id}` }) }] };
   }
@@ -18567,7 +18567,7 @@ async function handleWait(args) {
     ...nudge_message != null ? { message: nudge_message } : {}
   });
   while (Date.now() < deadline) {
-    let job = omcTeamJobs.get(job_id) ?? loadJobFromDisk(job_id);
+    let job = omgTeamJobs.get(job_id) ?? loadJobFromDisk(job_id);
     if (!job) {
       return { content: [{ type: "text", text: JSON.stringify({ error: `No job found: ${job_id}` }) }] };
     }
@@ -18619,10 +18619,10 @@ async function handleWait(args) {
     } catch {
     }
   }
-  const startedAt = omcTeamJobs.get(job_id)?.startedAt ?? Date.now();
+  const startedAt = omgTeamJobs.get(job_id)?.startedAt ?? Date.now();
   const elapsed = ((Date.now() - startedAt) / 1e3).toFixed(1);
   const timeoutOut = {
-    error: `Timed out waiting for job ${job_id} after ${(timeout_ms / 1e3).toFixed(0)}s \u2014 workers are still running; call omc_run_team_wait again to keep waiting or omc_run_team_cleanup to stop them`,
+    error: `Timed out waiting for job ${job_id} after ${(timeout_ms / 1e3).toFixed(0)}s \u2014 workers are still running; call omg_run_team_wait again to keep waiting or omg_run_team_cleanup to stop them`,
     jobId: job_id,
     status: "running",
     elapsedSeconds: elapsed
@@ -18633,7 +18633,7 @@ async function handleWait(args) {
 async function handleCleanup(args) {
   const { job_id, grace_ms } = cleanupSchema.parse(args);
   validateJobId(job_id);
-  const job = omcTeamJobs.get(job_id) ?? loadJobFromDisk(job_id);
+  const job = omgTeamJobs.get(job_id) ?? loadJobFromDisk(job_id);
   if (!job) return { content: [{ type: "text", text: `Job ${job_id} not found` }] };
   const panes = await loadPaneIds(job_id);
   let paneCleanupMessage = "No pane IDs recorded for this job \u2014 pane cleanup skipped.";
@@ -18663,13 +18663,13 @@ async function handleCleanup(args) {
 }
 var TOOLS = [
   {
-    name: "omc_run_team_start",
-    description: "[DEPRECATED] CLI-only migration required. This tool no longer executes; use `omc team start`.",
+    name: "omg_run_team_start",
+    description: "[DEPRECATED] CLI-only migration required. This tool no longer executes; use `omg team start`.",
     inputSchema: {
       type: "object",
       properties: {
         teamName: { type: "string", description: "Slug name for the team" },
-        agentTypes: { type: "array", items: { type: "string" }, description: '"claude", "codex", or "gemini" per worker' },
+        agentTypes: { type: "array", items: { type: "string" }, description: '"gemini", "codex", or "gemini" per worker' },
         tasks: {
           type: "array",
           items: {
@@ -18689,23 +18689,23 @@ var TOOLS = [
     }
   },
   {
-    name: "omc_run_team_status",
-    description: "[DEPRECATED] CLI-only migration required. This tool no longer executes; use `omc team status <job_id>`.",
+    name: "omg_run_team_status",
+    description: "[DEPRECATED] CLI-only migration required. This tool no longer executes; use `omg team status <job_id>`.",
     inputSchema: {
       type: "object",
       properties: {
-        job_id: { type: "string", description: "Job ID returned by omc_run_team_start" }
+        job_id: { type: "string", description: "Job ID returned by omg_run_team_start" }
       },
       required: ["job_id"]
     }
   },
   {
-    name: "omc_run_team_wait",
-    description: "[DEPRECATED] CLI-only migration required. This tool no longer executes; use `omc team wait <job_id>`.",
+    name: "omg_run_team_wait",
+    description: "[DEPRECATED] CLI-only migration required. This tool no longer executes; use `omg team wait <job_id>`.",
     inputSchema: {
       type: "object",
       properties: {
-        job_id: { type: "string", description: "Job ID returned by omc_run_team_start" },
+        job_id: { type: "string", description: "Job ID returned by omg_run_team_start" },
         timeout_ms: { type: "number", description: "Maximum wait time in ms (default: 300000, max: 3600000)" },
         nudge_delay_ms: { type: "number", description: "Milliseconds a pane must be idle before nudging (default: 30000)" },
         nudge_max_count: { type: "number", description: "Maximum nudges per pane (default: 3)" },
@@ -18715,12 +18715,12 @@ var TOOLS = [
     }
   },
   {
-    name: "omc_run_team_cleanup",
-    description: "[DEPRECATED] CLI-only migration required. This tool no longer executes; use `omc team cleanup <job_id>`.",
+    name: "omg_run_team_cleanup",
+    description: "[DEPRECATED] CLI-only migration required. This tool no longer executes; use `omg team cleanup <job_id>`.",
     inputSchema: {
       type: "object",
       properties: {
-        job_id: { type: "string", description: "Job ID returned by omc_run_team_start" },
+        job_id: { type: "string", description: "Job ID returned by omg_run_team_start" },
         grace_ms: { type: "number", description: "Grace period in ms before force-killing panes (default: 10000)" }
       },
       required: ["job_id"]
@@ -18738,10 +18738,10 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
     return createDeprecatedCliOnlyEnvelopeWithArgs(name, args);
   }
   try {
-    if (name === "omc_run_team_start") return await handleStart(args ?? {});
-    if (name === "omc_run_team_status") return await handleStatus(args ?? {});
-    if (name === "omc_run_team_wait") return await handleWait(args ?? {});
-    if (name === "omc_run_team_cleanup") return await handleCleanup(args ?? {});
+    if (name === "omg_run_team_start") return await handleStart(args ?? {});
+    if (name === "omg_run_team_status") return await handleStatus(args ?? {});
+    if (name === "omg_run_team_wait") return await handleWait(args ?? {});
+    if (name === "omg_run_team_cleanup") return await handleCleanup(args ?? {});
     return { content: [{ type: "text", text: `Unknown tool: ${name}` }], isError: true };
   } catch (error2) {
     return { content: [{ type: "text", text: `Error: ${error2 instanceof Error ? error2.message : String(error2)}` }], isError: true };

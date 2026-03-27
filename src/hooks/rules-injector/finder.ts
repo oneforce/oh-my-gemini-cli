@@ -153,7 +153,7 @@ export function calculateDistance(
 /**
  * Find all rule files for a given context.
  * Searches from currentFile upward to projectRoot for rule directories,
- * then user-level directory (~/.claude/rules).
+ * then user-level directory (~/.gemini/rules).
  */
 export function findRuleFiles(
   projectRoot: string | null,
@@ -223,7 +223,7 @@ export function findRuleFiles(
     }
   }
 
-  // Search user-level rule directory (~/.claude/rules)
+  // Search user-level rule directory (~/.gemini/rules)
   const userRuleDir = join(homeDir, USER_RULE_DIR);
   const userFiles: string[] = [];
   findRuleFilesRecursive(userRuleDir, userFiles);

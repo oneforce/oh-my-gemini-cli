@@ -40,7 +40,7 @@ export declare function listCommands(): string[];
  *
  * @example
  * ```typescript
- * import { expandCommand } from 'oh-my-claudecode';
+ * import { expandCommand } from 'oh-my-gemini-cli';
  *
  * const prompt = expandCommand('ralph', 'Build a REST API');
  * // Returns the full ralph template with "Build a REST API" substituted
@@ -53,8 +53,8 @@ export declare function expandCommand(name: string, args?: string): ExpandedComm
  *
  * @example
  * ```typescript
- * import { expandCommandPrompt } from 'oh-my-claudecode';
- * import { query } from '@anthropic-ai/claude-agent-sdk';
+ * import { expandCommandPrompt } from 'oh-my-gemini-cli';
+ * import { query } from '@anthropic-ai/gemini-agent-sdk';
  *
  * const prompt = expandCommandPrompt('ultrawork', 'Refactor the auth module');
  *

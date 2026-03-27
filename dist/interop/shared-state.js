@@ -1,8 +1,8 @@
 /**
  * Shared State Management for Cross-Tool Interoperability
  *
- * Manages shared state files at .omc/state/interop/ for communication
- * between OMC (Claude Code) and OMX (Codex CLI).
+ * Manages shared state files at .omg/state/interop/ for communication
+ * between OMC (Gemini Code) and OMX (Codex CLI).
  *
  * Uses atomic writes for safety and supports task/message passing.
  */
@@ -14,14 +14,14 @@ import { atomicWriteJsonSync } from '../lib/atomic-write.js';
 const InteropConfigSchema = z.object({
     sessionId: z.string(),
     createdAt: z.string(),
-    omcCwd: z.string(),
+    omgCwd: z.string(),
     omxCwd: z.string().optional(),
     status: z.enum(['active', 'completed', 'failed']),
 });
 const SharedTaskSchema = z.object({
     id: z.string(),
-    source: z.enum(['omc', 'omx']),
-    target: z.enum(['omc', 'omx']),
+    source: z.enum(['omg', 'omx']),
+    target: z.enum(['omg', 'omx']),
     type: z.enum(['analyze', 'implement', 'review', 'test', 'custom']),
     description: z.string(),
     context: z.record(z.unknown()).optional(),
@@ -34,8 +34,8 @@ const SharedTaskSchema = z.object({
 });
 const SharedMessageSchema = z.object({
     id: z.string(),
-    source: z.enum(['omc', 'omx']),
-    target: z.enum(['omc', 'omx']),
+    source: z.enum(['omg', 'omx']),
+    target: z.enum(['omg', 'omx']),
     content: z.string(),
     metadata: z.record(z.unknown()).optional(),
     timestamp: z.string(),
@@ -45,14 +45,14 @@ const SharedMessageSchema = z.object({
  * Get the interop directory path for a worktree
  */
 export function getInteropDir(cwd) {
-    return join(cwd, '.omc', 'state', 'interop');
+    return join(cwd, '.omg', 'state', 'interop');
 }
 /**
  * Initialize an interop session
  * Creates the interop directory and session config
  */
-export function initInteropSession(sessionId, omcCwd, omxCwd) {
-    const interopDir = getInteropDir(omcCwd);
+export function initInteropSession(sessionId, omgCwd, omxCwd) {
+    const interopDir = getInteropDir(omgCwd);
     // Ensure directory exists
     if (!existsSync(interopDir)) {
         mkdirSync(interopDir, { recursive: true });
@@ -60,7 +60,7 @@ export function initInteropSession(sessionId, omcCwd, omxCwd) {
     const config = {
         sessionId,
         createdAt: new Date().toISOString(),
-        omcCwd,
+        omgCwd,
         omxCwd,
         status: 'active',
     };

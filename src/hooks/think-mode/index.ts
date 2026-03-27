@@ -8,7 +8,7 @@
  */
 
 import { detectThinkKeyword, extractPromptText, detectUltrathinkKeyword } from './detector.js';
-import { getHighVariant, isAlreadyHighVariant, getThinkingConfig, getClaudeThinkingConfig } from './switcher.js';
+import { getHighVariant, isAlreadyHighVariant, getThinkingConfig, getGeminiThinkingConfig } from './switcher.js';
 import type { ThinkModeState, ThinkModeInput } from './types.js';
 
 // Re-export all submodules
@@ -66,7 +66,7 @@ export function processThinkMode(
 }
 
 /**
- * Create the think mode hook for Claude Code integration.
+ * Create the think mode hook for Gemini Code integration.
  */
 export function createThinkModeHook() {
   return {
@@ -171,7 +171,7 @@ export function shouldActivateUltrathink(prompt: string): boolean {
 }
 
 /**
- * Get Claude thinking configuration for extended thinking.
- * For direct use when manually configuring Claude API calls.
+ * Get Gemini thinking configuration for extended thinking.
+ * For direct use when manually configuring Gemini API calls.
  */
-export { getClaudeThinkingConfig };
+export { getGeminiThinkingConfig };

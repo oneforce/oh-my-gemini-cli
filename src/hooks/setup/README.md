@@ -8,8 +8,8 @@ Handles OMC initialization and maintenance tasks.
 Initializes OMC directory structure and environment on first run or explicit setup.
 
 **What it does:**
-- Creates required directories: `.omc/state/`, `.omc/logs/`, `.omc/notepads/`, `.omc/state/checkpoints/`, `.omc/plans/`
-- Validates existing config files (`.omc-config.json`)
+- Creates required directories: `.omg/state/`, `.omg/logs/`, `.omg/notepads/`, `.omg/state/checkpoints/`, `.omg/plans/`
+- Validates existing config files (`.omg-config.json`)
 - Sets environment variables (`OMC_INITIALIZED=true`) if `CLAUDE_ENV_FILE` is available
 
 **Example Input:**
@@ -84,7 +84,7 @@ Creates all required OMC directories.
 
 ```typescript
 const created = ensureDirectoryStructure('/path/to/project');
-// => ['/path/to/project/.omc/state', '/path/to/project/.omc/logs', ...]
+// => ['/path/to/project/.omg/state', '/path/to/project/.omg/logs', ...]
 ```
 
 #### `validateConfigFiles(directory: string): string[]`
@@ -94,7 +94,7 @@ Validates that config files exist and are readable.
 
 ```typescript
 const validated = validateConfigFiles('/path/to/project');
-// => ['/path/to/project/.omc-config.json']
+// => ['/path/to/project/.omg-config.json']
 ```
 
 ### Environment Variables

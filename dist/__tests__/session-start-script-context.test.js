@@ -10,16 +10,16 @@ describe('session-start.mjs regression #1386', () => {
     let fakeHome;
     let fakeProject;
     beforeEach(() => {
-        tempDir = mkdtempSync(join(tmpdir(), 'omc-session-start-script-'));
+        tempDir = mkdtempSync(join(tmpdir(), 'omg-session-start-script-'));
         fakeHome = join(tempDir, 'home');
         fakeProject = join(tempDir, 'project');
-        mkdirSync(join(fakeProject, '.omc', 'state', 'sessions', 'session-1386'), { recursive: true });
+        mkdirSync(join(fakeProject, '.omg', 'state', 'sessions', 'session-1386'), { recursive: true });
     });
     afterEach(() => {
         rmSync(tempDir, { recursive: true, force: true });
     });
     it('marks restored ultrawork state as prior-session context instead of imperative continuation', () => {
-        writeFileSync(join(fakeProject, '.omc', 'state', 'sessions', 'session-1386', 'ultrawork-state.json'), JSON.stringify({
+        writeFileSync(join(fakeProject, '.omg', 'state', 'sessions', 'session-1386', 'ultrawork-state.json'), JSON.stringify({
             active: true,
             session_id: 'session-1386',
             started_at: '2026-03-06T00:00:00.000Z',
@@ -47,8 +47,8 @@ describe('session-start.mjs regression #1386', () => {
     });
     it('injects persisted project memory into session-start additionalContext', () => {
         mkdirSync(join(fakeProject, '.git'));
-        mkdirSync(join(fakeProject, '.omc'), { recursive: true });
-        writeFileSync(join(fakeProject, '.omc', 'project-memory.json'), JSON.stringify({
+        mkdirSync(join(fakeProject, '.omg'), { recursive: true });
+        writeFileSync(join(fakeProject, '.omg', 'project-memory.json'), JSON.stringify({
             version: '1.0.0',
             lastScanned: Date.now(),
             projectRoot: fakeProject,

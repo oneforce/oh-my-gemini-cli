@@ -40,17 +40,17 @@ const PROTECTION_CONFIGS = {
 const SKILL_PROTECTION = {
   // Already have mode state → no protection needed
   autopilot: 'none', ralph: 'none', ultrawork: 'none', team: 'none',
-  'omc-teams': 'none', ultraqa: 'none', cancel: 'none',
+  'omg-teams': 'none', ultraqa: 'none', cancel: 'none',
   // Instant / read-only → no protection needed
-  trace: 'none', hud: 'none', 'omc-doctor': 'none', 'omc-help': 'none',
-  'learn-about-omc': 'none', note: 'none',
+  trace: 'none', hud: 'none', 'omg-doctor': 'none', 'omg-help': 'none',
+  'learn-about-omg': 'none', note: 'none',
   // Light protection (3 reinforcements)
   tdd: 'light', 'build-fix': 'light', analyze: 'light', skill: 'light',
   'configure-notifications': 'light',
   // Medium protection (5 reinforcements)
   'code-review': 'medium', 'security-review': 'medium', plan: 'medium',
   ralplan: 'medium', review: 'medium', 'external-context': 'medium',
-  sciomc: 'medium', learner: 'medium', 'omc-setup': 'medium',
+  sciomg: 'medium', learner: 'medium', 'omg-setup': 'medium',
   'mcp-setup': 'medium', 'project-session-manager': 'medium',
   'writer-memory': 'medium', 'ralph-init': 'medium', ccg: 'medium',
   // Heavy protection (10 reinforcements)
@@ -58,7 +58,7 @@ const SKILL_PROTECTION = {
 };
 
 function getSkillProtection(skillName) {
-  const normalized = (skillName || '').toLowerCase().replace(/^oh-my-claudecode:/, '');
+  const normalized = (skillName || '').toLowerCase().replace(/^oh-my-gemini-cli:/, '');
   return SKILL_PROTECTION[normalized] || 'light';
 }
 
@@ -78,7 +78,7 @@ function writeSkillActiveState(directory, skillName, sessionId) {
 
   const config = PROTECTION_CONFIGS[protection];
   const now = new Date().toISOString();
-  const normalized = (skillName || '').toLowerCase().replace(/^oh-my-claudecode:/, '');
+  const normalized = (skillName || '').toLowerCase().replace(/^oh-my-gemini-cli:/, '');
 
   const state = {
     active: true,
@@ -91,7 +91,7 @@ function writeSkillActiveState(directory, skillName, sessionId) {
     stale_ttl_ms: config.staleTtlMs,
   };
 
-  const stateDir = path.join(directory, '.omc', 'state');
+  const stateDir = path.join(directory, '.omg', 'state');
 
   // Write to session-scoped path when sessionId is available (must match persistent-mode.mjs reads)
   const safeSessionId = sessionId && SESSION_ID_ALLOWLIST.test(sessionId) ? sessionId : '';
@@ -114,12 +114,12 @@ function writeSkillActiveState(directory, skillName, sessionId) {
 
 
 function clearAwaitingConfirmationFlag(directory, stateName, sessionId) {
-  const stateDir = path.join(directory, '.omc', 'state');
+  const stateDir = path.join(directory, '.omg', 'state');
   const safeSessionId = sessionId && SESSION_ID_ALLOWLIST.test(sessionId) ? sessionId : '';
   const paths = [
     safeSessionId ? path.join(stateDir, 'sessions', safeSessionId, `${stateName}-state.json`) : null,
     path.join(stateDir, `${stateName}-state.json`),
-    path.join(homedir(), '.omc', 'state', `${stateName}-state.json`),
+    path.join(homedir(), '.omg', 'state', `${stateName}-state.json`),
   ].filter(Boolean);
 
   for (const statePath of paths) {
@@ -164,9 +164,9 @@ function confirmSkillModeStates(directory, skillName, sessionId) {
 // Allowed path patterns (no warning)
 // Paths are normalized to forward slashes before matching
 const ALLOWED_PATH_PATTERNS = [
-  /^\.omc\//,          // .omc/** (anchored)
-  /^\.claude\//,       // .claude/** (anchored)
-  /\/\.claude\//,      // any /.claude/ path (intentionally unanchored for absolute paths)
+  /^\.omg\//,          // .omg/** (anchored)
+  /^\.gemini\//,       // .gemini/** (anchored)
+  /\/\.gemini\//,      // any /.gemini/ path (intentionally unanchored for absolute paths)
   /CLAUDE\.md$/,
   /AGENTS\.md$/,
 ];
@@ -224,7 +224,7 @@ function workerCommandViolation(command) {
     return 'Team worker cannot run tmux pane/session orchestration commands.';
   }
   if (WORKER_BLOCKED_TEAM_CLI_PATTERN.test(command)) {
-    return 'Team worker cannot run team orchestration commands (except `omc team api ...`).';
+    return 'Team worker cannot run team orchestration commands (except `omg team api ...`).';
   }
   if (WORKER_BLOCKED_SKILL_PATTERN.test(command)) {
     return 'Team worker cannot invoke orchestration skills (`$team`, `$ultrawork`, `$autopilot`, `$ralph`).';
@@ -242,7 +242,7 @@ function checkBashCommand(command) {
     return `[DELEGATION NOTICE] Bash command may modify source files: ${command}
 
 Recommended: Delegate to executor agent instead:
-  Task(subagent_type="oh-my-claudecode:executor", model="sonnet", prompt="...")
+  Task(subagent_type="oh-my-gemini-cli:executor", model="sonnet", prompt="...")
 
 This is a soft warning. Operation will proceed.`;
   }
@@ -354,7 +354,7 @@ async function main() {
     const warning = `[DELEGATION NOTICE] Direct ${toolName} on source file: ${filePath}
 
 Recommended: Delegate to executor agent instead:
-  Task(subagent_type="oh-my-claudecode:executor", model="sonnet", prompt="...")
+  Task(subagent_type="oh-my-gemini-cli:executor", model="sonnet", prompt="...")
 
 This is a soft warning. Operation will proceed.`;
 

@@ -8,7 +8,7 @@
  * Generation rules:
  * - First generation after 10+ user turns
  * - Regeneration every 10 additional turns
- * - Uses `claude -p` for summarization
+ * - Uses `gemini -p` for summarization
  */
 export interface SessionSummaryState {
     summary: string;

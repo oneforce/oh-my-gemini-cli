@@ -6,7 +6,7 @@
  * Intercepts Stop events to automatically delegate recently modified source files
  * to the code-simplifier agent for cleanup and simplification.
  *
- * Opt-in via ~/.omc/config.json: { "codeSimplifier": { "enabled": true } }
+ * Opt-in via ~/.omg/config.json: { "codeSimplifier": { "enabled": true } }
  * Default: disabled (must explicitly opt in)
  */
 
@@ -43,7 +43,7 @@ function readJsonFile(filePath) {
 }
 
 function readOmcConfig() {
-  return readJsonFile(join(homedir(), '.omc', 'config.json'));
+  return readJsonFile(join(homedir(), '.omg', 'config.json'));
 }
 
 function isEnabled(config) {
@@ -78,7 +78,7 @@ function buildMessage(files) {
     `code-simplifier agent to simplify the following files for clarity, ` +
     `consistency, and maintainability (without changing behavior):\n\n` +
     `${fileList}\n\n` +
-    `Use: Task(subagent_type="oh-my-claudecode:code-simplifier", ` +
+    `Use: Task(subagent_type="oh-my-gemini-cli:code-simplifier", ` +
     `prompt="Simplify the recently modified files:\\n${fileArgs}")`
   );
 }
@@ -95,7 +95,7 @@ async function main() {
     }
 
     const cwd = data.cwd || data.directory || process.cwd();
-    const stateDir = join(cwd, '.omc', 'state');
+    const stateDir = join(cwd, '.omg', 'state');
     const config = readOmcConfig();
 
     if (!isEnabled(config)) {

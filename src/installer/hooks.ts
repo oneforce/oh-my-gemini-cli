@@ -1,8 +1,8 @@
 /**
- * Hook Scripts for Claude Code
- * Hook system inspired by oh-my-opencode, adapted for Claude Code's native hooks
+ * Hook Scripts for Gemini Code
+ * Hook system inspired by oh-my-opencode, adapted for Gemini Code's native hooks
  *
- * Claude Code hooks are configured in settings.json and run as shell commands.
+ * Gemini Code hooks are configured in settings.json and run as shell commands.
  * These scripts receive JSON input via stdin and output JSON to modify behavior.
  *
  * This module provides Node.js scripts (.mjs) for cross-platform support (Windows, macOS, Linux).
@@ -69,14 +69,14 @@ export function isWindows(): boolean {
 }
 
 
-/** Get the Claude config directory path (cross-platform) */
-export function getClaudeConfigDir(): string {
+/** Get the Gemini config directory path (cross-platform) */
+export function getGeminiConfigDir(): string {
   return getConfigDir();
 }
 
 /** Get the hooks directory path */
 export function getHooksDir(): string {
-  return join(getClaudeConfigDir(), "hooks");
+  return join(getGeminiConfigDir(), "hooks");
 }
 
 /**
@@ -326,7 +326,7 @@ Ralph mode auto-activates Ultrawork for maximum parallel execution. Follow these
 ### Completion Requirements
 - Verify ALL requirements from the original task are met
 - Architect verification is MANDATORY before claiming completion
-- When FULLY complete, run \`/oh-my-claudecode:cancel\` to cleanly exit and clean up state files
+- When FULLY complete, run \`/oh-my-gemini-cli:cancel\` to cleanly exit and clean up state files
 
 Continue working until the task is truly done.
 `;
@@ -384,8 +384,8 @@ export const HOOKS_SETTINGS_CONFIG_NODE = {
             // Note: On Windows, %USERPROFILE% is expanded by cmd.exe
             // On Unix with node hooks, $HOME is expanded by the shell
             command: isWindows()
-              ? 'node "%USERPROFILE%\\.claude\\hooks\\keyword-detector.mjs"'
-              : 'node "$HOME/.claude/hooks/keyword-detector.mjs"',
+              ? 'node "%USERPROFILE%\\.gemini\\hooks\\keyword-detector.mjs"'
+              : 'node "$HOME/.gemini/hooks/keyword-detector.mjs"',
           },
         ],
       },
@@ -396,8 +396,8 @@ export const HOOKS_SETTINGS_CONFIG_NODE = {
           {
             type: "command" as const,
             command: isWindows()
-              ? 'node "%USERPROFILE%\\.claude\\hooks\\session-start.mjs"'
-              : 'node "$HOME/.claude/hooks/session-start.mjs"',
+              ? 'node "%USERPROFILE%\\.gemini\\hooks\\session-start.mjs"'
+              : 'node "$HOME/.gemini/hooks/session-start.mjs"',
           },
         ],
       },
@@ -408,8 +408,8 @@ export const HOOKS_SETTINGS_CONFIG_NODE = {
           {
             type: "command" as const,
             command: isWindows()
-              ? 'node "%USERPROFILE%\\.claude\\hooks\\pre-tool-use.mjs"'
-              : 'node "$HOME/.claude/hooks/pre-tool-use.mjs"',
+              ? 'node "%USERPROFILE%\\.gemini\\hooks\\pre-tool-use.mjs"'
+              : 'node "$HOME/.gemini/hooks/pre-tool-use.mjs"',
           },
         ],
       },
@@ -420,8 +420,8 @@ export const HOOKS_SETTINGS_CONFIG_NODE = {
           {
             type: "command" as const,
             command: isWindows()
-              ? 'node "%USERPROFILE%\\.claude\\hooks\\post-tool-use.mjs"'
-              : 'node "$HOME/.claude/hooks/post-tool-use.mjs"',
+              ? 'node "%USERPROFILE%\\.gemini\\hooks\\post-tool-use.mjs"'
+              : 'node "$HOME/.gemini/hooks/post-tool-use.mjs"',
           },
         ],
       },
@@ -432,8 +432,8 @@ export const HOOKS_SETTINGS_CONFIG_NODE = {
           {
             type: "command" as const,
             command: isWindows()
-              ? 'node "%USERPROFILE%\\.claude\\hooks\\post-tool-use-failure.mjs"'
-              : 'node "$HOME/.claude/hooks/post-tool-use-failure.mjs"',
+              ? 'node "%USERPROFILE%\\.gemini\\hooks\\post-tool-use-failure.mjs"'
+              : 'node "$HOME/.gemini/hooks/post-tool-use-failure.mjs"',
           },
         ],
       },
@@ -444,8 +444,8 @@ export const HOOKS_SETTINGS_CONFIG_NODE = {
           {
             type: "command" as const,
             command: isWindows()
-              ? 'node "%USERPROFILE%\\.claude\\hooks\\persistent-mode.mjs"'
-              : 'node "$HOME/.claude/hooks/persistent-mode.mjs"',
+              ? 'node "%USERPROFILE%\\.gemini\\hooks\\persistent-mode.mjs"'
+              : 'node "$HOME/.gemini/hooks/persistent-mode.mjs"',
           },
         ],
       },
@@ -454,8 +454,8 @@ export const HOOKS_SETTINGS_CONFIG_NODE = {
           {
             type: "command" as const,
             command: isWindows()
-              ? 'node "%USERPROFILE%\\.claude\\hooks\\code-simplifier.mjs"'
-              : 'node "$HOME/.claude/hooks/code-simplifier.mjs"',
+              ? 'node "%USERPROFILE%\\.gemini\\hooks\\code-simplifier.mjs"'
+              : 'node "$HOME/.gemini/hooks/code-simplifier.mjs"',
           },
         ],
       },

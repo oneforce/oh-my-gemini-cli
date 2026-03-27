@@ -47,7 +47,7 @@ describe('pre-tool-enforcer fallback gating (issue #970)', () => {
     });
     it('emits boulder fallback for unknown tools when session-scoped mode is active', () => {
         const sessionId = 'session-970';
-        writeJson(join(tempDir, '.omc', 'state', 'sessions', sessionId, 'ralph-state.json'), {
+        writeJson(join(tempDir, '.omg', 'state', 'sessions', sessionId, 'ralph-state.json'), {
             active: true,
             session_id: sessionId,
         });
@@ -62,7 +62,7 @@ describe('pre-tool-enforcer fallback gating (issue #970)', () => {
         expect(hookSpecificOutput.additionalContext).toContain('The boulder never stops');
     });
     it('does not fall back to legacy mode files when a valid session_id is provided', () => {
-        writeJson(join(tempDir, '.omc', 'state', 'ralph-state.json'), {
+        writeJson(join(tempDir, '.omg', 'state', 'ralph-state.json'), {
             active: true,
         });
         const output = runPreToolEnforcer({
@@ -73,7 +73,7 @@ describe('pre-tool-enforcer fallback gating (issue #970)', () => {
         expect(output).toEqual({ continue: true, suppressOutput: true });
     });
     it('uses legacy mode files when session_id is not provided', () => {
-        writeJson(join(tempDir, '.omc', 'state', 'ultrawork-state.json'), {
+        writeJson(join(tempDir, '.omg', 'state', 'ultrawork-state.json'), {
             active: true,
         });
         const output = runPreToolEnforcer({
@@ -87,7 +87,7 @@ describe('pre-tool-enforcer fallback gating (issue #970)', () => {
     // === Team-routing enforcement tests (issue #1006) ===
     it('injects team-routing redirect when Task called without team_name during active team session', () => {
         const sessionId = 'session-1006';
-        writeJson(join(tempDir, '.omc', 'state', 'sessions', sessionId, 'team-state.json'), {
+        writeJson(join(tempDir, '.omg', 'state', 'sessions', sessionId, 'team-state.json'), {
             active: true,
             session_id: sessionId,
             team_name: 'fix-ts-errors',
@@ -95,7 +95,7 @@ describe('pre-tool-enforcer fallback gating (issue #970)', () => {
         const output = runPreToolEnforcer({
             tool_name: 'Task',
             toolInput: {
-                subagent_type: 'oh-my-claudecode:executor',
+                subagent_type: 'oh-my-gemini-cli:executor',
                 description: 'Fix type errors',
                 prompt: 'Fix all type errors in src/auth/',
             },
@@ -110,7 +110,7 @@ describe('pre-tool-enforcer fallback gating (issue #970)', () => {
     });
     it('does NOT inject team-routing redirect when Task called WITH team_name', () => {
         const sessionId = 'session-1006b';
-        writeJson(join(tempDir, '.omc', 'state', 'sessions', sessionId, 'team-state.json'), {
+        writeJson(join(tempDir, '.omg', 'state', 'sessions', sessionId, 'team-state.json'), {
             active: true,
             session_id: sessionId,
             team_name: 'fix-ts-errors',
@@ -118,7 +118,7 @@ describe('pre-tool-enforcer fallback gating (issue #970)', () => {
         const output = runPreToolEnforcer({
             tool_name: 'Task',
             toolInput: {
-                subagent_type: 'oh-my-claudecode:executor',
+                subagent_type: 'oh-my-gemini-cli:executor',
                 team_name: 'fix-ts-errors',
                 name: 'worker-1',
                 description: 'Fix type errors',
@@ -137,7 +137,7 @@ describe('pre-tool-enforcer fallback gating (issue #970)', () => {
         const output = runPreToolEnforcer({
             tool_name: 'Task',
             toolInput: {
-                subagent_type: 'oh-my-claudecode:executor',
+                subagent_type: 'oh-my-gemini-cli:executor',
                 description: 'Fix type errors',
                 prompt: 'Fix all type errors in src/auth/',
             },
@@ -150,14 +150,14 @@ describe('pre-tool-enforcer fallback gating (issue #970)', () => {
         expect(String(hookSpecificOutput.additionalContext)).toContain('Spawning agent');
     });
     it('reads team state from legacy path when session_id is absent', () => {
-        writeJson(join(tempDir, '.omc', 'state', 'team-state.json'), {
+        writeJson(join(tempDir, '.omg', 'state', 'team-state.json'), {
             active: true,
             team_name: 'legacy-team',
         });
         const output = runPreToolEnforcer({
             tool_name: 'Task',
             toolInput: {
-                subagent_type: 'oh-my-claudecode:executor',
+                subagent_type: 'oh-my-gemini-cli:executor',
                 description: 'Fix something',
                 prompt: 'Fix it',
             },
@@ -169,7 +169,7 @@ describe('pre-tool-enforcer fallback gating (issue #970)', () => {
         expect(hookSpecificOutput.additionalContext).toContain('legacy-team');
     });
     it('respects session isolation — ignores team state from different session', () => {
-        writeJson(join(tempDir, '.omc', 'state', 'sessions', 'other-session', 'team-state.json'), {
+        writeJson(join(tempDir, '.omg', 'state', 'sessions', 'other-session', 'team-state.json'), {
             active: true,
             session_id: 'other-session',
             team_name: 'other-team',
@@ -177,7 +177,7 @@ describe('pre-tool-enforcer fallback gating (issue #970)', () => {
         const output = runPreToolEnforcer({
             tool_name: 'Task',
             toolInput: {
-                subagent_type: 'oh-my-claudecode:executor',
+                subagent_type: 'oh-my-gemini-cli:executor',
                 description: 'Fix something',
                 prompt: 'Fix it',
             },
@@ -216,11 +216,11 @@ describe('pre-tool-enforcer fallback gating (issue #970)', () => {
     });
     it('keeps active-mode and team-routing enforcement visible when OMC_QUIET is enabled', () => {
         const sessionId = 'session-1646';
-        writeJson(join(tempDir, '.omc', 'state', 'sessions', sessionId, 'ralph-state.json'), {
+        writeJson(join(tempDir, '.omg', 'state', 'sessions', sessionId, 'ralph-state.json'), {
             active: true,
             session_id: sessionId,
         });
-        writeJson(join(tempDir, '.omc', 'state', 'sessions', sessionId, 'team-state.json'), {
+        writeJson(join(tempDir, '.omg', 'state', 'sessions', sessionId, 'team-state.json'), {
             active: true,
             session_id: sessionId,
             team_name: 'quiet-team',
@@ -235,7 +235,7 @@ describe('pre-tool-enforcer fallback gating (issue #970)', () => {
         const taskOutput = runPreToolEnforcerWithEnv({
             tool_name: 'Task',
             toolInput: {
-                subagent_type: 'oh-my-claudecode:executor',
+                subagent_type: 'oh-my-gemini-cli:executor',
                 description: 'Fix type errors',
                 prompt: 'Fix all type errors in src/auth/',
             },
@@ -249,7 +249,7 @@ describe('pre-tool-enforcer fallback gating (issue #970)', () => {
         const output = runPreToolEnforcerWithEnv({
             tool_name: 'Task',
             toolInput: {
-                subagent_type: 'oh-my-claudecode:executor',
+                subagent_type: 'oh-my-gemini-cli:executor',
                 description: 'Fix type errors',
                 prompt: 'Fix all type errors in src/auth/',
             },
@@ -264,7 +264,7 @@ describe('pre-tool-enforcer fallback gating (issue #970)', () => {
         const output = runPreToolEnforcer({
             tool_name: 'Task',
             toolInput: {
-                subagent_type: 'oh-my-claudecode:executor',
+                subagent_type: 'oh-my-gemini-cli:executor',
                 description: 'High fan-out execution',
             },
             cwd: tempDir,
@@ -289,7 +289,7 @@ describe('pre-tool-enforcer fallback gating (issue #970)', () => {
     });
     it('clears awaiting confirmation from session-scoped mode state when a skill is invoked', () => {
         const sessionId = 'session-confirm';
-        const sessionStateDir = join(tempDir, '.omc', 'state', 'sessions', sessionId);
+        const sessionStateDir = join(tempDir, '.omg', 'state', 'sessions', sessionId);
         mkdirSync(sessionStateDir, { recursive: true });
         writeJson(join(sessionStateDir, 'ralph-state.json'), {
             active: true,
@@ -304,7 +304,7 @@ describe('pre-tool-enforcer fallback gating (issue #970)', () => {
         const output = runPreToolEnforcer({
             tool_name: 'Skill',
             toolInput: {
-                skill: 'oh-my-claudecode:ralph',
+                skill: 'oh-my-gemini-cli:ralph',
             },
             cwd: tempDir,
             session_id: sessionId,
@@ -325,7 +325,7 @@ describe('pre-tool-enforcer fallback gating (issue #970)', () => {
             session_id: sessionId,
         });
         expect(output).toEqual({ continue: true, suppressOutput: true });
-        expect(existsSync(join(tempDir, '.omc', 'state', 'sessions', sessionId, 'skill-active-state.json'))).toBe(false);
+        expect(existsSync(join(tempDir, '.omg', 'state', 'sessions', sessionId, 'skill-active-state.json'))).toBe(false);
     });
 });
 //# sourceMappingURL=pre-tool-enforcer.test.js.map

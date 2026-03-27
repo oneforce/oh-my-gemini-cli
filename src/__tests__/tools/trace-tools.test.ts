@@ -12,14 +12,14 @@ vi.mock('../../lib/worktree-paths.js', async () => {
   const { join } = await import('path');
   return {
     validateWorkingDirectory: (dir?: string) => dir || testDir,
-    getOmcRoot: (dir?: string) => join(dir || testDir, '.omc'),
+    getOmcRoot: (dir?: string) => join(dir || testDir, '.omg'),
   };
 });
 
 describe('trace-tools', () => {
   beforeEach(() => {
     testDir = join(tmpdir(), `trace-tools-test-${Date.now()}-${Math.random().toString(36).slice(2)}`);
-    mkdirSync(join(testDir, '.omc', 'state'), { recursive: true });
+    mkdirSync(join(testDir, '.omg', 'state'), { recursive: true });
     resetSessionStartTimes();
   });
 
@@ -198,7 +198,7 @@ describe('trace-tools', () => {
 
     it('should show execution flow section', async () => {
       appendReplayEvent(testDir, 'flow-exec', { agent: 'system', event: 'keyword_detected', keyword: 'plan' });
-      appendReplayEvent(testDir, 'flow-exec', { agent: 'system', event: 'skill_invoked', skill_name: 'oh-my-claudecode:plan' });
+      appendReplayEvent(testDir, 'flow-exec', { agent: 'system', event: 'skill_invoked', skill_name: 'oh-my-gemini-cli:plan' });
       appendReplayEvent(testDir, 'flow-exec', { agent: 'a1', event: 'agent_start', agent_type: 'planner', model: 'opus' });
       appendReplayEvent(testDir, 'flow-exec', { agent: 'a1', event: 'agent_stop', agent_type: 'planner', success: true, duration_ms: 40000 });
 
@@ -207,7 +207,7 @@ describe('trace-tools', () => {
 
       expect(text).toContain('Execution Flow');
       expect(text).toContain('Keyword "plan" detected');
-      expect(text).toContain('oh-my-claudecode:plan invoked');
+      expect(text).toContain('oh-my-gemini-cli:plan invoked');
       expect(text).toContain('planner agent spawned');
       expect(text).toContain('planner agent completed');
     });
@@ -215,29 +215,29 @@ describe('trace-tools', () => {
 
   describe('skills_invoked in summary', () => {
     it('should show skills invoked via Skill tool', async () => {
-      appendReplayEvent(testDir, 'sk-sess', { agent: 'system', event: 'skill_invoked', skill_name: 'oh-my-claudecode:plan' });
-      appendReplayEvent(testDir, 'sk-sess', { agent: 'system', event: 'skill_invoked', skill_name: 'oh-my-claudecode:ultrawork' });
+      appendReplayEvent(testDir, 'sk-sess', { agent: 'system', event: 'skill_invoked', skill_name: 'oh-my-gemini-cli:plan' });
+      appendReplayEvent(testDir, 'sk-sess', { agent: 'system', event: 'skill_invoked', skill_name: 'oh-my-gemini-cli:ultrawork' });
 
       const result = await traceSummaryTool.handler({ sessionId: 'sk-sess', workingDirectory: testDir });
       const text = result.content[0].text;
 
       expect(text).toContain('Skills Invoked');
-      expect(text).toContain('oh-my-claudecode:plan');
-      expect(text).toContain('oh-my-claudecode:ultrawork');
+      expect(text).toContain('oh-my-gemini-cli:plan');
+      expect(text).toContain('oh-my-gemini-cli:ultrawork');
     });
 
     it('should format skill_invoked in timeline', async () => {
-      appendReplayEvent(testDir, 'sk-tl', { agent: 'system', event: 'skill_invoked', skill_name: 'oh-my-claudecode:plan' });
+      appendReplayEvent(testDir, 'sk-tl', { agent: 'system', event: 'skill_invoked', skill_name: 'oh-my-gemini-cli:plan' });
 
       const result = await traceTimelineTool.handler({ sessionId: 'sk-tl', workingDirectory: testDir });
       const text = result.content[0].text;
 
       expect(text).toContain('SKILL');
-      expect(text).toContain('oh-my-claudecode:plan invoked');
+      expect(text).toContain('oh-my-gemini-cli:plan invoked');
     });
 
     it('should include skill_invoked in skills filter', async () => {
-      appendReplayEvent(testDir, 'sk-flt', { agent: 'system', event: 'skill_invoked', skill_name: 'oh-my-claudecode:plan' });
+      appendReplayEvent(testDir, 'sk-flt', { agent: 'system', event: 'skill_invoked', skill_name: 'oh-my-gemini-cli:plan' });
       appendReplayEvent(testDir, 'sk-flt', { agent: 'a1', event: 'agent_start', agent_type: 'planner' });
 
       const result = await traceTimelineTool.handler({ sessionId: 'sk-flt', filter: 'skills', workingDirectory: testDir });
@@ -250,7 +250,7 @@ describe('trace-tools', () => {
 
   describe('edge cases', () => {
     it('should handle malformed JSONL lines gracefully', async () => {
-      const replayPath = join(testDir, '.omc', 'state', 'agent-replay-malformed.jsonl');
+      const replayPath = join(testDir, '.omg', 'state', 'agent-replay-malformed.jsonl');
       writeFileSync(replayPath, [
         '{"t":0,"agent":"a1","event":"agent_start","agent_type":"executor"}',
         'THIS IS NOT JSON',
@@ -271,7 +271,7 @@ describe('trace-tools', () => {
 
     it('should auto-detect latest session from multiple replay files', async () => {
       // Create older session
-      const oldPath = join(testDir, '.omc', 'state', 'agent-replay-old-sess.jsonl');
+      const oldPath = join(testDir, '.omg', 'state', 'agent-replay-old-sess.jsonl');
       writeFileSync(oldPath, '{"t":0,"agent":"a1","event":"agent_start","agent_type":"planner"}\n');
 
       // Wait a tick to ensure different mtime
@@ -279,7 +279,7 @@ describe('trace-tools', () => {
       while (Date.now() - now < 50) { /* spin */ }
 
       // Create newer session
-      const newPath = join(testDir, '.omc', 'state', 'agent-replay-new-sess.jsonl');
+      const newPath = join(testDir, '.omg', 'state', 'agent-replay-new-sess.jsonl');
       writeFileSync(newPath, '{"t":0,"agent":"a1","event":"agent_start","agent_type":"executor"}\n');
 
       // Call without sessionId — should auto-detect the newest

@@ -1,8 +1,8 @@
 /**
- * Hook Scripts for Claude Code
- * Hook system inspired by oh-my-opencode, adapted for Claude Code's native hooks
+ * Hook Scripts for Gemini Code
+ * Hook system inspired by oh-my-opencode, adapted for Gemini Code's native hooks
  *
- * Claude Code hooks are configured in settings.json and run as shell commands.
+ * Gemini Code hooks are configured in settings.json and run as shell commands.
  * These scripts receive JSON input via stdin and output JSON to modify behavior.
  *
  * This module provides Node.js scripts (.mjs) for cross-platform support (Windows, macOS, Linux).
@@ -12,8 +12,8 @@
 export declare const MIN_NODE_VERSION = 20;
 /** Check if running on Windows */
 export declare function isWindows(): boolean;
-/** Get the Claude config directory path (cross-platform) */
-export declare function getClaudeConfigDir(): string;
+/** Get the Gemini config directory path (cross-platform) */
+export declare function getGeminiConfigDir(): string;
 /** Get the hooks directory path */
 export declare function getHooksDir(): string;
 /**
@@ -65,7 +65,7 @@ export declare const TODO_CONTINUATION_PROMPT = "[SYSTEM REMINDER - TODO CONTINU
  * Ralph mode message - injected when ralph keyword detected
  * Auto-activates ultrawork for parallel execution
  */
-export declare const RALPH_MESSAGE = "[RALPH + ULTRAWORK MODE ACTIVATED]\n\nRalph mode auto-activates Ultrawork for maximum parallel execution. Follow these rules:\n\n### Parallel Execution\n- **PARALLEL**: Fire independent calls simultaneously - NEVER wait sequentially\n- **BACKGROUND FIRST**: Use Task(run_in_background=true) for long operations\n- **DELEGATE**: Route tasks to specialist agents immediately\n\n### Completion Requirements\n- Verify ALL requirements from the original task are met\n- Architect verification is MANDATORY before claiming completion\n- When FULLY complete, run `/oh-my-claudecode:cancel` to cleanly exit and clean up state files\n\nContinue working until the task is truly done.\n";
+export declare const RALPH_MESSAGE = "[RALPH + ULTRAWORK MODE ACTIVATED]\n\nRalph mode auto-activates Ultrawork for maximum parallel execution. Follow these rules:\n\n### Parallel Execution\n- **PARALLEL**: Fire independent calls simultaneously - NEVER wait sequentially\n- **BACKGROUND FIRST**: Use Task(run_in_background=true) for long operations\n- **DELEGATE**: Route tasks to specialist agents immediately\n\n### Completion Requirements\n- Verify ALL requirements from the original task are met\n- Architect verification is MANDATORY before claiming completion\n- When FULLY complete, run `/oh-my-gemini-cli:cancel` to cleanly exit and clean up state files\n\nContinue working until the task is truly done.\n";
 /**
  * Prompt translation message - injected when non-English input detected
  * Reminds users to write prompts in English for consistent agent routing

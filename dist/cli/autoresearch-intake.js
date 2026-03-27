@@ -12,7 +12,7 @@ const BLOCKED_EVALUATOR_PATTERNS = [
 ];
 const DEEP_INTERVIEW_DRAFT_PREFIX = 'deep-interview-autoresearch-';
 const AUTORESEARCH_ARTIFACT_DIR_PREFIX = 'autoresearch-';
-export const AUTORESEARCH_DEEP_INTERVIEW_RESULT_KIND = 'omc.autoresearch.deep-interview/v1';
+export const AUTORESEARCH_DEEP_INTERVIEW_RESULT_KIND = 'omg.autoresearch.deep-interview/v1';
 function defaultDraftEvaluator(topic) {
     const detail = topic.trim() || 'the mission';
     return `TODO replace with evaluator command for: ${detail}`;
@@ -50,10 +50,10 @@ function normalizeKeepPolicy(raw) {
     return raw.trim().toLowerCase() === 'pass_only' ? 'pass_only' : 'score_improvement';
 }
 function buildArtifactDir(repoRoot, slug) {
-    return join(repoRoot, '.omc', 'specs', `${AUTORESEARCH_ARTIFACT_DIR_PREFIX}${slug}`);
+    return join(repoRoot, '.omg', 'specs', `${AUTORESEARCH_ARTIFACT_DIR_PREFIX}${slug}`);
 }
 function buildDraftArtifactPath(repoRoot, slug) {
-    return join(repoRoot, '.omc', 'specs', `${DEEP_INTERVIEW_DRAFT_PREFIX}${slug}.md`);
+    return join(repoRoot, '.omg', 'specs', `${DEEP_INTERVIEW_DRAFT_PREFIX}${slug}.md`);
 }
 function buildResultPath(repoRoot, slug) {
     return join(buildArtifactDir(repoRoot, slug), 'result.json');
@@ -139,7 +139,7 @@ export async function writeAutoresearchDraftArtifact(input) {
         parseSandboxContract(buildSandboxContent(evaluatorCommand, input.keepPolicy));
     }
     const launchReady = blockedReasons.length === 0;
-    const specsDir = join(input.repoRoot, '.omc', 'specs');
+    const specsDir = join(input.repoRoot, '.omg', 'specs');
     await mkdir(specsDir, { recursive: true });
     const path = buildDraftArtifactPath(input.repoRoot, slug);
     const content = buildAutoresearchDraftArtifactContent(compileTarget, input.seedInputs || {}, launchReady, blockedReasons);
@@ -252,7 +252,7 @@ async function readPersistedResult(resultPath) {
     };
 }
 async function listMarkdownDraftPaths(repoRoot) {
-    const specsDir = join(repoRoot, '.omc', 'specs');
+    const specsDir = join(repoRoot, '.omg', 'specs');
     if (!existsSync(specsDir))
         return [];
     const entries = await readdir(specsDir, { withFileTypes: true });
@@ -261,7 +261,7 @@ async function listMarkdownDraftPaths(repoRoot) {
         .map((entry) => join(specsDir, entry.name));
 }
 export async function listAutoresearchDeepInterviewResultPaths(repoRoot) {
-    const specsDir = join(repoRoot, '.omc', 'specs');
+    const specsDir = join(repoRoot, '.omg', 'specs');
     if (!existsSync(specsDir))
         return [];
     const entries = await readdir(specsDir, { withFileTypes: true });

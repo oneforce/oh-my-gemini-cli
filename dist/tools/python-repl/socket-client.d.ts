@@ -31,7 +31,7 @@ export declare class JsonRpcError extends Error {
  * @example
  * ```typescript
  * const result = await sendSocketRequest<ExecuteResult>(
- *   '/tmp/omc/abc123/bridge.sock',
+ *   '/tmp/omg/abc123/bridge.sock',
  *   'execute',
  *   { code: 'print("hello")' },
  *   60000

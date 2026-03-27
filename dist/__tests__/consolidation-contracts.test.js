@@ -29,10 +29,10 @@ describe('Consolidation contracts', () => {
             // swarm alias removed from team/SKILL.md in #1131
             expect(swarm).toBeUndefined();
         });
-        it('keeps native-command collisions prefixed to omc-* names', () => {
+        it('keeps native-command collisions prefixed to omg-* names', () => {
             const names = listBuiltinSkillNames();
-            expect(names).toContain('omc-plan');
-            expect(names).toContain('omc-doctor');
+            expect(names).toContain('omg-plan');
+            expect(names).toContain('omg-doctor');
             expect(names).not.toContain('plan');
             expect(names).not.toContain('doctor');
             expect(names).not.toContain('help');
@@ -43,7 +43,7 @@ describe('Consolidation contracts', () => {
             expect(names).not.toContain('build-fix');
             expect(names).not.toContain('tdd');
             expect(names).not.toContain('code-review');
-            expect(names).not.toContain('omc-security-review');
+            expect(names).not.toContain('omg-security-review');
         });
         it('hides deprecated compatibility aliases from default listings', () => {
             const names = listBuiltinSkillNames();
@@ -73,10 +73,10 @@ describe('Consolidation contracts', () => {
         it('normalizes deprecated agent aliases in delegation routing', () => {
             const researcherRoute = resolveDelegation({ agentRole: 'researcher' });
             const tddGuideRoute = resolveDelegation({ agentRole: 'tdd-guide' });
-            expect(researcherRoute.provider).toBe('claude');
+            expect(researcherRoute.provider).toBe('gemini');
             expect(researcherRoute.tool).toBe('Task');
             expect(researcherRoute.agentOrModel).toBe('document-specialist');
-            expect(tddGuideRoute.provider).toBe('claude');
+            expect(tddGuideRoute.provider).toBe('gemini');
             expect(tddGuideRoute.tool).toBe('Task');
             expect(tddGuideRoute.agentOrModel).toBe('test-engineer');
         });

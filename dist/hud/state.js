@@ -6,7 +6,7 @@
  */
 import { existsSync, readFileSync, writeFileSync, mkdirSync } from 'fs';
 import { join } from 'path';
-import { getClaudeConfigDir } from '../utils/paths.js';
+import { getGeminiConfigDir } from '../utils/paths.js';
 import { validateWorkingDirectory, getOmcRoot } from '../lib/worktree-paths.js';
 import { atomicWriteJsonSync } from '../lib/atomic-write.js';
 import { DEFAULT_HUD_CONFIG, PRESET_CONFIGS } from './types.js';
@@ -16,33 +16,33 @@ import { cleanupStaleBackgroundTasks, markOrphanedTasksAsStale } from './backgro
 // Path Helpers
 // ============================================================================
 /**
- * Get the HUD state file path in the project's .omc/state directory
+ * Get the HUD state file path in the project's .omg/state directory
  */
 function getLocalStateFilePath(directory) {
     const baseDir = validateWorkingDirectory(directory);
-    const omcStateDir = join(getOmcRoot(baseDir), 'state');
-    return join(omcStateDir, 'hud-state.json');
+    const omgStateDir = join(getOmcRoot(baseDir), 'state');
+    return join(omgStateDir, 'hud-state.json');
 }
 /**
- * Get Claude Code settings.json path
+ * Get Gemini Code settings.json path
  */
 function getSettingsFilePath() {
-    return join(getClaudeConfigDir(), 'settings.json');
+    return join(getGeminiConfigDir(), 'settings.json');
 }
 /**
  * Get the HUD config file path (legacy)
  */
 function getConfigFilePath() {
-    return join(getClaudeConfigDir(), '.omc', 'hud-config.json');
+    return join(getGeminiConfigDir(), '.omg', 'hud-config.json');
 }
 /**
- * Ensure the .omc/state directory exists
+ * Ensure the .omg/state directory exists
  */
 function ensureStateDir(directory) {
     const baseDir = validateWorkingDirectory(directory);
-    const omcStateDir = join(getOmcRoot(baseDir), 'state');
-    if (!existsSync(omcStateDir)) {
-        mkdirSync(omcStateDir, { recursive: true });
+    const omgStateDir = join(getOmcRoot(baseDir), 'state');
+    if (!existsSync(omgStateDir)) {
+        mkdirSync(omgStateDir, { recursive: true });
     }
 }
 // ============================================================================
@@ -52,7 +52,7 @@ function ensureStateDir(directory) {
  * Read HUD state from disk (checks new local and legacy local only)
  */
 export function readHudState(directory) {
-    // Check new local state first (.omc/state/hud-state.json)
+    // Check new local state first (.omg/state/hud-state.json)
     const localStateFile = getLocalStateFilePath(directory);
     if (existsSync(localStateFile)) {
         try {
@@ -64,7 +64,7 @@ export function readHudState(directory) {
             // Fall through to legacy check
         }
     }
-    // Check legacy local state (.omc/hud-state.json)
+    // Check legacy local state (.omg/hud-state.json)
     const baseDir = validateWorkingDirectory(directory);
     const legacyStateFile = join(getOmcRoot(baseDir), 'hud-state.json');
     if (existsSync(legacyStateFile)) {
@@ -84,7 +84,7 @@ export function readHudState(directory) {
  */
 export function writeHudState(state, directory) {
     try {
-        // Write to local .omc/state only
+        // Write to local .omg/state only
         ensureStateDir(directory);
         const localStateFile = getLocalStateFilePath(directory);
         atomicWriteJsonSync(localStateFile, state);
@@ -130,14 +130,14 @@ export function getBackgroundTaskCount(state) {
  * Priority: settings.json > hud-config.json (legacy) > defaults
  */
 export function readHudConfig() {
-    // 1. Try reading from ~/.claude/settings.json (omcHud key)
+    // 1. Try reading from ~/.gemini/settings.json (omgHud key)
     const settingsFile = getSettingsFilePath();
     if (existsSync(settingsFile)) {
         try {
             const content = readFileSync(settingsFile, 'utf-8');
             const settings = JSON.parse(content);
-            if (settings.omcHud) {
-                const config = settings.omcHud;
+            if (settings.omgHud) {
+                const config = settings.omgHud;
                 return mergeWithDefaults(config);
             }
         }
@@ -146,7 +146,7 @@ export function readHudConfig() {
             // Fall through to legacy config
         }
     }
-    // 2. Try reading from ~/.claude/.omc/hud-config.json (legacy)
+    // 2. Try reading from ~/.gemini/.omg/hud-config.json (legacy)
     const configFile = getConfigFilePath();
     if (existsSync(configFile)) {
         try {
@@ -202,7 +202,7 @@ function mergeWithDefaults(config) {
     };
 }
 /**
- * Write HUD configuration to ~/.claude/settings.json (omcHud key)
+ * Write HUD configuration to ~/.gemini/settings.json (omgHud key)
  */
 export function writeHudConfig(config) {
     try {
@@ -213,8 +213,8 @@ export function writeHudConfig(config) {
             const content = readFileSync(settingsFile, 'utf-8');
             settings = JSON.parse(content);
         }
-        // Update omcHud key
-        settings.omcHud = config;
+        // Update omgHud key
+        settings.omgHud = config;
         writeFileSync(settingsFile, JSON.stringify(settings, null, 2));
         return true;
     }

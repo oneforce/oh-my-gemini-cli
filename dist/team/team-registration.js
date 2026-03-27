@@ -7,22 +7,22 @@
  */
 import { readFileSync, existsSync } from 'fs';
 import { join } from 'path';
-import { getClaudeConfigDir } from '../utils/paths.js';
+import { getGeminiConfigDir } from '../utils/paths.js';
 import { sanitizeName } from './tmux-session.js';
 import { atomicWriteJson, validateResolvedPath } from './fs-utils.js';
 // --- Config paths ---
 function configPath(teamName) {
-    const result = join(getClaudeConfigDir(), 'teams', sanitizeName(teamName), 'config.json');
-    validateResolvedPath(result, join(getClaudeConfigDir(), 'teams'));
+    const result = join(getGeminiConfigDir(), 'teams', sanitizeName(teamName), 'config.json');
+    validateResolvedPath(result, join(getGeminiConfigDir(), 'teams'));
     return result;
 }
 function shadowRegistryPath(workingDirectory) {
-    const result = join(workingDirectory, '.omc', 'state', 'team-mcp-workers.json');
-    validateResolvedPath(result, join(workingDirectory, '.omc', 'state'));
+    const result = join(workingDirectory, '.omg', 'state', 'team-mcp-workers.json');
+    validateResolvedPath(result, join(workingDirectory, '.omg', 'state'));
     return result;
 }
 function probeResultPath(workingDirectory) {
-    return join(workingDirectory, '.omc', 'state', 'config-probe-result.json');
+    return join(workingDirectory, '.omg', 'state', 'config-probe-result.json');
 }
 // --- Probe result cache ---
 /** Read cached probe result. Returns null if not probed yet. */
@@ -60,7 +60,7 @@ export function getRegistrationStrategy(workingDirectory) {
  *
  * Strategy auto-selected based on cached probe result:
  * - 'config': Write member to config.json (preferred)
- * - 'shadow': Write member to .omc/state/team-mcp-workers.json (fallback)
+ * - 'shadow': Write member to .omg/state/team-mcp-workers.json (fallback)
  *
  * Both paths use atomic write (temp + rename) to prevent corruption.
  */

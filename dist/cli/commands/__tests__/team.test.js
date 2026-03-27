@@ -18,7 +18,7 @@ async function captureLog(fn) {
 }
 /** Helper: init minimal team state on disk */
 async function initTeamState(teamName, wd) {
-    const base = join(wd, '.omc', 'state', 'team', teamName);
+    const base = join(wd, '.omg', 'state', 'team', teamName);
     await mkdir(join(base, 'tasks'), { recursive: true });
     await mkdir(join(base, 'workers', 'worker-1'), { recursive: true });
     await mkdir(join(base, 'mailbox'), { recursive: true });
@@ -35,27 +35,27 @@ async function initTeamState(teamName, wd) {
 describe('teamCommand help output', () => {
     it('prints team help for --help', async () => {
         const logs = await captureLog(() => teamCommand(['--help']));
-        expect(logs[0]).toContain('omc team api <operation>');
+        expect(logs[0]).toContain('omg team api <operation>');
     });
     it('prints team help for help alias', async () => {
         const logs = await captureLog(() => teamCommand(['help']));
-        expect(logs[0]).toContain('omc team api <operation>');
+        expect(logs[0]).toContain('omg team api <operation>');
     });
-    it('prints api help for omc team api --help', async () => {
+    it('prints api help for omg team api --help', async () => {
         const logs = await captureLog(() => teamCommand(['api', '--help']));
         expect(logs[0]).toContain('Supported operations');
         expect(logs[0]).toContain('send-message');
         expect(logs[0]).toContain('transition-task-status');
     });
-    it('prints operation-specific help for omc team api <op> --help', async () => {
+    it('prints operation-specific help for omg team api <op> --help', async () => {
         const logs = await captureLog(() => teamCommand(['api', 'send-message', '--help']));
-        expect(logs[0]).toContain('Usage: omc team api send-message');
+        expect(logs[0]).toContain('Usage: omg team api send-message');
         expect(logs[0]).toContain('from_worker');
         expect(logs[0]).toContain('to_worker');
     });
-    it('prints operation-specific help for omc team api --help <op>', async () => {
+    it('prints operation-specific help for omg team api --help <op>', async () => {
         const logs = await captureLog(() => teamCommand(['api', '--help', 'claim-task']));
-        expect(logs[0]).toContain('Usage: omc team api claim-task');
+        expect(logs[0]).toContain('Usage: omg team api claim-task');
         expect(logs[0]).toContain('expected_version');
     });
 });
@@ -81,7 +81,7 @@ describe('teamCommand api operations', () => {
         expect(envelope.error.code).toBe('invalid_input');
     });
     it('executes send-message with stable JSON envelope', async () => {
-        wd = await mkdtemp(join(tmpdir(), 'omc-team-cli-'));
+        wd = await mkdtemp(join(tmpdir(), 'omg-team-cli-'));
         previousCwd = process.cwd();
         process.chdir(wd);
         await initTeamState('cli-test', wd);
@@ -100,11 +100,11 @@ describe('teamCommand api operations', () => {
         const envelope = JSON.parse(logs[0]);
         expect(envelope.schema_version).toBe('1.0');
         expect(envelope.ok).toBe(true);
-        expect(envelope.command).toBe('omc team api send-message');
+        expect(envelope.command).toBe('omg team api send-message');
         expect(envelope.data.message.body).toBe('ACK');
     });
     it('supports claim-safe lifecycle: create -> claim -> transition', async () => {
-        wd = await mkdtemp(join(tmpdir(), 'omc-team-lifecycle-'));
+        wd = await mkdtemp(join(tmpdir(), 'omg-team-lifecycle-'));
         previousCwd = process.cwd();
         process.chdir(wd);
         await initTeamState('lifecycle', wd);
@@ -165,7 +165,7 @@ describe('teamCommand api operations', () => {
         try {
             process.env.OMC_TEAM_WORKER = 'demo-team/worker-1';
             const logs = await captureLog(() => teamCommand(['1:executor', 'do work']));
-            expect(logs[0]).toContain('omc team [N:agent-type[:role]]');
+            expect(logs[0]).toContain('omg team [N:agent-type[:role]]');
             expect(process.exitCode).toBe(1);
         }
         finally {
@@ -174,10 +174,10 @@ describe('teamCommand api operations', () => {
         }
     });
     it('allows nested team spawn only when parent governance enables it', async () => {
-        wd = await mkdtemp(join(tmpdir(), 'omc-team-governance-'));
+        wd = await mkdtemp(join(tmpdir(), 'omg-team-governance-'));
         previousCwd = process.cwd();
         process.chdir(wd);
-        const base = join(wd, '.omc', 'state', 'team', 'demo-team');
+        const base = join(wd, '.omg', 'state', 'team', 'demo-team');
         await mkdir(base, { recursive: true });
         await writeFile(join(base, 'manifest.json'), JSON.stringify({
             schema_version: 2,
@@ -230,13 +230,13 @@ describe('parseTeamArgs comma-separated multi-type specs', () => {
         expect(parsed.workerSpecs).toEqual([{ agentType: 'codex' }, { agentType: 'gemini' }]);
         expect(parsed.task).toBe('do the task');
     });
-    it('parses 2:claude,1:codex:architect with mixed counts and roles', () => {
-        const parsed = parseTeamArgs(['2:claude,1:codex:architect', 'design system']);
+    it('parses 2:gemini,1:codex:architect with mixed counts and roles', () => {
+        const parsed = parseTeamArgs(['2:gemini,1:codex:architect', 'design system']);
         expect(parsed.workerCount).toBe(3);
-        expect(parsed.agentTypes).toEqual(['claude', 'claude', 'codex']);
+        expect(parsed.agentTypes).toEqual(['gemini', 'gemini', 'codex']);
         expect(parsed.workerSpecs).toEqual([
-            { agentType: 'claude' },
-            { agentType: 'claude' },
+            { agentType: 'gemini' },
+            { agentType: 'gemini' },
             { agentType: 'codex', role: 'architect' },
         ]);
         expect(parsed.role).toBeUndefined(); // mixed roles -> no single role
@@ -259,10 +259,10 @@ describe('parseTeamArgs comma-separated multi-type specs', () => {
         expect(parsed.agentTypes).toEqual(['codex', 'codex', 'codex']);
         expect(parsed.task).toBe('fix tests');
     });
-    it('defaults to 3 claude workers when no spec is given', () => {
+    it('defaults to 3 gemini workers when no spec is given', () => {
         const parsed = parseTeamArgs(['run all tests']);
         expect(parsed.workerCount).toBe(3);
-        expect(parsed.agentTypes).toEqual(['claude', 'claude', 'claude']);
+        expect(parsed.agentTypes).toEqual(['gemini', 'gemini', 'gemini']);
         expect(parsed.task).toBe('run all tests');
     });
     it('parses single spec with role correctly', () => {

@@ -1,7 +1,7 @@
 /**
  * OMC HUD - Custom Rate Limit Provider
  *
- * Executes a user-supplied command (omcHud.rateLimitsProvider) to fetch
+ * Executes a user-supplied command (omgHud.rateLimitsProvider) to fetch
  * rate limit / quota data and maps the output to CustomProviderResult.
  *
  * Output contract (stdout JSON):
@@ -21,11 +21,11 @@
 import { spawn } from 'child_process';
 import { existsSync, readFileSync, writeFileSync, mkdirSync } from 'fs';
 import { join, dirname } from 'path';
-import { getClaudeConfigDir } from '../utils/paths.js';
+import { getGeminiConfigDir } from '../utils/paths.js';
 const CACHE_TTL_MS = 30_000;
 const DEFAULT_TIMEOUT_MS = 800;
 function getCachePath() {
-    return join(getClaudeConfigDir(), 'plugins', 'oh-my-claudecode', '.custom-rate-cache.json');
+    return join(getGeminiConfigDir(), 'plugins', 'oh-my-gemini-cli', '.custom-rate-cache.json');
 }
 function readCache() {
     try {

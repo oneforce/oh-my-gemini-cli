@@ -16,7 +16,7 @@ export function getCurrentTmuxSession() {
     try {
         // Use $TMUX_PANE to find the session this process actually belongs to.
         // tmux display-message -p '#S' returns the *attached* session name, which
-        // is wrong when Claude runs in a detached session.
+        // is wrong when Gemini runs in a detached session.
         const paneId = process.env.TMUX_PANE;
         if (paneId) {
             const lines = execSync("tmux list-panes -a -F '#{pane_id} #{session_name}'", {
@@ -41,13 +41,13 @@ export function getCurrentTmuxSession() {
     }
 }
 /**
- * List active omc-team tmux sessions for a given team.
+ * List active omg-team tmux sessions for a given team.
  */
 export function getTeamTmuxSessions(teamName) {
     const sanitized = teamName.replace(/[^a-zA-Z0-9-]/g, "");
     if (!sanitized)
         return [];
-    const prefix = `omc-team-${sanitized}-`;
+    const prefix = `omg-team-${sanitized}-`;
     try {
         const output = execSync("tmux list-sessions -F '#{session_name}'", {
             encoding: "utf-8",

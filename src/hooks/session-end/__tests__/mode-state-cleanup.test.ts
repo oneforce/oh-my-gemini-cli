@@ -37,7 +37,7 @@ describe('processSessionEnd mode state cleanup (issue #1427)', () => {
   let transcriptPath: string;
 
   beforeEach(() => {
-    tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'omc-session-end-mode-state-'));
+    tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'omg-session-end-mode-state-'));
     transcriptPath = path.join(tmpDir, 'transcript.jsonl');
     fs.writeFileSync(
       transcriptPath,
@@ -56,7 +56,7 @@ describe('processSessionEnd mode state cleanup (issue #1427)', () => {
 
   it('removes active session-scoped mode state for the ending session', async () => {
     const sessionId = 'pid-1427-current';
-    const sessionDir = path.join(tmpDir, '.omc', 'state', 'sessions', sessionId);
+    const sessionDir = path.join(tmpDir, '.omg', 'state', 'sessions', sessionId);
     fs.mkdirSync(sessionDir, { recursive: true });
 
     const sessionStatePath = path.join(sessionDir, 'ultrawork-state.json');
@@ -81,7 +81,7 @@ describe('processSessionEnd mode state cleanup (issue #1427)', () => {
   it('does not remove another session\'s session-scoped state', async () => {
     const endingSessionId = 'pid-1427-ending';
     const otherSessionId = 'pid-1427-other';
-    const otherSessionDir = path.join(tmpDir, '.omc', 'state', 'sessions', otherSessionId);
+    const otherSessionDir = path.join(tmpDir, '.omg', 'state', 'sessions', otherSessionId);
     fs.mkdirSync(otherSessionDir, { recursive: true });
 
     const otherSessionStatePath = path.join(otherSessionDir, 'ultrawork-state.json');
@@ -107,7 +107,7 @@ describe('processSessionEnd mode state cleanup (issue #1427)', () => {
   it('removes active team state for the ending session and preserves other sessions', async () => {
     const endingSessionId = 'pid-1427-team-ending';
     const otherSessionId = 'pid-1427-team-other';
-    const stateDir = path.join(tmpDir, '.omc', 'state');
+    const stateDir = path.join(tmpDir, '.omg', 'state');
     const endingSessionDir = path.join(stateDir, 'sessions', endingSessionId);
     const otherSessionDir = path.join(stateDir, 'sessions', otherSessionId);
     fs.mkdirSync(endingSessionDir, { recursive: true });
@@ -148,7 +148,7 @@ describe('processSessionEnd mode state cleanup (issue #1427)', () => {
   });
   it('removes both session-scoped and matching legacy state for the ending session', async () => {
     const sessionId = 'pid-1427-legacy';
-    const stateDir = path.join(tmpDir, '.omc', 'state');
+    const stateDir = path.join(tmpDir, '.omg', 'state');
     const sessionDir = path.join(stateDir, 'sessions', sessionId);
     fs.mkdirSync(sessionDir, { recursive: true });
 
@@ -182,7 +182,7 @@ describe('processSessionEnd mode state cleanup (issue #1427)', () => {
   it('cleans up mission-state.json entries for the ending session', async () => {
     const endingSessionId = 'pid-mission-ending';
     const otherSessionId = 'pid-mission-other';
-    const stateDir = path.join(tmpDir, '.omc', 'state');
+    const stateDir = path.join(tmpDir, '.omg', 'state');
     fs.mkdirSync(stateDir, { recursive: true });
 
     const missionStatePath = path.join(stateDir, 'mission-state.json');

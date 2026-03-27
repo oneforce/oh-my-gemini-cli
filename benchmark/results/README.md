@@ -19,7 +19,7 @@
 
 ### Evaluation Setup
 
-- **Model:** Claude Sonnet 4.6 (claude-sonnet-4-6-20260217)
+- **Model:** Gemini Sonnet 4.6 (gemini-sonnet-4-6-20260217)
 - **Max Tokens:** 16,384 output tokens per instance
 - **Timeout:** 30 minutes per instance
 - **Workers:** 4 parallel evaluations
@@ -27,14 +27,14 @@
 
 ### Vanilla Configuration
 
-Standard Claude Code with default settings:
+Standard Gemini Code with default settings:
 - No OMC extensions loaded
 - Default system prompt
 - Single-agent execution
 
 ### OMC Configuration
 
-Oh-My-ClaudeCode enhanced with:
+Oh-My-GeminiCLI enhanced with:
 - Multi-agent orchestration
 - Specialist delegation (architect, executor, etc.)
 - Ralph persistence loop for complex tasks
@@ -103,7 +103,7 @@ Instances that vanilla solved but OMC failed:
 # Install SWE-bench
 pip install swebench
 
-# Install oh-my-claudecode (if testing OMC)
+# Install oh-my-gemini-cli (if testing OMC)
 # Follow setup instructions in main README
 ```
 
@@ -121,22 +121,22 @@ python evaluate.py --predictions results/vanilla/predictions.json --output resul
 
 ```bash
 # Generate predictions with OMC
-python run_benchmark.py --mode omc --dataset swe-bench-verified --output results/omc/
+python run_benchmark.py --mode omg --dataset swe-bench-verified --output results/omg/
 
 # Evaluate
-python evaluate.py --predictions results/omc/predictions.json --output results/omc/
+python evaluate.py --predictions results/omg/predictions.json --output results/omg/
 ```
 
 ### Comparing Results
 
 ```bash
-python compare_results.py --vanilla results/vanilla/ --omc results/omc/ --output comparison/
+python compare_results.py --vanilla results/vanilla/ --omg results/omg/ --output comparison/
 ```
 
 ### Analyzing Failures
 
 ```bash
-python analyze_failures.py --vanilla results/vanilla/ --omc results/omc/ --compare --output analysis/
+python analyze_failures.py --vanilla results/vanilla/ --omg results/omg/ --compare --output analysis/
 ```
 
 ## Files
@@ -148,7 +148,7 @@ results/
 │   ├── summary.json          # Evaluation summary
 │   ├── report.md             # Human-readable report
 │   └── logs/                 # Per-instance logs
-├── omc/
+├── omg/
 │   ├── predictions.json
 │   ├── summary.json
 │   ├── report.md
@@ -172,7 +172,7 @@ results/
 
 - [SWE-bench Paper](https://arxiv.org/abs/2310.06770)
 - [SWE-bench Repository](https://github.com/princeton-nlp/SWE-bench)
-- [Oh-My-ClaudeCode Documentation](../README.md)
+- [Oh-My-GeminiCLI Documentation](../README.md)
 
 ---
 

@@ -7,12 +7,12 @@ import { join } from 'node:path';
 import { tmpdir } from 'node:os';
 import { getDataDir } from '../../utils/paths.js';
 /**
- * Get the Claude Code storage directory
+ * Get the Gemini Code storage directory
  */
-function getClaudeCodeStorageDir() {
-    return join(getDataDir(), 'claude-code', 'storage');
+function getGeminiCLIStorageDir() {
+    return join(getDataDir(), 'gemini-code', 'storage');
 }
-export const CLAUDE_CODE_STORAGE = getClaudeCodeStorageDir();
+export const CLAUDE_CODE_STORAGE = getGeminiCLIStorageDir();
 export const MESSAGE_STORAGE = join(CLAUDE_CODE_STORAGE, 'message');
 export const PART_STORAGE = join(CLAUDE_CODE_STORAGE, 'part');
 /**

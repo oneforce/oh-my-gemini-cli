@@ -704,7 +704,7 @@ export function getAgentDashboard(directory) {
     const lines = [`Agent Dashboard (${running.length} active):`];
     for (const agent of running) {
         const elapsed = Math.round((now - new Date(agent.started_at).getTime()) / 1000);
-        const shortType = agent.agent_type.replace("oh-my-claudecode:", "");
+        const shortType = agent.agent_type.replace("oh-my-gemini-cli:", "");
         const toolCount = agent.tool_usage?.length || 0;
         const lastTool = agent.tool_usage?.[agent.tool_usage.length - 1]?.tool_name || "-";
         const desc = agent.task_description
@@ -733,7 +733,7 @@ export function getAgentObservatory(directory) {
     let totalCost = 0;
     for (const agent of running) {
         const elapsed = Math.round((now - new Date(agent.started_at).getTime()) / 1000);
-        const shortType = agent.agent_type.replace("oh-my-claudecode:", "");
+        const shortType = agent.agent_type.replace("oh-my-gemini-cli:", "");
         const toolCount = agent.tool_usage?.length || 0;
         // Token and cost info
         const cost = agent.token_usage?.cost_usd || 0;
@@ -763,7 +763,7 @@ export function getAgentObservatory(directory) {
     }
     // Add intervention warnings at the end
     for (const intervention of interventions.slice(0, 3)) {
-        const shortType = intervention.agent_type.replace("oh-my-claudecode:", "");
+        const shortType = intervention.agent_type.replace("oh-my-gemini-cli:", "");
         lines.push(`⚠ ${shortType}: ${intervention.reason}`);
     }
     const header = `Agent Observatory (${running.length} active, ${efficiency.score}% efficiency)`;
@@ -835,7 +835,7 @@ export function suggestInterventions(directory) {
                     type: "file_conflict",
                     agent_id: agents[i].id,
                     agent_type: agents[i].type,
-                    reason: `File conflict on ${file} with ${agents[0].type.replace("oh-my-claudecode:", "")}`,
+                    reason: `File conflict on ${file} with ${agents[0].type.replace("oh-my-gemini-cli:", "")}`,
                     suggested_action: "warn",
                     auto_execute: false,
                 });
@@ -905,7 +905,7 @@ export function detectFileConflicts(directory) {
             }
             fileToAgents
                 .get(file)
-                .push(agent.agent_type.replace("oh-my-claudecode:", ""));
+                .push(agent.agent_type.replace("oh-my-gemini-cli:", ""));
         }
     }
     const conflicts = [];
@@ -924,7 +924,7 @@ export function getFileOwnershipMap(directory) {
     const running = state.agents.filter((a) => a.status === "running");
     const map = new Map();
     for (const agent of running) {
-        const shortType = agent.agent_type.replace("oh-my-claudecode:", "");
+        const shortType = agent.agent_type.replace("oh-my-gemini-cli:", "");
         for (const file of agent.file_ownership || []) {
             map.set(file, shortType);
         }

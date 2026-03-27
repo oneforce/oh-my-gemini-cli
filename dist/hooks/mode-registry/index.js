@@ -6,7 +6,7 @@
  *
  * Mode modules import FROM this registry (unidirectional).
  *
- * All modes store state in `.omc/state/` subdirectory for consistency.
+ * All modes store state in `.omg/state/` subdirectory for consistency.
  */
 import { existsSync, readFileSync, unlinkSync, mkdirSync, readdirSync, statSync, rmdirSync, rmSync, } from "fs";
 import { atomicWriteJsonSync } from "../../lib/atomic-write.js";
@@ -17,7 +17,7 @@ import { MODE_STATE_FILE_MAP, MODE_NAMES } from "../../lib/mode-names.js";
  * Mode configuration registry
  *
  * Maps each mode to its state file location and detection method.
- * All paths are relative to .omc/state/ directory.
+ * All paths are relative to .omg/state/ directory.
  */
 const MODE_CONFIGS = {
     [MODE_NAMES.AUTOPILOT]: {
@@ -89,8 +89,8 @@ export function getMarkerFilePath(cwd, mode) {
     return join(getStateDir(cwd), config.markerFile);
 }
 /**
- * Get the global state file path (in ~/.claude/) for modes that support it
- * @deprecated Global state is no longer supported. All modes use local-only state in .omc/state/
+ * Get the global state file path (in ~/.gemini/) for modes that support it
+ * @deprecated Global state is no longer supported. All modes use local-only state in .omg/state/
  * @returns Always returns null
  */
 export function getGlobalStateFilePath(_mode) {
@@ -215,7 +215,7 @@ export function canStartMode(mode, cwd) {
                 return {
                     allowed: false,
                     blockedBy: exclusiveMode,
-                    message: `Cannot start ${MODE_CONFIGS[mode].name} while ${config.name} is active. Cancel ${config.name} first with /oh-my-claudecode:cancel.`,
+                    message: `Cannot start ${MODE_CONFIGS[mode].name} while ${config.name} is active. Cancel ${config.name} first with /oh-my-gemini-cli:cancel.`,
                 };
             }
         }
@@ -240,10 +240,10 @@ export function getAllModeStatuses(cwd, sessionId) {
  * Clear all state files for a mode
  *
  * Deletes:
- * - Local state file (.omc/state/{mode}-state.json)
+ * - Local state file (.omg/state/{mode}-state.json)
  * - Session-scoped state file if sessionId provided
  * - Local marker file if applicable
- * - Global state file if applicable (~/.claude/{mode}-state.json)
+ * - Global state file if applicable (~/.gemini/{mode}-state.json)
  *
  * @returns true if all files were deleted successfully (or didn't exist)
  */

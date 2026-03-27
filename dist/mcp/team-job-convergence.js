@@ -2,8 +2,8 @@ import { existsSync, readFileSync, rmSync } from 'fs';
 import { join } from 'path';
 import { cleanupTeamWorktrees } from '../team/git-worktree.js';
 import { validateTeamName } from '../team/team-name.js';
-function readResultArtifact(omcJobsDir, jobId) {
-    const artifactPath = join(omcJobsDir, `${jobId}-result.json`);
+function readResultArtifact(omgJobsDir, jobId) {
+    const artifactPath = join(omgJobsDir, `${jobId}-result.json`);
     if (!existsSync(artifactPath))
         return { kind: 'none' };
     let raw;
@@ -35,8 +35,8 @@ function readResultArtifact(omcJobsDir, jobId) {
         };
     }
 }
-export function convergeJobWithResultArtifact(job, jobId, omcJobsDir) {
-    const artifact = readResultArtifact(omcJobsDir, jobId);
+export function convergeJobWithResultArtifact(job, jobId, omgJobsDir) {
+    const artifact = readResultArtifact(omgJobsDir, jobId);
     if (artifact.kind === 'none')
         return { job, changed: false };
     if (artifact.kind === 'terminal') {
@@ -87,7 +87,7 @@ export function clearScopedTeamState(job) {
     catch (error) {
         return `team state cleanup skipped (invalid teamName): ${error instanceof Error ? error.message : String(error)}`;
     }
-    const stateDir = join(job.cwd, '.omc', 'state', 'team', job.teamName);
+    const stateDir = join(job.cwd, '.omg', 'state', 'team', job.teamName);
     let worktreeMessage = 'worktree cleanup skipped.';
     try {
         cleanupTeamWorktrees(job.teamName, job.cwd);

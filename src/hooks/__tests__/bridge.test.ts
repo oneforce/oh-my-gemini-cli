@@ -262,7 +262,7 @@ describe('processHook - Environment Kill-Switches', () => {
         toolInput: {
           description: 'Test agent',
           prompt: 'Do something',
-          subagent_type: 'oh-my-claudecode:executor',
+          subagent_type: 'oh-my-gemini-cli:executor',
           model: 'sonnet',
         },
       };
@@ -286,7 +286,7 @@ describe('processHook - Environment Kill-Switches', () => {
         toolInput: {
           description: 'Test task',
           prompt: 'Do something',
-          subagent_type: 'oh-my-claudecode:executor',
+          subagent_type: 'oh-my-gemini-cli:executor',
           model: 'opus',
         },
       };
@@ -310,7 +310,7 @@ describe('processHook - Environment Kill-Switches', () => {
         toolInput: {
           description: 'Test agent',
           prompt: 'Do something',
-          subagent_type: 'oh-my-claudecode:executor',
+          subagent_type: 'oh-my-gemini-cli:executor',
         },
       };
 
@@ -330,7 +330,7 @@ describe('processHook - Environment Kill-Switches', () => {
         toolInput: {
           description: 'Test agent',
           prompt: 'Do something',
-          subagent_type: 'oh-my-claudecode:executor',
+          subagent_type: 'oh-my-gemini-cli:executor',
           model: 'sonnet',
         },
       };
@@ -353,7 +353,7 @@ describe('processHook - Environment Kill-Switches', () => {
         toolInput: {
           description: 'Test agent',
           prompt: 'Do something',
-          subagent_type: 'oh-my-claudecode:executor',
+          subagent_type: 'oh-my-gemini-cli:executor',
         },
         toolOutput: 'done',
       };

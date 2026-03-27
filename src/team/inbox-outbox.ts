@@ -13,7 +13,7 @@ import {
   readSync, closeSync
 } from 'fs';
 import { join, dirname } from 'path';
-import { getClaudeConfigDir } from '../utils/paths.js';
+import { getGeminiConfigDir } from '../utils/paths.js';
 import type { InboxMessage, OutboxMessage, ShutdownSignal, DrainSignal, InboxCursor } from './types.js';
 import { sanitizeName } from './tmux-session.js';
 import { appendFileWithMode, writeFileWithMode, atomicWriteJson, ensureDirWithMode, validateResolvedPath } from './fs-utils.js';
@@ -24,8 +24,8 @@ const MAX_INBOX_READ_SIZE = 10 * 1024 * 1024;
 // --- Path helpers ---
 
 function teamsDir(teamName: string): string {
-  const result = join(getClaudeConfigDir(), 'teams', sanitizeName(teamName));
-  validateResolvedPath(result, join(getClaudeConfigDir(), 'teams'));
+  const result = join(getGeminiConfigDir(), 'teams', sanitizeName(teamName));
+  validateResolvedPath(result, join(getGeminiConfigDir(), 'teams'));
   return result;
 }
 

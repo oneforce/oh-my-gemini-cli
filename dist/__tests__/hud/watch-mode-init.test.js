@@ -2,7 +2,7 @@ import { beforeEach, afterEach, describe, expect, it, vi } from 'vitest';
 const fakeStdin = {
     cwd: '/tmp/worktree',
     transcript_path: '/tmp/worktree/transcript.jsonl',
-    model: { id: 'claude-test' },
+    model: { id: 'gemini-test' },
     context_window: {
         used_percentage: 12,
         current_usage: { input_tokens: 10, cache_creation_input_tokens: 0, cache_read_input_tokens: 0 },
@@ -50,7 +50,7 @@ describe('HUD watch mode initialization', () => {
             writeStdinCache: vi.fn(),
             readStdinCache: vi.fn(() => fakeStdin),
             getContextPercent: vi.fn(() => 12),
-            getModelName: vi.fn(() => 'claude-test'),
+            getModelName: vi.fn(() => 'gemini-test'),
         }));
         vi.doMock('../../hud/transcript.js', () => ({
             parseTranscript: vi.fn(async () => ({
@@ -72,7 +72,7 @@ describe('HUD watch mode initialization', () => {
             getRunningTasks: vi.fn(() => []),
             writeHudState: vi.fn(() => true),
         }));
-        vi.doMock('../../hud/omc-state.js', () => ({
+        vi.doMock('../../hud/omg-state.js', () => ({
             readRalphStateForHud,
             readUltraworkStateForHud,
             readPrdStateForHud: vi.fn(() => null),
@@ -89,7 +89,7 @@ describe('HUD watch mode initialization', () => {
         vi.doMock('../../lib/worktree-paths.js', () => ({
             resolveToWorktreeRoot: vi.fn((cwd) => cwd ?? '/tmp/worktree'),
             resolveTranscriptPath: vi.fn((transcriptPath) => transcriptPath),
-            getOmcRoot: vi.fn(() => '/tmp/worktree/.omc'),
+            getOmcRoot: vi.fn(() => '/tmp/worktree/.omg'),
         }));
         return import('../../hud/index.js');
     }
@@ -108,7 +108,7 @@ describe('HUD watch mode initialization', () => {
         vi.doUnmock('../../hud/stdin.js');
         vi.doUnmock('../../hud/transcript.js');
         vi.doUnmock('../../hud/state.js');
-        vi.doUnmock('../../hud/omc-state.js');
+        vi.doUnmock('../../hud/omg-state.js');
         vi.doUnmock('../../hud/usage-api.js');
         vi.doUnmock('../../hud/custom-rate-provider.js');
         vi.doUnmock('../../hud/render.js');

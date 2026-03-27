@@ -117,7 +117,7 @@ export interface RalphthonState {
     prdPath: string;
     /** Tmux session name */
     tmuxSession: string;
-    /** Tmux pane ID for the leader (Claude Code instance) */
+    /** Tmux pane ID for the leader (Gemini Code instance) */
     leaderPaneId: string;
     /** When the session started */
     startedAt: string;
@@ -179,7 +179,7 @@ export type OrchestratorEvent = {
 /** Callback for orchestrator events */
 export type OrchestratorEventHandler = (event: OrchestratorEvent) => void;
 /**
- * Parsed CLI options for omc ralphthon
+ * Parsed CLI options for omg ralphthon
  */
 export interface RalphthonCliOptions {
     /** Resume an existing session */

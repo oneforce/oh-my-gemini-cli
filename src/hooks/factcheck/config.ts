@@ -17,8 +17,8 @@ const DEFAULT_FACTCHECK_POLICY: FactcheckPolicy = {
   enabled: false,
   mode: 'quick',
   strict_project_patterns: [],
-  forbidden_path_prefixes: ['${HOME}/.claude/plugins/cache/omc/'],
-  forbidden_path_substrings: ['/.omc/', '.omc-config.json'],
+  forbidden_path_prefixes: ['${HOME}/.gemini/plugins/cache/omg/'],
+  forbidden_path_substrings: ['/.omg/', '.omg-config.json'],
   readonly_command_prefixes: [
     'ls ', 'cat ', 'find ', 'grep ', 'head ', 'tail ', 'stat ', 'echo ', 'wc ',
   ],

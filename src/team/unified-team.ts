@@ -1,15 +1,15 @@
 // src/team/unified-team.ts
 
 /**
- * Unified team member view across Claude native and MCP workers.
+ * Unified team member view across Gemini native and MCP workers.
  *
- * Merges Claude Code's native team config with MCP shadow registry
+ * Merges Gemini Code's native team config with MCP shadow registry
  * to provide a single coherent view of all team members.
  */
 
 import { existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { getClaudeConfigDir } from '../utils/paths.js';
+import { getGeminiConfigDir } from '../utils/paths.js';
 import type { WorkerBackend, WorkerCapability } from './types.js';
 import { listMcpWorkers } from './team-registration.js';
 import { readHeartbeat, isWorkerAlive } from './heartbeat.js';
@@ -27,7 +27,7 @@ export interface UnifiedTeamMember {
 }
 
 /**
- * Get all team members from both Claude native teams and MCP workers.
+ * Get all team members from both Gemini native teams and MCP workers.
  */
 export function getTeamMembers(
   teamName: string,
@@ -35,9 +35,9 @@ export function getTeamMembers(
 ): UnifiedTeamMember[] {
   const members: UnifiedTeamMember[] = [];
 
-  // 1. Read Claude native members from config.json
+  // 1. Read Gemini native members from config.json
   try {
-    const configPath = join(getClaudeConfigDir(), 'teams', teamName, 'config.json');
+    const configPath = join(getGeminiConfigDir(), 'teams', teamName, 'config.json');
     if (existsSync(configPath)) {
       const config = JSON.parse(readFileSync(configPath, 'utf-8'));
       if (Array.isArray(config.members)) {
@@ -48,11 +48,11 @@ export function getTeamMembers(
           members.push({
             name: member.name || 'unknown',
             agentId: member.agentId || '',
-            backend: 'claude-native',
+            backend: 'gemini-native',
             model: member.model || 'unknown',
-            capabilities: getDefaultCapabilities('claude-native'),
+            capabilities: getDefaultCapabilities('gemini-native'),
             joinedAt: member.joinedAt || 0,
-            status: 'active', // Claude native members are managed by CC
+            status: 'active', // Gemini native members are managed by CC
             currentTaskId: null,
           });
         }
@@ -80,7 +80,7 @@ export function getTeamMembers(
       // Determine backend and default capabilities
       let backend: WorkerBackend;
       if (worker.agentType === 'mcp-gemini') backend = 'mcp-gemini';
-      else if (worker.agentType === 'tmux-claude') backend = 'tmux-claude';
+      else if (worker.agentType === 'tmux-gemini') backend = 'tmux-gemini';
       else if (worker.agentType === 'tmux-codex') backend = 'tmux-codex';
       else if (worker.agentType === 'tmux-gemini') backend = 'tmux-gemini';
       else backend = 'mcp-codex';

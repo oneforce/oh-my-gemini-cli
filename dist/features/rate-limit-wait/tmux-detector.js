@@ -1,7 +1,7 @@
 /**
  * tmux Detector
  *
- * Detects Claude Code sessions running in tmux panes and identifies
+ * Detects Gemini Code sessions running in tmux panes and identifies
  * those that are blocked due to rate limiting.
  *
  * Security considerations:
@@ -39,12 +39,12 @@ const RATE_LIMIT_PATTERNS = [
     /5[- ]?hour/i,
     /weekly/i,
 ];
-/** Patterns that indicate Claude Code is running */
+/** Patterns that indicate Gemini Code is running */
 const CLAUDE_CODE_PATTERNS = [
-    /claude/i,
+    /gemini/i,
     /anthropic/i,
-    /\$ claude/,
-    /claude code/i,
+    /\$ gemini/,
+    /gemini code/i,
     /conversation/i,
     /assistant/i,
 ];
@@ -154,19 +154,19 @@ export function capturePaneContent(paneId, lines = 15) {
     }
 }
 /**
- * Analyze pane content to determine if it shows a rate-limited Claude Code session
+ * Analyze pane content to determine if it shows a rate-limited Gemini Code session
  */
 export function analyzePaneContent(content) {
     if (!content.trim()) {
         return {
-            hasClaudeCode: false,
+            hasGeminiCLI: false,
             hasRateLimitMessage: false,
             isBlocked: false,
             confidence: 0,
         };
     }
-    // Check for Claude Code indicators
-    const hasClaudeCode = CLAUDE_CODE_PATTERNS.some((pattern) => pattern.test(content));
+    // Check for Gemini Code indicators
+    const hasGeminiCLI = CLAUDE_CODE_PATTERNS.some((pattern) => pattern.test(content));
     // Check for rate limit messages
     const rateLimitMatches = RATE_LIMIT_PATTERNS.filter((pattern) => pattern.test(content));
     const hasRateLimitMessage = rateLimitMatches.length > 0;
@@ -187,7 +187,7 @@ export function analyzePaneContent(content) {
     }
     // Calculate confidence
     let confidence = 0;
-    if (hasClaudeCode)
+    if (hasGeminiCLI)
         confidence += 0.4;
     if (hasRateLimitMessage)
         confidence += 0.4;
@@ -196,9 +196,9 @@ export function analyzePaneContent(content) {
     if (rateLimitMatches.length > 1)
         confidence += 0.1; // Multiple matches = higher confidence
     // Determine if blocked
-    const isBlocked = hasClaudeCode && hasRateLimitMessage && confidence >= 0.6;
+    const isBlocked = hasGeminiCLI && hasRateLimitMessage && confidence >= 0.6;
     return {
-        hasClaudeCode,
+        hasGeminiCLI,
         hasRateLimitMessage,
         isBlocked,
         rateLimitType,
@@ -206,7 +206,7 @@ export function analyzePaneContent(content) {
     };
 }
 /**
- * Scan all tmux panes for blocked Claude Code sessions
+ * Scan all tmux panes for blocked Gemini Code sessions
  *
  * @param lines - Number of lines to capture from each pane
  */
@@ -295,10 +295,10 @@ export function sendToPane(paneId, text, pressEnter = true) {
  */
 export function formatBlockedPanesSummary(blockedPanes) {
     if (blockedPanes.length === 0) {
-        return 'No blocked Claude Code sessions detected.';
+        return 'No blocked Gemini Code sessions detected.';
     }
     const lines = [
-        `Found ${blockedPanes.length} blocked Claude Code session(s):`,
+        `Found ${blockedPanes.length} blocked Gemini Code session(s):`,
         '',
     ];
     for (const pane of blockedPanes) {

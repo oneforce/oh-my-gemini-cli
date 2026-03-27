@@ -13,7 +13,7 @@
  *   CLAWDBOT_GATEWAY_URL   - Clawdbot gateway base URL (default: http://127.0.0.1:18789)
  *   CLAWDBOT_HOOKS_TOKEN   - Hooks auth token (required)
  *   OPENCLAW_GATEWAY_PORT  - Port to listen on (default: 19876)
- *   OPENCLAW_DISCORD_CHANNEL - Discord channel ID for delivery (default: #omc-dev)
+ *   OPENCLAW_DISCORD_CHANNEL - Discord channel ID for delivery (default: #omg-dev)
  */
 
 import { createServer } from "node:http";
@@ -108,7 +108,7 @@ function buildAgentMessage(payload) {
   parts.push(`Timestamp: ${payload.timestamp || new Date().toISOString()}`);
 
   parts.push("");
-  parts.push("Please acknowledge this OMC session event and provide a brief status update to #omc-dev.");
+  parts.push("Please acknowledge this OMC session event and provide a brief status update to #omg-dev.");
 
   return parts.join("\n");
 }

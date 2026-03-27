@@ -1,7 +1,7 @@
 /**
  * Advanced Usage Example
  *
- * This example demonstrates advanced features of Oh-My-ClaudeCode:
+ * This example demonstrates advanced features of Oh-My-GeminiCLI:
  * - Custom agent configuration
  * - Custom system prompts
  * - Context file injection
@@ -16,7 +16,7 @@ import {
 } from '../src/index.js';
 
 async function main() {
-  console.log('=== Advanced Oh-My-ClaudeCode Example ===\n');
+  console.log('=== Advanced Oh-My-GeminiCLI Example ===\n');
 
   // Example 1: Custom agent configuration
   console.log('Example 1: Custom Agents');
@@ -25,10 +25,10 @@ async function main() {
     config: {
       agents: {
         // Use a faster model for the orchestrator in dev
-        omc: { model: 'claude-sonnet-4-6-20260217' },
+        omg: { model: 'gemini-sonnet-4-6-20260217' },
         // Override model for specific agents
-        designer: { model: 'claude-haiku-4-5-20251001' },
-        writer: { model: 'claude-haiku-4-5-20251001' }
+        designer: { model: 'gemini-haiku-4-5-20251001' },
+        writer: { model: 'gemini-haiku-4-5-20251001' }
       },
       features: {
         // Disable LSP tools if not needed
@@ -114,7 +114,7 @@ Always:
 `,
     config: {
       agents: {
-        omc: { model: 'claude-opus-4-6-20260205' }
+        omg: { model: 'gemini-opus-4-6-20260205' }
       },
       features: {
         parallelExecution: true,
@@ -151,9 +151,9 @@ Always:
   console.log(`
 // Pattern for adding custom tools:
 
-import { createSdkMcpServer, tool } from '@anthropic-ai/claude-agent-sdk';
+import { createSdkMcpServer, tool } from '@anthropic-ai/gemini-agent-sdk';
 import { z } from 'zod';
-import { createOmcSession } from 'oh-my-claudecode';
+import { createOmcSession } from 'oh-my-gemini-cli';
 
 // Create custom MCP server with your tools
 const customTools = createSdkMcpServer({

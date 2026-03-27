@@ -15,7 +15,7 @@ export const DEFAULT_HUD_CONFIG = {
         gitInfoPosition: 'above', // Git info above main HUD line (backward compatible)
         model: false, // Disabled by default for backward compatibility
         modelFormat: 'short', // Short names by default for backward compatibility
-        omcLabel: true,
+        omgLabel: true,
         rateLimits: true, // Show rate limits by default
         ralph: true,
         autopilot: true,
@@ -67,7 +67,7 @@ export const PRESET_CONFIGS = {
         gitInfoPosition: 'above',
         model: false,
         modelFormat: 'short',
-        omcLabel: true,
+        omgLabel: true,
         rateLimits: true,
         ralph: true,
         autopilot: true,
@@ -103,7 +103,7 @@ export const PRESET_CONFIGS = {
         gitInfoPosition: 'above',
         model: false,
         modelFormat: 'short',
-        omcLabel: true,
+        omgLabel: true,
         rateLimits: true,
         ralph: true,
         autopilot: true,
@@ -127,7 +127,7 @@ export const PRESET_CONFIGS = {
         showTokens: false,
         useBars: true,
         showCallCounts: true,
-        sessionSummary: false, // Opt-in: sends transcript to claude -p
+        sessionSummary: false, // Opt-in: sends transcript to gemini -p
         maxOutputLines: 4,
         safeMode: true,
     },
@@ -139,7 +139,7 @@ export const PRESET_CONFIGS = {
         gitInfoPosition: 'above',
         model: false,
         modelFormat: 'short',
-        omcLabel: true,
+        omgLabel: true,
         rateLimits: true,
         ralph: true,
         autopilot: true,
@@ -163,7 +163,7 @@ export const PRESET_CONFIGS = {
         showTokens: false,
         useBars: true,
         showCallCounts: true,
-        sessionSummary: false, // Opt-in: sends transcript to claude -p
+        sessionSummary: false, // Opt-in: sends transcript to gemini -p
         maxOutputLines: 12,
         safeMode: true,
     },
@@ -175,7 +175,7 @@ export const PRESET_CONFIGS = {
         gitInfoPosition: 'above',
         model: false,
         modelFormat: 'short',
-        omcLabel: true,
+        omgLabel: true,
         rateLimits: false,
         ralph: true,
         autopilot: true,
@@ -211,7 +211,7 @@ export const PRESET_CONFIGS = {
         gitInfoPosition: 'above',
         model: false,
         modelFormat: 'short',
-        omcLabel: true,
+        omgLabel: true,
         rateLimits: true,
         ralph: true,
         autopilot: true,
@@ -235,7 +235,7 @@ export const PRESET_CONFIGS = {
         showTokens: false,
         useBars: true,
         showCallCounts: true,
-        sessionSummary: false, // Opt-in: sends transcript to claude -p
+        sessionSummary: false, // Opt-in: sends transcript to gemini -p
         maxOutputLines: 6,
         safeMode: true,
     },

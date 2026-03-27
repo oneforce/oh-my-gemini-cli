@@ -1,13 +1,13 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 const availability = vi.hoisted(() => ({
-  claude: true,
+  gemini: true,
   codex: false,
   gemini: false,
 }));
 
 vi.mock('../team/model-contract.js', () => ({
-  isCliAvailable: (agentType: 'claude' | 'codex' | 'gemini') => availability[agentType],
+  isCliAvailable: (agentType: 'gemini' | 'codex' | 'gemini') => availability[agentType],
 }));
 
 import { clearSkillsCache, getBuiltinSkill } from '../features/builtin-skills/skills.js';
@@ -18,7 +18,7 @@ describe('deep-interview provider-aware execution recommendations', () => {
   const originalPath = process.env.PATH;
 
   beforeEach(() => {
-    availability.claude = true;
+    availability.gemini = true;
     availability.codex = false;
     availability.gemini = false;
     if (originalPluginRoot === undefined) {
@@ -58,10 +58,10 @@ describe('deep-interview provider-aware execution recommendations', () => {
     expect(skill?.template).toContain('/ralplan --architect codex');
     expect(skill?.template).toContain('/ralplan --critic codex');
     expect(skill?.template).toContain('/ralph --critic codex');
-    expect(skill?.template).toContain('higher cost than Claude-only ralplan');
+    expect(skill?.template).toContain('higher cost than Gemini-only ralplan');
   });
 
-  it('falls back to the existing Claude-only defaults when external providers are unavailable', () => {
+  it('falls back to the existing Gemini-only defaults when external providers are unavailable', () => {
     const skill = getBuiltinSkill('deep-interview');
 
     expect(skill?.template).not.toContain('## Provider-Aware Execution Recommendations');
@@ -71,7 +71,7 @@ describe('deep-interview provider-aware execution recommendations', () => {
   });
 
   it('documents supported Codex architect/critic overrides for consensus planning', () => {
-    const planSkill = getBuiltinSkill('omc-plan');
+    const planSkill = getBuiltinSkill('omg-plan');
     const ralplanSkill = getBuiltinSkill('ralplan');
 
     expect(planSkill?.template).toContain('--architect codex');

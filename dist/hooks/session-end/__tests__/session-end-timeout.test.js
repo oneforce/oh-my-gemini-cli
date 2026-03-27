@@ -55,7 +55,7 @@ describe('SessionEnd fire-and-forget notifications (issue #1700)', () => {
     let tmpDir;
     let transcriptPath;
     beforeEach(() => {
-        tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'omc-session-end-timeout-'));
+        tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'omg-session-end-timeout-'));
         transcriptPath = path.join(tmpDir, 'transcript.jsonl');
         fs.writeFileSync(transcriptPath, JSON.stringify({
             type: 'assistant',

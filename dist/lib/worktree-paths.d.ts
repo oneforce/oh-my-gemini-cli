@@ -1,30 +1,30 @@
 /**
  * Worktree Path Enforcement
  *
- * Provides strict path validation and resolution for .omc/ paths,
+ * Provides strict path validation and resolution for .omg/ paths,
  * ensuring all operations stay within the worktree boundary.
  *
  * Supports OMC_STATE_DIR environment variable for centralized state storage.
  * When set, state is stored at $OMC_STATE_DIR/{project-identifier}/ instead
- * of {worktree}/.omc/. This preserves state across worktree deletions.
+ * of {worktree}/.omg/. This preserves state across worktree deletions.
  */
-/** Standard .omc subdirectories */
+/** Standard .omg subdirectories */
 export declare const OmcPaths: {
-    readonly ROOT: ".omc";
-    readonly STATE: ".omc/state";
-    readonly SESSIONS: ".omc/state/sessions";
-    readonly PLANS: ".omc/plans";
-    readonly RESEARCH: ".omc/research";
-    readonly NOTEPAD: ".omc/notepad.md";
-    readonly PROJECT_MEMORY: ".omc/project-memory.json";
-    readonly DRAFTS: ".omc/drafts";
-    readonly NOTEPADS: ".omc/notepads";
-    readonly LOGS: ".omc/logs";
-    readonly SCIENTIST: ".omc/scientist";
-    readonly AUTOPILOT: ".omc/autopilot";
-    readonly SKILLS: ".omc/skills";
-    readonly SHARED_MEMORY: ".omc/state/shared-memory";
-    readonly DEEPINIT_MANIFEST: ".omc/deepinit-manifest.json";
+    readonly ROOT: ".omg";
+    readonly STATE: ".omg/state";
+    readonly SESSIONS: ".omg/state/sessions";
+    readonly PLANS: ".omg/plans";
+    readonly RESEARCH: ".omg/research";
+    readonly NOTEPAD: ".omg/notepad.md";
+    readonly PROJECT_MEMORY: ".omg/project-memory.json";
+    readonly DRAFTS: ".omg/drafts";
+    readonly NOTEPADS: ".omg/notepads";
+    readonly LOGS: ".omg/logs";
+    readonly SCIENTIST: ".omg/scientist";
+    readonly AUTOPILOT: ".omg/autopilot";
+    readonly SKILLS: ".omg/skills";
+    readonly SHARED_MEMORY: ".omg/state/shared-memory";
+    readonly DEEPINIT_MANIFEST: ".omg/deepinit-manifest.json";
 };
 /**
  * Get the git worktree root for the current or specified directory.
@@ -57,24 +57,24 @@ export declare function clearDualDirWarnings(): void;
  */
 export declare function getProjectIdentifier(worktreeRoot?: string): string;
 /**
- * Get the .omc root directory path.
+ * Get the .omg root directory path.
  *
  * When OMC_STATE_DIR is set, returns $OMC_STATE_DIR/{project-identifier}/
- * instead of {worktree}/.omc/. This allows centralized state storage that
+ * instead of {worktree}/.omg/. This allows centralized state storage that
  * survives worktree deletion.
  *
  * @param worktreeRoot - Optional worktree root
- * @returns Absolute path to the omc root directory
+ * @returns Absolute path to the omg root directory
  */
 export declare function getOmcRoot(worktreeRoot?: string): string;
 /**
- * Resolve a relative path under .omc/ to an absolute path.
- * Validates the path is within the omc boundary.
+ * Resolve a relative path under .omg/ to an absolute path.
+ * Validates the path is within the omg boundary.
  *
- * @param relativePath - Path relative to .omc/ (e.g., "state/ralph.json")
+ * @param relativePath - Path relative to .omg/ (e.g., "state/ralph.json")
  * @param worktreeRoot - Optional worktree root (auto-detected if not provided)
  * @returns Absolute path
- * @throws Error if path would escape omc boundary
+ * @throws Error if path would escape omg boundary
  */
 export declare function resolveOmcPath(relativePath: string, worktreeRoot?: string): string;
 /**
@@ -89,10 +89,10 @@ export declare function resolveOmcPath(relativePath: string, worktreeRoot?: stri
  */
 export declare function resolveStatePath(stateName: string, worktreeRoot?: string): string;
 /**
- * Ensure a directory exists under .omc/.
+ * Ensure a directory exists under .omg/.
  * Creates parent directories as needed.
  *
- * @param relativePath - Path relative to .omc/
+ * @param relativePath - Path relative to .omg/
  * @param worktreeRoot - Optional worktree root
  * @returns Absolute path to the created directory
  */
@@ -127,12 +127,12 @@ export declare function resolveLogsPath(worktreeRoot?: string): string;
  */
 export declare function resolveWisdomPath(planName: string, worktreeRoot?: string): string;
 /**
- * Check if an absolute path is under the .omc directory.
+ * Check if an absolute path is under the .omg directory.
  * @param absolutePath - Absolute path to check
  */
 export declare function isPathUnderOmc(absolutePath: string, worktreeRoot?: string): boolean;
 /**
- * Ensure all standard .omc subdirectories exist.
+ * Ensure all standard .omg subdirectories exist.
  */
 export declare function ensureAllOmcDirs(worktreeRoot?: string): void;
 /**
@@ -145,7 +145,7 @@ export declare function clearWorktreeCache(): void;
  * Format: `pid-{PID}-{startTimestamp}`
  * Example: `pid-12345-1707350400000`
  *
- * This prevents concurrent Claude Code instances in the same repo from
+ * This prevents concurrent Gemini Code instances in the same repo from
  * sharing state files (Issue #456). The ID is stable for the process
  * lifetime and unique across concurrent processes.
  *
@@ -166,7 +166,7 @@ export declare function resetProcessSessionId(): void;
 export declare function validateSessionId(sessionId: string): void;
 /**
  * Validate a transcript path to prevent arbitrary file reads.
- * Transcript files should only be read from known Claude directories.
+ * Transcript files should only be read from known Gemini directories.
  *
  * @param transcriptPath - The transcript path to validate
  * @returns true if path is valid, false otherwise
@@ -174,7 +174,7 @@ export declare function validateSessionId(sessionId: string): void;
 export declare function isValidTranscriptPath(transcriptPath: string): boolean;
 /**
  * Resolve a session-scoped state file path.
- * Path: {omcRoot}/state/sessions/{sessionId}/{mode}-state.json
+ * Path: {omgRoot}/state/sessions/{sessionId}/{mode}-state.json
  *
  * @param stateName - State name (e.g., "ralph", "ultrawork")
  * @param sessionId - Session identifier
@@ -184,7 +184,7 @@ export declare function isValidTranscriptPath(transcriptPath: string): boolean;
 export declare function resolveSessionStatePath(stateName: string, sessionId: string, worktreeRoot?: string): string;
 /**
  * Get the session state directory path.
- * Path: {omcRoot}/state/sessions/{sessionId}/
+ * Path: {omgRoot}/state/sessions/{sessionId}/
  *
  * @param sessionId - Session identifier
  * @param worktreeRoot - Optional worktree root
@@ -212,7 +212,7 @@ export declare function ensureSessionStateDir(sessionId: string, worktreeRoot?: 
  * Walks up from `directory` using `git rev-parse --show-toplevel`.
  * Falls back to `getWorktreeRoot(process.cwd())`, then `process.cwd()`.
  *
- * This ensures .omc/ state is always written at the worktree root,
+ * This ensures .omg/ state is always written at the worktree root,
  * even when called from a subdirectory (fixes #576).
  *
  * @param directory - Any directory inside a git worktree (optional)
@@ -220,23 +220,23 @@ export declare function ensureSessionStateDir(sessionId: string, worktreeRoot?: 
  */
 export declare function resolveToWorktreeRoot(directory?: string): string;
 /**
- * Resolve a Claude Code transcript path that may be mismatched in worktree sessions.
+ * Resolve a Gemini Code transcript path that may be mismatched in worktree sessions.
  *
- * When Claude Code runs inside a worktree (.claude/worktrees/X), it encodes the
+ * When Gemini Code runs inside a worktree (.gemini/worktrees/X), it encodes the
  * worktree CWD into the project directory path, creating a transcript_path like:
- *   ~/.claude/projects/-path-to-project--claude-worktrees-X/<session>.jsonl
+ *   ~/.gemini/projects/-path-to-project--gemini-worktrees-X/<session>.jsonl
  *
  * But the actual transcript lives at the original project's path:
- *   ~/.claude/projects/-path-to-project/<session>.jsonl
+ *   ~/.gemini/projects/-path-to-project/<session>.jsonl
  *
- * Claude Code encodes `/` as `-` (dots are preserved). The `.claude/worktrees/`
- * segment becomes `-claude-worktrees-`, preceded by a `-` from the path
- * separator, yielding the distinctive `--claude-worktrees-` pattern in the
+ * Gemini Code encodes `/` as `-` (dots are preserved). The `.gemini/worktrees/`
+ * segment becomes `-gemini-worktrees-`, preceded by a `-` from the path
+ * separator, yielding the distinctive `--gemini-worktrees-` pattern in the
  * encoded directory name.
  *
  * This function detects the mismatch and resolves to the correct path.
  *
- * @param transcriptPath - The transcript_path from Claude Code hook input
+ * @param transcriptPath - The transcript_path from Gemini Code hook input
  * @param cwd - Optional CWD for fallback detection
  * @returns The resolved transcript path (original if already correct or no resolution found)
  */
@@ -246,7 +246,7 @@ export declare function resolveTranscriptPath(transcriptPath: string | undefined
  * The trusted root is derived from process.cwd(), NOT from user input.
  *
  * Always returns a git worktree root — never a subdirectory.
- * This prevents .omc/state/ from being created in subdirectories (#576).
+ * This prevents .omg/state/ from being created in subdirectories (#576).
  *
  * @param workingDirectory - User-supplied working directory
  * @returns The validated worktree root

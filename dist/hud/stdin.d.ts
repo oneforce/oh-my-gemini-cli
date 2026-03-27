@@ -1,8 +1,8 @@
 /**
  * OMC HUD - Stdin Parser
  *
- * Parse stdin JSON from Claude Code statusline interface.
- * Based on claude-hud reference implementation.
+ * Parse stdin JSON from Gemini Code statusline interface.
+ * Based on gemini-hud reference implementation.
  */
 import type { StatuslineStdin } from './types.js';
 /**
@@ -16,19 +16,19 @@ export declare function writeStdinCache(stdin: StatuslineStdin): void;
  */
 export declare function readStdinCache(): StatuslineStdin | null;
 /**
- * Read and parse stdin JSON from Claude Code.
+ * Read and parse stdin JSON from Gemini Code.
  * Returns null if stdin is not available or invalid.
  */
 export declare function readStdin(): Promise<StatuslineStdin | null>;
 /**
- * Preserve the last native context percentage across transient snapshots where Claude Code
+ * Preserve the last native context percentage across transient snapshots where Gemini Code
  * omits `used_percentage`, but only when the fallback calculation is close enough to suggest
  * the same underlying value rather than a real context jump.
  */
 export declare function stabilizeContextPercent(stdin: StatuslineStdin, previousStdin: StatuslineStdin | null | undefined): StatuslineStdin;
 /**
  * Get context window usage percentage.
- * Prefers native percentage from Claude Code v2.1.6+, falls back to manual calculation.
+ * Prefers native percentage from Gemini Code v2.1.6+, falls back to manual calculation.
  */
 export declare function getContextPercent(stdin: StatuslineStdin): number;
 /**

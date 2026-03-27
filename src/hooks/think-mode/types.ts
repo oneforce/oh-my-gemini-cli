@@ -46,9 +46,9 @@ export interface ThinkModeInput {
 }
 
 /**
- * Thinking configuration for Claude models
+ * Thinking configuration for Gemini models
  */
-export interface ClaudeThinkingConfig {
+export interface GeminiThinkingConfig {
   thinking: {
     type: 'enabled' | 'disabled';
     budgetTokens: number;

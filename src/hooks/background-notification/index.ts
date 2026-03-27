@@ -4,7 +4,7 @@
  * Handles notifications for background tasks completing.
  * Integrates with the BackgroundManager to show task completion status.
  *
- * Adapted from oh-my-opencode's background-notification hook for Claude Code's
+ * Adapted from oh-my-opencode's background-notification hook for Gemini Code's
  * shell hooks system.
  */
 

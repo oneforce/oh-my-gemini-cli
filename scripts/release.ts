@@ -285,7 +285,7 @@ function generateChangelog(
   const statsLine = `- **${prCount}+ PRs merged** | **${featCount} new features** | **${fixCount} bug fixes** | **${secCount} security/hardening improvements**`;
 
   // Assemble
-  let md = `# oh-my-claudecode v${version}: ${title}\n\n`;
+  let md = `# oh-my-gemini-cli v${version}: ${title}\n\n`;
   md += `## Release Notes\n\n${summary}\n`;
 
   for (const section of sections) {
@@ -308,12 +308,12 @@ function generateReleaseBody(
 
   body += `\n### Install / Update\n\n`;
   body += '```bash\n';
-  body += `npm install -g oh-my-claude-sisyphus@${version}\n`;
+  body += `npm install -g oh-my-gemini-sisyphus@${version}\n`;
   body += '```\n\n';
-  body += 'Or reinstall the plugin:\n```bash\nclaude /install-plugin oh-my-claudecode\n```\n';
+  body += 'Or reinstall the plugin:\n```bash\ngemini /install-plugin oh-my-gemini-cli\n```\n';
 
   if (prevTag) {
-    body += `\n**Full Changelog**: https://github.com/Yeachan-Heo/oh-my-claudecode/compare/${prevTag}...v${version}\n`;
+    body += `\n**Full Changelog**: https://github.com/Yeachan-Heo/oh-my-gemini-cli/compare/${prevTag}...v${version}\n`;
   }
 
   if (contributors.length > 0) {
@@ -338,8 +338,8 @@ function bumpVersionFiles(newVersion: string, dryRun: boolean): string[] {
     changes.push(`package.json: ${pkg.version} → ${newVersion}`);
   }
 
-  // 2. .claude-plugin/plugin.json
-  const pluginPath = join(ROOT, '.claude-plugin/plugin.json');
+  // 2. .gemini-plugin/plugin.json
+  const pluginPath = join(ROOT, '.gemini-plugin/plugin.json');
   if (existsSync(pluginPath)) {
     const content = readFileSync(pluginPath, 'utf-8');
     const updated = content.replace(/"version":\s*"[^"]*"/, `"version": "${newVersion}"`);
@@ -349,8 +349,8 @@ function bumpVersionFiles(newVersion: string, dryRun: boolean): string[] {
     }
   }
 
-  // 3. .claude-plugin/marketplace.json (has 2 version fields)
-  const marketPath = join(ROOT, '.claude-plugin/marketplace.json');
+  // 3. .gemini-plugin/marketplace.json (has 2 version fields)
+  const marketPath = join(ROOT, '.gemini-plugin/marketplace.json');
   if (existsSync(marketPath)) {
     const content = readFileSync(marketPath, 'utf-8');
     const updated = content.replace(/"version":\s*"[^"]*"/g, `"version": "${newVersion}"`);
@@ -360,14 +360,14 @@ function bumpVersionFiles(newVersion: string, dryRun: boolean): string[] {
     }
   }
 
-  // 4. docs/CLAUDE.md version marker
-  const claudeMdPath = join(ROOT, 'docs/CLAUDE.md');
-  if (existsSync(claudeMdPath)) {
-    const content = readFileSync(claudeMdPath, 'utf-8');
+  // 4. docs/GEMINI.md version marker
+  const geminiMdPath = join(ROOT, 'docs/GEMINI.md');
+  if (existsSync(geminiMdPath)) {
+    const content = readFileSync(geminiMdPath, 'utf-8');
     const updated = content.replace(/<!-- OMC:VERSION:[^\s]*? -->/, `<!-- OMC:VERSION:${newVersion} -->`);
     if (content !== updated) {
-      if (!dryRun) writeFileSync(claudeMdPath, updated, 'utf-8');
-      changes.push(`docs/CLAUDE.md: version marker → ${newVersion}`);
+      if (!dryRun) writeFileSync(geminiMdPath, updated, 'utf-8');
+      changes.push(`docs/GEMINI.md: version marker → ${newVersion}`);
     }
   }
 
@@ -408,7 +408,7 @@ ${clr('Examples:', c.cyan)}
   npm run release -- patch --dry-run    # Preview without writing
 
 ${clr('What it does:', c.cyan)}
-  1. Bumps version in all 5 files (package.json, plugin.json, marketplace.json, docs/CLAUDE.md, lockfile)
+  1. Bumps version in all 5 files (package.json, plugin.json, marketplace.json, docs/GEMINI.md, lockfile)
   2. Generates CHANGELOG.md from conventional commits
   3. Generates .github/release-body.md with contributor @mentions
   4. Runs sync-metadata to update doc badges

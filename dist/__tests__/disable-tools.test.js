@@ -5,7 +5,7 @@
  * to ToolCategory values, and that the filtering logic works as expected.
  */
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
-import { parseDisabledGroups, DISABLE_TOOLS_GROUP_MAP } from '../mcp/omc-tools-server.js';
+import { parseDisabledGroups, DISABLE_TOOLS_GROUP_MAP } from '../mcp/omg-tools-server.js';
 import { TOOL_CATEGORIES } from '../constants/index.js';
 describe('OMC_DISABLE_TOOLS', () => {
     let savedEnv;

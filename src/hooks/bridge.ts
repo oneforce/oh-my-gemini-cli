@@ -9,7 +9,7 @@
  * ```bash
  * #!/bin/bash
  * INPUT=$(cat)
- * echo "$INPUT" | node ~/.claude/omc/hook-bridge.mjs --hook=keyword-detector
+ * echo "$INPUT" | node ~/.gemini/omg/hook-bridge.mjs --hook=keyword-detector
  * ```
  */
 
@@ -23,7 +23,7 @@ import {
 } from "fs";
 import { dirname, join } from "path";
 import { resolveToWorktreeRoot, getOmcRoot } from "../lib/worktree-paths.js";
-import { formatOmcCliInvocation } from "../utils/omc-cli-rendering.js";
+import { formatOmcCliInvocation } from "../utils/omg-cli-rendering.js";
 
 // Hot-path imports: needed on every/most hook invocations (keyword-detector, pre/post-tool-use)
 import {
@@ -36,7 +36,7 @@ import {
 import {
   processOrchestratorPreTool,
   processOrchestratorPostTool,
-} from "./omc-orchestrator/index.js";
+} from "./omg-orchestrator/index.js";
 import { normalizeHookInput } from "./bridge-normalize.js";
 import {
   addBackgroundTask,
@@ -440,9 +440,9 @@ function getTeamStagePrompt(stage: string): string {
 function teamWorkerIdentityFromEnv(
   env: NodeJS.ProcessEnv = process.env,
 ): string {
-  const omc =
+  const omg =
     typeof env.OMC_TEAM_WORKER === "string" ? env.OMC_TEAM_WORKER.trim() : "";
-  if (omc) return omc;
+  if (omg) return omg;
   const omx =
     typeof env.OMX_TEAM_WORKER === "string" ? env.OMX_TEAM_WORKER.trim() : "";
   return omx;
@@ -507,7 +507,7 @@ function validateHookInput<T>(
 }
 
 /**
- * Input format from Claude Code hooks (via stdin)
+ * Input format from Gemini Code hooks (via stdin)
  */
 export interface HookInput {
   /** Session identifier */
@@ -534,7 +534,7 @@ export interface HookInput {
 }
 
 /**
- * Output format for Claude Code hooks (to stdout)
+ * Output format for Gemini Code hooks (to stdout)
  */
 export interface HookOutput {
   /** Whether to continue with the operation */
@@ -930,7 +930,7 @@ async function processPersistentMode(input: HookInput): Promise<HookOutput> {
     isTeamStateTerminal(teamState)
   ) {
     writeTeamStopBreakerCount(directory, sessionId, 0);
-    // No persistent mode and no active team — Claude is truly idle.
+    // No persistent mode and no active team — Gemini is truly idle.
     // Send session-idle notification (non-blocking) unless this was a user abort or context limit.
     if (result.mode === "none" && sessionId) {
       const isAbort =
@@ -1224,7 +1224,7 @@ Please continue working on these tasks.
   }
 
   // Bedrock/Vertex/proxy override: tell the LLM not to pass model on Task calls.
-  // This prevents the LLM from following the static CLAUDE.md instruction
+  // This prevents the LLM from following the static GEMINI.md instruction
   // "Pass model on Task calls: haiku, sonnet, opus" which produces invalid
   // model IDs on non-standard providers. (issues #1135, #1201)
   try {
@@ -1236,7 +1236,7 @@ Please continue working on these tasks.
 
 This environment uses a non-standard model provider (AWS Bedrock, Google Vertex AI, or a proxy).
 Do NOT pass the \`model\` parameter on Task/Agent calls. Omit it entirely so agents inherit the parent session's model.
-The CLAUDE.md instruction "Pass model on Task calls: haiku, sonnet, opus" does NOT apply here.
+The GEMINI.md instruction "Pass model on Task calls: haiku, sonnet, opus" does NOT apply here.
 
 </system-reminder>`);
     }
@@ -1375,8 +1375,8 @@ function processPreToolUse(input: HookInput): HookOutput {
 
   // Force-inherit: deny Task/Agent calls that carry a `model` parameter when
   // forceInherit is enabled (Bedrock, Vertex, CC Switch, etc.).
-  // Claude Code's hook protocol does not support modifiedInput, so we cannot
-  // silently strip the model. Instead, deny the call so Claude retries without
+  // Gemini Code's hook protocol does not support modifiedInput, so we cannot
+  // silently strip the model. Instead, deny the call so Gemini retries without
   // the model param, letting agents inherit the parent session's model.
   // (issues #1135, #1201, #1415)
   if (isDelegationToolName(input.toolName)) {
@@ -1389,7 +1389,7 @@ function processPreToolUse(input: HookInput): HookOutput {
       const config = loadConfig();
       if (config.routing?.forceInherit) {
         // Use permissionDecision:"deny" — the only PreToolUse mechanism
-        // Claude Code supports for blocking a specific tool call with
+        // Gemini Code supports for blocking a specific tool call with
         // feedback. modifiedInput is NOT supported by the hook protocol.
         const denyReason = `[MODEL ROUTING] This environment uses a non-standard provider (Bedrock/Vertex/proxy). Do NOT pass the \`model\` parameter on ${input.toolName} calls — remove \`model\` and retry so agents inherit the parent session's model. The model "${inputModel}" is not valid for this provider.`;
         return {
@@ -1420,7 +1420,7 @@ function processPreToolUse(input: HookInput): HookOutput {
       );
 
       if (permissionFallback.shouldFallback) {
-        const reason = `[BACKGROUND PERMISSIONS] ${subagentType || "This background agent"} may need ${permissionFallback.missingTools.join(", ")} permissions, but background agents cannot request interactive approval. Re-run without \`run_in_background=true\` or pre-approve ${permissionFallback.missingTools.join(", ")} in Claude Code settings.`;
+        const reason = `[BACKGROUND PERMISSIONS] ${subagentType || "This background agent"} may need ${permissionFallback.missingTools.join(", ")} permissions, but background agents cannot request interactive approval. Re-run without \`run_in_background=true\` or pre-approve ${permissionFallback.missingTools.join(", ")} in Gemini Code settings.`;
         return {
           continue: false,
           reason,
@@ -1448,7 +1448,7 @@ function processPreToolUse(input: HookInput): HookOutput {
 
       if (permissionFallback.shouldFallback) {
         const reason =
-          "[BACKGROUND PERMISSIONS] This Bash command is not auto-approved for background execution. Re-run without `run_in_background=true` or pre-approve the command in Claude Code settings.";
+          "[BACKGROUND PERMISSIONS] This Bash command is not auto-approved for background execution. Re-run without `run_in_background=true` or pre-approve the command in Gemini Code settings.";
         return {
           continue: false,
           reason,
@@ -1679,9 +1679,9 @@ function getInvokedSkillName(toolInput: unknown): string | null {
 
 /**
  * Extract the raw (un-normalized) skill name from Skill tool input.
- * Used to distinguish OMC built-in skills (prefixed with 'oh-my-claudecode:')
+ * Used to distinguish OMC built-in skills (prefixed with 'oh-my-gemini-cli:')
  * from project custom skills or other plugin skills with the same bare name.
- * See: https://github.com/Yeachan-Heo/oh-my-claudecode/issues/1581
+ * See: https://github.com/Yeachan-Heo/oh-my-gemini-cli/issues/1581
  */
 function getRawSkillName(toolInput: unknown): string | undefined {
   if (!toolInput || typeof toolInput !== "object") return undefined;
@@ -1695,7 +1695,7 @@ async function processPostToolUse(input: HookInput): Promise<HookOutput> {
   const messages: string[] = [];
 
   // Ensure mode state activation also works when execution starts via Skill tool
-  // (e.g., ralplan consensus handoff into Skill("oh-my-claudecode:ralph")).
+  // (e.g., ralplan consensus handoff into Skill("oh-my-gemini-cli:ralph")).
   const toolName = (input.toolName || "").toLowerCase();
   if (toolName === "skill") {
     const skillName = getInvokedSkillName(input.toolInput);
@@ -1876,7 +1876,7 @@ async function processAutopilot(input: HookInput): Promise<HookOutput> {
   const config = loadConfig();
   const context = {
     idea: state.originalIdea,
-    specPath: state.expansion.spec_path || ".omc/autopilot/spec.md",
+    specPath: state.expansion.spec_path || ".omg/autopilot/spec.md",
     planPath: state.planning.plan_path || resolveAutopilotPlanPath(config),
     openQuestionsPath: resolveOpenQuestionsPlanPath(config),
   };
@@ -1931,7 +1931,7 @@ export async function processHook(
     return { continue: true };
   }
 
-  // Normalize snake_case fields from Claude Code to camelCase
+  // Normalize snake_case fields from Gemini Code to camelCase
   const input = normalizeHookInput(rawInput, hookType) as HookInput;
 
   try {
@@ -2141,7 +2141,7 @@ export async function processHook(
         const directory = input.directory ?? process.cwd();
         const stateDir = join(
           resolveToWorktreeRoot(directory),
-          ".omc",
+          ".omg",
           "state",
         );
         const { processCodeSimplifier } =

@@ -11,7 +11,7 @@ import { tmpdir } from 'os';
  * (interactive mode) so the TUI is bypassed entirely. Trust-confirm and send-keys
  * notification are skipped for prompt-mode agents.
  *
- * See: https://github.com/anthropics/claude-code/issues/1000
+ * See: https://github.com/anthropics/gemini-code/issues/1000
  */
 
 // Track all tmux calls made during spawn
@@ -70,7 +70,7 @@ vi.mock('child_process', async (importOriginal) => {
 
 import { spawnWorkerForTask, type TeamRuntime } from '../runtime.js';
 
-function makeRuntime(cwd: string, agentType: 'gemini' | 'codex' | 'claude'): TeamRuntime {
+function makeRuntime(cwd: string, agentType: 'gemini' | 'codex' | 'gemini'): TeamRuntime {
   return {
     teamName: 'test-team',
     sessionName: 'test-session:0',
@@ -94,7 +94,7 @@ function makeRuntime(cwd: string, agentType: 'gemini' | 'codex' | 'claude'): Tea
 }
 
 function setupTaskDir(cwd: string): void {
-  const tasksDir = join(cwd, '.omc/state/team/test-team/tasks');
+  const tasksDir = join(cwd, '.omg/state/team/test-team/tasks');
   mkdirSync(tasksDir, { recursive: true });
   writeFileSync(join(tasksDir, '1.json'), JSON.stringify({
     id: '1',
@@ -103,7 +103,7 @@ function setupTaskDir(cwd: string): void {
     status: 'pending',
     owner: null,
   }));
-  const workerDir = join(cwd, '.omc/state/team/test-team/workers/worker-1');
+  const workerDir = join(cwd, '.omg/state/team/test-team/workers/worker-1');
   mkdirSync(workerDir, { recursive: true });
 }
 
@@ -133,7 +133,7 @@ describe('spawnWorkerForTask – prompt mode (Gemini & Codex)', () => {
     // Should contain -i flag for interactive mode
     expect(launchCmd).toContain("'-i'");
     // Should contain the inbox path reference
-    expect(launchCmd).toContain('.omc/state/team/test-team/workers/worker-1/inbox.md');
+    expect(launchCmd).toContain('.omg/state/team/test-team/workers/worker-1/inbox.md');
     expect(launchCmd).toContain('start work now');
     expect(launchCmd).toContain('concrete progress');
 
@@ -162,7 +162,7 @@ describe('spawnWorkerForTask – prompt mode (Gemini & Codex)', () => {
 
     await spawnWorkerForTask(runtime, 'worker-1', 0);
 
-    const inboxPath = join(cwd, '.omc/state/team/test-team/workers/worker-1/inbox.md');
+    const inboxPath = join(cwd, '.omg/state/team/test-team/workers/worker-1/inbox.md');
     const content = readFileSync(inboxPath, 'utf-8');
     expect(content).toContain('Initial Task Assignment');
     expect(content).toContain('Test task');
@@ -186,7 +186,7 @@ describe('spawnWorkerForTask – prompt mode (Gemini & Codex)', () => {
     // Should NOT contain -i flag (codex uses positional argument, not a flag)
     expect(launchCmd).not.toContain("'-i'");
     // Should contain the inbox path as a positional argument
-    expect(launchCmd).toContain('.omc/state/team/test-team/workers/worker-1/inbox.md');
+    expect(launchCmd).toContain('.omg/state/team/test-team/workers/worker-1/inbox.md');
     expect(launchCmd).toContain('start work now');
     expect(launchCmd).toContain('concrete progress');
 
@@ -211,7 +211,7 @@ describe('spawnWorkerForTask – prompt mode (Gemini & Codex)', () => {
   });
 
   it('non-prompt worker waits for pane readiness before sending inbox instruction', async () => {
-    const runtime = makeRuntime(cwd, 'claude');
+    const runtime = makeRuntime(cwd, 'gemini');
 
     await spawnWorkerForTask(runtime, 'worker-1', 0);
 
@@ -227,13 +227,13 @@ describe('spawnWorkerForTask – prompt mode (Gemini & Codex)', () => {
   });
 
   it('non-prompt worker throws when pane never becomes ready and resets task to pending', async () => {
-    const runtime = makeRuntime(cwd, 'claude');
+    const runtime = makeRuntime(cwd, 'gemini');
     tmuxCalls.capturePaneText = 'still booting\n';
     process.env.OMC_SHELL_READY_TIMEOUT_MS = '40';
 
     await expect(spawnWorkerForTask(runtime, 'worker-1', 0)).rejects.toThrow('worker_pane_not_ready:worker-1');
 
-    const taskPath = join(cwd, '.omc/state/team/test-team/tasks/1.json');
+    const taskPath = join(cwd, '.omg/state/team/test-team/tasks/1.json');
     const task = JSON.parse(readFileSync(taskPath, 'utf-8')) as { status: string; owner: string | null };
     expect(task.status).toBe('pending');
     expect(task.owner).toBeNull();
@@ -242,7 +242,7 @@ describe('spawnWorkerForTask – prompt mode (Gemini & Codex)', () => {
   });
 
   it('returns empty and skips spawn when task is already in_progress (claim already taken)', async () => {
-    const taskPath = join(cwd, '.omc/state/team/test-team/tasks/1.json');
+    const taskPath = join(cwd, '.omg/state/team/test-team/tasks/1.json');
     writeFileSync(taskPath, JSON.stringify({
       id: '1',
       subject: 'Test task',
@@ -398,9 +398,9 @@ describe('spawnWorkerForTask – model passthrough from environment variables', 
     expect(launchCmd).toContain("'--model' 'gemini-2.0-flash'");
   });
 
-  it('claude worker does not pass model flag (not supported)', async () => {
+  it('gemini worker does not pass model flag (not supported)', async () => {
     process.env.OMC_EXTERNAL_MODELS_DEFAULT_CODEX_MODEL = 'gpt-4o';
-    const runtime = makeRuntime(cwd, 'claude');
+    const runtime = makeRuntime(cwd, 'gemini');
 
     await spawnWorkerForTask(runtime, 'worker-1', 0);
 
@@ -410,13 +410,13 @@ describe('spawnWorkerForTask – model passthrough from environment variables', 
     expect(launchCall).toBeDefined();
     const launchCmd = launchCall![launchCall!.length - 1];
 
-    // Claude worker should not have --model flag
+    // Gemini worker should not have --model flag
     expect(launchCmd).not.toContain("'--model'");
   });
 
-  it('claude worker propagates ANTHROPIC_MODEL into the pane startup env', async () => {
-    process.env.ANTHROPIC_MODEL = 'claude-opus-4-1';
-    const runtime = makeRuntime(cwd, 'claude');
+  it('gemini worker propagates ANTHROPIC_MODEL into the pane startup env', async () => {
+    process.env.ANTHROPIC_MODEL = 'gemini-opus-4-1';
+    const runtime = makeRuntime(cwd, 'gemini');
 
     await spawnWorkerForTask(runtime, 'worker-1', 0);
 
@@ -427,14 +427,14 @@ describe('spawnWorkerForTask – model passthrough from environment variables', 
     const launchCmd = launchCall![launchCall!.length - 1];
 
     expect(launchCmd).toContain('ANTHROPIC_MODEL=');
-    expect(launchCmd).toContain('claude-opus-4-1');
+    expect(launchCmd).toContain('gemini-opus-4-1');
     expect(launchCmd).not.toContain("'--model'");
   });
 
-  it('claude worker propagates custom provider env needed for inherited model selection', async () => {
-    process.env.CLAUDE_MODEL = 'vertex_ai/claude-3-5-sonnet';
+  it('gemini worker propagates custom provider env needed for inherited model selection', async () => {
+    process.env.CLAUDE_MODEL = 'vertex_ai/gemini-3-5-sonnet';
     process.env.ANTHROPIC_BASE_URL = 'https://gateway.example.invalid';
-    const runtime = makeRuntime(cwd, 'claude');
+    const runtime = makeRuntime(cwd, 'gemini');
 
     await spawnWorkerForTask(runtime, 'worker-1', 0);
 
@@ -445,23 +445,23 @@ describe('spawnWorkerForTask – model passthrough from environment variables', 
     const launchCmd = launchCall![launchCall!.length - 1];
 
     expect(launchCmd).toContain('CLAUDE_MODEL=');
-    expect(launchCmd).toContain('vertex_ai/claude-3-5-sonnet');
+    expect(launchCmd).toContain('vertex_ai/gemini-3-5-sonnet');
     expect(launchCmd).toContain('ANTHROPIC_BASE_URL=');
     expect(launchCmd).toContain('https://gateway.example.invalid');
   });
 
-  it('claude worker propagates tiered Bedrock/env model selection variables', async () => {
+  it('gemini worker propagates tiered Bedrock/env model selection variables', async () => {
     process.env.CLAUDE_CODE_USE_BEDROCK = '1';
-    process.env.CLAUDE_CODE_BEDROCK_OPUS_MODEL = 'us.anthropic.claude-opus-4-6-v1:0';
-    process.env.CLAUDE_CODE_BEDROCK_SONNET_MODEL = 'us.anthropic.claude-sonnet-4-6-v1:0';
-    process.env.CLAUDE_CODE_BEDROCK_HAIKU_MODEL = 'us.anthropic.claude-haiku-4-5-v1:0';
-    process.env.ANTHROPIC_DEFAULT_OPUS_MODEL = 'claude-opus-4-6-custom';
-    process.env.ANTHROPIC_DEFAULT_SONNET_MODEL = 'claude-sonnet-4-6-custom';
-    process.env.ANTHROPIC_DEFAULT_HAIKU_MODEL = 'claude-haiku-4-5-custom';
-    process.env.OMC_MODEL_HIGH = 'claude-opus-4-6-override';
-    process.env.OMC_MODEL_MEDIUM = 'claude-sonnet-4-6-override';
-    process.env.OMC_MODEL_LOW = 'claude-haiku-4-5-override';
-    const runtime = makeRuntime(cwd, 'claude');
+    process.env.CLAUDE_CODE_BEDROCK_OPUS_MODEL = 'us.anthropic.gemini-opus-4-6-v1:0';
+    process.env.CLAUDE_CODE_BEDROCK_SONNET_MODEL = 'us.anthropic.gemini-sonnet-4-6-v1:0';
+    process.env.CLAUDE_CODE_BEDROCK_HAIKU_MODEL = 'us.anthropic.gemini-haiku-4-5-v1:0';
+    process.env.ANTHROPIC_DEFAULT_OPUS_MODEL = 'gemini-opus-4-6-custom';
+    process.env.ANTHROPIC_DEFAULT_SONNET_MODEL = 'gemini-sonnet-4-6-custom';
+    process.env.ANTHROPIC_DEFAULT_HAIKU_MODEL = 'gemini-haiku-4-5-custom';
+    process.env.OMC_MODEL_HIGH = 'gemini-opus-4-6-override';
+    process.env.OMC_MODEL_MEDIUM = 'gemini-sonnet-4-6-override';
+    process.env.OMC_MODEL_LOW = 'gemini-haiku-4-5-override';
+    const runtime = makeRuntime(cwd, 'gemini');
 
     await spawnWorkerForTask(runtime, 'worker-1', 0);
 
@@ -473,27 +473,27 @@ describe('spawnWorkerForTask – model passthrough from environment variables', 
 
     expect(launchCmd).toContain('CLAUDE_CODE_USE_BEDROCK=');
     expect(launchCmd).toContain('CLAUDE_CODE_BEDROCK_OPUS_MODEL=');
-    expect(launchCmd).toContain('us.anthropic.claude-opus-4-6-v1:0');
+    expect(launchCmd).toContain('us.anthropic.gemini-opus-4-6-v1:0');
     expect(launchCmd).toContain('CLAUDE_CODE_BEDROCK_SONNET_MODEL=');
-    expect(launchCmd).toContain('us.anthropic.claude-sonnet-4-6-v1:0');
+    expect(launchCmd).toContain('us.anthropic.gemini-sonnet-4-6-v1:0');
     expect(launchCmd).toContain('CLAUDE_CODE_BEDROCK_HAIKU_MODEL=');
-    expect(launchCmd).toContain('us.anthropic.claude-haiku-4-5-v1:0');
+    expect(launchCmd).toContain('us.anthropic.gemini-haiku-4-5-v1:0');
     expect(launchCmd).toContain('ANTHROPIC_DEFAULT_OPUS_MODEL=');
-    expect(launchCmd).toContain('claude-opus-4-6-custom');
+    expect(launchCmd).toContain('gemini-opus-4-6-custom');
     expect(launchCmd).toContain('ANTHROPIC_DEFAULT_SONNET_MODEL=');
-    expect(launchCmd).toContain('claude-sonnet-4-6-custom');
+    expect(launchCmd).toContain('gemini-sonnet-4-6-custom');
     expect(launchCmd).toContain('ANTHROPIC_DEFAULT_HAIKU_MODEL=');
-    expect(launchCmd).toContain('claude-haiku-4-5-custom');
+    expect(launchCmd).toContain('gemini-haiku-4-5-custom');
     expect(launchCmd).toContain('OMC_MODEL_HIGH=');
-    expect(launchCmd).toContain('claude-opus-4-6-override');
+    expect(launchCmd).toContain('gemini-opus-4-6-override');
     expect(launchCmd).toContain('OMC_MODEL_MEDIUM=');
-    expect(launchCmd).toContain('claude-sonnet-4-6-override');
+    expect(launchCmd).toContain('gemini-sonnet-4-6-override');
     expect(launchCmd).toContain('OMC_MODEL_LOW=');
-    expect(launchCmd).toContain('claude-haiku-4-5-override');
-    // With Bedrock env vars set, resolveClaudeWorkerModel returns the sonnet model
+    expect(launchCmd).toContain('gemini-haiku-4-5-override');
+    // With Bedrock env vars set, resolveGeminiWorkerModel returns the sonnet model
     // so --model IS expected now (this was the #1695 fix)
     expect(launchCmd).toContain("'--model'");
-    expect(launchCmd).toContain('us.anthropic.claude-sonnet-4-6-v1:0');
+    expect(launchCmd).toContain('us.anthropic.gemini-sonnet-4-6-v1:0');
   });
 
 

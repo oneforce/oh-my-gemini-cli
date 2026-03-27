@@ -2,16 +2,16 @@
  * State Manager Types
  *
  * Type definitions for unified state management across
- * local (.omc/state/) and global (~/.omc/state/) locations.
+ * local (.omg/state/) and global (~/.omg/state/) locations.
  */
 /**
  * Location where state should be stored
  */
 export var StateLocation;
 (function (StateLocation) {
-    /** Local project state: .omc/state/{name}.json */
+    /** Local project state: .omg/state/{name}.json */
     StateLocation["LOCAL"] = "local";
-    /** Global user state: ~/.omc/state/{name}.json */
+    /** Global user state: ~/.omg/state/{name}.json */
     StateLocation["GLOBAL"] = "global";
 })(StateLocation || (StateLocation = {}));
 /**

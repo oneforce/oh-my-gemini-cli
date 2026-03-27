@@ -3,7 +3,7 @@
 /**
  * Planning artifacts reader.
  *
- * Reads .omc/plans/ directory for PRD and test-spec files,
+ * Reads .omg/plans/ directory for PRD and test-spec files,
  * and extracts approved execution launch hints embedded in PRD markdown.
  */
 
@@ -26,11 +26,11 @@ export interface ApprovedExecutionLaunchHint {
 }
 
 /**
- * Read planning artifacts from .omc/plans/ directory.
+ * Read planning artifacts from .omg/plans/ directory.
  * Returns paths to all PRD and test-spec files found.
  */
 export function readPlanningArtifacts(cwd: string): PlanningArtifacts {
-  const plansDir = join(cwd, '.omc', 'plans');
+  const plansDir = join(cwd, '.omg', 'plans');
   if (!existsSync(plansDir)) {
     return { prdPaths: [], testSpecPaths: [] };
   }
@@ -68,17 +68,17 @@ export function isPlanningComplete(artifacts: PlanningArtifacts): boolean {
 }
 
 /**
- * Regex patterns for extracting omc team/ralph launch commands from PRD markdown.
+ * Regex patterns for extracting omg team/ralph launch commands from PRD markdown.
  *
  * Matches lines like:
- *   omc team 3:claude "implement the feature"
- *   omc team 2:codex "fix the bug" --linked-ralph
- *   omc ralph "do the work"
+ *   omg team 3:gemini "implement the feature"
+ *   omg team 2:codex "fix the bug" --linked-ralph
+ *   omg ralph "do the work"
  */
 const TEAM_LAUNCH_RE =
-  /\bomc\s+team\s+(?:(\d+):(\w+)\s+)?"([^"]+)"((?:\s+--[\w-]+)*)/;
+  /\bomg\s+team\s+(?:(\d+):(\w+)\s+)?"([^"]+)"((?:\s+--[\w-]+)*)/;
 const RALPH_LAUNCH_RE =
-  /\bomc\s+ralph\s+"([^"]+)"((?:\s+--[\w-]+)*)/;
+  /\bomg\s+ralph\s+"([^"]+)"((?:\s+--[\w-]+)*)/;
 
 function parseFlags(flagStr: string): { linkedRalph: boolean } {
   return {

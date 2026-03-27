@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
-import { VERSION, CLAUDE_CONFIG_DIR, AGENTS_DIR, COMMANDS_DIR, SKILLS_DIR, HOOKS_DIR, isRunningAsPlugin, isProjectScopedPlugin, extractOmcVersionFromClaudeMd, syncPersistedSetupVersion, } from '../installer/index.js';
+import { VERSION, CLAUDE_CONFIG_DIR, AGENTS_DIR, COMMANDS_DIR, SKILLS_DIR, HOOKS_DIR, isRunningAsPlugin, isProjectScopedPlugin, extractOmcVersionFromGeminiMd, syncPersistedSetupVersion, } from '../installer/index.js';
 import { getRuntimePackageVersion } from '../lib/version.js';
 import { join, dirname } from 'path';
 import { tmpdir } from 'os';
@@ -32,19 +32,19 @@ function loadAgentDefinitions() {
     return definitions;
 }
 /**
- * Load CLAUDE.md content for testing
+ * Load GEMINI.md content for testing
  */
-function loadClaudeMdContent() {
-    const claudeMdPath = join(getPackageDir(), 'docs', 'CLAUDE.md');
-    if (!existsSync(claudeMdPath)) {
-        throw new Error(`CLAUDE.md not found: ${claudeMdPath}`);
+function loadGeminiMdContent() {
+    const geminiMdPath = join(getPackageDir(), 'docs', 'GEMINI.md');
+    if (!existsSync(geminiMdPath)) {
+        throw new Error(`GEMINI.md not found: ${geminiMdPath}`);
     }
-    return readFileSync(claudeMdPath, 'utf-8');
+    return readFileSync(geminiMdPath, 'utf-8');
 }
 describe('Installer Constants', () => {
     // Load definitions once for all tests
     const AGENT_DEFINITIONS = loadAgentDefinitions();
-    const CLAUDE_MD_CONTENT = loadClaudeMdContent();
+    const CLAUDE_MD_CONTENT = loadGeminiMdContent();
     describe('AGENT_DEFINITIONS', () => {
         it('should contain expected core agents', () => {
             const expectedAgents = [
@@ -97,19 +97,19 @@ describe('Installer Constants', () => {
         });
         it('should have consistent model assignments', () => {
             const modelExpectations = {
-                'architect.md': 'claude-opus-4-6',
-                'executor.md': 'claude-sonnet-4-6',
-                'designer.md': 'claude-sonnet-4-6',
-                'writer.md': 'claude-haiku-4-5',
-                'critic.md': 'claude-opus-4-6',
-                'analyst.md': 'claude-opus-4-6',
-                'planner.md': 'claude-opus-4-6',
-                'qa-tester.md': 'claude-sonnet-4-6',
-                'debugger.md': 'claude-sonnet-4-6',
-                'verifier.md': 'claude-sonnet-4-6',
-                'test-engineer.md': 'claude-sonnet-4-6',
-                'security-reviewer.md': 'claude-opus-4-6',
-                'git-master.md': 'claude-sonnet-4-6',
+                'architect.md': 'gemini-opus-4-6',
+                'executor.md': 'gemini-sonnet-4-6',
+                'designer.md': 'gemini-sonnet-4-6',
+                'writer.md': 'gemini-haiku-4-5',
+                'critic.md': 'gemini-opus-4-6',
+                'analyst.md': 'gemini-opus-4-6',
+                'planner.md': 'gemini-opus-4-6',
+                'qa-tester.md': 'gemini-sonnet-4-6',
+                'debugger.md': 'gemini-sonnet-4-6',
+                'verifier.md': 'gemini-sonnet-4-6',
+                'test-engineer.md': 'gemini-sonnet-4-6',
+                'security-reviewer.md': 'gemini-opus-4-6',
+                'git-master.md': 'gemini-sonnet-4-6',
             };
             for (const [filename, expectedModel] of Object.entries(modelExpectations)) {
                 const content = AGENT_DEFINITIONS[filename];
@@ -146,7 +146,7 @@ describe('Installer Constants', () => {
                 const commandName = file.replace('.md', '');
                 const content = readFileSync(join(commandsDir, file), 'utf-8');
                 // Detect pattern: command file that tells user to invoke the same-named skill
-                const skillInvokePattern = new RegExp(`/oh-my-claudecode:${commandName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}`, 'i');
+                const skillInvokePattern = new RegExp(`/oh-my-gemini-cli:${commandName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}`, 'i');
                 if (skillInvokePattern.test(content) && content.toLowerCase().includes('deprecated')) {
                     selfReferentialStubs.push(file);
                 }
@@ -184,7 +184,7 @@ describe('Installer Constants', () => {
             }
         });
         it('should reference all core agents', () => {
-            // The new CLAUDE.md has agents in tables and examples
+            // The new GEMINI.md has agents in tables and examples
             // We'll check for a subset of key agents to ensure the section exists
             const keyAgents = [
                 'architect',
@@ -254,26 +254,26 @@ describe('Installer Constants', () => {
         it('should stay in sync with runtime package version helper', () => {
             expect(VERSION).toBe(getRuntimePackageVersion());
         });
-        it('should keep docs/CLAUDE.md version marker in sync with package version', () => {
+        it('should keep docs/GEMINI.md version marker in sync with package version', () => {
             const versionMatch = CLAUDE_MD_CONTENT.match(/<!-- OMC:VERSION:([^\s]*?) -->/);
             expect(versionMatch?.[1]).toBe(VERSION);
         });
     });
-    describe('extractOmcVersionFromClaudeMd()', () => {
+    describe('extractOmcVersionFromGeminiMd()', () => {
         it('prefers the OMC version marker', () => {
             const content = `<!-- OMC:VERSION:4.7.7 -->
-# oh-my-claudecode - Intelligent Multi-Agent Orchestration`;
-            expect(extractOmcVersionFromClaudeMd(content)).toBe('v4.7.7');
+# oh-my-gemini-cli - Intelligent Multi-Agent Orchestration`;
+            expect(extractOmcVersionFromGeminiMd(content)).toBe('v4.7.7');
         });
         it('falls back to legacy heading versions', () => {
-            const content = '# oh-my-claudecode v4.6.0 - Intelligent Multi-Agent Orchestration';
-            expect(extractOmcVersionFromClaudeMd(content)).toBe('v4.6.0');
+            const content = '# oh-my-gemini-cli v4.6.0 - Intelligent Multi-Agent Orchestration';
+            expect(extractOmcVersionFromGeminiMd(content)).toBe('v4.6.0');
         });
     });
     describe('syncPersistedSetupVersion()', () => {
         it('updates setupVersion for already-configured installs', () => {
-            const tempDir = mkdtempSync(join(tmpdir(), 'omc-installer-test-'));
-            const configPath = join(tempDir, '.omc-config.json');
+            const tempDir = mkdtempSync(join(tmpdir(), 'omg-installer-test-'));
+            const configPath = join(tempDir, '.omg-config.json');
             writeFileSync(configPath, JSON.stringify({ setupCompleted: '2026-03-03T17:59:08+09:00', setupVersion: 'v4.6.0' }, null, 2));
             const changed = syncPersistedSetupVersion({
                 configPath,
@@ -286,8 +286,8 @@ describe('Installer Constants', () => {
             expect(updated.setupCompleted).toBe('2026-03-03T17:59:08+09:00');
         });
         it('does not create setupVersion for fresh installs by default', () => {
-            const tempDir = mkdtempSync(join(tmpdir(), 'omc-installer-test-'));
-            const configPath = join(tempDir, '.omc-config.json');
+            const tempDir = mkdtempSync(join(tmpdir(), 'omg-installer-test-'));
+            const configPath = join(tempDir, '.omg-config.json');
             writeFileSync(configPath, JSON.stringify({ hudEnabled: true }, null, 2));
             const changed = syncPersistedSetupVersion({
                 configPath,
@@ -302,7 +302,7 @@ describe('Installer Constants', () => {
     });
     describe('File Paths', () => {
         it('should define valid directory paths', () => {
-            const expectedBase = join(homedir(), '.claude');
+            const expectedBase = join(homedir(), '.gemini');
             expect(CLAUDE_CONFIG_DIR).toBe(expectedBase);
             expect(AGENTS_DIR).toBe(join(expectedBase, 'agents'));
             expect(COMMANDS_DIR).toBe(join(expectedBase, 'commands'));
@@ -329,7 +329,7 @@ describe('Installer Constants', () => {
             const uniqueAgentKeys = new Set(agentKeys);
             expect(agentKeys.length).toBe(uniqueAgentKeys.size);
         });
-        it('should have agents referenced in CLAUDE.md exist in AGENT_DEFINITIONS', () => {
+        it('should have agents referenced in GEMINI.md exist in AGENT_DEFINITIONS', () => {
             const agentMatches = CLAUDE_MD_CONTENT.matchAll(/\`([a-z-]+)\`\s*\|\s*(Opus|Sonnet|Haiku)/g);
             for (const match of agentMatches) {
                 const agentName = match[1];
@@ -414,7 +414,7 @@ describe('Installer Constants', () => {
             expect(isRunningAsPlugin()).toBe(false);
         });
         it('should return true when CLAUDE_PLUGIN_ROOT is set', () => {
-            process.env.CLAUDE_PLUGIN_ROOT = '/home/user/.claude/plugins/marketplaces/oh-my-claudecode';
+            process.env.CLAUDE_PLUGIN_ROOT = '/home/user/.gemini/plugins/marketplaces/oh-my-gemini-cli';
             expect(isRunningAsPlugin()).toBe(true);
         });
         it('should detect plugin context from environment variable', () => {
@@ -440,27 +440,27 @@ describe('Installer Constants', () => {
             expect(isProjectScopedPlugin()).toBe(false);
         });
         it('should return false for global plugin installation', () => {
-            // Global plugins are under ~/.claude/plugins/
-            process.env.CLAUDE_PLUGIN_ROOT = join(homedir(), '.claude', 'plugins', 'cache', 'omc', 'oh-my-claudecode', '3.9.0');
+            // Global plugins are under ~/.gemini/plugins/
+            process.env.CLAUDE_PLUGIN_ROOT = join(homedir(), '.gemini', 'plugins', 'cache', 'omg', 'oh-my-gemini-cli', '3.9.0');
             expect(isProjectScopedPlugin()).toBe(false);
         });
         it('should return true for project-scoped plugin installation', () => {
-            // Project-scoped plugins are in the project's .claude/plugins/ directory
-            process.env.CLAUDE_PLUGIN_ROOT = '/home/user/myproject/.claude/plugins/oh-my-claudecode';
+            // Project-scoped plugins are in the project's .gemini/plugins/ directory
+            process.env.CLAUDE_PLUGIN_ROOT = '/home/user/myproject/.gemini/plugins/oh-my-gemini-cli';
             expect(isProjectScopedPlugin()).toBe(true);
         });
         it('should return true when plugin is outside global plugin directory', () => {
-            // Any path that's not under ~/.claude/plugins/ is considered project-scoped
-            process.env.CLAUDE_PLUGIN_ROOT = '/var/projects/app/.claude/plugins/omc';
+            // Any path that's not under ~/.gemini/plugins/ is considered project-scoped
+            process.env.CLAUDE_PLUGIN_ROOT = '/var/projects/app/.gemini/plugins/omg';
             expect(isProjectScopedPlugin()).toBe(true);
         });
         it('should handle Windows-style paths', () => {
             // Windows paths with backslashes should be normalized
-            process.env.CLAUDE_PLUGIN_ROOT = 'C:\\Users\\user\\project\\.claude\\plugins\\omc';
+            process.env.CLAUDE_PLUGIN_ROOT = 'C:\\Users\\user\\project\\.gemini\\plugins\\omg';
             expect(isProjectScopedPlugin()).toBe(true);
         });
         it('should handle trailing slashes in paths', () => {
-            process.env.CLAUDE_PLUGIN_ROOT = join(homedir(), '.claude', 'plugins', 'cache', 'omc') + '/';
+            process.env.CLAUDE_PLUGIN_ROOT = join(homedir(), '.gemini', 'plugins', 'cache', 'omg') + '/';
             expect(isProjectScopedPlugin()).toBe(false);
         });
     });

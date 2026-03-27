@@ -2,17 +2,17 @@
  * OMC HUD - Usage API
  *
  * Fetches rate limit usage from Anthropic's OAuth API.
- * Based on claude-hud implementation by jarrodwatts.
+ * Based on gemini-hud implementation by jarrodwatts.
  *
  * Authentication:
- * - macOS: Reads from Keychain "Claude Code-credentials"
- * - Linux/fallback: Reads from ~/.claude/.credentials.json
+ * - macOS: Reads from Keychain "Gemini Code-credentials"
+ * - Linux/fallback: Reads from ~/.gemini/.credentials.json
  *
  * API: api.anthropic.com/api/oauth/usage
  * Response: { five_hour: { utilization }, seven_day: { utilization } }
  */
 import { existsSync, readFileSync, writeFileSync, renameSync, unlinkSync, mkdirSync } from 'fs';
-import { getClaudeConfigDir } from '../utils/paths.js';
+import { getGeminiConfigDir } from '../utils/paths.js';
 import { join, dirname } from 'path';
 import { execSync } from 'child_process';
 import { createHash } from 'crypto';
@@ -28,11 +28,11 @@ const CACHE_TTL_TRANSIENT_NETWORK_MS = 2 * 60 * 1000; // 2 minutes to avoid hamm
 const MAX_RATE_LIMITED_BACKOFF_MS = 5 * 60 * 1000; // 5 minutes max for sustained 429s
 const API_TIMEOUT_MS = 10000;
 const MAX_STALE_DATA_MS = 15 * 60 * 1000; // 15 minutes — discard stale data after this
-const TOKEN_REFRESH_URL_HOSTNAME = 'platform.claude.com';
+const TOKEN_REFRESH_URL_HOSTNAME = 'platform.gemini.com';
 const USAGE_CACHE_LOCK_OPTS = { staleLockMs: API_TIMEOUT_MS + 5000 };
 const TOKEN_REFRESH_URL_PATH = '/v1/oauth/token';
 /**
- * OAuth client_id for Claude Code (public client).
+ * OAuth client_id for Gemini Code (public client).
  * This is the production value; can be overridden via CLAUDE_CODE_OAUTH_CLIENT_ID env var.
  */
 const DEFAULT_OAUTH_CLIENT_ID = '9d1c250a-e61b-44d9-88ed-5944d1962f5e';
@@ -53,7 +53,7 @@ export function isZaiHost(urlString) {
  * Get the cache file path
  */
 function getCachePath() {
-    return join(getClaudeConfigDir(), 'plugins', 'oh-my-claudecode', '.usage-cache.json');
+    return join(getGeminiConfigDir(), 'plugins', 'oh-my-gemini-cli', '.usage-cache.json');
 }
 /**
  * Read cached usage data
@@ -197,15 +197,15 @@ function createRateLimitedCacheEntry(source, data, pollIntervalMs, previousCount
 }
 /**
  * Get the Keychain service name for the current config directory.
- * Claude Code uses "Claude Code-credentials-{sha256(configDir)[:8]}" for non-default dirs.
+ * Gemini Code uses "Gemini Code-credentials-{sha256(configDir)[:8]}" for non-default dirs.
  */
 function getKeychainServiceName() {
     const configDir = process.env.CLAUDE_CONFIG_DIR;
     if (configDir) {
         const hash = createHash('sha256').update(configDir).digest('hex').slice(0, 8);
-        return `Claude Code-credentials-${hash}`;
+        return `Gemini Code-credentials-${hash}`;
     }
-    return 'Claude Code-credentials';
+    return 'Gemini Code-credentials';
 }
 function isCredentialExpired(creds) {
     return creds.expiresAt != null && creds.expiresAt <= Date.now();
@@ -217,8 +217,8 @@ function readKeychainCredential(serviceName, account) {
         if (!result)
             return null;
         const parsed = JSON.parse(result);
-        // Handle nested structure (claudeAiOauth wrapper)
-        const creds = parsed.claudeAiOauth || parsed;
+        // Handle nested structure (geminiAiOauth wrapper)
+        const creds = parsed.geminiAiOauth || parsed;
         if (!creds.accessToken)
             return null;
         return {
@@ -267,13 +267,13 @@ function readKeychainCredentials() {
  */
 function readFileCredentials() {
     try {
-        const credPath = join(getClaudeConfigDir(), '.credentials.json');
+        const credPath = join(getGeminiConfigDir(), '.credentials.json');
         if (!existsSync(credPath))
             return null;
         const content = readFileSync(credPath, 'utf-8');
         const parsed = JSON.parse(content);
-        // Handle nested structure (claudeAiOauth wrapper)
-        const creds = parsed.claudeAiOauth || parsed;
+        // Handle nested structure (geminiAiOauth wrapper)
+        const creds = parsed.geminiAiOauth || parsed;
         if (creds.accessToken) {
             return {
                 accessToken: creds.accessToken,
@@ -477,23 +477,23 @@ function fetchUsageFromZai() {
 /**
  * Persist refreshed credentials back to the file-based credential store.
  * Keychain write-back is not supported (read-only for HUD).
- * Updates only the claudeAiOauth fields, preserving other data.
+ * Updates only the geminiAiOauth fields, preserving other data.
  */
 function writeBackCredentials(creds) {
     try {
-        const credPath = join(getClaudeConfigDir(), '.credentials.json');
+        const credPath = join(getGeminiConfigDir(), '.credentials.json');
         if (!existsSync(credPath))
             return;
         const content = readFileSync(credPath, 'utf-8');
         const parsed = JSON.parse(content);
         // Update the nested structure
-        if (parsed.claudeAiOauth) {
-            parsed.claudeAiOauth.accessToken = creds.accessToken;
+        if (parsed.geminiAiOauth) {
+            parsed.geminiAiOauth.accessToken = creds.accessToken;
             if (creds.expiresAt != null) {
-                parsed.claudeAiOauth.expiresAt = creds.expiresAt;
+                parsed.geminiAiOauth.expiresAt = creds.expiresAt;
             }
             if (creds.refreshToken) {
-                parsed.claudeAiOauth.refreshToken = creds.refreshToken;
+                parsed.geminiAiOauth.refreshToken = creds.refreshToken;
             }
         }
         else {
@@ -686,7 +686,7 @@ export async function getUsage() {
                 writeCache({ data: usage, error: !usage, source: 'zai', lastSuccessAt: Date.now() });
                 return { rateLimits: usage };
             }
-            // Anthropic OAuth path (official Claude Code support)
+            // Anthropic OAuth path (official Gemini Code support)
             let creds = getCredentials();
             if (creds) {
                 const cachedAnthropic = cache?.source === 'anthropic' ? cache : null;

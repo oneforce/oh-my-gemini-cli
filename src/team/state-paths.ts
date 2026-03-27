@@ -5,7 +5,7 @@ import { join } from 'path';
  * All paths are relative to cwd.
  *
  * State layout:
- *   .omc/state/team/{teamName}/
+ *   .omg/state/team/{teamName}/
  *     config.json
  *     shutdown.json
  *     tasks/
@@ -30,94 +30,94 @@ export function normalizeTaskFileStem(taskId: string): string {
 
 export const TeamPaths = {
   root: (teamName: string) =>
-    `.omc/state/team/${teamName}`,
+    `.omg/state/team/${teamName}`,
 
   config: (teamName: string) =>
-    `.omc/state/team/${teamName}/config.json`,
+    `.omg/state/team/${teamName}/config.json`,
 
   shutdown: (teamName: string) =>
-    `.omc/state/team/${teamName}/shutdown.json`,
+    `.omg/state/team/${teamName}/shutdown.json`,
 
   tasks: (teamName: string) =>
-    `.omc/state/team/${teamName}/tasks`,
+    `.omg/state/team/${teamName}/tasks`,
 
   taskFile: (teamName: string, taskId: string) =>
-    `.omc/state/team/${teamName}/tasks/${normalizeTaskFileStem(taskId)}.json`,
+    `.omg/state/team/${teamName}/tasks/${normalizeTaskFileStem(taskId)}.json`,
 
   workers: (teamName: string) =>
-    `.omc/state/team/${teamName}/workers`,
+    `.omg/state/team/${teamName}/workers`,
 
   workerDir: (teamName: string, workerName: string) =>
-    `.omc/state/team/${teamName}/workers/${workerName}`,
+    `.omg/state/team/${teamName}/workers/${workerName}`,
 
   heartbeat: (teamName: string, workerName: string) =>
-    `.omc/state/team/${teamName}/workers/${workerName}/heartbeat.json`,
+    `.omg/state/team/${teamName}/workers/${workerName}/heartbeat.json`,
 
   inbox: (teamName: string, workerName: string) =>
-    `.omc/state/team/${teamName}/workers/${workerName}/inbox.md`,
+    `.omg/state/team/${teamName}/workers/${workerName}/inbox.md`,
 
   outbox: (teamName: string, workerName: string) =>
-    `.omc/state/team/${teamName}/workers/${workerName}/outbox.jsonl`,
+    `.omg/state/team/${teamName}/workers/${workerName}/outbox.jsonl`,
 
   ready: (teamName: string, workerName: string) =>
-    `.omc/state/team/${teamName}/workers/${workerName}/.ready`,
+    `.omg/state/team/${teamName}/workers/${workerName}/.ready`,
 
   overlay: (teamName: string, workerName: string) =>
-    `.omc/state/team/${teamName}/workers/${workerName}/AGENTS.md`,
+    `.omg/state/team/${teamName}/workers/${workerName}/AGENTS.md`,
 
   shutdownAck: (teamName: string, workerName: string) =>
-    `.omc/state/team/${teamName}/workers/${workerName}/shutdown-ack.json`,
+    `.omg/state/team/${teamName}/workers/${workerName}/shutdown-ack.json`,
 
   mailbox: (teamName: string, workerName: string) =>
-    `.omc/state/team/${teamName}/mailbox/${workerName}.json`,
+    `.omg/state/team/${teamName}/mailbox/${workerName}.json`,
 
   mailboxLockDir: (teamName: string, workerName: string) =>
-    `.omc/state/team/${teamName}/mailbox/.lock-${workerName}`,
+    `.omg/state/team/${teamName}/mailbox/.lock-${workerName}`,
 
   dispatchRequests: (teamName: string) =>
-    `.omc/state/team/${teamName}/dispatch/requests.json`,
+    `.omg/state/team/${teamName}/dispatch/requests.json`,
 
   dispatchLockDir: (teamName: string) =>
-    `.omc/state/team/${teamName}/dispatch/.lock`,
+    `.omg/state/team/${teamName}/dispatch/.lock`,
 
   workerStatus: (teamName: string, workerName: string) =>
-    `.omc/state/team/${teamName}/workers/${workerName}/status.json`,
+    `.omg/state/team/${teamName}/workers/${workerName}/status.json`,
 
   workerIdleNotify: (teamName: string) =>
-    `.omc/state/team/${teamName}/worker-idle-notify.json`,
+    `.omg/state/team/${teamName}/worker-idle-notify.json`,
 
   workerPrevNotifyState: (teamName: string, workerName: string) =>
-    `.omc/state/team/${teamName}/workers/${workerName}/prev-notify-state.json`,
+    `.omg/state/team/${teamName}/workers/${workerName}/prev-notify-state.json`,
 
   events: (teamName: string) =>
-    `.omc/state/team/${teamName}/events.jsonl`,
+    `.omg/state/team/${teamName}/events.jsonl`,
 
   approval: (teamName: string, taskId: string) =>
-    `.omc/state/team/${teamName}/approvals/${taskId}.json`,
+    `.omg/state/team/${teamName}/approvals/${taskId}.json`,
 
   manifest: (teamName: string) =>
-    `.omc/state/team/${teamName}/manifest.json`,
+    `.omg/state/team/${teamName}/manifest.json`,
 
   monitorSnapshot: (teamName: string) =>
-    `.omc/state/team/${teamName}/monitor-snapshot.json`,
+    `.omg/state/team/${teamName}/monitor-snapshot.json`,
 
   summarySnapshot: (teamName: string) =>
-    `.omc/state/team/${teamName}/summary-snapshot.json`,
+    `.omg/state/team/${teamName}/summary-snapshot.json`,
 
   phaseState: (teamName: string) =>
-    `.omc/state/team/${teamName}/phase-state.json`,
+    `.omg/state/team/${teamName}/phase-state.json`,
 
   scalingLock: (teamName: string) =>
-    `.omc/state/team/${teamName}/.scaling-lock`,
+    `.omg/state/team/${teamName}/.scaling-lock`,
 
   workerIdentity: (teamName: string, workerName: string) =>
-    `.omc/state/team/${teamName}/workers/${workerName}/identity.json`,
+    `.omg/state/team/${teamName}/workers/${workerName}/identity.json`,
 
   workerAgentsMd: (teamName: string) =>
-    `.omc/state/team/${teamName}/worker-agents.md`,
+    `.omg/state/team/${teamName}/worker-agents.md`,
 
   shutdownRequest: (teamName: string, workerName: string) =>
-    `.omc/state/team/${teamName}/workers/${workerName}/shutdown-request.json`,
+    `.omg/state/team/${teamName}/workers/${workerName}/shutdown-request.json`,
 } as const;
 
 /**
@@ -138,10 +138,10 @@ export function teamStateRoot(cwd: string, teamName: string): string {
  * Canonical task storage path builder.
  *
  * All task files live at:
- *   {cwd}/.omc/state/team/{teamName}/tasks/task-{taskId}.json
+ *   {cwd}/.omg/state/team/{teamName}/tasks/task-{taskId}.json
  *
  * When taskId is omitted, returns the tasks directory:
- *   {cwd}/.omc/state/team/{teamName}/tasks/
+ *   {cwd}/.omg/state/team/{teamName}/tasks/
  *
  * Use this as the single source of truth for task file locations.
  * New writes always use this canonical path.
@@ -156,7 +156,7 @@ export function getTaskStoragePath(cwd: string, teamName: string, taskId?: strin
 /**
  * Legacy task storage path builder (deprecated).
  *
- * Old location: ~/.claude/tasks/{teamName}/{taskId}.json
+ * Old location: ~/.gemini/tasks/{teamName}/{taskId}.json
  *
  * Used only by the compatibility shim in task-file-ops.ts to check
  * for data written by older versions during reads. New code must not
@@ -164,9 +164,9 @@ export function getTaskStoragePath(cwd: string, teamName: string, taskId?: strin
  *
  * @deprecated Use getTaskStoragePath instead.
  */
-export function getLegacyTaskStoragePath(claudeConfigDir: string, teamName: string, taskId?: string): string {
+export function getLegacyTaskStoragePath(geminiConfigDir: string, teamName: string, taskId?: string): string {
   if (taskId !== undefined) {
-    return join(claudeConfigDir, 'tasks', teamName, `${taskId}.json`);
+    return join(geminiConfigDir, 'tasks', teamName, `${taskId}.json`);
   }
-  return join(claudeConfigDir, 'tasks', teamName);
+  return join(geminiConfigDir, 'tasks', teamName);
 }

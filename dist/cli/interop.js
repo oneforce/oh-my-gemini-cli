@@ -1,12 +1,12 @@
 /**
  * Interop CLI Command - Split-pane tmux session with OMC and OMX
  *
- * Creates a tmux split-pane layout with Claude Code (OMC) on the left
+ * Creates a tmux split-pane layout with Gemini Code (OMC) on the left
  * and Codex CLI (OMX) on the right, with shared interop state.
  */
 import { execFileSync } from 'child_process';
 import { randomUUID } from 'crypto';
-import { isTmuxAvailable, isClaudeAvailable } from './tmux-utils.js';
+import { isTmuxAvailable, isGeminiAvailable } from './tmux-utils.js';
 import { initInteropSession } from '../interop/shared-state.js';
 export function readInteropRuntimeFlags(env = process.env) {
     const rawMode = (env.OMX_OMC_INTEROP_MODE || 'off').toLowerCase();
@@ -14,7 +14,7 @@ export function readInteropRuntimeFlags(env = process.env) {
     return {
         enabled: env.OMX_OMC_INTEROP_ENABLED === '1',
         mode,
-        omcInteropToolsEnabled: env.OMC_INTEROP_TOOLS_ENABLED === '1',
+        omgInteropToolsEnabled: env.OMC_INTEROP_TOOLS_ENABLED === '1',
         failClosed: env.OMX_OMC_INTEROP_FAIL_CLOSED !== '0',
     };
 }
@@ -22,7 +22,7 @@ export function validateInteropRuntimeFlags(flags) {
     if (!flags.enabled && flags.mode !== 'off') {
         return { ok: false, reason: 'OMX_OMC_INTEROP_MODE must be "off" when OMX_OMC_INTEROP_ENABLED=0.' };
     }
-    if (flags.mode === 'active' && !flags.omcInteropToolsEnabled) {
+    if (flags.mode === 'active' && !flags.omgInteropToolsEnabled) {
         return { ok: false, reason: 'Active mode requires OMC_INTEROP_TOOLS_ENABLED=1.' };
     }
     return { ok: true };
@@ -45,7 +45,7 @@ function isCodexAvailable() {
 export function launchInteropSession(cwd = process.cwd()) {
     const flags = readInteropRuntimeFlags();
     const flagCheck = validateInteropRuntimeFlags(flags);
-    console.log(`[interop] mode=${flags.mode}, enabled=${flags.enabled ? '1' : '0'}, tools=${flags.omcInteropToolsEnabled ? '1' : '0'}, failClosed=${flags.failClosed ? '1' : '0'}`);
+    console.log(`[interop] mode=${flags.mode}, enabled=${flags.enabled ? '1' : '0'}, tools=${flags.omgInteropToolsEnabled ? '1' : '0'}, failClosed=${flags.failClosed ? '1' : '0'}`);
     if (!flagCheck.ok) {
         console.error(`Error: ${flagCheck.reason}`);
         console.error('Refusing to start interop in invalid flag configuration.');
@@ -57,13 +57,13 @@ export function launchInteropSession(cwd = process.cwd()) {
         process.exit(1);
     }
     const hasCodex = isCodexAvailable();
-    const hasClaude = isClaudeAvailable();
-    if (!hasClaude) {
-        console.error('Error: claude CLI is not available. Install Claude Code CLI first.');
+    const hasGemini = isGeminiAvailable();
+    if (!hasGemini) {
+        console.error('Error: gemini CLI is not available. Install Gemini Code CLI first.');
         process.exit(1);
     }
     if (!hasCodex) {
-        console.warn('Warning: codex CLI is not available. Only Claude Code will be launched.');
+        console.warn('Warning: codex CLI is not available. Only Gemini Code will be launched.');
         console.warn('Install oh-my-codex (npm install -g @openai/codex) for full interop support.\n');
     }
     // Check if already in tmux
@@ -79,7 +79,7 @@ export function launchInteropSession(cwd = process.cwd()) {
     const _config = initInteropSession(sessionId, cwd, hasCodex ? cwd : undefined);
     console.log(`Initializing interop session: ${sessionId}`);
     console.log(`Working directory: ${cwd}`);
-    console.log(`Config saved to: ${cwd}/.omc/state/interop/config.json\n`);
+    console.log(`Config saved to: ${cwd}/.omg/state/interop/config.json\n`);
     // Get current pane ID
     let currentPaneId;
     try {
@@ -96,11 +96,11 @@ export function launchInteropSession(cwd = process.cwd()) {
         console.error('Error: Invalid tmux pane ID format');
         process.exit(1);
     }
-    // Split pane horizontally (left: claude, right: codex)
+    // Split pane horizontally (left: gemini, right: codex)
     try {
         if (hasCodex) {
             // Create right pane with codex
-            console.log('Splitting pane: Left (Claude Code) | Right (Codex)');
+            console.log('Splitting pane: Left (Gemini Code) | Right (Codex)');
             execFileSync('tmux', [
                 'split-window',
                 '-h',
@@ -111,7 +111,7 @@ export function launchInteropSession(cwd = process.cwd()) {
             // Select left pane (original/current)
             execFileSync('tmux', ['select-pane', '-t', currentPaneId], { stdio: 'ignore' });
             console.log('\nInterop session ready!');
-            console.log('- Left pane: Claude Code (this terminal)');
+            console.log('- Left pane: Gemini Code (this terminal)');
             console.log('- Right pane: Codex CLI');
             console.log('\nYou can now use interop MCP tools to communicate between the two:');
             console.log('- interop_send_task: Send tasks between tools');
@@ -121,7 +121,7 @@ export function launchInteropSession(cwd = process.cwd()) {
         }
         else {
             // Codex not available, just inform user
-            console.log('\nClaude Code is ready in this pane.');
+            console.log('\nGemini Code is ready in this pane.');
             console.log('Install oh-my-codex to enable split-pane interop mode.');
             console.log('\nInstall: npm install -g @openai/codex');
         }

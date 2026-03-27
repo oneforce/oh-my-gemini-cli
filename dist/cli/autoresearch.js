@@ -4,20 +4,20 @@ import { loadAutoresearchMissionContract, slugifyMissionName, } from '../autores
 import { assertModeStartAllowed, buildAutoresearchRunTag, countTrailingAutoresearchNoops, finalizeAutoresearchRunState, loadAutoresearchRunManifest, materializeAutoresearchMissionToWorktree, prepareAutoresearchRuntime, processAutoresearchCandidate, resumeAutoresearchRuntime, } from '../autoresearch/runtime.js';
 import { guidedAutoresearchSetup, initAutoresearchMission, parseInitArgs, spawnAutoresearchSetupTmux, spawnAutoresearchTmux, } from './autoresearch-guided.js';
 const CLAUDE_BYPASS_FLAG = '--dangerously-skip-permissions';
-export const AUTORESEARCH_HELP = `omc autoresearch - Launch OMC autoresearch with thin-supervisor parity semantics
+export const AUTORESEARCH_HELP = `omg autoresearch - Launch OMC autoresearch with thin-supervisor parity semantics
 
 Usage:
-  omc autoresearch                                                (detached Claude deep-interview setup session)
-  omc autoresearch [--topic T] [--evaluator CMD] [--keep-policy P] [--slug S]
-  omc autoresearch --mission TEXT --eval CMD [--keep-policy P] [--slug S]
-  omc autoresearch init [--topic T] [--eval CMD] [--keep-policy P] [--slug S]
-  omc autoresearch <mission-dir> [claude-args...]
-  omc autoresearch --resume <run-id> [claude-args...]
+  omg autoresearch                                                (detached Gemini deep-interview setup session)
+  omg autoresearch [--topic T] [--evaluator CMD] [--keep-policy P] [--slug S]
+  omg autoresearch --mission TEXT --eval CMD [--keep-policy P] [--slug S]
+  omg autoresearch init [--topic T] [--eval CMD] [--keep-policy P] [--slug S]
+  omg autoresearch <mission-dir> [gemini-args...]
+  omg autoresearch --resume <run-id> [gemini-args...]
 
 Arguments:
-  (no args)        Launches a detached Claude session and starts /deep-interview --autoresearch.
+  (no args)        Launches a detached Gemini session and starts /deep-interview --autoresearch.
                    That interview lane should clarify the mission/evaluator, then launch direct
-                   execution via omc autoresearch --mission ... --eval ... from inside Claude.
+                   execution via omg autoresearch --mission ... --eval ... from inside Gemini.
   --topic/...      Seed the legacy guided intake with draft values; still requires
                    refinement/confirmation before launch.
   --mission/       Explicit bypass path. --mission is raw mission text and --eval is the raw
@@ -26,22 +26,22 @@ Arguments:
   init             Non-interactive mission scaffolding via flags (--topic, --eval, --slug;
                    optional --keep-policy).
   <mission-dir>    Directory inside a git repository containing mission.md and sandbox.md
-  <run-id>         Existing autoresearch run id from .omc/logs/autoresearch/<run-id>/manifest.json
+  <run-id>         Existing autoresearch run id from .omg/logs/autoresearch/<run-id>/manifest.json
 
 Behavior:
-  - guided intake writes canonical artifacts under .omc/specs before launch when using --topic/--evaluator flow
+  - guided intake writes canonical artifacts under .omg/specs before launch when using --topic/--evaluator flow
   - validates mission.md and sandbox.md
   - requires sandbox.md YAML frontmatter with evaluator.command and evaluator.format=json
   - fresh launch creates a run-tagged autoresearch/<slug>/<run-tag> lane
-  - supervisor records baseline, candidate, keep/discard/reset, and results artifacts under .omc/logs/autoresearch/
+  - supervisor records baseline, candidate, keep/discard/reset, and results artifacts under .omg/logs/autoresearch/
   - --resume loads the authoritative per-run manifest and continues from the last kept commit
 `;
 const AUTORESEARCH_APPEND_INSTRUCTIONS_ENV = 'OMC_AUTORESEARCH_APPEND_INSTRUCTIONS_FILE';
 const AUTORESEARCH_MAX_CONSECUTIVE_NOOPS = 3;
-export function normalizeAutoresearchClaudeArgs(claudeArgs) {
+export function normalizeAutoresearchGeminiArgs(geminiArgs) {
     const normalized = [];
     let hasBypass = false;
-    for (const arg of claudeArgs) {
+    for (const arg of geminiArgs) {
         if (arg === CLAUDE_BYPASS_FLAG) {
             if (!hasBypass) {
                 normalized.push(arg);
@@ -56,10 +56,10 @@ export function normalizeAutoresearchClaudeArgs(claudeArgs) {
     }
     return normalized;
 }
-function runAutoresearchTurn(worktreePath, instructionsFile, claudeArgs) {
+function runAutoresearchTurn(worktreePath, instructionsFile, geminiArgs) {
     const prompt = readFileSync(instructionsFile, 'utf-8');
-    const launchArgs = ['--print', ...normalizeAutoresearchClaudeArgs(claudeArgs), '-p', prompt];
-    const result = spawnSync('claude', launchArgs, {
+    const launchArgs = ['--print', ...normalizeAutoresearchGeminiArgs(geminiArgs), '-p', prompt];
+    const result = spawnSync('gemini', launchArgs, {
         cwd: worktreePath,
         stdio: ['pipe', 'inherit', 'inherit'],
         encoding: 'utf-8',
@@ -70,7 +70,7 @@ function runAutoresearchTurn(worktreePath, instructionsFile, claudeArgs) {
     }
     if (result.status !== 0) {
         process.exitCode = typeof result.status === 'number' ? result.status : 1;
-        throw new Error(`autoresearch_claude_exec_failed:${result.status ?? 'unknown'}`);
+        throw new Error(`autoresearch_gemini_exec_failed:${result.status ?? 'unknown'}`);
     }
 }
 function parseAutoresearchKeepPolicy(value) {
@@ -167,7 +167,7 @@ function parseAutoresearchBypassArgs(args) {
     return {
         missionDir: null,
         runId: null,
-        claudeArgs: [],
+        geminiArgs: [],
         missionText: missionText.trim(),
         sandboxCommand: sandboxCommand.trim(),
         keepPolicy,
@@ -184,7 +184,7 @@ function resolveRepoRoot(cwd) {
 export function parseAutoresearchArgs(args) {
     const values = [...args];
     if (values.length === 0) {
-        return { missionDir: null, runId: null, claudeArgs: [], guided: true };
+        return { missionDir: null, runId: null, geminiArgs: [], guided: true };
     }
     const bypass = parseAutoresearchBypassArgs(values);
     if (bypass) {
@@ -192,43 +192,43 @@ export function parseAutoresearchArgs(args) {
     }
     const first = values[0];
     if (first === 'init') {
-        return { missionDir: null, runId: null, claudeArgs: [], guided: true, initArgs: values.slice(1) };
+        return { missionDir: null, runId: null, geminiArgs: [], guided: true, initArgs: values.slice(1) };
     }
     if (first === '--help' || first === '-h' || first === 'help') {
-        return { missionDir: '--help', runId: null, claudeArgs: [] };
+        return { missionDir: '--help', runId: null, geminiArgs: [] };
     }
     if (first === '--resume') {
         const runId = values[1]?.trim();
         if (!runId) {
             throw new Error(`--resume requires <run-id>.\n${AUTORESEARCH_HELP}`);
         }
-        return { missionDir: null, runId, claudeArgs: values.slice(2) };
+        return { missionDir: null, runId, geminiArgs: values.slice(2) };
     }
     if (first.startsWith('--resume=')) {
         const runId = first.slice('--resume='.length).trim();
         if (!runId) {
             throw new Error(`--resume requires <run-id>.\n${AUTORESEARCH_HELP}`);
         }
-        return { missionDir: null, runId, claudeArgs: values.slice(1) };
+        return { missionDir: null, runId, geminiArgs: values.slice(1) };
     }
     if (first.startsWith('-')) {
         return {
             missionDir: null,
             runId: null,
-            claudeArgs: [],
+            geminiArgs: [],
             guided: true,
             seedArgs: parseInitArgs(values),
         };
     }
-    return { missionDir: first, runId: null, claudeArgs: values.slice(1) };
+    return { missionDir: first, runId: null, geminiArgs: values.slice(1) };
 }
-async function runAutoresearchLoop(claudeArgs, runtime, missionDir) {
+async function runAutoresearchLoop(geminiArgs, runtime, missionDir) {
     const previousInstructionsFile = process.env[AUTORESEARCH_APPEND_INSTRUCTIONS_ENV];
     const originalCwd = process.cwd();
     process.env[AUTORESEARCH_APPEND_INSTRUCTIONS_ENV] = runtime.instructionsFile;
     try {
         while (true) {
-            runAutoresearchTurn(runtime.worktreePath, runtime.instructionsFile, claudeArgs);
+            runAutoresearchTurn(runtime.worktreePath, runtime.instructionsFile, geminiArgs);
             const contract = await loadAutoresearchMissionContract(missionDir);
             const manifest = await loadAutoresearchRunManifest(runtime.repoRoot, JSON.parse(execFileSync('cat', [runtime.manifestFile], { encoding: 'utf-8' })).run_id);
             const decision = await processAutoresearchCandidate(contract, manifest, runtime.repoRoot);
@@ -259,7 +259,7 @@ async function runAutoresearchLoop(claudeArgs, runtime, missionDir) {
     }
 }
 function planWorktree(repoRoot, missionSlug, runTag) {
-    const worktreePath = `${repoRoot}/../${repoRoot.split('/').pop()}.omc-worktrees/autoresearch-${missionSlug}-${runTag.toLowerCase()}`;
+    const worktreePath = `${repoRoot}/../${repoRoot.split('/').pop()}.omg-worktrees/autoresearch-${missionSlug}-${runTag.toLowerCase()}`;
     const branchName = `autoresearch/${missionSlug}/${runTag.toLowerCase()}`;
     return { worktreePath, branchName };
 }
@@ -312,7 +312,7 @@ export async function autoresearchCommand(args) {
         await assertModeStartAllowed('autoresearch', repoRoot);
         const manifest = await loadAutoresearchRunManifest(repoRoot, parsed.runId);
         const runtime = await resumeAutoresearchRuntime(repoRoot, parsed.runId);
-        await runAutoresearchLoop(parsed.claudeArgs, runtime, manifest.mission_dir);
+        await runAutoresearchLoop(parsed.geminiArgs, runtime, manifest.mission_dir);
         return;
     }
     const contract = await loadAutoresearchMissionContract(parsed.missionDir);
@@ -325,6 +325,6 @@ export async function autoresearchCommand(args) {
     });
     const worktreeContract = await materializeAutoresearchMissionToWorktree(contract, plan.worktreePath);
     const runtime = await prepareAutoresearchRuntime(worktreeContract, contract.repoRoot, plan.worktreePath, { runTag });
-    await runAutoresearchLoop(parsed.claudeArgs, runtime, worktreeContract.missionDir);
+    await runAutoresearchLoop(parsed.geminiArgs, runtime, worktreeContract.missionDir);
 }
 //# sourceMappingURL=autoresearch.js.map

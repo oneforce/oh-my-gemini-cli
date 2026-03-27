@@ -222,7 +222,7 @@ function isStaleSkillState(state) {
 /**
  * Check if a cancel signal is in progress for the session.
  * Cancel signals are written by state_clear and expire after 30 seconds.
- * @param {string} stateDir - The .omc/state directory path
+ * @param {string} stateDir - The .omg/state directory path
  * @param {string} sessionId - Optional session ID
  * @returns {boolean} true if cancel is in progress
  */
@@ -366,13 +366,13 @@ function getActiveSubagentCount(stateDir) {
 }
 
 /**
- * Count incomplete Tasks from Claude Code's native Task system.
+ * Count incomplete Tasks from Gemini Code's native Task system.
  */
 function countIncompleteTasks(sessionId) {
   if (!sessionId || typeof sessionId !== "string") return 0;
   if (!/^[a-zA-Z0-9][a-zA-Z0-9_-]{0,255}$/.test(sessionId)) return 0;
 
-  const taskDir = join(homedir(), ".claude", "tasks", sessionId);
+  const taskDir = join(homedir(), ".gemini", "tasks", sessionId);
   if (!existsSync(taskDir)) return 0;
 
   let count = 0;
@@ -406,7 +406,7 @@ function countIncompleteTodos(sessionId, projectDir) {
   ) {
     const sessionTodoPath = join(
       homedir(),
-      ".claude",
+      ".gemini",
       "todos",
       `${sessionId}.json`,
     );
@@ -427,8 +427,8 @@ function countIncompleteTodos(sessionId, projectDir) {
 
   // Project-local todos only
   for (const path of [
-    join(projectDir, ".omc", "todos.json"),
-    join(projectDir, ".claude", "todos.json"),
+    join(projectDir, ".omg", "todos.json"),
+    join(projectDir, ".gemini", "todos.json"),
   ]) {
     try {
       const data = readJsonFile(path);
@@ -450,11 +450,11 @@ function countIncompleteTodos(sessionId, projectDir) {
 
 /**
  * Detect if stop was triggered by context-limit related reasons.
- * When context is exhausted, Claude Code needs to stop so it can compact.
+ * When context is exhausted, Gemini Code needs to stop so it can compact.
  * Blocking these stops causes a deadlock: can't compact because can't stop,
  * can't continue because context is full.
  *
- * See: https://github.com/Yeachan-Heo/oh-my-claudecode/issues/213
+ * See: https://github.com/Yeachan-Heo/oh-my-gemini-cli/issues/213
  */
 function isContextLimitStop(data) {
   const reason = (data.stop_reason || data.stopReason || "").toLowerCase();
@@ -558,12 +558,12 @@ async function main() {
     const sessionIdRaw = data.sessionId || data.session_id || data.sessionid || "";
     const sessionId = sanitizeSessionId(sessionIdRaw);
     const hasValidSessionId = isValidSessionId(sessionIdRaw);
-    const stateDir = join(directory, ".omc", "state");
-    const globalStateDir = join(homedir(), ".omc", "state");
+    const stateDir = join(directory, ".omg", "state");
+    const globalStateDir = join(homedir(), ".omg", "state");
 
     // CRITICAL: Never block context-limit stops.
-    // Blocking these causes a deadlock where Claude Code cannot compact.
-    // See: https://github.com/Yeachan-Heo/oh-my-claudecode/issues/213
+    // Blocking these causes a deadlock where Gemini Code cannot compact.
+    // See: https://github.com/Yeachan-Heo/oh-my-gemini-cli/issues/213
     if (isContextLimitStop(data)) {
       console.log(JSON.stringify({ continue: true, suppressOutput: true }));
       return;
@@ -663,7 +663,7 @@ async function main() {
           ralph.state.last_checked_at = new Date().toISOString();
           writeJsonFile(ralph.path, ralph.state);
 
-          let reason = `[RALPH LOOP - ITERATION ${iteration + 1}/${maxIter}] Work is NOT done. Continue working.\nWhen FULLY complete (after Architect verification), run /oh-my-claudecode:cancel to cleanly exit ralph mode and clean up all state files. If cancel fails, retry with /oh-my-claudecode:cancel --force.\n${ralph.state.prompt ? `Task: ${ralph.state.prompt}` : ""}`;
+          let reason = `[RALPH LOOP - ITERATION ${iteration + 1}/${maxIter}] Work is NOT done. Continue working.\nWhen FULLY complete (after Architect verification), run /oh-my-gemini-cli:cancel to cleanly exit ralph mode and clean up all state files. If cancel fails, retry with /oh-my-gemini-cli:cancel --force.\n${ralph.state.prompt ? `Task: ${ralph.state.prompt}` : ""}`;
           if (errorGuidance) {
             reason = errorGuidance + reason;
           }
@@ -688,7 +688,7 @@ async function main() {
           JSON.stringify({
             continue: false,
             decision: "block",
-            reason: `[RALPH LOOP - EXTENDED] Max iterations reached; extending to ${ralph.state.max_iterations} and continuing. When FULLY complete (after Architect verification), run /oh-my-claudecode:cancel (or --force).`,
+            reason: `[RALPH LOOP - EXTENDED] Max iterations reached; extending to ${ralph.state.max_iterations} and continuing. When FULLY complete (after Architect verification), run /oh-my-gemini-cli:cancel (or --force).`,
           }),
         );
         return;
@@ -717,7 +717,7 @@ async function main() {
             writeJsonFile(autopilot.path, autopilot.state);
 
             const cancelGuidance = hasValidSessionId && autopilot.state.session_id === sessionId
-              ? " When all phases are complete, run /oh-my-claudecode:cancel to cleanly exit and clean up this session's autopilot state files. If cancel fails, retry with /oh-my-claudecode:cancel --force."
+              ? " When all phases are complete, run /oh-my-gemini-cli:cancel to cleanly exit and clean up this session's autopilot state files. If cancel fails, retry with /oh-my-gemini-cli:cancel --force."
               : "";
             let reason = `[AUTOPILOT - Phase: ${phase}] Autopilot not complete. Continue working.${cancelGuidance}`;
             if (errorGuidance) {
@@ -760,7 +760,7 @@ async function main() {
           ultrapilot.state.last_checked_at = new Date().toISOString();
           writeJsonFile(ultrapilot.path, ultrapilot.state);
 
-          let reason = `[ULTRAPILOT] ${incomplete} workers still running. Continue working. When all workers complete, run /oh-my-claudecode:cancel to cleanly exit and clean up state files. If cancel fails, retry with /oh-my-claudecode:cancel --force.`;
+          let reason = `[ULTRAPILOT] ${incomplete} workers still running. Continue working. When all workers complete, run /oh-my-gemini-cli:cancel to cleanly exit and clean up state files. If cancel fails, retry with /oh-my-gemini-cli:cancel --force.`;
           if (errorGuidance) {
             reason = errorGuidance + reason;
           }
@@ -797,7 +797,7 @@ async function main() {
           swarmSummary.last_checked_at = new Date().toISOString();
           writeJsonFile(join(stateDir, "swarm-summary.json"), swarmSummary);
 
-          let reason = `[SWARM ACTIVE] ${pending} tasks remain. Continue working. When all tasks are done, run /oh-my-claudecode:cancel to cleanly exit and clean up state files. If cancel fails, retry with /oh-my-claudecode:cancel --force.`;
+          let reason = `[SWARM ACTIVE] ${pending} tasks remain. Continue working. When all tasks are done, run /oh-my-gemini-cli:cancel to cleanly exit and clean up state files. If cancel fails, retry with /oh-my-gemini-cli:cancel --force.`;
           if (errorGuidance) {
             reason = errorGuidance + reason;
           }
@@ -835,7 +835,7 @@ async function main() {
           pipeline.state.last_checked_at = new Date().toISOString();
           writeJsonFile(pipeline.path, pipeline.state);
 
-          let reason = `[PIPELINE - Stage ${currentStage + 1}/${totalStages}] Pipeline not complete. Continue working. When all stages complete, run /oh-my-claudecode:cancel to cleanly exit and clean up state files. If cancel fails, retry with /oh-my-claudecode:cancel --force.`;
+          let reason = `[PIPELINE - Stage ${currentStage + 1}/${totalStages}] Pipeline not complete. Continue working. When all stages complete, run /oh-my-gemini-cli:cancel to cleanly exit and clean up state files. If cancel fails, retry with /oh-my-gemini-cli:cancel --force.`;
           if (errorGuidance) {
             reason = errorGuidance + reason;
           }
@@ -852,7 +852,7 @@ async function main() {
       }
     }
 
-    // Priority 6: Team (omc-teams / staged pipeline)
+    // Priority 6: Team (omg-teams / staged pipeline)
     if (
       team.state?.active &&
       !isStaleState(team.state) &&
@@ -873,7 +873,7 @@ async function main() {
             team.state.last_checked_at = new Date().toISOString();
             writeJsonFile(team.path, team.state);
 
-            let reason = `[TEAM - Phase: ${phase}] Team mode active. Continue working. When all team tasks complete, run /oh-my-claudecode:cancel to cleanly exit. If cancel fails, retry with /oh-my-claudecode:cancel --force.`;
+            let reason = `[TEAM - Phase: ${phase}] Team mode active. Continue working. When all team tasks complete, run /oh-my-gemini-cli:cancel to cleanly exit. If cancel fails, retry with /oh-my-gemini-cli:cancel --force.`;
             if (errorGuidance) {
               reason = errorGuidance + reason;
             }
@@ -910,7 +910,7 @@ async function main() {
         ultraqa.state.last_checked_at = new Date().toISOString();
         writeJsonFile(ultraqa.path, ultraqa.state);
 
-        let reason = `[ULTRAQA - Cycle ${cycle + 1}/${maxCycles}] Tests not all passing. Continue fixing. When all tests pass, run /oh-my-claudecode:cancel to cleanly exit and clean up state files. If cancel fails, retry with /oh-my-claudecode:cancel --force.`;
+        let reason = `[ULTRAQA - Cycle ${cycle + 1}/${maxCycles}] Tests not all passing. Continue fixing. When all tests pass, run /oh-my-gemini-cli:cancel to cleanly exit and clean up state files. If cancel fails, retry with /oh-my-gemini-cli:cancel --force.`;
         if (errorGuidance) {
           reason = errorGuidance + reason;
         }
@@ -961,7 +961,7 @@ async function main() {
         reason += ` ${totalIncomplete} incomplete ${itemType} remain. Continue working.`;
       } else if (newCount >= 3) {
         // Only suggest cancel after minimum iterations (guard against no-tasks-created scenario)
-        reason += ` If all work is complete, run /oh-my-claudecode:cancel to cleanly exit ultrawork mode and clean up state files. If cancel fails, retry with /oh-my-claudecode:cancel --force. Otherwise, continue working.`;
+        reason += ` If all work is complete, run /oh-my-gemini-cli:cancel to cleanly exit ultrawork mode and clean up state files. If cancel fails, retry with /oh-my-gemini-cli:cancel --force. Otherwise, continue working.`;
       } else {
         // Early iterations with no tasks yet - just tell LLM to continue
         reason += ` Continue working - create Tasks to track your progress.`;
@@ -1050,7 +1050,7 @@ async function main() {
     try {
       process.stdout.write(JSON.stringify({ continue: true, suppressOutput: true }) + "\n");
     } catch {
-      // If stdout write fails, the hook will timeout and Claude Code will proceed
+      // If stdout write fails, the hook will timeout and Gemini Code will proceed
       // This is better than hanging forever
       process.exit(0);
     }

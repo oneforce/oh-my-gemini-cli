@@ -16,9 +16,9 @@ psm_init() {
         cat > "$PSM_PROJECTS" << 'EOF'
 {
   "aliases": {
-    "omc": {
-      "repo": "Yeachan-Heo/oh-my-claudecode",
-      "local": "~/Workspace/oh-my-claudecode",
+    "omg": {
+      "repo": "Yeachan-Heo/oh-my-gemini-cli",
+      "local": "~/Workspace/oh-my-gemini-cli",
       "default_base": "main"
     }
   },
@@ -40,7 +40,7 @@ EOF
 }
 
 # Get project config by alias
-# Usage: psm_get_project "omc"
+# Usage: psm_get_project "omg"
 # Returns: repo|local|default_base
 psm_get_project() {
     local alias="$1"

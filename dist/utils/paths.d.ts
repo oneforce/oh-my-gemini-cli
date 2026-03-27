@@ -12,10 +12,10 @@
  */
 export declare function toForwardSlash(path: string): string;
 /**
- * Get Claude config directory path.
+ * Get Gemini config directory path.
  * Respects the CLAUDE_CONFIG_DIR environment variable when set.
  */
-export declare function getClaudeConfigDir(): string;
+export declare function getGeminiConfigDir(): string;
 /**
  * Get a path suitable for use in shell commands
  * Converts backslashes to forward slashes for cross-platform compatibility
@@ -31,10 +31,10 @@ export declare function getDataDir(): string;
  */
 export declare function getConfigDir(): string;
 /**
- * Get the plugin cache base directory for oh-my-claudecode.
+ * Get the plugin cache base directory for oh-my-gemini-cli.
  * This is the directory containing version subdirectories.
  *
- * Structure: <configDir>/plugins/cache/omc/oh-my-claudecode/
+ * Structure: <configDir>/plugins/cache/omg/oh-my-gemini-cli/
  */
 export declare function getPluginCacheBase(): string;
 /**

@@ -28,15 +28,15 @@ describe('git-worktree', () => {
     describe('createWorkerWorktree', () => {
         it('creates worktree at correct path', () => {
             const info = createWorkerWorktree(teamName, 'worker1', repoDir);
-            expect(info.path).toContain('.omc/worktrees');
-            expect(info.branch).toBe(`omc-team/${teamName}/worker1`);
+            expect(info.path).toContain('.omg/worktrees');
+            expect(info.branch).toBe(`omg-team/${teamName}/worker1`);
             expect(info.workerName).toBe('worker1');
             expect(info.teamName).toBe(teamName);
             expect(existsSync(info.path)).toBe(true);
         });
         it('branch name is properly sanitized', () => {
             const info = createWorkerWorktree(teamName, 'worker-with-special', repoDir);
-            expect(info.branch).toContain('omc-team/');
+            expect(info.branch).toContain('omg-team/');
             expect(existsSync(info.path)).toBe(true);
         });
         it('handles recreation of stale worktree', () => {
@@ -57,7 +57,7 @@ describe('git-worktree', () => {
             expect(existsSync(info.path)).toBe(false);
             // Branch should be deleted
             const branches = execFileSync('git', ['branch'], { cwd: repoDir, encoding: 'utf-8' });
-            expect(branches).not.toContain('omc-team/');
+            expect(branches).not.toContain('omg-team/');
         });
         it('does not throw for non-existent worktree', () => {
             expect(() => removeWorkerWorktree(teamName, 'nonexistent', repoDir)).not.toThrow();

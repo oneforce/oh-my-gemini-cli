@@ -6,7 +6,7 @@ import {
  * Autopilot Prompt Generation
  *
  * Generates phase-specific prompts that include Task tool invocations
- * for Claude to execute. This is the core of the agent invocation mechanism.
+ * for Gemini to execute. This is the core of the agent invocation mechanism.
  */
 import type { PluginConfig } from "../../shared/types.js";
 
@@ -48,7 +48,7 @@ Your task: Expand this product idea into detailed requirements and technical spe
 
 \`\`\`
 Task(
-  subagent_type="oh-my-claudecode:analyst",
+  subagent_type="oh-my-gemini-cli:analyst",
   model="opus",
   prompt="REQUIREMENTS ANALYSIS for: ${escapeForPrompt(idea)}
 
@@ -70,7 +70,7 @@ After Analyst completes, spawn Architect:
 
 \`\`\`
 Task(
-  subagent_type="oh-my-claudecode:architect",
+  subagent_type="oh-my-gemini-cli:architect",
   model="opus",
   prompt="TECHNICAL SPECIFICATION for: ${escapeForPrompt(idea)}
 
@@ -99,7 +99,7 @@ The Analyst is read-only and cannot write files, so you must persist its open qu
 ### Step 3: Save Combined Spec
 
 Combine Analyst requirements + Architect technical spec into a single document.
-Save to: \`.omc/autopilot/spec.md\`
+Save to: \`.omg/autopilot/spec.md\`
 
 ### Step 4: Signal Completion
 
@@ -131,7 +131,7 @@ Spawn Architect to create the implementation plan:
 
 \`\`\`
 Task(
-  subagent_type="oh-my-claudecode:architect",
+  subagent_type="oh-my-gemini-cli:architect",
   model="opus",
   prompt="CREATE IMPLEMENTATION PLAN
 
@@ -169,7 +169,7 @@ After Architect creates the plan:
 
 \`\`\`
 Task(
-  subagent_type="oh-my-claudecode:critic",
+  subagent_type="oh-my-gemini-cli:critic",
   model="opus",
   prompt="REVIEW IMPLEMENTATION PLAN
 
@@ -219,13 +219,13 @@ Ralph and Ultrawork are now active. Execute tasks in parallel where possible.
 
 \`\`\`
 // For simple tasks (single file, straightforward logic)
-Task(subagent_type="oh-my-claudecode:executor-low", model="haiku", prompt="...")
+Task(subagent_type="oh-my-gemini-cli:executor-low", model="haiku", prompt="...")
 
 // For standard implementation (feature, multiple methods)
-Task(subagent_type="oh-my-claudecode:executor", model="sonnet", prompt="...")
+Task(subagent_type="oh-my-gemini-cli:executor", model="sonnet", prompt="...")
 
 // For complex work (architecture, debugging, refactoring)
-Task(subagent_type="oh-my-claudecode:executor-high", model="opus", prompt="...")
+Task(subagent_type="oh-my-gemini-cli:executor-high", model="opus", prompt="...")
 \`\`\`
 
 ### Progress Tracking
@@ -276,7 +276,7 @@ For each failure:
 1. **Diagnose** - Understand the error
 \`\`\`
 Task(
-  subagent_type="oh-my-claudecode:architect-low",
+  subagent_type="oh-my-gemini-cli:architect-low",
   model="haiku",
   prompt="Diagnose this error and suggest fix: [ERROR]"
 )
@@ -285,7 +285,7 @@ Task(
 2. **Fix** - Apply the fix
 \`\`\`
 Task(
-  subagent_type="oh-my-claudecode:debugger",
+  subagent_type="oh-my-gemini-cli:debugger",
   model="sonnet",
   prompt="Fix this error with minimal changes: [ERROR]"
 )
@@ -319,7 +319,7 @@ Spawn all three architects in parallel:
 \`\`\`
 // Functional Completeness Review
 Task(
-  subagent_type="oh-my-claudecode:architect",
+  subagent_type="oh-my-gemini-cli:architect",
   model="opus",
   prompt="FUNCTIONAL COMPLETENESS REVIEW
 
@@ -336,7 +336,7 @@ Verdict: APPROVED (all requirements met) or REJECTED (with specific gaps)"
 
 // Security Review
 Task(
-  subagent_type="oh-my-claudecode:security-reviewer",
+  subagent_type="oh-my-gemini-cli:security-reviewer",
   model="opus",
   prompt="SECURITY REVIEW
 
@@ -353,7 +353,7 @@ Verdict: APPROVED (no vulnerabilities) or REJECTED (with specific issues)"
 
 // Code Quality Review
 Task(
-  subagent_type="oh-my-claudecode:code-reviewer",
+  subagent_type="oh-my-gemini-cli:code-reviewer",
   model="opus",
   prompt="CODE QUALITY REVIEW
 
@@ -416,7 +416,7 @@ export function getPhasePrompt(
       );
     case "planning":
       return getDirectPlanningPrompt(
-        context.specPath || ".omc/autopilot/spec.md",
+        context.specPath || ".omg/autopilot/spec.md",
         context.planPath || resolveAutopilotPlanPath(),
       );
     case "execution":
@@ -424,7 +424,7 @@ export function getPhasePrompt(
     case "qa":
       return getQAPrompt();
     case "validation":
-      return getValidationPrompt(context.specPath || ".omc/autopilot/spec.md");
+      return getValidationPrompt(context.specPath || ".omg/autopilot/spec.md");
     default:
       return "";
   }

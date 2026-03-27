@@ -703,19 +703,19 @@ function generatePromptForComponent(
 
 function selectAgentType(component: Component): string {
   const roleToAgent: Record<ComponentRole, string> = {
-    frontend: 'oh-my-claudecode:designer',
-    backend: 'oh-my-claudecode:executor',
-    database: 'oh-my-claudecode:executor',
-    api: 'oh-my-claudecode:executor',
-    ui: 'oh-my-claudecode:designer',
-    shared: 'oh-my-claudecode:executor',
-    testing: 'oh-my-claudecode:qa-tester',
-    docs: 'oh-my-claudecode:writer',
-    config: 'oh-my-claudecode:executor',
-    module: 'oh-my-claudecode:executor'
+    frontend: 'oh-my-gemini-cli:designer',
+    backend: 'oh-my-gemini-cli:executor',
+    database: 'oh-my-gemini-cli:executor',
+    api: 'oh-my-gemini-cli:executor',
+    ui: 'oh-my-gemini-cli:designer',
+    shared: 'oh-my-gemini-cli:executor',
+    testing: 'oh-my-gemini-cli:qa-tester',
+    docs: 'oh-my-gemini-cli:writer',
+    config: 'oh-my-gemini-cli:executor',
+    module: 'oh-my-gemini-cli:executor'
   };
 
-  return roleToAgent[component.role] || 'oh-my-claudecode:executor';
+  return roleToAgent[component.role] || 'oh-my-gemini-cli:executor';
 }
 
 function selectModelTier(component: Component): 'low' | 'medium' | 'high' {

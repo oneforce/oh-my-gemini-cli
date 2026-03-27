@@ -29,7 +29,7 @@ describe('shutdownTeamV2 split-pane pane cleanup', () => {
   let cwd = '';
 
   beforeEach(async () => {
-    cwd = await mkdtemp(join(tmpdir(), 'omc-runtime-v2-pane-cleanup-'));
+    cwd = await mkdtemp(join(tmpdir(), 'omg-runtime-v2-pane-cleanup-'));
     tmuxCalls.length = 0;
     execFileMock.mockReset();
     execMock.mockReset();
@@ -85,18 +85,18 @@ describe('shutdownTeamV2 split-pane pane cleanup', () => {
 
   it('kills discovered split-pane worker panes beyond stale recorded pane metadata', async () => {
     const teamName = 'pane-cleanup-team';
-    const teamRoot = `.omc/state/team/${teamName}`;
+    const teamRoot = `.omg/state/team/${teamName}`;
 
     await writeJson(cwd, `${teamRoot}/config.json`, {
       name: teamName,
       task: 'demo',
-      agent_type: 'claude',
+      agent_type: 'gemini',
       worker_launch_mode: 'interactive',
       worker_count: 2,
       max_workers: 20,
       workers: [
-        { name: 'worker-1', index: 1, role: 'claude', assigned_tasks: [], pane_id: '%2' },
-        { name: 'worker-2', index: 2, role: 'claude', assigned_tasks: [] },
+        { name: 'worker-1', index: 1, role: 'gemini', assigned_tasks: [], pane_id: '%2' },
+        { name: 'worker-2', index: 2, role: 'gemini', assigned_tasks: [] },
       ],
       created_at: new Date().toISOString(),
       tmux_session: 'leader-session:0',

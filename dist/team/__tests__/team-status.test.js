@@ -6,32 +6,32 @@ import { getTeamStatus } from '../team-status.js';
 import { atomicWriteJson } from '../fs-utils.js';
 import { appendOutbox } from '../inbox-outbox.js';
 import { recordTaskUsage } from '../usage-tracker.js';
-import { getClaudeConfigDir } from '../../utils/paths.js';
+import { getGeminiConfigDir } from '../../utils/paths.js';
 const TEST_TEAM = 'test-team-status';
 let WORK_DIR;
-// Canonical tasks dir: {WORK_DIR}/.omc/state/team/{TEST_TEAM}/tasks/
+// Canonical tasks dir: {WORK_DIR}/.omg/state/team/{TEST_TEAM}/tasks/
 let TASKS_DIR;
 beforeEach(() => {
-    WORK_DIR = join(tmpdir(), `omc-team-status-test-${Date.now()}`);
-    TASKS_DIR = join(WORK_DIR, '.omc', 'state', 'team', TEST_TEAM, 'tasks');
+    WORK_DIR = join(tmpdir(), `omg-team-status-test-${Date.now()}`);
+    TASKS_DIR = join(WORK_DIR, '.omg', 'state', 'team', TEST_TEAM, 'tasks');
     mkdirSync(TASKS_DIR, { recursive: true });
-    mkdirSync(join(WORK_DIR, '.omc', 'state', 'team-bridge', TEST_TEAM), { recursive: true });
-    mkdirSync(join(WORK_DIR, '.omc', 'state'), { recursive: true });
+    mkdirSync(join(WORK_DIR, '.omg', 'state', 'team-bridge', TEST_TEAM), { recursive: true });
+    mkdirSync(join(WORK_DIR, '.omg', 'state'), { recursive: true });
 });
 afterEach(() => {
     rmSync(WORK_DIR, { recursive: true, force: true });
-    // Clean up outbox files written to ~/.claude/teams/ by appendOutbox
-    rmSync(join(getClaudeConfigDir(), 'teams', TEST_TEAM), { recursive: true, force: true });
+    // Clean up outbox files written to ~/.gemini/teams/ by appendOutbox
+    rmSync(join(getGeminiConfigDir(), 'teams', TEST_TEAM), { recursive: true, force: true });
 });
 function writeWorkerRegistry(workers) {
-    const registryPath = join(WORK_DIR, '.omc', 'state', 'team-mcp-workers.json');
+    const registryPath = join(WORK_DIR, '.omg', 'state', 'team-mcp-workers.json');
     atomicWriteJson(registryPath, { teamName: TEST_TEAM, workers });
 }
 function writeTask(task) {
     atomicWriteJson(join(TASKS_DIR, `${task.id}.json`), task);
 }
 function writeHeartbeatFile(data) {
-    const hbPath = join(WORK_DIR, '.omc', 'state', 'team-bridge', TEST_TEAM, `${data.workerName}.heartbeat.json`);
+    const hbPath = join(WORK_DIR, '.omg', 'state', 'team-bridge', TEST_TEAM, `${data.workerName}.heartbeat.json`);
     atomicWriteJson(hbPath, data);
 }
 function makeWorker(name, provider = 'codex') {
@@ -41,7 +41,7 @@ function makeWorker(name, provider = 'codex') {
         agentType: `mcp-${provider}`,
         model: 'test-model',
         joinedAt: Date.now(),
-        tmuxPaneId: `omc-team-${TEST_TEAM}-${name}`,
+        tmuxPaneId: `omg-team-${TEST_TEAM}-${name}`,
         cwd: WORK_DIR,
         backendType: 'tmux',
         subscriptions: [],

@@ -1,6 +1,6 @@
 # Reference Documentation
 
-Complete reference for oh-my-claudecode. For quick start, see the main [README.md](../README.md).
+Complete reference for oh-my-gemini-cli. For quick start, see the main [README.md](../README.md).
 
 ---
 
@@ -24,27 +24,27 @@ Complete reference for oh-my-claudecode. For quick start, see the main [README.m
 
 ## Installation
 
-**Only the Claude Code Plugin method is supported.** Other installation methods (npm, bun, curl) are deprecated and may not work correctly.
+**Only the Gemini Code Plugin method is supported.** Other installation methods (npm, bun, curl) are deprecated and may not work correctly.
 
-### Claude Code Plugin (Required)
+### Gemini Code Plugin (Required)
 
 ```bash
 # Step 1: Add the marketplace
-/plugin marketplace add https://github.com/Yeachan-Heo/oh-my-claudecode
+/plugin marketplace add https://github.com/Yeachan-Heo/oh-my-gemini-cli
 
 # Step 2: Install the plugin
-/plugin install oh-my-claudecode
+/plugin install oh-my-gemini-cli
 ```
 
-This integrates directly with Claude Code's plugin system and uses Node.js hooks.
+This integrates directly with Gemini Code's plugin system and uses Node.js hooks.
 
 > **Note**: Direct npm/bun global installs are **not supported**. The plugin system handles all installation and hook setup automatically.
 
 ### Requirements
 
-- [Claude Code](https://docs.anthropic.com/claude-code) installed
+- [Gemini Code](https://docs.anthropic.com/gemini-code) installed
 - One of:
-  - **Claude Max/Pro subscription** (recommended for individuals)
+  - **Gemini Max/Pro subscription** (recommended for individuals)
   - **Anthropic API key** (`ANTHROPIC_API_KEY` environment variable)
 
 ---
@@ -53,32 +53,32 @@ This integrates directly with Claude Code's plugin system and uses Node.js hooks
 
 ### Project-Scoped Configuration (Recommended)
 
-Configure omc for the current project only:
+Configure omg for the current project only:
 
 ```
-/oh-my-claudecode:omc-setup --local
+/oh-my-gemini-cli:omg-setup --local
 ```
 
-- Creates `./.claude/CLAUDE.md` in your current project
+- Creates `./.gemini/GEMINI.md` in your current project
 - Configuration applies only to this project
 - Won't affect other projects or global settings
-- **Safe**: Preserves your global CLAUDE.md
+- **Safe**: Preserves your global GEMINI.md
 
 ### Global Configuration
 
-Configure omc for all Claude Code sessions:
+Configure omg for all Gemini Code sessions:
 
 ```
-/oh-my-claudecode:omc-setup
+/oh-my-gemini-cli:omg-setup
 ```
 
-- Creates `~/.claude/CLAUDE.md` globally
+- Creates `~/.gemini/GEMINI.md` globally
 - Configuration applies to all projects
-- **Warning**: Completely overwrites existing `~/.claude/CLAUDE.md`
+- **Warning**: Completely overwrites existing `~/.gemini/GEMINI.md`
 
 ### What Configuration Enables
 
-| Feature           | Without     | With omc Config            |
+| Feature           | Without     | With omg Config            |
 | ----------------- | ----------- | -------------------------- |
 | Agent delegation  | Manual only | Automatic based on task    |
 | Keyword detection | Disabled    | ultrawork, search |
@@ -91,14 +91,14 @@ Configure omc for all Claude Code sessions:
 If both configurations exist, **project-scoped takes precedence** over global:
 
 ```
-./.claude/CLAUDE.md  (project)   →  Overrides  →  ~/.claude/CLAUDE.md  (global)
+./.gemini/GEMINI.md  (project)   →  Overrides  →  ~/.gemini/GEMINI.md  (global)
 ```
 
 ### Environment Variables
 
 | Variable                   | Default              | Description                                                                                                                                                                                                                                                                 |
 | -------------------------- | -------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `OMC_STATE_DIR`            | _(unset)_            | Centralized state directory. When set, OMC stores state at `$OMC_STATE_DIR/{project-id}/` instead of `{worktree}/.omc/`. This preserves state across worktree deletions. The project identifier is derived from the git remote URL (or worktree path for local-only repos). |
+| `OMC_STATE_DIR`            | _(unset)_            | Centralized state directory. When set, OMC stores state at `$OMC_STATE_DIR/{project-id}/` instead of `{worktree}/.omg/`. This preserves state across worktree deletions. The project identifier is derived from the git remote URL (or worktree path for local-only repos). |
 | `OMC_BRIDGE_SCRIPT`        | _(auto-detected)_    | Path to the Python bridge script                                                                                                                                                                                                                                            |
 | `OMC_PARALLEL_EXECUTION`   | `true`               | Enable/disable parallel agent execution                                                                                                                                                                                                                                     |
 | `OMC_CODEX_DEFAULT_MODEL`  | _(provider default)_ | Default model for Codex CLI workers                                                                                                                                                                                                                                         |
@@ -109,25 +109,25 @@ If both configurations exist, **project-scoped takes precedence** over global:
 
 #### Centralized State with `OMC_STATE_DIR`
 
-By default, OMC stores state in `{worktree}/.omc/`. This is lost when worktrees are deleted. To preserve state across worktree lifecycles, set `OMC_STATE_DIR`:
+By default, OMC stores state in `{worktree}/.omg/`. This is lost when worktrees are deleted. To preserve state across worktree lifecycles, set `OMC_STATE_DIR`:
 
 ```bash
 # In your shell profile (~/.bashrc, ~/.zshrc, etc.)
-export OMC_STATE_DIR="$HOME/.claude/omc"
+export OMC_STATE_DIR="$HOME/.gemini/omg"
 ```
 
-This resolves to `~/.claude/omc/{project-identifier}/` where the project identifier uses a hash of the git remote URL (stable across worktrees/clones) with a fallback to the directory path hash for local-only repos.
+This resolves to `~/.gemini/omg/{project-identifier}/` where the project identifier uses a hash of the git remote URL (stable across worktrees/clones) with a fallback to the directory path hash for local-only repos.
 
-If both a legacy `{worktree}/.omc/` directory and a centralized directory exist, OMC logs a notice and uses the centralized directory. You can then migrate data from the legacy directory and remove it.
+If both a legacy `{worktree}/.omg/` directory and a centralized directory exist, OMC logs a notice and uses the centralized directory. You can then migrate data from the legacy directory and remove it.
 
 ### When to Re-run Setup
 
 - **First time**: Run after installation (choose project or global)
 - **After updates**: Re-run to get the latest configuration
-- **Different machines**: Run on each machine where you use Claude Code
-- **New projects**: Run `/oh-my-claudecode:omc-setup --local` in each project that needs omc
+- **Different machines**: Run on each machine where you use Gemini Code
+- **New projects**: Run `/oh-my-gemini-cli:omg-setup --local` in each project that needs omg
 
-> **NOTE**: After updating the plugin (via `npm update`, `git pull`, or Claude Code's plugin update), you MUST re-run `/oh-my-claudecode:omc-setup` to apply the latest CLAUDE.md changes.
+> **NOTE**: After updating the plugin (via `npm update`, `git pull`, or Gemini Code's plugin update), you MUST re-run `/oh-my-gemini-cli:omg-setup` to apply the latest GEMINI.md changes.
 
 ### Remote OMC / Remote MCP Access
 
@@ -139,7 +139,7 @@ The narrow, coherent answer today is:
 - **Not implemented**: a general "OMC cluster", shared remote filesystem view, or automatic remote-OMC federation
 - **Still appropriate for full remote shell workflows**: SSH, worktrees, or a mounted/network filesystem
 
-If a remote host already exposes an MCP endpoint, add it to your MCP registry (or Claude settings and then re-run setup so OMC syncs the registry to Codex too):
+If a remote host already exposes an MCP endpoint, add it to your MCP registry (or Gemini settings and then re-run setup so OMC syncs the registry to Codex too):
 
 ```json
 {
@@ -158,7 +158,7 @@ If you need richer cross-machine behavior in the future, that would require a se
 
 ### Agent Customization
 
-Edit agent files in `~/.claude/agents/` to customize behavior:
+Edit agent files in `~/.gemini/agents/` to customize behavior:
 
 ```yaml
 ---
@@ -172,7 +172,7 @@ Your custom system prompt here...
 
 ### Project-Level Config
 
-Create `.claude/CLAUDE.md` in your project for project-specific instructions:
+Create `.gemini/GEMINI.md` in your project for project-specific instructions:
 
 ```markdown
 # Project Context
@@ -192,21 +192,21 @@ This is a TypeScript monorepo using:
 
 ### Stop Callback Notification Tags
 
-Configure tags for Telegram/Discord stop callbacks with `omc config-stop-callback`.
+Configure tags for Telegram/Discord stop callbacks with `omg config-stop-callback`.
 
 ```bash
 # Set/replace tags
-omc config-stop-callback telegram --enable --token <bot_token> --chat <chat_id> --tag-list "@alice,bob"
-omc config-stop-callback discord --enable --webhook <url> --tag-list "@here,123456789012345678,role:987654321098765432"
+omg config-stop-callback telegram --enable --token <bot_token> --chat <chat_id> --tag-list "@alice,bob"
+omg config-stop-callback discord --enable --webhook <url> --tag-list "@here,123456789012345678,role:987654321098765432"
 
 # Incremental updates
-omc config-stop-callback telegram --add-tag charlie
-omc config-stop-callback discord --remove-tag @here
-omc config-stop-callback discord --clear-tags
+omg config-stop-callback telegram --add-tag charlie
+omg config-stop-callback discord --remove-tag @here
+omg config-stop-callback discord --clear-tags
 
 # Inspect current callback config
-omc config-stop-callback telegram --show
-omc config-stop-callback discord --show
+omg config-stop-callback telegram --show
+omg config-stop-callback discord --show
 ```
 
 Tag behavior:
@@ -219,47 +219,47 @@ Tag behavior:
 
 ## CLI Commands: ask/team/session
 
-### `omc ask`
+### `omg ask`
 
 ```bash
-omc ask claude "review this patch"
-omc ask codex "review this patch from a security perspective"
-omc ask gemini --prompt "suggest UX improvements"
-omc ask claude --agent-prompt executor --prompt "create an implementation plan"
+omg ask gemini "review this patch"
+omg ask codex "review this patch from a security perspective"
+omg ask gemini --prompt "suggest UX improvements"
+omg ask gemini --agent-prompt executor --prompt "create an implementation plan"
 ```
 
-- Provider matrix: `claude | codex | gemini`
-- Artifacts: `.omc/artifacts/ask/{provider}-{slug}-{timestamp}.md`
+- Provider matrix: `gemini | codex | gemini`
+- Artifacts: `.omg/artifacts/ask/{provider}-{slug}-{timestamp}.md`
 - Canonical env vars: `OMC_ASK_ADVISOR_SCRIPT`, `OMC_ASK_ORIGINAL_TASK`
 - Phase-1 aliases (deprecated warning): `OMX_ASK_ADVISOR_SCRIPT`, `OMX_ASK_ORIGINAL_TASK`
-- Skill entrypoint: `/oh-my-claudecode:ask <claude|codex|gemini> <prompt>` routes to this command
+- Skill entrypoint: `/oh-my-gemini-cli:ask <gemini|codex|gemini> <prompt>` routes to this command
 
-### `omc team` (CLI runtime surface)
+### `omg team` (CLI runtime surface)
 
 ```bash
-omc team 2:codex "review auth flow"
-omc team status review-auth-flow
-omc team shutdown review-auth-flow --force
-omc team api claim-task --input '{"team_name":"auth-review","task_id":"1","worker":"worker-1"}' --json
+omg team 2:codex "review auth flow"
+omg team status review-auth-flow
+omg team shutdown review-auth-flow --force
+omg team api claim-task --input '{"team_name":"auth-review","task_id":"1","worker":"worker-1"}' --json
 ```
 
-Supported entrypoints: direct start (`omc team [N:agent] "<task>"`), `status`, `shutdown`, and `api`.
+Supported entrypoints: direct start (`omg team [N:agent] "<task>"`), `status`, `shutdown`, and `api`.
 
 Topology behavior:
 - inside classic tmux (`$TMUX` set): reuse the current tmux surface for split-pane or `--new-window` layouts
 - inside cmux (`CMUX_SURFACE_ID` without `$TMUX`): launch a detached tmux session for team workers
 - plain terminal: launch a detached tmux session for team workers
 
-### `omc session search`
+### `omg session search`
 
 ```bash
-omc session search "team leader stale"
-omc session search notify-hook --since 7d
-omc session search provider-routing --project all --json
+omg session search "team leader stale"
+omg session search notify-hook --since 7d
+omg session search provider-routing --project all --json
 ```
 
 - Defaults to the current project/worktree scope
-- Use `--project all` to search across all local Claude project transcripts
+- Use `--project all` to search across all local Gemini project transcripts
 - Supports `--limit`, `--session`, `--since`, `--context`, `--case-sensitive`, and `--json`
 - MCP/tool surface: `session_search` returns structured JSON for agents and automations
 
@@ -272,18 +272,18 @@ The Team MCP runtime server is **not enabled by default**. If manually enabled, 
 ```json
 {
   "code": "deprecated_cli_only",
-  "message": "Legacy team MCP runtime tools are deprecated. Use the omc team CLI instead."
+  "message": "Legacy team MCP runtime tools are deprecated. Use the omg team CLI instead."
 }
 ```
 
-Use `omc team ...` replacements instead:
+Use `omg team ...` replacements instead:
 
 | Tool                   | Purpose                                                    |
 | ---------------------- | ---------------------------------------------------------- |
-| `omc_run_team_start`   | **Deprecated** → `omc team [N:agent-type] "<task>"`        |
-| `omc_run_team_status`  | **Deprecated** → `omc team status <team-name>`             |
-| `omc_run_team_wait`    | **Deprecated** → monitor via `omc team status <team-name>` |
-| `omc_run_team_cleanup` | **Deprecated** → `omc team shutdown <team-name> [--force]` |
+| `omg_run_team_start`   | **Deprecated** → `omg team [N:agent-type] "<task>"`        |
+| `omg_run_team_status`  | **Deprecated** → `omg team status <team-name>`             |
+| `omg_run_team_wait`    | **Deprecated** → monitor via `omg team status <team-name>` |
+| `omg_run_team_cleanup` | **Deprecated** → `omg team shutdown <team-name> [--force]` |
 
 Optional compatibility enablement (manual only):
 
@@ -302,11 +302,11 @@ Optional compatibility enablement (manual only):
 
 - **Artifact-first terminal convergence**: team monitors prefer finalized state artifacts when present.
 - **Deterministic parse-failure handling**: malformed result artifacts are treated as terminal `failed`.
-- **Cleanup scope**: shutdown/cleanup only clears `.omc/state/team/{teamName}` for the target team (never sibling teams).
+- **Cleanup scope**: shutdown/cleanup only clears `.omg/state/team/{teamName}` for the target team (never sibling teams).
 
 ## Agents (29 Total)
 
-Always use `oh-my-claudecode:` prefix when calling via Task tool.
+Always use `oh-my-gemini-cli:` prefix when calling via Task tool.
 
 ### By Domain and Tier
 
@@ -372,89 +372,89 @@ Includes **31 canonical skills + 1 deprecated alias** (`psm`). Runtime truth com
 
 | Skill                     | Description                                                      | Manual Command                              |
 | ------------------------- | ---------------------------------------------------------------- | ------------------------------------------- |
-| `ai-slop-cleaner`         | Anti-slop cleanup workflow with optional reviewer-only `--review` pass | `/oh-my-claudecode:ai-slop-cleaner`         |
-| `ask`                     | Ask Claude, Codex, or Gemini via local CLI and capture a reusable artifact | `/oh-my-claudecode:ask`               |
-| `autopilot`               | Full autonomous execution from idea to working code              | `/oh-my-claudecode:autopilot`               |
-| `cancel`                  | Unified cancellation for active modes                            | `/oh-my-claudecode:cancel`                  |
-| `ccg`                     | Tri-model workflow via `ask codex` + `ask gemini`, then Claude synthesis | `/oh-my-claudecode:ccg`                     |
-| `configure-notifications` | Configure notification integrations (Telegram, Discord, Slack) via natural language | `/oh-my-claudecode:configure-notifications` |
-| `deep-dive`               | Two-stage trace → deep-interview pipeline with context handoff   | `/oh-my-claudecode:deep-dive`               |
-| `deep-interview`          | Socratic deep interview with ambiguity gating                    | `/oh-my-claudecode:deep-interview`          |
-| `deepinit`                | Generate hierarchical AGENTS.md docs                             | `/oh-my-claudecode:deepinit`                |
-| `external-context`        | Parallel document-specialist research                            | `/oh-my-claudecode:external-context`        |
-| `hud`                     | Configure HUD/statusline                                         | `/oh-my-claudecode:hud`                     |
-| `learner`                 | Extract reusable skill from session                              | `/oh-my-claudecode:learner`                 |
-| `mcp-setup`               | Configure MCP servers                                            | `/oh-my-claudecode:mcp-setup`               |
-| `omc-doctor`              | Diagnose and fix installation issues                             | `/oh-my-claudecode:omc-doctor`              |
-| `omc-plan`                | Planning workflow (`/plan` safe alias)                           | `/oh-my-claudecode:omc-plan`                |
-| `omc-reference`           | Detailed OMC agent/tools/team/commit reference skill             | Auto-loaded reference only                  |
-| `omc-setup`               | One-time setup wizard                                            | `/oh-my-claudecode:omc-setup`               |
-| `omc-teams`               | Spawn `claude`/`codex`/`gemini` tmux workers for parallel execution | `/oh-my-claudecode:omc-teams`             |
-| `project-session-manager` | Manage isolated dev environments (git worktrees + tmux)          | `/oh-my-claudecode:project-session-manager` |
-| `psm` | **Deprecated** compatibility alias for `project-session-manager` | `/oh-my-claudecode:psm` |
-| `ralph`                   | Persistence loop until verified completion                       | `/oh-my-claudecode:ralph`                   |
-| `ralplan`                 | Consensus planning alias for `/omc-plan --consensus`             | `/oh-my-claudecode:ralplan`                 |
-| `release`                 | Automated release workflow                                       | `/oh-my-claudecode:release`                 |
-| `setup`                   | Unified setup entrypoint for install, diagnostics, and MCP configuration | `/oh-my-claudecode:setup`              |
-| `sciomc`                  | Parallel scientist orchestration                                 | `/oh-my-claudecode:sciomc`                  |
-| `skill`                   | Manage local skills (list/add/remove/search/edit)                | `/oh-my-claudecode:skill`                   |
-| `team`                    | Coordinated multi-agent workflow                                 | `/oh-my-claudecode:team`                    |
-| `trace`                   | Evidence-driven tracing lane with parallel tracer hypotheses     | `/oh-my-claudecode:trace`                   |
-| `ultraqa`                 | QA cycle until goal is met                                       | `/oh-my-claudecode:ultraqa`                 |
-| `ultrawork`               | Maximum parallel throughput mode                                 | `/oh-my-claudecode:ultrawork`               |
-| `visual-verdict`          | Structured visual QA verdict for screenshot/reference comparisons | `/oh-my-claudecode:visual-verdict`          |
-| `writer-memory`           | Agentic memory system for writing projects                       | `/oh-my-claudecode:writer-memory`           |
+| `ai-slop-cleaner`         | Anti-slop cleanup workflow with optional reviewer-only `--review` pass | `/oh-my-gemini-cli:ai-slop-cleaner`         |
+| `ask`                     | Ask Gemini, Codex, or Gemini via local CLI and capture a reusable artifact | `/oh-my-gemini-cli:ask`               |
+| `autopilot`               | Full autonomous execution from idea to working code              | `/oh-my-gemini-cli:autopilot`               |
+| `cancel`                  | Unified cancellation for active modes                            | `/oh-my-gemini-cli:cancel`                  |
+| `ccg`                     | Tri-model workflow via `ask codex` + `ask gemini`, then Gemini synthesis | `/oh-my-gemini-cli:ccg`                     |
+| `configure-notifications` | Configure notification integrations (Telegram, Discord, Slack) via natural language | `/oh-my-gemini-cli:configure-notifications` |
+| `deep-dive`               | Two-stage trace → deep-interview pipeline with context handoff   | `/oh-my-gemini-cli:deep-dive`               |
+| `deep-interview`          | Socratic deep interview with ambiguity gating                    | `/oh-my-gemini-cli:deep-interview`          |
+| `deepinit`                | Generate hierarchical AGENTS.md docs                             | `/oh-my-gemini-cli:deepinit`                |
+| `external-context`        | Parallel document-specialist research                            | `/oh-my-gemini-cli:external-context`        |
+| `hud`                     | Configure HUD/statusline                                         | `/oh-my-gemini-cli:hud`                     |
+| `learner`                 | Extract reusable skill from session                              | `/oh-my-gemini-cli:learner`                 |
+| `mcp-setup`               | Configure MCP servers                                            | `/oh-my-gemini-cli:mcp-setup`               |
+| `omg-doctor`              | Diagnose and fix installation issues                             | `/oh-my-gemini-cli:omg-doctor`              |
+| `omg-plan`                | Planning workflow (`/plan` safe alias)                           | `/oh-my-gemini-cli:omg-plan`                |
+| `omg-reference`           | Detailed OMC agent/tools/team/commit reference skill             | Auto-loaded reference only                  |
+| `omg-setup`               | One-time setup wizard                                            | `/oh-my-gemini-cli:omg-setup`               |
+| `omg-teams`               | Spawn `gemini`/`codex`/`gemini` tmux workers for parallel execution | `/oh-my-gemini-cli:omg-teams`             |
+| `project-session-manager` | Manage isolated dev environments (git worktrees + tmux)          | `/oh-my-gemini-cli:project-session-manager` |
+| `psm` | **Deprecated** compatibility alias for `project-session-manager` | `/oh-my-gemini-cli:psm` |
+| `ralph`                   | Persistence loop until verified completion                       | `/oh-my-gemini-cli:ralph`                   |
+| `ralplan`                 | Consensus planning alias for `/omg-plan --consensus`             | `/oh-my-gemini-cli:ralplan`                 |
+| `release`                 | Automated release workflow                                       | `/oh-my-gemini-cli:release`                 |
+| `setup`                   | Unified setup entrypoint for install, diagnostics, and MCP configuration | `/oh-my-gemini-cli:setup`              |
+| `sciomg`                  | Parallel scientist orchestration                                 | `/oh-my-gemini-cli:sciomg`                  |
+| `skill`                   | Manage local skills (list/add/remove/search/edit)                | `/oh-my-gemini-cli:skill`                   |
+| `team`                    | Coordinated multi-agent workflow                                 | `/oh-my-gemini-cli:team`                    |
+| `trace`                   | Evidence-driven tracing lane with parallel tracer hypotheses     | `/oh-my-gemini-cli:trace`                   |
+| `ultraqa`                 | QA cycle until goal is met                                       | `/oh-my-gemini-cli:ultraqa`                 |
+| `ultrawork`               | Maximum parallel throughput mode                                 | `/oh-my-gemini-cli:ultrawork`               |
+| `visual-verdict`          | Structured visual QA verdict for screenshot/reference comparisons | `/oh-my-gemini-cli:visual-verdict`          |
+| `writer-memory`           | Agentic memory system for writing projects                       | `/oh-my-gemini-cli:writer-memory`           |
 
 
 ---
 
 ## Slash Commands
 
-Each installed skill is exposed as `/oh-my-claudecode:<skill-name>`. The skills table above is the full runtime-backed list; the commands below highlight common entrypoints and aliases. Compatibility keyword modes like `deep-analyze` and `tdd` are prompt-triggered behaviors, not standalone slash commands.
+Each installed skill is exposed as `/oh-my-gemini-cli:<skill-name>`. The skills table above is the full runtime-backed list; the commands below highlight common entrypoints and aliases. Compatibility keyword modes like `deep-analyze` and `tdd` are prompt-triggered behaviors, not standalone slash commands.
 
 | Command                                     | Description                                                                                   |
 | ------------------------------------------- | --------------------------------------------------------------------------------------------- |
-| `/oh-my-claudecode:ai-slop-cleaner <target>`    | Run the anti-slop cleanup workflow (`--review` for reviewer-only pass)                    |
-| `/oh-my-claudecode:ask <claude|codex|gemini> <prompt>` | Route a prompt through the selected advisor CLI and capture an ask artifact         |
-| `/oh-my-claudecode:autopilot <task>`            | Full autonomous execution                                                                  |
-| `/oh-my-claudecode:configure-notifications`     | Configure notification integrations                                                       |
-| `/oh-my-claudecode:deep-dive <problem>`         | Run the trace → deep-interview pipeline                                                   |
-| `/oh-my-claudecode:deep-interview <idea>`       | Socratic interview with ambiguity scoring before execution                                 |
-| `/oh-my-claudecode:deepinit [path]`             | Index codebase with hierarchical AGENTS.md files                                           |
-| `/oh-my-claudecode:mcp-setup`                   | Configure MCP servers                                                                      |
-| `/oh-my-claudecode:omc-doctor`                  | Diagnose and fix installation issues                                                       |
-| `/oh-my-claudecode:omc-plan <description>`      | Start planning session (supports consensus structured deliberation)                        |
-| `/oh-my-claudecode:omc-setup`                   | One-time setup wizard                                                                      |
-| `/oh-my-claudecode:omc-teams <N>:<agent> <task>`       | Spawn `claude`/`codex`/`gemini` tmux workers for legacy parallel execution                |
-| `/oh-my-claudecode:project-session-manager <arguments>` | Manage isolated dev environments with git worktrees + tmux                         |
-| `/oh-my-claudecode:psm <arguments>`             | Deprecated alias for project session manager                                               |
-| `/oh-my-claudecode:ralph <task>`                | Self-referential loop until task completion (`--critic=architect|critic|codex`)           |
-| `/oh-my-claudecode:ralplan <description>`       | Iterative planning with consensus structured deliberation (`--deliberate` for high-risk mode) |
-| `/oh-my-claudecode:release`                     | Automated release workflow                                                                 |
-| `/oh-my-claudecode:setup`                       | Unified setup entrypoint (`setup`, `setup doctor`, `setup mcp`)                           |
-| `/oh-my-claudecode:sciomc <topic>`              | Parallel research orchestration                                                            |
-| `/oh-my-claudecode:team <N>:<agent> <task>`     | Coordinated native team workflow                                                           |
-| `/oh-my-claudecode:trace`                       | Evidence-driven tracing lane that orchestrates parallel tracer hypotheses in team mode     |
-| `/oh-my-claudecode:ultraqa <goal>`              | Autonomous QA cycling workflow                                                             |
-| `/oh-my-claudecode:ultrawork <task>`            | Maximum performance mode with parallel agents                                              |
-| `/oh-my-claudecode:visual-verdict <task>`       | Structured visual QA verdict for screenshot/reference comparisons                          |
+| `/oh-my-gemini-cli:ai-slop-cleaner <target>`    | Run the anti-slop cleanup workflow (`--review` for reviewer-only pass)                    |
+| `/oh-my-gemini-cli:ask <gemini|codex|gemini> <prompt>` | Route a prompt through the selected advisor CLI and capture an ask artifact         |
+| `/oh-my-gemini-cli:autopilot <task>`            | Full autonomous execution                                                                  |
+| `/oh-my-gemini-cli:configure-notifications`     | Configure notification integrations                                                       |
+| `/oh-my-gemini-cli:deep-dive <problem>`         | Run the trace → deep-interview pipeline                                                   |
+| `/oh-my-gemini-cli:deep-interview <idea>`       | Socratic interview with ambiguity scoring before execution                                 |
+| `/oh-my-gemini-cli:deepinit [path]`             | Index codebase with hierarchical AGENTS.md files                                           |
+| `/oh-my-gemini-cli:mcp-setup`                   | Configure MCP servers                                                                      |
+| `/oh-my-gemini-cli:omg-doctor`                  | Diagnose and fix installation issues                                                       |
+| `/oh-my-gemini-cli:omg-plan <description>`      | Start planning session (supports consensus structured deliberation)                        |
+| `/oh-my-gemini-cli:omg-setup`                   | One-time setup wizard                                                                      |
+| `/oh-my-gemini-cli:omg-teams <N>:<agent> <task>`       | Spawn `gemini`/`codex`/`gemini` tmux workers for legacy parallel execution                |
+| `/oh-my-gemini-cli:project-session-manager <arguments>` | Manage isolated dev environments with git worktrees + tmux                         |
+| `/oh-my-gemini-cli:psm <arguments>`             | Deprecated alias for project session manager                                               |
+| `/oh-my-gemini-cli:ralph <task>`                | Self-referential loop until task completion (`--critic=architect|critic|codex`)           |
+| `/oh-my-gemini-cli:ralplan <description>`       | Iterative planning with consensus structured deliberation (`--deliberate` for high-risk mode) |
+| `/oh-my-gemini-cli:release`                     | Automated release workflow                                                                 |
+| `/oh-my-gemini-cli:setup`                       | Unified setup entrypoint (`setup`, `setup doctor`, `setup mcp`)                           |
+| `/oh-my-gemini-cli:sciomg <topic>`              | Parallel research orchestration                                                            |
+| `/oh-my-gemini-cli:team <N>:<agent> <task>`     | Coordinated native team workflow                                                           |
+| `/oh-my-gemini-cli:trace`                       | Evidence-driven tracing lane that orchestrates parallel tracer hypotheses in team mode     |
+| `/oh-my-gemini-cli:ultraqa <goal>`              | Autonomous QA cycling workflow                                                             |
+| `/oh-my-gemini-cli:ultrawork <task>`            | Maximum performance mode with parallel agents                                              |
+| `/oh-my-gemini-cli:visual-verdict <task>`       | Structured visual QA verdict for screenshot/reference comparisons                          |
 
 ### Skill Pipeline Metadata (Preview)
 
 Built-in skills and slash-loaded skills can now declare a lightweight pipeline/handoff contract in frontmatter:
 
 ```yaml
-pipeline: [deep-interview, omc-plan, autopilot]
-next-skill: omc-plan
+pipeline: [deep-interview, omg-plan, autopilot]
+next-skill: omg-plan
 next-skill-args: --consensus --direct
-handoff: .omc/specs/deep-interview-{slug}.md
+handoff: .omg/specs/deep-interview-{slug}.md
 ```
 
-When present, OMC appends a standardized **Skill Pipeline** section to the rendered skill prompt so the current stage, handoff artifact, and explicit next `Skill("oh-my-claudecode:...")` invocation are carried forward consistently.
+When present, OMC appends a standardized **Skill Pipeline** section to the rendered skill prompt so the current stage, handoff artifact, and explicit next `Skill("oh-my-gemini-cli:...")` invocation are carried forward consistently.
 
 ### Skills 2.0 Compatibility (MVP)
 
-OMC's canonical project-local skill directory remains `.omc/skills/`, but the runtime now also reads compatibility skills from `.agents/skills/`.
+OMC's canonical project-local skill directory remains `.omg/skills/`, but the runtime now also reads compatibility skills from `.agents/skills/`.
 
 For builtin and slash-loaded skills, OMC also appends a standardized **Skill Resources** section when the skill directory contains bundled assets such as helper scripts, templates, or support libraries. This helps agents reuse packaged skill resources instead of recreating them ad hoc.
 
@@ -462,7 +462,7 @@ For builtin and slash-loaded skills, OMC also appends a standardized **Skill Res
 
 ## Hooks System
 
-Oh-my-claudecode includes 31 lifecycle hooks that enhance Claude Code's behavior.
+Oh-my-gemini-cli includes 31 lifecycle hooks that enhance Gemini Code's behavior.
 
 ### Execution Mode Hooks
 
@@ -481,7 +481,7 @@ Oh-my-claudecode includes 31 lifecycle hooks that enhance Claude Code's behavior
 | Hook                 | Description                                           |
 | -------------------- | ----------------------------------------------------- |
 | `rules-injector`     | Dynamic rules injection with YAML frontmatter parsing |
-| `omc-orchestrator`   | Enforces orchestrator behavior and delegation         |
+| `omg-orchestrator`   | Enforces orchestrator behavior and delegation         |
 | `auto-slash-command` | Automatic slash command detection and execution       |
 | `keyword-detector`   | Magic keyword detection (ultrawork, ralph, etc.)      |
 | `todo-continuation`  | Ensures todo list completion                          |
@@ -511,8 +511,8 @@ Oh-my-claudecode includes 31 lifecycle hooks that enhance Claude Code's behavior
 ### Code Simplifier Hook
 
 The `code-simplifier` Stop hook automatically delegates recently modified source files to the
-`code-simplifier` agent after each Claude turn. It is **disabled by default** and must be
-explicitly enabled via `~/.omc/config.json`.
+`code-simplifier` agent after each Gemini turn. It is **disabled by default** and must be
+explicitly enabled via `~/.omg/config.json`.
 
 **Enable:**
 
@@ -544,8 +544,8 @@ explicitly enabled via `~/.omc/config.json`.
 
 **How it works:**
 
-1. When Claude stops, the hook runs `git diff HEAD --name-only` to find modified files
-2. If modified source files are found, the hook injects a message asking Claude to delegate to the `code-simplifier` agent
+1. When Gemini stops, the hook runs `git diff HEAD --name-only` to find modified files
+2. If modified source files are found, the hook injects a message asking Gemini to delegate to the `code-simplifier` agent
 3. The agent simplifies the files for clarity and consistency without changing behavior
 4. A turn-scoped marker prevents the hook from triggering more than once per turn cycle
 
@@ -573,19 +573,19 @@ Use these trigger phrases in natural language prompts to activate enhanced modes
 | `autopilot`, `build me`, `I want a`                     | Full autonomous execution                                                                     |
 | `deslop`, `anti-slop`, cleanup/refactor + slop smells         | Anti-slop cleanup workflow (`ai-slop-cleaner`)                                               |
 | `ralph`, `don't stop`, `must complete`                  | Persistence until verified complete                                                           |
-| `ccg`, `claude-codex-gemini`                            | Claude-Codex-Gemini orchestration                                                             |
+| `ccg`, `gemini-codex-gemini`                            | Gemini-Codex-Gemini orchestration                                                             |
 | `ralplan`                                               | Iterative planning consensus with structured deliberation (`--deliberate` for high-risk mode) |
 | `deep interview`, `ouroboros`                           | Deep Socratic interview with mathematical clarity gating                                      |
 | `deepsearch`, `search the codebase`, `find in codebase` | Codebase-focused search mode                                                                  |
 | `deepanalyze`, `deep-analyze`                           | Deep analysis mode                                                                            |
 | `ultrathink`                                            | Deep reasoning mode                                                                           |
 | `tdd`, `test first`, `red green`                        | TDD workflow enforcement                                                                      |
-| `cancelomc`, `stopomc`                                  | Unified cancellation                                                                          |
+| `cancelomg`, `stopomg`                                  | Unified cancellation                                                                          |
 
 ### Examples
 
 ```bash
-# In Claude Code:
+# In Gemini Code:
 
 # Maximum parallelism
 ultrawork implement user authentication with OAuth
@@ -612,7 +612,7 @@ ralplan this feature
 tdd: implement password validation
 
 # Stop active orchestration
-stopomc
+stopomg
 ```
 
 ---
@@ -624,8 +624,8 @@ stopomc
 | Platform    | Install Method              | Hook Type      |
 | ----------- | --------------------------- | -------------- |
 | **Windows** | WSL2 recommended (see note) | Node.js (.mjs) |
-| **macOS**   | Claude Code Plugin          | Bash (.sh)     |
-| **Linux**   | Claude Code Plugin          | Bash (.sh)     |
+| **macOS**   | Gemini Code Plugin          | Bash (.sh)     |
+| **Linux**   | Gemini Code Plugin          | Bash (.sh)     |
 
 > **Note**: Bash hooks are fully portable across macOS and Linux (no GNU-specific dependencies).
 
@@ -680,7 +680,7 @@ stopomc
 
 ## Performance Monitoring
 
-oh-my-claudecode includes comprehensive monitoring for agent performance, token usage, and debugging parallel workflows.
+oh-my-gemini-cli includes comprehensive monitoring for agent performance, token usage, and debugging parallel workflows.
 
 For complete documentation, see **[Performance Monitoring Guide](./PERFORMANCE-MONITORING.md)**.
 
@@ -689,18 +689,18 @@ For complete documentation, see **[Performance Monitoring Guide](./PERFORMANCE-M
 | Feature                 | Description                                     | Access                               |
 | ----------------------- | ----------------------------------------------- | ------------------------------------ |
 | **Agent Observatory**   | Real-time agent status, efficiency, bottlenecks | HUD / API                            |
-| **Session-End Summaries** | Persisted per-session summaries and callback payloads | `.omc/sessions/*.json`, `session-end` |
-| **Session Replay**      | Event timeline for post-session analysis        | `.omc/state/agent-replay-*.jsonl`    |
-| **Session Search**      | Search prior local transcript/session artifacts  | `omc session search`, `session_search` |
+| **Session-End Summaries** | Persisted per-session summaries and callback payloads | `.omg/sessions/*.json`, `session-end` |
+| **Session Replay**      | Event timeline for post-session analysis        | `.omg/state/agent-replay-*.jsonl`    |
+| **Session Search**      | Search prior local transcript/session artifacts  | `omg session search`, `session_search` |
 | **Intervention System** | Auto-detection of stale agents, cost overruns   | Automatic                            |
 
 ### CLI Commands
 
 ```bash
-omc hud                              # Render the current HUD statusline
-omc team status <team-name>          # Inspect a running team job
-tail -20 .omc/state/agent-replay-*.jsonl
-ls .omc/sessions/*.json
+omg hud                              # Render the current HUD statusline
+omg team status <team-name>          # Inspect a running team job
+tail -20 .omg/state/agent-replay-*.jsonl
+ls .omg/sessions/*.json
 ```
 
 ### HUD Presets
@@ -709,7 +709,7 @@ Enable a supported preset for agent and context visibility in your status line:
 
 ```json
 {
-  "omcHud": {
+  "omgHud": {
     "preset": "focused"
   }
 }
@@ -717,7 +717,7 @@ Enable a supported preset for agent and context visibility in your status line:
 
 ### External Resources
 
-- **[MarginLab.ai](https://marginlab.ai)** - SWE-Bench-Pro performance tracking with statistical significance testing for detecting Claude model degradation
+- **[MarginLab.ai](https://marginlab.ai)** - SWE-Bench-Pro performance tracking with statistical significance testing for detecting Gemini model degradation
 
 ---
 
@@ -726,7 +726,7 @@ Enable a supported preset for agent and context visibility in your status line:
 ### Diagnose Installation Issues
 
 ```bash
-/oh-my-claudecode:omc-doctor
+/oh-my-gemini-cli:omg-doctor
 ```
 
 Checks for:
@@ -740,18 +740,18 @@ Checks for:
 ### Configure HUD Statusline
 
 ```bash
-/oh-my-claudecode:hud setup
+/oh-my-gemini-cli:hud setup
 ```
 
 Installs or repairs the HUD statusline for real-time status updates.
 
 ### HUD Configuration (settings.json)
 
-Configure HUD elements in `~/.claude/settings.json`:
+Configure HUD elements in `~/.gemini/settings.json`:
 
 ```json
 {
-  "omcHud": {
+  "omgHud": {
     "preset": "focused",
     "elements": {
       "cwd": true,
@@ -768,7 +768,7 @@ Configure HUD elements in `~/.claude/settings.json`:
 | `cwd`        | Show current working directory                                                                    | `false` |
 | `gitRepo`    | Show git repository name                                                                          | `false` |
 | `gitBranch`  | Show current git branch                                                                           | `false` |
-| `omcLabel`   | Show [OMC] label                                                                                  | `true`  |
+| `omgLabel`   | Show [OMC] label                                                                                  | `true`  |
 | `contextBar` | Show context window usage                                                                         | `true`  |
 | `agents`     | Show active agents count                                                                          | `true`  |
 | `todos`      | Show todo progress                                                                                | `true`  |
@@ -776,7 +776,7 @@ Configure HUD elements in `~/.claude/settings.json`:
 | `autopilot`  | Show autopilot status                                                                             | `true`  |
 | `showTokens` | Show transcript-derived token usage (`tok:i1.2k/o340`, plus `r...` reasoning and `s...` session total when reliable) | `false` |
 
-Additional `omcHud` layout options (top-level):
+Additional `omgHud` layout options (top-level):
 
 | Option     | Description                                                                       | Default    |
 | ---------- | --------------------------------------------------------------------------------- | ---------- |
@@ -789,15 +789,15 @@ Available presets: `minimal`, `focused`, `full`, `dense`, `analytics`, `opencode
 
 | Issue                 | Solution                                                                         |
 | --------------------- | -------------------------------------------------------------------------------- |
-| Commands not found    | Re-run `/oh-my-claudecode:omc-setup`                                             |
-| Hooks not executing   | Check hook permissions: `chmod +x ~/.claude/hooks/**/*.sh`                       |
-| Agents not delegating | Verify CLAUDE.md is loaded: check `./.claude/CLAUDE.md` or `~/.claude/CLAUDE.md` |
+| Commands not found    | Re-run `/oh-my-gemini-cli:omg-setup`                                             |
+| Hooks not executing   | Check hook permissions: `chmod +x ~/.gemini/hooks/**/*.sh`                       |
+| Agents not delegating | Verify GEMINI.md is loaded: check `./.gemini/GEMINI.md` or `~/.gemini/GEMINI.md` |
 | LSP tools not working | Install language servers: `npm install -g typescript-language-server`            |
-| Token limit errors    | Use `/oh-my-claudecode:` for token-efficient execution                           |
+| Token limit errors    | Use `/oh-my-gemini-cli:` for token-efficient execution                           |
 
 ### Auto-Update
 
-Oh-my-claudecode includes a silent auto-update system that checks for updates in the background.
+Oh-my-gemini-cli includes a silent auto-update system that checks for updates in the background.
 
 Features:
 
@@ -805,21 +805,21 @@ Features:
 - **Concurrent-safe**: Lock file prevents simultaneous update attempts
 - **Cross-platform**: Works on both macOS and Linux
 
-To manually update, re-run the plugin install command or use Claude Code's built-in update mechanism.
+To manually update, re-run the plugin install command or use Gemini Code's built-in update mechanism.
 
 ### Uninstall
 
-Use Claude Code's plugin management:
+Use Gemini Code's plugin management:
 
 ```
-/plugin uninstall oh-my-claudecode@oh-my-claudecode
+/plugin uninstall oh-my-gemini-cli@oh-my-gemini-cli
 ```
 
 Or manually remove the installed files:
 
 ```bash
-rm ~/.claude/agents/{architect,document-specialist,explore,designer,writer,vision,critic,analyst,executor,qa-tester}.md
-rm ~/.claude/commands/{analyze,autopilot,deepsearch,plan,review,ultrawork}.md
+rm ~/.gemini/agents/{architect,document-specialist,explore,designer,writer,vision,critic,analyst,executor,qa-tester}.md
+rm ~/.gemini/commands/{analyze,autopilot,deepsearch,plan,review,ultrawork}.md
 ```
 
 ---

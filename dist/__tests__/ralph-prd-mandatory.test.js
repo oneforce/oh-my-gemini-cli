@@ -9,8 +9,8 @@ describe('Ralph PRD-Mandatory', () => {
     beforeEach(() => {
         testDir = join(tmpdir(), `ralph-prd-mandatory-${Date.now()}-${Math.random().toString(36).slice(2)}`);
         mkdirSync(testDir, { recursive: true });
-        // Create .omc/state directory for ralph state files
-        mkdirSync(join(testDir, '.omc', 'state'), { recursive: true });
+        // Create .omg/state directory for ralph state files
+        mkdirSync(join(testDir, '.omg', 'state'), { recursive: true });
     });
     afterEach(() => {
         if (existsSync(testDir)) {
@@ -279,7 +279,7 @@ describe('Ralph PRD-Mandatory', () => {
                 critic_mode: 'codex',
             });
             expect(prompt).toContain('[CODEX CRITIC VERIFICATION REQUIRED');
-            expect(prompt).toContain('omc ask codex --agent-prompt critic');
+            expect(prompt).toContain('omg ask codex --agent-prompt critic');
             expect(prompt).toContain('<ralph-approved critic="codex">VERIFIED_COMPLETE</ralph-approved>');
         });
         it('detects generic Ralph approval markers', () => {

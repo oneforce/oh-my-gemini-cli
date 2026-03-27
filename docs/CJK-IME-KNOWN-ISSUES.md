@@ -1,6 +1,6 @@
 # CJK IME Input Known Issues
 
-This document describes known issues with CJK (Chinese, Japanese, Korean) IME input in Claude Code CLI and provides workarounds for affected users.
+This document describes known issues with CJK (Chinese, Japanese, Korean) IME input in Gemini Code CLI and provides workarounds for affected users.
 
 ## Table of Contents
 
@@ -14,7 +14,7 @@ This document describes known issues with CJK (Chinese, Japanese, Korean) IME in
 
 ## Overview
 
-Claude Code CLI uses React Ink for terminal UI rendering. Due to limitations in how terminal raw mode handles IME (Input Method Editor) composition events, CJK users experience various input issues ranging from invisible characters to mispositioned composition text.
+Gemini Code CLI uses React Ink for terminal UI rendering. Due to limitations in how terminal raw mode handles IME (Input Method Editor) composition events, CJK users experience various input issues ranging from invisible characters to mispositioned composition text.
 
 ## Affected Users
 
@@ -97,12 +97,12 @@ This requires real-time composition display that terminal raw mode cannot provid
 
 ### Workaround 1: External Editor + Paste (Recommended)
 
-Compose your text in an external editor that handles IME correctly, then paste into Claude Code.
+Compose your text in an external editor that handles IME correctly, then paste into Gemini Code.
 
 1. Open any text editor (VS Code, Notes, TextEdit, Notepad)
 2. Type your CJK text there
 3. Copy (`Cmd+C` / `Ctrl+C`)
-4. Paste into Claude Code (`Cmd+V` / `Ctrl+V`)
+4. Paste into Gemini Code (`Cmd+V` / `Ctrl+V`)
 
 **Pros**: Works 100% reliably
 **Cons**: Disrupts workflow, requires switching applications
@@ -121,32 +121,32 @@ When possible, use English for prompts but include CJK text in file contents or 
 
 ### Workaround 3: Clipboard-based Input Script
 
-Create a script that reads from clipboard and sends to Claude Code:
+Create a script that reads from clipboard and sends to Gemini Code:
 
 ```bash
 # macOS
-pbpaste | claude --stdin
+pbpaste | gemini --stdin
 
 # Linux (requires xclip)
-xclip -selection clipboard -o | claude --stdin
+xclip -selection clipboard -o | gemini --stdin
 ```
 
 ### Workaround 4: Use IDE Integration
 
-Use Claude Code through IDE integrations (VS Code extension) which may handle IME better than raw terminal.
+Use Gemini Code through IDE integrations (VS Code extension) which may handle IME better than raw terminal.
 
 ## Related Issues
 
-### oh-my-claudecode
-- [#344](https://github.com/Yeachan-Heo/oh-my-claudecode/issues/344) - Korean IME input invisible in input field
+### oh-my-gemini-cli
+- [#344](https://github.com/Yeachan-Heo/oh-my-gemini-cli/issues/344) - Korean IME input invisible in input field
 
-### anthropics/claude-code
-- [#22732](https://github.com/anthropics/claude-code/issues/22732) - Korean IME: Characters completely invisible during composition
-- [#18291](https://github.com/anthropics/claude-code/issues/18291) - Korean IME composition: jamo not displayed until syllable completion
-- [#16322](https://github.com/anthropics/claude-code/issues/16322) - [CRITICAL] Korean IME: Composing characters display at wrong position
-- [#15705](https://github.com/anthropics/claude-code/issues/15705) - Korean input characters disappear on iOS mobile SSH
-- [#1547](https://github.com/anthropics/claude-code/issues/1547) - IME input causes performance issues
-- [#3045](https://github.com/anthropics/claude-code/issues/3045) - Investigation: Fixing IME Issues by Patching React Ink
+### anthropics/gemini-code
+- [#22732](https://github.com/anthropics/gemini-code/issues/22732) - Korean IME: Characters completely invisible during composition
+- [#18291](https://github.com/anthropics/gemini-code/issues/18291) - Korean IME composition: jamo not displayed until syllable completion
+- [#16322](https://github.com/anthropics/gemini-code/issues/16322) - [CRITICAL] Korean IME: Composing characters display at wrong position
+- [#15705](https://github.com/anthropics/gemini-code/issues/15705) - Korean input characters disappear on iOS mobile SSH
+- [#1547](https://github.com/anthropics/gemini-code/issues/1547) - IME input causes performance issues
+- [#3045](https://github.com/anthropics/gemini-code/issues/3045) - Investigation: Fixing IME Issues by Patching React Ink
 
 ### Upstream (React Ink)
 - React Ink's TextInput does not support IME composition state

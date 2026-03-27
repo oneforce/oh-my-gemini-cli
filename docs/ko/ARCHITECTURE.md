@@ -1,10 +1,10 @@
 # 아키텍처
 
-> oh-my-claudecode가 멀티 에이전트 워크플로우를 오케스트레이션하는 방법.
+> oh-my-gemini-cli가 멀티 에이전트 워크플로우를 오케스트레이션하는 방법.
 
 ## 개요
 
-oh-my-claudecode는 스킬 기반 라우팅 시스템을 통해 Claude Code가 전문 에이전트를 오케스트레이션할 수 있도록 합니다.
+oh-my-gemini-cli는 스킬 기반 라우팅 시스템을 통해 Gemini Code가 전문 에이전트를 오케스트레이션할 수 있도록 합니다.
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────┐
@@ -17,7 +17,7 @@ oh-my-claudecode는 스킬 기반 라우팅 시스템을 통해 Claude Code가 �
        │                                │                              │
        ▼                                ▼                              ▼
 ┌─────────────┐              ┌──────────────────┐           ┌─────────────────┐
-│  "ultrawork │              │   CLAUDE.md      │           │ SKILL ACTIVATED │
+│  "ultrawork │              │   GEMINI.md      │           │ SKILL ACTIVATED │
 │   refactor  │─────────────▶│   Auto-Routing   │──────────▶│                 │
 │   the API"  │              │                  │           │ ultrawork +     │
 └─────────────┘              │ Task Type:       │           │ default +       │
@@ -70,7 +70,7 @@ Skills: ultrawork + default + git-master
 
 ```typescript
 Task(
-  subagent_type="oh-my-claudecode:executor",
+  subagent_type="oh-my-gemini-cli:executor",
   model="sonnet",
   prompt="Implement feature..."
 )
@@ -108,17 +108,17 @@ Task(
 상태 파일은 표준화된 위치를 따릅니다:
 
 **로컬 프로젝트 상태:**
-- `.omc/state/{name}.json` - 세션 상태 (pipeline, team)
-- `.omc/notepads/{plan-name}/` - 계획 범위의 지식 캡처
+- `.omg/state/{name}.json` - 세션 상태 (pipeline, team)
+- `.omg/notepads/{plan-name}/` - 계획 범위의 지식 캡처
 
 **글로벌 상태:**
-- `~/.omc/state/{name}.json` - 사용자 환경설정 및 글로벌 설정
+- `~/.omg/state/{name}.json` - 사용자 환경설정 및 글로벌 설정
 
 레거시 위치는 읽기 시 자동으로 마이그레이션됩니다.
 
 ## 훅
 
-oh-my-claudecode는 `src/hooks/`에 라이프사이클 이벤트를 위한 31개의 훅을 포함합니다:
+oh-my-gemini-cli는 `src/hooks/`에 라이프사이클 이벤트를 위한 31개의 훅을 포함합니다:
 
 | 이벤트 | 용도 |
 |--------|------|
@@ -149,4 +149,4 @@ oh-my-claudecode는 `src/hooks/`에 라이프사이클 이벤트를 위한 31개
 - **전체 레퍼런스**: [REFERENCE.md](./REFERENCE.md) 참조
 - **내부 API**: [FEATURES.md](../FEATURES.md) 참조
 - **사용자 가이드**: [README.md](../../README.md) 참조
-- **스킬 레퍼런스**: 프로젝트의 CLAUDE.md 참조
+- **스킬 레퍼런스**: 프로젝트의 GEMINI.md 참조

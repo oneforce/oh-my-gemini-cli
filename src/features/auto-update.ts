@@ -1,7 +1,7 @@
 /**
  * Auto-Update System
  *
- * Provides version checking and auto-update functionality for oh-my-claudecode.
+ * Provides version checking and auto-update functionality for oh-my-gemini-cli.
  *
  * Features:
  * - Check for new versions from GitHub releases
@@ -28,18 +28,18 @@ import type { NotificationConfig } from '../notifications/types.js';
 
 /** GitHub repository information */
 export const REPO_OWNER = 'Yeachan-Heo';
-export const REPO_NAME = 'oh-my-claudecode';
+export const REPO_NAME = 'oh-my-gemini-cli';
 export const GITHUB_API_URL = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}`;
 export const GITHUB_RAW_URL = `https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}`;
 
 /**
- * Best-effort sync of the Claude Code marketplace clone.
- * The marketplace clone at ~/.claude/plugins/marketplaces/omc/ is used by
- * Claude Code to populate the plugin cache. If it's stale, `/plugin install`
+ * Best-effort sync of the Gemini Code marketplace clone.
+ * The marketplace clone at ~/.gemini/plugins/marketplaces/omg/ is used by
+ * Gemini Code to populate the plugin cache. If it's stale, `/plugin install`
  * and cache rebuilds reinstall old versions. (See #506)
  */
 function syncMarketplaceClone(verbose: boolean = false): { ok: boolean; message: string } {
-  const marketplacePath = join(getConfigDir(), 'plugins', 'marketplaces', 'omc');
+  const marketplacePath = join(getConfigDir(), 'plugins', 'marketplaces', 'omg');
   if (!existsSync(marketplacePath)) {
     return { ok: true, message: 'Marketplace clone not found; skipping' };
   }
@@ -134,7 +134,7 @@ const PLUGIN_SYNC_PAYLOAD = [
   'agents',
   'templates',
   'docs',
-  '.claude-plugin',
+  '.gemini-plugin',
   '.mcp.json',
   'README.md',
   'LICENSE',
@@ -185,7 +185,7 @@ function syncActivePluginCache(): { synced: boolean; errors: string[] } {
   const result = copyPluginSyncPayload(getRuntimePackageRoot(), activeRoots);
 
   if (result.synced) {
-    console.log('[omc update] Synced plugin cache');
+    console.log('[omg update] Synced plugin cache');
   }
 
   return result;
@@ -210,7 +210,7 @@ export function shouldBlockStandaloneUpdateInCurrentSession(): boolean {
 }
 
 export function syncPluginCache(verbose: boolean = false): { synced: boolean; skipped: boolean; errors: string[] } {
-  const pluginCacheRoot = join(getConfigDir(), 'plugins', 'cache', 'omc', 'oh-my-claudecode');
+  const pluginCacheRoot = join(getConfigDir(), 'plugins', 'cache', 'omg', 'oh-my-gemini-cli');
   if (!existsSync(pluginCacheRoot)) {
     return { synced: false, skipped: true, errors: [] };
   }
@@ -227,7 +227,7 @@ export function syncPluginCache(verbose: boolean = false): { synced: boolean; sk
       throw new Error('npm root -g returned an empty path');
     }
 
-    const sourceRoot = join(npmRoot, 'oh-my-claude-sisyphus');
+    const sourceRoot = join(npmRoot, 'oh-my-gemini-sisyphus');
     const packageJsonPath = join(sourceRoot, 'package.json');
     const packageJsonRaw = String(readFileSync(packageJsonPath, 'utf-8') ?? '');
     const packageMetadata = JSON.parse(packageJsonRaw) as { version?: unknown };
@@ -243,21 +243,21 @@ export function syncPluginCache(verbose: boolean = false): { synced: boolean; sk
 
     if (result.errors.length > 0) {
       for (const error of result.errors) {
-        console.warn(`[omc update] Plugin cache sync warning: ${error}`);
+        console.warn(`[omg update] Plugin cache sync warning: ${error}`);
       }
     }
 
     if (result.synced) {
-      console.log('[omc update] Plugin cache synced');
+      console.log('[omg update] Plugin cache synced');
     }
 
     return { ...result, skipped: false };
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
     if (verbose) {
-      console.warn(`[omc update] Plugin cache sync warning: ${message}`);
+      console.warn(`[omg update] Plugin cache sync warning: ${message}`);
     } else {
-      console.warn('[omc update] Plugin cache sync warning:', message);
+      console.warn('[omg update] Plugin cache sync warning:', message);
     }
     return { synced: false, skipped: false, errors: [message] };
   }
@@ -265,8 +265,8 @@ export function syncPluginCache(verbose: boolean = false): { synced: boolean; sk
 
 /** Installation paths (respects CLAUDE_CONFIG_DIR env var) */
 export const CLAUDE_CONFIG_DIR = getConfigDir();
-export const VERSION_FILE = join(CLAUDE_CONFIG_DIR, '.omc-version.json');
-export const CONFIG_FILE = join(CLAUDE_CONFIG_DIR, '.omc-config.json');
+export const VERSION_FILE = join(CLAUDE_CONFIG_DIR, '.omg-version.json');
+export const CONFIG_FILE = join(CLAUDE_CONFIG_DIR, '.omg-config.json');
 
 /**
  * Stop hook callback configuration for file logging
@@ -325,7 +325,7 @@ export interface StopHookCallbacksConfig {
 }
 
 /**
- * OMC configuration (stored in .omc-config.json)
+ * OMC configuration (stored in .omg-config.json)
  */
 export interface OMCConfig {
   /** Whether silent auto-updates are enabled (opt-in for security) */
@@ -414,7 +414,7 @@ export function isAutoUpgradePromptEnabled(): boolean {
 /**
  * Check if team feature is enabled
  * Returns false by default - requires explicit opt-in
- * Checks ~/.claude/settings.json first, then env var fallback
+ * Checks ~/.gemini/settings.json first, then env var fallback
  */
 export function isTeamEnabled(): boolean {
   try {
@@ -498,15 +498,15 @@ export function getInstalledVersion(): VersionMetadata | null {
     // Try to detect version from package.json if installed via npm
     try {
       // Check if we can find the package in node_modules
-      const result = execSync('npm list -g oh-my-claude-sisyphus --json', {
+      const result = execSync('npm list -g oh-my-gemini-sisyphus --json', {
         encoding: 'utf-8',
         timeout: 5000,
         stdio: 'pipe'
       });
       const data = JSON.parse(result);
-      if (data.dependencies?.['oh-my-claude-sisyphus']?.version) {
+      if (data.dependencies?.['oh-my-gemini-sisyphus']?.version) {
         return {
-          version: data.dependencies['oh-my-claude-sisyphus'].version,
+          version: data.dependencies['oh-my-gemini-sisyphus'].version,
           installedAt: new Date().toISOString(),
           installMethod: 'npm'
         };
@@ -555,7 +555,7 @@ export async function fetchLatestRelease(): Promise<ReleaseInfo> {
   const response = await fetch(`${GITHUB_API_URL}/releases/latest`, {
     headers: {
       'Accept': 'application/vnd.github.v3+json',
-      'User-Agent': 'oh-my-claudecode-updater'
+      'User-Agent': 'oh-my-gemini-cli-updater'
     }
   });
 
@@ -563,7 +563,7 @@ export async function fetchLatestRelease(): Promise<ReleaseInfo> {
     // No releases found - try to get version from package.json in repo
     const pkgResponse = await fetch(`${GITHUB_RAW_URL}/main/package.json`, {
       headers: {
-        'User-Agent': 'oh-my-claudecode-updater'
+        'User-Agent': 'oh-my-gemini-cli-updater'
       }
     });
 
@@ -664,7 +664,7 @@ export function reconcileUpdateRuntime(options?: { verbose?: boolean; skipGraceP
     const installResult = installOmc({
       force: true,
       verbose: options?.verbose ?? false,
-      skipClaudeCheck: true,
+      skipGeminiCheck: true,
       forceHooks: true,
       refreshHooksInPlugin: !projectScopedPlugin,
     });
@@ -681,13 +681,13 @@ export function reconcileUpdateRuntime(options?: { verbose?: boolean; skipGraceP
     const pluginSyncResult = syncActivePluginCache();
     if (pluginSyncResult.errors.length > 0 && options?.verbose) {
       for (const err of pluginSyncResult.errors) {
-        console.warn(`[omc] Plugin cache sync warning: ${err}`);
+        console.warn(`[omg] Plugin cache sync warning: ${err}`);
       }
     }
   } catch (error) {
     if (options?.verbose) {
       const message = error instanceof Error ? error.message : String(error);
-      console.warn(`[omc] Plugin cache sync warning: ${message}`);
+      console.warn(`[omg] Plugin cache sync warning: ${message}`);
     }
   }
 
@@ -695,11 +695,11 @@ export function reconcileUpdateRuntime(options?: { verbose?: boolean; skipGraceP
   try {
     const purgeResult = purgeStalePluginCacheVersions({ skipGracePeriod: options?.skipGracePeriod });
     if (purgeResult.removed > 0 && options?.verbose) {
-      console.log(`[omc] Purged ${purgeResult.removed} stale plugin cache version(s)`);
+      console.log(`[omg] Purged ${purgeResult.removed} stale plugin cache version(s)`);
     }
     if (purgeResult.errors.length > 0 && options?.verbose) {
       for (const err of purgeResult.errors) {
-        console.warn(`[omc] Cache purge warning: ${err}`);
+        console.warn(`[omg] Cache purge warning: ${err}`);
       }
     }
   } catch {
@@ -727,7 +727,7 @@ function getFirstResolvedBinaryPath(output: string): string {
     .find(Boolean);
 
   if (!resolved) {
-    throw new Error('Unable to resolve omc binary path for update reconciliation');
+    throw new Error('Unable to resolve omg binary path for update reconciliation');
   }
 
   return resolved;
@@ -735,7 +735,7 @@ function getFirstResolvedBinaryPath(output: string): string {
 
 function resolveOmcBinaryPath(): string {
   if (process.platform === 'win32') {
-    return getFirstResolvedBinaryPath(execFileSync('where.exe', ['omc.cmd'], {
+    return getFirstResolvedBinaryPath(execFileSync('where.exe', ['omg.cmd'], {
       encoding: 'utf-8',
       stdio: 'pipe',
       timeout: 5000,
@@ -743,7 +743,7 @@ function resolveOmcBinaryPath(): string {
     }));
   }
 
-  return getFirstResolvedBinaryPath(execSync('which omc 2>/dev/null || where omc 2>NUL', {
+  return getFirstResolvedBinaryPath(execSync('which omg 2>/dev/null || where omg 2>NUL', {
     encoding: 'utf-8',
     stdio: 'pipe',
     timeout: 5000,
@@ -763,14 +763,14 @@ export async function performUpdate(options?: {
   const previousVersion = installed?.version ?? null;
 
   try {
-    // Block npm update only from active Claude Code/plugin sessions.
+    // Block npm update only from active Gemini Code/plugin sessions.
     // Standalone terminals may inherit CLAUDE_PLUGIN_ROOT and should still update.
     if (shouldBlockStandaloneUpdateInCurrentSession() && !options?.standalone) {
       return {
         success: false,
         previousVersion,
         newVersion: 'unknown',
-        message: 'Running inside an active Claude Code plugin session. Use "/plugin install oh-my-claudecode" to update, or pass --standalone to force npm update.',
+        message: 'Running inside an active Gemini Code plugin session. Use "/plugin install oh-my-gemini-cli" to update, or pass --standalone to force npm update.',
       };
     }
 
@@ -780,17 +780,17 @@ export async function performUpdate(options?: {
 
     // Use npm for updates on all platforms (install.sh was removed)
     try {
-      execSync('npm install -g oh-my-claude-sisyphus@latest', {
+      execSync('npm install -g oh-my-gemini-sisyphus@latest', {
         encoding: 'utf-8',
         stdio: options?.verbose ? 'inherit' : 'pipe',
         timeout: 120000, // 2 minute timeout for npm
         ...(process.platform === 'win32' ? { windowsHide: true } : {})
       });
 
-      // Sync Claude Code marketplace clone so plugin cache picks up new version (#506)
+      // Sync Gemini Code marketplace clone so plugin cache picks up new version (#506)
       const marketplaceSync = syncMarketplaceClone(options?.verbose ?? false);
       if (!marketplaceSync.ok && options?.verbose) {
-        console.warn(`[omc update] ${marketplaceSync.message}`);
+        console.warn(`[omg update] ${marketplaceSync.message}`);
       }
 
       syncPluginCache(options?.verbose ?? false);
@@ -802,12 +802,12 @@ export async function performUpdate(options?: {
         // Set flag to prevent infinite loop
         process.env.OMC_UPDATE_RECONCILE = '1';
 
-        // Find the omc binary path
-        const omcPath = resolveOmcBinaryPath();
+        // Find the omg binary path
+        const omgPath = resolveOmcBinaryPath();
 
         // Re-exec with reconcile subcommand
         try {
-          execFileSync(omcPath, ['update-reconcile', ...(options?.clean ? ['--skip-grace-period'] : [])], {
+          execFileSync(omgPath, ['update-reconcile', ...(options?.clean ? ['--skip-grace-period'] : [])], {
             encoding: 'utf-8',
             stdio: options?.verbose ? 'inherit' : 'pipe',
             timeout: 60000,
@@ -860,8 +860,8 @@ export async function performUpdate(options?: {
     } catch (npmError) {
       throw new Error(
         'Auto-update via npm failed. Please run manually:\n' +
-        '  npm install -g oh-my-claude-sisyphus@latest\n' +
-        'Or use: /plugin install oh-my-claudecode\n' +
+        '  npm install -g oh-my-gemini-sisyphus@latest\n' +
+        'Or use: /plugin install oh-my-gemini-cli\n' +
         `Error: ${npmError instanceof Error ? npmError.message : npmError}`
       );
     }
@@ -882,19 +882,19 @@ export async function performUpdate(options?: {
  */
 export function formatUpdateNotification(checkResult: UpdateCheckResult): string {
   if (!checkResult.updateAvailable) {
-    return `oh-my-claudecode is up to date (v${checkResult.currentVersion ?? 'unknown'})`;
+    return `oh-my-gemini-cli is up to date (v${checkResult.currentVersion ?? 'unknown'})`;
   }
 
   const lines = [
     '╔═══════════════════════════════════════════════════════════╗',
-    '║           oh-my-claudecode Update Available!              ║',
+    '║           oh-my-gemini-cli Update Available!              ║',
     '╚═══════════════════════════════════════════════════════════╝',
     '',
     `  Current version: ${checkResult.currentVersion ?? 'unknown'}`,
     `  Latest version:  ${checkResult.latestVersion}`,
     '',
     '  To update, run: /update',
-    '  Or reinstall via: /plugin install oh-my-claudecode',
+    '  Or reinstall via: /plugin install oh-my-gemini-cli',
     ''
   ];
 
@@ -976,7 +976,7 @@ export async function interactiveUpdate(): Promise<void> {
 
     if (result.success) {
       console.log(`\n✓ ${result.message}`);
-      console.log('\nPlease restart your Claude Code session to use the new version.');
+      console.log('\nPlease restart your Gemini Code session to use the new version.');
     } else {
       console.error(`\n✗ ${result.message}`);
       if (result.errors) {
@@ -1005,7 +1005,7 @@ export interface SilentUpdateConfig {
 }
 
 /** State file for tracking silent update status */
-const SILENT_UPDATE_STATE_FILE = join(CLAUDE_CONFIG_DIR, '.omc-silent-update.json');
+const SILENT_UPDATE_STATE_FILE = join(CLAUDE_CONFIG_DIR, '.omg-silent-update.json');
 
 interface SilentUpdateState {
   lastAttempt?: string;
@@ -1080,7 +1080,7 @@ export async function silentAutoUpdate(config: SilentUpdateConfig = {}): Promise
   const {
     checkIntervalHours = 24,
     autoApply = true,
-    logFile = join(CLAUDE_CONFIG_DIR, '.omc-update.log'),
+    logFile = join(CLAUDE_CONFIG_DIR, '.omg-update.log'),
     maxRetries = 3
   } = config;
 

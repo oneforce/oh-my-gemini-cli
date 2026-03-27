@@ -24,8 +24,8 @@ function withUnixPaths(pathLike: Parameters<typeof existsSync>[0] | Parameters<t
 }
 
 describe('install downgrade protection (issue #1382)', () => {
-  const claudeMdPath = join(CLAUDE_CONFIG_DIR, 'CLAUDE.md');
-  const homeClaudeMdPath = join(homedir(), 'CLAUDE.md');
+  const geminiMdPath = join(CLAUDE_CONFIG_DIR, 'GEMINI.md');
+  const homeGeminiMdPath = join(homedir(), 'GEMINI.md');
 
   beforeEach(() => {
     vi.clearAllMocks();
@@ -34,7 +34,7 @@ describe('install downgrade protection (issue #1382)', () => {
   it('skips syncing when installed version metadata is newer than the CLI package version', () => {
     mockedExistsSync.mockImplementation((pathLike) => {
       const path = withUnixPaths(pathLike);
-      return path === withUnixPaths(VERSION_FILE) || path === withUnixPaths(claudeMdPath);
+      return path === withUnixPaths(VERSION_FILE) || path === withUnixPaths(geminiMdPath);
     });
 
     mockedReadFileSync.mockImplementation((pathLike) => {
@@ -42,7 +42,7 @@ describe('install downgrade protection (issue #1382)', () => {
       if (path === withUnixPaths(VERSION_FILE)) {
         return JSON.stringify({ version: '4.7.5' });
       }
-      if (path === withUnixPaths(claudeMdPath)) {
+      if (path === withUnixPaths(geminiMdPath)) {
         return '<!-- OMC:START -->\n<!-- OMC:VERSION:4.7.5 -->\n# OMC\n<!-- OMC:END -->\n';
       }
       throw new Error(`Unexpected read: ${path}`);
@@ -50,7 +50,7 @@ describe('install downgrade protection (issue #1382)', () => {
 
     const result = install({
       version: '4.5.1',
-      skipClaudeCheck: true,
+      skipGeminiCheck: true,
     });
 
     expect(result.success).toBe(true);
@@ -60,15 +60,15 @@ describe('install downgrade protection (issue #1382)', () => {
     expect(mockedWriteFileSync).not.toHaveBeenCalled();
   });
 
-  it('falls back to the existing CLAUDE.md version marker when metadata is missing', () => {
+  it('falls back to the existing GEMINI.md version marker when metadata is missing', () => {
     mockedExistsSync.mockImplementation((pathLike) => {
       const path = withUnixPaths(pathLike);
-      return path === withUnixPaths(homeClaudeMdPath);
+      return path === withUnixPaths(homeGeminiMdPath);
     });
 
     mockedReadFileSync.mockImplementation((pathLike) => {
       const path = withUnixPaths(pathLike);
-      if (path === withUnixPaths(homeClaudeMdPath)) {
+      if (path === withUnixPaths(homeGeminiMdPath)) {
         return '<!-- OMC:START -->\n<!-- OMC:VERSION:4.7.5 -->\n# OMC\n<!-- OMC:END -->\n';
       }
       throw new Error(`Unexpected read: ${path}`);
@@ -76,7 +76,7 @@ describe('install downgrade protection (issue #1382)', () => {
 
     const result = install({
       version: '4.5.1',
-      skipClaudeCheck: true,
+      skipGeminiCheck: true,
     });
 
     expect(result.success).toBe(true);

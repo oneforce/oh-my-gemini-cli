@@ -32,9 +32,9 @@ export function isExtendedThinkingModel(modelID) {
     if (lower.includes("thinking") || lower.endsWith("-high")) {
         return true;
     }
-    return (lower.includes("claude-sonnet-4") ||
-        lower.includes("claude-opus-4") ||
-        lower.includes("claude-3"));
+    return (lower.includes("gemini-sonnet-4") ||
+        lower.includes("gemini-opus-4") ||
+        lower.includes("gemini-3"));
 }
 export function hasContentParts(parts) {
     if (!parts || parts.length === 0)

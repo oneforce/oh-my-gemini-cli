@@ -14,8 +14,8 @@ import { fileURLToPath, pathToFileURL } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-/** Claude config directory (respects CLAUDE_CONFIG_DIR env var) */
-const configDir = process.env.CLAUDE_CONFIG_DIR || join(homedir(), '.claude');
+/** Gemini config directory (respects CLAUDE_CONFIG_DIR env var) */
+const configDir = process.env.CLAUDE_CONFIG_DIR || join(homedir(), '.gemini');
 
 // Import timeout-protected stdin reader (prevents hangs on Linux/Windows, see issue #240, #524)
 let readStdin;
@@ -142,7 +142,7 @@ function semverCompare(a, b) {
   return 0;
 }
 
-// Extract OMC version from CLAUDE.md content
+// Extract OMC version from GEMINI.md content
 function extractOmcVersion(content) {
   const match = content.match(/<!-- OMC:VERSION:(\d+\.\d+\.\d+[^\s]*?) -->/);
   return match ? match[1] : null;
@@ -161,18 +161,18 @@ function getPluginVersion() {
 // Get npm global package version
 function getNpmVersion() {
   try {
-    const versionFile = join(configDir, '.omc-version.json');
+    const versionFile = join(configDir, '.omg-version.json');
     const data = readJsonFile(versionFile);
     return data?.version || null;
   } catch { return null; }
 }
 
-// Get CLAUDE.md version
-function getClaudeMdVersion() {
+// Get GEMINI.md version
+function getGeminiMdVersion() {
   try {
-    const claudeMdPath = join(configDir, 'CLAUDE.md');
-    if (!existsSync(claudeMdPath)) return null;  // File doesn't exist
-    const content = readFileSync(claudeMdPath, 'utf-8');
+    const geminiMdPath = join(configDir, 'GEMINI.md');
+    if (!existsSync(geminiMdPath)) return null;  // File doesn't exist
+    const content = readFileSync(geminiMdPath, 'utf-8');
     const version = extractOmcVersion(content);
     return version || 'unknown';  // File exists but no marker = 'unknown'
   } catch { return null; }
@@ -182,7 +182,7 @@ function getClaudeMdVersion() {
 function detectVersionDrift() {
   const pluginVersion = getPluginVersion();
   const npmVersion = getNpmVersion();
-  const claudeMdVersion = getClaudeMdVersion();
+  const geminiMdVersion = getGeminiMdVersion();
 
   // Need at least plugin version to detect drift
   if (!pluginVersion) return null;
@@ -190,32 +190,32 @@ function detectVersionDrift() {
   const drift = [];
 
   if (npmVersion && npmVersion !== pluginVersion) {
-    drift.push({ component: 'npm package (omc CLI)', current: npmVersion, expected: pluginVersion });
+    drift.push({ component: 'npm package (omg CLI)', current: npmVersion, expected: pluginVersion });
   }
 
-  if (claudeMdVersion === 'unknown') {
+  if (geminiMdVersion === 'unknown') {
     drift.push({
-      component: 'CLAUDE.md instructions',
+      component: 'GEMINI.md instructions',
       current: 'unknown (needs migration)',
       expected: pluginVersion
     });
-  } else if (claudeMdVersion && claudeMdVersion !== pluginVersion) {
+  } else if (geminiMdVersion && geminiMdVersion !== pluginVersion) {
     drift.push({
-      component: 'CLAUDE.md instructions',
-      current: claudeMdVersion,
+      component: 'GEMINI.md instructions',
+      current: geminiMdVersion,
       expected: pluginVersion
     });
   }
 
   if (drift.length === 0) return null;
 
-  return { pluginVersion, npmVersion, claudeMdVersion, drift };
+  return { pluginVersion, npmVersion, geminiMdVersion, drift };
 }
 
 // Check if we should notify (once per unique drift combination)
 function shouldNotifyDrift(driftInfo) {
-  const stateFile = join(configDir, '.omc', 'update-state.json');
-  const driftKey = `plugin:${driftInfo.pluginVersion}-npm:${driftInfo.npmVersion}-claude:${driftInfo.claudeMdVersion}`;
+  const stateFile = join(configDir, '.omg', 'update-state.json');
+  const driftKey = `plugin:${driftInfo.pluginVersion}-npm:${driftInfo.npmVersion}-gemini:${driftInfo.geminiMdVersion}`;
 
   try {
     if (existsSync(stateFile)) {
@@ -226,7 +226,7 @@ function shouldNotifyDrift(driftInfo) {
 
   // Save new drift state
   try {
-    const dir = join(configDir, '.omc');
+    const dir = join(configDir, '.omg');
     if (!existsSync(dir)) mkdirSync(dir, { recursive: true });
     writeFileSync(stateFile, JSON.stringify({
       lastNotifiedDrift: driftKey,
@@ -239,7 +239,7 @@ function shouldNotifyDrift(driftInfo) {
 
 // Check npm registry for available update (with 24h cache)
 async function checkNpmUpdate(currentVersion) {
-  const cacheFile = join(configDir, '.omc', 'update-check.json');
+  const cacheFile = join(configDir, '.omg', 'update-check.json');
   const CACHE_DURATION = 24 * 60 * 60 * 1000;
   const now = Date.now();
 
@@ -259,7 +259,7 @@ async function checkNpmUpdate(currentVersion) {
   try {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 2000);
-    const response = await fetch('https://registry.npmjs.org/oh-my-claude-sisyphus/latest', {
+    const response = await fetch('https://registry.npmjs.org/oh-my-gemini-sisyphus/latest', {
       signal: controller.signal
     });
     clearTimeout(timeoutId);
@@ -271,7 +271,7 @@ async function checkNpmUpdate(currentVersion) {
 
     // Update cache
     try {
-      const dir = join(configDir, '.omc');
+      const dir = join(configDir, '.omg');
       if (!existsSync(dir)) mkdirSync(dir, { recursive: true });
       writeFileSync(cacheFile, JSON.stringify({ timestamp: now, latestVersion, currentVersion, updateAvailable }));
     } catch {}
@@ -284,8 +284,8 @@ async function checkNpmUpdate(currentVersion) {
 async function checkHudInstallation(retryCount = 0) {
   const hudDir = join(configDir, 'hud');
   // Support current and legacy script names
-  const hudScriptOmc = join(hudDir, 'omc-hud.mjs');
-  const hudScriptLegacy = join(hudDir, 'omc-hud.js');
+  const hudScriptOmc = join(hudDir, 'omg-hud.mjs');
+  const hudScriptLegacy = join(hudDir, 'omg-hud.js');
   const settingsFile = join(configDir, 'settings.json');
 
   const MAX_RETRIES = 2;
@@ -327,8 +327,8 @@ async function checkHudInstallation(retryCount = 0) {
           : null);
 
       // If OMC HUD wrapper is configured, ensure at least one plugin cache version is built.
-      if (statusLineCommand?.includes('omc-hud')) {
-        const pluginCacheBase = join(configDir, 'plugins', 'cache', 'omc', 'oh-my-claudecode');
+      if (statusLineCommand?.includes('omg-hud')) {
+        const pluginCacheBase = join(configDir, 'plugins', 'cache', 'omg', 'oh-my-gemini-cli');
         if (existsSync(pluginCacheBase)) {
           const versions = readdirSync(pluginCacheBase)
             .filter(version => !version.startsWith('.'))
@@ -383,7 +383,7 @@ async function main() {
       for (const d of driftInfo.drift) {
         driftMsg += `${d.component}: ${d.current} (expected ${d.expected})\n`;
       }
-      driftMsg += `\nRun 'omc update' to sync all components.`;
+      driftMsg += `\nRun 'omg update' to sync all components.`;
 
       messages.push(`<session-restore>\n\n${driftMsg}\n\n</session-restore>\n\n---\n`);
     }
@@ -394,7 +394,7 @@ async function main() {
       if (pluginVersion) {
         const updateInfo = await checkNpmUpdate(pluginVersion);
         if (updateInfo) {
-          messages.push(`<session-restore>\n\n[OMC UPDATE AVAILABLE]\n\nA new version of oh-my-claudecode is available: v${updateInfo.latestVersion} (current: v${updateInfo.currentVersion})\n\nTo update, run: omc update\n(This syncs plugin, npm package, and CLAUDE.md together)\n\n</session-restore>\n\n---\n`);
+          messages.push(`<session-restore>\n\n[OMC UPDATE AVAILABLE]\n\nA new version of oh-my-gemini-cli is available: v${updateInfo.latestVersion} (current: v${updateInfo.currentVersion})\n\nTo update, run: omg update\n(This syncs plugin, npm package, and GEMINI.md together)\n\n</session-restore>\n\n---\n`);
         }
       }
     } catch {}
@@ -403,7 +403,7 @@ async function main() {
     const hudCheck = await checkHudInstallation();
     if (!hudCheck.installed) {
       messages.push(`<system-reminder>
-[OMC] HUD not configured (${hudCheck.reason}). Run /hud setup then restart Claude Code.
+[OMC] HUD not configured (${hudCheck.reason}). Run /hud setup then restart Gemini Code.
 </system-reminder>`);
     }
 
@@ -412,14 +412,14 @@ async function main() {
     let ultraworkState = null;
     if (sessionId && /^[a-zA-Z0-9][a-zA-Z0-9_-]{0,255}$/.test(sessionId)) {
       // Session-scoped ONLY — no legacy fallback
-      ultraworkState = readJsonFile(join(directory, '.omc', 'state', 'sessions', sessionId, 'ultrawork-state.json'));
+      ultraworkState = readJsonFile(join(directory, '.omg', 'state', 'sessions', sessionId, 'ultrawork-state.json'));
       // Validate session identity
       if (ultraworkState && ultraworkState.session_id && ultraworkState.session_id !== sessionId) {
         ultraworkState = null;
       }
     } else {
       // No session_id — legacy behavior for backward compat
-      ultraworkState = readJsonFile(join(directory, '.omc', 'state', 'ultrawork-state.json'));
+      ultraworkState = readJsonFile(join(directory, '.omg', 'state', 'ultrawork-state.json'));
     }
 
     if (ultraworkState?.active) {
@@ -443,16 +443,16 @@ Treat this as prior-session context only. Prioritize the user's newest request, 
     let ralphState = null;
     if (sessionId && /^[a-zA-Z0-9][a-zA-Z0-9_-]{0,255}$/.test(sessionId)) {
       // Session-scoped ONLY — no legacy fallback
-      ralphState = readJsonFile(join(directory, '.omc', 'state', 'sessions', sessionId, 'ralph-state.json'));
+      ralphState = readJsonFile(join(directory, '.omg', 'state', 'sessions', sessionId, 'ralph-state.json'));
       // Validate session identity
       if (ralphState && ralphState.session_id && ralphState.session_id !== sessionId) {
         ralphState = null;
       }
     } else {
       // No session_id — legacy behavior for backward compat
-      ralphState = readJsonFile(join(directory, '.omc', 'state', 'ralph-state.json'));
+      ralphState = readJsonFile(join(directory, '.omg', 'state', 'ralph-state.json'));
       if (!ralphState) {
-        ralphState = readJsonFile(join(directory, '.omc', 'ralph-state.json'));
+        ralphState = readJsonFile(join(directory, '.omg', 'ralph-state.json'));
       }
     }
     if (ralphState?.active) {
@@ -472,13 +472,13 @@ Treat this as prior-session context only. Prioritize the user's newest request, 
 `);
     }
 
-    // Check for incomplete todos (project-local only, not global ~/.claude/todos/)
-    // NOTE: We intentionally do NOT scan the global ~/.claude/todos/ directory.
+    // Check for incomplete todos (project-local only, not global ~/.gemini/todos/)
+    // NOTE: We intentionally do NOT scan the global ~/.gemini/todos/ directory.
     // That directory accumulates todo files from ALL past sessions across all
     // projects, causing phantom task counts in fresh sessions (see issue #354).
     const localTodoPaths = [
-      join(directory, '.omc', 'todos.json'),
-      join(directory, '.claude', 'todos.json')
+      join(directory, '.omg', 'todos.json'),
+      join(directory, '.gemini', 'todos.json')
     ];
     let incompleteCount = 0;
     for (const todoFile of localTodoPaths) {
@@ -526,7 +526,7 @@ ${summary}
     }
 
     // Check for notepad Priority Context
-    const notepadPath = join(directory, '.omc', 'notepad.md');
+    const notepadPath = join(directory, '.omg', 'notepad.md');
     if (existsSync(notepadPath)) {
       try {
         const notepadContent = readFileSync(notepadPath, 'utf-8');
@@ -552,7 +552,7 @@ ${cleanContent}
     // This prevents "Cannot find module" errors for sessions started before a
     // plugin update whose CLAUDE_PLUGIN_ROOT still points to the old version.
     try {
-      const cacheBase = join(configDir, 'plugins', 'cache', 'omc', 'oh-my-claudecode');
+      const cacheBase = join(configDir, 'plugins', 'cache', 'omg', 'oh-my-gemini-cli');
       if (existsSync(cacheBase)) {
         const versions = readdirSync(cacheBase)
           .filter(v => /^\d+\.\d+\.\d+/.test(v))

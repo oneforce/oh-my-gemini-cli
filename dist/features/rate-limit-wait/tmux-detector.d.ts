@@ -1,7 +1,7 @@
 /**
  * tmux Detector
  *
- * Detects Claude Code sessions running in tmux panes and identifies
+ * Detects Gemini Code sessions running in tmux panes and identifies
  * those that are blocked due to rate limiting.
  *
  * Security considerations:
@@ -30,11 +30,11 @@ export declare function listTmuxPanes(): TmuxPane[];
  */
 export declare function capturePaneContent(paneId: string, lines?: number): string;
 /**
- * Analyze pane content to determine if it shows a rate-limited Claude Code session
+ * Analyze pane content to determine if it shows a rate-limited Gemini Code session
  */
 export declare function analyzePaneContent(content: string): PaneAnalysisResult;
 /**
- * Scan all tmux panes for blocked Claude Code sessions
+ * Scan all tmux panes for blocked Gemini Code sessions
  *
  * @param lines - Number of lines to capture from each pane
  */

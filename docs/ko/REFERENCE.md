@@ -1,6 +1,6 @@
 # 레퍼런스 문서
 
-oh-my-claudecode의 전체 레퍼런스입니다. 빠른 시작은 메인 [README.md](../../README.md)를 참조하세요.
+oh-my-gemini-cli의 전체 레퍼런스입니다. 빠른 시작은 메인 [README.md](../../README.md)를 참조하세요.
 
 ---
 
@@ -23,27 +23,27 @@ oh-my-claudecode의 전체 레퍼런스입니다. 빠른 시작은 메인 [READM
 
 ## 설치
 
-**Claude Code 플러그인 방식만 지원됩니다.** 다른 설치 방법 (npm, bun, curl)은 폐기되었으며 올바르게 작동하지 않을 수 있습니다.
+**Gemini Code 플러그인 방식만 지원됩니다.** 다른 설치 방법 (npm, bun, curl)은 폐기되었으며 올바르게 작동하지 않을 수 있습니다.
 
-### Claude Code 플러그인 (필수)
+### Gemini Code 플러그인 (필수)
 
 ```bash
 # 1단계: 마켓플레이스 추가
-/plugin marketplace add https://github.com/Yeachan-Heo/oh-my-claudecode
+/plugin marketplace add https://github.com/Yeachan-Heo/oh-my-gemini-cli
 
 # 2단계: 플러그인 설치
-/plugin install oh-my-claudecode
+/plugin install oh-my-gemini-cli
 ```
 
-이 방법은 Claude Code의 플러그인 시스템과 직접 통합되며 Node.js 훅을 사용합니다.
+이 방법은 Gemini Code의 플러그인 시스템과 직접 통합되며 Node.js 훅을 사용합니다.
 
 > **참고**: npm/bun 글로벌 직접 설치는 **지원되지 않습니다**. 플러그인 시스템이 모든 설치 및 훅 설정을 자동으로 처리합니다.
 
 ### 요구 사항
 
-- [Claude Code](https://docs.anthropic.com/claude-code) 설치됨
+- [Gemini Code](https://docs.anthropic.com/gemini-code) 설치됨
 - 다음 중 하나:
-  - **Claude Max/Pro 구독** (개인 사용자에게 권장)
+  - **Gemini Max/Pro 구독** (개인 사용자에게 권장)
   - **Anthropic API 키** (`ANTHROPIC_API_KEY` 환경 변수)
 
 ---
@@ -52,32 +52,32 @@ oh-my-claudecode의 전체 레퍼런스입니다. 빠른 시작은 메인 [READM
 
 ### 프로젝트 범위 설정 (권장)
 
-현재 프로젝트에만 omc를 설정합니다:
+현재 프로젝트에만 omg를 설정합니다:
 
 ```
-/oh-my-claudecode:omc-setup
+/oh-my-gemini-cli:omg-setup
 ```
 
-- 현재 프로젝트에 `./.claude/CLAUDE.md`를 생성합니다
+- 현재 프로젝트에 `./.gemini/GEMINI.md`를 생성합니다
 - 설정은 이 프로젝트에만 적용됩니다
 - 다른 프로젝트나 글로벌 설정에는 영향을 주지 않습니다
-- **안전**: 글로벌 CLAUDE.md를 보존합니다
+- **안전**: 글로벌 GEMINI.md를 보존합니다
 
 ### 글로벌 설정
 
-모든 Claude Code 세션에 omc를 설정합니다:
+모든 Gemini Code 세션에 omg를 설정합니다:
 
 ```
-/oh-my-claudecode:omc-setup
+/oh-my-gemini-cli:omg-setup
 ```
 
-- 글로벌로 `~/.claude/CLAUDE.md`를 생성합니다
+- 글로벌로 `~/.gemini/GEMINI.md`를 생성합니다
 - 설정은 모든 프로젝트에 적용됩니다
-- **주의**: 기존 `~/.claude/CLAUDE.md`를 완전히 덮어씁니다
+- **주의**: 기존 `~/.gemini/GEMINI.md`를 완전히 덮어씁니다
 
 ### 설정으로 활성화되는 기능
 
-| 기능            | 미설정 시   | omc 설정 시                |
+| 기능            | 미설정 시   | omg 설정 시                |
 | --------------- | ----------- | -------------------------- |
 | 에이전트 위임   | 수동만 가능 | 작업에 따라 자동           |
 | 키워드 감지     | 비활성화    | ultrawork, search |
@@ -90,21 +90,21 @@ oh-my-claudecode의 전체 레퍼런스입니다. 빠른 시작은 메인 [READM
 두 설정이 모두 존재하는 경우, **프로젝트 범위가 글로벌보다 우선**합니다:
 
 ```
-./.claude/CLAUDE.md  (프로젝트)   →  덮어씀  →  ~/.claude/CLAUDE.md  (글로벌)
+./.gemini/GEMINI.md  (프로젝트)   →  덮어씀  →  ~/.gemini/GEMINI.md  (글로벌)
 ```
 
 ### 설정 재실행이 필요한 경우
 
 - **최초**: 설치 후 실행 (프로젝트 또는 글로벌 선택)
 - **업데이트 후**: 최신 설정을 받기 위해 재실행
-- **다른 머신**: Claude Code를 사용하는 각 머신에서 실행
-- **새 프로젝트**: omc가 필요한 각 프로젝트에서 `/oh-my-claudecode:omc-setup --local` 실행
+- **다른 머신**: Gemini Code를 사용하는 각 머신에서 실행
+- **새 프로젝트**: omg가 필요한 각 프로젝트에서 `/oh-my-gemini-cli:omg-setup --local` 실행
 
-> **참고**: 플러그인 업데이트 후 (`npm update`, `git pull` 또는 Claude Code의 플러그인 업데이트를 통해), 최신 CLAUDE.md 변경사항을 적용하려면 반드시 `/oh-my-claudecode:omc-setup`을 재실행**해야 합니다**.
+> **참고**: 플러그인 업데이트 후 (`npm update`, `git pull` 또는 Gemini Code의 플러그인 업데이트를 통해), 최신 GEMINI.md 변경사항을 적용하려면 반드시 `/oh-my-gemini-cli:omg-setup`을 재실행**해야 합니다**.
 
 ### 에이전트 커스터마이징
 
-`~/.claude/agents/`의 에이전트 파일을 편집하여 동작을 커스터마이징할 수 있습니다:
+`~/.gemini/agents/`의 에이전트 파일을 편집하여 동작을 커스터마이징할 수 있습니다:
 
 ```yaml
 ---
@@ -118,7 +118,7 @@ Your custom system prompt here...
 
 ### 프로젝트 수준 설정
 
-프로젝트별 지침을 위해 프로젝트에 `.claude/CLAUDE.md`를 생성하세요:
+프로젝트별 지침을 위해 프로젝트에 `.gemini/GEMINI.md`를 생성하세요:
 
 ```markdown
 # Project Context
@@ -138,21 +138,21 @@ This is a TypeScript monorepo using:
 
 ### Stop Callback 알림 태그
 
-`omc config-stop-callback`으로 Telegram/Discord stop callback 태그를 설정합니다.
+`omg config-stop-callback`으로 Telegram/Discord stop callback 태그를 설정합니다.
 
 ```bash
 # 태그 설정/변경
-omc config-stop-callback telegram --enable --token <bot_token> --chat <chat_id> --tag-list "@alice,bob"
-omc config-stop-callback discord --enable --webhook <url> --tag-list "@here,123456789012345678,role:987654321098765432"
+omg config-stop-callback telegram --enable --token <bot_token> --chat <chat_id> --tag-list "@alice,bob"
+omg config-stop-callback discord --enable --webhook <url> --tag-list "@here,123456789012345678,role:987654321098765432"
 
 # 증분 업데이트
-omc config-stop-callback telegram --add-tag charlie
-omc config-stop-callback discord --remove-tag @here
-omc config-stop-callback discord --clear-tags
+omg config-stop-callback telegram --add-tag charlie
+omg config-stop-callback discord --remove-tag @here
+omg config-stop-callback discord --clear-tags
 
 # 현재 callback 설정 확인
-omc config-stop-callback telegram --show
-omc config-stop-callback discord --show
+omg config-stop-callback telegram --show
+omg config-stop-callback discord --show
 ```
 
 태그 동작:
@@ -165,7 +165,7 @@ omc config-stop-callback discord --show
 
 ## 에이전트 (28개)
 
-Task 도구를 통해 호출할 때는 항상 `oh-my-claudecode:` 접두사를 사용하세요.
+Task 도구를 통해 호출할 때는 항상 `oh-my-gemini-cli:` 접두사를 사용하세요.
 
 ### 도메인 및 티어별
 
@@ -230,81 +230,81 @@ Task 도구를 통해 호출할 때는 항상 `oh-my-claudecode:` 접두사를 �
 | 스킬          | 설명                                          | 수동 명령어                    |
 | ------------- | --------------------------------------------- | ------------------------------ |
 | `orchestrate` | 멀티 에이전트 오케스트레이션 모드             | -                              |
-| `autopilot`   | 아이디어에서 작동하는 코드까지 완전 자율 실행 | `/oh-my-claudecode:autopilot`  |
-| `ultrawork`   | 병렬 에이전트를 통한 최대 성능                | `/oh-my-claudecode:ultrawork`  |
-| `pipeline`    | 순차적 에이전트 체이닝                        | `/oh-my-claudecode:pipeline`   |
-| ``            | 토큰 효율적 병렬 실행                         | `/oh-my-claudecode:`           |
-| `ralph`       | 완료될 때까지 자기 참조적 개발                | `/oh-my-claudecode:ralph`      |
-| `ralph-init`  | 구조화된 작업 추적을 위한 PRD 초기화          | `/oh-my-claudecode:ralph-init` |
-| `ultraqa`     | 자율 QA 사이클링 워크플로우                   | `/oh-my-claudecode:ultraqa`    |
-| `plan`        | 플래닝 세션 시작                              | `/oh-my-claudecode:plan`       |
-| `ralplan`     | 반복적 플래닝 (planner+architect+critic)      | `/oh-my-claudecode:ralplan`    |
-| `review`      | critic을 통한 작업 플랜 리뷰                  | `/oh-my-claudecode:review`     |
+| `autopilot`   | 아이디어에서 작동하는 코드까지 완전 자율 실행 | `/oh-my-gemini-cli:autopilot`  |
+| `ultrawork`   | 병렬 에이전트를 통한 최대 성능                | `/oh-my-gemini-cli:ultrawork`  |
+| `pipeline`    | 순차적 에이전트 체이닝                        | `/oh-my-gemini-cli:pipeline`   |
+| ``            | 토큰 효율적 병렬 실행                         | `/oh-my-gemini-cli:`           |
+| `ralph`       | 완료될 때까지 자기 참조적 개발                | `/oh-my-gemini-cli:ralph`      |
+| `ralph-init`  | 구조화된 작업 추적을 위한 PRD 초기화          | `/oh-my-gemini-cli:ralph-init` |
+| `ultraqa`     | 자율 QA 사이클링 워크플로우                   | `/oh-my-gemini-cli:ultraqa`    |
+| `plan`        | 플래닝 세션 시작                              | `/oh-my-gemini-cli:plan`       |
+| `ralplan`     | 반복적 플래닝 (planner+architect+critic)      | `/oh-my-gemini-cli:ralplan`    |
+| `review`      | critic을 통한 작업 플랜 리뷰                  | `/oh-my-gemini-cli:review`     |
 
 ### 향상 스킬
 
 | 스킬              | 설명                                      | 수동 명령어                         |
 | ----------------- | ----------------------------------------- | ----------------------------------- |
-| `deepinit`        | 계층적 AGENTS.md 코드베이스 문서화        | `/oh-my-claudecode:deepinit`        |
-| `deepsearch`      | 다중 전략 코드베이스 검색                 | `/oh-my-claudecode:deepsearch`      |
-| `sciomc`          | 병렬 scientist 오케스트레이션             | `/oh-my-claudecode:sciomc`          |
+| `deepinit`        | 계층적 AGENTS.md 코드베이스 문서화        | `/oh-my-gemini-cli:deepinit`        |
+| `deepsearch`      | 다중 전략 코드베이스 검색                 | `/oh-my-gemini-cli:deepsearch`      |
+| `sciomg`          | 병렬 scientist 오케스트레이션             | `/oh-my-gemini-cli:sciomg`          |
 | `frontend-ui-ux`  | 디자이너 출신 개발자의 UI/UX 전문성       | (자동 활성화)                       |
 | `git-master`      | 원자적 커밋 및 히스토리를 위한 Git 전문가 | (자동 활성화)                       |
-| `learner`         | 세션에서 재사용 가능한 스킬 추출          | `/oh-my-claudecode:learner`         |
+| `learner`         | 세션에서 재사용 가능한 스킬 추출          | `/oh-my-gemini-cli:learner`         |
 
 ### 유틸리티 스킬
 
 | 스킬                      | 설명                                          | 수동 명령어                                 |
 | ------------------------- | --------------------------------------------- | ------------------------------------------- |
-| `note`                    | 컨텍스트 압축에 강한 노트패드에 메모 저장     | `/oh-my-claudecode:note`                    |
-| `cancel`                  | 모든 모드에 대한 통합 취소                    | `/oh-my-claudecode:cancel`                  |
-| `omc-setup`               | 최초 설정 마법사                              | `/oh-my-claudecode:omc-setup`               |
-| `omc-doctor`              | 설치 문제 진단 및 수정                        | `/oh-my-claudecode:omc-doctor`              |
-| `omc-help`                | OMC 사용 가이드 표시                          | `/oh-my-claudecode:omc-help`                |
-| `hud`                     | HUD 상태 표시줄 설정                          | `/oh-my-claudecode:hud`                     |
-| `release`                 | 자동 릴리스 워크플로우                        | `/oh-my-claudecode:release`                 |
-| `mcp-setup`               | MCP 서버 설정                                 | `/oh-my-claudecode:mcp-setup`               |
-| `writer-memory`           | 작성자를 위한 에이전틱 메모리 시스템          | `/oh-my-claudecode:writer-memory`           |
-| `project-session-manager` | 격리된 개발 환경 관리 (git worktrees + tmux)  | `/oh-my-claudecode:project-session-manager` |
-| `skill`                   | 로컬 스킬 관리 (목록, 추가, 제거, 검색, 편집) | `/oh-my-claudecode:skill`                   |
+| `note`                    | 컨텍스트 압축에 강한 노트패드에 메모 저장     | `/oh-my-gemini-cli:note`                    |
+| `cancel`                  | 모든 모드에 대한 통합 취소                    | `/oh-my-gemini-cli:cancel`                  |
+| `omg-setup`               | 최초 설정 마법사                              | `/oh-my-gemini-cli:omg-setup`               |
+| `omg-doctor`              | 설치 문제 진단 및 수정                        | `/oh-my-gemini-cli:omg-doctor`              |
+| `omg-help`                | OMC 사용 가이드 표시                          | `/oh-my-gemini-cli:omg-help`                |
+| `hud`                     | HUD 상태 표시줄 설정                          | `/oh-my-gemini-cli:hud`                     |
+| `release`                 | 자동 릴리스 워크플로우                        | `/oh-my-gemini-cli:release`                 |
+| `mcp-setup`               | MCP 서버 설정                                 | `/oh-my-gemini-cli:mcp-setup`               |
+| `writer-memory`           | 작성자를 위한 에이전틱 메모리 시스템          | `/oh-my-gemini-cli:writer-memory`           |
+| `project-session-manager` | 격리된 개발 환경 관리 (git worktrees + tmux)  | `/oh-my-gemini-cli:project-session-manager` |
+| `skill`                   | 로컬 스킬 관리 (목록, 추가, 제거, 검색, 편집) | `/oh-my-gemini-cli:skill`                   |
 
 ---
 
 ## 슬래시 명령어
 
-모든 스킬은 `/oh-my-claudecode:` 접두사가 붙은 슬래시 명령어로 사용할 수 있습니다.
+모든 스킬은 `/oh-my-gemini-cli:` 접두사가 붙은 슬래시 명령어로 사용할 수 있습니다.
 
 | 명령어                                       | 설명                                      |
 | -------------------------------------------- | ----------------------------------------- |
-| `/oh-my-claudecode:orchestrate <task>`       | 멀티 에이전트 오케스트레이션 모드 활성화  |
-| `/oh-my-claudecode:autopilot <task>`         | 완전 자율 실행                            |
-| `/oh-my-claudecode:ultrawork <task>`         | 병렬 에이전트를 통한 최대 성능 모드       |
-| `/oh-my-claudecode:pipeline <stages>`        | 순차적 에이전트 체이닝                    |
-| `/oh-my-claudecode: <task>`                  | 토큰 효율적 병렬 실행                     |
-| `/oh-my-claudecode:ralph-init <task>`        | 구조화된 작업 추적을 위한 PRD 초기화      |
-| `/oh-my-claudecode:ralph <task>`             | 작업 완료까지 자기 참조 루프              |
-| `/oh-my-claudecode:ultraqa <goal>`           | 자율 QA 사이클링 워크플로우               |
-| `/oh-my-claudecode:plan <description>`       | 플래닝 세션 시작                          |
-| `/oh-my-claudecode:ralplan <description>`    | 합의를 통한 반복적 플래닝                 |
-| `/oh-my-claudecode:review [plan-path]`       | critic을 통한 플랜 리뷰                   |
-| `/oh-my-claudecode:deepsearch <query>`       | 다중 전략 코드베이스 검색                 |
-| `/oh-my-claudecode:deepinit [path]`          | 계층적 AGENTS.md 파일로 코드베이스 인덱싱 |
-| `/oh-my-claudecode:sciomc <topic>`           | 병렬 리서치 오케스트레이션                |
-| `/oh-my-claudecode:learner`                  | 세션에서 재사용 가능한 스킬 추출          |
-| `/oh-my-claudecode:note <content>`           | notepad.md에 메모 저장                    |
-| `/oh-my-claudecode:cancel`                   | 통합 취소                                 |
-| `/oh-my-claudecode:omc-setup`                | 최초 설정 마법사                          |
-| `/oh-my-claudecode:omc-doctor`               | 설치 문제 진단 및 수정                    |
-| `/oh-my-claudecode:omc-help`                 | OMC 사용 가이드 표시                      |
-| `/oh-my-claudecode:hud`                      | HUD 상태 표시줄 설정                      |
-| `/oh-my-claudecode:release`                  | 자동 릴리스 워크플로우                    |
-| `/oh-my-claudecode:mcp-setup`                | MCP 서버 설정                             |
+| `/oh-my-gemini-cli:orchestrate <task>`       | 멀티 에이전트 오케스트레이션 모드 활성화  |
+| `/oh-my-gemini-cli:autopilot <task>`         | 완전 자율 실행                            |
+| `/oh-my-gemini-cli:ultrawork <task>`         | 병렬 에이전트를 통한 최대 성능 모드       |
+| `/oh-my-gemini-cli:pipeline <stages>`        | 순차적 에이전트 체이닝                    |
+| `/oh-my-gemini-cli: <task>`                  | 토큰 효율적 병렬 실행                     |
+| `/oh-my-gemini-cli:ralph-init <task>`        | 구조화된 작업 추적을 위한 PRD 초기화      |
+| `/oh-my-gemini-cli:ralph <task>`             | 작업 완료까지 자기 참조 루프              |
+| `/oh-my-gemini-cli:ultraqa <goal>`           | 자율 QA 사이클링 워크플로우               |
+| `/oh-my-gemini-cli:plan <description>`       | 플래닝 세션 시작                          |
+| `/oh-my-gemini-cli:ralplan <description>`    | 합의를 통한 반복적 플래닝                 |
+| `/oh-my-gemini-cli:review [plan-path]`       | critic을 통한 플랜 리뷰                   |
+| `/oh-my-gemini-cli:deepsearch <query>`       | 다중 전략 코드베이스 검색                 |
+| `/oh-my-gemini-cli:deepinit [path]`          | 계층적 AGENTS.md 파일로 코드베이스 인덱싱 |
+| `/oh-my-gemini-cli:sciomg <topic>`           | 병렬 리서치 오케스트레이션                |
+| `/oh-my-gemini-cli:learner`                  | 세션에서 재사용 가능한 스킬 추출          |
+| `/oh-my-gemini-cli:note <content>`           | notepad.md에 메모 저장                    |
+| `/oh-my-gemini-cli:cancel`                   | 통합 취소                                 |
+| `/oh-my-gemini-cli:omg-setup`                | 최초 설정 마법사                          |
+| `/oh-my-gemini-cli:omg-doctor`               | 설치 문제 진단 및 수정                    |
+| `/oh-my-gemini-cli:omg-help`                 | OMC 사용 가이드 표시                      |
+| `/oh-my-gemini-cli:hud`                      | HUD 상태 표시줄 설정                      |
+| `/oh-my-gemini-cli:release`                  | 자동 릴리스 워크플로우                    |
+| `/oh-my-gemini-cli:mcp-setup`                | MCP 서버 설정                             |
 
 ---
 
 ## 훅 시스템
 
-oh-my-claudecode에는 Claude Code의 동작을 향상시키는 31개의 라이프사이클 훅이 포함되어 있습니다.
+oh-my-gemini-cli에는 Gemini Code의 동작을 향상시키는 31개의 라이프사이클 훅이 포함되어 있습니다.
 
 ### 실행 모드 훅
 
@@ -322,7 +322,7 @@ oh-my-claudecode에는 Claude Code의 동작을 향상시키는 31개의 라이�
 | 훅                   | 설명                                       |
 | -------------------- | ------------------------------------------ |
 | `rules-injector`     | YAML 프론트매터 파싱을 통한 동적 규칙 주입 |
-| `omc-orchestrator`   | 오케스트레이터 동작 및 위임 강제           |
+| `omg-orchestrator`   | 오케스트레이터 동작 및 위임 강제           |
 | `auto-slash-command` | 슬래시 명령어 자동 감지 및 실행            |
 | `keyword-detector`   | 매직 키워드 감지 (ultrawork, ralph 등)     |
 | `todo-continuation`  | 할 일 목록 완료 보장                       |
@@ -376,7 +376,7 @@ oh-my-claudecode에는 Claude Code의 동작을 향상시키는 31개의 라이�
 | `ralplan`                                       | 반복적 플래닝 합의                  |
 | `search`, `find`, `locate`                      | 향상된 검색 모드                    |
 | `analyze`, `investigate`, `debug`               | 심층 분석 모드                      |
-| `sciomc`                                        | 병렬 리서치 오케스트레이션          |
+| `sciomg`                                        | 병렬 리서치 오케스트레이션          |
 | `tdd`, `test first`, `red green`                | TDD 워크플로우 강제                 |
 | `pipeline`, `chain agents`                      | 순차적 에이전트 체이닝              |
 | `stop`, `cancel`, `abort`                       | 통합 취소                           |
@@ -384,7 +384,7 @@ oh-my-claudecode에는 Claude Code의 동작을 향상시키는 31개의 라이�
 ### 예시
 
 ```bash
-# Claude Code에서:
+# Gemini Code에서:
 
 # 최대 병렬 처리
 ultrawork implement user authentication with OAuth
@@ -435,7 +435,7 @@ MCP 도구는 보안을 위해 엄격한 경로 경계를 적용합니다. `prom
 | 변수                             | 값                                   | 설명                                                |
 | -------------------------------- | ------------------------------------ | --------------------------------------------------- |
 | `OMC_MCP_OUTPUT_PATH_POLICY`     | `strict` (기본값), `redirect_output` | 출력 파일 경로 적용 제어                            |
-| `OMC_MCP_OUTPUT_REDIRECT_DIR`    | 경로 (기본값: `.omc/outputs`)        | 정책이 `redirect_output`일 때 리다이렉트할 디렉토리 |
+| `OMC_MCP_OUTPUT_REDIRECT_DIR`    | 경로 (기본값: `.omg/outputs`)        | 정책이 `redirect_output`일 때 리다이렉트할 디렉토리 |
 | `OMC_MCP_ALLOW_EXTERNAL_PROMPT`  | `0` (기본값), `1`                    | working directory 외부의 프롬프트 파일 허용         |
 | `OMC_ALLOW_EXTERNAL_WORKDIR`     | 미설정 (기본값), `1`                 | 프로젝트 worktree 외부의 working_directory 허용     |
 | `OMC_DISCORD_WEBHOOK_URL`        | URL                                  | 알림용 Discord 웹훅 URL                             |
@@ -491,7 +491,7 @@ MCP 도구는 보안을 위해 엄격한 경로 경계를 적용합니다. `prom
 prompt.txt                    -> /home/user/project/prompt.txt
 ./prompts/task.md             -> /home/user/project/prompts/task.md
 ../project/output.txt         -> /home/user/project/output.txt (내부로 해석됨)
-.omc/outputs/response.md      -> /home/user/project/.omc/outputs/response.md
+.omg/outputs/response.md      -> /home/user/project/.omg/outputs/response.md
 ```
 
 **무효한 경로 (working_directory: `/home/user/project`)**
@@ -511,7 +511,7 @@ prompt.txt                    -> /home/user/project/prompt.txt
 | `E_PATH_RESOLUTION_FAILED` 오류                     | 심볼릭 링크 해석 실패 또는 디렉토리 접근 불가 | 대상 디렉토리가 존재하고 접근 가능한지 확인                                                     |
 | `E_WRITE_FAILED` 오류                               | I/O 오류 (권한, 디스크 용량)                  | 파일 권한과 디스크 공간 확인                                                                    |
 | `working_directory is outside the project worktree` | working_directory가 git worktree 내에 없음    | `OMC_ALLOW_EXTERNAL_WORKDIR=1` 설정 또는 프로젝트 내부의 working directory 사용                 |
-| 출력 파일이 예상 위치에 없음                        | `redirect_output` 정책 활성 상태              | `OMC_MCP_OUTPUT_REDIRECT_DIR` 확인 (기본값: `.omc/outputs`)                                     |
+| 출력 파일이 예상 위치에 없음                        | `redirect_output` 정책 활성 상태              | `OMC_MCP_OUTPUT_REDIRECT_DIR` 확인 (기본값: `.omg/outputs`)                                     |
 
 ---
 
@@ -576,7 +576,7 @@ prompt.txt                    -> /home/user/project/prompt.txt
 
 ## 성능 모니터링
 
-oh-my-claudecode에는 에이전트 성능, 토큰 사용량 및 병렬 워크플로우 디버깅을 위한 종합 모니터링이 포함되어 있습니다.
+oh-my-gemini-cli에는 에이전트 성능, 토큰 사용량 및 병렬 워크플로우 디버깅을 위한 종합 모니터링이 포함되어 있습니다.
 
 전체 문서는 **[성능 모니터링 가이드](../PERFORMANCE-MONITORING.md)**를 참조하세요.
 
@@ -585,17 +585,17 @@ oh-my-claudecode에는 에이전트 성능, 토큰 사용량 및 병렬 워크�
 | 기능                    | 설명                                    | 접근 방법                         |
 | ----------------------- | --------------------------------------- | --------------------------------- |
 | **Agent Observatory**   | 실시간 에이전트 상태, 효율성, 병목 현상 | HUD / API                         |
-| **Session-End Summaries** | 세션 종료 시 기록되는 요약 및 콜백 페이로드 | `.omc/sessions/*.json`, `session-end` |
-| **Session Replay**      | 세션 후 분석을 위한 이벤트 타임라인     | `.omc/state/agent-replay-*.jsonl` |
+| **Session-End Summaries** | 세션 종료 시 기록되는 요약 및 콜백 페이로드 | `.omg/sessions/*.json`, `session-end` |
+| **Session Replay**      | 세션 후 분석을 위한 이벤트 타임라인     | `.omg/state/agent-replay-*.jsonl` |
 | **Intervention System** | 정체된 에이전트, 비용 초과 자동 감지    | 자동                              |
 
 ### CLI 명령어
 
 ```bash
-omc hud                              # 현재 HUD 상태줄 렌더링
-omc team status <team-name>          # 실행 중인 팀 작업 확인
-tail -20 .omc/state/agent-replay-*.jsonl
-ls .omc/sessions/*.json
+omg hud                              # 현재 HUD 상태줄 렌더링
+omg team status <team-name>          # 실행 중인 팀 작업 확인
+tail -20 .omg/state/agent-replay-*.jsonl
+ls .omg/sessions/*.json
 ```
 
 ### HUD 프리셋
@@ -604,7 +604,7 @@ ls .omc/sessions/*.json
 
 ```json
 {
-  "omcHud": {
+  "omgHud": {
     "preset": "focused"
   }
 }
@@ -612,7 +612,7 @@ ls .omc/sessions/*.json
 
 ### 외부 리소스
 
-- **[MarginLab.ai](https://marginlab.ai)** - Claude 모델 성능 저하를 감지하기 위한 통계적 유의성 테스트가 포함된 SWE-Bench-Pro 성능 추적
+- **[MarginLab.ai](https://marginlab.ai)** - Gemini 모델 성능 저하를 감지하기 위한 통계적 유의성 테스트가 포함된 SWE-Bench-Pro 성능 추적
 
 ---
 
@@ -621,7 +621,7 @@ ls .omc/sessions/*.json
 ### 설치 문제 진단
 
 ```bash
-/oh-my-claudecode:omc-doctor
+/oh-my-gemini-cli:omg-doctor
 ```
 
 다음 항목을 확인합니다:
@@ -635,18 +635,18 @@ ls .omc/sessions/*.json
 ### HUD 상태 표시줄 설정
 
 ```bash
-/oh-my-claudecode:hud setup
+/oh-my-gemini-cli:hud setup
 ```
 
 실시간 상태 업데이트를 위한 HUD 상태 표시줄을 설치 또는 복구합니다.
 
 ### HUD 설정 (settings.json)
 
-`~/.claude/settings.json`에서 HUD 요소를 설정합니다:
+`~/.gemini/settings.json`에서 HUD 요소를 설정합니다:
 
 ```json
 {
-  "omcHud": {
+  "omgHud": {
     "preset": "focused",
     "elements": {
       "cwd": true,
@@ -662,7 +662,7 @@ ls .omc/sessions/*.json
 | `cwd`        | 현재 작업 디렉토리 표시     | `false` |
 | `gitRepo`    | git 저장소 이름 표시        | `false` |
 | `gitBranch`  | 현재 git 브랜치 표시        | `false` |
-| `omcLabel`   | [OMC] 라벨 표시             | `true`  |
+| `omgLabel`   | [OMC] 라벨 표시             | `true`  |
 | `contextBar` | 컨텍스트 윈도우 사용량 표시 | `true`  |
 | `agents`     | 활성 에이전트 수 표시       | `true`  |
 | `todos`      | 할 일 진행 상황 표시        | `true`  |
@@ -675,15 +675,15 @@ ls .omc/sessions/*.json
 
 | 문제                     | 해결 방법                                                                            |
 | ------------------------ | ------------------------------------------------------------------------------------ |
-| 명령어를 찾을 수 없음    | `/oh-my-claudecode:omc-setup` 재실행                                                 |
-| 훅이 실행되지 않음       | 훅 권한 확인: `chmod +x ~/.claude/hooks/**/*.sh`                                     |
-| 에이전트가 위임하지 않음 | CLAUDE.md가 로드되었는지 확인: `./.claude/CLAUDE.md` 또는 `~/.claude/CLAUDE.md` 확인 |
+| 명령어를 찾을 수 없음    | `/oh-my-gemini-cli:omg-setup` 재실행                                                 |
+| 훅이 실행되지 않음       | 훅 권한 확인: `chmod +x ~/.gemini/hooks/**/*.sh`                                     |
+| 에이전트가 위임하지 않음 | GEMINI.md가 로드되었는지 확인: `./.gemini/GEMINI.md` 또는 `~/.gemini/GEMINI.md` 확인 |
 | LSP 도구가 작동하지 않음 | 언어 서버 설치: `npm install -g typescript-language-server`                          |
-| 토큰 제한 오류           | 토큰 효율적 실행을 위해 `/oh-my-claudecode:` 사용                                    |
+| 토큰 제한 오류           | 토큰 효율적 실행을 위해 `/oh-my-gemini-cli:` 사용                                    |
 
 ### 자동 업데이트
 
-oh-my-claudecode에는 백그라운드에서 업데이트를 확인하는 무음 자동 업데이트 시스템이 포함되어 있습니다.
+oh-my-gemini-cli에는 백그라운드에서 업데이트를 확인하는 무음 자동 업데이트 시스템이 포함되어 있습니다.
 
 특징:
 
@@ -691,19 +691,19 @@ oh-my-claudecode에는 백그라운드에서 업데이트를 확인하는 무음
 - **동시 실행 안전**: 잠금 파일로 동시 업데이트 시도 방지
 - **크로스 플랫폼**: macOS와 Linux 모두에서 작동
 
-수동으로 업데이트하려면 플러그인 설치 명령어를 재실행하거나 Claude Code의 내장 업데이트 메커니즘을 사용하세요.
+수동으로 업데이트하려면 플러그인 설치 명령어를 재실행하거나 Gemini Code의 내장 업데이트 메커니즘을 사용하세요.
 
 ### 제거
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/Yeachan-Heo/oh-my-claudecode/main/scripts/uninstall.sh | bash
+curl -fsSL https://raw.githubusercontent.com/Yeachan-Heo/oh-my-gemini-cli/main/scripts/uninstall.sh | bash
 ```
 
 또는 수동으로:
 
 ```bash
-rm ~/.claude/agents/{architect,document-specialist,explore,designer,writer,vision,critic,analyst,executor,qa-tester}.md
-rm ~/.claude/commands/{analyze,autopilot,deepsearch,plan,review,ultrawork}.md
+rm ~/.gemini/agents/{architect,document-specialist,explore,designer,writer,vision,critic,analyst,executor,qa-tester}.md
+rm ~/.gemini/commands/{analyze,autopilot,deepsearch,plan,review,ultrawork}.md
 ```
 
 ---

@@ -2,7 +2,7 @@
  * OMX Team State Layer (forked from oh-my-codex)
  *
  * Provides read/write access to .omx/state/team/{name}/ directories,
- * enabling omc to communicate with omx teams using the native omx format.
+ * enabling omg to communicate with omx teams using the native omx format.
  *
  * Data layout: .omx/state/team/{name}/
  *   config.json              — TeamConfig

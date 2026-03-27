@@ -2,7 +2,7 @@
 /**
  * Team MCP Server - tmux CLI worker runtime tools
  */
-type DeprecatedTeamToolName = 'omc_run_team_start' | 'omc_run_team_status' | 'omc_run_team_wait' | 'omc_run_team_cleanup';
+type DeprecatedTeamToolName = 'omg_run_team_start' | 'omg_run_team_status' | 'omg_run_team_wait' | 'omg_run_team_cleanup';
 export declare function createDeprecatedCliOnlyEnvelope(toolName: DeprecatedTeamToolName): {
     content: Array<{
         type: 'text';

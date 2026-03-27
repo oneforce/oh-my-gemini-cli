@@ -189,7 +189,7 @@ describe('summary-report', () => {
 
       const filePath = saveTeamReport(testDir, teamName);
       expect(existsSync(filePath)).toBe(true);
-      expect(filePath).toContain('.omc/reports/');
+      expect(filePath).toContain('.omg/reports/');
       expect(filePath).toContain(teamName);
 
       const stat = statSync(filePath);

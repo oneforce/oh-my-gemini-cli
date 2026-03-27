@@ -8,9 +8,9 @@ vi.mock('fs', async () => {
   const { join: pathJoin } = await import('path');
   const repoRoot = process.cwd();
   const sourceAgentsDir = pathJoin(repoRoot, 'src', 'agents');
-  const sourceClaudeMdPath = pathJoin(repoRoot, 'src', 'docs', 'CLAUDE.md');
+  const sourceGeminiMdPath = pathJoin(repoRoot, 'src', 'docs', 'GEMINI.md');
   const realAgentsDir = pathJoin(repoRoot, 'agents');
-  const realClaudeMdPath = pathJoin(repoRoot, 'docs', 'CLAUDE.md');
+  const realGeminiMdPath = pathJoin(repoRoot, 'docs', 'GEMINI.md');
 
   const withRedirect = (pathLike: unknown): string => {
     const normalized = String(pathLike).replace(/\\/g, '/');
@@ -23,8 +23,8 @@ vi.mock('fs', async () => {
     if (normalized.startsWith(`${normalizedSourceAgentsDir}/`)) {
       return normalized.replace(normalizedSourceAgentsDir, normalizedRealAgentsDir);
     }
-    if (normalized === sourceClaudeMdPath.replace(/\\/g, '/')) {
-      return realClaudeMdPath;
+    if (normalized === sourceGeminiMdPath.replace(/\\/g, '/')) {
+      return realGeminiMdPath;
     }
     return String(pathLike);
   };
@@ -43,9 +43,9 @@ vi.mock('fs', async () => {
   };
 });
 
-async function loadInstallerWithEnv(claudeConfigDir: string, homeDir: string) {
+async function loadInstallerWithEnv(geminiConfigDir: string, homeDir: string) {
   vi.resetModules();
-  process.env.CLAUDE_CONFIG_DIR = claudeConfigDir;
+  process.env.CLAUDE_CONFIG_DIR = geminiConfigDir;
   process.env.HOME = homeDir;
   return import('../installer/index.js');
 }
@@ -53,26 +53,26 @@ async function loadInstallerWithEnv(claudeConfigDir: string, homeDir: string) {
 describe('installer legacy agent sync gating (issue #1502)', () => {
   let tempRoot: string;
   let homeDir: string;
-  let claudeConfigDir: string;
-  let originalClaudeConfigDir: string | undefined;
+  let geminiConfigDir: string;
+  let originalGeminiConfigDir: string | undefined;
   let originalHome: string | undefined;
 
   beforeEach(() => {
-    tempRoot = mkdtempSync(join(tmpdir(), 'omc-installer-plugin-agents-'));
+    tempRoot = mkdtempSync(join(tmpdir(), 'omg-installer-plugin-agents-'));
     homeDir = join(tempRoot, 'home');
-    claudeConfigDir = join(homeDir, '.claude');
+    geminiConfigDir = join(homeDir, '.gemini');
     mkdirSync(homeDir, { recursive: true });
-    mkdirSync(claudeConfigDir, { recursive: true });
+    mkdirSync(geminiConfigDir, { recursive: true });
 
-    originalClaudeConfigDir = process.env.CLAUDE_CONFIG_DIR;
+    originalGeminiConfigDir = process.env.CLAUDE_CONFIG_DIR;
     originalHome = process.env.HOME;
   });
 
   afterEach(() => {
-    if (originalClaudeConfigDir === undefined) {
+    if (originalGeminiConfigDir === undefined) {
       delete process.env.CLAUDE_CONFIG_DIR;
     } else {
-      process.env.CLAUDE_CONFIG_DIR = originalClaudeConfigDir;
+      process.env.CLAUDE_CONFIG_DIR = originalGeminiConfigDir;
     }
 
     if (originalHome === undefined) {
@@ -85,53 +85,53 @@ describe('installer legacy agent sync gating (issue #1502)', () => {
     vi.resetModules();
   });
 
-  it('skips recreating ~/.claude/agents when installed plugin agent files already exist', async () => {
+  it('skips recreating ~/.gemini/agents when installed plugin agent files already exist', async () => {
     const pluginInstallPath = join(
-      claudeConfigDir,
+      geminiConfigDir,
       'plugins',
       'cache',
-      'omc',
-      'oh-my-claudecode',
+      'omg',
+      'oh-my-gemini-cli',
       '9.9.9'
     );
     const pluginAgentsDir = join(pluginInstallPath, 'agents');
     mkdirSync(pluginAgentsDir, { recursive: true });
     writeFileSync(join(pluginAgentsDir, 'executor.md'), '---\nname: executor\ndescription: test\n---\n');
 
-    const installedPluginsPath = join(claudeConfigDir, 'plugins', 'installed_plugins.json');
-    mkdirSync(join(claudeConfigDir, 'plugins'), { recursive: true });
+    const installedPluginsPath = join(geminiConfigDir, 'plugins', 'installed_plugins.json');
+    mkdirSync(join(geminiConfigDir, 'plugins'), { recursive: true });
     writeFileSync(installedPluginsPath, JSON.stringify({
       plugins: {
-        'oh-my-claudecode@omc': [
+        'oh-my-gemini-cli@omg': [
           { installPath: pluginInstallPath }
         ]
       }
     }, null, 2));
 
-    const installer = await loadInstallerWithEnv(claudeConfigDir, homeDir);
+    const installer = await loadInstallerWithEnv(geminiConfigDir, homeDir);
     const result = installer.install({
-      skipClaudeCheck: true,
+      skipGeminiCheck: true,
       skipHud: true,
     });
 
     expect(result.success).toBe(true);
     expect(result.installedAgents).toEqual([]);
     expect(installer.hasPluginProvidedAgentFiles()).toBe(true);
-    expect(existsSync(join(claudeConfigDir, 'agents'))).toBe(false);
+    expect(existsSync(join(geminiConfigDir, 'agents'))).toBe(false);
     expect(installer.isInstalled()).toBe(true);
   });
 
   it('still installs legacy agent files when no plugin-provided agent files are available', async () => {
-    const installer = await loadInstallerWithEnv(claudeConfigDir, homeDir);
+    const installer = await loadInstallerWithEnv(geminiConfigDir, homeDir);
     const result = installer.install({
-      skipClaudeCheck: true,
+      skipGeminiCheck: true,
       skipHud: true,
     });
 
     expect(result.success).toBe(true);
     expect(result.installedAgents.length).toBeGreaterThan(0);
-    expect(existsSync(join(claudeConfigDir, 'agents'))).toBe(true);
-    expect(readdirSync(join(claudeConfigDir, 'agents')).some(file => file.endsWith('.md'))).toBe(true);
+    expect(existsSync(join(geminiConfigDir, 'agents'))).toBe(true);
+    expect(readdirSync(join(geminiConfigDir, 'agents')).some(file => file.endsWith('.md'))).toBe(true);
     expect(installer.hasPluginProvidedAgentFiles()).toBe(false);
     expect(installer.isInstalled()).toBe(true);
   });

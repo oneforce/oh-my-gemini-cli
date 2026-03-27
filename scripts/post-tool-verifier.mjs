@@ -40,11 +40,11 @@ try {
 
 // Debug logging helper - gated behind OMC_DEBUG env var
 const debugLog = (...args) => {
-  if (process.env.OMC_DEBUG) console.error('[omc:debug:post-tool-verifier]', ...args);
+  if (process.env.OMC_DEBUG) console.error('[omg:debug:post-tool-verifier]', ...args);
 };
 
 // State file for session tracking
-const cfgDir = process.env.CLAUDE_CONFIG_DIR || join(homedir(), '.claude');
+const cfgDir = process.env.CLAUDE_CONFIG_DIR || join(homedir(), '.gemini');
 const STATE_FILE = join(cfgDir, '.session-stats.json');
 
 // Ensure state directory exists
@@ -105,7 +105,7 @@ function updateStats(toolName, sessionId) {
 // Read bash history config (default: enabled)
 function getBashHistoryConfig() {
   try {
-    const configPath = join(cfgDir, '.omc-config.json');
+    const configPath = join(cfgDir, '.omg-config.json');
     if (existsSync(configPath)) {
       const config = JSON.parse(readFileSync(configPath, 'utf-8'));
       if (config.bashHistory === false) return false;
@@ -135,29 +135,29 @@ function appendToBashHistory(command) {
   }
 }
 
-// Pattern to match Claude Code temp CWD permission errors (false positives on macOS)
-// e.g. "zsh:1: permission denied: /var/folders/.../T/claude-abc123-cwd"
-const CLAUDE_TEMP_CWD_PATTERN = /zsh:\d+: permission denied:.*\/T\/claude-[a-z0-9]+-cwd/gi;
+// Pattern to match Gemini Code temp CWD permission errors (false positives on macOS)
+// e.g. "zsh:1: permission denied: /var/folders/.../T/gemini-abc123-cwd"
+const CLAUDE_TEMP_CWD_PATTERN = /zsh:\d+: permission denied:.*\/T\/gemini-[a-z0-9]+-cwd/gi;
 
-// Strip Claude Code temp CWD noise before pattern matching
-function stripClaudeTempCwdErrors(output) {
+// Strip Gemini Code temp CWD noise before pattern matching
+function stripGeminiTempCwdErrors(output) {
   return output.replace(CLAUDE_TEMP_CWD_PATTERN, '');
 }
 
-// Pattern matching Claude Code's "Error: Exit code N" prefix line
+// Pattern matching Gemini Code's "Error: Exit code N" prefix line
 const CLAUDE_EXIT_CODE_PREFIX = /^Error: Exit code \d+\s*$/gm;
 
 /**
  * Detect non-zero exit code with valid stdout (issue #960).
- * Returns true when output has Claude Code's "Error: Exit code N" prefix
+ * Returns true when output has Gemini Code's "Error: Exit code N" prefix
  * AND substantial content that doesn't itself indicate real errors.
  * Example: `gh pr checks` exits 8 (pending) but outputs valid CI status.
  */
 export function isNonZeroExitWithOutput(output) {
   if (!output) return false;
-  const cleaned = stripClaudeTempCwdErrors(output);
+  const cleaned = stripGeminiTempCwdErrors(output);
 
-  // Must contain Claude Code's exit code prefix
+  // Must contain Gemini Code's exit code prefix
   if (!CLAUDE_EXIT_CODE_PREFIX.test(cleaned)) return false;
   // Reset regex state (global flag)
   CLAUDE_EXIT_CODE_PREFIX.lastIndex = 0;
@@ -187,7 +187,7 @@ export function isNonZeroExitWithOutput(output) {
 
 // Detect failures in Bash output
 export function detectBashFailure(output) {
-  const cleaned = stripClaudeTempCwdErrors(output);
+  const cleaned = stripGeminiTempCwdErrors(output);
   const errorPatterns = [
     /error:/i,
     /failed/i,
@@ -290,7 +290,7 @@ function processRememberTags(output, directory) {
 // Patterns are tightened to tool-level failure phrases to avoid false positives
 // when edited file content contains error-handling code (issue #1005)
 export function detectWriteFailure(output) {
-  const cleaned = stripClaudeTempCwdErrors(output);
+  const cleaned = stripGeminiTempCwdErrors(output);
   const errorPatterns = [
     /\berror:/i,              // "error:" with word boundary — avoids "setError", "console.error"
     /\bfailed to\b/i,        // "failed to write" — avoids "failedOidc", UI strings
@@ -307,7 +307,7 @@ export function detectWriteFailure(output) {
 
 // Get agent completion summary from tracking state
 function getAgentCompletionSummary(directory, quietLevel = QUIET_LEVEL) {
-  const trackingFile = join(directory, '.omc', 'state', 'subagent-tracking.json');
+  const trackingFile = join(directory, '.omg', 'state', 'subagent-tracking.json');
   try {
     if (existsSync(trackingFile)) {
       const data = JSON.parse(readFileSync(trackingFile, 'utf-8'));
@@ -320,7 +320,7 @@ function getAgentCompletionSummary(directory, quietLevel = QUIET_LEVEL) {
 
       const parts = [];
       if (quietLevel < 2 && running.length > 0) {
-        parts.push(`Running: ${running.length} [${running.map(a => a.agent_type.replace('oh-my-claudecode:', '')).join(', ')}]`);
+        parts.push(`Running: ${running.length} [${running.map(a => a.agent_type.replace('oh-my-gemini-cli:', '')).join(', ')}]`);
       }
       if (quietLevel < 2 && completed > 0) parts.push(`Completed: ${completed}`);
       if (failed > 0) parts.push(`Failed: ${failed}`);

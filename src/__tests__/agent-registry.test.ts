@@ -78,16 +78,16 @@ describe('Agent Registry Validation', () => {
   });
 
   test('resolves agent models from env-based tier defaults', () => {
-    process.env.CLAUDE_CODE_BEDROCK_OPUS_MODEL = 'us.anthropic.claude-opus-4-6-v1:0';
-    process.env.CLAUDE_CODE_BEDROCK_SONNET_MODEL = 'us.anthropic.claude-sonnet-4-6-v1:0';
-    process.env.CLAUDE_CODE_BEDROCK_HAIKU_MODEL = 'us.anthropic.claude-haiku-4-5-v1:0';
+    process.env.CLAUDE_CODE_BEDROCK_OPUS_MODEL = 'us.anthropic.gemini-opus-4-6-v1:0';
+    process.env.CLAUDE_CODE_BEDROCK_SONNET_MODEL = 'us.anthropic.gemini-sonnet-4-6-v1:0';
+    process.env.CLAUDE_CODE_BEDROCK_HAIKU_MODEL = 'us.anthropic.gemini-haiku-4-5-v1:0';
 
     const agents = getAgentDefinitions();
 
-    expect(agents.architect?.model).toBe('us.anthropic.claude-opus-4-6-v1:0');
-    expect(agents.executor?.model).toBe('us.anthropic.claude-sonnet-4-6-v1:0');
-    expect(agents.explore?.model).toBe('us.anthropic.claude-haiku-4-5-v1:0');
-    expect(agents.tracer?.model).toBe('us.anthropic.claude-sonnet-4-6-v1:0');
+    expect(agents.architect?.model).toBe('us.anthropic.gemini-opus-4-6-v1:0');
+    expect(agents.executor?.model).toBe('us.anthropic.gemini-sonnet-4-6-v1:0');
+    expect(agents.explore?.model).toBe('us.anthropic.gemini-haiku-4-5-v1:0');
+    expect(agents.tracer?.model).toBe('us.anthropic.gemini-sonnet-4-6-v1:0');
   });
 
   test('no hardcoded prompts in base agent .ts files', () => {

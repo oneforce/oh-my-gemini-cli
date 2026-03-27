@@ -1,5 +1,5 @@
 #!/bin/bash
-# Oh-My-ClaudeCode Uninstaller
+# Oh-My-GeminiCLI Uninstaller
 # Completely removes all OMC-installed files and configurations
 
 set -e
@@ -10,18 +10,18 @@ YELLOW='\033[1;33m'
 RED='\033[0;31m'
 NC='\033[0m'
 
-echo -e "${BLUE}Oh-My-ClaudeCode Uninstaller${NC}"
+echo -e "${BLUE}Oh-My-GeminiCLI Uninstaller${NC}"
 echo ""
 
-# Claude Code config directory (always ~/.claude)
-CLAUDE_CONFIG_DIR="$HOME/.claude"
+# Gemini Code config directory (always ~/.gemini)
+CLAUDE_CONFIG_DIR="$HOME/.gemini"
 
 echo "This will remove ALL OMC components from:"
 echo "  $CLAUDE_CONFIG_DIR"
 echo ""
 echo "Components to be removed:"
 echo "  - Agents (architect, document-specialist, explore, etc. + legacy aliases)"
-echo "  - Commands (omc, ultrawork, plan, etc.)"
+echo "  - Commands (omg, ultrawork, plan, etc.)"
 echo "  - Skills (ultrawork, git-master, frontend-ui-ux)"
 echo "  - Hooks (keyword-detector, silent-auto-update, stop-continuation)"
 echo "  - Version and state files"
@@ -63,7 +63,7 @@ rm -f "$CLAUDE_CONFIG_DIR/agents/planner.md"
 # Remove commands
 echo -e "${BLUE}Removing commands...${NC}"
 rm -f "$CLAUDE_CONFIG_DIR/commands/coordinator.md"
-rm -f "$CLAUDE_CONFIG_DIR/commands/omc.md"
+rm -f "$CLAUDE_CONFIG_DIR/commands/omg.md"
 rm -f "$CLAUDE_CONFIG_DIR/commands/ultrawork.md"
 rm -f "$CLAUDE_CONFIG_DIR/commands/deepsearch.md"
 rm -f "$CLAUDE_CONFIG_DIR/commands/analyze.md"
@@ -87,10 +87,10 @@ rm -f "$CLAUDE_CONFIG_DIR/hooks/silent-auto-update.sh"
 
 # Remove version, state, and config files
 echo -e "${BLUE}Removing state and config files...${NC}"
-rm -f "$CLAUDE_CONFIG_DIR/.omc-version.json"
-rm -f "$CLAUDE_CONFIG_DIR/.omc-silent-update.json"
-rm -f "$CLAUDE_CONFIG_DIR/.omc-update.log"
-rm -f "$CLAUDE_CONFIG_DIR/.omc-config.json"
+rm -f "$CLAUDE_CONFIG_DIR/.omg-version.json"
+rm -f "$CLAUDE_CONFIG_DIR/.omg-silent-update.json"
+rm -f "$CLAUDE_CONFIG_DIR/.omg-update.log"
+rm -f "$CLAUDE_CONFIG_DIR/.omg-config.json"
 
 # Remove hook configurations from settings.json
 SETTINGS_FILE="$CLAUDE_CONFIG_DIR/settings.json"
@@ -101,7 +101,7 @@ if [ -f "$SETTINGS_FILE" ] && command -v jq &> /dev/null; then
     cp "$SETTINGS_FILE" "$SETTINGS_FILE.bak"
 
     # Remove OMC-specific hooks from settings.json
-    # This removes hooks that reference omc hook scripts
+    # This removes hooks that reference omg hook scripts
     TEMP_SETTINGS=$(mktemp)
 
     # Use jq to filter out OMC hooks
@@ -151,18 +151,18 @@ else
     fi
 fi
 
-# Remove .omc directory if it exists (plans, notepads, drafts)
-if [ -d "$CLAUDE_CONFIG_DIR/../.omc" ] || [ -d ".omc" ]; then
-    echo -e "${YELLOW}Note: .omc directory (plans/notepads) was not removed.${NC}"
+# Remove .omg directory if it exists (plans, notepads, drafts)
+if [ -d "$CLAUDE_CONFIG_DIR/../.omg" ] || [ -d ".omg" ]; then
+    echo -e "${YELLOW}Note: .omg directory (plans/notepads) was not removed.${NC}"
     echo "  To remove project plans and notepads, run:"
-    echo "    rm -rf .omc"
+    echo "    rm -rf .omg"
 fi
 
 echo ""
 echo -e "${GREEN}Uninstallation complete!${NC}"
 echo ""
 echo -e "${YELLOW}Items NOT removed (manual cleanup if desired):${NC}"
-echo "  - CLAUDE.md: rm $CLAUDE_CONFIG_DIR/CLAUDE.md"
+echo "  - GEMINI.md: rm $CLAUDE_CONFIG_DIR/GEMINI.md"
 echo "  - settings.json backup: rm $CLAUDE_CONFIG_DIR/settings.json.bak"
 echo ""
 echo "To verify complete removal, check:"

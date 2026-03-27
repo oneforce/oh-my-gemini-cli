@@ -26,10 +26,10 @@ try {
 }
 
 // Constants (used by fallback)
-const cfgDir = process.env.CLAUDE_CONFIG_DIR || join(homedir(), '.claude');
-const USER_SKILLS_DIR = join(cfgDir, 'skills', 'omc-learned');
-const GLOBAL_SKILLS_DIR = join(homedir(), '.omc', 'skills');
-const PROJECT_SKILLS_SUBDIR = join('.omc', 'skills');
+const cfgDir = process.env.CLAUDE_CONFIG_DIR || join(homedir(), '.gemini');
+const USER_SKILLS_DIR = join(cfgDir, 'skills', 'omg-learned');
+const GLOBAL_SKILLS_DIR = join(homedir(), '.omg', 'skills');
+const PROJECT_SKILLS_SUBDIR = join('.omg', 'skills');
 const SKILL_EXTENSION = '.md';
 const MAX_SKILLS_PER_SESSION = 5;
 

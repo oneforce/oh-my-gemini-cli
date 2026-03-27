@@ -1,6 +1,6 @@
 # MCP/Plugin Compatibility Layer
 
-The Compatibility Layer enables oh-my-claudecode to discover, register, and use external plugins, MCP servers, and tools. It provides a unified interface for managing external tools while maintaining security through an integrated permission system.
+The Compatibility Layer enables oh-my-gemini-cli to discover, register, and use external plugins, MCP servers, and tools. It provides a unified interface for managing external tools while maintaining security through an integrated permission system.
 
 ## Table of Contents
 
@@ -43,10 +43,10 @@ Plugins              MCP Configs          OMC Tools
 
 Scans for external plugins and MCP servers from:
 
-- `~/.claude/plugins/` - OMC/Claude Code plugins directory
-- `~/.claude/installed-plugins/` - Alternative plugins location
-- `~/.claude/settings.json` - Claude Code MCP server configs
-- `~/.claude/claude_desktop_config.json` - Claude Desktop MCP server configs
+- `~/.gemini/plugins/` - OMC/Gemini Code plugins directory
+- `~/.gemini/installed-plugins/` - Alternative plugins location
+- `~/.gemini/settings.json` - Gemini Code MCP server configs
+- `~/.gemini/gemini_desktop_config.json` - Gemini Desktop MCP server configs
 - Plugin manifests (`plugin.json`) for embedded MCP servers
 
 **Discovers:**
@@ -101,10 +101,10 @@ Manages MCP server connections:
 
 ### Directory Structure
 
-Plugins are discovered from `~/.claude/plugins/` and `~/.claude/installed-plugins/`:
+Plugins are discovered from `~/.gemini/plugins/` and `~/.gemini/installed-plugins/`:
 
 ```
-~/.claude/plugins/
+~/.gemini/plugins/
 ├── my-plugin/
 │   ├── plugin.json          (required)
 │   ├── skills/              (optional)
@@ -168,7 +168,7 @@ The `plugin.json` defines the plugin's metadata and tools:
 
 ### Skill and Agent Discovery
 
-**Skills** are discovered from `SKILL.md` files in the skills directory. OMC's canonical project-local write target remains `.omc/skills/`, and it now also reads project-local compatibility skills from `.agents/skills/`. Each skill directory must contain a SKILL.md with frontmatter:
+**Skills** are discovered from `SKILL.md` files in the skills directory. OMC's canonical project-local write target remains `.omg/skills/`, and it now also reads project-local compatibility skills from `.agents/skills/`. Each skill directory must contain a SKILL.md with frontmatter:
 
 ```markdown
 ---
@@ -184,9 +184,9 @@ Skill documentation here...
 
 ## MCP Server Discovery
 
-### Claude Desktop Config
+### Gemini Desktop Config
 
-Located at `~/.claude/claude_desktop_config.json`:
+Located at `~/.gemini/gemini_desktop_config.json`:
 
 ```json
 {
@@ -205,9 +205,9 @@ Located at `~/.claude/claude_desktop_config.json`:
 }
 ```
 
-### Claude Code Settings
+### Gemini Code Settings
 
-Located at `~/.claude/settings.json`:
+Located at `~/.gemini/settings.json`:
 
 ```json
 {
@@ -530,8 +530,8 @@ import {
 
 // Initialize everything
 const result = await initializeCompatibility({
-  pluginPaths: ['~/.claude/plugins'],
-  mcpConfigPath: '~/.claude/claude_desktop_config.json',
+  pluginPaths: ['~/.gemini/plugins'],
+  mcpConfigPath: '~/.gemini/gemini_desktop_config.json',
   autoConnect: true  // Auto-connect to MCP servers
 });
 
@@ -561,8 +561,8 @@ const plugins = discoverPlugins({
 
 // Discover MCP servers
 const servers = discoverMcpServers({
-  mcpConfigPath: '~/.claude/claude_desktop_config.json',
-  settingsPath: '~/.claude/settings.json'
+  mcpConfigPath: '~/.gemini/gemini_desktop_config.json',
+  settingsPath: '~/.gemini/settings.json'
 });
 
 // Discover everything at once
@@ -896,9 +896,9 @@ registerCustomPatterns();
 **Problem:** `discoverPlugins()` returns empty array.
 
 **Checklist:**
-- Plugins are in `~/.claude/plugins/` or `~/.claude/installed-plugins/`
-- Each plugin has a `plugin.json` in the root or `.claude-plugin/` subdirectory
-- Plugin name doesn't conflict with reserved names (e.g., 'oh-my-claudecode')
+- Plugins are in `~/.gemini/plugins/` or `~/.gemini/installed-plugins/`
+- Each plugin has a `plugin.json` in the root or `.gemini-plugin/` subdirectory
+- Plugin name doesn't conflict with reserved names (e.g., 'oh-my-gemini-cli')
 - File permissions allow reading the directory
 
 **Debug:**

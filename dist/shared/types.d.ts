@@ -1,5 +1,5 @@
 /**
- * Shared types for Oh-My-ClaudeCode
+ * Shared types for Oh-My-GeminiCLI
  */
 export type ModelType = "sonnet" | "opus" | "haiku" | "inherit";
 export interface AgentConfig {
@@ -15,7 +15,7 @@ export interface AgentConfig {
 }
 export interface PluginConfig {
     agents?: {
-        omc?: {
+        omg?: {
             model?: string;
         };
         explore?: {
@@ -112,7 +112,7 @@ export interface PluginConfig {
         /**
          * Force all agents to inherit the parent model instead of using OMC model routing.
          * When true, the `model` parameter is stripped from all Task/Agent calls so agents use
-         * the user's Claude Code model setting. Overrides all per-agent model recommendations.
+         * the user's Gemini Code model setting. Overrides all per-agent model recommendations.
          * Env: OMC_ROUTING_FORCE_INHERIT=true
          */
         forceInherit?: boolean;
@@ -154,7 +154,7 @@ export interface PluginConfig {
     externalModels?: ExternalModelsConfig;
     delegationRouting?: DelegationRoutingConfig;
     planOutput?: {
-        /** Relative directory for generated plan artifacts. Default: .omc/plans */
+        /** Relative directory for generated plan artifacts. Default: .omg/plans */
         directory?: string;
         /** Filename template. Supported tokens: {{name}}, {{kind}}. Default: {{name}}.md */
         filenameTemplate?: string;
@@ -266,7 +266,7 @@ export interface ExternalModelsDefaults {
  * External models fallback policy
  */
 export interface ExternalModelsFallbackPolicy {
-    onModelFailure: "provider_chain" | "cross_provider" | "claude_only";
+    onModelFailure: "provider_chain" | "cross_provider" | "gemini_only";
     allowCrossProvider?: boolean;
     crossProviderOrder?: ExternalModelProvider[];
 }
@@ -299,12 +299,12 @@ export interface ResolveOptions {
 /**
  * Provider type for delegation routing
  */
-export type DelegationProvider = "claude"
+export type DelegationProvider = "gemini"
 /** Use /team to coordinate Codex CLI workers in tmux panes. */
  | "codex"
 /** Use /team to coordinate Gemini CLI workers in tmux panes. */
  | "gemini";
-/** Tool type for delegation routing — only Claude Task is supported. */
+/** Tool type for delegation routing — only Gemini Task is supported. */
 export type DelegationTool = "Task";
 /**
  * Individual route configuration for a role

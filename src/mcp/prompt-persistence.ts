@@ -1,7 +1,7 @@
 /**
  * Prompt Persistence - Audit trail for external model prompts and responses
  *
- * Writes assembled prompts and model responses to .omc/prompts/ before/after
+ * Writes assembled prompts and model responses to .omg/prompts/ before/after
  * sending to Codex/Gemini, providing visibility, debugging, and compliance audit trail.
  */
 
@@ -162,7 +162,7 @@ export interface BackgroundJobMeta {
  */
 export function getPromptsDir(workingDirectory?: string): string {
   const root = getWorktreeRoot(workingDirectory) || workingDirectory || process.cwd();
-  return join(root, '.omc', 'prompts');
+  return join(root, '.omg', 'prompts');
 }
 
 /**

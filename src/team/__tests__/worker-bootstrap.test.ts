@@ -42,11 +42,11 @@ describe('worker-bootstrap', () => {
 
   describe('generateWorkerOverlay', () => {
     it('uses urgent trigger wording that requires immediate work and concrete progress', () => {
-      expect(generateTriggerMessage('test-team', 'worker-1')).toContain('.omc/state/team/test-team/workers/worker-1/inbox.md');
+      expect(generateTriggerMessage('test-team', 'worker-1')).toContain('.omg/state/team/test-team/workers/worker-1/inbox.md');
       expect(generateTriggerMessage('test-team', 'worker-1')).toContain('start work now');
       expect(generateTriggerMessage('test-team', 'worker-1')).toContain('concrete progress');
       expect(generateTriggerMessage('test-team', 'worker-1')).toContain('ACK-only');
-      expect(generateMailboxTriggerMessage('test-team', 'worker-1', 2)).toContain('.omc/state/team/test-team/mailbox/worker-1.json');
+      expect(generateMailboxTriggerMessage('test-team', 'worker-1', 2)).toContain('.omg/state/team/test-team/mailbox/worker-1.json');
       expect(generateMailboxTriggerMessage('test-team', 'worker-1', 2)).toContain('act now');
       expect(generateMailboxTriggerMessage('test-team', 'worker-1', 2)).toContain('concrete progress');
       expect(generateMailboxTriggerMessage('test-team', 'worker-1', 2)).toContain('ACK-only');
@@ -133,7 +133,7 @@ describe('worker-bootstrap', () => {
       expect(overlay).not.toContain('Read your task file at');
     });
 
-    it('renders plugin-safe CLI lifecycle examples when omc is unavailable in plugin installs', () => {
+    it('renders plugin-safe CLI lifecycle examples when omg is unavailable in plugin installs', () => {
       process.env.CLAUDE_PLUGIN_ROOT = '/plugin-root';
       process.env.PATH = '';
 

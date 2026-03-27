@@ -175,7 +175,7 @@ describe('limitOutputLines', () => {
 describe('gitInfoPosition configuration', () => {
   const createMockContext = (): HudRenderContext => ({
     contextPercent: 30,
-    modelName: 'claude-sonnet-4-5',
+    modelName: 'gemini-sonnet-4-5',
     ralph: null,
     ultrawork: null,
     prd: null,
@@ -190,7 +190,7 @@ describe('gitInfoPosition configuration', () => {
     pendingPermission: null,
     thinkingState: null,
     sessionHealth: { durationMinutes: 10, messageCount: 5, health: 'healthy' },
-    omcVersion: '4.5.4',
+    omgVersion: '4.5.4',
     updateAvailable: null,
     toolCallCount: 0,
     agentCallCount: 0,
@@ -209,7 +209,7 @@ describe('gitInfoPosition configuration', () => {
       gitRepo: true,
       gitBranch: true,
       gitInfoPosition,
-      omcLabel: true,
+      omgLabel: true,
       rateLimits: false,
       ralph: false,
       autopilot: false,
@@ -374,7 +374,7 @@ describe('maxWidth wrapMode behavior', () => {
     pendingPermission: null,
     thinkingState: null,
     sessionHealth: null,
-    omcVersion: '4.5.4',
+    omgVersion: '4.5.4',
     updateAvailable: null,
     toolCallCount: 0,
     agentCallCount: 0,
@@ -393,7 +393,7 @@ describe('maxWidth wrapMode behavior', () => {
     preset: 'focused',
     elements: {
       ...DEFAULT_HUD_CONFIG.elements,
-      omcLabel: true,
+      omgLabel: true,
       rateLimits: false,
       ralph: false,
       autopilot: false,
@@ -474,7 +474,7 @@ describe('maxWidth wrapMode behavior', () => {
 describe('token usage rendering', () => {
   const createTokenContext = (): HudRenderContext => ({
     contextPercent: 30,
-    modelName: 'claude-sonnet-4-5',
+    modelName: 'gemini-sonnet-4-5',
     ralph: null,
     ultrawork: null,
     prd: null,
@@ -491,7 +491,7 @@ describe('token usage rendering', () => {
     sessionHealth: { durationMinutes: 10, messageCount: 5, health: 'healthy' },
     lastRequestTokenUsage: { inputTokens: 1250, outputTokens: 340, reasoningTokens: 120 },
     sessionTotalTokens: 6590,
-    omcVersion: '4.5.4',
+    omgVersion: '4.5.4',
     updateAvailable: null,
     toolCallCount: 0,
     agentCallCount: 0,
@@ -506,7 +506,7 @@ describe('token usage rendering', () => {
     preset: 'focused',
     elements: {
       ...DEFAULT_HUD_CONFIG.elements,
-      omcLabel: true,
+      omgLabel: true,
       rateLimits: false,
       ralph: false,
       autopilot: false,

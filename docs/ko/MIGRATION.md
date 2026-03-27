@@ -1,6 +1,6 @@
 # 마이그레이션 가이드
 
-이 가이드는 oh-my-claudecode의 모든 마이그레이션 경로를 다룹니다. 아래에서 현재 사용 중인 버전을 찾아주세요.
+이 가이드는 oh-my-gemini-cli의 모든 마이그레이션 경로를 다룹니다. 아래에서 현재 사용 중인 버전을 찾아주세요.
 
 ---
 
@@ -50,7 +50,7 @@
 
 ### 요약
 
-8개의 폐기된 스킬이 제거되었습니다. 통합된 `/cancel` 및 `/omc-setup` 명령어가 이를 대체합니다.
+8개의 폐기된 스킬이 제거되었습니다. 통합된 `/cancel` 및 `/omg-setup` 명령어가 이를 대체합니다.
 
 ### 제거된 스킬
 
@@ -58,36 +58,36 @@
 
 | 제거된 스킬          | 대체 명령어                            |
 | -------------------- | -------------------------------------- |
-| `cancel-autopilot`   | `/oh-my-claudecode:cancel`             |
-| `cancel-ralph`       | `/oh-my-claudecode:cancel`             |
-| `cancel-ultrawork`   | `/oh-my-claudecode:cancel`             |
-| `cancel-ultraqa`     | `/oh-my-claudecode:cancel`             |
-| `cancel-`            | `/oh-my-claudecode:cancel`             |
-| `omc-default`        | `/oh-my-claudecode:omc-setup --local`  |
-| `omc-default-global` | `/oh-my-claudecode:omc-setup --global` |
-| `planner`            | `/oh-my-claudecode:plan`               |
+| `cancel-autopilot`   | `/oh-my-gemini-cli:cancel`             |
+| `cancel-ralph`       | `/oh-my-gemini-cli:cancel`             |
+| `cancel-ultrawork`   | `/oh-my-gemini-cli:cancel`             |
+| `cancel-ultraqa`     | `/oh-my-gemini-cli:cancel`             |
+| `cancel-`            | `/oh-my-gemini-cli:cancel`             |
+| `omg-default`        | `/oh-my-gemini-cli:omg-setup --local`  |
+| `omg-default-global` | `/oh-my-gemini-cli:omg-setup --global` |
+| `planner`            | `/oh-my-gemini-cli:plan`               |
 
 ### 변경 사항
 
 **v3.5.3 이전:**
 
 ```bash
-/oh-my-claudecode:cancel-ralph      # ralph만 취소
-/oh-my-claudecode:omc-default       # 로컬 프로젝트 설정
-/oh-my-claudecode:planner "task"    # 플래닝 시작
+/oh-my-gemini-cli:cancel-ralph      # ralph만 취소
+/oh-my-gemini-cli:omg-default       # 로컬 프로젝트 설정
+/oh-my-gemini-cli:planner "task"    # 플래닝 시작
 ```
 
 **v3.5.3 이후:**
 
 ```bash
-/oh-my-claudecode:cancel            # 활성 모드를 자동 감지하여 취소
-/oh-my-claudecode:omc-setup --local # 로컬 프로젝트 설정
-/oh-my-claudecode:plan "task"       # 플래닝 시작 (인터뷰 모드 포함)
+/oh-my-gemini-cli:cancel            # 활성 모드를 자동 감지하여 취소
+/oh-my-gemini-cli:omg-setup --local # 로컬 프로젝트 설정
+/oh-my-gemini-cli:plan "task"       # 플래닝 시작 (인터뷰 모드 포함)
 ```
 
 ### 새로운 기능
 
-**새 스킬: `/learn-about-omc`**
+**새 스킬: `/learn-about-omg`**
 
 - OMC 사용 패턴을 분석합니다
 - 개인화된 추천을 제공합니다
@@ -96,15 +96,15 @@
 **plan 스킬이 이제 consensus 모드를 지원합니다:**
 
 ```bash
-/oh-my-claudecode:plan --consensus "task"  # critic 리뷰가 포함된 반복적 플래닝
-/oh-my-claudecode:ralplan "task"           # plan --consensus의 별칭
+/oh-my-gemini-cli:plan --consensus "task"  # critic 리뷰가 포함된 반복적 플래닝
+/oh-my-gemini-cli:ralplan "task"           # plan --consensus의 별칭
 ```
 
 ### 마이그레이션 단계
 
 1. **별도 작업 불필요** - 통합 `/cancel` 명령어는 이미 v3.5에서 작동했습니다
 2. 제거된 명령어를 참조하는 **스크립트를 업데이트**하세요
-3. CLAUDE.md 설정을 업데이트하려면 **`/omc-setup`을 재실행**하세요
+3. GEMINI.md 설정을 업데이트하려면 **`/omg-setup`을 재실행**하세요
 
 ### 스킬 수
 
@@ -119,23 +119,23 @@
 
 기존 명령어는 그대로 작동합니다! 하지만 이제는 명령어가 필요 없습니다.
 
-**3.0 이전:** `/oh-my-claudecode:ralph "task"`, `/oh-my-claudecode:ultrawork "task"` 등 25개 이상의 명령어를 명시적으로 호출
+**3.0 이전:** `/oh-my-gemini-cli:ralph "task"`, `/oh-my-gemini-cli:ultrawork "task"` 등 25개 이상의 명령어를 명시적으로 호출
 
-**3.0 이후:** 자연스럽게 작업하면 Claude가 자동으로 적절한 동작을 활성화합니다. 최초 설정: "setup omc"라고 말하기만 하면 됩니다
+**3.0 이후:** 자연스럽게 작업하면 Gemini가 자동으로 적절한 동작을 활성화합니다. 최초 설정: "setup omg"라고 말하기만 하면 됩니다
 
 ### 프로젝트 리브랜딩
 
 프로젝트의 목적을 더 잘 반영하고 검색성을 개선하기 위해 리브랜딩되었습니다.
 
-- **프로젝트/브랜드명**: `oh-my-claudecode` (GitHub 저장소, 플러그인명, 명령어)
-- **npm 패키지명**: `oh-my-claude-sisyphus` (변경 없음)
+- **프로젝트/브랜드명**: `oh-my-gemini-cli` (GitHub 저장소, 플러그인명, 명령어)
+- **npm 패키지명**: `oh-my-gemini-sisyphus` (변경 없음)
 
-> **왜 이름이 다른가요?** npm 패키지명 `oh-my-claude-sisyphus`는 기존 설치와의 하위 호환성을 위해 유지되었습니다. 프로젝트, GitHub 저장소, 플러그인 및 모든 명령어는 `oh-my-claudecode`를 사용합니다.
+> **왜 이름이 다른가요?** npm 패키지명 `oh-my-gemini-sisyphus`는 기존 설치와의 하위 호환성을 위해 유지되었습니다. 프로젝트, GitHub 저장소, 플러그인 및 모든 명령어는 `oh-my-gemini-cli`를 사용합니다.
 
 #### NPM 설치 명령어 (변경 없음)
 
 ```bash
-npm install -g oh-my-claude-sisyphus
+npm install -g oh-my-gemini-sisyphus
 ```
 
 ### 변경 사항
@@ -146,18 +146,18 @@ npm install -g oh-my-claude-sisyphus
 
 ```bash
 # 2.x 워크플로우: 여러 명령어, 기억해야 할 것이 많음
-/oh-my-claudecode:ralph "implement user authentication"       # 지속성 모드
-/oh-my-claudecode:ultrawork "refactor the API layer"          # 최대 병렬 처리
-/oh-my-claudecode:planner "plan the new dashboard"            # 플래닝 인터뷰
-/oh-my-claudecode:deepsearch "find database schema files"     # 딥 서치
-/oh-my-claudecode:git-master "commit these changes"           # Git 전문가
-/oh-my-claudecode:deepinit ./src                              # 코드베이스 인덱싱
-/oh-my-claudecode:analyze "why is this test failing?"         # 심층 분석
+/oh-my-gemini-cli:ralph "implement user authentication"       # 지속성 모드
+/oh-my-gemini-cli:ultrawork "refactor the API layer"          # 최대 병렬 처리
+/oh-my-gemini-cli:planner "plan the new dashboard"            # 플래닝 인터뷰
+/oh-my-gemini-cli:deepsearch "find database schema files"     # 딥 서치
+/oh-my-gemini-cli:git-master "commit these changes"           # Git 전문가
+/oh-my-gemini-cli:deepinit ./src                              # 코드베이스 인덱싱
+/oh-my-gemini-cli:analyze "why is this test failing?"         # 심층 분석
 ```
 
 #### 이후 (3.0): 자동 활성화 + 키워드
 
-자연스럽게 작업하세요. Claude가 의도를 감지하여 자동으로 동작을 활성화합니다:
+자연스럽게 작업하세요. Gemini가 의도를 감지하여 자동으로 동작을 활성화합니다:
 
 ```bash
 # 3.0 워크플로우: 자연스럽게 말하거나 선택적으로 키워드 사용
@@ -196,22 +196,22 @@ npm install -g oh-my-claude-sisyphus
 #### 로컬 프로젝트 디렉토리
 
 - **이전**: `.sisyphus/`
-- **이후**: `.omc/`
+- **이후**: `.omg/`
 
 #### 글로벌 디렉토리
 
 - **이전**: `~/.sisyphus/`
-- **이후**: `~/.omc/`
+- **이후**: `~/.omg/`
 
 #### 스킬 디렉토리
 
-- **이전**: `~/.claude/skills/sisyphus-learned/`
-- **이후**: `~/.claude/skills/omc-learned/`
+- **이전**: `~/.gemini/skills/sisyphus-learned/`
+- **이후**: `~/.gemini/skills/omg-learned/`
 
 #### 설정 파일
 
-- **이전**: `~/.claude/sisyphus/mnemosyne.json`
-- **이후**: `~/.claude/omc/learner.json`
+- **이전**: `~/.gemini/sisyphus/mnemosyne.json`
+- **이후**: `~/.gemini/omg/learner.json`
 
 ### 환경 변수
 
@@ -235,20 +235,20 @@ npm install -g oh-my-claude-sisyphus
 
 | 2.x 명령어                             | 3.0 동등 표현                                              | 작동 여부           |
 | -------------------------------------- | ---------------------------------------------------------- | ------------------- |
-| `/oh-my-claudecode:ralph "task"`       | "don't stop until done"이라고 말하거나 `ralph` 키워드 사용 | ✅ 예 (양쪽 모두)   |
-| `/oh-my-claudecode:ultrawork "task"`   | "fast" 또는 "parallel"이라고 말하거나 `ulw` 키워드 사용    | ✅ 예 (양쪽 모두)   |
-| `/oh-my-claudecode:ultrawork-ralph`    | "ralph ulw:" 접두사 사용                                   | ✅ 예 (키워드 조합) |
-| `/oh-my-claudecode:planner "task"`     | "plan this"라고 말하거나 `plan` 키워드 사용                | ✅ 예 (양쪽 모두)   |
-| `/oh-my-claudecode:plan "description"` | 자연스럽게 플래닝 시작                                     | ✅ 예               |
-| `/oh-my-claudecode:review [path]`      | 기존과 동일하게 호출                                       | ✅ 예 (변경 없음)   |
-| `/oh-my-claudecode:deepsearch "query"` | "find" 또는 "search"라고 말하기                            | ✅ 예 (자동 감지)   |
-| `/oh-my-claudecode:analyze "target"`   | "analyze"라고 말하기 — debugger/architect 에이전트로 라우팅 | ✅ 예 (키워드 라우트) |
-| `/oh-my-claudecode:deepinit [path]`    | 기존과 동일하게 호출                                       | ✅ 예 (변경 없음)   |
-| `/oh-my-claudecode:git-master`         | "git", "commit", "atomic commit"이라고 말하기              | ✅ 예 (자동 감지)   |
-| `/oh-my-claudecode:frontend-ui-ux`     | "UI", "styling", "component", "design"이라고 말하기        | ✅ 예 (자동 감지)   |
-| `/oh-my-claudecode:note "content"`     | "remember this" 또는 "save this"라고 말하기                | ✅ 예 (자동 감지)   |
-| `/oh-my-claudecode:cancel-ralph`       | "stop", "cancel" 또는 "abort"라고 말하기                   | ✅ 예 (자동 감지)   |
-| `/oh-my-claudecode:omc-doctor`         | 기존과 동일하게 호출                                       | ✅ 예 (변경 없음)   |
+| `/oh-my-gemini-cli:ralph "task"`       | "don't stop until done"이라고 말하거나 `ralph` 키워드 사용 | ✅ 예 (양쪽 모두)   |
+| `/oh-my-gemini-cli:ultrawork "task"`   | "fast" 또는 "parallel"이라고 말하거나 `ulw` 키워드 사용    | ✅ 예 (양쪽 모두)   |
+| `/oh-my-gemini-cli:ultrawork-ralph`    | "ralph ulw:" 접두사 사용                                   | ✅ 예 (키워드 조합) |
+| `/oh-my-gemini-cli:planner "task"`     | "plan this"라고 말하거나 `plan` 키워드 사용                | ✅ 예 (양쪽 모두)   |
+| `/oh-my-gemini-cli:plan "description"` | 자연스럽게 플래닝 시작                                     | ✅ 예               |
+| `/oh-my-gemini-cli:review [path]`      | 기존과 동일하게 호출                                       | ✅ 예 (변경 없음)   |
+| `/oh-my-gemini-cli:deepsearch "query"` | "find" 또는 "search"라고 말하기                            | ✅ 예 (자동 감지)   |
+| `/oh-my-gemini-cli:analyze "target"`   | "analyze"라고 말하기 — debugger/architect 에이전트로 라우팅 | ✅ 예 (키워드 라우트) |
+| `/oh-my-gemini-cli:deepinit [path]`    | 기존과 동일하게 호출                                       | ✅ 예 (변경 없음)   |
+| `/oh-my-gemini-cli:git-master`         | "git", "commit", "atomic commit"이라고 말하기              | ✅ 예 (자동 감지)   |
+| `/oh-my-gemini-cli:frontend-ui-ux`     | "UI", "styling", "component", "design"이라고 말하기        | ✅ 예 (자동 감지)   |
+| `/oh-my-gemini-cli:note "content"`     | "remember this" 또는 "save this"라고 말하기                | ✅ 예 (자동 감지)   |
+| `/oh-my-gemini-cli:cancel-ralph`       | "stop", "cancel" 또는 "abort"라고 말하기                   | ✅ 예 (자동 감지)   |
+| `/oh-my-gemini-cli:omg-doctor`         | 기존과 동일하게 호출                                       | ✅ 예 (변경 없음)   |
 | 기타 모든 명령어                       | 이전과 동일하게 작동                                       | ✅ 예               |
 
 ### 매직 키워드
@@ -270,7 +270,7 @@ ralph: migrate the entire database
 지속성 (멈추지 않음) + ultrawork (최대 병렬 처리) 내장
 ```
 
-**키워드 없이도?** Claude가 자동으로 감지합니다:
+**키워드 없이도?** Gemini가 자동으로 감지합니다:
 
 ```
 "don't stop until this works"      # ralph 트리거
@@ -289,7 +289,7 @@ ralph: migrate the entire database
 - "enough"
 - "halt"
 
-Claude가 지능적으로 무엇을 중단할지 판단합니다:
+Gemini가 지능적으로 무엇을 중단할지 판단합니다:
 
 ```
 ralph-loop 중이라면    → 지속성 루프 종료
@@ -298,7 +298,7 @@ ultrawork 중이라면     → 일반 모드로 복귀
 여러 개가 활성 중이면  → 가장 최근 것을 중단
 ```
 
-더 이상 `/oh-my-claudecode:cancel-ralph`이 필요 없습니다 - 그냥 "cancel"이라고 말하세요!
+더 이상 `/oh-my-gemini-cli:cancel-ralph`이 필요 없습니다 - 그냥 "cancel"이라고 말하세요!
 
 ### 마이그레이션 단계
 
@@ -307,15 +307,15 @@ ultrawork 중이라면     → 일반 모드로 복귀
 #### 1. 이전 패키지 제거 (npm으로 설치한 경우)
 
 ```bash
-npm uninstall -g oh-my-claude-sisyphus
+npm uninstall -g oh-my-gemini-sisyphus
 ```
 
 #### 2. 플러그인 시스템으로 설치 (필수)
 
 ```bash
-# Claude Code에서:
-/plugin marketplace add https://github.com/Yeachan-Heo/oh-my-claudecode
-/plugin install oh-my-claudecode
+# Gemini Code에서:
+/plugin marketplace add https://github.com/Yeachan-Heo/oh-my-gemini-cli
+/plugin install oh-my-gemini-cli
 ```
 
 > **참고**: npm/bun 글로벌 설치는 더 이상 지원되지 않습니다. 플러그인 시스템을 사용하세요.
@@ -326,20 +326,20 @@ npm uninstall -g oh-my-claude-sisyphus
 
 ```bash
 # 각 프로젝트 디렉토리에서
-mv .sisyphus .omc
+mv .sisyphus .omg
 ```
 
 #### 4. 글로벌 디렉토리 이름 변경
 
 ```bash
 # 글로벌 설정 디렉토리
-mv ~/.sisyphus ~/.omc
+mv ~/.sisyphus ~/.omg
 
 # 스킬 디렉토리
-mv ~/.claude/skills/sisyphus-learned ~/.claude/skills/omc-learned
+mv ~/.gemini/skills/sisyphus-learned ~/.gemini/skills/omg-learned
 
 # 설정 디렉토리
-mv ~/.claude/sisyphus ~/.claude/omc
+mv ~/.gemini/sisyphus ~/.gemini/omg
 ```
 
 #### 5. 환경 변수 업데이트
@@ -357,18 +357,18 @@ mv ~/.claude/sisyphus ~/.claude/omc
 
 다음 항목에 대한 참조를 검색하여 업데이트하세요:
 
-- 패키지명: `oh-my-claude-sisyphus` → `oh-my-claudecode`
+- 패키지명: `oh-my-gemini-sisyphus` → `oh-my-gemini-cli`
 - 에이전트 이름: 위의 매핑 테이블 사용
 - 명령어: 새로운 슬래시 명령어 사용
-- 디렉토리 경로: `.sisyphus` → `.omc` 업데이트
+- 디렉토리 경로: `.sisyphus` → `.omg` 업데이트
 
 #### 7. 최초 설정 실행
 
-Claude Code에서 "setup omc", "omc setup" 또는 이에 해당하는 자연어 표현을 사용하세요.
+Gemini Code에서 "setup omg", "omg setup" 또는 이에 해당하는 자연어 표현을 사용하세요.
 
 이 작업은 다음을 수행합니다:
 
-- 최신 CLAUDE.md 다운로드
+- 최신 GEMINI.md 다운로드
 - 32개 에이전트 설정
 - 자동 동작 감지 활성화
 - 연속 실행 강제 활성화
@@ -381,18 +381,18 @@ Claude Code에서 "setup omc", "omc setup" 또는 이에 해당하는 자연어 
 1. **설치 확인**:
 
    ```bash
-   npm list -g oh-my-claude-sisyphus
+   npm list -g oh-my-gemini-sisyphus
    ```
 
 2. **디렉토리 존재 확인**:
 
    ```bash
-   ls -la .omc/  # 프로젝트 디렉토리에서
-   ls -la ~/.omc/  # 글로벌 디렉토리
+   ls -la .omg/  # 프로젝트 디렉토리에서
+   ls -la ~/.omg/  # 글로벌 디렉토리
    ```
 
 3. **간단한 명령어 테스트**:
-   Claude Code에서 `/oh-my-claudecode:omc-help`를 실행하여 플러그인이 올바르게 로드되었는지 확인하세요.
+   Gemini Code에서 `/oh-my-gemini-cli:omg-help`를 실행하여 플러그인이 올바르게 로드되었는지 확인하세요.
 
 ### 3.0의 새로운 기능
 
@@ -401,10 +401,10 @@ Claude Code에서 "setup omc", "omc setup" 또는 이에 해당하는 자연어 
 **명령어를 외울 필요가 없습니다.** 자연스럽게 작업하세요:
 
 ```
-이전: "OK, ultrawork를 사용하려면 /oh-my-claudecode:ultrawork를 써야지..."
+이전: "OK, ultrawork를 사용하려면 /oh-my-gemini-cli:ultrawork를 써야지..."
 이후: "빨리 해줘!"
       ↓
-      Claude: "ultrawork 모드를 활성화합니다..."
+      Gemini: "ultrawork 모드를 활성화합니다..."
 ```
 
 #### 2. 항상 위임 (자동)
@@ -412,7 +412,7 @@ Claude Code에서 "setup omc", "omc setup" 또는 이에 해당하는 자연어 
 복잡한 작업은 자동으로 전문 에이전트에게 라우팅됩니다:
 
 ```
-사용자의 요청               Claude의 행동
+사용자의 요청               Gemini의 행동
 ────────────────────     ────────────────────
 "데이터베이스 리팩토링해줘"  → architect에게 위임
 "UI 색상 수정해줘"          → designer에게 위임
@@ -423,7 +423,7 @@ Claude Code에서 "setup omc", "omc setup" 또는 이에 해당하는 자연어 
 
 위임을 요청할 필요 없습니다 - 자동으로 이루어집니다.
 
-#### 3. 학습된 스킬 (`/oh-my-claudecode:learner`)
+#### 3. 학습된 스킬 (`/oh-my-gemini-cli:learner`)
 
 문제 해결 과정에서 재사용 가능한 인사이트를 추출합니다:
 
@@ -431,25 +431,25 @@ Claude Code에서 "setup omc", "omc setup" 또는 이에 해당하는 자연어 
 # 어려운 버그를 해결한 후:
 "이것을 스킬로 추출해줘"
     ↓
-Claude가 패턴을 학습하고 저장
+Gemini가 패턴을 학습하고 저장
     ↓
 다음에 키워드가 매칭되면 → 솔루션 자동 주입
 ```
 
 저장 위치:
 
-- **프로젝트 레벨**: `.omc/skills/` (버전 관리됨)
-- **사용자 레벨**: `~/.claude/skills/omc-learned/` (이식 가능)
+- **프로젝트 레벨**: `.omg/skills/` (버전 관리됨)
+- **사용자 레벨**: `~/.gemini/skills/omg-learned/` (이식 가능)
 
 #### 4. HUD 상태 표시줄 (실시간 오케스트레이션)
 
-상태 바에서 Claude가 무엇을 하고 있는지 확인하세요:
+상태 바에서 Gemini가 무엇을 하고 있는지 확인하세요:
 
 ```
 [OMC] ralph:3/10 | US-002 | ultrawork skill:planner | ctx:67% | agents:2 | todos:2/5
 ```
 
-설치하려면 `/oh-my-claudecode:hud setup`을 실행하세요. 프리셋: minimal, focused, full.
+설치하려면 `/oh-my-gemini-cli:hud setup`을 실행하세요. 프리셋: minimal, focused, full.
 
 #### 5. 3단계 메모리 시스템
 
@@ -463,10 +463,10 @@ Claude가 패턴을 학습하고 저장
 압축을 통해서도 절대 유실되지 않음
 ```
 
-또는 `/oh-my-claudecode:note`를 사용하여 발견한 것을 수동으로 저장할 수 있습니다:
+또는 `/oh-my-gemini-cli:note`를 사용하여 발견한 것을 수동으로 저장할 수 있습니다:
 
 ```bash
-/oh-my-claudecode:note Project uses PostgreSQL with Prisma ORM
+/oh-my-gemini-cli:note Project uses PostgreSQL with Prisma ORM
 ```
 
 #### 6. 구조화된 작업 추적 (PRD 지원)
@@ -474,7 +474,7 @@ Claude가 패턴을 학습하고 저장
 **Ralph Loop이 이제 제품 요구사항 문서를 사용합니다:**
 
 ```bash
-/oh-my-claudecode:ralph-init "implement OAuth with multiple providers"
+/oh-my-gemini-cli:ralph-init "implement OAuth with multiple providers"
     ↓
 사용자 스토리가 포함된 PRD 자동 생성
     ↓
@@ -485,12 +485,12 @@ Claude가 패턴을 학습하고 저장
 
 #### 7. 지능형 연속 실행
 
-**Claude가 멈추기 전에 작업이 완료됩니다:**
+**Gemini가 멈추기 전에 작업이 완료됩니다:**
 
 ```
 사용자: "사용자 대시보드 구현해줘"
     ↓
-Claude: "완료를 보장하기 위해 ralph-loop을 활성화합니다"
+Gemini: "완료를 보장하기 위해 ralph-loop을 활성화합니다"
     ↓
 할 일 목록을 생성하고 각 항목을 처리
     ↓
@@ -515,7 +515,7 @@ Claude: "완료를 보장하기 위해 ralph-loop을 활성화합니다"
 
 플랜 범위의 지식 캡처 시스템으로 학습 사항, 결정 사항, 이슈 및 문제를 기록합니다.
 
-**위치:** `.omc/notepads/{plan-name}/`
+**위치:** `.omg/notepads/{plan-name}/`
 
 | 파일           | 용도                     |
 | -------------- | ------------------------ |
@@ -569,7 +569,7 @@ Claude: "완료를 보장하기 위해 ralph-loop을 활성화합니다"
 버전 3.1은 바로 적용 가능한 업그레이드입니다. 마이그레이션이 필요 없습니다!
 
 ```bash
-npm update -g oh-my-claude-sisyphus
+npm update -g oh-my-gemini-sisyphus
 ```
 
 기존의 모든 설정, 플랜 및 워크플로우가 변경 없이 계속 작동합니다.
@@ -598,7 +598,7 @@ npm update -g oh-my-claude-sisyphus
 스테이지 간 데이터 전달을 가진 에이전트 체이닝:
 
 ```bash
-/oh-my-claudecode:pipeline explore:haiku -> architect:opus -> executor:sonnet
+/oh-my-gemini-cli:pipeline explore:haiku -> architect:opus -> executor:sonnet
 ```
 
 **내장 프리셋:**
@@ -615,7 +615,7 @@ npm update -g oh-my-claude-sisyphus
 30-50%의 토큰 절약과 함께 최대 병렬 처리:
 
 ```bash
-/oh-my-claudecode: "refactor the authentication system"
+/oh-my-gemini-cli: "refactor the authentication system"
 ```
 
 **스마트 모델 라우팅:**
@@ -629,7 +629,7 @@ npm update -g oh-my-claude-sisyphus
 활성 모드를 자동 감지하는 스마트 취소:
 
 ```bash
-/oh-my-claudecode:cancel
+/oh-my-gemini-cli:cancel
 # 또는 그냥: "stop", "cancel", "abort"
 ```
 
@@ -638,13 +638,13 @@ npm update -g oh-my-claude-sisyphus
 **폐기 안내:**
 개별 취소 명령어는 폐기되었지만 여전히 작동합니다:
 
-- `/oh-my-claudecode:cancel-ralph` (폐기됨)
-- `/oh-my-claudecode:cancel-ultraqa` (폐기됨)
-- `/oh-my-claudecode:cancel-ultrawork` (폐기됨)
-- `/oh-my-claudecode:cancel-` (폐기됨)
-- `/oh-my-claudecode:cancel-autopilot` (폐기됨)
+- `/oh-my-gemini-cli:cancel-ralph` (폐기됨)
+- `/oh-my-gemini-cli:cancel-ultraqa` (폐기됨)
+- `/oh-my-gemini-cli:cancel-ultrawork` (폐기됨)
+- `/oh-my-gemini-cli:cancel-` (폐기됨)
+- `/oh-my-gemini-cli:cancel-autopilot` (폐기됨)
 
-대신 `/oh-my-claudecode:cancel`을 사용하세요.
+대신 `/oh-my-gemini-cli:cancel`을 사용하세요.
 
 #### 6. explore-high 에이전트
 
@@ -652,7 +652,7 @@ npm update -g oh-my-claude-sisyphus
 
 ```typescript
 Task(
-  (subagent_type = "oh-my-claudecode:explore-high"),
+  (subagent_type = "oh-my-gemini-cli:explore-high"),
   (model = "opus"),
   (prompt = "Find all authentication-related code patterns..."),
 );
@@ -666,8 +666,8 @@ Task(
 
 **표준 경로:**
 
-- 로컬: `.omc/state/{name}.json`
-- 글로벌: `~/.omc/state/{name}.json`
+- 로컬: `.omg/state/{name}.json`
+- 글로벌: `~/.omg/state/{name}.json`
 
 레거시 위치는 읽기 시 자동 마이그레이션됩니다.
 
@@ -685,14 +685,14 @@ Task(
 
 **명시적 모드 키워드:** `ulw`, `ultrawork`, `eco`, ``**일반 키워드:**`fast`, `parallel`
 
-사용자는 `/oh-my-claudecode:omc-setup`을 통해 기본 모드 선호도를 설정할 수 있습니다.
+사용자는 `/oh-my-gemini-cli:omg-setup`을 통해 기본 모드 선호도를 설정할 수 있습니다.
 
 ### 마이그레이션 단계
 
 버전 3.4.0은 바로 적용 가능한 업그레이드입니다. 마이그레이션이 필요 없습니다!
 
 ```bash
-npm update -g oh-my-claude-sisyphus
+npm update -g oh-my-gemini-sisyphus
 ```
 
 기존의 모든 설정, 플랜 및 워크플로우가 변경 없이 계속 작동합니다.
@@ -701,7 +701,7 @@ npm update -g oh-my-claude-sisyphus
 
 #### 기본 실행 모드
 
-`~/.claude/.omc-config.json`에서 선호하는 실행 모드를 설정하세요:
+`~/.gemini/.omg-config.json`에서 선호하는 실행 모드를 설정하세요:
 
 ```json
 {
@@ -724,8 +724,8 @@ npm update -g oh-my-claude-sisyphus
 동등한 CLI 명령어:
 
 ```bash
-omc config- --disable
-omc config-agent-tiers --disable-low
+omg config- --disable
+omg config-agent-tiers --disable-low
 ```
 
 ### 호환성 파괴 변경
@@ -780,18 +780,18 @@ omc config-agent-tiers --disable-low
 1. **설치 확인**:
 
    ```bash
-   npm list -g oh-my-claude-sisyphus
+   npm list -g oh-my-gemini-sisyphus
    ```
 
 2. **통합 cancel 테스트**:
 
    ```bash
-   /oh-my-claudecode:cancel
+   /oh-my-gemini-cli:cancel
    ```
 
 3. **상태 디렉토리 확인**:
    ```bash
-   ls -la .omc/state/
+   ls -la .omg/state/
    ```
 
 ---
@@ -835,7 +835,7 @@ v4.0이 릴리스 후보 단계에 도달하면 상세한 마이그레이션 안
 
 ### 최신 정보 확인
 
-- 공지를 위해 [GitHub 저장소](https://github.com/Yeachan-Heo/oh-my-claude-sisyphus)를 watch하세요
+- 공지를 위해 [GitHub 저장소](https://github.com/Yeachan-Heo/oh-my-gemini-sisyphus)를 watch하세요
  상세한 릴리스 노트는 [CHANGELOG.md](../../CHANGELOG.md)를 확인하세요
 - GitHub Issues에서 논의에 참여하세요
 
@@ -848,7 +848,7 @@ v4.0이 릴리스 후보 단계에 도달하면 상세한 마이그레이션 안
 **2.x 워크플로우:**
 
 ```
-/oh-my-claudecode:ultrawork "implement the todo list feature"
+/oh-my-gemini-cli:ultrawork "implement the todo list feature"
 ```
 
 **3.0+ 워크플로우:**
@@ -856,7 +856,7 @@ v4.0이 릴리스 후보 단계에 도달하면 상세한 마이그레이션 안
 ```
 "implement the todo list feature quickly"
     ↓
-Claude: "최대 병렬 처리를 위해 ultrawork를 활성화합니다"
+Gemini: "최대 병렬 처리를 위해 ultrawork를 활성화합니다"
 ```
 
 **결과:** 동일한 결과, 더 자연스러운 상호작용.
@@ -866,7 +866,7 @@ Claude: "최대 병렬 처리를 위해 ultrawork를 활성화합니다"
 **2.x 워크플로우:**
 
 ```
-/oh-my-claudecode:ralph "debug the memory leak"
+/oh-my-gemini-cli:ralph "debug the memory leak"
 ```
 
 **3.0+ 워크플로우:**
@@ -874,7 +874,7 @@ Claude: "최대 병렬 처리를 위해 ultrawork를 활성화합니다"
 ```
 "there's a memory leak in the worker process - don't stop until we fix it"
     ↓
-Claude: "완료를 보장하기 위해 ralph-loop을 활성화합니다"
+Gemini: "완료를 보장하기 위해 ralph-loop을 활성화합니다"
 ```
 
 **결과:** 자연어에서 더 많은 컨텍스트를 가진 ralph-loop.
@@ -884,7 +884,7 @@ Claude: "완료를 보장하기 위해 ralph-loop을 활성화합니다"
 **2.x 워크플로우:**
 
 ```
-/oh-my-claudecode:planner "design the new authentication system"
+/oh-my-gemini-cli:planner "design the new authentication system"
 ```
 
 **3.0+ 워크플로우:**
@@ -892,7 +892,7 @@ Claude: "완료를 보장하기 위해 ralph-loop을 활성화합니다"
 ```
 "plan the new authentication system"
     ↓
-Claude: "플래닝 세션을 시작합니다"
+Gemini: "플래닝 세션을 시작합니다"
     ↓
 인터뷰가 자동으로 시작됨
 ```
@@ -904,7 +904,7 @@ Claude: "플래닝 세션을 시작합니다"
 **2.x 워크플로우:**
 
 ```
-/oh-my-claudecode:cancel-ralph
+/oh-my-gemini-cli:cancel-ralph
 ```
 
 **3.0+ 워크플로우:**
@@ -913,7 +913,7 @@ Claude: "플래닝 세션을 시작합니다"
 "stop"
 ```
 
-**결과:** Claude가 지능적으로 활성 작업을 취소합니다.
+**결과:** Gemini가 지능적으로 활성 작업을 취소합니다.
 
 ---
 
@@ -921,23 +921,23 @@ Claude: "플래닝 세션을 시작합니다"
 
 ### 프로젝트 범위 설정 (권장)
 
-oh-my-claudecode를 현재 프로젝트에만 적용합니다:
+oh-my-gemini-cli를 현재 프로젝트에만 적용합니다:
 
 ```
-/oh-my-claudecode:omc-default
+/oh-my-gemini-cli:omg-default
 ```
 
-생성 파일: `./.claude/CLAUDE.md`
+생성 파일: `./.gemini/GEMINI.md`
 
 ### 글로벌 설정
 
-모든 Claude Code 세션에 적용합니다:
+모든 Gemini Code 세션에 적용합니다:
 
 ```
-/oh-my-claudecode:omc-default-global
+/oh-my-gemini-cli:omg-default-global
 ```
 
-생성 파일: `~/.claude/CLAUDE.md`
+생성 파일: `~/.gemini/GEMINI.md`
 
 **우선순위:** 둘 다 존재하는 경우 프로젝트 설정이 글로벌 설정을 덮어씁니다.
 
@@ -946,16 +946,16 @@ oh-my-claudecode를 현재 프로젝트에만 적용합니다:
 ## 자주 묻는 질문
 
 **Q: 키워드를 반드시 사용해야 하나요?**
-A: 아니요. 키워드는 선택적 단축키입니다. Claude가 키워드 없이도 의도를 자동으로 감지합니다.
+A: 아니요. 키워드는 선택적 단축키입니다. Gemini가 키워드 없이도 의도를 자동으로 감지합니다.
 
 **Q: 기존 명령어가 작동하지 않게 되나요?**
 A: 아니요. 모든 명령어는 마이너 버전 간에 계속 작동합니다 (3.0 → 3.1). 메이저 버전 변경 (3.x → 4.0)에서는 마이그레이션 경로가 제공됩니다.
 
 **Q: 명시적 명령어를 선호하면 어떻게 하나요?**
-A: 계속 사용하세요! `/oh-my-claudecode:ralph`, `/oh-my-claudecode:ultrawork`, `/oh-my-claudecode:plan`이 작동합니다. 참고: `/oh-my-claudecode:planner`는 이제 `/oh-my-claudecode:plan`으로 리다이렉트됩니다.
+A: 계속 사용하세요! `/oh-my-gemini-cli:ralph`, `/oh-my-gemini-cli:ultrawork`, `/oh-my-gemini-cli:plan`이 작동합니다. 참고: `/oh-my-gemini-cli:planner`는 이제 `/oh-my-gemini-cli:plan`으로 리다이렉트됩니다.
 
-**Q: Claude가 무엇을 하고 있는지 어떻게 알 수 있나요?**
-A: Claude가 주요 동작을 안내합니다: "ralph-loop을 활성화합니다..." 또는 실시간 상태를 위해 `/oh-my-claudecode:hud`를 설정하세요.
+**Q: Gemini가 무엇을 하고 있는지 어떻게 알 수 있나요?**
+A: Gemini가 주요 동작을 안내합니다: "ralph-loop을 활성화합니다..." 또는 실시간 상태를 위해 `/oh-my-gemini-cli:hud`를 설정하세요.
 
 **Q: 전체 명령어 목록은 어디에 있나요?**
 A: 전체 명령어 레퍼런스는 [README.md](../../README.md)를 참조하세요. 모든 명령어가 여전히 작동합니다.
@@ -967,11 +967,11 @@ A: 키워드는 명시적 단축키입니다. 자연어는 자동 감지를 트�
 
 ## 도움이 필요하신가요?
 
-- **이슈 진단**: `/oh-my-claudecode:omc-doctor` 실행
-- **모든 명령어 보기**: `/oh-my-claudecode:omc-help` 실행
-- **실시간 상태 보기**: `/oh-my-claudecode:hud setup` 실행
+- **이슈 진단**: `/oh-my-gemini-cli:omg-doctor` 실행
+- **모든 명령어 보기**: `/oh-my-gemini-cli:omg-help` 실행
+- **실시간 상태 보기**: `/oh-my-gemini-cli:hud setup` 실행
  **상세 변경 로그 확인**: [CHANGELOG.md](../../CHANGELOG.md) 참조
-- **버그 보고**: [GitHub Issues](https://github.com/Yeachan-Heo/oh-my-claude-sisyphus/issues)
+- **버그 보고**: [GitHub Issues](https://github.com/Yeachan-Heo/oh-my-gemini-sisyphus/issues)
 
 ---
 
@@ -980,8 +980,8 @@ A: 키워드는 명시적 단축키입니다. 자연어는 자동 감지를 트�
 이제 마이그레이션을 이해하셨으니:
 
 1. **즉시 효과를 위해**: 작업에서 키워드 (`ralph`, `ulw`, `plan`) 사용을 시작하세요
-2. **전체 기능 활용을 위해**: [docs/CLAUDE.md](../CLAUDE.md)를 읽고 오케스트레이션을 이해하세요
+2. **전체 기능 활용을 위해**: [docs/GEMINI.md](../GEMINI.md)를 읽고 오케스트레이션을 이해하세요
 3. **고급 사용을 위해**: [docs/ARCHITECTURE.md](../ARCHITECTURE.md)에서 심층 분석을 확인하세요
 4. **팀 온보딩을 위해**: 이 가이드를 팀원들과 공유하세요
 
-oh-my-claudecode에 오신 것을 환영합니다!
+oh-my-gemini-cli에 오신 것을 환영합니다!

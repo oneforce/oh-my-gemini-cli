@@ -1,7 +1,7 @@
 /**
  * Hook Notification Configuration Types
  *
- * Schema for omc_config.hook.json — user-customizable message templates
+ * Schema for omg_config.hook.json — user-customizable message templates
  * with per-event, per-platform overrides.
  */
 
@@ -46,7 +46,7 @@ export interface HookEventConfig {
   platforms?: Partial<Record<NotificationPlatform, PlatformTemplateOverride>>;
 }
 
-/** Top-level schema for omc_config.hook.json */
+/** Top-level schema for omg_config.hook.json */
 export interface HookNotificationConfig {
   /** Schema version for future migration */
   version: 1;

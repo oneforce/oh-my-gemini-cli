@@ -1,13 +1,13 @@
 /**
- * Hooks Module for Oh-My-ClaudeCode
+ * Hooks Module for Oh-My-GeminiCLI
  *
- * This module provides the TypeScript bridge for Claude Code's native shell hook system.
+ * This module provides the TypeScript bridge for Gemini Code's native shell hook system.
  * Shell scripts call these TypeScript functions for complex logic processing.
  *
  * Architecture:
- * - Claude Code runs shell scripts on hook events (UserPromptSubmit, Stop, etc.)
+ * - Gemini Code runs shell scripts on hook events (UserPromptSubmit, Stop, etc.)
  * - Shell scripts invoke Node.js bridge for complex processing
- * - Bridge returns JSON response that shell passes back to Claude Code
+ * - Bridge returns JSON response that shell passes back to Gemini Code
  */
 
 export {
@@ -125,7 +125,7 @@ export {
   getHighVariant,
   isAlreadyHighVariant,
   getThinkingConfig,
-  getClaudeThinkingConfig,
+  getGeminiThinkingConfig,
   clearThinkModeState,
   getThinkModeState,
   isThinkModeActive,
@@ -137,7 +137,7 @@ export {
   type ModelRef,
   type MessageWithModel,
   type ThinkModeInput,
-  type ClaudeThinkingConfig,
+  type GeminiThinkingConfig,
   type ThinkingConfig
 } from './think-mode/index.js';
 
@@ -194,7 +194,7 @@ export {
   SINGLE_TASK_DIRECTIVE,
   type ToolExecuteInput as OrchestratorToolInput,
   type ToolExecuteOutput as OrchestratorToolOutput
-} from './omc-orchestrator/index.js';
+} from './omg-orchestrator/index.js';
 
 export {
   // Auto Slash Command

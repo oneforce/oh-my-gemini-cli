@@ -289,8 +289,8 @@ function paneLooksReady(captured) {
     if (/^\s*[›>❯]\s*/u.test(lastLine))
         return true;
     const hasCodexPromptLine = lines.some((line) => /^\s*›\s*/u.test(line));
-    const hasClaudePromptLine = lines.some((line) => /^\s*❯\s*/u.test(line));
-    if (hasCodexPromptLine || hasClaudePromptLine)
+    const hasGeminiPromptLine = lines.some((line) => /^\s*❯\s*/u.test(line));
+    if (hasCodexPromptLine || hasGeminiPromptLine)
         return true;
     return false;
 }
@@ -300,8 +300,8 @@ function resolveWorkerCliForRequest(request, config) {
     if (idx !== null) {
         const worker = workers.find((c) => Number(c.index) === idx);
         const workerCli = safeString(worker?.worker_cli).trim().toLowerCase();
-        if (workerCli === 'claude')
-            return 'claude';
+        if (workerCli === 'gemini')
+            return 'gemini';
     }
     return 'codex';
 }
@@ -324,7 +324,7 @@ async function defaultInjector(request, config, _cwd) {
         }
     }
     catch { /* best effort */ }
-    const submitKeyPresses = resolveWorkerCliForRequest(request, config) === 'claude' ? 1 : 2;
+    const submitKeyPresses = resolveWorkerCliForRequest(request, config) === 'gemini' ? 1 : 2;
     const attemptCountAtStart = Number.isFinite(request.attempt_count) ? Math.max(0, Math.floor(request.attempt_count)) : 0;
     let preCaptureHasTrigger = false;
     if (attemptCountAtStart >= 1) {
@@ -468,8 +468,8 @@ function shouldSkipRequest(request) {
 }
 export async function drainPendingTeamDispatch(options = { cwd: '' }) {
     const { cwd } = options;
-    const stateDir = options.stateDir ?? join(cwd, '.omc', 'state');
-    const logsDir = options.logsDir ?? join(cwd, '.omc', 'logs');
+    const stateDir = options.stateDir ?? join(cwd, '.omg', 'state');
+    const logsDir = options.logsDir ?? join(cwd, '.omg', 'logs');
     const maxPerTick = options.maxPerTick ?? 5;
     const injector = options.injector ?? defaultInjector;
     if (safeString(process.env.OMC_TEAM_WORKER)) {

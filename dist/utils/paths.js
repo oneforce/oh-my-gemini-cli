@@ -8,7 +8,7 @@
 import { join } from 'path';
 import { existsSync, readFileSync, readdirSync, statSync, unlinkSync, rmSync } from 'fs';
 import { homedir } from 'os';
-import { getConfigDir as getClaudeBaseConfigDir } from './config-dir.js';
+import { getConfigDir as getGeminiBaseConfigDir } from './config-dir.js';
 /**
  * Convert a path to use forward slashes (for JSON/config files)
  * This is necessary because settings.json commands are executed
@@ -18,11 +18,11 @@ export function toForwardSlash(path) {
     return path.replace(/\\/g, '/');
 }
 /**
- * Get Claude config directory path.
+ * Get Gemini config directory path.
  * Respects the CLAUDE_CONFIG_DIR environment variable when set.
  */
-export function getClaudeConfigDir() {
-    return getClaudeBaseConfigDir();
+export function getGeminiConfigDir() {
+    return getGeminiBaseConfigDir();
 }
 /**
  * Get a path suitable for use in shell commands
@@ -56,13 +56,13 @@ export function getConfigDir() {
     return process.env.XDG_CONFIG_HOME || join(homedir(), '.config');
 }
 /**
- * Get the plugin cache base directory for oh-my-claudecode.
+ * Get the plugin cache base directory for oh-my-gemini-cli.
  * This is the directory containing version subdirectories.
  *
- * Structure: <configDir>/plugins/cache/omc/oh-my-claudecode/
+ * Structure: <configDir>/plugins/cache/omg/oh-my-gemini-cli/
  */
 export function getPluginCacheBase() {
-    return join(getClaudeConfigDir(), 'plugins', 'cache', 'omc', 'oh-my-claudecode');
+    return join(getGeminiConfigDir(), 'plugins', 'cache', 'omg', 'oh-my-gemini-cli');
 }
 /**
  * Safely delete a file, ignoring ENOENT errors.
@@ -99,7 +99,7 @@ export function safeRmSync(dirPath) {
  * Purge stale plugin cache versions that are no longer referenced by
  * installed_plugins.json.
  *
- * Claude Code caches each plugin version under:
+ * Gemini Code caches each plugin version under:
  *   <configDir>/plugins/cache/<marketplace>/<plugin>/<version>/
  *
  * On plugin update the old version directory is left behind. This function
@@ -118,7 +118,7 @@ function stripTrailing(p) {
 const STALE_THRESHOLD_MS = 24 * 60 * 60 * 1000;
 export function purgeStalePluginCacheVersions(options) {
     const result = { removed: 0, removedPaths: [], errors: [] };
-    const configDir = getClaudeConfigDir();
+    const configDir = getGeminiConfigDir();
     const pluginsDir = join(configDir, 'plugins');
     const installedFile = join(pluginsDir, 'installed_plugins.json');
     const cacheDir = join(pluginsDir, 'cache');

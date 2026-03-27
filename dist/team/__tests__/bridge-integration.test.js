@@ -8,11 +8,11 @@ import { writeHeartbeat, readHeartbeat } from '../heartbeat.js';
 import { sanitizeName } from '../tmux-session.js';
 import { logAuditEvent, readAuditLog } from '../audit-log.js';
 const TEST_TEAM = 'test-bridge-int';
-// Task files now live in the canonical .omc/state/team path (relative to WORK_DIR)
-const TEAMS_DIR = join(homedir(), '.claude', 'teams', TEST_TEAM);
+// Task files now live in the canonical .omg/state/team path (relative to WORK_DIR)
+const TEAMS_DIR = join(homedir(), '.gemini', 'teams', TEST_TEAM);
 const WORK_DIR = join(tmpdir(), '__test_bridge_work__');
 // Canonical tasks dir for this team
-const TASKS_DIR = join(WORK_DIR, '.omc', 'state', 'team', TEST_TEAM, 'tasks');
+const TASKS_DIR = join(WORK_DIR, '.omg', 'state', 'team', TEST_TEAM, 'tasks');
 function writeTask(task) {
     mkdirSync(TASKS_DIR, { recursive: true });
     writeFileSync(join(TASKS_DIR, `${task.id}.json`), JSON.stringify(task, null, 2));
@@ -46,7 +46,7 @@ beforeEach(() => {
     mkdirSync(join(TEAMS_DIR, 'outbox'), { recursive: true });
     mkdirSync(join(TEAMS_DIR, 'signals'), { recursive: true });
     mkdirSync(WORK_DIR, { recursive: true });
-    mkdirSync(join(WORK_DIR, '.omc', 'state'), { recursive: true });
+    mkdirSync(join(WORK_DIR, '.omg', 'state'), { recursive: true });
 });
 afterEach(() => {
     rmSync(TASKS_DIR, { recursive: true, force: true });
@@ -281,7 +281,7 @@ describe('validateBridgeWorkingDirectory logic', () => {
         }
     });
     it('accepts a valid directory under home', () => {
-        const testDir = join(homedir(), '.claude', '__bridge_validate_test__');
+        const testDir = join(homedir(), '.gemini', '__bridge_validate_test__');
         mkdirSync(testDir, { recursive: true });
         try {
             expect(() => validateBridgeWorkingDirectory(testDir)).not.toThrow();

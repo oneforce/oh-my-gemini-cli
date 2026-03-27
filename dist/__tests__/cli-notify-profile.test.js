@@ -13,7 +13,7 @@ function runCli(args, homeDir) {
         env: {
             ...process.env,
             HOME: homeDir,
-            CLAUDE_CONFIG_DIR: join(homeDir, '.claude'),
+            CLAUDE_CONFIG_DIR: join(homeDir, '.gemini'),
         },
         encoding: 'utf-8',
     });
@@ -26,11 +26,11 @@ function runCli(args, homeDir) {
 function readConfig(configPath) {
     return JSON.parse(readFileSync(configPath, 'utf-8'));
 }
-describe('omc config-stop-callback --profile', () => {
+describe('omg config-stop-callback --profile', () => {
     it('creates a discord profile and stores it in notificationProfiles', () => {
-        const homeDir = mkdtempSync(join(tmpdir(), 'omc-cli-profile-'));
-        const configPath = join(homeDir, '.claude', '.omc-config.json');
-        mkdirSync(join(homeDir, '.claude'), { recursive: true });
+        const homeDir = mkdtempSync(join(tmpdir(), 'omg-cli-profile-'));
+        const configPath = join(homeDir, '.gemini', '.omg-config.json');
+        mkdirSync(join(homeDir, '.gemini'), { recursive: true });
         writeFileSync(configPath, JSON.stringify({ silentAutoUpdate: false }, null, 2));
         const result = runCli([
             'config-stop-callback', 'discord',
@@ -48,9 +48,9 @@ describe('omc config-stop-callback --profile', () => {
         expect(config.notificationProfiles.work.discord.webhookUrl).toBe('https://discord.com/api/webhooks/test');
     });
     it('creates a telegram profile', () => {
-        const homeDir = mkdtempSync(join(tmpdir(), 'omc-cli-profile-'));
-        const configPath = join(homeDir, '.claude', '.omc-config.json');
-        mkdirSync(join(homeDir, '.claude'), { recursive: true });
+        const homeDir = mkdtempSync(join(tmpdir(), 'omg-cli-profile-'));
+        const configPath = join(homeDir, '.gemini', '.omg-config.json');
+        mkdirSync(join(homeDir, '.gemini'), { recursive: true });
         writeFileSync(configPath, JSON.stringify({ silentAutoUpdate: false }, null, 2));
         const result = runCli([
             'config-stop-callback', 'telegram',
@@ -66,9 +66,9 @@ describe('omc config-stop-callback --profile', () => {
         expect(config.notificationProfiles.personal.telegram.chatId).toBe('999');
     });
     it('creates a discord-bot profile with --channel-id', () => {
-        const homeDir = mkdtempSync(join(tmpdir(), 'omc-cli-profile-'));
-        const configPath = join(homeDir, '.claude', '.omc-config.json');
-        mkdirSync(join(homeDir, '.claude'), { recursive: true });
+        const homeDir = mkdtempSync(join(tmpdir(), 'omg-cli-profile-'));
+        const configPath = join(homeDir, '.gemini', '.omg-config.json');
+        mkdirSync(join(homeDir, '.gemini'), { recursive: true });
         writeFileSync(configPath, JSON.stringify({ silentAutoUpdate: false }, null, 2));
         const result = runCli([
             'config-stop-callback', 'discord-bot',
@@ -84,9 +84,9 @@ describe('omc config-stop-callback --profile', () => {
         expect(config.notificationProfiles.ops['discord-bot'].channelId).toBe('channel-456');
     });
     it('adds multiple platforms to the same profile', () => {
-        const homeDir = mkdtempSync(join(tmpdir(), 'omc-cli-profile-'));
-        const configPath = join(homeDir, '.claude', '.omc-config.json');
-        mkdirSync(join(homeDir, '.claude'), { recursive: true });
+        const homeDir = mkdtempSync(join(tmpdir(), 'omg-cli-profile-'));
+        const configPath = join(homeDir, '.gemini', '.omg-config.json');
+        mkdirSync(join(homeDir, '.gemini'), { recursive: true });
         writeFileSync(configPath, JSON.stringify({ silentAutoUpdate: false }, null, 2));
         // Add discord first
         runCli([
@@ -108,9 +108,9 @@ describe('omc config-stop-callback --profile', () => {
         expect(config.notificationProfiles.multi.telegram.enabled).toBe(true);
     });
     it('does not affect legacy stopHookCallbacks when using --profile', () => {
-        const homeDir = mkdtempSync(join(tmpdir(), 'omc-cli-profile-'));
-        const configPath = join(homeDir, '.claude', '.omc-config.json');
-        mkdirSync(join(homeDir, '.claude'), { recursive: true });
+        const homeDir = mkdtempSync(join(tmpdir(), 'omg-cli-profile-'));
+        const configPath = join(homeDir, '.gemini', '.omg-config.json');
+        mkdirSync(join(homeDir, '.gemini'), { recursive: true });
         writeFileSync(configPath, JSON.stringify({
             silentAutoUpdate: false,
             stopHookCallbacks: {
@@ -130,9 +130,9 @@ describe('omc config-stop-callback --profile', () => {
         expect(config.notificationProfiles.new.discord.webhookUrl).toBe('https://discord.com/api/webhooks/new');
     });
     it('shows profile config with --show', () => {
-        const homeDir = mkdtempSync(join(tmpdir(), 'omc-cli-profile-'));
-        const configPath = join(homeDir, '.claude', '.omc-config.json');
-        mkdirSync(join(homeDir, '.claude'), { recursive: true });
+        const homeDir = mkdtempSync(join(tmpdir(), 'omg-cli-profile-'));
+        const configPath = join(homeDir, '.gemini', '.omg-config.json');
+        mkdirSync(join(homeDir, '.gemini'), { recursive: true });
         writeFileSync(configPath, JSON.stringify({
             silentAutoUpdate: false,
             notificationProfiles: {
@@ -151,11 +151,11 @@ describe('omc config-stop-callback --profile', () => {
         expect(result.stdout).toContain('webhookUrl');
     });
 });
-describe('omc config-notify-profile', () => {
+describe('omg config-notify-profile', () => {
     it('lists all profiles', () => {
-        const homeDir = mkdtempSync(join(tmpdir(), 'omc-cli-profile-'));
-        const configPath = join(homeDir, '.claude', '.omc-config.json');
-        mkdirSync(join(homeDir, '.claude'), { recursive: true });
+        const homeDir = mkdtempSync(join(tmpdir(), 'omg-cli-profile-'));
+        const configPath = join(homeDir, '.gemini', '.omg-config.json');
+        mkdirSync(join(homeDir, '.gemini'), { recursive: true });
         writeFileSync(configPath, JSON.stringify({
             silentAutoUpdate: false,
             notificationProfiles: {
@@ -169,9 +169,9 @@ describe('omc config-notify-profile', () => {
         expect(result.stdout).toContain('personal');
     });
     it('shows a specific profile', () => {
-        const homeDir = mkdtempSync(join(tmpdir(), 'omc-cli-profile-'));
-        const configPath = join(homeDir, '.claude', '.omc-config.json');
-        mkdirSync(join(homeDir, '.claude'), { recursive: true });
+        const homeDir = mkdtempSync(join(tmpdir(), 'omg-cli-profile-'));
+        const configPath = join(homeDir, '.gemini', '.omg-config.json');
+        mkdirSync(join(homeDir, '.gemini'), { recursive: true });
         writeFileSync(configPath, JSON.stringify({
             silentAutoUpdate: false,
             notificationProfiles: {
@@ -183,9 +183,9 @@ describe('omc config-notify-profile', () => {
         expect(result.stdout).toContain('webhookUrl');
     });
     it('deletes a profile', () => {
-        const homeDir = mkdtempSync(join(tmpdir(), 'omc-cli-profile-'));
-        const configPath = join(homeDir, '.claude', '.omc-config.json');
-        mkdirSync(join(homeDir, '.claude'), { recursive: true });
+        const homeDir = mkdtempSync(join(tmpdir(), 'omg-cli-profile-'));
+        const configPath = join(homeDir, '.gemini', '.omg-config.json');
+        mkdirSync(join(homeDir, '.gemini'), { recursive: true });
         writeFileSync(configPath, JSON.stringify({
             silentAutoUpdate: false,
             notificationProfiles: {
@@ -201,9 +201,9 @@ describe('omc config-notify-profile', () => {
         expect(config.notificationProfiles.personal).toBeDefined();
     });
     it('shows helpful message when no profiles exist', () => {
-        const homeDir = mkdtempSync(join(tmpdir(), 'omc-cli-profile-'));
-        const configPath = join(homeDir, '.claude', '.omc-config.json');
-        mkdirSync(join(homeDir, '.claude'), { recursive: true });
+        const homeDir = mkdtempSync(join(tmpdir(), 'omg-cli-profile-'));
+        const configPath = join(homeDir, '.gemini', '.omg-config.json');
+        mkdirSync(join(homeDir, '.gemini'), { recursive: true });
         writeFileSync(configPath, JSON.stringify({ silentAutoUpdate: false }, null, 2));
         const result = runCli(['config-notify-profile', '--list'], homeDir);
         expect(result.status).toBe(0);

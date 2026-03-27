@@ -7,30 +7,30 @@ import { checkPersistentModes } from '../index.js';
 import { writePrd } from '../../ralph/prd.js';
 describe('Ralph verification flow', () => {
     let testDir;
-    let claudeConfigDir;
-    let originalClaudeConfigDir;
+    let geminiConfigDir;
+    let originalGeminiConfigDir;
     beforeEach(() => {
         testDir = join(tmpdir(), `ralph-verification-flow-${Date.now()}-${Math.random().toString(36).slice(2)}`);
-        claudeConfigDir = join(testDir, '.fake-claude');
+        geminiConfigDir = join(testDir, '.fake-gemini');
         mkdirSync(testDir, { recursive: true });
-        mkdirSync(claudeConfigDir, { recursive: true });
+        mkdirSync(geminiConfigDir, { recursive: true });
         execSync('git init', { cwd: testDir });
-        originalClaudeConfigDir = process.env.CLAUDE_CONFIG_DIR;
-        process.env.CLAUDE_CONFIG_DIR = claudeConfigDir;
+        originalGeminiConfigDir = process.env.CLAUDE_CONFIG_DIR;
+        process.env.CLAUDE_CONFIG_DIR = geminiConfigDir;
     });
     afterEach(() => {
-        if (originalClaudeConfigDir === undefined) {
+        if (originalGeminiConfigDir === undefined) {
             delete process.env.CLAUDE_CONFIG_DIR;
         }
         else {
-            process.env.CLAUDE_CONFIG_DIR = originalClaudeConfigDir;
+            process.env.CLAUDE_CONFIG_DIR = originalGeminiConfigDir;
         }
         if (existsSync(testDir)) {
             rmSync(testDir, { recursive: true, force: true });
         }
     });
     function writeRalphState(sessionId, extra = {}) {
-        const sessionDir = join(testDir, '.omc', 'state', 'sessions', sessionId);
+        const sessionDir = join(testDir, '.omg', 'state', 'sessions', sessionId);
         mkdirSync(sessionDir, { recursive: true });
         writeFileSync(join(sessionDir, 'ralph-state.json'), JSON.stringify({
             active: true,
@@ -67,7 +67,7 @@ describe('Ralph verification flow', () => {
     });
     it('completes Ralph after generic approval marker is seen in transcript', async () => {
         const sessionId = 'ralph-approved';
-        const sessionDir = join(testDir, '.omc', 'state', 'sessions', sessionId);
+        const sessionDir = join(testDir, '.omg', 'state', 'sessions', sessionId);
         mkdirSync(sessionDir, { recursive: true });
         writeRalphState(sessionId);
         writeFileSync(join(sessionDir, 'ralph-verification-state.json'), JSON.stringify({
@@ -79,7 +79,7 @@ describe('Ralph verification flow', () => {
             original_task: 'Implement issue #1496',
             critic_mode: 'critic',
         }));
-        const transcriptDir = join(claudeConfigDir, 'sessions', sessionId);
+        const transcriptDir = join(geminiConfigDir, 'sessions', sessionId);
         mkdirSync(transcriptDir, { recursive: true });
         writeFileSync(join(transcriptDir, 'transcript.md'), '<ralph-approved critic="critic">VERIFIED_COMPLETE</ralph-approved>');
         const result = await checkPersistentModes(sessionId, testDir);

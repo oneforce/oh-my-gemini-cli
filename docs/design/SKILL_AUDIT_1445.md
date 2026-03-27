@@ -11,7 +11,7 @@ Audit the seven questioned-value skills called out in issue #1445 and decide whe
 | Skill | Lines | Initial concern | Audit verdict |
 | --- | ---: | --- | --- |
 | `configure-notifications` | 1213 | Large for a narrow task | Keep for now; too much behavior to deprecate without usage data |
-| `sciomc` | 510 | Niche scientific workflow | Keep for now; niche is not the same as unused |
+| `sciomg` | 510 | Niche scientific workflow | Keep for now; niche is not the same as unused |
 | `deep-interview` | 551 | Complex and unclear frequency | Keep for now; keyword-triggered planning surface still exists |
 | `project-session-manager` | 564 | Overlaps with native worktrees | Keep for now; still provides tmux/session orchestration beyond plain git worktrees |
 | `writer-memory` | 443 | Domain-specific | Keep for now; domain specificity alone is not sufficient removal evidence |
@@ -26,7 +26,7 @@ The repository already has useful observability surfaces that can support a futu
 - `src/hooks/subagent-tracker/session-replay.ts`
 - `src/tools/trace-tools.ts`
 - `docs/PERFORMANCE-MONITORING.md`
-- `skills/learn-about-omc/SKILL.md`
+- `skills/learn-about-omg/SKILL.md`
 
 These surfaces provide session-level traces, replay data, and aggregate summaries. They are enough to support a structured manual audit before adding new opt-in telemetry.
 
@@ -54,7 +54,7 @@ Before any future deprecation PR, require all of the following:
 ### Keep as-is for now
 
 - `configure-notifications`
-- `sciomc`
+- `sciomg`
 - `deep-interview`
 - `project-session-manager`
 - `writer-memory`
@@ -67,7 +67,7 @@ Before any future deprecation PR, require all of the following:
 ### Follow-up work if maintainers want harder data
 
 1. Document a trace-based audit workflow using existing `trace_summary` and replay data.
-2. Decide whether `learn-about-omc` should surface that audit view directly.
+2. Decide whether `learn-about-omg` should surface that audit view directly.
 3. Only then consider new opt-in telemetry if the trace workflow proves insufficient.
 
 ## Conclusion

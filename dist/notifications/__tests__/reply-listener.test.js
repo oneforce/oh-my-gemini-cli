@@ -135,7 +135,7 @@ describe("reply-listener", () => {
     describe("Pane verification", () => {
         it("skips injection when confidence < 0.4", () => {
             const analysis = {
-                hasClaudeCode: false,
+                hasGeminiCLI: false,
                 hasRateLimitMessage: false,
                 isBlocked: false,
                 confidence: 0.3,
@@ -144,7 +144,7 @@ describe("reply-listener", () => {
         });
         it("proceeds with injection when confidence >= 0.4", () => {
             const analysis = {
-                hasClaudeCode: true,
+                hasGeminiCLI: true,
                 hasRateLimitMessage: false,
                 isBlocked: false,
                 confidence: 0.5,
@@ -273,7 +273,7 @@ describe("reply-listener", () => {
             const userMessageId = "999888777";
             const expectedUrl = `https://discord.com/api/v10/channels/${channelId}/messages`;
             const expectedBody = {
-                content: "Injected into Claude Code session.",
+                content: "Injected into Gemini Code session.",
                 message_reference: { message_id: userMessageId },
                 allowed_mentions: { parse: [] },
             };
@@ -293,10 +293,10 @@ describe("reply-listener", () => {
             const messageId = 789;
             const expectedBody = {
                 chat_id: chatId,
-                text: "Injected into Claude Code session.",
+                text: "Injected into Gemini Code session.",
                 reply_to_message_id: messageId,
             };
-            expect(expectedBody.text).toBe("Injected into Claude Code session.");
+            expect(expectedBody.text).toBe("Injected into Gemini Code session.");
             expect(expectedBody.reply_to_message_id).toBe(messageId);
         });
         it("feedback is non-critical and wrapped in try/catch", () => {
@@ -345,14 +345,14 @@ describe("reply-listener", () => {
         it("prefixes Discord feedback with mention when discordMention is set", () => {
             const mention = "<@123456789012345678>";
             const mentionPrefix = mention ? `${mention} ` : '';
-            const content = `${mentionPrefix}Injected into Claude Code session.`;
-            expect(content).toBe("<@123456789012345678> Injected into Claude Code session.");
+            const content = `${mentionPrefix}Injected into Gemini Code session.`;
+            expect(content).toBe("<@123456789012345678> Injected into Gemini Code session.");
         });
         it("omits mention prefix when discordMention is undefined", () => {
             const mention = undefined;
             const mentionPrefix = mention ? `${mention} ` : '';
-            const content = `${mentionPrefix}Injected into Claude Code session.`;
-            expect(content).toBe("Injected into Claude Code session.");
+            const content = `${mentionPrefix}Injected into Gemini Code session.`;
+            expect(content).toBe("Injected into Gemini Code session.");
         });
         it("builds allowed_mentions for user mention", () => {
             // Inline equivalent of parseMentionAllowedMentions for user mention
@@ -402,7 +402,7 @@ describe("reply-listener", () => {
             const source = fs.readFileSync(path.join(__dirname, "..", "reply-listener.ts"), "utf-8");
             // Telegram sendMessage body should not reference discordMention
             // Find the Telegram reply body - it uses a simple text string
-            const telegramReplyMatch = source.match(/text:\s*['"]Injected into Claude Code session\.['"]/g);
+            const telegramReplyMatch = source.match(/text:\s*['"]Injected into Gemini Code session\.['"]/g);
             expect(telegramReplyMatch).not.toBeNull();
             // Should have exactly 1 match (Telegram only; Discord now uses template)
             expect(telegramReplyMatch.length).toBe(1);

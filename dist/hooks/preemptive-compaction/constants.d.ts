@@ -26,7 +26,7 @@ export declare const COMPACTION_COOLDOWN_MS = 60000;
  */
 export declare const MAX_WARNINGS = 3;
 /**
- * Default context limits for Claude models
+ * Default context limits for Gemini models
  */
 export declare const CLAUDE_DEFAULT_CONTEXT_LIMIT: number;
 /**

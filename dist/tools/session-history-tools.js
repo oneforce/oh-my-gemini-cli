@@ -11,7 +11,7 @@ export const sessionSearchTool = {
         limit: z.number().int().positive().optional().describe('Maximum number of matches to return (default: 10)'),
         sessionId: z.string().optional().describe('Restrict search to a specific session id'),
         since: z.string().optional().describe('Only include matches since a relative duration (e.g. 7d, 24h) or absolute date'),
-        project: z.string().optional().describe('Project filter. Defaults to current project. Use "all" to search across all local Claude projects.'),
+        project: z.string().optional().describe('Project filter. Defaults to current project. Use "all" to search across all local Gemini projects.'),
         caseSensitive: z.boolean().optional().describe('Whether to match case-sensitively (default: false)'),
         contextChars: z.number().int().positive().optional().describe('Approximate snippet context on each side of a match (default: 120)'),
         workingDirectory: z.string().optional().describe('Working directory used to determine the current project scope'),

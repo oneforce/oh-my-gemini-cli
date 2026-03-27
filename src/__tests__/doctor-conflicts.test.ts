@@ -10,13 +10,13 @@ import { existsSync, mkdirSync, writeFileSync, rmSync } from 'fs';
 import { join } from 'path';
 import { homedir } from 'os';
 
-const TEST_CLAUDE_DIR = join(homedir(), '.claude-test-doctor-conflicts');
-const TEST_PROJECT_DIR = join(homedir(), '.claude-test-doctor-project');
-const TEST_PROJECT_CLAUDE_DIR = join(TEST_PROJECT_DIR, '.claude');
+const TEST_CLAUDE_DIR = join(homedir(), '.gemini-test-doctor-conflicts');
+const TEST_PROJECT_DIR = join(homedir(), '.gemini-test-doctor-project');
+const TEST_PROJECT_CLAUDE_DIR = join(TEST_PROJECT_DIR, '.gemini');
 
-// Mock getClaudeConfigDir before importing the module under test
+// Mock getGeminiConfigDir before importing the module under test
 vi.mock('../utils/paths.js', () => ({
-  getClaudeConfigDir: () => TEST_CLAUDE_DIR,
+  getGeminiConfigDir: () => TEST_CLAUDE_DIR,
 }));
 
 // Mock builtin skills to return a known list for testing
@@ -33,7 +33,7 @@ vi.mock('../features/builtin-skills/skills.js', () => ({
 // Import after mock setup
 import {
   checkHookConflicts,
-  checkClaudeMdStatus,
+  checkGeminiMdStatus,
   checkConfigIssues,
   checkLegacySkills,
   runConflictCheck,
@@ -51,7 +51,7 @@ describe('doctor-conflicts: hook ownership classification', () => {
     mkdirSync(TEST_CLAUDE_DIR, { recursive: true });
     mkdirSync(TEST_PROJECT_CLAUDE_DIR, { recursive: true });
     process.env.CLAUDE_CONFIG_DIR = TEST_CLAUDE_DIR;
-    process.env.CLAUDE_MCP_CONFIG_PATH = join(TEST_CLAUDE_DIR, '..', '.claude.json');
+    process.env.CLAUDE_MCP_CONFIG_PATH = join(TEST_CLAUDE_DIR, '..', '.gemini.json');
     cwdSpy = vi.spyOn(process, 'cwd').mockReturnValue(TEST_PROJECT_DIR);
   });
 
@@ -75,31 +75,31 @@ describe('doctor-conflicts: hook ownership classification', () => {
         UserPromptSubmit: [{
           hooks: [{
             type: 'command',
-            command: 'node "$HOME/.claude/hooks/keyword-detector.mjs"',
+            command: 'node "$HOME/.gemini/hooks/keyword-detector.mjs"',
           }],
         }],
         SessionStart: [{
           hooks: [{
             type: 'command',
-            command: 'node "$HOME/.claude/hooks/session-start.mjs"',
+            command: 'node "$HOME/.gemini/hooks/session-start.mjs"',
           }],
         }],
         PreToolUse: [{
           hooks: [{
             type: 'command',
-            command: 'node "$HOME/.claude/hooks/pre-tool-use.mjs"',
+            command: 'node "$HOME/.gemini/hooks/pre-tool-use.mjs"',
           }],
         }],
         PostToolUse: [{
           hooks: [{
             type: 'command',
-            command: 'node "$HOME/.claude/hooks/post-tool-use.mjs"',
+            command: 'node "$HOME/.gemini/hooks/post-tool-use.mjs"',
           }],
         }],
         Stop: [{
           hooks: [{
             type: 'command',
-            command: 'node "$HOME/.claude/hooks/persistent-mode.mjs"',
+            command: 'node "$HOME/.gemini/hooks/persistent-mode.mjs"',
           }],
         }],
       },
@@ -121,7 +121,7 @@ describe('doctor-conflicts: hook ownership classification', () => {
         PreToolUse: [{
           hooks: [{
             type: 'command',
-            command: 'node "%USERPROFILE%\\.claude\\hooks\\pre-tool-use.mjs"',
+            command: 'node "%USERPROFILE%\\.gemini\\hooks\\pre-tool-use.mjs"',
           }],
         }],
       },
@@ -159,7 +159,7 @@ describe('doctor-conflicts: hook ownership classification', () => {
         PreToolUse: [{
           hooks: [{
             type: 'command',
-            command: 'node "$HOME/.claude/hooks/pre-tool-use.mjs"',
+            command: 'node "$HOME/.gemini/hooks/pre-tool-use.mjs"',
           }],
         }],
         PostToolUse: [{
@@ -184,7 +184,7 @@ describe('doctor-conflicts: hook ownership classification', () => {
   });
 
   it('reports Codex config.toml drift against the unified MCP registry', () => {
-    const registryDir = join(TEST_CLAUDE_DIR, '..', '.omc');
+    const registryDir = join(TEST_CLAUDE_DIR, '..', '.omg');
     const codexDir = join(TEST_CLAUDE_DIR, '..', '.codex');
     mkdirSync(registryDir, { recursive: true });
     mkdirSync(codexDir, { recursive: true });
@@ -205,7 +205,7 @@ describe('doctor-conflicts: hook ownership classification', () => {
     const report = runConflictCheck();
 
     expect(report.mcpRegistrySync.registryExists).toBe(true);
-    expect(report.mcpRegistrySync.claudeMissing).toEqual([]);
+    expect(report.mcpRegistrySync.geminiMissing).toEqual([]);
     expect(report.mcpRegistrySync.codexMissing).toEqual(['gitnexus']);
     expect(report.hasConflicts).toBe(true);
 
@@ -214,7 +214,7 @@ describe('doctor-conflicts: hook ownership classification', () => {
   });
 
   it('reports mismatched Codex config.toml entries against the unified MCP registry', () => {
-    const registryDir = join(TEST_CLAUDE_DIR, '..', '.omc');
+    const registryDir = join(TEST_CLAUDE_DIR, '..', '.omg');
     const codexDir = join(TEST_CLAUDE_DIR, '..', '.codex');
     mkdirSync(registryDir, { recursive: true });
     mkdirSync(codexDir, { recursive: true });
@@ -253,22 +253,22 @@ describe('doctor-conflicts: hook ownership classification', () => {
 
   it('reports hasConflicts only when non-OMC hooks exist', () => {
     // All-OMC config: no conflicts
-    const omcOnlySettings = {
+    const omgOnlySettings = {
       hooks: {
         PreToolUse: [{
           hooks: [{
             type: 'command',
-            command: 'node "$HOME/.claude/hooks/pre-tool-use.mjs"',
+            command: 'node "$HOME/.gemini/hooks/pre-tool-use.mjs"',
           }],
         }],
       },
     };
 
-    writeFileSync(join(TEST_CLAUDE_DIR, 'settings.json'), JSON.stringify(omcOnlySettings));
-    const omcReport = runConflictCheck();
+    writeFileSync(join(TEST_CLAUDE_DIR, 'settings.json'), JSON.stringify(omgOnlySettings));
+    const omgReport = runConflictCheck();
     // hasConflicts should be false when all hooks are OMC-owned
-    expect(omcReport.hookConflicts.every(h => h.isOmc)).toBe(true);
-    expect(omcReport.hookConflicts.some(h => !h.isOmc)).toBe(false);
+    expect(omgReport.hookConflicts.every(h => h.isOmc)).toBe(true);
+    expect(omgReport.hookConflicts.some(h => !h.isOmc)).toBe(false);
   });
 
   it('detects hooks from project-level settings.json (issue #669)', () => {
@@ -278,7 +278,7 @@ describe('doctor-conflicts: hook ownership classification', () => {
         PreToolUse: [{
           hooks: [{
             type: 'command',
-            command: 'node "$HOME/.claude/hooks/pre-tool-use.mjs"',
+            command: 'node "$HOME/.gemini/hooks/pre-tool-use.mjs"',
           }],
         }],
       },
@@ -298,7 +298,7 @@ describe('doctor-conflicts: hook ownership classification', () => {
         SessionStart: [{
           hooks: [{
             type: 'command',
-            command: 'node "$HOME/.claude/hooks/session-start.mjs"',
+            command: 'node "$HOME/.gemini/hooks/session-start.mjs"',
           }],
         }],
       },
@@ -333,7 +333,7 @@ describe('doctor-conflicts: hook ownership classification', () => {
         PreToolUse: [{
           hooks: [{
             type: 'command',
-            command: 'node "$HOME/.claude/hooks/pre-tool-use.mjs"',
+            command: 'node "$HOME/.gemini/hooks/pre-tool-use.mjs"',
           }],
         }],
       },
@@ -351,7 +351,7 @@ describe('doctor-conflicts: hook ownership classification', () => {
   });
 });
 
-describe('doctor-conflicts: CLAUDE.md companion file detection (issue #1101)', () => {
+describe('doctor-conflicts: GEMINI.md companion file detection (issue #1101)', () => {
   let cwdSpy: ReturnType<typeof vi.spyOn>;
 
   beforeEach(() => {
@@ -363,7 +363,7 @@ describe('doctor-conflicts: CLAUDE.md companion file detection (issue #1101)', (
     mkdirSync(TEST_CLAUDE_DIR, { recursive: true });
     mkdirSync(TEST_PROJECT_CLAUDE_DIR, { recursive: true });
     process.env.CLAUDE_CONFIG_DIR = TEST_CLAUDE_DIR;
-    process.env.CLAUDE_MCP_CONFIG_PATH = join(TEST_CLAUDE_DIR, '..', '.claude.json');
+    process.env.CLAUDE_MCP_CONFIG_PATH = join(TEST_CLAUDE_DIR, '..', '.gemini.json');
     cwdSpy = vi.spyOn(process, 'cwd').mockReturnValue(TEST_PROJECT_DIR);
   });
 
@@ -380,51 +380,51 @@ describe('doctor-conflicts: CLAUDE.md companion file detection (issue #1101)', (
     }
   });
 
-  it('detects OMC markers in main CLAUDE.md', () => {
-    writeFileSync(join(TEST_CLAUDE_DIR, 'CLAUDE.md'), '<!-- OMC:START -->\n# OMC Config\n<!-- OMC:END -->\n');
-    const status = checkClaudeMdStatus();
+  it('detects OMC markers in main GEMINI.md', () => {
+    writeFileSync(join(TEST_CLAUDE_DIR, 'GEMINI.md'), '<!-- OMC:START -->\n# OMC Config\n<!-- OMC:END -->\n');
+    const status = checkGeminiMdStatus();
     expect(status).not.toBeNull();
     expect(status!.hasMarkers).toBe(true);
     expect(status!.companionFile).toBeUndefined();
   });
 
-  it('detects OMC markers in companion file when main CLAUDE.md lacks them', () => {
-    writeFileSync(join(TEST_CLAUDE_DIR, 'CLAUDE.md'), '# My custom config\n');
-    writeFileSync(join(TEST_CLAUDE_DIR, 'CLAUDE-omc.md'), '<!-- OMC:START -->\n# OMC Config\n<!-- OMC:END -->\n');
-    const status = checkClaudeMdStatus();
+  it('detects OMC markers in companion file when main GEMINI.md lacks them', () => {
+    writeFileSync(join(TEST_CLAUDE_DIR, 'GEMINI.md'), '# My custom config\n');
+    writeFileSync(join(TEST_CLAUDE_DIR, 'CLAUDE-omg.md'), '<!-- OMC:START -->\n# OMC Config\n<!-- OMC:END -->\n');
+    const status = checkGeminiMdStatus();
     expect(status).not.toBeNull();
     expect(status!.hasMarkers).toBe(true);
-    expect(status!.companionFile).toContain('CLAUDE-omc.md');
+    expect(status!.companionFile).toContain('CLAUDE-omg.md');
   });
 
   it('does not false-positive when companion file has no markers', () => {
-    writeFileSync(join(TEST_CLAUDE_DIR, 'CLAUDE.md'), '# My config\n');
+    writeFileSync(join(TEST_CLAUDE_DIR, 'GEMINI.md'), '# My config\n');
     writeFileSync(join(TEST_CLAUDE_DIR, 'CLAUDE-custom.md'), '# Custom stuff\n');
-    const status = checkClaudeMdStatus();
+    const status = checkGeminiMdStatus();
     expect(status).not.toBeNull();
     expect(status!.hasMarkers).toBe(false);
     expect(status!.companionFile).toBeUndefined();
   });
 
-  it('detects companion file reference in CLAUDE.md', () => {
-    writeFileSync(join(TEST_CLAUDE_DIR, 'CLAUDE.md'), '# Config\nSee CLAUDE-omc.md for OMC settings\n');
-    const status = checkClaudeMdStatus();
+  it('detects companion file reference in GEMINI.md', () => {
+    writeFileSync(join(TEST_CLAUDE_DIR, 'GEMINI.md'), '# Config\nSee CLAUDE-omg.md for OMC settings\n');
+    const status = checkGeminiMdStatus();
     expect(status).not.toBeNull();
     expect(status!.hasMarkers).toBe(false);
-    expect(status!.companionFile).toBe(join(TEST_CLAUDE_DIR, 'CLAUDE-omc.md'));
+    expect(status!.companionFile).toBe(join(TEST_CLAUDE_DIR, 'CLAUDE-omg.md'));
   });
 
   it('prefers main file markers over companion file', () => {
-    writeFileSync(join(TEST_CLAUDE_DIR, 'CLAUDE.md'), '<!-- OMC:START -->\n# OMC\n<!-- OMC:END -->\n');
-    writeFileSync(join(TEST_CLAUDE_DIR, 'CLAUDE-omc.md'), '<!-- OMC:START -->\n# Also OMC\n<!-- OMC:END -->\n');
-    const status = checkClaudeMdStatus();
+    writeFileSync(join(TEST_CLAUDE_DIR, 'GEMINI.md'), '<!-- OMC:START -->\n# OMC\n<!-- OMC:END -->\n');
+    writeFileSync(join(TEST_CLAUDE_DIR, 'CLAUDE-omg.md'), '<!-- OMC:START -->\n# Also OMC\n<!-- OMC:END -->\n');
+    const status = checkGeminiMdStatus();
     expect(status).not.toBeNull();
     expect(status!.hasMarkers).toBe(true);
     expect(status!.companionFile).toBeUndefined();
   });
 
-  it('returns null when no CLAUDE.md exists', () => {
-    const status = checkClaudeMdStatus();
+  it('returns null when no GEMINI.md exists', () => {
+    const status = checkGeminiMdStatus();
     expect(status).toBeNull();
   });
 });
@@ -504,8 +504,8 @@ describe('doctor-conflicts: legacy skills collision check (issue #1101)', () => 
     const skillsDir = join(TEST_CLAUDE_DIR, 'skills');
     mkdirSync(skillsDir, { recursive: true });
     writeFileSync(join(skillsDir, 'cancel.md'), '# Legacy cancel');
-    // Need a CLAUDE.md for the report to work
-    writeFileSync(join(TEST_CLAUDE_DIR, 'CLAUDE.md'), '<!-- OMC:START -->\n# OMC\n<!-- OMC:END -->\n');
+    // Need a GEMINI.md for the report to work
+    writeFileSync(join(TEST_CLAUDE_DIR, 'GEMINI.md'), '<!-- OMC:START -->\n# OMC\n<!-- OMC:END -->\n');
 
     const report = runConflictCheck();
     expect(report.legacySkills).toHaveLength(1);
@@ -524,11 +524,11 @@ describe('doctor-conflicts: config known fields (issue #1499)', () => {
     }
     mkdirSync(TEST_CLAUDE_DIR, { recursive: true });
     mkdirSync(TEST_PROJECT_CLAUDE_DIR, { recursive: true });
-    mkdirSync(join(TEST_PROJECT_DIR, '.omc'), { recursive: true });
+    mkdirSync(join(TEST_PROJECT_DIR, '.omg'), { recursive: true });
     mkdirSync(join(TEST_PROJECT_DIR, '.codex'), { recursive: true });
     process.env.CLAUDE_CONFIG_DIR = TEST_CLAUDE_DIR;
-    process.env.CLAUDE_MCP_CONFIG_PATH = join(TEST_CLAUDE_DIR, '..', '.claude.json');
-    process.env.OMC_HOME = join(TEST_PROJECT_DIR, '.omc');
+    process.env.CLAUDE_MCP_CONFIG_PATH = join(TEST_CLAUDE_DIR, '..', '.gemini.json');
+    process.env.OMC_HOME = join(TEST_PROJECT_DIR, '.omg');
     process.env.CODEX_HOME = join(TEST_PROJECT_DIR, '.codex');
     cwdSpy = vi.spyOn(process, 'cwd').mockReturnValue(TEST_PROJECT_DIR);
   });
@@ -547,7 +547,7 @@ describe('doctor-conflicts: config known fields (issue #1499)', () => {
   });
 
   it('does not flag legitimate config keys from current writers and readers', () => {
-    writeFileSync(join(TEST_CLAUDE_DIR, '.omc-config.json'), JSON.stringify({
+    writeFileSync(join(TEST_CLAUDE_DIR, '.omg-config.json'), JSON.stringify({
       silentAutoUpdate: false,
       notificationProfiles: {
         work: {
@@ -580,7 +580,7 @@ describe('doctor-conflicts: config known fields (issue #1499)', () => {
   });
 
   it('still reports genuinely unknown config keys', () => {
-    writeFileSync(join(TEST_CLAUDE_DIR, '.omc-config.json'), JSON.stringify({
+    writeFileSync(join(TEST_CLAUDE_DIR, '.omg-config.json'), JSON.stringify({
       silentAutoUpdate: false,
       totallyMadeUpKey: true,
       anotherUnknown: { nested: true },

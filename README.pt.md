@@ -1,21 +1,21 @@
 [English](README.md) | [한국어](README.ko.md) | [中文](README.zh.md) | [日本語](README.ja.md) | [Español](README.es.md) | [Tiếng Việt](README.vi.md) | Português
 
-# oh-my-claudecode
+# oh-my-gemini-cli
 
-[![npm version](https://img.shields.io/npm/v/oh-my-claude-sisyphus?color=cb3837)](https://www.npmjs.com/package/oh-my-claude-sisyphus)
-[![npm downloads](https://img.shields.io/npm/dm/oh-my-claude-sisyphus?color=blue)](https://www.npmjs.com/package/oh-my-claude-sisyphus)
-[![GitHub stars](https://img.shields.io/github/stars/Yeachan-Heo/oh-my-claudecode?style=flat&color=yellow)](https://github.com/Yeachan-Heo/oh-my-claudecode/stargazers)
+[![npm version](https://img.shields.io/npm/v/oh-my-gemini-sisyphus?color=cb3837)](https://www.npmjs.com/package/oh-my-gemini-sisyphus)
+[![npm downloads](https://img.shields.io/npm/dm/oh-my-gemini-sisyphus?color=blue)](https://www.npmjs.com/package/oh-my-gemini-sisyphus)
+[![GitHub stars](https://img.shields.io/github/stars/Yeachan-Heo/oh-my-gemini-cli?style=flat&color=yellow)](https://github.com/Yeachan-Heo/oh-my-gemini-cli/stargazers)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 [![Sponsor](https://img.shields.io/badge/Sponsor-❤️-red?style=flat&logo=github)](https://github.com/sponsors/Yeachan-Heo)
 [![Discord](https://img.shields.io/discord/1466022107199574193?color=5865F2&logo=discord&logoColor=white&label=Discord)](https://discord.gg/qRJw62Gvh7)
 
 > **Para usuários do Codex:** Confira [oh-my-codex](https://github.com/Yeachan-Heo/oh-my-codex) — a mesma experiência de orquestração para o OpenAI Codex CLI.
 
-**Orquestração multiagente para Claude Code. Curva de aprendizado zero.**
+**Orquestração multiagente para Gemini Code. Curva de aprendizado zero.**
 
-*Não aprenda Claude Code. Só use OMC.*
+*Não aprenda Gemini Code. Só use OMC.*
 
-[Começar Rápido](#início-rápido) • [Documentação](https://yeachan-heo.github.io/oh-my-claudecode-website) • [Referência CLI](https://yeachan-heo.github.io/oh-my-claudecode-website/docs.html#cli-reference) • [Workflows](https://yeachan-heo.github.io/oh-my-claudecode-website/docs.html#workflows) • [Guia de Migração](docs/MIGRATION.md)
+[Começar Rápido](#início-rápido) • [Documentação](https://yeachan-heo.github.io/oh-my-gemini-cli-website) • [Referência CLI](https://yeachan-heo.github.io/oh-my-gemini-cli-website/docs.html#cli-reference) • [Workflows](https://yeachan-heo.github.io/oh-my-gemini-cli-website/docs.html#workflows) • [Guia de Migração](docs/MIGRATION.md)
 
 ---
 
@@ -23,13 +23,13 @@
 
 **Passo 1: Instale**
 ```bash
-/plugin marketplace add https://github.com/Yeachan-Heo/oh-my-claudecode
-/plugin install oh-my-claudecode
+/plugin marketplace add https://github.com/Yeachan-Heo/oh-my-gemini-cli
+/plugin install oh-my-gemini-cli
 ```
 
 **Passo 2: Configure**
 ```bash
-/omc-setup
+/omg-setup
 ```
 
 **Passo 3: Crie algo**
@@ -61,7 +61,7 @@ O Team roda como um pipeline em estágios:
 
 `team-plan → team-prd → team-exec → team-verify → team-fix (loop)`
 
-Ative os times nativos do Claude Code em `~/.claude/settings.json`:
+Ative os times nativos do Gemini Code em `~/.gemini/settings.json`:
 
 ```json
 {
@@ -75,12 +75,12 @@ Ative os times nativos do Claude Code em `~/.claude/settings.json`:
 
 ### Trabalhadores CLI tmux — Codex & Gemini (v4.4.0+)
 
-**v4.4.0 remove os servidores MCP de Codex/Gemini** (provedores `x`, `g`). Use `/omc-teams` para lançar processos CLI reais em painéis divididos do tmux:
+**v4.4.0 remove os servidores MCP de Codex/Gemini** (provedores `x`, `g`). Use `/omg-teams` para lançar processos CLI reais em painéis divididos do tmux:
 
 ```bash
-/omc-teams 2:codex   "review auth module for security issues"
-/omc-teams 2:gemini  "redesign UI components for accessibility"
-/omc-teams 1:claude  "implement the payment flow"
+/omg-teams 2:codex   "review auth module for security issues"
+/omg-teams 2:gemini  "redesign UI components for accessibility"
+/omg-teams 1:gemini  "implement the payment flow"
 ```
 
 Para trabalho misto de Codex + Gemini em um único comando, use a skill **`/ccg`**:
@@ -91,42 +91,42 @@ Para trabalho misto de Codex + Gemini em um único comando, use a skill **`/ccg`
 
 | Skill | Trabalhadores | Melhor Para |
 |-------|---------|----------|
-| `/omc-teams N:codex` | N painéis Codex CLI | Revisão de código, análise de segurança, arquitetura |
-| `/omc-teams N:gemini` | N painéis Gemini CLI | Design UI/UX, docs, tarefas de grande contexto |
-| `/omc-teams N:claude` | N painéis Claude CLI | Tarefas gerais via Claude CLI no tmux |
+| `/omg-teams N:codex` | N painéis Codex CLI | Revisão de código, análise de segurança, arquitetura |
+| `/omg-teams N:gemini` | N painéis Gemini CLI | Design UI/UX, docs, tarefas de grande contexto |
+| `/omg-teams N:gemini` | N painéis Gemini CLI | Tarefas gerais via Gemini CLI no tmux |
 | `/ccg` | 1 Codex + 1 Gemini | Orquestração tri-modelo em paralelo |
 
 Trabalhadores são iniciados sob demanda e encerrados quando a tarefa é concluída — sem uso ocioso de recursos. Requer as CLIs `codex` / `gemini` instaladas e uma sessão tmux ativa.
 
-> **Observação: Nome do pacote** — O projeto usa a marca **oh-my-claudecode** (repo, plugin, comandos), mas o pacote npm é publicado como [`oh-my-claude-sisyphus`](https://www.npmjs.com/package/oh-my-claude-sisyphus). Se você instalar as ferramentas de CLI via npm/bun, use `npm install -g oh-my-claude-sisyphus`.
+> **Observação: Nome do pacote** — O projeto usa a marca **oh-my-gemini-cli** (repo, plugin, comandos), mas o pacote npm é publicado como [`oh-my-gemini-sisyphus`](https://www.npmjs.com/package/oh-my-gemini-sisyphus). Se você instalar as ferramentas de CLI via npm/bun, use `npm install -g oh-my-gemini-sisyphus`.
 
 ### Atualizando
 
 ```bash
 # 1. Atualize o clone do marketplace
-/plugin marketplace update omc
+/plugin marketplace update omg
 
 # 2. Execute o setup novamente para atualizar a configuração
-/omc-setup
+/omg-setup
 ```
 
-> **Observação:** Se a atualização automática do marketplace não estiver habilitada, você precisa executar manualmente `/plugin marketplace update omc` para sincronizar a versão mais recente antes de executar o setup.
+> **Observação:** Se a atualização automática do marketplace não estiver habilitada, você precisa executar manualmente `/plugin marketplace update omg` para sincronizar a versão mais recente antes de executar o setup.
 
 Se você tiver problemas depois de atualizar, limpe o cache antigo do plugin:
 
 ```bash
-/omc-doctor
+/omg-doctor
 ```
 
-<h1 align="center">Seu Claude acabou de tomar esteroides.</h1>
+<h1 align="center">Seu Gemini acabou de tomar esteroides.</h1>
 
 <p align="center">
-  <img src="assets/omc-character.jpg" alt="oh-my-claudecode" width="400" />
+  <img src="assets/omg-character.jpg" alt="oh-my-gemini-cli" width="400" />
 </p>
 
 ---
 
-## Por que oh-my-claudecode?
+## Por que oh-my-gemini-cli?
 
 - **Configuração zero** - Funciona de cara com padrões inteligentes
 - **Orquestração team-first** - Team é a superfície canônica multiagente (swarm/ultrapilot são fachadas de compatibilidade)
@@ -142,13 +142,13 @@ Se você tiver problemas depois de atualizar, limpe o cache antigo do plugin:
 ## Recursos
 
 ### Modos de Orquestração
-Múltiplas estratégias para diferentes casos de uso — da orquestração com Team até refatoração com eficiência de tokens. [Saiba mais →](https://yeachan-heo.github.io/oh-my-claudecode-website/docs.html#execution-modes)
+Múltiplas estratégias para diferentes casos de uso — da orquestração com Team até refatoração com eficiência de tokens. [Saiba mais →](https://yeachan-heo.github.io/oh-my-gemini-cli-website/docs.html#execution-modes)
 
 | Modo | O que é | Usar para |
 |------|---------|-----------|
 | **Team (recommended)** | Pipeline canônico em estágios (`team-plan → team-prd → team-exec → team-verify → team-fix`) | Agentes coordenados trabalhando em uma lista de tarefas compartilhada |
-| **omc-teams** | Trabalhadores CLI tmux — processos reais `claude`/`codex`/`gemini` em painéis divididos | Tarefas Codex/Gemini CLI; criados sob demanda, encerrados ao terminar |
-| **ccg** | Tri-modelo: Codex (analítico) + Gemini (design) em paralelo, Claude sintetiza | Trabalho misto de backend+UI que precisa de Codex e Gemini |
+| **omg-teams** | Trabalhadores CLI tmux — processos reais `gemini`/`codex`/`gemini` em painéis divididos | Tarefas Codex/Gemini CLI; criados sob demanda, encerrados ao terminar |
+| **ccg** | Tri-modelo: Codex (analítico) + Gemini (design) em paralelo, Gemini sintetiza | Trabalho misto de backend+UI que precisa de Codex e Gemini |
 | **Autopilot** | Execução autônoma (um único agente líder) | Trabalho de feature ponta a ponta com cerimônia mínima |
 | **Ultrawork** | Paralelismo máximo (sem Team) | Rajadas de correções/refatorações paralelas quando Team não é necessário |
 | **Ralph** | Modo persistente com loops de verify/fix | Tarefas que precisam ser concluídas por completo (sem parciais silenciosos) |
@@ -174,12 +174,12 @@ Aprenda uma vez, reutilize para sempre. O OMC extrai conhecimento valioso de dep
 
 | | Escopo de Projeto | Escopo de Usuário |
 |---|---|---|
-| **Caminho** | `.omc/skills/` | `~/.omc/skills/` |
+| **Caminho** | `.omg/skills/` | `~/.omg/skills/` |
 | **Compartilhado com** | Equipe (versionado) | Todos os seus projetos |
 | **Prioridade** | Maior (sobrescreve escopo de usuário) | Menor (fallback) |
 
 ```yaml
-# .omc/skills/fix-proxy-crash.md
+# .omg/skills/fix-proxy-crash.md
 ---
 name: Fix Proxy Crash
 description: aiohttp proxy crashes on ClientDisconnectedError
@@ -204,7 +204,7 @@ Atalhos opcionais para usuários avançados. Linguagem natural funciona bem sem 
 | Palavra-chave | Efeito | Exemplo |
 |---------------|--------|---------|
 | `team` | Orquestração canônica com Team | `/team 3:executor "fix all TypeScript errors"` |
-| `omc-teams` | Trabalhadores CLI tmux (codex/gemini/claude) | `/omc-teams 2:codex "security review"` |
+| `omg-teams` | Trabalhadores CLI tmux (codex/gemini/gemini) | `/omg-teams 2:codex "security review"` |
 | `ccg` | Orquestação tri-modelo Codex+Gemini | `/ccg review this PR` |
 | `autopilot` | Execução autônoma completa | `autopilot: build a todo app` |
 | `ralph` | Modo persistente | `ralph: refactor auth` |
@@ -223,12 +223,12 @@ Atalhos opcionais para usuários avançados. Linguagem natural funciona bem sem 
 
 ### Espera de Rate Limit
 
-Retoma automaticamente sessões do Claude Code quando os rate limits são resetados.
+Retoma automaticamente sessões do Gemini Code quando os rate limits são resetados.
 
 ```bash
-omc wait          # Check status, get guidance
-omc wait --start  # Enable auto-resume daemon
-omc wait --stop   # Disable daemon
+omg wait          # Check status, get guidance
+omg wait --start  # Enable auto-resume daemon
+omg wait --stop   # Disable daemon
 ```
 
 **Requer:** tmux (para detecção de sessão)
@@ -239,14 +239,14 @@ Você pode configurar quem recebe tag quando callbacks de parada enviam resumos 
 
 ```bash
 # Set/replace tag list
-omc config-stop-callback telegram --enable --token <bot_token> --chat <chat_id> --tag-list "@alice,bob"
-omc config-stop-callback discord --enable --webhook <url> --tag-list "@here,123456789012345678,role:987654321098765432"
-omc config-stop-callback slack --enable --webhook <url> --tag-list "<!here>,<@U1234567890>"
+omg config-stop-callback telegram --enable --token <bot_token> --chat <chat_id> --tag-list "@alice,bob"
+omg config-stop-callback discord --enable --webhook <url> --tag-list "@here,123456789012345678,role:987654321098765432"
+omg config-stop-callback slack --enable --webhook <url> --tag-list "<!here>,<@U1234567890>"
 
 # Incremental updates
-omc config-stop-callback telegram --add-tag charlie
-omc config-stop-callback discord --remove-tag @here
-omc config-stop-callback discord --clear-tags
+omg config-stop-callback telegram --add-tag charlie
+omg config-stop-callback discord --remove-tag @here
+omg config-stop-callback discord --clear-tags
 ```
 
 Comportamento das tags:
@@ -257,16 +257,16 @@ Comportamento das tags:
 
 ### Integração com OpenClaw
 
-Encaminhe eventos de sessão do Claude Code para um gateway do [OpenClaw](https://openclaw.ai/) para habilitar respostas automatizadas e workflows através do seu agente OpenClaw.
+Encaminhe eventos de sessão do Gemini Code para um gateway do [OpenClaw](https://openclaw.ai/) para habilitar respostas automatizadas e workflows através do seu agente OpenClaw.
 
 **Configuração rápida (recomendado):**
 
 ```bash
-/oh-my-claudecode:configure-notifications
+/oh-my-gemini-cli:configure-notifications
 # → Digite "openclaw" quando solicitado → escolha "OpenClaw Gateway"
 ```
 
-**Configuração manual:** crie `~/.claude/omc_config.openclaw.json`:
+**Configuração manual:** crie `~/.gemini/omg_config.openclaw.json`:
 
 ```json
 {
@@ -299,9 +299,9 @@ Encaminhe eventos de sessão do Claude Code para um gateway do [OpenClaw](https:
 | Evento | Gatilho | Variáveis de template principais |
 |--------|---------|----------------------------------|
 | `session-start` | Sessão inicia | `{{sessionId}}`, `{{projectName}}`, `{{projectPath}}` |
-| `stop` | Resposta do Claude concluída | `{{sessionId}}`, `{{projectName}}` |
+| `stop` | Resposta do Gemini concluída | `{{sessionId}}`, `{{projectName}}` |
 | `keyword-detector` | A cada envio de prompt | `{{prompt}}`, `{{sessionId}}` |
-| `ask-user-question` | Claude solicita input do usuário | `{{question}}`, `{{sessionId}}` |
+| `ask-user-question` | Gemini solicita input do usuário | `{{question}}`, `{{sessionId}}` |
 | `pre-tool-use` | Antes da invocação de ferramenta (alta frequência) | `{{toolName}}`, `{{sessionId}}` |
 | `post-tool-use` | Após a invocação de ferramenta (alta frequência) | `{{toolName}}`, `{{sessionId}}` |
 
@@ -320,11 +320,11 @@ Veja `scripts/openclaw-gateway-demo.mjs` para um gateway de referência que retr
 ## Documentação
 
 - **[Referência Completa](docs/REFERENCE.md)** - Documentação completa de recursos
-- **[Referência CLI](https://yeachan-heo.github.io/oh-my-claudecode-website/docs.html#cli-reference)** - Todos os comandos, flags e ferramentas do `omc`
-- **[Guia de Notificações](https://yeachan-heo.github.io/oh-my-claudecode-website/docs.html#notifications)** - Configuração de Discord, Telegram, Slack e webhooks
-- **[Workflows Recomendados](https://yeachan-heo.github.io/oh-my-claudecode-website/docs.html#workflows)** - Cadeias de skills testadas em batalha para tarefas comuns
-- **[Notas de Lançamento](https://yeachan-heo.github.io/oh-my-claudecode-website/docs.html#release-notes)** - Novidades em cada versão
-- **[Website](https://yeachan-heo.github.io/oh-my-claudecode-website)** - Guias interativos e exemplos
+- **[Referência CLI](https://yeachan-heo.github.io/oh-my-gemini-cli-website/docs.html#cli-reference)** - Todos os comandos, flags e ferramentas do `omg`
+- **[Guia de Notificações](https://yeachan-heo.github.io/oh-my-gemini-cli-website/docs.html#notifications)** - Configuração de Discord, Telegram, Slack e webhooks
+- **[Workflows Recomendados](https://yeachan-heo.github.io/oh-my-gemini-cli-website/docs.html#workflows)** - Cadeias de skills testadas em batalha para tarefas comuns
+- **[Notas de Lançamento](https://yeachan-heo.github.io/oh-my-gemini-cli-website/docs.html#release-notes)** - Novidades em cada versão
+- **[Website](https://yeachan-heo.github.io/oh-my-gemini-cli-website)** - Guias interativos e exemplos
 - **[Guia de Migração](docs/MIGRATION.md)** - Upgrade a partir da v2.x
 - **[Arquitetura](docs/ARCHITECTURE.md)** - Como funciona por baixo dos panos
 - **[Monitoramento de Performance](docs/PERFORMANCE-MONITORING.md)** - Rastreamento de agentes, debugging e otimização
@@ -333,8 +333,8 @@ Veja `scripts/openclaw-gateway-demo.mjs` para um gateway de referência que retr
 
 ## Requisitos
 
-- [Claude Code](https://docs.anthropic.com/claude-code) CLI
-- Assinatura Claude Max/Pro OU chave de API da Anthropic
+- [Gemini Code](https://docs.anthropic.com/gemini-code) CLI
+- Assinatura Gemini Max/Pro OU chave de API da Anthropic
 
 ### Opcional: Orquestração Multi-AI
 
@@ -345,7 +345,7 @@ O OMC pode opcionalmente orquestrar provedores externos de IA para validação c
 | [Gemini CLI](https://github.com/google-gemini/gemini-cli) | `npm install -g @google/gemini-cli` | Revisão de design, consistência de UI (contexto de 1M tokens) |
 | [Codex CLI](https://github.com/openai/codex) | `npm install -g @openai/codex` | Validação de arquitetura, checagem cruzada de code review |
 
-**Custo:** 3 planos Pro (Claude + Gemini + ChatGPT) cobrem tudo por cerca de US$60/mês.
+**Custo:** 3 planos Pro (Gemini + Gemini + ChatGPT) cobrem tudo por cerca de US$60/mês.
 
 ---
 
@@ -357,7 +357,7 @@ MIT
 
 <div align="center">
 
-**Inspirado por:** [oh-my-opencode](https://github.com/code-yeongyu/oh-my-opencode) • [claude-hud](https://github.com/ryanjoachim/claude-hud) • [Superpowers](https://github.com/obra/superpowers) • [everything-claude-code](https://github.com/affaan-m/everything-claude-code) • [Ouroboros](https://github.com/Q00/ouroboros)
+**Inspirado por:** [oh-my-opencode](https://github.com/code-yeongyu/oh-my-opencode) • [gemini-hud](https://github.com/ryanjoachim/gemini-hud) • [Superpowers](https://github.com/obra/superpowers) • [everything-gemini-code](https://github.com/affaan-m/everything-gemini-code) • [Ouroboros](https://github.com/Q00/ouroboros)
 
 **Curva de aprendizado zero. Poder máximo.**
 
@@ -365,11 +365,11 @@ MIT
 
 ## Histórico de Stars
 
-[![Star History Chart](https://api.star-history.com/svg?repos=Yeachan-Heo/oh-my-claudecode&type=date&legend=top-left)](https://www.star-history.com/#Yeachan-Heo/oh-my-claudecode&type=date&legend=top-left)
+[![Star History Chart](https://api.star-history.com/svg?repos=Yeachan-Heo/oh-my-gemini-cli&type=date&legend=top-left)](https://www.star-history.com/#Yeachan-Heo/oh-my-gemini-cli&type=date&legend=top-left)
 
 ## 💖 Apoie Este Projeto
 
-Se o Oh-My-ClaudeCode ajuda no seu fluxo de trabalho, considere patrocinar:
+Se o Oh-My-GeminiCLI ajuda no seu fluxo de trabalho, considere patrocinar:
 
 [![Sponsor on GitHub](https://img.shields.io/badge/Sponsor-❤️-red?style=for-the-badge&logo=github)](https://github.com/sponsors/Yeachan-Heo)
 

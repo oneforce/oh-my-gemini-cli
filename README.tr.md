@@ -1,19 +1,19 @@
 [English](README.md) | [한국어](README.ko.md) | [中文](README.zh.md) | [日本語](README.ja.md) | [Español](README.es.md) | [Tiếng Việt](README.vi.md) | [Português](README.pt.md) | [Русский](README.ru.md) | Türkçe | [Deutsch](README.de.md) | [Français](README.fr.md) | [Italiano](README.it.md)
 
-# oh-my-claudecode
+# oh-my-gemini-cli
 
-[![npm version](https://img.shields.io/npm/v/oh-my-claude-sisyphus?color=cb3837)](https://www.npmjs.com/package/oh-my-claude-sisyphus)
-[![npm downloads](https://img.shields.io/npm/dm/oh-my-claude-sisyphus?color=blue)](https://www.npmjs.com/package/oh-my-claude-sisyphus)
-[![GitHub stars](https://img.shields.io/github/stars/Yeachan-Heo/oh-my-claudecode?style=flat&color=yellow)](https://github.com/Yeachan-Heo/oh-my-claudecode/stargazers)
+[![npm version](https://img.shields.io/npm/v/oh-my-gemini-sisyphus?color=cb3837)](https://www.npmjs.com/package/oh-my-gemini-sisyphus)
+[![npm downloads](https://img.shields.io/npm/dm/oh-my-gemini-sisyphus?color=blue)](https://www.npmjs.com/package/oh-my-gemini-sisyphus)
+[![GitHub stars](https://img.shields.io/github/stars/Yeachan-Heo/oh-my-gemini-cli?style=flat&color=yellow)](https://github.com/Yeachan-Heo/oh-my-gemini-cli/stargazers)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 [![Sponsor](https://img.shields.io/badge/Sponsor-❤️-red?style=flat&logo=github)](https://github.com/sponsors/Yeachan-Heo)
 [![Discord](https://img.shields.io/discord/1466022107199574193?color=5865F2&logo=discord&logoColor=white&label=Discord)](https://discord.gg/qRJw62Gvh7)
 
-**Claude Code için çoklu ajan orkestrasyonu. Sıfır öğrenme eğrisi.**
+**Gemini Code için çoklu ajan orkestrasyonu. Sıfır öğrenme eğrisi.**
 
-_Claude Code'u öğrenmeyin. Sadece OMC kullanın._
+_Gemini Code'u öğrenmeyin. Sadece OMC kullanın._
 
-[Başlangıç](#hızlı-başlangıç) • [Dokümantasyon](https://yeachan-heo.github.io/oh-my-claudecode-website) • [Geçiş Rehberi](docs/MIGRATION.md)
+[Başlangıç](#hızlı-başlangıç) • [Dokümantasyon](https://yeachan-heo.github.io/oh-my-gemini-cli-website) • [Geçiş Rehberi](docs/MIGRATION.md)
 
 ---
 
@@ -22,14 +22,14 @@ _Claude Code'u öğrenmeyin. Sadece OMC kullanın._
 **Adım 1: Kurulum**
 
 ```bash
-/plugin marketplace add https://github.com/Yeachan-Heo/oh-my-claudecode
-/plugin install oh-my-claudecode
+/plugin marketplace add https://github.com/Yeachan-Heo/oh-my-gemini-cli
+/plugin install oh-my-gemini-cli
 ```
 
 **Adım 2: Yapılandırma**
 
 ```bash
-/oh-my-claudecode:omc-setup
+/oh-my-gemini-cli:omg-setup
 ```
 
 **Adım 3: Bir şey oluşturun**
@@ -45,14 +45,14 @@ Bu kadar. Geri kalan her şey otomatik.
 **v4.1.7** sürümünden itibaren, **Team** OMC'deki kanonik orkestrasyon yüzeyidir. **swarm** ve **ultrapilot** gibi eski giriş noktaları hâlâ desteklenmektedir, ancak artık **arka planda Team'e yönlendirilmektedir**.
 
 ```bash
-/oh-my-claudecode:team 3:executor "fix all TypeScript errors"
+/oh-my-gemini-cli:team 3:executor "fix all TypeScript errors"
 ```
 
 Team aşamalı bir pipeline olarak çalışır:
 
 `team-plan → team-prd → team-exec → team-verify → team-fix (loop)`
 
-Claude Code native teams'i `~/.claude/settings.json` dosyasında etkinleştirin:
+Gemini Code native teams'i `~/.gemini/settings.json` dosyasında etkinleştirin:
 
 ```json
 {
@@ -64,33 +64,33 @@ Claude Code native teams'i `~/.claude/settings.json` dosyasında etkinleştirin:
 
 > Teams devre dışıysa, OMC sizi uyaracak ve mümkün olduğunda Team olmadan çalışmaya geçecektir.
 
-> **Not: Paket adlandırması** — Proje **oh-my-claudecode** markasını kullanır (repo, plugin, komutlar), ancak npm paketi [`oh-my-claude-sisyphus`](https://www.npmjs.com/package/oh-my-claude-sisyphus) olarak yayınlanmaktadır. CLI araçlarını npm/bun ile kuruyorsanız, `npm install -g oh-my-claude-sisyphus` kullanın.
+> **Not: Paket adlandırması** — Proje **oh-my-gemini-cli** markasını kullanır (repo, plugin, komutlar), ancak npm paketi [`oh-my-gemini-sisyphus`](https://www.npmjs.com/package/oh-my-gemini-sisyphus) olarak yayınlanmaktadır. CLI araçlarını npm/bun ile kuruyorsanız, `npm install -g oh-my-gemini-sisyphus` kullanın.
 
 ### Güncelleme
 
 ```bash
 # 1. Plugin'i güncelleyin
-/plugin install oh-my-claudecode
+/plugin install oh-my-gemini-cli
 
 # 2. Yapılandırmayı yenilemek için setup'ı tekrar çalıştırın
-/oh-my-claudecode:omc-setup
+/oh-my-gemini-cli:omg-setup
 ```
 
 Güncellemeden sonra sorun yaşarsanız, eski plugin önbelleğini temizleyin:
 
 ```bash
-/oh-my-claudecode:omc-doctor
+/oh-my-gemini-cli:omg-doctor
 ```
 
-<h1 align="center">Claude'unuz süper güçlere kavuştu.</h1>
+<h1 align="center">Gemini'unuz süper güçlere kavuştu.</h1>
 
 <p align="center">
-  <img src="assets/omc-character.jpg" alt="oh-my-claudecode" width="400" />
+  <img src="assets/omg-character.jpg" alt="oh-my-gemini-cli" width="400" />
 </p>
 
 ---
 
-## Neden oh-my-claudecode?
+## Neden oh-my-gemini-cli?
 
 - **Sıfır yapılandırma** — Akıllı varsayılanlarla kutudan çıktığı gibi çalışır
 - **Team-first orkestrasyon** — Team, kanonik çoklu ajan yüzeyidir (swarm/ultrapilot uyumluluk cephesidir)
@@ -107,7 +107,7 @@ Güncellemeden sonra sorun yaşarsanız, eski plugin önbelleğini temizleyin:
 
 ### Orkestrasyon Modları
 
-Farklı kullanım senaryoları için birden fazla strateji — Team destekli orkestrasyondan token-verimli yeniden düzenlemeye. [Daha fazla bilgi →](https://yeachan-heo.github.io/oh-my-claudecode-website/docs.html#execution-modes)
+Farklı kullanım senaryoları için birden fazla strateji — Team destekli orkestrasyondan token-verimli yeniden düzenlemeye. [Daha fazla bilgi →](https://yeachan-heo.github.io/oh-my-gemini-cli-website/docs.html#execution-modes)
 
 | Mod                           | Nedir                                                                                  | Kullanım Alanı                                                    |
 | ----------------------------- | -------------------------------------------------------------------------------------- | ----------------------------------------------------------------- |
@@ -138,12 +138,12 @@ Bir kez öğrenin, sonsuza kadar yeniden kullanın. OMC, hata ayıklama sürecin
 
 | | Proje Kapsamı | Kullanıcı Kapsamı |
 |---|---|---|
-| **Yol** | `.omc/skills/` | `~/.omc/skills/` |
+| **Yol** | `.omg/skills/` | `~/.omg/skills/` |
 | **Paylaşım** | Takım (sürüm kontrollü) | Tüm projeleriniz |
 | **Öncelik** | Yüksek (kullanıcı kapsamını geçersiz kılar) | Düşük (yedek) |
 
 ```yaml
-# .omc/skills/fix-proxy-crash.md
+# .omg/skills/fix-proxy-crash.md
 ---
 name: Fix Proxy Crash
 description: aiohttp proxy crashes on ClientDisconnectedError
@@ -167,7 +167,7 @@ server.py:42'deki handler'ı try/except ClientDisconnectedError ile sarın...
 
 | Anahtar Kelime | Etki                                     | Örnek                                                           |
 | -------------- | ---------------------------------------- | --------------------------------------------------------------- |
-| `team`         | Kanonik Team orkestrasyonu               | `/oh-my-claudecode:team 3:executor "fix all TypeScript errors"` |
+| `team`         | Kanonik Team orkestrasyonu               | `/oh-my-gemini-cli:team 3:executor "fix all TypeScript errors"` |
 | `autopilot`    | Tam otonom yürütme                       | `autopilot: build a todo app`                                   |
 | `ralph`        | Kalıcılık modu                           | `ralph: refactor auth`                                          |
 | `ulw`          | Maksimum paralellik                      | `ulw fix all errors`                                            |
@@ -186,12 +186,12 @@ server.py:42'deki handler'ı try/except ClientDisconnectedError ile sarın...
 
 ### Rate Limit Bekleme
 
-Rate limitler sıfırlandığında Claude Code oturumlarını otomatik olarak devam ettirir.
+Rate limitler sıfırlandığında Gemini Code oturumlarını otomatik olarak devam ettirir.
 
 ```bash
-omc wait          # Durumu kontrol et, rehberlik al
-omc wait --start  # Otomatik devam daemon'ını etkinleştir
-omc wait --stop   # Daemon'ı devre dışı bırak
+omg wait          # Durumu kontrol et, rehberlik al
+omg wait --start  # Otomatik devam daemon'ını etkinleştir
+omg wait --stop   # Daemon'ı devre dışı bırak
 ```
 
 **Gereklidir:** tmux (oturum algılama için)
@@ -202,13 +202,13 @@ Stop callback'leri oturum özetlerini gönderdiğinde kimin etiketleneceğini ya
 
 ```bash
 # Etiket listesini ayarla/değiştir
-omc config-stop-callback telegram --enable --token <bot_token> --chat <chat_id> --tag-list "@alice,bob"
-omc config-stop-callback discord --enable --webhook <url> --tag-list "@here,123456789012345678,role:987654321098765432"
+omg config-stop-callback telegram --enable --token <bot_token> --chat <chat_id> --tag-list "@alice,bob"
+omg config-stop-callback discord --enable --webhook <url> --tag-list "@here,123456789012345678,role:987654321098765432"
 
 # Artımlı güncellemeler
-omc config-stop-callback telegram --add-tag charlie
-omc config-stop-callback discord --remove-tag @here
-omc config-stop-callback discord --clear-tags
+omg config-stop-callback telegram --add-tag charlie
+omg config-stop-callback discord --remove-tag @here
+omg config-stop-callback discord --clear-tags
 ```
 
 Etiket davranışı:
@@ -219,16 +219,16 @@ Etiket davranışı:
 
 ### OpenClaw Entegrasyonu
 
-Claude Code oturum olaylarını bir [OpenClaw](https://openclaw.ai/) ağ geçidine ileterek OpenClaw ajanınız aracılığıyla otomatik yanıtlar ve iş akışları oluşturun.
+Gemini Code oturum olaylarını bir [OpenClaw](https://openclaw.ai/) ağ geçidine ileterek OpenClaw ajanınız aracılığıyla otomatik yanıtlar ve iş akışları oluşturun.
 
 **Hızlı kurulum (önerilen):**
 
 ```bash
-/oh-my-claudecode:configure-notifications
+/oh-my-gemini-cli:configure-notifications
 # → İstendiğinde "openclaw" yazın → "OpenClaw Gateway" seçin
 ```
 
-**Manuel kurulum:** `~/.claude/omc_config.openclaw.json` dosyasını oluşturun:
+**Manuel kurulum:** `~/.gemini/omg_config.openclaw.json` dosyasını oluşturun:
 
 ```json
 {
@@ -261,9 +261,9 @@ Claude Code oturum olaylarını bir [OpenClaw](https://openclaw.ai/) ağ geçidi
 | Olay | Tetikleyici | Ana şablon değişkenleri |
 |------|------------|------------------------|
 | `session-start` | Oturum başladığında | `{{sessionId}}`, `{{projectName}}`, `{{projectPath}}` |
-| `stop` | Claude yanıtı tamamlandığında | `{{sessionId}}`, `{{projectName}}` |
+| `stop` | Gemini yanıtı tamamlandığında | `{{sessionId}}`, `{{projectName}}` |
 | `keyword-detector` | Her prompt gönderiminde | `{{prompt}}`, `{{sessionId}}` |
-| `ask-user-question` | Claude kullanıcı girişi istediğinde | `{{question}}`, `{{sessionId}}` |
+| `ask-user-question` | Gemini kullanıcı girişi istediğinde | `{{question}}`, `{{sessionId}}` |
 | `pre-tool-use` | Araç çağrısından önce (yüksek sıklık) | `{{toolName}}`, `{{sessionId}}` |
 | `post-tool-use` | Araç çağrısından sonra (yüksek sıklık) | `{{toolName}}`, `{{sessionId}}` |
 
@@ -283,7 +283,7 @@ OpenClaw yüklerini ClawdBot aracılığıyla Discord'a ileten bir referans gate
 
 - **[Tam Referans](docs/REFERENCE.md)** — Kapsamlı özellik dokümantasyonu
 - **[Performans İzleme](docs/PERFORMANCE-MONITORING.md)** — Ajan takibi, hata ayıklama ve optimizasyon
-- **[Web Sitesi](https://yeachan-heo.github.io/oh-my-claudecode-website)** — İnteraktif rehberler ve örnekler
+- **[Web Sitesi](https://yeachan-heo.github.io/oh-my-gemini-cli-website)** — İnteraktif rehberler ve örnekler
 - **[Geçiş Rehberi](docs/MIGRATION.md)** — v2.x'den yükseltme
 - **[Mimari](docs/ARCHITECTURE.md)** — Arka planda nasıl çalıştığı
 
@@ -291,8 +291,8 @@ OpenClaw yüklerini ClawdBot aracılığıyla Discord'a ileten bir referans gate
 
 ## Gereksinimler
 
-- [Claude Code](https://docs.anthropic.com/claude-code) CLI
-- Claude Max/Pro aboneliği VEYA Anthropic API anahtarı
+- [Gemini Code](https://docs.anthropic.com/gemini-code) CLI
+- Gemini Max/Pro aboneliği VEYA Anthropic API anahtarı
 
 ### İsteğe Bağlı: Çoklu AI Orkestrasyonu
 
@@ -303,7 +303,7 @@ OMC, çapraz doğrulama ve tasarım tutarlılığı için isteğe bağlı olarak
 | [Gemini CLI](https://github.com/google-gemini/gemini-cli) | `npm install -g @google/gemini-cli` | Tasarım incelemesi, UI tutarlılığı (1M token bağlam) |
 | [Codex CLI](https://github.com/openai/codex)              | `npm install -g @openai/codex`      | Mimari doğrulama, kod incelemesi çapraz kontrolü     |
 
-**Maliyet:** 3 Pro plan (Claude + Gemini + ChatGPT) her şeyi aylık ~$60'a karşılar.
+**Maliyet:** 3 Pro plan (Gemini + Gemini + ChatGPT) her şeyi aylık ~$60'a karşılar.
 
 ---
 
@@ -315,7 +315,7 @@ MIT
 
 <div align="center">
 
-**İlham kaynakları:** [oh-my-opencode](https://github.com/code-yeongyu/oh-my-opencode) • [claude-hud](https://github.com/ryanjoachim/claude-hud) • [Superpowers](https://github.com/NexTechFusion/Superpowers) • [everything-claude-code](https://github.com/affaan-m/everything-claude-code)
+**İlham kaynakları:** [oh-my-opencode](https://github.com/code-yeongyu/oh-my-opencode) • [gemini-hud](https://github.com/ryanjoachim/gemini-hud) • [Superpowers](https://github.com/NexTechFusion/Superpowers) • [everything-gemini-code](https://github.com/affaan-m/everything-gemini-code)
 
 **Sıfır öğrenme eğrisi. Maksimum güç.**
 
@@ -323,11 +323,11 @@ MIT
 
 ## Star History
 
-[![Star History Chart](https://api.star-history.com/svg?repos=Yeachan-Heo/oh-my-claudecode&type=date&legend=top-left)](https://www.star-history.com/#Yeachan-Heo/oh-my-claudecode&type=date&legend=top-left)
+[![Star History Chart](https://api.star-history.com/svg?repos=Yeachan-Heo/oh-my-gemini-cli&type=date&legend=top-left)](https://www.star-history.com/#Yeachan-Heo/oh-my-gemini-cli&type=date&legend=top-left)
 
 ## 💖 Bu Projeyi Destekleyin
 
-Oh-My-ClaudeCode iş akışınıza yardımcı oluyorsa, sponsorluk yapmayı düşünün:
+Oh-My-GeminiCLI iş akışınıza yardımcı oluyorsa, sponsorluk yapmayı düşünün:
 
 [![Sponsor on GitHub](https://img.shields.io/badge/Sponsor-❤️-red?style=for-the-badge&logo=github)](https://github.com/sponsors/Yeachan-Heo)
 

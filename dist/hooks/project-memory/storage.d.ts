@@ -14,7 +14,7 @@ export declare function getMemoryPath(projectRoot: string): string;
 export declare function loadProjectMemory(projectRoot: string): Promise<ProjectMemory | null>;
 /**
  * Save project memory to disk
- * Creates .omc directory if it doesn't exist
+ * Creates .omg directory if it doesn't exist
  */
 export declare function saveProjectMemory(projectRoot: string, memory: ProjectMemory): Promise<void>;
 /**

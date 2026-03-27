@@ -2,7 +2,7 @@
  * Installer Module
  *
  * Handles installation of OMC agents, commands, and configuration
- * into the Claude Code config directory (~/.claude/).
+ * into the Gemini Code config directory (~/.gemini/).
  *
  * Cross-platform support via Node.js-based hook scripts (.mjs).
  * Bash hook scripts were removed in v3.9.0.
@@ -17,7 +17,7 @@ import { getRuntimePackageVersion } from '../lib/version.js';
 import { getConfigDir } from '../utils/config-dir.js';
 import { resolveNodeBinary } from '../utils/resolve-node.js';
 import { syncUnifiedMcpRegistryTargets } from './mcp-registry.js';
-/** Claude Code configuration directory */
+/** Gemini Code configuration directory */
 export const CLAUDE_CONFIG_DIR = getConfigDir();
 export const AGENTS_DIR = join(CLAUDE_CONFIG_DIR, 'agents');
 export const COMMANDS_DIR = join(CLAUDE_CONFIG_DIR, 'commands');
@@ -25,11 +25,11 @@ export const SKILLS_DIR = join(CLAUDE_CONFIG_DIR, 'skills');
 export const HOOKS_DIR = join(CLAUDE_CONFIG_DIR, 'hooks');
 export const HUD_DIR = join(CLAUDE_CONFIG_DIR, 'hud');
 export const SETTINGS_FILE = join(CLAUDE_CONFIG_DIR, 'settings.json');
-export const VERSION_FILE = join(CLAUDE_CONFIG_DIR, '.omc-version.json');
+export const VERSION_FILE = join(CLAUDE_CONFIG_DIR, '.omg-version.json');
 /**
  * Core commands - DISABLED for v3.0+
- * All commands are now plugin-scoped skills managed by Claude Code.
- * The installer no longer copies commands to ~/.claude/commands/
+ * All commands are now plugin-scoped skills managed by Gemini Code.
+ * The installer no longer copies commands to ~/.gemini/commands/
  */
 export const CORE_COMMANDS = [];
 /** Current version */
@@ -37,8 +37,8 @@ export const VERSION = getRuntimePackageVersion();
 const OMC_VERSION_MARKER_PATTERN = /<!-- OMC:VERSION:([^\s]+) -->/;
 /**
  * Detects the newest installed OMC version from persistent metadata or
- * existing CLAUDE.md markers so an older CLI package cannot overwrite a
- * newer installation during `omc setup`.
+ * existing GEMINI.md markers so an older CLI package cannot overwrite a
+ * newer installation during `omg setup`.
  */
 function isComparableVersion(version) {
     return !!version && /^\d+\.\d+\.\d+(?:[-+][\w.-]+)?$/.test(version);
@@ -71,14 +71,14 @@ function getNewestInstalledVersionHint() {
             }
         }
         catch {
-            // Ignore unreadable metadata and fall back to CLAUDE.md markers.
+            // Ignore unreadable metadata and fall back to GEMINI.md markers.
         }
     }
-    const claudeCandidates = [
-        join(CLAUDE_CONFIG_DIR, 'CLAUDE.md'),
-        join(homedir(), 'CLAUDE.md'),
+    const geminiCandidates = [
+        join(CLAUDE_CONFIG_DIR, 'GEMINI.md'),
+        join(homedir(), 'GEMINI.md'),
     ];
-    for (const candidatePath of claudeCandidates) {
+    for (const candidatePath of geminiCandidates) {
         if (!existsSync(candidatePath))
             continue;
         try {
@@ -88,7 +88,7 @@ function getNewestInstalledVersionHint() {
             }
         }
         catch {
-            // Ignore unreadable CLAUDE.md candidates.
+            // Ignore unreadable GEMINI.md candidates.
         }
     }
     if (candidates.length === 0) {
@@ -132,7 +132,7 @@ function createLineAnchoredMarkerRegex(marker, flags = 'gm') {
 function stripGeneratedUserCustomizationHeaders(content) {
     return content.replace(/^<!-- User customizations(?: \([^)]+\))? -->\r?\n?/gm, '');
 }
-function trimClaudeUserContent(content) {
+function trimGeminiUserContent(content) {
     if (content.trim().length === 0) {
         return '';
     }
@@ -142,11 +142,11 @@ function trimClaudeUserContent(content) {
         .replace(/(?:\r?\n){3,}/g, '\n\n');
 }
 /**
- * Read hudEnabled from .omc-config.json without importing auto-update
+ * Read hudEnabled from .omg-config.json without importing auto-update
  * (avoids circular dependency since auto-update imports from installer)
  */
 export function isHudEnabledInConfig() {
-    const configPath = join(CLAUDE_CONFIG_DIR, '.omc-config.json');
+    const configPath = join(CLAUDE_CONFIG_DIR, '.omg-config.json');
     if (!existsSync(configPath)) {
         return true; // default: enabled
     }
@@ -161,7 +161,7 @@ export function isHudEnabledInConfig() {
     }
 }
 /**
- * Detect whether a statusLine config belongs to oh-my-claudecode.
+ * Detect whether a statusLine config belongs to oh-my-gemini-cli.
  *
  * Checks the command string for known OMC HUD paths so that custom
  * (non-OMC) statusLine configurations are preserved during forced
@@ -173,21 +173,21 @@ export function isHudEnabledInConfig() {
 export function isOmcStatusLine(statusLine) {
     if (!statusLine)
         return false;
-    // Legacy string format (pre-v4.5): "~/.claude/hud/omc-hud.mjs"
+    // Legacy string format (pre-v4.5): "~/.gemini/hud/omg-hud.mjs"
     if (typeof statusLine === 'string') {
-        return statusLine.includes('omc-hud');
+        return statusLine.includes('omg-hud');
     }
-    // Current object format: { type: "command", command: "node ...omc-hud.mjs" }
+    // Current object format: { type: "command", command: "node ...omg-hud.mjs" }
     if (typeof statusLine === 'object') {
         const sl = statusLine;
         if (typeof sl.command === 'string') {
-            return sl.command.includes('omc-hud');
+            return sl.command.includes('omg-hud');
         }
     }
     return false;
 }
 /**
- * Known OMC hook script filenames installed into .claude/hooks/.
+ * Known OMC hook script filenames installed into .gemini/hooks/.
  * Must be kept in sync with HOOKS_SETTINGS_CONFIG_NODE command entries.
  */
 const OMC_HOOK_FILENAMES = new Set([
@@ -200,28 +200,28 @@ const OMC_HOOK_FILENAMES = new Set([
     'stop-continuation.mjs',
 ]);
 /**
- * Detect whether a hook command belongs to oh-my-claudecode.
+ * Detect whether a hook command belongs to oh-my-gemini-cli.
  *
  * Recognition strategy (any match is sufficient):
- * 1. Command path contains "omc" as a path/word segment (e.g. `omc-hook.mjs`, `/omc/`)
- * 2. Command path contains "oh-my-claudecode"
- * 3. Command references a known OMC hook filename inside .claude/hooks/
+ * 1. Command path contains "omg" as a path/word segment (e.g. `omg-hook.mjs`, `/omg/`)
+ * 2. Command path contains "oh-my-gemini-cli"
+ * 3. Command references a known OMC hook filename inside .gemini/hooks/
  *
  * @param command - The hook command string
  * @returns true if the command belongs to OMC
  */
 export function isOmcHook(command) {
     const lowerCommand = command.toLowerCase();
-    // Match "omc" as a path segment or word boundary
-    // Matches: /omc/, /omc-, omc/, -omc, _omc, omc_
-    const omcPattern = /(?:^|[\/\\_-])omc(?:$|[\/\\_-])/;
-    const fullNamePattern = /oh-my-claudecode/;
-    if (omcPattern.test(lowerCommand) || fullNamePattern.test(lowerCommand)) {
+    // Match "omg" as a path segment or word boundary
+    // Matches: /omg/, /omg-, omg/, -omg, _omg, omg_
+    const omgPattern = /(?:^|[\/\\_-])omg(?:$|[\/\\_-])/;
+    const fullNamePattern = /oh-my-gemini-cli/;
+    if (omgPattern.test(lowerCommand) || fullNamePattern.test(lowerCommand)) {
         return true;
     }
-    // Check for known OMC hook filenames in .claude/hooks/ path.
-    // Handles both Unix (.claude/hooks/) and Windows (.claude\hooks\) paths.
-    const hookPathMatch = lowerCommand.match(/\.claude[/\\]hooks[/\\]([a-z0-9-]+\.mjs)/);
+    // Check for known OMC hook filenames in .gemini/hooks/ path.
+    // Handles both Unix (.gemini/hooks/) and Windows (.gemini\hooks\) paths.
+    const hookPathMatch = lowerCommand.match(/\.gemini[/\\]hooks[/\\]([a-z0-9-]+\.mjs)/);
     if (hookPathMatch && OMC_HOOK_FILENAMES.has(hookPathMatch[1])) {
         return true;
     }
@@ -239,12 +239,12 @@ export function checkNodeVersion() {
     };
 }
 /**
- * Check if Claude Code is installed
+ * Check if Gemini Code is installed
  * Uses 'where' on Windows, 'which' on Unix
  */
-export function isClaudeInstalled() {
+export function isGeminiInstalled() {
     try {
-        const command = isWindows() ? 'where claude' : 'which claude';
+        const command = isWindows() ? 'where gemini' : 'which gemini';
         execSync(command, { encoding: 'utf-8', stdio: 'pipe' });
         return true;
     }
@@ -253,14 +253,14 @@ export function isClaudeInstalled() {
     }
 }
 /**
- * Check if we're running in Claude Code plugin context
+ * Check if we're running in Gemini Code plugin context
  *
- * When installed as a plugin, we should NOT copy files to ~/.claude/
+ * When installed as a plugin, we should NOT copy files to ~/.gemini/
  * because the plugin system already handles file access via ${CLAUDE_PLUGIN_ROOT}.
  *
  * Detection method:
  * - Check if CLAUDE_PLUGIN_ROOT environment variable is set (primary method)
- * - This env var is set by the Claude Code plugin system when running plugin hooks
+ * - This env var is set by the Gemini Code plugin system when running plugin hooks
  *
  * @returns true if running in plugin context, false otherwise
  */
@@ -272,10 +272,10 @@ export function isRunningAsPlugin() {
 /**
  * Check if we're running as a project-scoped plugin (not global)
  *
- * Project-scoped plugins are installed in the project's .claude/plugins/ directory,
- * while global plugins are installed in ~/.claude/plugins/.
+ * Project-scoped plugins are installed in the project's .gemini/plugins/ directory,
+ * while global plugins are installed in ~/.gemini/plugins/.
  *
- * When project-scoped, we should NOT modify global settings (like ~/.claude/settings.json)
+ * When project-scoped, we should NOT modify global settings (like ~/.gemini/settings.json)
  * because the user explicitly chose project-level installation.
  *
  * @returns true if running as a project-scoped plugin, false otherwise
@@ -285,7 +285,7 @@ export function isProjectScopedPlugin() {
     if (!pluginRoot) {
         return false;
     }
-    // Global plugins are installed under ~/.claude/plugins/
+    // Global plugins are installed under ~/.gemini/plugins/
     const globalPluginBase = join(CLAUDE_CONFIG_DIR, 'plugins');
     // If the plugin root is NOT under the global plugin directory, it's project-scoped
     // Normalize paths for comparison (resolve symlinks, trailing slashes, etc.)
@@ -318,7 +318,7 @@ export function getInstalledOmcPluginRoots() {
         const raw = JSON.parse(readFileSync(installedPluginsPath, 'utf-8'));
         const plugins = raw.plugins ?? raw;
         for (const [pluginId, entries] of Object.entries(plugins)) {
-            if (!pluginId.toLowerCase().includes('oh-my-claudecode') || !Array.isArray(entries)) {
+            if (!pluginId.toLowerCase().includes('oh-my-gemini-cli') || !Array.isArray(entries)) {
                 continue;
             }
             for (const entry of entries) {
@@ -334,8 +334,8 @@ export function getInstalledOmcPluginRoots() {
     return Array.from(pluginRoots);
 }
 /**
- * Detect whether an installed Claude Code plugin already provides OMC agent
- * markdown files, so the legacy ~/.claude/agents copy can be skipped.
+ * Detect whether an installed Gemini Code plugin already provides OMC agent
+ * markdown files, so the legacy ~/.gemini/agents copy can be skipped.
  */
 export function hasPluginProvidedAgentFiles() {
     return getInstalledOmcPluginRoots().some(pluginRoot => directoryHasMarkdownFiles(join(pluginRoot, 'agents')));
@@ -404,7 +404,7 @@ function loadCommandDefinitions() {
     return definitions;
 }
 /**
- * Load CLAUDE.md content from /docs/CLAUDE.md
+ * Load GEMINI.md content from /docs/GEMINI.md
  */
 function loadBundledSkillContent(skillName) {
     const skillPath = join(getPackageDir(), 'skills', skillName, 'SKILL.md');
@@ -413,27 +413,27 @@ function loadBundledSkillContent(skillName) {
     }
     return readFileSync(skillPath, 'utf-8');
 }
-function loadClaudeMdContent() {
-    const claudeMdPath = join(getPackageDir(), 'docs', 'CLAUDE.md');
-    if (!existsSync(claudeMdPath)) {
-        console.error(`FATAL: CLAUDE.md not found: ${claudeMdPath}`);
+function loadGeminiMdContent() {
+    const geminiMdPath = join(getPackageDir(), 'docs', 'GEMINI.md');
+    if (!existsSync(geminiMdPath)) {
+        console.error(`FATAL: GEMINI.md not found: ${geminiMdPath}`);
         process.exit(1);
     }
-    return readFileSync(claudeMdPath, 'utf-8');
+    return readFileSync(geminiMdPath, 'utf-8');
 }
 /**
- * Extract the embedded OMC version from a CLAUDE.md file.
+ * Extract the embedded OMC version from a GEMINI.md file.
  *
  * Primary source of truth is the injected `<!-- OMC:VERSION:x.y.z -->` marker.
  * Falls back to legacy headings that may include a version string inline.
  */
-export function extractOmcVersionFromClaudeMd(content) {
+export function extractOmcVersionFromGeminiMd(content) {
     const versionMarkerMatch = content.match(/<!--\s*OMC:VERSION:([^\s]+)\s*-->/i);
     if (versionMarkerMatch?.[1]) {
         const markerVersion = versionMarkerMatch[1].trim();
         return markerVersion.startsWith('v') ? markerVersion : `v${markerVersion}`;
     }
-    const headingMatch = content.match(/^#\s+oh-my-claudecode.*?\b(v?\d+\.\d+\.\d+(?:[-+][^\s]+)?)\b/m);
+    const headingMatch = content.match(/^#\s+oh-my-gemini-cli.*?\b(v?\d+\.\d+\.\d+(?:[-+][^\s]+)?)\b/m);
     if (headingMatch?.[1]) {
         const headingVersion = headingMatch[1].trim();
         return headingVersion.startsWith('v') ? headingVersion : `v${headingVersion}`;
@@ -448,7 +448,7 @@ export function extractOmcVersionFromClaudeMd(content) {
  * the interactive setup wizard had been completed.
  */
 export function syncPersistedSetupVersion(options) {
-    const configPath = options?.configPath ?? join(CLAUDE_CONFIG_DIR, '.omc-config.json');
+    const configPath = options?.configPath ?? join(CLAUDE_CONFIG_DIR, '.omg-config.json');
     let config = {};
     if (existsSync(configPath)) {
         const rawConfig = readFileSync(configPath, 'utf-8').trim();
@@ -463,9 +463,9 @@ export function syncPersistedSetupVersion(options) {
     }
     let detectedVersion = options?.version?.trim();
     if (!detectedVersion) {
-        const claudeMdPath = options?.claudeMdPath ?? join(CLAUDE_CONFIG_DIR, 'CLAUDE.md');
-        if (existsSync(claudeMdPath)) {
-            detectedVersion = extractOmcVersionFromClaudeMd(readFileSync(claudeMdPath, 'utf-8')) ?? undefined;
+        const geminiMdPath = options?.geminiMdPath ?? join(CLAUDE_CONFIG_DIR, 'GEMINI.md');
+        if (existsSync(geminiMdPath)) {
+            detectedVersion = extractOmcVersionFromGeminiMd(readFileSync(geminiMdPath, 'utf-8')) ?? undefined;
         }
     }
     const normalizedVersion = (() => {
@@ -480,33 +480,33 @@ export function syncPersistedSetupVersion(options) {
     return true;
 }
 /**
- * Merge OMC content into existing CLAUDE.md using markers
- * @param existingContent - Existing CLAUDE.md content (null if file doesn't exist)
- * @param omcContent - New OMC content to inject
+ * Merge OMC content into existing GEMINI.md using markers
+ * @param existingContent - Existing GEMINI.md content (null if file doesn't exist)
+ * @param omgContent - New OMC content to inject
  * @returns Merged content with markers
  */
-export function mergeClaudeMd(existingContent, omcContent, version) {
+export function mergeGeminiMd(existingContent, omgContent, version) {
     const START_MARKER = '<!-- OMC:START -->';
     const END_MARKER = '<!-- OMC:END -->';
     const USER_CUSTOMIZATIONS = '<!-- User customizations -->';
     const OMC_BLOCK_PATTERN = new RegExp(`^${escapeRegex(START_MARKER)}\\r?\\n[\\s\\S]*?^${escapeRegex(END_MARKER)}(?:\\r?\\n)?`, 'gm');
     const markerStartRegex = createLineAnchoredMarkerRegex(START_MARKER);
     const markerEndRegex = createLineAnchoredMarkerRegex(END_MARKER);
-    // Idempotency guard: strip markers from omcContent if already present
-    // This handles the case where docs/CLAUDE.md ships with markers
-    let cleanOmcContent = omcContent;
-    const omcStartIdx = findLineAnchoredMarker(omcContent, START_MARKER);
-    const omcEndIdx = findLineAnchoredMarker(omcContent, END_MARKER, true);
-    if (omcStartIdx !== -1 && omcEndIdx !== -1 && omcStartIdx < omcEndIdx) {
+    // Idempotency guard: strip markers from omgContent if already present
+    // This handles the case where docs/GEMINI.md ships with markers
+    let cleanOmcContent = omgContent;
+    const omgStartIdx = findLineAnchoredMarker(omgContent, START_MARKER);
+    const omgEndIdx = findLineAnchoredMarker(omgContent, END_MARKER, true);
+    if (omgStartIdx !== -1 && omgEndIdx !== -1 && omgStartIdx < omgEndIdx) {
         // Extract content between markers, trimming any surrounding whitespace
-        cleanOmcContent = omcContent
-            .substring(omcStartIdx + START_MARKER.length, omcEndIdx)
+        cleanOmcContent = omgContent
+            .substring(omgStartIdx + START_MARKER.length, omgEndIdx)
             .trim();
     }
     // Strip any existing version marker from content and inject current version
     cleanOmcContent = cleanOmcContent.replace(/<!-- OMC:VERSION:[^\s]*? -->\n?/, '');
     const versionMarker = version ? `<!-- OMC:VERSION:${version} -->\n` : '';
-    // Case 1: No existing content - wrap omcContent in markers
+    // Case 1: No existing content - wrap omgContent in markers
     if (!existingContent) {
         return `${START_MARKER}\n${versionMarker}${cleanOmcContent}\n${END_MARKER}\n`;
     }
@@ -518,7 +518,7 @@ export function mergeClaudeMd(existingContent, omcContent, version) {
         // Handle corrupted state - backup will be created by caller
         return `${START_MARKER}\n${versionMarker}${cleanOmcContent}\n${END_MARKER}\n\n<!-- User customizations (recovered from corrupted markers) -->\n${existingContent}`;
     }
-    const preservedUserContent = trimClaudeUserContent(stripGeneratedUserCustomizationHeaders(strippedExistingContent));
+    const preservedUserContent = trimGeminiUserContent(stripGeneratedUserCustomizationHeaders(strippedExistingContent));
     if (!preservedUserContent) {
         return `${START_MARKER}\n${versionMarker}${cleanOmcContent}\n${END_MARKER}\n`;
     }
@@ -556,7 +556,7 @@ export function install(options = {}) {
     if (isComparableVersion(targetVersion)
         && isComparableVersion(installedVersionHint)
         && compareVersions(targetVersion, installedVersionHint) < 0) {
-        const message = `Skipping install: installed OMC ${installedVersionHint} is newer than CLI package ${targetVersion}. Run "omc update" to update the CLI package, then rerun "omc setup".`;
+        const message = `Skipping install: installed OMC ${installedVersionHint} is newer than CLI package ${targetVersion}. Run "omg update" to update the CLI package, then rerun "omg setup".`;
         log(message);
         result.success = true;
         result.message = message;
@@ -571,8 +571,8 @@ export function install(options = {}) {
     const shouldInstallLegacyAgents = !runningAsPlugin && !pluginProvidesAgentFiles;
     const allowPluginHookRefresh = runningAsPlugin && options.refreshHooksInPlugin && !projectScoped;
     if (runningAsPlugin) {
-        log('Detected Claude Code plugin context - skipping agent/command file installation');
-        log('Plugin files are managed by Claude Code plugin system');
+        log('Detected Gemini Code plugin context - skipping agent/command file installation');
+        log('Plugin files are managed by Gemini Code plugin system');
         if (projectScoped) {
             log('Detected project-scoped plugin - skipping global HUD/settings modifications');
         }
@@ -585,16 +585,16 @@ export function install(options = {}) {
         // Don't return early - continue to install HUD (unless project-scoped)
     }
     else if (pluginProvidesAgentFiles) {
-        log('Detected installed OMC plugin agent definitions - skipping legacy ~/.claude/agents sync');
+        log('Detected installed OMC plugin agent definitions - skipping legacy ~/.gemini/agents sync');
     }
-    // Check Claude installation (optional)
-    if (!options.skipClaudeCheck && !isClaudeInstalled()) {
-        log('Warning: Claude Code not found. Install it first:');
+    // Check Gemini installation (optional)
+    if (!options.skipGeminiCheck && !isGeminiInstalled()) {
+        log('Warning: Gemini Code not found. Install it first:');
         if (isWindows()) {
-            log('  Visit https://docs.anthropic.com/claude-code for Windows installation');
+            log('  Visit https://docs.anthropic.com/gemini-code for Windows installation');
         }
         else {
-            log('  curl -fsSL https://claude.ai/install.sh | bash');
+            log('  curl -fsSL https://gemini.ai/install.sh | bash');
         }
         // Continue anyway - user might be installing ahead of time
     }
@@ -638,7 +638,7 @@ export function install(options = {}) {
             }
             // Skip command installation - all commands are now plugin-scoped skills
             // Commands are accessible via the plugin system (${CLAUDE_PLUGIN_ROOT}/commands/)
-            // and are managed by Claude Code's skill discovery mechanism.
+            // and are managed by Gemini Code's skill discovery mechanism.
             log('Skipping slash command installation (all commands are now plugin-scoped skills)');
             // The command installation loop is disabled - CORE_COMMANDS is empty
             for (const [filename, content] of Object.entries(loadCommandDefinitions())) {
@@ -667,54 +667,54 @@ export function install(options = {}) {
                 }
             }
             // NOTE: SKILL_DEFINITIONS removed - skills now only installed via COMMAND_DEFINITIONS
-            // to avoid duplicate entries in Claude Code's available skills list
-            const omcReferenceSkillContent = loadBundledSkillContent('omc-reference');
-            if (omcReferenceSkillContent) {
-                const omcReferenceDir = join(SKILLS_DIR, 'omc-reference');
-                const omcReferencePath = join(omcReferenceDir, 'SKILL.md');
-                if (!existsSync(omcReferenceDir)) {
-                    mkdirSync(omcReferenceDir, { recursive: true });
+            // to avoid duplicate entries in Gemini Code's available skills list
+            const omgReferenceSkillContent = loadBundledSkillContent('omg-reference');
+            if (omgReferenceSkillContent) {
+                const omgReferenceDir = join(SKILLS_DIR, 'omg-reference');
+                const omgReferencePath = join(omgReferenceDir, 'SKILL.md');
+                if (!existsSync(omgReferenceDir)) {
+                    mkdirSync(omgReferenceDir, { recursive: true });
                 }
-                if (existsSync(omcReferencePath) && !options.force) {
-                    log('  Skipping omc-reference/SKILL.md (already exists)');
+                if (existsSync(omgReferencePath) && !options.force) {
+                    log('  Skipping omg-reference/SKILL.md (already exists)');
                 }
                 else {
-                    writeFileSync(omcReferencePath, omcReferenceSkillContent);
-                    result.installedSkills.push('omc-reference/SKILL.md');
-                    log('  Installed omc-reference/SKILL.md');
+                    writeFileSync(omgReferencePath, omgReferenceSkillContent);
+                    result.installedSkills.push('omg-reference/SKILL.md');
+                    log('  Installed omg-reference/SKILL.md');
                 }
             }
-            // Install CLAUDE.md with merge support
-            const claudeMdPath = join(CLAUDE_CONFIG_DIR, 'CLAUDE.md');
-            const homeMdPath = join(homedir(), 'CLAUDE.md');
+            // Install GEMINI.md with merge support
+            const geminiMdPath = join(CLAUDE_CONFIG_DIR, 'GEMINI.md');
+            const homeMdPath = join(homedir(), 'GEMINI.md');
             if (!existsSync(homeMdPath)) {
-                const omcContent = loadClaudeMdContent();
+                const omgContent = loadGeminiMdContent();
                 // Read existing content if it exists
                 let existingContent = null;
-                if (existsSync(claudeMdPath)) {
-                    existingContent = readFileSync(claudeMdPath, 'utf-8');
+                if (existsSync(geminiMdPath)) {
+                    existingContent = readFileSync(geminiMdPath, 'utf-8');
                 }
                 // Always create backup before modification (if file exists)
                 if (existingContent !== null) {
                     const timestamp = new Date().toISOString().replace(/:/g, '-').split('.')[0]; // YYYY-MM-DDTHH-MM-SS
-                    const backupPath = join(CLAUDE_CONFIG_DIR, `CLAUDE.md.backup.${timestamp}`);
+                    const backupPath = join(CLAUDE_CONFIG_DIR, `GEMINI.md.backup.${timestamp}`);
                     writeFileSync(backupPath, existingContent);
-                    log(`Backed up existing CLAUDE.md to ${backupPath}`);
+                    log(`Backed up existing GEMINI.md to ${backupPath}`);
                 }
                 // Merge OMC content with existing content
-                const mergedContent = mergeClaudeMd(existingContent, omcContent, targetVersion);
-                writeFileSync(claudeMdPath, mergedContent);
+                const mergedContent = mergeGeminiMd(existingContent, omgContent, targetVersion);
+                writeFileSync(geminiMdPath, mergedContent);
                 if (existingContent) {
-                    log('Updated CLAUDE.md (merged with existing content)');
+                    log('Updated GEMINI.md (merged with existing content)');
                 }
                 else {
-                    log('Created CLAUDE.md');
+                    log('Created GEMINI.md');
                 }
             }
             else {
-                log('CLAUDE.md exists in home directory, skipping');
+                log('GEMINI.md exists in home directory, skipping');
             }
-            // Note: hook scripts are no longer installed to ~/.claude/hooks/.
+            // Note: hook scripts are no longer installed to ~/.gemini/hooks/.
             // All hooks are delivered via the plugin's hooks/hooks.json + scripts/.
             // Legacy hook entries are cleaned up from settings.json below.
             result.hooksConfigured = true; // Will be set properly after consolidated settings.json write
@@ -734,7 +734,7 @@ export function install(options = {}) {
             log('Skipping HUD statusline (user opted out)');
         }
         else if (hudDisabledByConfig) {
-            log('Skipping HUD statusline (hudEnabled is false in .omc-config.json)');
+            log('Skipping HUD statusline (hudEnabled is false in .omg-config.json)');
         }
         else {
             log('Installing HUD statusline...');
@@ -746,7 +746,7 @@ export function install(options = {}) {
                 }
                 // Build the HUD script content (compiled from src/hud/index.ts)
                 // Create a wrapper that checks multiple locations for the HUD module
-                hudScriptPath = join(HUD_DIR, 'omc-hud.mjs').replace(/\\/g, '/');
+                hudScriptPath = join(HUD_DIR, 'omg-hud.mjs').replace(/\\/g, '/');
                 const hudScriptLines = [
                     '#!/usr/bin/env node',
                     '/**',
@@ -767,9 +767,9 @@ export function install(options = {}) {
                     '  // 1. Development paths (only when OMC_DEV=1)',
                     '  if (process.env.OMC_DEV === "1") {',
                     '    const devPaths = [',
-                    '      join(home, "Workspace/oh-my-claudecode/dist/hud/index.js"),',
-                    '      join(home, "workspace/oh-my-claudecode/dist/hud/index.js"),',
-                    '      join(home, "projects/oh-my-claudecode/dist/hud/index.js"),',
+                    '      join(home, "Workspace/oh-my-gemini-cli/dist/hud/index.js"),',
+                    '      join(home, "workspace/oh-my-gemini-cli/dist/hud/index.js"),',
+                    '      join(home, "projects/oh-my-gemini-cli/dist/hud/index.js"),',
                     '    ];',
                     '    ',
                     '    for (const devPath of devPaths) {',
@@ -784,8 +784,8 @@ export function install(options = {}) {
                     '  ',
                     '  // 2. Plugin cache (for production installs)',
                     '  // Respect CLAUDE_CONFIG_DIR so installs under a custom config dir are found',
-                    '  const configDir = process.env.CLAUDE_CONFIG_DIR || join(home, ".claude");',
-                    '  const pluginCacheBase = join(configDir, "plugins", "cache", "omc", "oh-my-claudecode");',
+                    '  const configDir = process.env.CLAUDE_CONFIG_DIR || join(home, ".gemini");',
+                    '  const pluginCacheBase = join(configDir, "plugins", "cache", "omg", "oh-my-gemini-cli");',
                     '  if (existsSync(pluginCacheBase)) {',
                     '    try {',
                     '      const versions = readdirSync(pluginCacheBase);',
@@ -815,7 +815,7 @@ export function install(options = {}) {
                     '  }',
                     '  ',
                     '  // 3. Marketplace clone (for marketplace installs without a populated cache)',
-                    '  const marketplaceHudPath = join(configDir, "plugins", "marketplaces", "omc", "dist/hud/index.js");',
+                    '  const marketplaceHudPath = join(configDir, "plugins", "marketplaces", "omg", "dist/hud/index.js");',
                     '  if (existsSync(marketplaceHudPath)) {',
                     '    try {',
                     '      await import(pathToFileURL(marketplaceHudPath).href);',
@@ -825,7 +825,7 @@ export function install(options = {}) {
                     '  ',
                     '  // 4. npm package (global or local install)',
                     '  try {',
-                    '    await import("oh-my-claudecode/dist/hud/index.js");',
+                    '    await import("oh-my-gemini-cli/dist/hud/index.js");',
                     '    return;',
                     '  } catch { /* continue */ }',
                     '  ',
@@ -840,10 +840,10 @@ export function install(options = {}) {
                     '    }',
                     '  } else if (existsSync(pluginCacheBase)) {',
                     '    // Plugin cache directory exists but no versions',
-                    '    console.log(`[OMC HUD] Plugin cache found but no versions installed. Run: /oh-my-claudecode:omc-setup`);',
+                    '    console.log(`[OMC HUD] Plugin cache found but no versions installed. Run: /oh-my-gemini-cli:omg-setup`);',
                     '  } else {',
                     '    // No plugin installation found at all',
-                    '    console.log("[OMC HUD] Plugin not installed. Run: /oh-my-claudecode:omc-setup");',
+                    '    console.log("[OMC HUD] Plugin not installed. Run: /oh-my-gemini-cli:omg-setup");',
                     '  }',
                     '}',
                     '',
@@ -854,7 +854,7 @@ export function install(options = {}) {
                 if (!isWindows()) {
                     chmodSync(hudScriptPath, 0o755);
                 }
-                log('  Installed omc-hud.mjs');
+                log('  Installed omg-hud.mjs');
             }
             catch (_e) {
                 log('  Warning: Could not install HUD statusline script (non-fatal)');
@@ -875,7 +875,7 @@ export function install(options = {}) {
                     const settingsContent = readFileSync(SETTINGS_FILE, 'utf-8');
                     existingSettings = JSON.parse(settingsContent);
                 }
-                // 1. Remove legacy ~/.claude/hooks/ entries from settings.json
+                // 1. Remove legacy ~/.gemini/hooks/ entries from settings.json
                 // These were written by the old installer; hooks are now delivered via the plugin's hooks.json.
                 {
                     const existingHooks = (existingSettings.hooks || {});
@@ -883,7 +883,7 @@ export function install(options = {}) {
                     for (const [eventType, groups] of Object.entries(existingHooks)) {
                         const groupList = groups;
                         const filtered = groupList.filter(group => {
-                            const isLegacy = group.hooks.every(h => h.type === 'command' && h.command.includes('/.claude/hooks/'));
+                            const isLegacy = group.hooks.every(h => h.type === 'command' && h.command.includes('/.gemini/hooks/'));
                             if (isLegacy)
                                 legacyRemoved++;
                             return !isLegacy;
@@ -916,11 +916,11 @@ export function install(options = {}) {
                             const findNodeDest = join(HUD_DIR, 'find-node.sh');
                             copyFileSync(findNodeSrc, findNodeDest);
                             chmodSync(findNodeDest, 0o755);
-                            statusLineCommand = 'sh $HOME/.claude/hud/find-node.sh $HOME/.claude/hud/omc-hud.mjs';
+                            statusLineCommand = 'sh $HOME/.gemini/hud/find-node.sh $HOME/.gemini/hud/omg-hud.mjs';
                         }
                         catch {
                             // Fallback to bare node if find-node.sh copy fails
-                            statusLineCommand = 'node $HOME/.claude/hud/omc-hud.mjs';
+                            statusLineCommand = 'node $HOME/.gemini/hud/omg-hud.mjs';
                         }
                     }
                     // Auto-migrate legacy string format (pre-v4.5) to object format
@@ -949,33 +949,33 @@ export function install(options = {}) {
                         log('  statusLine already configured, skipping (use --force to override)');
                     }
                 }
-                // 3. Persist the detected node binary path into .omc-config.json so that
+                // 3. Persist the detected node binary path into .omg-config.json so that
                 //    find-node.sh (used in hooks/hooks.json) can locate it at hook runtime
                 //    even when node is not on PATH (nvm/fnm users, issue #892).
                 try {
-                    const configPath = join(CLAUDE_CONFIG_DIR, '.omc-config.json');
-                    let omcConfig = {};
+                    const configPath = join(CLAUDE_CONFIG_DIR, '.omg-config.json');
+                    let omgConfig = {};
                     if (existsSync(configPath)) {
-                        omcConfig = JSON.parse(readFileSync(configPath, 'utf-8'));
+                        omgConfig = JSON.parse(readFileSync(configPath, 'utf-8'));
                     }
                     const detectedNode = resolveNodeBinary();
                     if (detectedNode !== 'node') {
-                        omcConfig.nodeBinary = detectedNode;
-                        writeFileSync(configPath, JSON.stringify(omcConfig, null, 2));
-                        log(`  Saved node binary path to .omc-config.json: ${detectedNode}`);
+                        omgConfig.nodeBinary = detectedNode;
+                        writeFileSync(configPath, JSON.stringify(omgConfig, null, 2));
+                        log(`  Saved node binary path to .omg-config.json: ${detectedNode}`);
                     }
                 }
                 catch {
                     log('  Warning: Could not save node binary path (non-fatal)');
                 }
-                // 4. Sync unified MCP registry into Claude + Codex config surfaces
+                // 4. Sync unified MCP registry into Gemini + Codex config surfaces
                 const mcpSync = syncUnifiedMcpRegistryTargets(existingSettings);
                 existingSettings = mcpSync.settings;
-                if (mcpSync.result.bootstrappedFromClaude) {
+                if (mcpSync.result.bootstrappedFromGemini) {
                     log(`  Bootstrapped unified MCP registry: ${mcpSync.result.registryPath}`);
                 }
-                if (mcpSync.result.claudeChanged) {
-                    log(`  Synced ${mcpSync.result.serverNames.length} MCP server(s) into Claude MCP config: ${mcpSync.result.claudeConfigPath}`);
+                if (mcpSync.result.geminiChanged) {
+                    log(`  Synced ${mcpSync.result.serverNames.length} MCP server(s) into Gemini MCP config: ${mcpSync.result.geminiConfigPath}`);
                 }
                 if (mcpSync.result.codexChanged) {
                     log(`  Synced ${mcpSync.result.serverNames.length} MCP server(s) into Codex config: ${mcpSync.result.codexConfigPath}`);

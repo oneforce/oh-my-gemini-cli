@@ -5,10 +5,10 @@ import { tmpdir, homedir } from 'os';
 import { readProbeResult, writeProbeResult, getRegistrationStrategy, registerMcpWorker, unregisterMcpWorker, isMcpWorker, listMcpWorkers } from '../team-registration.js';
 const TEST_DIR = join(tmpdir(), '__test_team_reg__');
 const TEST_TEAM = 'test-team-reg-team';
-const CONFIG_DIR = join(homedir(), '.claude', 'teams', TEST_TEAM);
+const CONFIG_DIR = join(homedir(), '.gemini', 'teams', TEST_TEAM);
 beforeEach(() => {
     mkdirSync(TEST_DIR, { recursive: true });
-    mkdirSync(join(TEST_DIR, '.omc', 'state'), { recursive: true });
+    mkdirSync(join(TEST_DIR, '.omg', 'state'), { recursive: true });
     mkdirSync(CONFIG_DIR, { recursive: true });
 });
 afterEach(() => {

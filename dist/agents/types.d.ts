@@ -1,5 +1,5 @@
 /**
- * Agent Types for Oh-My-ClaudeCode
+ * Agent Types for Oh-My-GeminiCLI
  *
  * Defines types for agent configuration and metadata used in dynamic prompt generation.
  * Ported from oh-my-opencode's agent type system.
@@ -75,7 +75,7 @@ export interface FullAgentConfig extends AgentConfig {
     temperature?: number;
     /** Max tokens */
     maxTokens?: number;
-    /** Thinking configuration (for Claude models) */
+    /** Thinking configuration (for Gemini models) */
     thinking?: {
         type: 'enabled' | 'disabled';
         budgetTokens?: number;
@@ -117,9 +117,9 @@ export interface AvailableAgent {
  */
 export declare function isGptModel(modelId: string): boolean;
 /**
- * Check if a model ID is a Claude model
+ * Check if a model ID is a Gemini model
  */
-export declare function isClaudeModel(modelId: string): boolean;
+export declare function isGeminiModel(modelId: string): boolean;
 /**
  * Get default model for a category
  */

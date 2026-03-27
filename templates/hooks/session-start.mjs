@@ -54,7 +54,7 @@ function writeJsonFile(path, data) {
 }
 
 async function checkForUpdates(currentVersion) {
-  const cacheFile = join(homedir(), '.omc', 'update-check.json');
+  const cacheFile = join(homedir(), '.omg', 'update-check.json');
   const now = Date.now();
   const CACHE_DURATION = 24 * 60 * 60 * 1000; // 24 hours
 
@@ -69,7 +69,7 @@ async function checkForUpdates(currentVersion) {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 2000);
 
-    const response = await fetch('https://registry.npmjs.org/oh-my-claude-sisyphus/latest', {
+    const response = await fetch('https://registry.npmjs.org/oh-my-gemini-sisyphus/latest', {
       signal: controller.signal
     });
     clearTimeout(timeoutId);
@@ -119,10 +119,10 @@ const PRIORITY_HEADER = '## Priority Context';
 const WORKING_MEMORY_HEADER = '## Working Memory';
 
 /**
- * Get notepad path in .omc directory
+ * Get notepad path in .omg directory
  */
 function getNotepadPath(directory) {
-  return join(directory, '.omc', NOTEPAD_FILENAME);
+  return join(directory, '.omg', NOTEPAD_FILENAME);
 }
 
 /**
@@ -228,8 +228,8 @@ function hasConflictingUltraworkRestore(state, sessionId, directory, source) {
 }
 
 function getUltraworkRestoreCandidate(directory, sessionId) {
-  const localPath = join(directory, '.omc', 'state', 'ultrawork-state.json');
-  const globalPath = join(homedir(), '.omc', 'state', 'ultrawork-state.json');
+  const localPath = join(directory, '.omg', 'state', 'ultrawork-state.json');
+  const globalPath = join(homedir(), '.omg', 'state', 'ultrawork-state.json');
 
   const localState = readJsonFile(localPath);
   if (hasConflictingUltraworkRestore(localState, sessionId, directory, 'local')) {
@@ -262,7 +262,7 @@ Detected an active ultrawork session for ${scope}.
 Owner session: ${ownerSession}
 Started: ${startedAt}
 
-To avoid shared \.omc/state bleed across parallel sessions, OMC suppressed the restore for this session.
+To avoid shared \.omg/state bleed across parallel sessions, OMC suppressed the restore for this session.
 Continue normally in this session, or use a separate worktree / close the other same-root session before resuming the prior ultrawork state.
 
 </session-restore>
@@ -287,7 +287,7 @@ async function main() {
     for (let i = 1; i <= 4; i++) {
       const candidate = join(__dirname, ...Array(i).fill('..'), 'package.json');
       const pkg = readJsonFile(candidate);
-      if ((pkg?.name === 'oh-my-claude-sisyphus' || pkg?.name === 'oh-my-claudecode') && pkg?.version) {
+      if ((pkg?.name === 'oh-my-gemini-sisyphus' || pkg?.name === 'oh-my-gemini-cli') && pkg?.version) {
         currentVersion = pkg.version;
         break;
       }
@@ -296,21 +296,21 @@ async function main() {
     const updateInfo = currentVersion ? await checkForUpdates(currentVersion) : null;
     if (updateInfo) {
       // Read config to check autoUpgradePrompt preference
-      const configPath = join(homedir(), '.claude', '.omc-config.json');
-      const omcConfig = readJsonFile(configPath) || {};
-      const autoUpgradePrompt = omcConfig.autoUpgradePrompt !== false; // default: true
+      const configPath = join(homedir(), '.gemini', '.omg-config.json');
+      const omgConfig = readJsonFile(configPath) || {};
+      const autoUpgradePrompt = omgConfig.autoUpgradePrompt !== false; // default: true
 
       if (autoUpgradePrompt) {
         messages.push(`<session-restore>
 
 [OMC AUTO-UPGRADE AVAILABLE]
 
-oh-my-claudecode v${updateInfo.latestVersion} is available (current: v${updateInfo.currentVersion}).
+oh-my-gemini-cli v${updateInfo.latestVersion} is available (current: v${updateInfo.currentVersion}).
 
 ACTION: Use AskUserQuestion to ask the user if they want to upgrade now. Offer these options:
-- "Upgrade now" (Recommended): Run \`npm install -g oh-my-claude-sisyphus@latest\` via Bash, then run \`omc install --force --skip-claude-check --refresh-hooks\` to reconcile hooks and CLAUDE.md
+- "Upgrade now" (Recommended): Run \`npm install -g oh-my-gemini-sisyphus@latest\` via Bash, then run \`omg install --force --skip-gemini-check --refresh-hooks\` to reconcile hooks and GEMINI.md
 - "Skip this time": Continue the session without upgrading
-- "Don't ask again": Tell the user to set "autoUpgradePrompt": false in ~/.claude/.omc-config.json to disable future prompts
+- "Don't ask again": Tell the user to set "autoUpgradePrompt": false in ~/.gemini/.omg-config.json to disable future prompts
 
 Keep the prompt brief. If the user accepts, execute the upgrade commands and report the result.
 
@@ -323,9 +323,9 @@ Keep the prompt brief. If the user accepts, execute the upgrade commands and rep
 
 [OMC UPDATE AVAILABLE]
 
-A new version of oh-my-claudecode is available: v${updateInfo.latestVersion} (current: ${updateInfo.currentVersion})
+A new version of oh-my-gemini-cli is available: v${updateInfo.latestVersion} (current: ${updateInfo.currentVersion})
 
-To update, run: omc update
+To update, run: omg update
 
 </session-restore>
 
@@ -360,13 +360,13 @@ Continue working in ultrawork mode until all tasks are complete.
 `);
     }
 
-    // Check for incomplete todos (project-local only, not global ~/.claude/todos/)
-    // NOTE: We intentionally do NOT scan the global ~/.claude/todos/ directory.
+    // Check for incomplete todos (project-local only, not global ~/.gemini/todos/)
+    // NOTE: We intentionally do NOT scan the global ~/.gemini/todos/ directory.
     // That directory accumulates todo files from ALL past sessions across all
     // projects, causing phantom task counts in fresh sessions (see issue #354).
     const localTodoPaths = [
-      join(directory, '.omc', 'todos.json'),
-      join(directory, '.claude', 'todos.json')
+      join(directory, '.omg', 'todos.json'),
+      join(directory, '.gemini', 'todos.json')
     ];
     let incompleteCount = 0;
     for (const todoFile of localTodoPaths) {

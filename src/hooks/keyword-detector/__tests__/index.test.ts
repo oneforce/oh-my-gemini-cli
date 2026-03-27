@@ -617,8 +617,8 @@ World`);
         expect(ccgMatch?.keyword).toMatch(/ccg/i);
       });
 
-      it('should detect "claude-codex-gemini" keyword', () => {
-        const result = detectKeywordsWithType('use claude-codex-gemini to build this');
+      it('should detect "gemini-codex-gemini" keyword', () => {
+        const result = detectKeywordsWithType('use gemini-codex-gemini to build this');
         const ccgMatch = result.find((r) => r.type === 'ccg');
         expect(ccgMatch).toBeDefined();
       });
@@ -804,7 +804,7 @@ World`);
 
     describe('multiple keyword conflict resolution', () => {
       it('should return cancel over everything', () => {
-        const result = getPrimaryKeyword('cancelomc ralph ultrawork');
+        const result = getPrimaryKeyword('cancelomg ralph ultrawork');
         expect(result?.type).toBe('cancel');
       });
 
@@ -862,7 +862,7 @@ World`);
     });
 
     it('should return cancel exclusively when present', () => {
-      expect(getAllKeywords('cancelomc ralph ultrawork')).toEqual(['cancel']);
+      expect(getAllKeywords('cancelomg ralph ultrawork')).toEqual(['cancel']);
     });
 
     it('should not detect deprecated ultrapilot keyword (#1131)', () => {
@@ -919,7 +919,7 @@ World`);
     });
 
     it('should not return ccg when cancel is present', () => {
-      const result = getAllKeywords('cancelomc ccg build');
+      const result = getAllKeywords('cancelomg ccg build');
       expect(result).toEqual(['cancel']);
       expect(result).not.toContain('ccg');
     });
@@ -930,7 +930,7 @@ World`);
     });
 
     it('should return cancel over codex/gemini', () => {
-      expect(getAllKeywords('cancelomc ask codex')).toEqual(['cancel']);
+      expect(getAllKeywords('cancelomg ask codex')).toEqual(['cancel']);
     });
 
     it('should return empty array for no keywords', () => {
@@ -953,7 +953,7 @@ World`);
     });
 
     // Team keyword detection disabled — team is now explicit-only via /team skill
-    // to prevent infinite spawning when Claude workers receive prompts containing "team".
+    // to prevent infinite spawning when Gemini workers receive prompts containing "team".
     it('should NOT detect team keyword (explicit-only mode)', () => {
       const result = getAllKeywords('team build the API');
       expect(result).not.toContain('team');
@@ -1001,7 +1001,7 @@ World`);
     });
 
     it('should not detect cancel alongside team', () => {
-      const result = getAllKeywords('cancelomc team');
+      const result = getAllKeywords('cancelomg team');
       expect(result).toEqual(['cancel']);
       expect(result).not.toContain('team');
     });
@@ -1210,7 +1210,7 @@ World`);
     });
 
     it('should not gate when cancel is present', () => {
-      const result = applyRalplanGate(['cancel'], 'cancelomc ralph fix this');
+      const result = applyRalplanGate(['cancel'], 'cancelomg ralph fix this');
       expect(result.gateApplied).toBe(false);
     });
 

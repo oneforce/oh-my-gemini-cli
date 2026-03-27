@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { createThinkingBlockValidatorHook, validateMessage, } from '../index.js';
-const MODEL_ID = 'claude-sonnet-4-6';
+const MODEL_ID = 'gemini-sonnet-4-6';
 const SYNTHETIC_THINKING_CONTENT = '[Synthetic thinking block inserted to preserve message structure]';
 describe('thinking-block-validator issue #1386 regression', () => {
     it('does not reuse unrelated prior assistant thinking in validateMessage', () => {

@@ -2,7 +2,7 @@
  * Tests for src/cli/launch.ts
  *
  * Covers:
- * - Exit code propagation (runClaude direct / inside-tmux)
+ * - Exit code propagation (runGemini direct / inside-tmux)
  * - No OMC HUD pane spawning in tmux launch paths
  */
 import { describe, expect, it, vi, beforeEach, afterEach } from 'vitest';
@@ -20,9 +20,9 @@ vi.mock('../tmux-utils.js', () => ({
     buildTmuxShellCommand: vi.fn((cmd, args) => `${cmd} ${args.join(' ')}`),
     wrapWithLoginShell: vi.fn((cmd) => cmd),
     quoteShellArg: vi.fn((s) => s),
-    isClaudeAvailable: vi.fn(() => true),
+    isGeminiAvailable: vi.fn(() => true),
 }));
-import { runClaude, launchCommand, extractNotifyFlag, extractOpenClawFlag, extractTelegramFlag, extractDiscordFlag, extractSlackFlag, extractWebhookFlag, normalizeClaudeLaunchArgs, isPrintMode } from '../launch.js';
+import { runGemini, launchCommand, extractNotifyFlag, extractOpenClawFlag, extractTelegramFlag, extractDiscordFlag, extractSlackFlag, extractWebhookFlag, normalizeGeminiLaunchArgs, isPrintMode } from '../launch.js';
 import { resolveLaunchPolicy, buildTmuxShellCommand, } from '../tmux-utils.js';
 // ---------------------------------------------------------------------------
 // extractNotifyFlag
@@ -66,37 +66,37 @@ describe('extractNotifyFlag', () => {
     });
 });
 // ---------------------------------------------------------------------------
-// normalizeClaudeLaunchArgs
+// normalizeGeminiLaunchArgs
 // ---------------------------------------------------------------------------
-describe('normalizeClaudeLaunchArgs', () => {
+describe('normalizeGeminiLaunchArgs', () => {
     it('maps --madmax to --dangerously-skip-permissions', () => {
-        expect(normalizeClaudeLaunchArgs(['--madmax'])).toEqual([
+        expect(normalizeGeminiLaunchArgs(['--madmax'])).toEqual([
             '--dangerously-skip-permissions',
         ]);
     });
     it('maps --yolo to --dangerously-skip-permissions', () => {
-        expect(normalizeClaudeLaunchArgs(['--yolo'])).toEqual([
+        expect(normalizeGeminiLaunchArgs(['--yolo'])).toEqual([
             '--dangerously-skip-permissions',
         ]);
     });
     it('deduplicates --dangerously-skip-permissions', () => {
-        const result = normalizeClaudeLaunchArgs([
+        const result = normalizeGeminiLaunchArgs([
             '--madmax',
             '--dangerously-skip-permissions',
         ]);
         expect(result.filter((a) => a === '--dangerously-skip-permissions')).toHaveLength(1);
     });
     it('passes unknown flags through unchanged', () => {
-        expect(normalizeClaudeLaunchArgs(['--print', '--verbose'])).toEqual([
+        expect(normalizeGeminiLaunchArgs(['--print', '--verbose'])).toEqual([
             '--print',
             '--verbose',
         ]);
     });
 });
 // ---------------------------------------------------------------------------
-// runClaude — exit code propagation
+// runGemini — exit code propagation
 // ---------------------------------------------------------------------------
-describe('runClaude — exit code propagation', () => {
+describe('runGemini — exit code propagation', () => {
     let processExitSpy;
     beforeEach(() => {
         vi.resetAllMocks();
@@ -111,33 +111,33 @@ describe('runClaude — exit code propagation', () => {
         });
         it('bypasses tmux for --print mode', () => {
             execFileSync.mockReturnValue(Buffer.from(''));
-            runClaude('/tmp', ['--print'], 'sid');
+            runGemini('/tmp', ['--print'], 'sid');
             // isPrintMode short-circuits before resolveLaunchPolicy is called
             expect(resolveLaunchPolicy).not.toHaveBeenCalled();
             expect(vi.mocked(execFileSync).mock.calls.find(([cmd]) => cmd === 'tmux')).toBeUndefined();
-            expect(vi.mocked(execFileSync).mock.calls.find(([cmd]) => cmd === 'claude')?.[1]).toEqual(['--print']);
+            expect(vi.mocked(execFileSync).mock.calls.find(([cmd]) => cmd === 'gemini')?.[1]).toEqual(['--print']);
         });
-        it('propagates Claude non-zero exit code', () => {
+        it('propagates Gemini non-zero exit code', () => {
             const err = Object.assign(new Error('Command failed'), { status: 2 });
             execFileSync.mockImplementation(() => { throw err; });
-            runClaude('/tmp', [], 'sid');
+            runGemini('/tmp', [], 'sid');
             expect(processExitSpy).toHaveBeenCalledWith(2);
         });
         it('exits with code 1 when status is null', () => {
             const err = Object.assign(new Error('Command failed'), { status: null });
             execFileSync.mockImplementation(() => { throw err; });
-            runClaude('/tmp', [], 'sid');
+            runGemini('/tmp', [], 'sid');
             expect(processExitSpy).toHaveBeenCalledWith(1);
         });
         it('exits with code 1 on ENOENT', () => {
             const err = Object.assign(new Error('Not found'), { code: 'ENOENT' });
             execFileSync.mockImplementation(() => { throw err; });
-            runClaude('/tmp', [], 'sid');
+            runGemini('/tmp', [], 'sid');
             expect(processExitSpy).toHaveBeenCalledWith(1);
         });
         it('does not call process.exit on success', () => {
             execFileSync.mockReturnValue(Buffer.from(''));
-            runClaude('/tmp', [], 'sid');
+            runGemini('/tmp', [], 'sid');
             expect(processExitSpy).not.toHaveBeenCalled();
         });
     });
@@ -149,49 +149,49 @@ describe('runClaude — exit code propagation', () => {
         afterEach(() => {
             delete process.env.TMUX_PANE;
         });
-        it('propagates Claude non-zero exit code', () => {
+        it('propagates Gemini non-zero exit code', () => {
             const err = Object.assign(new Error('Command failed'), { status: 3 });
             execFileSync.mockImplementation(() => { throw err; });
-            runClaude('/tmp', [], 'sid');
+            runGemini('/tmp', [], 'sid');
             expect(processExitSpy).toHaveBeenCalledWith(3);
         });
         it('exits with code 1 when status is null', () => {
             const err = Object.assign(new Error('Command failed'), { status: null });
             execFileSync.mockImplementation(() => { throw err; });
-            runClaude('/tmp', [], 'sid');
+            runGemini('/tmp', [], 'sid');
             expect(processExitSpy).toHaveBeenCalledWith(1);
         });
         it('exits with code 1 on ENOENT', () => {
             const err = Object.assign(new Error('Not found'), { code: 'ENOENT' });
             execFileSync.mockImplementation(() => { throw err; });
-            runClaude('/tmp', [], 'sid');
+            runGemini('/tmp', [], 'sid');
             expect(processExitSpy).toHaveBeenCalledWith(1);
         });
         it('does not call process.exit on success', () => {
             execFileSync.mockReturnValue(Buffer.from(''));
-            runClaude('/tmp', [], 'sid');
+            runGemini('/tmp', [], 'sid');
             expect(processExitSpy).not.toHaveBeenCalled();
         });
     });
 });
 // ---------------------------------------------------------------------------
-// runClaude — OMC HUD pane spawning disabled
+// runGemini — OMC HUD pane spawning disabled
 // ---------------------------------------------------------------------------
-describe('runClaude OMC HUD behavior', () => {
+describe('runGemini OMC HUD behavior', () => {
     beforeEach(() => {
         vi.resetAllMocks();
         execFileSync.mockReturnValue(Buffer.from(''));
     });
-    it('does not build an omc hud --watch command inside tmux', () => {
+    it('does not build an omg hud --watch command inside tmux', () => {
         resolveLaunchPolicy.mockReturnValue('inside-tmux');
-        runClaude('/tmp/cwd', [], 'test-session');
+        runGemini('/tmp/cwd', [], 'test-session');
         const calls = vi.mocked(buildTmuxShellCommand).mock.calls;
-        const omcHudCall = calls.find(([cmd, args]) => cmd === 'node' && Array.isArray(args) && args.includes('hud'));
-        expect(omcHudCall).toBeUndefined();
+        const omgHudCall = calls.find(([cmd, args]) => cmd === 'node' && Array.isArray(args) && args.includes('hud'));
+        expect(omgHudCall).toBeUndefined();
     });
     it('does not add split-window HUD pane args when launching outside tmux', () => {
         resolveLaunchPolicy.mockReturnValue('outside-tmux');
-        runClaude('/tmp/cwd', [], 'test-session');
+        runGemini('/tmp/cwd', [], 'test-session');
         const calls = vi.mocked(execFileSync).mock.calls;
         const tmuxCall = calls.find(([cmd]) => cmd === 'tmux');
         expect(tmuxCall).toBeDefined();
@@ -200,9 +200,9 @@ describe('runClaude OMC HUD behavior', () => {
     });
 });
 // ---------------------------------------------------------------------------
-// runClaude — outside-tmux mouse scrolling (issue #890 regression guard)
+// runGemini — outside-tmux mouse scrolling (issue #890 regression guard)
 // ---------------------------------------------------------------------------
-describe('runClaude outside-tmux — mouse scrolling (issue #890)', () => {
+describe('runGemini outside-tmux — mouse scrolling (issue #890)', () => {
     let processExitSpy;
     beforeEach(() => {
         vi.resetAllMocks();
@@ -214,7 +214,7 @@ describe('runClaude outside-tmux — mouse scrolling (issue #890)', () => {
         processExitSpy.mockRestore();
     });
     it('uses session-targeted mouse option instead of global (-t sessionName, not -g)', () => {
-        runClaude('/tmp', [], 'sid');
+        runGemini('/tmp', [], 'sid');
         const calls = vi.mocked(execFileSync).mock.calls;
         const tmuxCall = calls.find(([cmd]) => cmd === 'tmux');
         expect(tmuxCall).toBeDefined();
@@ -230,7 +230,7 @@ describe('runClaude outside-tmux — mouse scrolling (issue #890)', () => {
         expect(tmuxArgs).not.toContain('-g');
     });
     it('does not set terminal-overrides in tmux args', () => {
-        runClaude('/tmp', [], 'sid');
+        runGemini('/tmp', [], 'sid');
         const calls = vi.mocked(execFileSync).mock.calls;
         const tmuxCall = calls.find(([cmd]) => cmd === 'tmux');
         const tmuxArgs = tmuxCall[1];
@@ -238,7 +238,7 @@ describe('runClaude outside-tmux — mouse scrolling (issue #890)', () => {
         expect(tmuxArgs).not.toContain('*:smcup@:rmcup@');
     });
     it('places mouse mode setup before attach-session', () => {
-        runClaude('/tmp', [], 'sid');
+        runGemini('/tmp', [], 'sid');
         const calls = vi.mocked(execFileSync).mock.calls;
         const tmuxCall = calls.find(([cmd]) => cmd === 'tmux');
         const tmuxArgs = tmuxCall[1];
@@ -250,9 +250,9 @@ describe('runClaude outside-tmux — mouse scrolling (issue #890)', () => {
     });
 });
 // ---------------------------------------------------------------------------
-// runClaude — inside-tmux mouse configuration (issue #890)
+// runGemini — inside-tmux mouse configuration (issue #890)
 // ---------------------------------------------------------------------------
-describe('runClaude inside-tmux — mouse configuration (issue #890)', () => {
+describe('runGemini inside-tmux — mouse configuration (issue #890)', () => {
     let processExitSpy;
     beforeEach(() => {
         vi.resetAllMocks();
@@ -263,27 +263,27 @@ describe('runClaude inside-tmux — mouse configuration (issue #890)', () => {
     afterEach(() => {
         processExitSpy.mockRestore();
     });
-    it('enables mouse mode before launching claude', () => {
-        runClaude('/tmp', [], 'sid');
+    it('enables mouse mode before launching gemini', () => {
+        runGemini('/tmp', [], 'sid');
         const calls = vi.mocked(execFileSync).mock.calls;
         // First call should be tmux set-option for mouse config
         expect(calls.length).toBeGreaterThanOrEqual(2);
         expect(calls[0][0]).toBe('tmux');
         expect(calls[0][1]).toEqual(['set-option', 'mouse', 'on']);
-        // Second call should be claude
-        expect(calls[1][0]).toBe('claude');
+        // Second call should be gemini
+        expect(calls[1][0]).toBe('gemini');
     });
-    it('still launches claude even if tmux mouse config fails', () => {
+    it('still launches gemini even if tmux mouse config fails', () => {
         execFileSync.mockImplementation((cmd) => {
             if (cmd === 'tmux')
                 throw new Error('tmux set-option failed');
             return Buffer.from('');
         });
-        runClaude('/tmp', [], 'sid');
-        // tmux calls fail but claude should still be called
+        runGemini('/tmp', [], 'sid');
+        // tmux calls fail but gemini should still be called
         const calls = vi.mocked(execFileSync).mock.calls;
-        const claudeCall = calls.find(([cmd]) => cmd === 'claude');
-        expect(claudeCall).toBeDefined();
+        const geminiCall = calls.find(([cmd]) => cmd === 'gemini');
+        expect(geminiCall).toBeDefined();
     });
 });
 // ---------------------------------------------------------------------------
@@ -564,7 +564,7 @@ describe('launchCommand — env var propagation', () => {
             savedEnv[key] = process.env[key];
             delete process.env[key];
         }
-        // Mock execFileSync to prevent actual claude launch
+        // Mock execFileSync to prevent actual gemini launch
         execFileSync.mockReturnValue(Buffer.from(''));
         resolveLaunchPolicy.mockReturnValue('direct');
     });
@@ -641,18 +641,18 @@ describe('launchCommand — env var propagation', () => {
         expect(process.env.OMC_SLACK).toBe('1');
         expect(process.env.OMC_WEBHOOK).toBe('1');
     });
-    it('OMC flags are stripped from args passed to Claude', async () => {
+    it('OMC flags are stripped from args passed to Gemini', async () => {
         await launchCommand(['--telegram', '--discord', '--slack', '--webhook', '--openclaw', '--print']);
         const calls = vi.mocked(execFileSync).mock.calls;
-        const claudeCall = calls.find(([cmd]) => cmd === 'claude');
-        expect(claudeCall).toBeDefined();
-        const claudeArgs = claudeCall[1];
-        expect(claudeArgs).not.toContain('--telegram');
-        expect(claudeArgs).not.toContain('--discord');
-        expect(claudeArgs).not.toContain('--slack');
-        expect(claudeArgs).not.toContain('--webhook');
-        expect(claudeArgs).not.toContain('--openclaw');
-        expect(claudeArgs).toContain('--print');
+        const geminiCall = calls.find(([cmd]) => cmd === 'gemini');
+        expect(geminiCall).toBeDefined();
+        const geminiArgs = geminiCall[1];
+        expect(geminiArgs).not.toContain('--telegram');
+        expect(geminiArgs).not.toContain('--discord');
+        expect(geminiArgs).not.toContain('--slack');
+        expect(geminiArgs).not.toContain('--webhook');
+        expect(geminiArgs).not.toContain('--openclaw');
+        expect(geminiArgs).toContain('--print');
     });
 });
 // ---------------------------------------------------------------------------
@@ -679,9 +679,9 @@ describe('isPrintMode', () => {
     });
 });
 // ---------------------------------------------------------------------------
-// runClaude — print mode bypasses tmux (issue #1665)
+// runGemini — print mode bypasses tmux (issue #1665)
 // ---------------------------------------------------------------------------
-describe('runClaude — print mode bypasses tmux (issue #1665)', () => {
+describe('runGemini — print mode bypasses tmux (issue #1665)', () => {
     let processExitSpy;
     beforeEach(() => {
         vi.resetAllMocks();
@@ -691,34 +691,34 @@ describe('runClaude — print mode bypasses tmux (issue #1665)', () => {
     afterEach(() => {
         processExitSpy.mockRestore();
     });
-    it('runs claude directly when --print is present (outside-tmux policy)', () => {
+    it('runs gemini directly when --print is present (outside-tmux policy)', () => {
         resolveLaunchPolicy.mockReturnValue('outside-tmux');
-        runClaude('/tmp', ['--print', 'say hello'], 'sid');
+        runGemini('/tmp', ['--print', 'say hello'], 'sid');
         const calls = vi.mocked(execFileSync).mock.calls;
-        // Should call claude directly, NOT tmux
+        // Should call gemini directly, NOT tmux
         expect(calls).toHaveLength(1);
-        expect(calls[0][0]).toBe('claude');
+        expect(calls[0][0]).toBe('gemini');
         expect(calls[0][1]).toEqual(['--print', 'say hello']);
         expect(calls[0][2]).toEqual(expect.objectContaining({ stdio: 'inherit' }));
     });
-    it('runs claude directly when -p is present (outside-tmux policy)', () => {
+    it('runs gemini directly when -p is present (outside-tmux policy)', () => {
         resolveLaunchPolicy.mockReturnValue('outside-tmux');
-        runClaude('/tmp', ['-p', 'say hello'], 'sid');
+        runGemini('/tmp', ['-p', 'say hello'], 'sid');
         const calls = vi.mocked(execFileSync).mock.calls;
         expect(calls).toHaveLength(1);
-        expect(calls[0][0]).toBe('claude');
+        expect(calls[0][0]).toBe('gemini');
     });
-    it('runs claude directly when --print is present (inside-tmux policy)', () => {
+    it('runs gemini directly when --print is present (inside-tmux policy)', () => {
         resolveLaunchPolicy.mockReturnValue('inside-tmux');
-        runClaude('/tmp', ['--dangerously-skip-permissions', '--print', 'say hello'], 'sid');
+        runGemini('/tmp', ['--dangerously-skip-permissions', '--print', 'say hello'], 'sid');
         const calls = vi.mocked(execFileSync).mock.calls;
-        // Should NOT call tmux set-option (mouse config), just claude directly
+        // Should NOT call tmux set-option (mouse config), just gemini directly
         expect(calls).toHaveLength(1);
-        expect(calls[0][0]).toBe('claude');
+        expect(calls[0][0]).toBe('gemini');
     });
     it('does not bypass tmux when --print is absent', () => {
         resolveLaunchPolicy.mockReturnValue('outside-tmux');
-        runClaude('/tmp', ['--dangerously-skip-permissions'], 'sid');
+        runGemini('/tmp', ['--dangerously-skip-permissions'], 'sid');
         const calls = vi.mocked(execFileSync).mock.calls;
         const tmuxCall = calls.find(([cmd]) => cmd === 'tmux');
         expect(tmuxCall).toBeDefined();

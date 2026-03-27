@@ -53,7 +53,7 @@ declare function getNextExecutionCount(sessionId: string): number;
  * Main handler for the Python REPL tool.
  *
  * @param input - Validated input from the tool call
- * @returns Formatted string output for Claude
+ * @returns Formatted string output for Gemini
  *
  * @example
  * ```typescript

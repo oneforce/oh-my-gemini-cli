@@ -40,16 +40,16 @@ describe('CLI command registration — no duplicates', () => {
 // Runtime: CLI boots without crashing
 // ---------------------------------------------------------------------------
 describe('CLI runtime boot', () => {
-    it('omc --help exits cleanly (no duplicate command error)', () => {
+    it('omg --help exits cleanly (no duplicate command error)', () => {
         const result = execFileSync('node', [CLI_ENTRY, '--help'], {
             timeout: 10_000,
             encoding: 'utf-8',
             env: { ...process.env, NODE_NO_WARNINGS: '1' },
         });
         expect(result).toContain('Usage:');
-        expect(result).toContain('omc');
+        expect(result).toContain('omg');
     });
-    it('omc --version exits cleanly', () => {
+    it('omg --version exits cleanly', () => {
         const result = execFileSync('node', [CLI_ENTRY, '--version'], {
             timeout: 10_000,
             encoding: 'utf-8',
@@ -58,9 +58,9 @@ describe('CLI runtime boot', () => {
         // Should output a semver-like version string
         expect(result.trim()).toMatch(/^\d+\.\d+\.\d+/);
     });
-    it('omc --madmax does not throw duplicate command error', () => {
-        // --madmax maps to --dangerously-skip-permissions for claude launch.
-        // In test env, claude binary isn't available so it may fail for other reasons,
+    it('omg --madmax does not throw duplicate command error', () => {
+        // --madmax maps to --dangerously-skip-permissions for gemini launch.
+        // In test env, gemini binary isn't available so it may fail for other reasons,
         // but it must NOT fail with "cannot add command 'X' as already have command 'X'".
         try {
             execFileSync('node', [CLI_ENTRY, '--madmax'], {

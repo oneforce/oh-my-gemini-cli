@@ -1,21 +1,21 @@
 [English](README.md) | [한국어](README.ko.md) | [中文](README.zh.md) | [日本語](README.ja.md) | [Español](README.es.md) | Tiếng Việt | [Português](README.pt.md)
 
-# oh-my-claudecode
+# oh-my-gemini-cli
 
-[![npm version](https://img.shields.io/npm/v/oh-my-claude-sisyphus?color=cb3837)](https://www.npmjs.com/package/oh-my-claude-sisyphus)
-[![npm downloads](https://img.shields.io/npm/dm/oh-my-claude-sisyphus?color=blue)](https://www.npmjs.com/package/oh-my-claude-sisyphus)
-[![GitHub stars](https://img.shields.io/github/stars/Yeachan-Heo/oh-my-claudecode?style=flat&color=yellow)](https://github.com/Yeachan-Heo/oh-my-claudecode/stargazers)
+[![npm version](https://img.shields.io/npm/v/oh-my-gemini-sisyphus?color=cb3837)](https://www.npmjs.com/package/oh-my-gemini-sisyphus)
+[![npm downloads](https://img.shields.io/npm/dm/oh-my-gemini-sisyphus?color=blue)](https://www.npmjs.com/package/oh-my-gemini-sisyphus)
+[![GitHub stars](https://img.shields.io/github/stars/Yeachan-Heo/oh-my-gemini-cli?style=flat&color=yellow)](https://github.com/Yeachan-Heo/oh-my-gemini-cli/stargazers)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 [![Sponsor](https://img.shields.io/badge/Sponsor-❤️-red?style=flat&logo=github)](https://github.com/sponsors/Yeachan-Heo)
 [![Discord](https://img.shields.io/discord/1466022107199574193?color=5865F2&logo=discord&logoColor=white&label=Discord)](https://discord.gg/qRJw62Gvh7)
 
 > **Dành cho người dùng Codex:** Hãy xem [oh-my-codex](https://github.com/Yeachan-Heo/oh-my-codex) — cùng trải nghiệm điều phối cho OpenAI Codex CLI.
 
-**Điều phối đa tác tử cho Claude Code. Không cần thời gian làm quen.**
+**Điều phối đa tác tử cho Gemini Code. Không cần thời gian làm quen.**
 
-*Đừng học Claude Code. Cứ dùng OMC.*
+*Đừng học Gemini Code. Cứ dùng OMC.*
 
-[Bắt đầu nhanh](#bắt-đầu-nhanh) • [Tài liệu](https://yeachan-heo.github.io/oh-my-claudecode-website) • [Tham chiếu CLI](https://yeachan-heo.github.io/oh-my-claudecode-website/docs.html#cli-reference) • [Quy trình](https://yeachan-heo.github.io/oh-my-claudecode-website/docs.html#workflows) • [Hướng dẫn di chuyển](docs/MIGRATION.md)
+[Bắt đầu nhanh](#bắt-đầu-nhanh) • [Tài liệu](https://yeachan-heo.github.io/oh-my-gemini-cli-website) • [Tham chiếu CLI](https://yeachan-heo.github.io/oh-my-gemini-cli-website/docs.html#cli-reference) • [Quy trình](https://yeachan-heo.github.io/oh-my-gemini-cli-website/docs.html#workflows) • [Hướng dẫn di chuyển](docs/MIGRATION.md)
 
 ---
 
@@ -23,13 +23,13 @@
 
 **Bước 1: Cài đặt**
 ```bash
-/plugin marketplace add https://github.com/Yeachan-Heo/oh-my-claudecode
-/plugin install oh-my-claudecode
+/plugin marketplace add https://github.com/Yeachan-Heo/oh-my-gemini-cli
+/plugin install oh-my-gemini-cli
 ```
 
 **Bước 2: Thiết lập**
 ```bash
-/omc-setup
+/omg-setup
 ```
 
 **Bước 3: Xây một thứ gì đó**
@@ -61,7 +61,7 @@ Team chạy theo pipeline theo từng giai đoạn:
 
 `team-plan → team-prd → team-exec → team-verify → team-fix (loop)`
 
-Bật Claude Code native teams trong `~/.claude/settings.json`:
+Bật Gemini Code native teams trong `~/.gemini/settings.json`:
 
 ```json
 {
@@ -75,12 +75,12 @@ Bật Claude Code native teams trong `~/.claude/settings.json`:
 
 ### Công nhân CLI tmux — Codex & Gemini (v4.4.0+)
 
-**v4.4.0 xóa các máy chủ MCP Codex/Gemini** (nhà cung cấp `x`, `g`). Dùng `/omc-teams` để khởi động tiến trình CLI thực sự trong các pane tmux phân chia:
+**v4.4.0 xóa các máy chủ MCP Codex/Gemini** (nhà cung cấp `x`, `g`). Dùng `/omg-teams` để khởi động tiến trình CLI thực sự trong các pane tmux phân chia:
 
 ```bash
-/omc-teams 2:codex   "review auth module for security issues"
-/omc-teams 2:gemini  "redesign UI components for accessibility"
-/omc-teams 1:claude  "implement the payment flow"
+/omg-teams 2:codex   "review auth module for security issues"
+/omg-teams 2:gemini  "redesign UI components for accessibility"
+/omg-teams 1:gemini  "implement the payment flow"
 ```
 
 Để xử lý công việc Codex + Gemini trong một lệnh, dùng skill **`/ccg`**:
@@ -91,42 +91,42 @@ Bật Claude Code native teams trong `~/.claude/settings.json`:
 
 | Skill | Công nhân | Tốt nhất cho |
 |-------|---------|----------|
-| `/omc-teams N:codex` | N pane Codex CLI | Xem xét code, phân tích bảo mật, kiến trúc |
-| `/omc-teams N:gemini` | N pane Gemini CLI | Thiết kế UI/UX, tài liệu, tác vụ ngữ cảnh lớn |
-| `/omc-teams N:claude` | N pane Claude CLI | Tác vụ chung qua Claude CLI trong tmux |
+| `/omg-teams N:codex` | N pane Codex CLI | Xem xét code, phân tích bảo mật, kiến trúc |
+| `/omg-teams N:gemini` | N pane Gemini CLI | Thiết kế UI/UX, tài liệu, tác vụ ngữ cảnh lớn |
+| `/omg-teams N:gemini` | N pane Gemini CLI | Tác vụ chung qua Gemini CLI trong tmux |
 | `/ccg` | 1 Codex + 1 Gemini | Điều phối ba mô hình song song |
 
 Công nhân được tạo theo yêu cầu và tắt khi hoàn thành tác vụ — không lãng phí tài nguyên. Cần cài `codex` / `gemini` CLI và có phiên tmux đang hoạt động.
 
-> **Lưu ý: Tên package** — Dự án được xây dựng thương hiệu là **oh-my-claudecode** (repo, plugin, commands), nhưng package npm được phát hành dưới tên [`oh-my-claude-sisyphus`](https://www.npmjs.com/package/oh-my-claude-sisyphus). Nếu bạn cài công cụ CLI qua npm/bun, hãy dùng `npm install -g oh-my-claude-sisyphus`.
+> **Lưu ý: Tên package** — Dự án được xây dựng thương hiệu là **oh-my-gemini-cli** (repo, plugin, commands), nhưng package npm được phát hành dưới tên [`oh-my-gemini-sisyphus`](https://www.npmjs.com/package/oh-my-gemini-sisyphus). Nếu bạn cài công cụ CLI qua npm/bun, hãy dùng `npm install -g oh-my-gemini-sisyphus`.
 
 ### Cập nhật
 
 ```bash
 # 1. Cập nhật bản sao marketplace
-/plugin marketplace update omc
+/plugin marketplace update omg
 
 # 2. Chạy lại setup để làm mới cấu hình
-/omc-setup
+/omg-setup
 ```
 
-> **Lưu ý:** Nếu tự động cập nhật marketplace chưa được bật, bạn cần chạy `/plugin marketplace update omc` thủ công để đồng bộ phiên bản mới nhất trước khi chạy setup.
+> **Lưu ý:** Nếu tự động cập nhật marketplace chưa được bật, bạn cần chạy `/plugin marketplace update omg` thủ công để đồng bộ phiên bản mới nhất trước khi chạy setup.
 
 Nếu gặp sự cố sau khi cập nhật, hãy xóa cache plugin cũ:
 
 ```bash
-/omc-doctor
+/omg-doctor
 ```
 
-<h1 align="center">Your Claude Just Have been Steroided.</h1>
+<h1 align="center">Your Gemini Just Have been Steroided.</h1>
 
 <p align="center">
-  <img src="assets/omc-character.jpg" alt="oh-my-claudecode" width="400" />
+  <img src="assets/omg-character.jpg" alt="oh-my-gemini-cli" width="400" />
 </p>
 
 ---
 
-## Vì sao chọn oh-my-claudecode?
+## Vì sao chọn oh-my-gemini-cli?
 
 - **Không cần cấu hình** - Hoạt động ngay với các mặc định thông minh
 - **Điều phối ưu tiên Team** - Team là bề mặt đa tác tử chuẩn (swarm/ultrapilot là lớp tương thích)
@@ -142,13 +142,13 @@ Nếu gặp sự cố sau khi cập nhật, hãy xóa cache plugin cũ:
 ## Tính năng
 
 ### Các chế độ điều phối
-Nhiều chiến lược cho nhiều tình huống — từ điều phối dựa trên Team đến refactor tiết kiệm token. [Tìm hiểu thêm →](https://yeachan-heo.github.io/oh-my-claudecode-website/docs.html#execution-modes)
+Nhiều chiến lược cho nhiều tình huống — từ điều phối dựa trên Team đến refactor tiết kiệm token. [Tìm hiểu thêm →](https://yeachan-heo.github.io/oh-my-gemini-cli-website/docs.html#execution-modes)
 
 | Mode | Nó là gì | Dùng cho |
 |------|------------|---------|
 | **Team (khuyến nghị)** | Pipeline chuẩn theo giai đoạn (`team-plan → team-prd → team-exec → team-verify → team-fix`) | Các tác tử phối hợp trên một danh sách nhiệm vụ chung |
-| **omc-teams** | Công nhân CLI tmux — tiến trình `claude`/`codex`/`gemini` thực trong pane chia | Tác vụ Codex/Gemini CLI; tạo theo yêu cầu, tắt khi xong |
-| **ccg** | Tri-model: Codex (phân tích) + Gemini (thiết kế) song song, Claude tổng hợp | Công việc backend+UI cần cả Codex và Gemini |
+| **omg-teams** | Công nhân CLI tmux — tiến trình `gemini`/`codex`/`gemini` thực trong pane chia | Tác vụ Codex/Gemini CLI; tạo theo yêu cầu, tắt khi xong |
+| **ccg** | Tri-model: Codex (phân tích) + Gemini (thiết kế) song song, Gemini tổng hợp | Công việc backend+UI cần cả Codex và Gemini |
 | **Autopilot** | Thực thi tự động (một tác tử dẫn dắt) | Làm tính năng end-to-end với ít thao tác phụ |
 | **Ultrawork** | Song song tối đa (không dùng team) | Sửa lỗi/refactor kiểu burst song song khi không cần Team |
 | **Ralph** | Chế độ bền bỉ với vòng lặp verify/fix | Tác vụ bắt buộc hoàn tất đầy đủ (không có hoàn thành một phần âm thầm) |
@@ -174,12 +174,12 @@ Học một lần, tái sử dụng mãi mãi. OMC trích xuất kiến thức g
 
 | | Phạm vi Dự án | Phạm vi Người dùng |
 |---|---|---|
-| **Đường dẫn** | `.omc/skills/` | `~/.omc/skills/` |
+| **Đường dẫn** | `.omg/skills/` | `~/.omg/skills/` |
 | **Chia sẻ với** | Nhóm (quản lý phiên bản) | Tất cả dự án của bạn |
 | **Ưu tiên** | Cao (ghi đè phạm vi người dùng) | Thấp (dự phòng) |
 
 ```yaml
-# .omc/skills/fix-proxy-crash.md
+# .omg/skills/fix-proxy-crash.md
 ---
 name: Fix Proxy Crash
 description: aiohttp proxy crashes on ClientDisconnectedError
@@ -204,7 +204,7 @@ Các phím tắt tùy chọn cho người dùng nâng cao. Không dùng chúng t
 | Keyword | Hiệu ứng | Ví dụ |
 |---------|--------|---------|
 | `team` | Điều phối Team chuẩn | `/team 3:executor "fix all TypeScript errors"` |
-| `omc-teams` | Công nhân CLI tmux (codex/gemini/claude) | `/omc-teams 2:codex "security review"` |
+| `omg-teams` | Công nhân CLI tmux (codex/gemini/gemini) | `/omg-teams 2:codex "security review"` |
 | `ccg` | Điều phối tri-model Codex+Gemini | `/ccg review this PR` |
 | `autopilot` | Thực thi tự động toàn phần | `autopilot: build a todo app` |
 | `ralph` | Chế độ bền bỉ | `ralph: refactor auth` |
@@ -223,12 +223,12 @@ Các phím tắt tùy chọn cho người dùng nâng cao. Không dùng chúng t
 
 ### Chờ Rate Limit
 
-Tự động khôi phục phiên Claude Code khi rate limit được reset.
+Tự động khôi phục phiên Gemini Code khi rate limit được reset.
 
 ```bash
-omc wait          # Check status, get guidance
-omc wait --start  # Enable auto-resume daemon
-omc wait --stop   # Disable daemon
+omg wait          # Check status, get guidance
+omg wait --start  # Enable auto-resume daemon
+omg wait --stop   # Disable daemon
 ```
 
 **Yêu cầu:** tmux (để phát hiện phiên)
@@ -239,14 +239,14 @@ Bạn có thể cấu hình ai sẽ được tag khi stop callbacks gửi tóm t
 
 ```bash
 # Set/replace tag list
-omc config-stop-callback telegram --enable --token <bot_token> --chat <chat_id> --tag-list "@alice,bob"
-omc config-stop-callback discord --enable --webhook <url> --tag-list "@here,123456789012345678,role:987654321098765432"
-omc config-stop-callback slack --enable --webhook <url> --tag-list "<!here>,<@U1234567890>"
+omg config-stop-callback telegram --enable --token <bot_token> --chat <chat_id> --tag-list "@alice,bob"
+omg config-stop-callback discord --enable --webhook <url> --tag-list "@here,123456789012345678,role:987654321098765432"
+omg config-stop-callback slack --enable --webhook <url> --tag-list "<!here>,<@U1234567890>"
 
 # Incremental updates
-omc config-stop-callback telegram --add-tag charlie
-omc config-stop-callback discord --remove-tag @here
-omc config-stop-callback discord --clear-tags
+omg config-stop-callback telegram --add-tag charlie
+omg config-stop-callback discord --remove-tag @here
+omg config-stop-callback discord --clear-tags
 ```
 
 Hành vi tag:
@@ -257,16 +257,16 @@ Hành vi tag:
 
 ### Tích hợp OpenClaw
 
-Chuyển tiếp các sự kiện phiên Claude Code đến gateway [OpenClaw](https://openclaw.ai/) để kích hoạt phản hồi tự động và quy trình làm việc thông qua tác nhân OpenClaw của bạn.
+Chuyển tiếp các sự kiện phiên Gemini Code đến gateway [OpenClaw](https://openclaw.ai/) để kích hoạt phản hồi tự động và quy trình làm việc thông qua tác nhân OpenClaw của bạn.
 
 **Thiết lập nhanh (khuyến nghị):**
 
 ```bash
-/oh-my-claudecode:configure-notifications
+/oh-my-gemini-cli:configure-notifications
 # → Nhập "openclaw" khi được hỏi → chọn "OpenClaw Gateway"
 ```
 
-**Thiết lập thủ công:** tạo `~/.claude/omc_config.openclaw.json`:
+**Thiết lập thủ công:** tạo `~/.gemini/omg_config.openclaw.json`:
 
 ```json
 {
@@ -299,9 +299,9 @@ Chuyển tiếp các sự kiện phiên Claude Code đến gateway [OpenClaw](ht
 | Sự kiện | Kích hoạt | Biến template chính |
 |---------|----------|-------------------|
 | `session-start` | Phiên bắt đầu | `{{sessionId}}`, `{{projectName}}`, `{{projectPath}}` |
-| `stop` | Phản hồi Claude hoàn tất | `{{sessionId}}`, `{{projectName}}` |
+| `stop` | Phản hồi Gemini hoàn tất | `{{sessionId}}`, `{{projectName}}` |
 | `keyword-detector` | Mỗi lần gửi prompt | `{{prompt}}`, `{{sessionId}}` |
-| `ask-user-question` | Claude yêu cầu nhập liệu từ người dùng | `{{question}}`, `{{sessionId}}` |
+| `ask-user-question` | Gemini yêu cầu nhập liệu từ người dùng | `{{question}}`, `{{sessionId}}` |
 | `pre-tool-use` | Trước khi gọi công cụ (tần suất cao) | `{{toolName}}`, `{{sessionId}}` |
 | `post-tool-use` | Sau khi gọi công cụ (tần suất cao) | `{{toolName}}`, `{{sessionId}}` |
 
@@ -320,11 +320,11 @@ Xem `scripts/openclaw-gateway-demo.mjs` để tham khảo gateway chuyển tiế
 ## Tài liệu
 
 - **[Tham chiếu đầy đủ](docs/REFERENCE.md)** - Tài liệu đầy đủ về tính năng
-- **[Tham chiếu CLI](https://yeachan-heo.github.io/oh-my-claudecode-website/docs.html#cli-reference)** - Tất cả lệnh, cờ và công cụ `omc`
-- **[Hướng dẫn thông báo](https://yeachan-heo.github.io/oh-my-claudecode-website/docs.html#notifications)** - Thiết lập Discord, Telegram, Slack và webhook
-- **[Quy trình khuyến nghị](https://yeachan-heo.github.io/oh-my-claudecode-website/docs.html#workflows)** - Chuỗi skill đã qua thực chiến cho các tác vụ phổ biến
-- **[Ghi chú phát hành](https://yeachan-heo.github.io/oh-my-claudecode-website/docs.html#release-notes)** - Có gì mới trong mỗi phiên bản
-- **[Website](https://yeachan-heo.github.io/oh-my-claudecode-website)** - Hướng dẫn tương tác và ví dụ
+- **[Tham chiếu CLI](https://yeachan-heo.github.io/oh-my-gemini-cli-website/docs.html#cli-reference)** - Tất cả lệnh, cờ và công cụ `omg`
+- **[Hướng dẫn thông báo](https://yeachan-heo.github.io/oh-my-gemini-cli-website/docs.html#notifications)** - Thiết lập Discord, Telegram, Slack và webhook
+- **[Quy trình khuyến nghị](https://yeachan-heo.github.io/oh-my-gemini-cli-website/docs.html#workflows)** - Chuỗi skill đã qua thực chiến cho các tác vụ phổ biến
+- **[Ghi chú phát hành](https://yeachan-heo.github.io/oh-my-gemini-cli-website/docs.html#release-notes)** - Có gì mới trong mỗi phiên bản
+- **[Website](https://yeachan-heo.github.io/oh-my-gemini-cli-website)** - Hướng dẫn tương tác và ví dụ
 - **[Hướng dẫn di chuyển](docs/MIGRATION.md)** - Nâng cấp từ v2.x
 - **[Kiến trúc](docs/ARCHITECTURE.md)** - Cách nó hoạt động phía sau
 - **[Theo dõi hiệu năng](docs/PERFORMANCE-MONITORING.md)** - Theo dõi tác tử, gỡ lỗi và tối ưu
@@ -333,8 +333,8 @@ Xem `scripts/openclaw-gateway-demo.mjs` để tham khảo gateway chuyển tiế
 
 ## Yêu cầu
 
-- [Claude Code](https://docs.anthropic.com/claude-code) CLI
-- Gói thuê bao Claude Max/Pro HOẶC Anthropic API key
+- [Gemini Code](https://docs.anthropic.com/gemini-code) CLI
+- Gói thuê bao Gemini Max/Pro HOẶC Anthropic API key
 
 ### Tùy chọn: Điều phối Multi-AI
 
@@ -345,7 +345,7 @@ OMC có thể tùy chọn điều phối các nhà cung cấp AI bên ngoài đ�
 | [Gemini CLI](https://github.com/google-gemini/gemini-cli) | `npm install -g @google/gemini-cli` | Design review, UI consistency (1M token context) |
 | [Codex CLI](https://github.com/openai/codex) | `npm install -g @openai/codex` | Architecture validation, code review cross-check |
 
-**Chi phí:** 3 gói Pro (Claude + Gemini + ChatGPT) bao phủ mọi thứ với khoảng $60/tháng.
+**Chi phí:** 3 gói Pro (Gemini + Gemini + ChatGPT) bao phủ mọi thứ với khoảng $60/tháng.
 
 ---
 
@@ -357,7 +357,7 @@ MIT
 
 <div align="center">
 
-**Lấy cảm hứng từ:** [oh-my-opencode](https://github.com/code-yeongyu/oh-my-opencode) • [claude-hud](https://github.com/ryanjoachim/claude-hud) • [Superpowers](https://github.com/obra/superpowers) • [everything-claude-code](https://github.com/affaan-m/everything-claude-code) • [Ouroboros](https://github.com/Q00/ouroboros)
+**Lấy cảm hứng từ:** [oh-my-opencode](https://github.com/code-yeongyu/oh-my-opencode) • [gemini-hud](https://github.com/ryanjoachim/gemini-hud) • [Superpowers](https://github.com/obra/superpowers) • [everything-gemini-code](https://github.com/affaan-m/everything-gemini-code) • [Ouroboros](https://github.com/Q00/ouroboros)
 
 **Không cần thời gian làm quen. Sức mạnh tối đa.**
 
@@ -365,11 +365,11 @@ MIT
 
 ## Lịch sử sao
 
-[![Star History Chart](https://api.star-history.com/svg?repos=Yeachan-Heo/oh-my-claudecode&type=date&legend=top-left)](https://www.star-history.com/#Yeachan-Heo/oh-my-claudecode&type=date&legend=top-left)
+[![Star History Chart](https://api.star-history.com/svg?repos=Yeachan-Heo/oh-my-gemini-cli&type=date&legend=top-left)](https://www.star-history.com/#Yeachan-Heo/oh-my-gemini-cli&type=date&legend=top-left)
 
 ## 💖 Ủng hộ dự án này
 
-Nếu Oh-My-ClaudeCode giúp ích cho quy trình làm việc của bạn, hãy cân nhắc tài trợ:
+Nếu Oh-My-GeminiCLI giúp ích cho quy trình làm việc của bạn, hãy cân nhắc tài trợ:
 
 [![Sponsor on GitHub](https://img.shields.io/badge/Sponsor-❤️-red?style=for-the-badge&logo=github)](https://github.com/sponsors/Yeachan-Heo)
 

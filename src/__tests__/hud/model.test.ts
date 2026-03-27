@@ -4,17 +4,17 @@ import { formatModelName, renderModel } from '../../hud/elements/model.js';
 describe('model element', () => {
   describe('formatModelName', () => {
     it('returns Opus for opus model IDs', () => {
-      expect(formatModelName('claude-opus-4-6-20260205')).toBe('Opus');
-      expect(formatModelName('claude-3-opus-20240229')).toBe('Opus');
+      expect(formatModelName('gemini-opus-4-6-20260205')).toBe('Opus');
+      expect(formatModelName('gemini-3-opus-20240229')).toBe('Opus');
     });
 
     it('returns Sonnet for sonnet model IDs', () => {
-      expect(formatModelName('claude-sonnet-4-20250514')).toBe('Sonnet');
-      expect(formatModelName('claude-3-5-sonnet-20241022')).toBe('Sonnet');
+      expect(formatModelName('gemini-sonnet-4-20250514')).toBe('Sonnet');
+      expect(formatModelName('gemini-3-5-sonnet-20241022')).toBe('Sonnet');
     });
 
     it('returns Haiku for haiku model IDs', () => {
-      expect(formatModelName('claude-3-haiku-20240307')).toBe('Haiku');
+      expect(formatModelName('gemini-3-haiku-20240307')).toBe('Haiku');
     });
 
     it('returns null for null/undefined', () => {
@@ -23,9 +23,9 @@ describe('model element', () => {
     });
 
     it('returns versioned name from model IDs', () => {
-      expect(formatModelName('claude-opus-4-6-20260205', 'versioned')).toBe('Opus 4.6');
-      expect(formatModelName('claude-sonnet-4-6-20260217', 'versioned')).toBe('Sonnet 4.6');
-      expect(formatModelName('claude-haiku-4-5-20251001', 'versioned')).toBe('Haiku 4.5');
+      expect(formatModelName('gemini-opus-4-6-20260205', 'versioned')).toBe('Opus 4.6');
+      expect(formatModelName('gemini-sonnet-4-6-20260217', 'versioned')).toBe('Sonnet 4.6');
+      expect(formatModelName('gemini-haiku-4-5-20251001', 'versioned')).toBe('Haiku 4.5');
     });
 
     it('returns versioned name from display names', () => {
@@ -35,11 +35,11 @@ describe('model element', () => {
     });
 
     it('falls back to short name when no version found', () => {
-      expect(formatModelName('claude-3-opus-20240229', 'versioned')).toBe('Opus');
+      expect(formatModelName('gemini-3-opus-20240229', 'versioned')).toBe('Opus');
     });
 
     it('returns full model ID in full format', () => {
-      expect(formatModelName('claude-opus-4-6-20260205', 'full')).toBe('claude-opus-4-6-20260205');
+      expect(formatModelName('gemini-opus-4-6-20260205', 'full')).toBe('gemini-opus-4-6-20260205');
     });
 
     it('truncates long unrecognized model names', () => {
@@ -50,22 +50,22 @@ describe('model element', () => {
 
   describe('renderModel', () => {
     it('renders formatted model name', () => {
-      const result = renderModel('claude-opus-4-6-20260205');
+      const result = renderModel('gemini-opus-4-6-20260205');
       expect(result).not.toBeNull();
       expect(result).toContain('Opus');
     });
 
     it('renders versioned format', () => {
-      const result = renderModel('claude-opus-4-6-20260205', 'versioned');
+      const result = renderModel('gemini-opus-4-6-20260205', 'versioned');
       expect(result).not.toBeNull();
       expect(result).toContain('Opus');
       expect(result).toContain('4.6');
     });
 
     it('renders full format', () => {
-      const result = renderModel('claude-opus-4-6-20260205', 'full');
+      const result = renderModel('gemini-opus-4-6-20260205', 'full');
       expect(result).not.toBeNull();
-      expect(result).toContain('claude-opus-4-6');
+      expect(result).toContain('gemini-opus-4-6');
     });
 
     it('returns null for null input', () => {

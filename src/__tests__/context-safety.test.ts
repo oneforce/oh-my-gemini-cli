@@ -10,7 +10,7 @@ const HOOKS_PATH = join(process.cwd(), 'hooks', 'hooks.json');
 const tempDirs: string[] = [];
 
 function makeTempDir(): string {
-  const dir = mkdtempSync(join(tmpdir(), 'omc-context-safety-'));
+  const dir = mkdtempSync(join(tmpdir(), 'omg-context-safety-'));
   tempDirs.push(dir);
   return dir;
 }

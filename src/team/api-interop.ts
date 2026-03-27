@@ -146,7 +146,7 @@ function parseValidatedTaskIdArray(value: unknown, fieldName: string): string[] 
 
 function teamStateExists(teamName: string, candidateCwd: string): boolean {
   if (!TEAM_NAME_SAFE_PATTERN.test(teamName)) return false;
-  const teamRoot = join(candidateCwd, '.omc', 'state', 'team', teamName);
+  const teamRoot = join(candidateCwd, '.omg', 'state', 'team', teamName);
   return existsSync(join(teamRoot, 'config.json')) || existsSync(join(teamRoot, 'tasks')) || existsSync(teamRoot);
 }
 
@@ -170,12 +170,12 @@ function readTeamStateRootFromEnv(env: NodeJS.ProcessEnv = process.env): string 
   return candidate || null;
 }
 
-export function resolveTeamApiCliCommand(env: NodeJS.ProcessEnv = process.env): 'omc team api' | 'omx team api' {
+export function resolveTeamApiCliCommand(env: NodeJS.ProcessEnv = process.env): 'omg team api' | 'omx team api' {
   const hasOmcContext = (
     (typeof env.OMC_TEAM_WORKER === 'string' && env.OMC_TEAM_WORKER.trim() !== '')
     || (typeof env.OMC_TEAM_STATE_ROOT === 'string' && env.OMC_TEAM_STATE_ROOT.trim() !== '')
   );
-  if (hasOmcContext) return 'omc team api';
+  if (hasOmcContext) return 'omg team api';
 
   const hasOmxContext = (
     (typeof env.OMX_TEAM_WORKER === 'string' && env.OMX_TEAM_WORKER.trim() !== '')
@@ -183,7 +183,7 @@ export function resolveTeamApiCliCommand(env: NodeJS.ProcessEnv = process.env): 
   );
   if (hasOmxContext) return 'omx team api';
 
-  return 'omc team api';
+  return 'omg team api';
 }
 
 function isRuntimeV2Config(config: unknown): config is { workers: unknown[] } {
@@ -211,7 +211,7 @@ async function executeTeamCleanupViaRuntime(teamName: string, cwd: string): Prom
     const legacyConfig = config as { tmuxSession?: string; leaderPaneId?: string | null; tmuxOwnsWindow?: boolean };
     const sessionName = typeof legacyConfig.tmuxSession === 'string' && legacyConfig.tmuxSession.trim() !== ''
       ? legacyConfig.tmuxSession.trim()
-      : `omc-team-${teamName}`;
+      : `omg-team-${teamName}`;
     const leaderPaneId = typeof legacyConfig.leaderPaneId === 'string' && legacyConfig.leaderPaneId.trim() !== ''
       ? legacyConfig.leaderPaneId.trim()
       : undefined;
@@ -238,7 +238,7 @@ function stateRootToWorkingDirectory(stateRoot: string): string {
   const absolute = resolvePath(stateRoot);
   const normalized = absolute.replaceAll('\\', '/');
 
-  for (const marker of ['/.omc/state/team/', '/.omx/state/team/']) {
+  for (const marker of ['/.omg/state/team/', '/.omx/state/team/']) {
     const idx = normalized.lastIndexOf(marker);
     if (idx >= 0) {
       const workspaceRoot = absolute.slice(0, idx);
@@ -247,7 +247,7 @@ function stateRootToWorkingDirectory(stateRoot: string): string {
     }
   }
 
-  for (const marker of ['/.omc/state', '/.omx/state']) {
+  for (const marker of ['/.omg/state', '/.omx/state']) {
     const idx = normalized.lastIndexOf(marker);
     if (idx >= 0) {
       const workspaceRoot = absolute.slice(0, idx);
@@ -264,7 +264,7 @@ function resolveTeamWorkingDirectoryFromMetadata(
   candidateCwd: string,
   workerContext: { teamName: string; workerName: string } | null,
 ): string | null {
-  const teamRoot = join(candidateCwd, '.omc', 'state', 'team', teamName);
+  const teamRoot = join(candidateCwd, '.omg', 'state', 'team', teamName);
   if (!existsSync(teamRoot)) return null;
 
   if (workerContext?.teamName === teamName) {

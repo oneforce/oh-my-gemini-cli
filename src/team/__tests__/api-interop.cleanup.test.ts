@@ -45,12 +45,12 @@ describe('team api cleanup', () => {
   });
 
   it('routes cleanup through runtime-v2 shutdown when a v2 team config exists', async () => {
-    cwd = await mkdtemp(join(tmpdir(), 'omc-api-cleanup-v2-'));
+    cwd = await mkdtemp(join(tmpdir(), 'omg-api-cleanup-v2-'));
     const teamName = 'cleanup-v2';
-    await writeJson(cwd, `.omc/state/team/${teamName}/config.json`, {
+    await writeJson(cwd, `.omg/state/team/${teamName}/config.json`, {
       name: teamName,
       task: 'test',
-      agent_type: 'claude',
+      agent_type: 'gemini',
       worker_launch_mode: 'interactive',
       governance: {
         delegation_only: false,
@@ -79,14 +79,14 @@ describe('team api cleanup', () => {
   });
 
   it('surfaces shutdown gate failures instead of deleting team state directly', async () => {
-    cwd = await mkdtemp(join(tmpdir(), 'omc-api-cleanup-gated-'));
+    cwd = await mkdtemp(join(tmpdir(), 'omg-api-cleanup-gated-'));
     const teamName = 'cleanup-gated';
-    const teamRoot = join(cwd, '.omc', 'state', 'team', teamName);
+    const teamRoot = join(cwd, '.omg', 'state', 'team', teamName);
 
-    await writeJson(cwd, `.omc/state/team/${teamName}/config.json`, {
+    await writeJson(cwd, `.omg/state/team/${teamName}/config.json`, {
       name: teamName,
       task: 'test',
-      agent_type: 'claude',
+      agent_type: 'gemini',
       worker_launch_mode: 'interactive',
       governance: {
         delegation_only: false,
@@ -106,7 +106,7 @@ describe('team api cleanup', () => {
       resize_hook_name: null,
       resize_hook_target: null,
     });
-    await writeJson(cwd, `.omc/state/team/${teamName}/tasks/task-1.json`, {
+    await writeJson(cwd, `.omg/state/team/${teamName}/tasks/task-1.json`, {
       id: '1',
       subject: 'pending work',
       description: 'still pending',
@@ -129,9 +129,9 @@ describe('team api cleanup', () => {
   });
 
   it('falls back to raw cleanup when no config exists', async () => {
-    cwd = await mkdtemp(join(tmpdir(), 'omc-api-cleanup-orphan-'));
+    cwd = await mkdtemp(join(tmpdir(), 'omg-api-cleanup-orphan-'));
     const teamName = 'cleanup-orphan';
-    const teamRoot = join(cwd, '.omc', 'state', 'team', teamName);
+    const teamRoot = join(cwd, '.omg', 'state', 'team', teamName);
     await mkdir(join(teamRoot, 'tasks'), { recursive: true });
     await writeFile(join(teamRoot, 'orphan.txt'), 'stale', 'utf-8');
 

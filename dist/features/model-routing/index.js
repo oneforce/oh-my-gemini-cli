@@ -14,7 +14,7 @@
  * });
  *
  * console.log(decision.tier);  // 'LOW'
- * console.log(decision.model); // 'claude-haiku-4-5-20251001'
+ * console.log(decision.model); // 'gemini-haiku-4-5-20251001'
  * ```
  */
 export { TIER_MODELS, TIER_TO_MODEL_TYPE, DEFAULT_ROUTING_CONFIG, AGENT_CATEGORY_TIERS, COMPLEXITY_KEYWORDS, TIER_PROMPT_STRATEGIES, } from './types.js';

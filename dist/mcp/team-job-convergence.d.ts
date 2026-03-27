@@ -10,7 +10,7 @@ export interface OmcTeamJob {
     cwd?: string;
     cleanedUpAt?: string;
 }
-export declare function convergeJobWithResultArtifact(job: OmcTeamJob, jobId: string, omcJobsDir: string): {
+export declare function convergeJobWithResultArtifact(job: OmcTeamJob, jobId: string, omgJobsDir: string): {
     job: OmcTeamJob;
     changed: boolean;
 };

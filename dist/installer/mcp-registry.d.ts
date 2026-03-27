@@ -8,30 +8,30 @@ export interface UnifiedMcpRegistryEntry {
 export type UnifiedMcpRegistry = Record<string, UnifiedMcpRegistryEntry>;
 export interface UnifiedMcpRegistrySyncResult {
     registryPath: string;
-    claudeConfigPath: string;
+    geminiConfigPath: string;
     codexConfigPath: string;
     registryExists: boolean;
-    bootstrappedFromClaude: boolean;
+    bootstrappedFromGemini: boolean;
     serverNames: string[];
-    claudeChanged: boolean;
+    geminiChanged: boolean;
     codexChanged: boolean;
 }
 export interface UnifiedMcpRegistryStatus {
     registryPath: string;
-    claudeConfigPath: string;
+    geminiConfigPath: string;
     codexConfigPath: string;
     registryExists: boolean;
     serverNames: string[];
-    claudeMissing: string[];
-    claudeMismatched: string[];
+    geminiMissing: string[];
+    geminiMismatched: string[];
     codexMissing: string[];
     codexMismatched: string[];
 }
 export declare function getUnifiedMcpRegistryPath(): string;
-export declare function getClaudeMcpConfigPath(): string;
+export declare function getGeminiMcpConfigPath(): string;
 export declare function getCodexConfigPath(): string;
-export declare function extractClaudeMcpRegistry(settings: Record<string, unknown>): UnifiedMcpRegistry;
-export declare function applyRegistryToClaudeSettings(settings: Record<string, unknown>): {
+export declare function extractGeminiMcpRegistry(settings: Record<string, unknown>): UnifiedMcpRegistry;
+export declare function applyRegistryToGeminiSettings(settings: Record<string, unknown>): {
     settings: Record<string, unknown>;
     changed: boolean;
 };

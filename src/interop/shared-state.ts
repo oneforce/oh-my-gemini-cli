@@ -1,8 +1,8 @@
 /**
  * Shared State Management for Cross-Tool Interoperability
  *
- * Manages shared state files at .omc/state/interop/ for communication
- * between OMC (Claude Code) and OMX (Codex CLI).
+ * Manages shared state files at .omg/state/interop/ for communication
+ * between OMC (Gemini Code) and OMX (Codex CLI).
  *
  * Uses atomic writes for safety and supports task/message passing.
  */
@@ -15,15 +15,15 @@ import { atomicWriteJsonSync } from '../lib/atomic-write.js';
 export interface InteropConfig {
   sessionId: string;
   createdAt: string;
-  omcCwd: string;
+  omgCwd: string;
   omxCwd?: string;
   status: 'active' | 'completed' | 'failed';
 }
 
 export interface SharedTask {
   id: string;
-  source: 'omc' | 'omx';
-  target: 'omc' | 'omx';
+  source: 'omg' | 'omx';
+  target: 'omg' | 'omx';
   type: 'analyze' | 'implement' | 'review' | 'test' | 'custom';
   description: string;
   context?: Record<string, unknown>;
@@ -37,8 +37,8 @@ export interface SharedTask {
 
 export interface SharedMessage {
   id: string;
-  source: 'omc' | 'omx';
-  target: 'omc' | 'omx';
+  source: 'omg' | 'omx';
+  target: 'omg' | 'omx';
   content: string;
   metadata?: Record<string, unknown>;
   timestamp: string;
@@ -49,15 +49,15 @@ export interface SharedMessage {
 const InteropConfigSchema = z.object({
   sessionId: z.string(),
   createdAt: z.string(),
-  omcCwd: z.string(),
+  omgCwd: z.string(),
   omxCwd: z.string().optional(),
   status: z.enum(['active', 'completed', 'failed']),
 });
 
 const SharedTaskSchema = z.object({
   id: z.string(),
-  source: z.enum(['omc', 'omx']),
-  target: z.enum(['omc', 'omx']),
+  source: z.enum(['omg', 'omx']),
+  target: z.enum(['omg', 'omx']),
   type: z.enum(['analyze', 'implement', 'review', 'test', 'custom']),
   description: z.string(),
   context: z.record(z.unknown()).optional(),
@@ -71,8 +71,8 @@ const SharedTaskSchema = z.object({
 
 const SharedMessageSchema = z.object({
   id: z.string(),
-  source: z.enum(['omc', 'omx']),
-  target: z.enum(['omc', 'omx']),
+  source: z.enum(['omg', 'omx']),
+  target: z.enum(['omg', 'omx']),
   content: z.string(),
   metadata: z.record(z.unknown()).optional(),
   timestamp: z.string(),
@@ -83,7 +83,7 @@ const SharedMessageSchema = z.object({
  * Get the interop directory path for a worktree
  */
 export function getInteropDir(cwd: string): string {
-  return join(cwd, '.omc', 'state', 'interop');
+  return join(cwd, '.omg', 'state', 'interop');
 }
 
 /**
@@ -92,10 +92,10 @@ export function getInteropDir(cwd: string): string {
  */
 export function initInteropSession(
   sessionId: string,
-  omcCwd: string,
+  omgCwd: string,
   omxCwd?: string
 ): InteropConfig {
-  const interopDir = getInteropDir(omcCwd);
+  const interopDir = getInteropDir(omgCwd);
 
   // Ensure directory exists
   if (!existsSync(interopDir)) {
@@ -105,7 +105,7 @@ export function initInteropSession(
   const config: InteropConfig = {
     sessionId,
     createdAt: new Date().toISOString(),
-    omcCwd,
+    omgCwd,
     omxCwd,
     status: 'active',
   };
@@ -168,8 +168,8 @@ export function addSharedTask(
  * Read all shared tasks
  */
 export function readSharedTasks(cwd: string, filter?: {
-  source?: 'omc' | 'omx';
-  target?: 'omc' | 'omx';
+  source?: 'omg' | 'omx';
+  target?: 'omg' | 'omx';
   status?: SharedTask['status'];
 }): SharedTask[] {
   const tasksDir = join(getInteropDir(cwd), 'tasks');
@@ -279,8 +279,8 @@ export function addSharedMessage(
  * Read shared messages
  */
 export function readSharedMessages(cwd: string, filter?: {
-  source?: 'omc' | 'omx';
-  target?: 'omc' | 'omx';
+  source?: 'omg' | 'omx';
+  target?: 'omg' | 'omx';
   unreadOnly?: boolean;
 }): SharedMessage[] {
   const messagesDir = join(getInteropDir(cwd), 'messages');

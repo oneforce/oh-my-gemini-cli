@@ -5,14 +5,14 @@ import { constants as osConstants } from 'os';
 import { basename, dirname, isAbsolute, join } from 'path';
 import { fileURLToPath } from 'url';
 export const ASK_USAGE = [
-    'Usage: omc ask <claude|codex|gemini> <question or task>',
-    '   or: omc ask <claude|codex|gemini> -p "<prompt>"',
-    '   or: omc ask <claude|codex|gemini> --print "<prompt>"',
-    '   or: omc ask <claude|codex|gemini> --prompt "<prompt>"',
-    '   or: omc ask <claude|codex|gemini> --agent-prompt <role> "<prompt>"',
-    '   or: omc ask <claude|codex|gemini> --agent-prompt=<role> --prompt "<prompt>"',
+    'Usage: omg ask <gemini|codex|gemini> <question or task>',
+    '   or: omg ask <gemini|codex|gemini> -p "<prompt>"',
+    '   or: omg ask <gemini|codex|gemini> --print "<prompt>"',
+    '   or: omg ask <gemini|codex|gemini> --prompt "<prompt>"',
+    '   or: omg ask <gemini|codex|gemini> --agent-prompt <role> "<prompt>"',
+    '   or: omg ask <gemini|codex|gemini> --agent-prompt=<role> --prompt "<prompt>"',
 ].join('\n');
-const ASK_PROVIDERS = ['claude', 'codex', 'gemini'];
+const ASK_PROVIDERS = ['gemini', 'codex', 'gemini'];
 const ASK_PROVIDER_SET = new Set(ASK_PROVIDERS);
 const ASK_AGENT_PROMPT_FLAG = '--agent-prompt';
 const SAFE_ROLE_PATTERN = /^[a-z][a-z0-9-]*$/;

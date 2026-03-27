@@ -18,7 +18,7 @@ export const ralphAdapter = {
         return config.verification === false;
     },
     getPrompt(context) {
-        const specPath = context.specPath || '.omc/autopilot/spec.md';
+        const specPath = context.specPath || '.omg/autopilot/spec.md';
         const maxIterations = context.config.verification !== false
             ? context.config.verification.maxIterations
             : 100;
@@ -35,7 +35,7 @@ Spawn parallel verification reviewers:
 \`\`\`
 // Functional Completeness Review
 Task(
-  subagent_type="oh-my-claudecode:architect",
+  subagent_type="oh-my-gemini-cli:architect",
   model="opus",
   prompt="FUNCTIONAL COMPLETENESS REVIEW
 
@@ -52,7 +52,7 @@ Verdict: APPROVED (all requirements met) or REJECTED (with specific gaps)"
 
 // Security Review
 Task(
-  subagent_type="oh-my-claudecode:security-reviewer",
+  subagent_type="oh-my-gemini-cli:security-reviewer",
   model="opus",
   prompt="SECURITY REVIEW
 
@@ -69,7 +69,7 @@ Verdict: APPROVED (no vulnerabilities) or REJECTED (with specific issues)"
 
 // Code Quality Review
 Task(
-  subagent_type="oh-my-claudecode:code-reviewer",
+  subagent_type="oh-my-gemini-cli:code-reviewer",
   model="opus",
   prompt="CODE QUALITY REVIEW
 

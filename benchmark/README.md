@@ -1,6 +1,6 @@
 # SWE-bench Benchmark Suite
 
-Automated benchmark comparison between vanilla Claude Code and OMC-enhanced Claude Code.
+Automated benchmark comparison between vanilla Gemini Code and OMC-enhanced Gemini Code.
 
 ## Quick Start
 
@@ -50,8 +50,8 @@ Quick sanity test with limited instances (default: 5):
 ```
 
 ### run_vanilla.sh
-Run vanilla Claude Code benchmark:
-- Standard Claude Code without OMC
+Run vanilla Gemini Code benchmark:
+- Standard Gemini Code without OMC
 - Saves predictions to `predictions/vanilla/`
 - Logs to `logs/vanilla_*.log`
 
@@ -63,7 +63,7 @@ Run vanilla Claude Code benchmark:
 **Options:**
 - `--limit N` - Limit to N instances (default: all)
 - `--skip N` - Skip first N instances (default: 0)
-- `--model MODEL` - Claude model to use (default: claude-sonnet-4-6-20260217)
+- `--model MODEL` - Gemini model to use (default: gemini-sonnet-4-6-20260217)
 - `--timeout SECS` - Timeout per instance (default: 300)
 
 **Examples:**
@@ -74,23 +74,23 @@ Run vanilla Claude Code benchmark:
 ./run_vanilla.sh --timeout 600             # 10 minutes per instance
 ```
 
-### run_omc.sh
+### run_omg.sh
 Run OMC-enhanced benchmark:
-- Claude Code with oh-my-claudecode orchestration
-- Saves predictions to `predictions/omc/`
-- Logs to `logs/omc_*.log`
+- Gemini Code with oh-my-gemini-cli orchestration
+- Saves predictions to `predictions/omg/`
+- Logs to `logs/omg_*.log`
 
 **Usage:**
 ```bash
-./run_omc.sh [OPTIONS]
+./run_omg.sh [OPTIONS]
 ```
 
 **Options:** Same as `run_vanilla.sh`
 
 **Examples:**
 ```bash
-./run_omc.sh                    # Full benchmark
-./run_omc.sh --limit 100        # First 100 instances
+./run_omg.sh                    # Full benchmark
+./run_omg.sh --limit 100        # First 100 instances
 ```
 
 ### run_full_comparison.sh
@@ -108,10 +108,10 @@ Complete benchmark suite:
 **Options:**
 - `--limit N` - Limit to N instances
 - `--skip N` - Skip first N instances
-- `--model MODEL` - Claude model to use
+- `--model MODEL` - Gemini model to use
 - `--timeout SECS` - Timeout per instance
 - `--skip-vanilla` - Skip vanilla benchmark run
-- `--skip-omc` - Skip OMC benchmark run
+- `--skip-omg` - Skip OMC benchmark run
 - `--skip-eval` - Skip evaluation step
 
 **Examples:**
@@ -128,7 +128,7 @@ benchmark/
 ├── setup.sh                    # One-time setup
 ├── quick_test.sh              # Quick sanity test
 ├── run_vanilla.sh             # Run vanilla benchmark
-├── run_omc.sh                 # Run OMC benchmark
+├── run_omg.sh                 # Run OMC benchmark
 ├── run_full_comparison.sh     # Full comparison suite
 ├── run_benchmark.py           # Main Python benchmark runner
 ├── Dockerfile                 # Docker image for SWE-bench
@@ -136,13 +136,13 @@ benchmark/
 ├── requirements.txt           # Python dependencies
 ├── predictions/
 │   ├── vanilla/              # Vanilla predictions
-│   └── omc/                  # OMC predictions
+│   └── omg/                  # OMC predictions
 ├── logs/
 │   ├── vanilla_*.log         # Vanilla run logs
-│   └── omc_*.log            # OMC run logs
+│   └── omg_*.log            # OMC run logs
 ├── results/
 │   ├── vanilla_results.json  # Vanilla evaluation
-│   ├── omc_results.json      # OMC evaluation
+│   ├── omg_results.json      # OMC evaluation
 │   └── comparison_report.md  # Comparison report
 ├── data/                      # Test data
 └── cache/                     # Dataset cache
@@ -178,12 +178,12 @@ export ANTHROPIC_API_KEY=your_key_here
 
    # Option B: Run individually
    ./run_vanilla.sh
-   ./run_omc.sh
+   ./run_omg.sh
    ```
 
 4. **Review Results**:
    - Check `results/comparison_report.md`
-   - Inspect predictions in `predictions/vanilla/` and `predictions/omc/`
+   - Inspect predictions in `predictions/vanilla/` and `predictions/omg/`
    - Review logs in `logs/`
 
 ## Troubleshooting
@@ -222,8 +222,8 @@ pip install -r requirements.txt
 
 ### Custom Model
 ```bash
-./run_vanilla.sh --model claude-opus-4-6-20260205
-./run_omc.sh --model claude-opus-4-6-20260205
+./run_vanilla.sh --model gemini-opus-4-6-20260205
+./run_omg.sh --model gemini-opus-4-6-20260205
 ```
 
 ### Longer Timeout

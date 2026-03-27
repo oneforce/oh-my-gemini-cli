@@ -3,17 +3,17 @@
  *
  * CLI commands for rate limit wait and auto-resume functionality.
  *
- * Design Philosophy (aligned with oh-my-claudecode values):
- * - Zero learning curve: `omc wait` just works
+ * Design Philosophy (aligned with oh-my-gemini-cli values):
+ * - Zero learning curve: `omg wait` just works
  * - Smart defaults: Auto-detects tmux and daemon status
- * - Minimal commands: Most users only need `omc wait`
+ * - Minimal commands: Most users only need `omg wait`
  *
  * Commands:
- *   omc wait               - Smart command: shows status, offers to start daemon if needed
- *   omc wait status        - Show current rate limit and daemon status
- *   omc wait daemon start  - Start the background daemon
- *   omc wait daemon stop   - Stop the daemon
- *   omc wait detect        - Scan for blocked Claude Code sessions
+ *   omg wait               - Smart command: shows status, offers to start daemon if needed
+ *   omg wait status        - Show current rate limit and daemon status
+ *   omg wait daemon start  - Start the background daemon
+ *   omg wait daemon stop   - Stop the daemon
+ *   omg wait detect        - Scan for blocked Gemini Code sessions
  */
 
 import chalk from 'chalk';
@@ -86,7 +86,7 @@ export async function waitCommand(options: WaitOptions): Promise<void> {
 
   if (!rateLimitStatus) {
     console.log(chalk.yellow('Unable to check rate limits (OAuth credentials required)\n'));
-    console.log(chalk.gray('Rate limit monitoring requires Claude Pro/Max subscription.'));
+    console.log(chalk.gray('Rate limit monitoring requires Gemini Pro/Max subscription.'));
     return;
   }
 
@@ -101,8 +101,8 @@ export async function waitCommand(options: WaitOptions): Promise<void> {
       console.log(chalk.gray('   apt install tmux   (Linux)\n'));
     } else if (!daemonRunning) {
       console.log(chalk.cyan('💡 Want to auto-resume when the limit clears?'));
-      console.log(chalk.white('   Run: ') + chalk.green('omc wait --start'));
-      console.log(chalk.gray('   (or: omc wait daemon start)\n'));
+      console.log(chalk.white('   Run: ') + chalk.green('omg wait --start'));
+      console.log(chalk.gray('   (or: omg wait daemon start)\n'));
     } else {
       console.log(chalk.green('✓ Auto-resume daemon is running'));
       console.log(chalk.gray('  Your session will resume automatically when the limit clears.\n'));
@@ -121,7 +121,7 @@ export async function waitCommand(options: WaitOptions): Promise<void> {
 
     if (daemonRunning) {
       console.log(chalk.gray('Auto-resume daemon is running (not needed when not rate limited)'));
-      console.log(chalk.gray('Stop with: omc wait --stop\n'));
+      console.log(chalk.gray('Stop with: omg wait --stop\n'));
     }
   }
 }
@@ -226,10 +226,10 @@ export async function waitDaemonCommand(
         console.log(chalk.green(`✓ ${result.message}`));
         console.log(chalk.gray('\nThe daemon will:'));
         console.log(chalk.gray('  • Poll rate limit status every minute'));
-        console.log(chalk.gray('  • Track blocked Claude Code sessions in tmux'));
+        console.log(chalk.gray('  • Track blocked Gemini Code sessions in tmux'));
         console.log(chalk.gray('  • Auto-resume sessions when rate limit clears'));
-        console.log(chalk.gray('\nUse "omc wait status" to check daemon status'));
-        console.log(chalk.gray('Use "omc wait daemon stop" to stop the daemon'));
+        console.log(chalk.gray('\nUse "omg wait status" to check daemon status'));
+        console.log(chalk.gray('Use "omg wait daemon stop" to stop the daemon'));
       } else {
         console.error(chalk.red(`✗ ${result.message}`));
         if (result.error) {
@@ -253,7 +253,7 @@ export async function waitDaemonCommand(
 }
 
 /**
- * Detect blocked Claude Code sessions
+ * Detect blocked Gemini Code sessions
  */
 export async function waitDetectCommand(options: WaitDetectOptions): Promise<void> {
   if (!isTmuxAvailable()) {
@@ -262,7 +262,7 @@ export async function waitDetectCommand(options: WaitDetectOptions): Promise<voi
     process.exit(1);
   }
 
-  console.log(chalk.blue('Scanning for blocked Claude Code sessions...\n'));
+  console.log(chalk.blue('Scanning for blocked Gemini Code sessions...\n'));
 
   const config: DaemonConfig = {
     paneLinesToCapture: options.lines,
@@ -279,7 +279,7 @@ export async function waitDetectCommand(options: WaitDetectOptions): Promise<voi
 
   if (result.state?.blockedPanes && result.state.blockedPanes.length > 0) {
     console.log(chalk.gray('\nTip: Start the daemon to auto-resume when rate limit clears:'));
-    console.log(chalk.gray('  omc wait daemon start'));
+    console.log(chalk.gray('  omg wait daemon start'));
   }
 
   // Also show rate limit status

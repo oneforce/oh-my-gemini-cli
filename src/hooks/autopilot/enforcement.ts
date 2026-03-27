@@ -9,7 +9,7 @@
 
 import { existsSync, readFileSync } from "fs";
 import { join } from "path";
-import { getClaudeConfigDir } from "../../utils/paths.js";
+import { getGeminiConfigDir } from "../../utils/paths.js";
 import {
   resolveAutopilotPlanPath,
   resolveOpenQuestionsPlanPath,
@@ -86,11 +86,11 @@ export function detectSignal(
   sessionId: string,
   signal: AutopilotSignal,
 ): boolean {
-  const claudeDir = getClaudeConfigDir();
+  const geminiDir = getGeminiConfigDir();
   const possiblePaths = [
-    join(claudeDir, "sessions", sessionId, "transcript.md"),
-    join(claudeDir, "sessions", sessionId, "messages.json"),
-    join(claudeDir, "transcripts", `${sessionId}.md`),
+    join(geminiDir, "sessions", sessionId, "transcript.md"),
+    join(geminiDir, "sessions", sessionId, "messages.json"),
+    join(geminiDir, "transcripts", `${sessionId}.md`),
   ];
 
   const pattern = SIGNAL_PATTERNS[signal];
@@ -300,7 +300,7 @@ function generateContinuationPrompt(
 
   const phasePrompt = getPhasePrompt(state.phase, {
     idea: state.originalIdea,
-    specPath: state.expansion.spec_path || `.omc/autopilot/spec.md`,
+    specPath: state.expansion.spec_path || `.omg/autopilot/spec.md`,
     planPath: state.planning.plan_path || resolveAutopilotPlanPath(),
     openQuestionsPath: resolveOpenQuestionsPlanPath(),
   });
@@ -416,7 +416,7 @@ function checkPipelineAutopilot(
       idea: state.originalIdea,
       directory: state.project_path || directory,
       sessionId,
-      specPath: state.expansion.spec_path || ".omc/autopilot/spec.md",
+      specPath: state.expansion.spec_path || ".omg/autopilot/spec.md",
       planPath: state.planning.plan_path || resolveAutopilotPlanPath(),
       openQuestionsPath: resolveOpenQuestionsPlanPath(),
       config: tracking.pipelineConfig,
@@ -464,7 +464,7 @@ ${stagePrompt}
     idea: state.originalIdea,
     directory: state.project_path || directory,
     sessionId,
-    specPath: state.expansion.spec_path || ".omc/autopilot/spec.md",
+    specPath: state.expansion.spec_path || ".omg/autopilot/spec.md",
     planPath: state.planning.plan_path || resolveAutopilotPlanPath(),
     openQuestionsPath: resolveOpenQuestionsPlanPath(),
     config: tracking.pipelineConfig,
@@ -508,11 +508,11 @@ IMPORTANT: When this stage is complete, output the signal: ${currentAdapter.comp
  * Detect a pipeline-specific signal in the session transcript.
  */
 function detectPipelineSignal(sessionId: string, signal: string): boolean {
-  const claudeDir = getClaudeConfigDir();
+  const geminiDir = getGeminiConfigDir();
   const possiblePaths = [
-    join(claudeDir, "sessions", sessionId, "transcript.md"),
-    join(claudeDir, "sessions", sessionId, "messages.json"),
-    join(claudeDir, "transcripts", `${sessionId}.md`),
+    join(geminiDir, "sessions", sessionId, "transcript.md"),
+    join(geminiDir, "sessions", sessionId, "messages.json"),
+    join(geminiDir, "transcripts", `${sessionId}.md`),
   ];
 
   const pattern = new RegExp(signal, "i");

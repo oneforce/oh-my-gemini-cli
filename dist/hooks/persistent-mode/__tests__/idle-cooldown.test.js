@@ -29,11 +29,11 @@ vi.mock('os', async () => {
         homedir: vi.fn().mockReturnValue('/home/testuser'),
     };
 });
-const TEST_STATE_DIR = '/project/.omc/state';
+const TEST_STATE_DIR = '/project/.omg/state';
 const COOLDOWN_PATH = join(TEST_STATE_DIR, 'idle-notif-cooldown.json');
 const TEST_SESSION_ID = 'session-123';
 const SESSION_COOLDOWN_PATH = join(TEST_STATE_DIR, 'sessions', TEST_SESSION_ID, 'idle-notif-cooldown.json');
-const CONFIG_PATH = '/home/testuser/.omc/config.json';
+const CONFIG_PATH = '/home/testuser/.omg/config.json';
 describe('getIdleNotificationCooldownSeconds', () => {
     beforeEach(() => {
         vi.clearAllMocks();

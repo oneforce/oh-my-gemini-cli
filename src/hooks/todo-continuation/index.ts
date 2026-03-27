@@ -9,8 +9,8 @@
 
 /**
  * TERMINOLOGY:
- * - "Task" (capitalized): New Claude Code Task system (~/.claude/tasks/)
- * - "todo" (lowercase): Legacy todo system (~/.claude/todos/)
+ * - "Task" (capitalized): New Gemini Code Task system (~/.gemini/tasks/)
+ * - "todo" (lowercase): Legacy todo system (~/.gemini/todos/)
  * - "item": Generic term for either Task or todo
  */
 
@@ -28,7 +28,7 @@ function debugLog(message: string, ...args: unknown[]): void {
 import { existsSync, readFileSync, readdirSync } from 'fs';
 import { join } from 'path';
 import { getOmcRoot } from '../../lib/worktree-paths.js';
-import { getClaudeConfigDir } from '../../utils/paths.js';
+import { getGeminiConfigDir } from '../../utils/paths.js';
 
 /**
  * Validates that a session ID is safe to use in file paths.
@@ -57,16 +57,16 @@ export interface Todo {
 }
 
 /**
- * Claude Code Task system task
+ * Gemini Code Task system task
  *
  * IMPORTANT: This interface is based on observed behavior and the TaskCreate/TaskUpdate
- * tool schema. The file structure ~/.claude/tasks/{sessionId}/{taskId}.json is inferred
- * from Claude Code's implementation and may change in future versions.
+ * tool schema. The file structure ~/.gemini/tasks/{sessionId}/{taskId}.json is inferred
+ * from Gemini Code's implementation and may change in future versions.
  *
  * As of 2025-01, Anthropic has not published official documentation for the Task system
  * file format. This implementation should be verified empirically when issues arise.
  *
- * @see https://docs.anthropic.com/en/docs/claude-code (check for updates)
+ * @see https://docs.anthropic.com/en/docs/gemini-code (check for updates)
  */
 export interface Task {
   id: string;
@@ -96,15 +96,15 @@ export interface IncompleteTodosResult {
  * Context from Stop hook event
  *
  * NOTE: Field names support both camelCase and snake_case variants
- * for compatibility with different Claude Code versions.
+ * for compatibility with different Gemini Code versions.
  *
  * IMPORTANT: The abort detection patterns below are assumed. Verify
- * actual stop_reason values from Claude Code before finalizing.
+ * actual stop_reason values from Gemini Code before finalizing.
  */
 export interface StopContext {
-  /** Reason for stop (from Claude Code) - snake_case variant */
+  /** Reason for stop (from Gemini Code) - snake_case variant */
   stop_reason?: string;
-  /** Reason for stop (from Claude Code) - camelCase variant */
+  /** Reason for stop (from Gemini Code) - camelCase variant */
   stopReason?: string;
   /** End turn reason (from API) - snake_case variant */
   end_turn_reason?: string;
@@ -168,7 +168,7 @@ export interface TodoContinuationHook {
  * It is kept as defensive code in case the behavior changes.
  *
  * If the hook fails to detect user aborts correctly, these patterns
- * should be updated based on observed Claude Code behavior.
+ * should be updated based on observed Gemini Code behavior.
  */
 export function isUserAbort(context?: StopContext): boolean {
   if (!context) return false;
@@ -204,8 +204,8 @@ export function isExplicitCancelCommand(context?: StopContext): boolean {
 
   const prompt = (context.prompt ?? '').trim();
   if (prompt) {
-    const slashCancelPattern = /^\/(?:oh-my-claudecode:)?cancel(?:\s+--force)?\s*$/i;
-    const keywordCancelPattern = /^(?:cancelomc|stopomc)\s*$/i;
+    const slashCancelPattern = /^\/(?:oh-my-gemini-cli:)?cancel(?:\s+--force)?\s*$/i;
+    const keywordCancelPattern = /^(?:cancelomg|stopomg)\s*$/i;
     if (slashCancelPattern.test(prompt) || keywordCancelPattern.test(prompt)) {
       return true;
     }
@@ -229,7 +229,7 @@ export function isExplicitCancelCommand(context?: StopContext): boolean {
   const toolInput = (context.tool_input ?? context.toolInput) as Record<string, unknown> | undefined;
   if (toolName.includes('skill') && toolInput && typeof toolInput.skill === 'string') {
     const skill = toolInput.skill.toLowerCase();
-    if (skill === 'oh-my-claudecode:cancel' || skill.endsWith(':cancel')) {
+    if (skill === 'oh-my-gemini-cli:cancel' || skill.endsWith(':cancel')) {
       return true;
     }
   }
@@ -239,11 +239,11 @@ export function isExplicitCancelCommand(context?: StopContext): boolean {
 
 /**
  * Detect if stop was triggered by context-limit related reasons.
- * When context is exhausted, Claude Code needs to stop so it can compact.
+ * When context is exhausted, Gemini Code needs to stop so it can compact.
  * Blocking these stops causes a deadlock: can't compact because can't stop,
  * can't continue because context is full.
  *
- * See: https://github.com/Yeachan-Heo/oh-my-claudecode/issues/213
+ * See: https://github.com/Yeachan-Heo/oh-my-gemini-cli/issues/213
  */
 export function isContextLimitStop(context?: StopContext): boolean {
   const contextPatterns = [
@@ -258,12 +258,12 @@ export function isContextLimitStop(context?: StopContext): boolean {
 
 /**
  * Detect if stop was triggered by rate limiting (HTTP 429 / quota exhausted).
- * When the API is rate-limited, Claude Code stops the session.
+ * When the API is rate-limited, Gemini Code stops the session.
  * Blocking these stops causes an infinite retry loop: the persistent-mode hook
- * injects a continuation prompt, Claude immediately hits the rate limit again,
+ * injects a continuation prompt, Gemini immediately hits the rate limit again,
  * stops again, and the cycle repeats indefinitely.
  *
- * Fix for: https://github.com/Yeachan-Heo/oh-my-claudecode/issues/777
+ * Fix for: https://github.com/Yeachan-Heo/oh-my-gemini-cli/issues/777
  */
 export function isRateLimitStop(context?: StopContext): boolean {
   if (!context) return false;
@@ -328,19 +328,19 @@ export function isAuthenticationError(context?: StopContext): boolean {
  * Get possible todo file locations
  */
 function getTodoFilePaths(sessionId?: string, directory?: string): string[] {
-  const claudeDir = getClaudeConfigDir();
+  const geminiDir = getGeminiConfigDir();
   const paths: string[] = [];
 
   // Session-specific todos
   if (sessionId) {
-    paths.push(join(claudeDir, 'sessions', sessionId, 'todos.json'));
-    paths.push(join(claudeDir, 'todos', `${sessionId}.json`));
+    paths.push(join(geminiDir, 'sessions', sessionId, 'todos.json'));
+    paths.push(join(geminiDir, 'todos', `${sessionId}.json`));
   }
 
   // Project-specific todos
   if (directory) {
     paths.push(join(getOmcRoot(directory), 'todos.json'));
-    paths.push(join(directory, '.claude', 'todos.json'));
+    paths.push(join(directory, '.gemini', 'todos.json'));
   }
 
   // NOTE: Global todos directory scan removed to prevent false positives.
@@ -395,16 +395,16 @@ function isIncomplete(todo: Todo): boolean {
 /**
  * Get the Task directory for a session
  *
- * NOTE: This path (~/.claude/tasks/{sessionId}/) is inferred from Claude Code's
+ * NOTE: This path (~/.gemini/tasks/{sessionId}/) is inferred from Gemini Code's
  * implementation. Anthropic has not officially documented this structure.
- * The Task files are created by Claude Code's TaskCreate tool.
+ * The Task files are created by Gemini Code's TaskCreate tool.
  */
 export function getTaskDirectory(sessionId: string): string {
   // Security: validate sessionId before constructing path
   if (!isValidSessionId(sessionId)) {
     return ''; // Return empty string for invalid sessions
   }
-  return join(getClaudeConfigDir(), 'tasks', sessionId);
+  return join(getGeminiConfigDir(), 'tasks', sessionId);
 }
 
 /**
@@ -436,7 +436,7 @@ export function readTaskFiles(sessionId: string): Task[] {
   const tasks: Task[] = [];
   try {
     for (const file of readdirSync(taskDir)) {
-      // Skip non-JSON files and .lock file (used by Claude Code for atomic writes)
+      // Skip non-JSON files and .lock file (used by Gemini Code for atomic writes)
       // The .lock file prevents concurrent modifications to task files
       if (!file.endsWith('.json') || file === '.lock') continue;
       try {

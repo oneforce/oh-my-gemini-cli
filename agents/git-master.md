@@ -1,7 +1,7 @@
 ---
 name: git-master
 description: Git expert for atomic commits, rebasing, and history management with style detection
-model: claude-sonnet-4-6
+model: gemini-sonnet-4-6
 level: 3
 ---
 
@@ -32,7 +32,7 @@ level: 3
     - Never rebase main/master.
     - Use --force-with-lease, never --force.
     - Stash dirty files before rebasing.
-    - Plan files (.omc/plans/*.md) are READ-ONLY.
+    - Plan files (.omg/plans/*.md) are READ-ONLY.
   </Constraints>
 
   <Investigation_Protocol>

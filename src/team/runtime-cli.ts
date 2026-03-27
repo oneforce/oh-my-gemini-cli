@@ -115,10 +115,10 @@ export async function writeResultArtifact(
   output: CliOutput,
   finishedAt: string,
   jobId: string | undefined = process.env.OMC_JOB_ID,
-  omcJobsDir: string | undefined = process.env.OMC_JOBS_DIR,
+  omgJobsDir: string | undefined = process.env.OMC_JOBS_DIR,
 ): Promise<void> {
-  if (!jobId || !omcJobsDir) return;
-  const resultPath = join(omcJobsDir, `${jobId}-result.json`);
+  if (!jobId || !omgJobsDir) return;
+  const resultPath = join(omgJobsDir, `${jobId}-result.json`);
   const tmpPath = `${resultPath}.tmp`;
   await writeFile(
     tmpPath,
@@ -135,10 +135,10 @@ async function writePanesFile(
   sessionName: string,
   ownsWindow: boolean,
 ): Promise<void> {
-  const omcJobsDir = process.env.OMC_JOBS_DIR;
-  if (!jobId || !omcJobsDir) return;
+  const omgJobsDir = process.env.OMC_JOBS_DIR;
+  if (!jobId || !omgJobsDir) return;
 
-  const panesPath = join(omcJobsDir, `${jobId}-panes.json`);
+  const panesPath = join(omgJobsDir, `${jobId}-panes.json`);
   await writeFile(
     panesPath + '.tmp',
     JSON.stringify({ paneIds: [...paneIds], leaderPaneId, sessionName, ownsWindow }),
@@ -209,7 +209,7 @@ async function main(): Promise<void> {
   } = input;
 
   const workerCount = input.workerCount ?? agentTypes.length;
-  const stateRoot = join(cwd, `.omc/state/team/${teamName}`);
+  const stateRoot = join(cwd, `.omg/state/team/${teamName}`);
 
   const config: TeamConfig = {
     teamName,
@@ -328,7 +328,7 @@ async function main(): Promise<void> {
     process.exit(1);
   }
 
-  // Persist pane IDs so MCP server can clean up explicitly via omc_run_team_cleanup.
+  // Persist pane IDs so MCP server can clean up explicitly via omg_run_team_cleanup.
   const jobId = process.env.OMC_JOB_ID;
   const expectedTaskCount = tasks.length;
   let mismatchStreak = 0;

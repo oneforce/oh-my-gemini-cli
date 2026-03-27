@@ -21,7 +21,7 @@ export declare function formatSessionStop(payload: NotificationPayload): string;
 export declare function formatSessionEnd(payload: NotificationPayload): string;
 /**
  * Format session-idle notification message.
- * Sent when Claude stops and no persistent mode is blocking (truly idle).
+ * Sent when Gemini stops and no persistent mode is blocking (truly idle).
  */
 export declare function formatSessionIdle(payload: NotificationPayload): string;
 /**
@@ -39,7 +39,7 @@ export declare function parseTmuxTail(raw: string, maxLines?: number): string;
 export declare function formatAgentCall(payload: NotificationPayload): string;
 /**
  * Format ask-user-question notification message.
- * Notifies the user that Claude is waiting for input.
+ * Notifies the user that Gemini is waiting for input.
  */
 export declare function formatAskUserQuestion(payload: NotificationPayload): string;
 /**

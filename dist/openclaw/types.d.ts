@@ -40,7 +40,7 @@ export interface OpenClawHookMapping {
     /** Whether this hook-event mapping is active */
     enabled: boolean;
 }
-/** Top-level config schema for omc_config.openclaw.json */
+/** Top-level config schema for omg_config.openclaw.json */
 export interface OpenClawConfig {
     /** Global enable/disable */
     enabled: boolean;

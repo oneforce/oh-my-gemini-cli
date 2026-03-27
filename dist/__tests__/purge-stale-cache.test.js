@@ -13,7 +13,7 @@ vi.mock('fs', async () => {
     };
 });
 vi.mock('../utils/config-dir.js', () => ({
-    getConfigDir: vi.fn(() => '/mock/.claude'),
+    getConfigDir: vi.fn(() => '/mock/.gemini'),
 }));
 import { existsSync, readFileSync, readdirSync, statSync, rmSync } from 'fs';
 import { purgeStalePluginCacheVersions } from '../utils/paths.js';
@@ -48,7 +48,7 @@ describe('purgeStalePluginCacheVersions', () => {
         expect(mockedRmSync).not.toHaveBeenCalled();
     });
     it('removes stale versions not in installed_plugins.json', () => {
-        const cacheDir = '/mock/.claude/plugins/cache';
+        const cacheDir = '/mock/.gemini/plugins/cache';
         const activeVersion = join(cacheDir, 'my-marketplace/my-plugin/2.0.0');
         const staleVersion = join(cacheDir, 'my-marketplace/my-plugin/1.0.0');
         mockedExistsSync.mockImplementation((p) => {
@@ -90,9 +90,9 @@ describe('purgeStalePluginCacheVersions', () => {
         expect(mockedRmSync).not.toHaveBeenCalledWith(activeVersion, expect.anything());
     });
     it('handles multiple marketplaces and plugins', () => {
-        const cacheDir = '/mock/.claude/plugins/cache';
+        const cacheDir = '/mock/.gemini/plugins/cache';
         const active1 = join(cacheDir, 'official/hookify/aa11');
-        const active2 = join(cacheDir, 'omc/oh-my-claudecode/4.3.0');
+        const active2 = join(cacheDir, 'omg/oh-my-gemini-cli/4.3.0');
         const stale1 = join(cacheDir, 'official/hookify/bb22');
         const stale2 = join(cacheDir, 'official/hookify/cc33');
         mockedExistsSync.mockImplementation((p) => {
@@ -109,20 +109,20 @@ describe('purgeStalePluginCacheVersions', () => {
             version: 2,
             plugins: {
                 'hookify@official': [{ installPath: active1 }],
-                'oh-my-claudecode@omc': [{ installPath: active2 }],
+                'oh-my-gemini-cli@omg': [{ installPath: active2 }],
             },
         }));
         mockedReaddirSync.mockImplementation((p, _opts) => {
             const ps = String(p);
             if (ps === cacheDir)
-                return [dirent('official'), dirent('omc')];
+                return [dirent('official'), dirent('omg')];
             if (ps.endsWith('official'))
                 return [dirent('hookify')];
             if (ps.endsWith('hookify'))
                 return [dirent('aa11'), dirent('bb22'), dirent('cc33')];
-            if (ps.endsWith('omc'))
-                return [dirent('oh-my-claudecode')];
-            if (ps.endsWith('oh-my-claudecode'))
+            if (ps.endsWith('omg'))
+                return [dirent('oh-my-gemini-cli')];
+            if (ps.endsWith('oh-my-gemini-cli'))
                 return [dirent('4.3.0')];
             return [];
         });
@@ -132,8 +132,8 @@ describe('purgeStalePluginCacheVersions', () => {
         expect(result.removedPaths).toContain(stale2);
     });
     it('does nothing when all cache versions are active', () => {
-        const cacheDir = '/mock/.claude/plugins/cache';
-        const active = join(cacheDir, 'omc/oh-my-claudecode/4.3.0');
+        const cacheDir = '/mock/.gemini/plugins/cache';
+        const active = join(cacheDir, 'omg/oh-my-gemini-cli/4.3.0');
         mockedExistsSync.mockImplementation((p) => {
             const ps = String(p);
             if (ps.includes('installed_plugins.json'))
@@ -145,16 +145,16 @@ describe('purgeStalePluginCacheVersions', () => {
         mockedReadFileSync.mockReturnValue(JSON.stringify({
             version: 2,
             plugins: {
-                'oh-my-claudecode@omc': [{ installPath: active }],
+                'oh-my-gemini-cli@omg': [{ installPath: active }],
             },
         }));
         mockedReaddirSync.mockImplementation((p, _opts) => {
             const ps = String(p);
             if (ps === cacheDir)
-                return [dirent('omc')];
-            if (ps.endsWith('omc'))
-                return [dirent('oh-my-claudecode')];
-            if (ps.endsWith('oh-my-claudecode'))
+                return [dirent('omg')];
+            if (ps.endsWith('omg'))
+                return [dirent('oh-my-gemini-cli')];
+            if (ps.endsWith('oh-my-gemini-cli'))
                 return [dirent('4.3.0')];
             return [];
         });
@@ -172,13 +172,13 @@ describe('purgeStalePluginCacheVersions', () => {
     });
     // --- C2 fix: trailing slash in installPath ---
     it('matches installPath with trailing slash correctly', () => {
-        const cacheDir = '/mock/.claude/plugins/cache';
-        const versionDir = join(cacheDir, 'omc/plugin/1.0.0');
+        const cacheDir = '/mock/.gemini/plugins/cache';
+        const versionDir = join(cacheDir, 'omg/plugin/1.0.0');
         mockedExistsSync.mockReturnValue(true);
         mockedReadFileSync.mockReturnValue(JSON.stringify({
             version: 2,
             plugins: {
-                'plugin@omc': [{
+                'plugin@omg': [{
                         // installPath has trailing slash
                         installPath: versionDir + '/',
                     }],
@@ -187,8 +187,8 @@ describe('purgeStalePluginCacheVersions', () => {
         mockedReaddirSync.mockImplementation((p, _opts) => {
             const ps = String(p);
             if (ps === cacheDir)
-                return [dirent('omc')];
-            if (ps.endsWith('omc'))
+                return [dirent('omg')];
+            if (ps.endsWith('omg'))
                 return [dirent('plugin')];
             if (ps.endsWith('plugin'))
                 return [dirent('1.0.0')];
@@ -201,13 +201,13 @@ describe('purgeStalePluginCacheVersions', () => {
     });
     // --- C2 fix: installPath points to subdirectory ---
     it('preserves version when installPath points to a subdirectory', () => {
-        const cacheDir = '/mock/.claude/plugins/cache';
-        const versionDir = join(cacheDir, 'omc/plugin/2.0.0');
+        const cacheDir = '/mock/.gemini/plugins/cache';
+        const versionDir = join(cacheDir, 'omg/plugin/2.0.0');
         mockedExistsSync.mockReturnValue(true);
         mockedReadFileSync.mockReturnValue(JSON.stringify({
             version: 2,
             plugins: {
-                'plugin@omc': [{
+                'plugin@omg': [{
                         // installPath points into a subdirectory
                         installPath: versionDir + '/dist',
                     }],
@@ -216,8 +216,8 @@ describe('purgeStalePluginCacheVersions', () => {
         mockedReaddirSync.mockImplementation((p, _opts) => {
             const ps = String(p);
             if (ps === cacheDir)
-                return [dirent('omc')];
-            if (ps.endsWith('omc'))
+                return [dirent('omg')];
+            if (ps.endsWith('omg'))
                 return [dirent('plugin')];
             if (ps.endsWith('plugin'))
                 return [dirent('2.0.0')];
@@ -230,17 +230,17 @@ describe('purgeStalePluginCacheVersions', () => {
     });
     // --- C3 fix: recently modified directories are skipped ---
     function setupFreshNonActiveCache() {
-        const cacheDir = '/mock/.claude/plugins/cache';
+        const cacheDir = '/mock/.gemini/plugins/cache';
         mockedExistsSync.mockReturnValue(true);
         mockedReadFileSync.mockReturnValue(JSON.stringify({
             version: 2,
-            plugins: { 'plugin@omc': [{ installPath: '/other/path' }] },
+            plugins: { 'plugin@omg': [{ installPath: '/other/path' }] },
         }));
         mockedReaddirSync.mockImplementation((p, _opts) => {
             const ps = String(p);
             if (ps === cacheDir)
-                return [dirent('omc')];
-            if (ps.endsWith('omc'))
+                return [dirent('omg')];
+            if (ps.endsWith('omg'))
                 return [dirent('plugin')];
             if (ps.endsWith('plugin'))
                 return [dirent('1.0.0')];

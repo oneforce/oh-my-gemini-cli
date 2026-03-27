@@ -2,10 +2,10 @@
 name: deep-interview
 description: Socratic deep interview with mathematical ambiguity gating before autonomous execution
 argument-hint: "[--quick|--standard|--deep] [--autoresearch] <idea or vague description>"
-pipeline: [deep-interview, omc-plan, autopilot]
-next-skill: omc-plan
+pipeline: [deep-interview, omg-plan, autopilot]
+next-skill: omg-plan
 next-skill-args: --consensus --direct
-handoff: .omc/specs/deep-interview-{slug}.md
+handoff: .omg/specs/deep-interview-{slug}.md
 level: 3
 ---
 
@@ -24,7 +24,7 @@ Deep Interview implements Ouroboros-inspired Socratic questioning with mathemati
 
 <Do_Not_Use_When>
 - User has a detailed, specific request with file paths, function names, or acceptance criteria -- execute directly
-- User wants to explore options or brainstorm -- use `omc-plan` skill instead
+- User wants to explore options or brainstorm -- use `omg-plan` skill instead
 - User wants a quick fix or single change -- delegate to executor or ralph
 - User says "just do it" or "skip the questions" -- respect their intent
 - User already has a PRD or plan file -- use ralph or autopilot with that plan
@@ -48,13 +48,13 @@ Inspired by the [Ouroboros project](https://github.com/Q00/ouroboros) which demo
 </Execution_Policy>
 
 <Autoresearch_Mode>
-When arguments include `--autoresearch`, Deep Interview becomes the zero-learning-curve setup lane for `omc autoresearch`.
+When arguments include `--autoresearch`, Deep Interview becomes the zero-learning-curve setup lane for `omg autoresearch`.
 
 - If no usable mission brief is present yet, start by asking: **"What should autoresearch improve or prove for this repo?"**
 - After the mission is clear, collect an evaluator command. If the user leaves it blank, infer one only when repo evidence is strong; otherwise keep interviewing until an evaluator is explicit enough to launch safely.
 - Keep the usual one-question-per-round rule, but treat **mission clarity** and **evaluator clarity** as hard readiness gates in addition to the normal ambiguity threshold.
-- Once ready, do **not** bridge into `omc-plan`, `autopilot`, `ralph`, or `team`. Instead run:
-  - `omc autoresearch --mission "<mission>" --eval "<evaluator>" [--keep-policy <policy>] [--slug <slug>]`
+- Once ready, do **not** bridge into `omg-plan`, `autopilot`, `ralph`, or `team`. Instead run:
+  - `omg autoresearch --mission "<mission>" --eval "<evaluator>" [--keep-policy <policy>] [--slug <slug>]`
 - This direct handoff is expected to detach into the real autoresearch runtime tmux session. After a successful handoff, announce the launched session and end the interview lane.
 </Autoresearch_Mode>
 
@@ -247,7 +247,7 @@ Challenge modes are used ONCE each, then return to normal Socratic questioning. 
 When ambiguity ≤ threshold (or hard cap / early exit):
 
 1. **Generate the specification** using opus model with the full interview transcript
-2. **Write to file**: `.omc/specs/deep-interview-{slug}.md`
+2. **Write to file**: `.omg/specs/deep-interview-{slug}.md`
 
 Spec structure:
 
@@ -332,7 +332,7 @@ Spec structure:
 
 ## Phase 5: Execution Bridge
 
-**Autoresearch override:** if `--autoresearch` is active, skip the standard execution options below. The only valid bridge is the direct `omc autoresearch --mission ... --eval ...` handoff described above.
+**Autoresearch override:** if `--autoresearch` is active, skip the standard execution options below. The only valid bridge is the direct `omg autoresearch --mission ... --eval ...` handoff described above.
 
 After the spec is written, present execution options via `AskUserQuestion`:
 
@@ -342,20 +342,20 @@ After the spec is written, present execution options via `AskUserQuestion`:
 
 1. **Ralplan → Autopilot (Recommended)**
    - Description: "3-stage pipeline: consensus-refine this spec with Planner/Architect/Critic, then execute with full autopilot. Maximum quality."
-   - Action: Invoke `Skill("oh-my-claudecode:omc-plan")` with `--consensus --direct` flags and the spec file path as context. The `--direct` flag skips the omc-plan skill's interview phase (the deep interview already gathered requirements), while `--consensus` triggers the Planner/Architect/Critic loop. When consensus completes and produces a plan in `.omc/plans/`, invoke `Skill("oh-my-claudecode:autopilot")` with the consensus plan as Phase 0+1 output — autopilot skips both Expansion and Planning, starting directly at Phase 2 (Execution).
-   - Pipeline: `deep-interview spec → omc-plan --consensus --direct → autopilot execution`
+   - Action: Invoke `Skill("oh-my-gemini-cli:omg-plan")` with `--consensus --direct` flags and the spec file path as context. The `--direct` flag skips the omg-plan skill's interview phase (the deep interview already gathered requirements), while `--consensus` triggers the Planner/Architect/Critic loop. When consensus completes and produces a plan in `.omg/plans/`, invoke `Skill("oh-my-gemini-cli:autopilot")` with the consensus plan as Phase 0+1 output — autopilot skips both Expansion and Planning, starting directly at Phase 2 (Execution).
+   - Pipeline: `deep-interview spec → omg-plan --consensus --direct → autopilot execution`
 
 2. **Execute with autopilot (skip ralplan)**
    - Description: "Full autonomous pipeline — planning, parallel implementation, QA, validation. Faster but without consensus refinement."
-   - Action: Invoke `Skill("oh-my-claudecode:autopilot")` with the spec file path as context. The spec replaces autopilot's Phase 0 — autopilot starts at Phase 1 (Planning).
+   - Action: Invoke `Skill("oh-my-gemini-cli:autopilot")` with the spec file path as context. The spec replaces autopilot's Phase 0 — autopilot starts at Phase 1 (Planning).
 
 3. **Execute with ralph**
    - Description: "Persistence loop with architect verification — keeps working until all acceptance criteria pass"
-   - Action: Invoke `Skill("oh-my-claudecode:ralph")` with the spec file path as the task definition.
+   - Action: Invoke `Skill("oh-my-gemini-cli:ralph")` with the spec file path as the task definition.
 
 4. **Execute with team**
    - Description: "N coordinated parallel agents — fastest execution for large specs"
-   - Action: Invoke `Skill("oh-my-claudecode:team")` with the spec file path as the shared plan.
+   - Action: Invoke `Skill("oh-my-gemini-cli:team")` with the spec file path as the shared plan.
 
 5. **Refine further**
    - Description: "Continue interviewing to improve clarity (current: {score}%)"
@@ -391,10 +391,10 @@ Skipping any stage is possible but reduces quality assurance:
 
 <Tool_Usage>
 - Use `AskUserQuestion` for each interview question — provides clickable UI with contextual options
-- Use `Task(subagent_type="oh-my-claudecode:explore", model="haiku")` for brownfield codebase exploration (run BEFORE asking user about codebase)
+- Use `Task(subagent_type="oh-my-gemini-cli:explore", model="haiku")` for brownfield codebase exploration (run BEFORE asking user about codebase)
 - Use opus model (temperature 0.1) for ambiguity scoring — consistency is critical
 - Use `state_write` / `state_read` for interview state persistence
-- Use `Write` tool to save the final spec to `.omc/specs/`
+- Use `Write` tool to save the final spec to `.omg/specs/`
 - Use `Skill()` to bridge to execution modes — never implement directly
 - Challenge agent modes are prompt injections, not separate agent spawns
 </Tool_Usage>
@@ -504,11 +504,11 @@ Why bad: 45% ambiguity means nearly half the requirements are unclear. The mathe
 - [ ] Interview completed (ambiguity ≤ threshold OR user chose early exit)
 - [ ] Ambiguity score displayed after every round
 - [ ] Challenge agents activated at correct thresholds (round 4, 6, 8)
-- [ ] Spec file written to `.omc/specs/deep-interview-{slug}.md`
+- [ ] Spec file written to `.omg/specs/deep-interview-{slug}.md`
 - [ ] Spec includes: goal, constraints, acceptance criteria, clarity breakdown, transcript
 - [ ] Execution bridge presented via AskUserQuestion
 - [ ] Selected execution mode invoked via Skill() (never direct implementation)
-- [ ] If 3-stage pipeline selected: omc-plan --consensus --direct invoked, then autopilot with consensus plan
+- [ ] If 3-stage pipeline selected: omg-plan --consensus --direct invoked, then autopilot with consensus plan
 - [ ] State cleaned up after execution handoff
 - [ ] Per-round ambiguity report includes Ontology row with entity count and stability ratio
 - [ ] Spec includes Ontology (Key Entities) table and Ontology Convergence section
@@ -517,11 +517,11 @@ Why bad: 45% ambiguity means nearly half the requirements are unclear. The mathe
 <Advanced>
 ## Configuration
 
-Optional settings in `.claude/settings.json`:
+Optional settings in `.gemini/settings.json`:
 
 ```json
 {
-  "omc": {
+  "omg": {
     "deepInterview": {
       "ambiguityThreshold": 0.2,
       "maxRounds": 20,
@@ -538,7 +538,7 @@ Optional settings in `.claude/settings.json`:
 
 ## Resume
 
-If interrupted, run `/deep-interview` again. The skill reads state from `.omc/state/deep-interview-state.json` and resumes from the last completed round.
+If interrupted, run `/deep-interview` again. The skill reads state from `.omg/state/deep-interview-state.json` and resumes from the last completed round.
 
 ## Integration with Autopilot
 
@@ -559,14 +559,14 @@ The recommended execution path chains three quality gates:
 ```
 /deep-interview "vague idea"
   → Socratic Q&A until ambiguity ≤ 20%
-  → Spec written to .omc/specs/deep-interview-{slug}.md
+  → Spec written to .omg/specs/deep-interview-{slug}.md
   → User selects "Ralplan → Autopilot"
-  → /omc-plan --consensus --direct (spec as input, skip interview)
+  → /omg-plan --consensus --direct (spec as input, skip interview)
     → Planner creates implementation plan from spec
     → Architect reviews for architectural soundness
     → Critic validates quality and testability
     → Loop until consensus (max 5 iterations)
-    → Consensus plan written to .omc/plans/
+    → Consensus plan written to .omg/plans/
   → /autopilot (plan as input, skip Phase 0+1)
     → Phase 2: Parallel execution via Ralph + Ultrawork
     → Phase 3: QA cycling until tests pass
@@ -574,7 +574,7 @@ The recommended execution path chains three quality gates:
     → Phase 5: Cleanup
 ```
 
-**The omc-plan skill receives the spec with `--consensus --direct` flags** because the deep interview already did the requirements gathering. The `--direct` flag (supported by the omc-plan skill, which ralplan aliases) skips the interview phase and goes straight to Planner → Architect → Critic consensus. The consensus plan includes:
+**The omg-plan skill receives the spec with `--consensus --direct` flags** because the deep interview already did the requirements gathering. The `--direct` flag (supported by the omg-plan skill, which ralplan aliases) skips the interview phase and goes straight to Planner → Architect → Critic consensus. The consensus plan includes:
 - RALPLAN-DR summary (Principles, Decision Drivers, Options)
 - ADR (Decision, Drivers, Alternatives, Why chosen, Consequences)
 - Testable acceptance criteria (inherited from deep-interview spec)

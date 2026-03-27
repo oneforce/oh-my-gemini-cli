@@ -16,7 +16,7 @@ import type { RuleMetadata, RuleFrontmatterResult } from './types.js';
  * - Inline array: globs: ["**\/*.py", "src/**\/*.ts"]
  * - Multi-line array with dashes
  * - Comma-separated: globs: "**\/*.py, src/**\/*.ts"
- * - Claude Code 'paths' field (alias for globs)
+ * - Gemini Code 'paths' field (alias for globs)
  */
 export function parseRuleFrontmatter(content: string): RuleFrontmatterResult {
   const frontmatterRegex = /^---\r?\n([\s\S]*?)\r?\n---\r?\n?([\s\S]*)$/;
@@ -63,7 +63,7 @@ function parseYamlContent(yamlContent: string): RuleMetadata {
       metadata.alwaysApply = rawValue === 'true';
     } else if (key === 'globs' || key === 'paths' || key === 'applyTo') {
       const { value, consumed } = parseArrayOrStringValue(rawValue, lines, i);
-      // Merge paths into globs (Claude Code compatibility)
+      // Merge paths into globs (Gemini Code compatibility)
       metadata.globs = mergeGlobs(metadata.globs, value);
       i += consumed;
       continue;

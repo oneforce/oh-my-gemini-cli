@@ -8,8 +8,8 @@
  */
 /**
  * TERMINOLOGY:
- * - "Task" (capitalized): New Claude Code Task system (~/.claude/tasks/)
- * - "todo" (lowercase): Legacy todo system (~/.claude/todos/)
+ * - "Task" (capitalized): New Gemini Code Task system (~/.gemini/tasks/)
+ * - "todo" (lowercase): Legacy todo system (~/.gemini/todos/)
  * - "item": Generic term for either Task or todo
  */
 /**
@@ -25,7 +25,7 @@ function debugLog(message, ...args) {
 import { existsSync, readFileSync, readdirSync } from 'fs';
 import { join } from 'path';
 import { getOmcRoot } from '../../lib/worktree-paths.js';
-import { getClaudeConfigDir } from '../../utils/paths.js';
+import { getGeminiConfigDir } from '../../utils/paths.js';
 /**
  * Validates that a session ID is safe to use in file paths.
  * Session IDs should be alphanumeric with optional hyphens and underscores.
@@ -75,7 +75,7 @@ function getStopReasonFields(context) {
  * It is kept as defensive code in case the behavior changes.
  *
  * If the hook fails to detect user aborts correctly, these patterns
- * should be updated based on observed Claude Code behavior.
+ * should be updated based on observed Gemini Code behavior.
  */
 export function isUserAbort(context) {
     if (!context)
@@ -106,8 +106,8 @@ export function isExplicitCancelCommand(context) {
         return false;
     const prompt = (context.prompt ?? '').trim();
     if (prompt) {
-        const slashCancelPattern = /^\/(?:oh-my-claudecode:)?cancel(?:\s+--force)?\s*$/i;
-        const keywordCancelPattern = /^(?:cancelomc|stopomc)\s*$/i;
+        const slashCancelPattern = /^\/(?:oh-my-gemini-cli:)?cancel(?:\s+--force)?\s*$/i;
+        const keywordCancelPattern = /^(?:cancelomg|stopomg)\s*$/i;
         if (slashCancelPattern.test(prompt) || keywordCancelPattern.test(prompt)) {
             return true;
         }
@@ -129,7 +129,7 @@ export function isExplicitCancelCommand(context) {
     const toolInput = (context.tool_input ?? context.toolInput);
     if (toolName.includes('skill') && toolInput && typeof toolInput.skill === 'string') {
         const skill = toolInput.skill.toLowerCase();
-        if (skill === 'oh-my-claudecode:cancel' || skill.endsWith(':cancel')) {
+        if (skill === 'oh-my-gemini-cli:cancel' || skill.endsWith(':cancel')) {
             return true;
         }
     }
@@ -137,11 +137,11 @@ export function isExplicitCancelCommand(context) {
 }
 /**
  * Detect if stop was triggered by context-limit related reasons.
- * When context is exhausted, Claude Code needs to stop so it can compact.
+ * When context is exhausted, Gemini Code needs to stop so it can compact.
  * Blocking these stops causes a deadlock: can't compact because can't stop,
  * can't continue because context is full.
  *
- * See: https://github.com/Yeachan-Heo/oh-my-claudecode/issues/213
+ * See: https://github.com/Yeachan-Heo/oh-my-gemini-cli/issues/213
  */
 export function isContextLimitStop(context) {
     const contextPatterns = [
@@ -152,12 +152,12 @@ export function isContextLimitStop(context) {
 }
 /**
  * Detect if stop was triggered by rate limiting (HTTP 429 / quota exhausted).
- * When the API is rate-limited, Claude Code stops the session.
+ * When the API is rate-limited, Gemini Code stops the session.
  * Blocking these stops causes an infinite retry loop: the persistent-mode hook
- * injects a continuation prompt, Claude immediately hits the rate limit again,
+ * injects a continuation prompt, Gemini immediately hits the rate limit again,
  * stops again, and the cycle repeats indefinitely.
  *
- * Fix for: https://github.com/Yeachan-Heo/oh-my-claudecode/issues/777
+ * Fix for: https://github.com/Yeachan-Heo/oh-my-gemini-cli/issues/777
  */
 export function isRateLimitStop(context) {
     if (!context)
@@ -214,17 +214,17 @@ export function isAuthenticationError(context) {
  * Get possible todo file locations
  */
 function getTodoFilePaths(sessionId, directory) {
-    const claudeDir = getClaudeConfigDir();
+    const geminiDir = getGeminiConfigDir();
     const paths = [];
     // Session-specific todos
     if (sessionId) {
-        paths.push(join(claudeDir, 'sessions', sessionId, 'todos.json'));
-        paths.push(join(claudeDir, 'todos', `${sessionId}.json`));
+        paths.push(join(geminiDir, 'sessions', sessionId, 'todos.json'));
+        paths.push(join(geminiDir, 'todos', `${sessionId}.json`));
     }
     // Project-specific todos
     if (directory) {
         paths.push(join(getOmcRoot(directory), 'todos.json'));
-        paths.push(join(directory, '.claude', 'todos.json'));
+        paths.push(join(directory, '.gemini', 'todos.json'));
     }
     // NOTE: Global todos directory scan removed to prevent false positives.
     // Only session-specific and project-local todos are now checked.
@@ -268,16 +268,16 @@ function isIncomplete(todo) {
 /**
  * Get the Task directory for a session
  *
- * NOTE: This path (~/.claude/tasks/{sessionId}/) is inferred from Claude Code's
+ * NOTE: This path (~/.gemini/tasks/{sessionId}/) is inferred from Gemini Code's
  * implementation. Anthropic has not officially documented this structure.
- * The Task files are created by Claude Code's TaskCreate tool.
+ * The Task files are created by Gemini Code's TaskCreate tool.
  */
 export function getTaskDirectory(sessionId) {
     // Security: validate sessionId before constructing path
     if (!isValidSessionId(sessionId)) {
         return ''; // Return empty string for invalid sessions
     }
-    return join(getClaudeConfigDir(), 'tasks', sessionId);
+    return join(getGeminiConfigDir(), 'tasks', sessionId);
 }
 /**
  * Validates that a parsed JSON object is a valid Task.
@@ -306,7 +306,7 @@ export function readTaskFiles(sessionId) {
     const tasks = [];
     try {
         for (const file of readdirSync(taskDir)) {
-            // Skip non-JSON files and .lock file (used by Claude Code for atomic writes)
+            // Skip non-JSON files and .lock file (used by Gemini Code for atomic writes)
             // The .lock file prevents concurrent modifications to task files
             if (!file.endsWith('.json') || file === '.lock')
                 continue;

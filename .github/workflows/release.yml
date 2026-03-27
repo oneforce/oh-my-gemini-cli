@@ -34,7 +34,7 @@ jobs:
       - name: Publish to npm
         run: |
           VERSION=$(node -p "require('./package.json').version")
-          if npm view oh-my-claude-sisyphus@$VERSION version 2>/dev/null; then
+          if npm view oh-my-gemini-sisyphus@$VERSION version 2>/dev/null; then
             echo "::warning::Version $VERSION already published to npm, skipping publish"
           else
             npm publish --access public

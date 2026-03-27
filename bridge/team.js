@@ -66,36 +66,36 @@ var init_state_paths = __esm({
   "src/team/state-paths.ts"() {
     "use strict";
     TeamPaths = {
-      root: (teamName) => `.omc/state/team/${teamName}`,
-      config: (teamName) => `.omc/state/team/${teamName}/config.json`,
-      shutdown: (teamName) => `.omc/state/team/${teamName}/shutdown.json`,
-      tasks: (teamName) => `.omc/state/team/${teamName}/tasks`,
-      taskFile: (teamName, taskId) => `.omc/state/team/${teamName}/tasks/${normalizeTaskFileStem(taskId)}.json`,
-      workers: (teamName) => `.omc/state/team/${teamName}/workers`,
-      workerDir: (teamName, workerName) => `.omc/state/team/${teamName}/workers/${workerName}`,
-      heartbeat: (teamName, workerName) => `.omc/state/team/${teamName}/workers/${workerName}/heartbeat.json`,
-      inbox: (teamName, workerName) => `.omc/state/team/${teamName}/workers/${workerName}/inbox.md`,
-      outbox: (teamName, workerName) => `.omc/state/team/${teamName}/workers/${workerName}/outbox.jsonl`,
-      ready: (teamName, workerName) => `.omc/state/team/${teamName}/workers/${workerName}/.ready`,
-      overlay: (teamName, workerName) => `.omc/state/team/${teamName}/workers/${workerName}/AGENTS.md`,
-      shutdownAck: (teamName, workerName) => `.omc/state/team/${teamName}/workers/${workerName}/shutdown-ack.json`,
-      mailbox: (teamName, workerName) => `.omc/state/team/${teamName}/mailbox/${workerName}.json`,
-      mailboxLockDir: (teamName, workerName) => `.omc/state/team/${teamName}/mailbox/.lock-${workerName}`,
-      dispatchRequests: (teamName) => `.omc/state/team/${teamName}/dispatch/requests.json`,
-      dispatchLockDir: (teamName) => `.omc/state/team/${teamName}/dispatch/.lock`,
-      workerStatus: (teamName, workerName) => `.omc/state/team/${teamName}/workers/${workerName}/status.json`,
-      workerIdleNotify: (teamName) => `.omc/state/team/${teamName}/worker-idle-notify.json`,
-      workerPrevNotifyState: (teamName, workerName) => `.omc/state/team/${teamName}/workers/${workerName}/prev-notify-state.json`,
-      events: (teamName) => `.omc/state/team/${teamName}/events.jsonl`,
-      approval: (teamName, taskId) => `.omc/state/team/${teamName}/approvals/${taskId}.json`,
-      manifest: (teamName) => `.omc/state/team/${teamName}/manifest.json`,
-      monitorSnapshot: (teamName) => `.omc/state/team/${teamName}/monitor-snapshot.json`,
-      summarySnapshot: (teamName) => `.omc/state/team/${teamName}/summary-snapshot.json`,
-      phaseState: (teamName) => `.omc/state/team/${teamName}/phase-state.json`,
-      scalingLock: (teamName) => `.omc/state/team/${teamName}/.scaling-lock`,
-      workerIdentity: (teamName, workerName) => `.omc/state/team/${teamName}/workers/${workerName}/identity.json`,
-      workerAgentsMd: (teamName) => `.omc/state/team/${teamName}/worker-agents.md`,
-      shutdownRequest: (teamName, workerName) => `.omc/state/team/${teamName}/workers/${workerName}/shutdown-request.json`
+      root: (teamName) => `.omg/state/team/${teamName}`,
+      config: (teamName) => `.omg/state/team/${teamName}/config.json`,
+      shutdown: (teamName) => `.omg/state/team/${teamName}/shutdown.json`,
+      tasks: (teamName) => `.omg/state/team/${teamName}/tasks`,
+      taskFile: (teamName, taskId) => `.omg/state/team/${teamName}/tasks/${normalizeTaskFileStem(taskId)}.json`,
+      workers: (teamName) => `.omg/state/team/${teamName}/workers`,
+      workerDir: (teamName, workerName) => `.omg/state/team/${teamName}/workers/${workerName}`,
+      heartbeat: (teamName, workerName) => `.omg/state/team/${teamName}/workers/${workerName}/heartbeat.json`,
+      inbox: (teamName, workerName) => `.omg/state/team/${teamName}/workers/${workerName}/inbox.md`,
+      outbox: (teamName, workerName) => `.omg/state/team/${teamName}/workers/${workerName}/outbox.jsonl`,
+      ready: (teamName, workerName) => `.omg/state/team/${teamName}/workers/${workerName}/.ready`,
+      overlay: (teamName, workerName) => `.omg/state/team/${teamName}/workers/${workerName}/AGENTS.md`,
+      shutdownAck: (teamName, workerName) => `.omg/state/team/${teamName}/workers/${workerName}/shutdown-ack.json`,
+      mailbox: (teamName, workerName) => `.omg/state/team/${teamName}/mailbox/${workerName}.json`,
+      mailboxLockDir: (teamName, workerName) => `.omg/state/team/${teamName}/mailbox/.lock-${workerName}`,
+      dispatchRequests: (teamName) => `.omg/state/team/${teamName}/dispatch/requests.json`,
+      dispatchLockDir: (teamName) => `.omg/state/team/${teamName}/dispatch/.lock`,
+      workerStatus: (teamName, workerName) => `.omg/state/team/${teamName}/workers/${workerName}/status.json`,
+      workerIdleNotify: (teamName) => `.omg/state/team/${teamName}/worker-idle-notify.json`,
+      workerPrevNotifyState: (teamName, workerName) => `.omg/state/team/${teamName}/workers/${workerName}/prev-notify-state.json`,
+      events: (teamName) => `.omg/state/team/${teamName}/events.jsonl`,
+      approval: (teamName, taskId) => `.omg/state/team/${teamName}/approvals/${taskId}.json`,
+      manifest: (teamName) => `.omg/state/team/${teamName}/manifest.json`,
+      monitorSnapshot: (teamName) => `.omg/state/team/${teamName}/monitor-snapshot.json`,
+      summarySnapshot: (teamName) => `.omg/state/team/${teamName}/summary-snapshot.json`,
+      phaseState: (teamName) => `.omg/state/team/${teamName}/phase-state.json`,
+      scalingLock: (teamName) => `.omg/state/team/${teamName}/.scaling-lock`,
+      workerIdentity: (teamName, workerName) => `.omg/state/team/${teamName}/workers/${workerName}/identity.json`,
+      workerAgentsMd: (teamName) => `.omg/state/team/${teamName}/worker-agents.md`,
+      shutdownRequest: (teamName, workerName) => `.omg/state/team/${teamName}/workers/${workerName}/shutdown-request.json`
     };
   }
 });
@@ -471,7 +471,7 @@ async function teamReadConfig(teamName, cwd) {
     return {
       name: manifest.name,
       task: manifest.task,
-      agent_type: "claude",
+      agent_type: "gemini",
       policy: manifest.policy,
       governance: manifest.governance,
       worker_launch_mode: manifest.policy.worker_launch_mode,
@@ -1716,7 +1716,7 @@ async function createTeamSession(teamName, workerCount, cwd, options = {}) {
   }
   if (useDedicatedWindow) {
     const targetSession = sessionAndWindow.split(":")[0] ?? sessionAndWindow;
-    const windowName = `omc-${sanitizeName(teamName)}`.slice(0, 32);
+    const windowName = `omg-${sanitizeName(teamName)}`.slice(0, 32);
     const newWindowResult = await execFileAsync("tmux", [
       "new-window",
       "-d",
@@ -1866,8 +1866,8 @@ function paneLooksReady(captured) {
   const lastLine = lines[lines.length - 1];
   if (/^\s*[›>❯]\s*/u.test(lastLine)) return true;
   const hasCodexPromptLine = lines.some((line) => /^\s*›\s*/u.test(line));
-  const hasClaudePromptLine = lines.some((line) => /^\s*❯\s*/u.test(line));
-  return hasCodexPromptLine || hasClaudePromptLine;
+  const hasGeminiPromptLine = lines.some((line) => /^\s*❯\s*/u.test(line));
+  return hasCodexPromptLine || hasGeminiPromptLine;
 }
 async function waitForPaneReady(paneId, opts = {}) {
   const envTimeout = Number.parseInt(process.env.OMC_SHELL_READY_TIMEOUT_MS ?? "", 10);
@@ -2028,7 +2028,7 @@ async function isWorkerAlive(paneId) {
 async function killWorkerPanes(opts) {
   const { paneIds, leaderPaneId, teamName, cwd, graceMs = 1e4 } = opts;
   if (!paneIds.length) return;
-  const shutdownPath = join5(cwd, ".omc", "state", "team", teamName, "shutdown.json");
+  const shutdownPath = join5(cwd, ".omg", "state", "team", teamName, "shutdown.json");
   try {
     await fs.writeFile(shutdownPath, JSON.stringify({ requestedAt: Date.now() }));
     const aliveChecks = await Promise.all(paneIds.map((id) => isWorkerAlive(id)));
@@ -2093,7 +2093,7 @@ var init_tmux_session = __esm({
     "use strict";
     init_team_name();
     sleep = (ms) => new Promise((r) => setTimeout(r, ms));
-    TMUX_SESSION_PREFIX = "omc-team";
+    TMUX_SESSION_PREFIX = "omg-team";
     promisifiedExec = promisify(exec);
     promisifiedExecFile = promisify(execFile);
     SUPPORTED_POSIX_SHELLS = /* @__PURE__ */ new Set(["sh", "bash", "zsh", "fish", "ksh"]);
@@ -2294,9 +2294,9 @@ function getDefaultTierModels() {
     HIGH: getDefaultModelHigh()
   };
 }
-function resolveClaudeFamily(modelId) {
+function resolveGeminiFamily(modelId) {
   const lower = modelId.toLowerCase();
-  if (!lower.includes("claude")) return null;
+  if (!lower.includes("gemini")) return null;
   if (lower.includes("sonnet")) return "SONNET";
   if (lower.includes("opus")) return "OPUS";
   if (lower.includes("haiku")) return "HAIKU";
@@ -2307,16 +2307,16 @@ function isBedrock() {
     return true;
   }
   const modelId = process.env.CLAUDE_MODEL || process.env.ANTHROPIC_MODEL || "";
-  if (modelId && /^((us|eu|ap|global)\.anthropic\.|anthropic\.claude)/i.test(modelId)) {
+  if (modelId && /^((us|eu|ap|global)\.anthropic\.|anthropic\.gemini)/i.test(modelId)) {
     return true;
   }
-  if (modelId && /^arn:aws(-[^:]+)?:bedrock:/i.test(modelId) && /:(inference-profile|application-inference-profile)\//i.test(modelId) && modelId.toLowerCase().includes("claude")) {
+  if (modelId && /^arn:aws(-[^:]+)?:bedrock:/i.test(modelId) && /:(inference-profile|application-inference-profile)\//i.test(modelId) && modelId.toLowerCase().includes("gemini")) {
     return true;
   }
   return false;
 }
 function isProviderSpecificModelId(modelId) {
-  if (/^((us|eu|ap|global)\.anthropic\.|anthropic\.claude)/i.test(modelId)) {
+  if (/^((us|eu|ap|global)\.anthropic\.|anthropic\.gemini)/i.test(modelId)) {
     return true;
   }
   if (/^arn:aws(-[^:]+)?:bedrock:/i.test(modelId)) {
@@ -2360,9 +2360,9 @@ var init_models = __esm({
       ]
     };
     CLAUDE_FAMILY_DEFAULTS = {
-      HAIKU: "claude-haiku-4-5",
-      SONNET: "claude-sonnet-4-6",
-      OPUS: "claude-opus-4-6"
+      HAIKU: "gemini-haiku-4-5",
+      SONNET: "gemini-sonnet-4-6",
+      OPUS: "gemini-opus-4-6"
     };
     BUILTIN_TIER_MODEL_DEFAULTS = {
       LOW: CLAUDE_FAMILY_DEFAULTS.HAIKU,
@@ -2388,7 +2388,7 @@ function buildDefaultConfig() {
   const defaultTierModels = getDefaultTierModels();
   return {
     agents: {
-      omc: { model: defaultTierModels.HIGH },
+      omg: { model: defaultTierModels.HIGH },
       explore: { model: defaultTierModels.LOW },
       analyst: { model: defaultTierModels.HIGH },
       planner: { model: defaultTierModels.HIGH },
@@ -2499,11 +2499,11 @@ function buildDefaultConfig() {
     // Delegation routing configuration (opt-in feature for external model routing)
     delegationRouting: {
       enabled: false,
-      defaultProvider: "claude",
+      defaultProvider: "gemini",
       roles: {}
     },
     planOutput: {
-      directory: ".omc/plans",
+      directory: ".omg/plans",
       filenameTemplate: "{{name}}.md"
     },
     startupCodebaseMap: {
@@ -3137,7 +3137,7 @@ var init_types = __esm({
 
 // src/features/delegation-enforcer.ts
 function normalizeToCcAlias(model) {
-  const family = resolveClaudeFamily(model);
+  const family = resolveGeminiFamily(model);
   return family ? FAMILY_TO_ALIAS[family] ?? model : model;
 }
 var FAMILY_TO_ALIAS;
@@ -3209,7 +3209,7 @@ function resolveCliBinaryPath(binary) {
     throw new Error(`Resolved CLI binary '${binary}' to untrusted location: ${resolvedPath}`);
   }
   if (!isTrustedPrefix(resolvedPath)) {
-    console.warn(`[omc:cli-security] CLI binary '${binary}' resolved to non-standard path: ${resolvedPath}`);
+    console.warn(`[omg:cli-security] CLI binary '${binary}' resolved to non-standard path: ${resolvedPath}`);
   }
   resolvedPathCache.set(binary, resolvedPath);
   return resolvedPath;
@@ -3277,7 +3277,7 @@ function isPromptModeAgent(agentType) {
   const contract = getContract(agentType);
   return !!contract.supportsPromptMode;
 }
-function resolveClaudeWorkerModel(env = process.env) {
+function resolveGeminiWorkerModel(env = process.env) {
   if (!isBedrock() && !isVertexAI()) {
     return void 0;
   }
@@ -3289,9 +3289,9 @@ function resolveClaudeWorkerModel(env = process.env) {
   if (bedrockModel) {
     return bedrockModel;
   }
-  const omcModel = env.OMC_MODEL_MEDIUM || "";
-  if (omcModel) {
-    return omcModel;
+  const omgModel = env.OMC_MODEL_MEDIUM || "";
+  if (omgModel) {
+    return omgModel;
   }
   return void 0;
 }
@@ -3319,10 +3319,10 @@ var init_model_contract = __esm({
       /^\/dev\/shm(\/|$)/
     ];
     CONTRACTS = {
-      claude: {
-        agentType: "claude",
-        binary: "claude",
-        installInstructions: "Install Claude CLI: https://claude.ai/download",
+      gemini: {
+        agentType: "gemini",
+        binary: "gemini",
+        installInstructions: "Install Gemini CLI: https://gemini.ai/download",
         buildLaunchArgs(model, extraFlags = []) {
           const args = ["--dangerously-skip-permissions"];
           if (model) {
@@ -3409,17 +3409,17 @@ import { join as join10, dirname as dirname7 } from "path";
 function buildInstructionPath(...parts) {
   return join10(...parts).replaceAll("\\", "/");
 }
-function generateTriggerMessage(teamName, workerName, teamStateRoot3 = ".omc/state") {
+function generateTriggerMessage(teamName, workerName, teamStateRoot3 = ".omg/state") {
   const inboxPath = buildInstructionPath(teamStateRoot3, "team", teamName, "workers", workerName, "inbox.md");
-  if (teamStateRoot3 !== ".omc/state") {
+  if (teamStateRoot3 !== ".omg/state") {
     return `Read ${inboxPath}, work now, report progress.`;
   }
   return `Read ${inboxPath}, start work now, report concrete progress (not ACK-only), and keep executing your assigned or next feasible work.`;
 }
-function generateMailboxTriggerMessage(teamName, workerName, count = 1, teamStateRoot3 = ".omc/state") {
+function generateMailboxTriggerMessage(teamName, workerName, count = 1, teamStateRoot3 = ".omg/state") {
   const normalizedCount = Number.isFinite(count) ? Math.max(1, Math.floor(count)) : 1;
   const mailboxPath = buildInstructionPath(teamStateRoot3, "team", teamName, "mailbox", `${workerName}.json`);
-  if (teamStateRoot3 !== ".omc/state") {
+  if (teamStateRoot3 !== ".omg/state") {
     return `${normalizedCount} new msg(s): check ${mailboxPath}, act and report progress.`;
   }
   return `You have ${normalizedCount} new message(s). Check ${mailboxPath}, act now, reply with concrete progress (not ACK-only), and keep executing your assigned or next feasible work.`;
@@ -3429,21 +3429,21 @@ function agentTypeGuidance(agentType) {
     case "codex":
       return [
         "### Agent-Type Guidance (codex)",
-        "- Prefer short, explicit `omc team api ... --json` commands and parse outputs before next step.",
+        "- Prefer short, explicit `omg team api ... --json` commands and parse outputs before next step.",
         "- If a command fails, report the exact stderr to leader-fixed before retrying.",
-        "- You MUST run `omc team api claim-task` before starting work and `omc team api transition-task-status` when done."
+        "- You MUST run `omg team api claim-task` before starting work and `omg team api transition-task-status` when done."
       ].join("\n");
     case "gemini":
       return [
         "### Agent-Type Guidance (gemini)",
         "- Execute task work in small, verifiable increments and report each milestone to leader-fixed.",
         "- Keep commit-sized changes scoped to assigned files only; no broad refactors.",
-        "- CRITICAL: You MUST run `omc team api claim-task` before starting work and `omc team api transition-task-status` when done. Do not exit without transitioning the task status."
+        "- CRITICAL: You MUST run `omg team api claim-task` before starting work and `omg team api transition-task-status` when done. Do not exit without transitioning the task status."
       ].join("\n");
-    case "claude":
+    case "gemini":
     default:
       return [
-        "### Agent-Type Guidance (claude)",
+        "### Agent-Type Guidance (gemini)",
         "- Keep reasoning focused on assigned task IDs and send concise progress acks to leader-fixed.",
         "- Before any risky command, send a blocker/proposal message to leader-fixed and wait for updated inbox instructions."
       ].join("\n");
@@ -3456,10 +3456,10 @@ function generateWorkerOverlay(params) {
     subject: sanitizePromptContent(t.subject),
     description: sanitizePromptContent(t.description)
   }));
-  const sentinelPath = `.omc/state/team/${teamName}/workers/${workerName}/.ready`;
-  const heartbeatPath = `.omc/state/team/${teamName}/workers/${workerName}/heartbeat.json`;
-  const inboxPath = `.omc/state/team/${teamName}/workers/${workerName}/inbox.md`;
-  const statusPath = `.omc/state/team/${teamName}/workers/${workerName}/status.json`;
+  const sentinelPath = `.omg/state/team/${teamName}/workers/${workerName}/.ready`;
+  const heartbeatPath = `.omg/state/team/${teamName}/workers/${workerName}/heartbeat.json`;
+  const inboxPath = `.omg/state/team/${teamName}/workers/${workerName}/inbox.md`;
+  const statusPath = `.omg/state/team/${teamName}/workers/${workerName}/status.json`;
   const taskList = sanitizedTasks.length > 0 ? sanitizedTasks.map((t) => `- **Task ${t.id}**: ${t.subject}
   Description: ${t.description}
   Status: pending`).join("\n") : "- No tasks assigned yet. Check your inbox for assignments.";
@@ -3477,14 +3477,14 @@ mkdir -p $(dirname ${sentinelPath}) && touch ${sentinelPath}
 You MUST complete ALL of these steps. Do NOT skip any step. Do NOT exit without step 4.
 
 1. **Claim** your task (run this command first):
-   \`omc team api claim-task --input "{"team_name":"${teamName}","task_id":"<id>","worker":"${workerName}"}" --json\`
+   \`omg team api claim-task --input "{"team_name":"${teamName}","task_id":"<id>","worker":"${workerName}"}" --json\`
    Save the \`claim_token\` from the response \u2014 you need it for step 4.
 2. **Do the work** described in your task assignment below.
 3. **Send ACK** to the leader:
-   \`omc team api send-message --input "{"team_name":"${teamName}","from_worker":"${workerName}","to_worker":"leader-fixed","body":"ACK: ${workerName} initialized"}" --json\`
+   \`omg team api send-message --input "{"team_name":"${teamName}","from_worker":"${workerName}","to_worker":"leader-fixed","body":"ACK: ${workerName} initialized"}" --json\`
 4. **Transition** the task status (REQUIRED before exit):
-   - On success: \`omc team api transition-task-status --input "{"team_name":"${teamName}","task_id":"<id>","from":"in_progress","to":"completed","claim_token":"<claim_token>"}" --json\`
-   - On failure: \`omc team api transition-task-status --input "{"team_name":"${teamName}","task_id":"<id>","from":"in_progress","to":"failed","claim_token":"<claim_token>"}" --json\`
+   - On success: \`omg team api transition-task-status --input "{"team_name":"${teamName}","task_id":"<id>","from":"in_progress","to":"completed","claim_token":"<claim_token>"}" --json\`
+   - On failure: \`omg team api transition-task-status --input "{"team_name":"${teamName}","task_id":"<id>","from":"in_progress","to":"failed","claim_token":"<claim_token>"}" --json\`
 5. **Keep going after replies**: ACK/progress messages are not a stop signal. Keep executing your assigned or next feasible work until the task is actually complete or failed, then transition and exit.
 
 ## Identity
@@ -3499,12 +3499,12 @@ ${taskList}
 ## Task Lifecycle Reference (CLI API)
 Use the CLI API for all task lifecycle operations. Do NOT directly edit task files.
 
-- Inspect task state: \`omc team api read-task --input "{"team_name":"${teamName}","task_id":"<id>"}" --json\`
+- Inspect task state: \`omg team api read-task --input "{"team_name":"${teamName}","task_id":"<id>"}" --json\`
 - Task id format: State/CLI APIs use task_id: "<id>" (example: "1"), not "task-1"
-- Claim task: \`omc team api claim-task --input "{"team_name":"${teamName}","task_id":"<id>","worker":"${workerName}"}" --json\`
-- Complete task: \`omc team api transition-task-status --input "{"team_name":"${teamName}","task_id":"<id>","from":"in_progress","to":"completed","claim_token":"<claim_token>"}" --json\`
-- Fail task: \`omc team api transition-task-status --input "{"team_name":"${teamName}","task_id":"<id>","from":"in_progress","to":"failed","claim_token":"<claim_token>"}" --json\`
-- Release claim (rollback): \`omc team api release-task-claim --input "{"team_name":"${teamName}","task_id":"<id>","claim_token":"<claim_token>","worker":"${workerName}"}" --json\`
+- Claim task: \`omg team api claim-task --input "{"team_name":"${teamName}","task_id":"<id>","worker":"${workerName}"}" --json\`
+- Complete task: \`omg team api transition-task-status --input "{"team_name":"${teamName}","task_id":"<id>","from":"in_progress","to":"completed","claim_token":"<claim_token>"}" --json\`
+- Fail task: \`omg team api transition-task-status --input "{"team_name":"${teamName}","task_id":"<id>","from":"in_progress","to":"failed","claim_token":"<claim_token>"}" --json\`
+- Release claim (rollback): \`omg team api release-task-claim --input "{"team_name":"${teamName}","task_id":"<id>","claim_token":"<claim_token>","worker":"${workerName}"}" --json\`
 
 ## Communication Protocol
 - **Inbox**: Read ${inboxPath} for new instructions
@@ -3520,17 +3520,17 @@ Use the CLI API for all task lifecycle operations. Do NOT directly edit task fil
 
 ## Message Protocol
 Send messages via CLI API:
-- To leader: \`omc team api send-message --input "{\\"team_name\\":\\"${teamName}\\",\\"from_worker\\":\\"${workerName}\\",\\"to_worker\\":\\"leader-fixed\\",\\"body\\":\\"<message>\\"}" --json\`
-- Check mailbox: \`omc team api mailbox-list --input "{\\"team_name\\":\\"${teamName}\\",\\"worker\\":\\"${workerName}\\"}" --json\`
-- Mark delivered: \`omc team api mailbox-mark-delivered --input "{\\"team_name\\":\\"${teamName}\\",\\"worker\\":\\"${workerName}\\",\\"message_id\\":\\"<id>\\"}" --json\`
+- To leader: \`omg team api send-message --input "{\\"team_name\\":\\"${teamName}\\",\\"from_worker\\":\\"${workerName}\\",\\"to_worker\\":\\"leader-fixed\\",\\"body\\":\\"<message>\\"}" --json\`
+- Check mailbox: \`omg team api mailbox-list --input "{\\"team_name\\":\\"${teamName}\\",\\"worker\\":\\"${workerName}\\"}" --json\`
+- Mark delivered: \`omg team api mailbox-mark-delivered --input "{\\"team_name\\":\\"${teamName}\\",\\"worker\\":\\"${workerName}\\",\\"message_id\\":\\"<id>\\"}" --json\`
 
 ## Startup Handshake (Required)
 Before doing any task work, send exactly one startup ACK to the leader:
-\`omc team api send-message --input "{\\"team_name\\":\\"${teamName}\\",\\"from_worker\\":\\"${workerName}\\",\\"to_worker\\":\\"leader-fixed\\",\\"body\\":\\"ACK: ${workerName} initialized\\"}" --json\`
+\`omg team api send-message --input "{\\"team_name\\":\\"${teamName}\\",\\"from_worker\\":\\"${workerName}\\",\\"to_worker\\":\\"leader-fixed\\",\\"body\\":\\"ACK: ${workerName} initialized\\"}" --json\`
 
 ## Shutdown Protocol
 When you see a shutdown request in your inbox:
-1. Write your decision to: .omc/state/team/${teamName}/workers/${workerName}/shutdown-ack.json
+1. Write your decision to: .omg/state/team/${teamName}/workers/${workerName}/shutdown-ack.json
 2. Format:
    - Accept: {"status":"accept","reason":"ok","updated_at":"<iso>"}
    - Reject: {"status":"reject","reason":"still working","updated_at":"<iso>"}
@@ -3542,14 +3542,14 @@ When you see a shutdown request in your inbox:
 - Do NOT write lifecycle fields (status, owner, result, error) directly in task files; use CLI API
 - Do NOT spawn sub-agents. Complete work in this worker session only.
 - Do NOT create tmux panes/sessions (\`tmux split-window\`, \`tmux new-session\`, etc.).
-- Do NOT run team spawning/orchestration commands (for example: \`omc team ...\`, \`omx team ...\`, \`$team\`, \`$ultrawork\`, \`$autopilot\`, \`$ralph\`).
-- Worker-allowed control surface is only: \`omc team api ... --json\` (and equivalent \`omx team api ... --json\` where configured).
+- Do NOT run team spawning/orchestration commands (for example: \`omg team ...\`, \`omx team ...\`, \`$team\`, \`$ultrawork\`, \`$autopilot\`, \`$ralph\`).
+- Worker-allowed control surface is only: \`omg team api ... --json\` (and equivalent \`omx team api ... --json\` where configured).
 - If blocked, write {"state": "blocked", "reason": "..."} to your status file
 
 ${agentTypeGuidance(agentType)}
 
 ## BEFORE YOU EXIT
-You MUST call \`omc team api transition-task-status\` to mark your task as "completed" or "failed" before exiting.
+You MUST call \`omg team api transition-task-status\` to mark your task as "completed" or "failed" before exiting.
 If you skip this step, the leader cannot track your work and the task will appear stuck.
 
 ${bootstrapInstructions ? `## Role Context
@@ -3557,22 +3557,22 @@ ${bootstrapInstructions}
 ` : ""}`;
 }
 async function composeInitialInbox(teamName, workerName, content, cwd) {
-  const inboxPath = join10(cwd, `.omc/state/team/${teamName}/workers/${workerName}/inbox.md`);
+  const inboxPath = join10(cwd, `.omg/state/team/${teamName}/workers/${workerName}/inbox.md`);
   await mkdir3(dirname7(inboxPath), { recursive: true });
   await writeFile3(inboxPath, content, "utf-8");
 }
 async function ensureWorkerStateDir(teamName, workerName, cwd) {
-  const workerDir = join10(cwd, `.omc/state/team/${teamName}/workers/${workerName}`);
+  const workerDir = join10(cwd, `.omg/state/team/${teamName}/workers/${workerName}`);
   await mkdir3(workerDir, { recursive: true });
-  const mailboxDir = join10(cwd, `.omc/state/team/${teamName}/mailbox`);
+  const mailboxDir = join10(cwd, `.omg/state/team/${teamName}/mailbox`);
   await mkdir3(mailboxDir, { recursive: true });
-  const tasksDir = join10(cwd, `.omc/state/team/${teamName}/tasks`);
+  const tasksDir = join10(cwd, `.omg/state/team/${teamName}/tasks`);
   await mkdir3(tasksDir, { recursive: true });
 }
 async function writeWorkerOverlay(params) {
   const { teamName, workerName, cwd } = params;
   const overlay = generateWorkerOverlay(params);
-  const overlayPath = join10(cwd, `.omc/state/team/${teamName}/workers/${workerName}/AGENTS.md`);
+  const overlayPath = join10(cwd, `.omg/state/team/${teamName}/workers/${workerName}/AGENTS.md`);
   await mkdir3(dirname7(overlayPath), { recursive: true });
   await writeFile3(overlayPath, overlay, "utf-8");
   return overlayPath;
@@ -3590,13 +3590,13 @@ import { existsSync as existsSync8, readFileSync as readFileSync4 } from "node:f
 import { join as join11 } from "node:path";
 import { execFileSync as execFileSync2 } from "node:child_process";
 function getWorktreePath(repoRoot, teamName, workerName) {
-  return join11(repoRoot, ".omc", "worktrees", sanitizeName(teamName), sanitizeName(workerName));
+  return join11(repoRoot, ".omg", "worktrees", sanitizeName(teamName), sanitizeName(workerName));
 }
 function getBranchName(teamName, workerName) {
-  return `omc-team/${sanitizeName(teamName)}/${sanitizeName(workerName)}`;
+  return `omg-team/${sanitizeName(teamName)}/${sanitizeName(workerName)}`;
 }
 function getMetadataPath(repoRoot, teamName) {
-  return join11(repoRoot, ".omc", "state", "team-bridge", sanitizeName(teamName), "worktrees.json");
+  return join11(repoRoot, ".omg", "state", "team-bridge", sanitizeName(teamName), "worktrees.json");
 }
 function readMetadata(repoRoot, teamName) {
   const metaPath = getMetadataPath(repoRoot, teamName);
@@ -3610,7 +3610,7 @@ function readMetadata(repoRoot, teamName) {
 function writeMetadata(repoRoot, teamName, entries) {
   const metaPath = getMetadataPath(repoRoot, teamName);
   validateResolvedPath(metaPath, repoRoot);
-  const dir = join11(repoRoot, ".omc", "state", "team-bridge", sanitizeName(teamName));
+  const dir = join11(repoRoot, ".omg", "state", "team-bridge", sanitizeName(teamName));
   ensureDirWithMode(dir);
   atomicWriteJson(metaPath, entries);
 }
@@ -4035,13 +4035,13 @@ function buildV2TaskInstruction(teamName, workerName, task, taskId) {
     `You MUST run these commands. Do NOT skip any step.`,
     ``,
     `1. Claim your task:`,
-    `   omc team api claim-task --input '{"team_name":"${teamName}","task_id":"${taskId}","worker":"${workerName}"}' --json`,
+    `   omg team api claim-task --input '{"team_name":"${teamName}","task_id":"${taskId}","worker":"${workerName}"}' --json`,
     `   Save the claim_token from the response.`,
     `2. Do the work described below.`,
     `3. On completion (use claim_token from step 1):`,
-    `   omc team api transition-task-status --input '{"team_name":"${teamName}","task_id":"${taskId}","from":"in_progress","to":"completed","claim_token":"<claim_token>"}' --json`,
+    `   omg team api transition-task-status --input '{"team_name":"${teamName}","task_id":"${taskId}","from":"in_progress","to":"completed","claim_token":"<claim_token>"}' --json`,
     `4. On failure (use claim_token from step 1):`,
-    `   omc team api transition-task-status --input '{"team_name":"${teamName}","task_id":"${taskId}","from":"in_progress","to":"failed","claim_token":"<claim_token>"}' --json`,
+    `   omg team api transition-task-status --input '{"team_name":"${teamName}","task_id":"${taskId}","from":"in_progress","to":"failed","claim_token":"<claim_token>"}' --json`,
     `5. ACK/progress replies are not a stop signal. Keep executing your assigned or next feasible work until the task is actually complete or failed, then transition and exit.`,
     ``,
     `## Task Assignment`,
@@ -4146,7 +4146,7 @@ async function spawnV2Worker(opts) {
     if (opts.agentType === "gemini") {
       return process.env.OMC_EXTERNAL_MODELS_DEFAULT_GEMINI_MODEL || process.env.OMC_GEMINI_DEFAULT_MODEL || void 0;
     }
-    return resolveClaudeWorkerModel();
+    return resolveGeminiWorkerModel();
   })();
   const [launchBinary, ...launchArgs] = buildWorkerArgv(opts.agentType, {
     teamName: opts.teamName,
@@ -4221,7 +4221,7 @@ async function spawnV2Worker(opts) {
       startupFailureReason: dispatchOutcome.reason
     };
   }
-  if (opts.agentType === "claude") {
+  if (opts.agentType === "gemini") {
     const settled = await waitForWorkerStartupEvidence(
       opts.teamName,
       opts.workerName,
@@ -4247,7 +4247,7 @@ async function spawnV2Worker(opts) {
         return {
           paneId,
           startupAssigned: false,
-          startupFailureReason: "claude_startup_evidence_missing"
+          startupFailureReason: "gemini_startup_evidence_missing"
         };
       }
     }
@@ -4283,7 +4283,7 @@ async function startTeamV2(config) {
   }
   await mkdir7(absPath(leaderCwd, TeamPaths.tasks(sanitized)), { recursive: true });
   await mkdir7(absPath(leaderCwd, TeamPaths.workers(sanitized)), { recursive: true });
-  await mkdir7(join14(leaderCwd, ".omc", "state", "team", sanitized, "mailbox"), { recursive: true });
+  await mkdir7(join14(leaderCwd, ".omg", "state", "team", sanitized, "mailbox"), { recursive: true });
   for (let i = 0; i < config.tasks.length; i++) {
     const taskId = String(i + 1);
     const taskFilePath = absPath(leaderCwd, TeamPaths.taskFile(sanitized, taskId));
@@ -4318,7 +4318,7 @@ async function startTeamV2(config) {
     }));
     const allocationWorkers = workerNames.map((name, i) => ({
       name,
-      role: config.workerRoles?.[i] ?? (agentTypes[i % agentTypes.length] ?? agentTypes[0] ?? "claude"),
+      role: config.workerRoles?.[i] ?? (agentTypes[i % agentTypes.length] ?? agentTypes[0] ?? "gemini"),
       currentLoad: 0
     }));
     for (const r of allocateTasksToWorkers(allocationTasks, allocationWorkers)) {
@@ -4327,7 +4327,7 @@ async function startTeamV2(config) {
   }
   for (let i = 0; i < workerNames.length; i++) {
     const wName = workerNames[i];
-    const agentType = agentTypes[i % agentTypes.length] ?? agentTypes[0] ?? "claude";
+    const agentType = agentTypes[i % agentTypes.length] ?? agentTypes[0] ?? "gemini";
     await ensureWorkerStateDir(sanitized, wName, leaderCwd);
     await writeWorkerOverlay({
       teamName: sanitized,
@@ -4352,14 +4352,14 @@ async function startTeamV2(config) {
   const workersInfo = workerNames.map((wName, i) => ({
     name: wName,
     index: i + 1,
-    role: config.workerRoles?.[i] ?? (agentTypes[i % agentTypes.length] ?? agentTypes[0] ?? "claude"),
+    role: config.workerRoles?.[i] ?? (agentTypes[i % agentTypes.length] ?? agentTypes[0] ?? "gemini"),
     assigned_tasks: [],
     working_dir: leaderCwd
   }));
   const teamConfig = {
     name: sanitized,
     task: config.tasks.map((t) => t.subject).join("; "),
-    agent_type: agentTypes[0] || "claude",
+    agent_type: agentTypes[0] || "gemini",
     worker_launch_mode: "interactive",
     policy: DEFAULT_TEAM_TRANSPORT_POLICY,
     governance: DEFAULT_TEAM_GOVERNANCE,
@@ -4432,7 +4432,7 @@ async function startTeamV2(config) {
       teamName: sanitized,
       workerName: wName,
       workerIndex,
-      agentType: agentTypes[workerIndex % agentTypes.length] ?? agentTypes[0] ?? "claude",
+      agentType: agentTypes[workerIndex % agentTypes.length] ?? agentTypes[0] ?? "gemini",
       task,
       taskId,
       cwd: leaderCwd,
@@ -4819,7 +4819,7 @@ async function resumeTeamV2(teamName, cwd) {
     const { execFile: execFile3 } = await import("child_process");
     const { promisify: promisify2 } = await import("util");
     const execFileAsync = promisify2(execFile3);
-    const sessionName2 = config.tmux_session || `omc-team-${sanitized}`;
+    const sessionName2 = config.tmux_session || `omg-team-${sanitized}`;
     await execFileAsync("tmux", ["has-session", "-t", sessionName2.split(":")[0]]);
     return {
       teamName: sanitized,
@@ -4834,7 +4834,7 @@ async function resumeTeamV2(teamName, cwd) {
   }
 }
 async function findActiveTeamsV2(cwd) {
-  const root = join14(cwd, ".omc", "state", "team");
+  const root = join14(cwd, ".omg", "state", "team");
   if (!existsSync13(root)) return [];
   const entries = await readdir2(root, { withFileTypes: true });
   const active = [];
@@ -4932,7 +4932,7 @@ import { join as join12 } from "path";
 // src/team/runtime.ts
 function stateRoot(cwd, teamName) {
   validateTeamName(teamName);
-  return join13(cwd, `.omc/state/team/${teamName}`);
+  return join13(cwd, `.omg/state/team/${teamName}`);
 }
 async function writeJson(filePath, data) {
   await mkdir4(join13(filePath, ".."), { recursive: true });
@@ -5043,7 +5043,7 @@ async function shutdownTeam(teamName, sessionName2, cwd, timeoutMs = 3e4, worker
     teamName
   });
   const configData = await readJsonSafe2(join13(root, "config.json"));
-  const CLI_AGENT_TYPES = /* @__PURE__ */ new Set(["claude", "codex", "gemini"]);
+  const CLI_AGENT_TYPES = /* @__PURE__ */ new Set(["gemini", "codex", "gemini"]);
   const agentTypes = configData?.agentTypes ?? [];
   const isCliWorkerTeam = agentTypes.length > 0 && agentTypes.every((t) => CLI_AGENT_TYPES.has(t));
   if (!isCliWorkerTeam) {
@@ -5080,7 +5080,7 @@ async function resumeTeam(teamName, cwd) {
   const { execFile: execFile3 } = await import("child_process");
   const { promisify: promisify2 } = await import("util");
   const execFileAsync = promisify2(execFile3);
-  const sName = configData.tmuxSession || `omc-team-${teamName}`;
+  const sName = configData.tmuxSession || `omg-team-${teamName}`;
   try {
     await execFileAsync("tmux", ["has-session", "-t", sName.split(":")[0]]);
   } catch {
@@ -5183,7 +5183,7 @@ function parseValidatedTaskIdArray(value, fieldName) {
 }
 function teamStateExists(teamName, candidateCwd) {
   if (!TEAM_NAME_SAFE_PATTERN.test(teamName)) return false;
-  const teamRoot = join15(candidateCwd, ".omc", "state", "team", teamName);
+  const teamRoot = join15(candidateCwd, ".omg", "state", "team", teamName);
   return existsSync14(join15(teamRoot, "config.json")) || existsSync14(join15(teamRoot, "tasks")) || existsSync14(teamRoot);
 }
 function parseTeamWorkerEnv(raw) {
@@ -5217,7 +5217,7 @@ async function executeTeamCleanupViaRuntime(teamName, cwd) {
   }
   if (isLegacyRuntimeConfig(config)) {
     const legacyConfig = config;
-    const sessionName2 = typeof legacyConfig.tmuxSession === "string" && legacyConfig.tmuxSession.trim() !== "" ? legacyConfig.tmuxSession.trim() : `omc-team-${teamName}`;
+    const sessionName2 = typeof legacyConfig.tmuxSession === "string" && legacyConfig.tmuxSession.trim() !== "" ? legacyConfig.tmuxSession.trim() : `omg-team-${teamName}`;
     const leaderPaneId = typeof legacyConfig.leaderPaneId === "string" && legacyConfig.leaderPaneId.trim() !== "" ? legacyConfig.leaderPaneId.trim() : void 0;
     await shutdownTeam(teamName, sessionName2, cwd, 3e4, void 0, leaderPaneId, legacyConfig.tmuxOwnsWindow === true);
     return;
@@ -5236,7 +5236,7 @@ function readTeamStateRootFromFile(path) {
 function stateRootToWorkingDirectory(stateRoot2) {
   const absolute = resolvePath(stateRoot2);
   const normalized = absolute.replaceAll("\\", "/");
-  for (const marker of ["/.omc/state/team/", "/.omx/state/team/"]) {
+  for (const marker of ["/.omg/state/team/", "/.omx/state/team/"]) {
     const idx = normalized.lastIndexOf(marker);
     if (idx >= 0) {
       const workspaceRoot = absolute.slice(0, idx);
@@ -5244,7 +5244,7 @@ function stateRootToWorkingDirectory(stateRoot2) {
       return dirname10(dirname10(dirname10(dirname10(absolute))));
     }
   }
-  for (const marker of ["/.omc/state", "/.omx/state"]) {
+  for (const marker of ["/.omg/state", "/.omx/state"]) {
     const idx = normalized.lastIndexOf(marker);
     if (idx >= 0) {
       const workspaceRoot = absolute.slice(0, idx);
@@ -5255,7 +5255,7 @@ function stateRootToWorkingDirectory(stateRoot2) {
   return dirname10(dirname10(absolute));
 }
 function resolveTeamWorkingDirectoryFromMetadata(teamName, candidateCwd, workerContext) {
-  const teamRoot = join15(candidateCwd, ".omc", "state", "team", teamName);
+  const teamRoot = join15(candidateCwd, ".omg", "state", "team", teamName);
   if (!existsSync14(teamRoot)) return null;
   if (workerContext?.teamName === teamName) {
     const workerRoot = readTeamStateRootFromFile(join15(teamRoot, "workers", workerContext.workerName, "identity.json"));
@@ -5838,8 +5838,8 @@ init_git_worktree();
 init_tmux_session();
 init_team_name();
 init_monitor();
-var JOB_ID_PATTERN = /^omc-[a-z0-9]{1,12}$/;
-var VALID_CLI_AGENT_TYPES = /* @__PURE__ */ new Set(["claude", "codex", "gemini"]);
+var JOB_ID_PATTERN = /^omg-[a-z0-9]{1,12}$/;
+var VALID_CLI_AGENT_TYPES = /* @__PURE__ */ new Set(["gemini", "codex", "gemini"]);
 var SUBCOMMANDS = /* @__PURE__ */ new Set(["start", "status", "wait", "cleanup", "resume", "shutdown", "api", "help", "--help", "-h"]);
 var SUPPORTED_API_OPERATIONS = /* @__PURE__ */ new Set([
   "send-message",
@@ -5855,14 +5855,14 @@ var SUPPORTED_API_OPERATIONS = /* @__PURE__ */ new Set([
 ]);
 var TEAM_API_USAGE = `
 Usage:
-  omc team api <operation> --input '<json>' [--json] [--cwd DIR]
+  omg team api <operation> --input '<json>' [--json] [--cwd DIR]
 
 Supported operations:
   ${Array.from(SUPPORTED_API_OPERATIONS).join(", ")}
 `.trim();
 function getTeamWorkerIdentityFromEnv(env = process.env) {
-  const omc = typeof env.OMC_TEAM_WORKER === "string" ? env.OMC_TEAM_WORKER.trim() : "";
-  if (omc) return omc;
+  const omg = typeof env.OMC_TEAM_WORKER === "string" ? env.OMC_TEAM_WORKER.trim() : "";
+  if (omg) return omg;
   const omx = typeof env.OMX_TEAM_WORKER === "string" ? env.OMX_TEAM_WORKER.trim() : "";
   return omx || null;
 }
@@ -5899,7 +5899,7 @@ async function assertTeamSpawnAllowed(cwd, env = process.env) {
   }
 }
 function resolveJobsDir(env = process.env) {
-  return env.OMC_JOBS_DIR || join16(homedir2(), ".omc", "team-jobs");
+  return env.OMC_JOBS_DIR || join16(homedir2(), ".omg", "team-jobs");
 }
 function resolveRuntimeCliPath(env = process.env) {
   if (env.OMC_RUNTIME_CLI_PATH) {
@@ -5923,7 +5923,7 @@ function panesArtifactPath(jobsDir, jobId) {
   return join16(jobsDir, `${jobId}-panes.json`);
 }
 function teamStateRoot2(cwd, teamName) {
-  return join16(cwd, ".omc", "state", "team", teamName);
+  return join16(cwd, ".omg", "state", "team", teamName);
 }
 function validateJobId(jobId) {
   if (!JOB_ID_PATTERN.test(jobId)) {
@@ -5972,7 +5972,7 @@ function buildStatus(jobId, job) {
   };
 }
 function generateJobId(now = Date.now()) {
-  return `omc-${now.toString(36)}`;
+  return `omg-${now.toString(36)}`;
 }
 function convergeWithResultArtifact(jobId, job, jobsDir) {
   try {
@@ -6020,7 +6020,7 @@ function normalizeAgentType(value) {
 }
 function autoTeamName(task) {
   const slug = task.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 24) || "task";
-  return `omc-${slug}-${Date.now().toString(36).slice(-4)}`;
+  return `omg-${slug}-${Date.now().toString(36).slice(-4)}`;
 }
 function parseJsonInput(inputRaw) {
   if (!inputRaw || !inputRaw.trim()) return {};
@@ -6269,7 +6269,7 @@ async function executeTeamApiOperation2(operation, input, cwd = process.cwd()) {
       operation,
       error: {
         code: "UNSUPPORTED_OPERATION",
-        message: `Unsupported omc team api operation: ${operation}`
+        message: `Unsupported omg team api operation: ${operation}`
       }
     };
   }
@@ -6307,23 +6307,23 @@ async function teamCleanupCommand(jobId, cleanupOptions = {}, options = {}) {
 }
 var TEAM_USAGE = `
 Usage:
-  omc team start --agent <claude|codex|gemini>[,<agent>...] --task "<task>" [--count N] [--name TEAM] [--cwd DIR] [--new-window] [--json]
-  omc team status <job_id|team_name> [--json] [--cwd DIR]
-  omc team wait <job_id> [--timeout-ms MS] [--json]
-  omc team cleanup <job_id> [--grace-ms MS] [--json]
-  omc team resume <team_name> [--json] [--cwd DIR]
-  omc team shutdown <team_name> [--force] [--json] [--cwd DIR]
-  omc team api <operation> [--input '<json>'] [--json] [--cwd DIR]
-  omc team [ralph] <N:agent-type[:role]> "task" [--json] [--cwd DIR] [--new-window]
+  omg team start --agent <gemini|codex|gemini>[,<agent>...] --task "<task>" [--count N] [--name TEAM] [--cwd DIR] [--new-window] [--json]
+  omg team status <job_id|team_name> [--json] [--cwd DIR]
+  omg team wait <job_id> [--timeout-ms MS] [--json]
+  omg team cleanup <job_id> [--grace-ms MS] [--json]
+  omg team resume <team_name> [--json] [--cwd DIR]
+  omg team shutdown <team_name> [--force] [--json] [--cwd DIR]
+  omg team api <operation> [--input '<json>'] [--json] [--cwd DIR]
+  omg team [ralph] <N:agent-type[:role]> "task" [--json] [--cwd DIR] [--new-window]
 
 Examples:
-  omc team start --agent codex --count 2 --task "review auth flow" --new-window
-  omc team status omc-abc123
-  omc team status auth-review
-  omc team resume auth-review
-  omc team shutdown auth-review --force
-  omc team api list-tasks --input '{"teamName":"auth-review"}' --json
-  omc team 3:codex "refactor launch command"
+  omg team start --agent codex --count 2 --task "review auth flow" --new-window
+  omg team status omg-abc123
+  omg team status auth-review
+  omg team resume auth-review
+  omg team shutdown auth-review --force
+  omg team api list-tasks --input '{"teamName":"auth-review"}' --json
+  omg team 3:codex "refactor launch command"
 `.trim();
 function parseStartArgs(args) {
   const agentValues = [];
@@ -6438,7 +6438,7 @@ function parseStartArgs(args) {
       sentinelGatePollIntervalMs = toInt(token.slice("--sentinel-gate-poll-interval-ms=".length), "--sentinel-gate-poll-interval-ms");
       continue;
     }
-    throw new Error(`Unknown argument for "omc team start": ${token}`);
+    throw new Error(`Unknown argument for "omg team start": ${token}`);
   }
   if (count < 1) throw new Error("--count must be >= 1");
   if (agentValues.length === 0) throw new Error("Missing required --agent");
@@ -6531,10 +6531,10 @@ function parseCommonJobArgs(args, command) {
         continue;
       }
     }
-    throw new Error(`Unknown argument for "omc team ${command}": ${token}`);
+    throw new Error(`Unknown argument for "omg team ${command}": ${token}`);
   }
   if (!target) {
-    throw new Error(`Missing required target for "omc team ${command}".`);
+    throw new Error(`Missing required target for "omg team ${command}".`);
   }
   return {
     target,
@@ -6574,10 +6574,10 @@ function parseTeamTargetArgs(args, command) {
       force = true;
       continue;
     }
-    throw new Error(`Unknown argument for "omc team ${command}": ${token}`);
+    throw new Error(`Unknown argument for "omg team ${command}": ${token}`);
   }
   if (!teamName) {
-    throw new Error(`Missing required <team_name> for "omc team ${command}".`);
+    throw new Error(`Missing required <team_name> for "omg team ${command}".`);
   }
   return {
     teamName,
@@ -6622,10 +6622,10 @@ function parseApiArgs(args) {
       cwd = token.slice("--cwd=".length);
       continue;
     }
-    throw new Error(`Unknown argument for "omc team api": ${token}`);
+    throw new Error(`Unknown argument for "omg team api": ${token}`);
   }
   if (!operation) {
-    throw new Error(`Missing required <operation> for "omc team api"
+    throw new Error(`Missing required <operation> for "omg team api"
 
 ${TEAM_API_USAGE}`);
   }

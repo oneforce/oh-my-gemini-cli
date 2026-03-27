@@ -50,7 +50,7 @@ describe("Persistent Mode Session Isolation (Issue #311)", () => {
         it("should support session-scoped state files", async () => {
             const sessionId = "session-scoped-test";
             // Create state in session-scoped directory
-            const sessionDir = join(tempDir, ".omc", "state", "sessions", sessionId);
+            const sessionDir = join(tempDir, ".omg", "state", "sessions", sessionId);
             mkdirSync(sessionDir, { recursive: true });
             writeFileSync(join(sessionDir, "ultrawork-state.json"), JSON.stringify({
                 active: true,
@@ -68,7 +68,7 @@ describe("Persistent Mode Session Isolation (Issue #311)", () => {
             const sessionA = "session-A";
             const sessionB = "session-B";
             // Create state for session B in session-scoped directory
-            const sessionDirB = join(tempDir, ".omc", "state", "sessions", sessionB);
+            const sessionDirB = join(tempDir, ".omg", "state", "sessions", sessionB);
             mkdirSync(sessionDirB, { recursive: true });
             writeFileSync(join(sessionDirB, "ultrawork-state.json"), JSON.stringify({
                 active: true,
@@ -113,7 +113,7 @@ describe("Persistent Mode Session Isolation (Issue #311)", () => {
         }
         function createUltraworkState(dir, sessionId, prompt) {
             // Write to session-scoped path (matches new session-first behavior)
-            const sessionDir = join(dir, ".omc", "state", "sessions", sessionId);
+            const sessionDir = join(dir, ".omg", "state", "sessions", sessionId);
             mkdirSync(sessionDir, { recursive: true });
             writeFileSync(join(sessionDir, "ultrawork-state.json"), JSON.stringify({
                 active: true,
@@ -145,7 +145,7 @@ describe("Persistent Mode Session Isolation (Issue #311)", () => {
             expect(output.decision).toBeUndefined();
         });
         it("should NOT block for legacy state when sessionId is provided (session isolation)", () => {
-            const stateDir = join(tempDir, ".omc", "state");
+            const stateDir = join(tempDir, ".omg", "state");
             mkdirSync(stateDir, { recursive: true });
             writeFileSync(join(stateDir, "ultrawork-state.json"), JSON.stringify({
                 active: true,
@@ -174,7 +174,7 @@ describe("Persistent Mode Session Isolation (Issue #311)", () => {
             expect(output.decision).toBeUndefined();
         });
         it("should block legacy state when invalid sessionId is provided (falls back to legacy)", () => {
-            const stateDir = join(tempDir, ".omc", "state");
+            const stateDir = join(tempDir, ".omg", "state");
             mkdirSync(stateDir, { recursive: true });
             writeFileSync(join(stateDir, "ultrawork-state.json"), JSON.stringify({
                 active: true,
@@ -191,7 +191,7 @@ describe("Persistent Mode Session Isolation (Issue #311)", () => {
             expect(output.decision).toBe("block");
         });
         it("should NOT block for legacy autopilot state when sessionId is provided", () => {
-            const stateDir = join(tempDir, ".omc", "state");
+            const stateDir = join(tempDir, ".omg", "state");
             mkdirSync(stateDir, { recursive: true });
             writeFileSync(join(stateDir, "autopilot-state.json"), JSON.stringify({
                 active: true,
@@ -207,7 +207,7 @@ describe("Persistent Mode Session Isolation (Issue #311)", () => {
             expect(output.decision).toBeUndefined();
         });
         it("should block for legacy state when no sessionId provided (backward compat)", () => {
-            const stateDir = join(tempDir, ".omc", "state");
+            const stateDir = join(tempDir, ".omg", "state");
             mkdirSync(stateDir, { recursive: true });
             writeFileSync(join(stateDir, "ultrawork-state.json"), JSON.stringify({
                 active: true,
@@ -224,7 +224,7 @@ describe("Persistent Mode Session Isolation (Issue #311)", () => {
             expect(output.reason).toContain("ULTRAWORK");
         });
         it("should block for legacy autopilot state when no sessionId provided", () => {
-            const stateDir = join(tempDir, ".omc", "state");
+            const stateDir = join(tempDir, ".omg", "state");
             mkdirSync(stateDir, { recursive: true });
             writeFileSync(join(stateDir, "autopilot-state.json"), JSON.stringify({
                 active: true,
@@ -237,11 +237,11 @@ describe("Persistent Mode Session Isolation (Issue #311)", () => {
             });
             expect(output.decision).toBe("block");
             expect(output.reason).toContain("AUTOPILOT");
-            expect(output.reason).not.toContain('/oh-my-claudecode:cancel');
+            expect(output.reason).not.toContain('/oh-my-gemini-cli:cancel');
         });
         it("should include cancel guidance only for session-owned autopilot state", () => {
             const sessionId = "session-autopilot-owned";
-            const sessionDir = join(tempDir, ".omc", "state", "sessions", sessionId);
+            const sessionDir = join(tempDir, ".omg", "state", "sessions", sessionId);
             mkdirSync(sessionDir, { recursive: true });
             writeFileSync(join(sessionDir, "autopilot-state.json"), JSON.stringify({
                 active: true,
@@ -255,7 +255,7 @@ describe("Persistent Mode Session Isolation (Issue #311)", () => {
                 sessionId,
             });
             expect(output.decision).toBe("block");
-            expect(output.reason).toContain('/oh-my-claudecode:cancel');
+            expect(output.reason).toContain('/oh-my-gemini-cli:cancel');
             expect(output.reason).toContain("this session's autopilot state files");
         });
     });
@@ -284,7 +284,7 @@ describe("Persistent Mode Session Isolation (Issue #311)", () => {
             }
         }
         function createUltraworkState(dir, sessionId, prompt) {
-            const sessionDir = join(dir, ".omc", "state", "sessions", sessionId);
+            const sessionDir = join(dir, ".omg", "state", "sessions", sessionId);
             mkdirSync(sessionDir, { recursive: true });
             writeFileSync(join(sessionDir, "ultrawork-state.json"), JSON.stringify({
                 active: true,
@@ -400,7 +400,7 @@ describe("Persistent Mode Session Isolation (Issue #311)", () => {
         it("should block when project_path matches current directory", () => {
             // Write to session-scoped path (matches new session-first behavior)
             const sessionId = "session-123";
-            const sessionDir = join(tempDir, ".omc", "state", "sessions", sessionId);
+            const sessionDir = join(tempDir, ".omg", "state", "sessions", sessionId);
             mkdirSync(sessionDir, { recursive: true });
             writeFileSync(join(sessionDir, "ultrawork-state.json"), JSON.stringify({
                 active: true,
@@ -419,7 +419,7 @@ describe("Persistent Mode Session Isolation (Issue #311)", () => {
             expect(output.reason).toContain("ULTRAWORK");
         });
         it("should NOT block when project_path does not match current directory", () => {
-            const stateDir = join(tempDir, ".omc", "state");
+            const stateDir = join(tempDir, ".omg", "state");
             mkdirSync(stateDir, { recursive: true });
             writeFileSync(join(stateDir, "ultrawork-state.json"), JSON.stringify({
                 active: true,
@@ -438,7 +438,7 @@ describe("Persistent Mode Session Isolation (Issue #311)", () => {
             expect(output.decision).toBeUndefined();
         });
         it("should NOT block for legacy local state when sessionId provided (session isolation)", () => {
-            const stateDir = join(tempDir, ".omc", "state");
+            const stateDir = join(tempDir, ".omg", "state");
             mkdirSync(stateDir, { recursive: true });
             writeFileSync(join(stateDir, "ultrawork-state.json"), JSON.stringify({
                 active: true,
@@ -457,7 +457,7 @@ describe("Persistent Mode Session Isolation (Issue #311)", () => {
         });
         it("should ignore invalid sessionId when checking session-scoped state", () => {
             const sessionId = "session-valid";
-            const sessionDir = join(tempDir, ".omc", "state", "sessions", sessionId);
+            const sessionDir = join(tempDir, ".omg", "state", "sessions", sessionId);
             mkdirSync(sessionDir, { recursive: true });
             writeFileSync(join(sessionDir, "ultrawork-state.json"), JSON.stringify({
                 active: true,
@@ -475,7 +475,7 @@ describe("Persistent Mode Session Isolation (Issue #311)", () => {
             expect(output.decision).toBeUndefined();
         });
         it("should block legacy state when invalid sessionId is provided (falls back to legacy, project isolation)", () => {
-            const stateDir = join(tempDir, ".omc", "state");
+            const stateDir = join(tempDir, ".omg", "state");
             mkdirSync(stateDir, { recursive: true });
             writeFileSync(join(stateDir, "ultrawork-state.json"), JSON.stringify({
                 active: true,
@@ -492,7 +492,7 @@ describe("Persistent Mode Session Isolation (Issue #311)", () => {
             expect(output.decision).toBe("block");
         });
         it("should block for legacy local state when no sessionId (backward compat)", () => {
-            const stateDir = join(tempDir, ".omc", "state");
+            const stateDir = join(tempDir, ".omg", "state");
             mkdirSync(stateDir, { recursive: true });
             writeFileSync(join(stateDir, "ultrawork-state.json"), JSON.stringify({
                 active: true,

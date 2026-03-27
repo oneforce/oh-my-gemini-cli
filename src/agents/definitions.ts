@@ -1,11 +1,11 @@
 /**
- * Agent Definitions for Oh-My-ClaudeCode
+ * Agent Definitions for Oh-My-GeminiCLI
  *
  * This module provides:
  * 1. Re-exports of base agents from individual files
  * 2. Tiered agent variants with dynamically loaded prompts from /agents/*.md
  * 3. getAgentDefinitions() for agent registry
- * 4. omcSystemPrompt for the main orchestrator
+ * 4. omgSystemPrompt for the main orchestrator
  */
 
 import type { AgentConfig, PluginConfig } from '../shared/types.js';
@@ -195,7 +195,7 @@ function getConfiguredAgentModel(name: string, config: PluginConfig): string | u
  */
 
 /**
- * Get all agent definitions as a record for use with Claude Agent SDK
+ * Get all agent definitions as a record for use with Gemini Agent SDK
  */
 export function getAgentDefinitions(options?: {
   overrides?: Partial<Record<string, Partial<AgentConfig>>>;
@@ -279,7 +279,7 @@ export function getAgentDefinitions(options?: {
 /**
  * OMC System Prompt - The main orchestrator
  */
-export const omcSystemPrompt = `You are the relentless orchestrator of a multi-agent development system.
+export const omgSystemPrompt = `You are the relentless orchestrator of a multi-agent development system.
 
 ## RELENTLESS EXECUTION
 

@@ -12,7 +12,7 @@ vi.mock('fs', () => ({
 }));
 // Mock paths utility
 vi.mock('../utils/paths.js', () => ({
-    getClaudeConfigDir: vi.fn(() => '/home/user/.claude'),
+    getGeminiConfigDir: vi.fn(() => '/home/user/.gemini'),
 }));
 import { existsSync, readFileSync } from 'fs';
 const mockedExistsSync = vi.mocked(existsSync);
@@ -33,12 +33,12 @@ describe('API Key Source Element', () => {
     });
     describe('detectApiKeySource', () => {
         it('should return "project" when key is in project settings', () => {
-            mockedExistsSync.mockImplementation((path) => String(path) === '/my/project/.claude/settings.local.json');
+            mockedExistsSync.mockImplementation((path) => String(path) === '/my/project/.gemini/settings.local.json');
             mockedReadFileSync.mockReturnValue(JSON.stringify({ env: { ANTHROPIC_API_KEY: 'sk-ant-xxx' } }));
             expect(detectApiKeySource('/my/project')).toBe('project');
         });
         it('should return "global" when key is in global settings', () => {
-            mockedExistsSync.mockImplementation((path) => String(path) === '/home/user/.claude/settings.json');
+            mockedExistsSync.mockImplementation((path) => String(path) === '/home/user/.gemini/settings.json');
             mockedReadFileSync.mockReturnValue(JSON.stringify({ env: { ANTHROPIC_API_KEY: 'sk-ant-xxx' } }));
             expect(detectApiKeySource('/my/project')).toBe('global');
         });
@@ -58,7 +58,7 @@ describe('API Key Source Element', () => {
         });
         it('should prioritize global over env', () => {
             process.env.ANTHROPIC_API_KEY = 'sk-ant-xxx';
-            mockedExistsSync.mockImplementation((path) => String(path) === '/home/user/.claude/settings.json');
+            mockedExistsSync.mockImplementation((path) => String(path) === '/home/user/.gemini/settings.json');
             mockedReadFileSync.mockReturnValue(JSON.stringify({ env: { ANTHROPIC_API_KEY: 'sk-ant-xxx' } }));
             expect(detectApiKeySource('/my/project')).toBe('global');
         });
@@ -74,7 +74,7 @@ describe('API Key Source Element', () => {
             expect(detectApiKeySource('/my/project')).toBeNull();
         });
         it('should handle null cwd', () => {
-            mockedExistsSync.mockImplementation((path) => String(path) === '/home/user/.claude/settings.json');
+            mockedExistsSync.mockImplementation((path) => String(path) === '/home/user/.gemini/settings.json');
             mockedReadFileSync.mockReturnValue(JSON.stringify({ env: { ANTHROPIC_API_KEY: 'sk-ant-xxx' } }));
             expect(detectApiKeySource()).toBe('global');
         });

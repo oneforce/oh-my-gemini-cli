@@ -10,12 +10,12 @@ import type { DelegationDecision, ResolveDelegationOptions } from '../../shared/
  * Precedence (highest to lowest):
  * 1. Explicit tool invocation
  * 2. Configured routing (if enabled)
- * 3. Default heuristic (role category → Claude subagent)
+ * 3. Default heuristic (role category → Gemini subagent)
  * 4. defaultProvider
  */
 export declare function resolveDelegation(options: ResolveDelegationOptions): DelegationDecision;
 /**
- * Parse fallback chain format ["claude:explore", "codex:gpt-5"]
+ * Parse fallback chain format ["gemini:explore", "codex:gpt-5"]
  */
 export declare function parseFallbackChain(fallback: string[] | undefined): Array<{
     provider: string;

@@ -1,5 +1,5 @@
-# SWE-bench Evaluation Container for oh-my-claudecode
-# Supports both vanilla Claude Code and OMC-enhanced modes
+# SWE-bench Evaluation Container for oh-my-gemini-cli
+# Supports both vanilla Gemini Code and OMC-enhanced modes
 
 FROM python:3.11-slim
 
@@ -36,31 +36,31 @@ COPY requirements.txt .
 # Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Install Claude Code CLI globally
-RUN npm install -g @anthropic-ai/claude-code
+# Install Gemini Code CLI globally
+RUN npm install -g @anthropic-ai/gemini-code
 
 # Create directories for benchmark artifacts
 RUN mkdir -p /workspace/results \
     /workspace/predictions \
     /workspace/repos \
     /workspace/logs \
-    /root/.claude
+    /root/.gemini
 
 # Environment variables
 ENV PYTHONUNBUFFERED=1
 ENV NODE_ENV=production
 
-# Default run mode (vanilla or omc)
+# Default run mode (vanilla or omg)
 ENV RUN_MODE=vanilla
 
-# For OMC mode: install oh-my-claudecode globally
+# For OMC mode: install oh-my-gemini-cli globally
 # This is done conditionally at runtime via entrypoint
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
-    CMD claude --version || exit 1
+    CMD gemini --version || exit 1
 
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["bash"]

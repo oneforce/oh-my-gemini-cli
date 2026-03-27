@@ -27,6 +27,6 @@ export { debuggerAgent, verifierAgent } from './definitions.js';
 export { testEngineerAgent } from './definitions.js';
 // Specialized agents (Security, Code Review, Git, Code Simplifier)
 export { securityReviewerAgent, codeReviewerAgent, gitMasterAgent, codeSimplifierAgent } from './definitions.js';
-// Core exports (getAgentDefinitions and omcSystemPrompt)
-export { getAgentDefinitions, omcSystemPrompt } from './definitions.js';
+// Core exports (getAgentDefinitions and omgSystemPrompt)
+export { getAgentDefinitions, omgSystemPrompt } from './definitions.js';
 //# sourceMappingURL=index.js.map

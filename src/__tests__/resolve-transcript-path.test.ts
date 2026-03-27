@@ -5,7 +5,7 @@
  * resolved to the original project's transcript path.
  *
  * Covers:
- *   - Claude internal worktrees (.claude/worktrees/X) — issue #1094
+ *   - Gemini internal worktrees (.gemini/worktrees/X) — issue #1094
  *   - Native git worktrees (git worktree add) — issue #1191
  */
 
@@ -20,7 +20,7 @@ describe('resolveTranscriptPath', () => {
   let tempDir: string;
 
   beforeEach(() => {
-    tempDir = join(tmpdir(), `omc-test-transcript-${Date.now()}-${Math.random().toString(36).slice(2)}`);
+    tempDir = join(tmpdir(), `omg-test-transcript-${Date.now()}-${Math.random().toString(36).slice(2)}`);
     mkdirSync(tempDir, { recursive: true });
   });
 
@@ -48,15 +48,15 @@ describe('resolveTranscriptPath', () => {
   });
 
   it('resolves worktree-encoded transcript path to original project path', () => {
-    // Simulate: ~/.claude/projects/-Users-user-project/<session>.jsonl (real)
+    // Simulate: ~/.gemini/projects/-Users-user-project/<session>.jsonl (real)
     const projectDir = join(tempDir, 'projects', '-Users-user-project');
     mkdirSync(projectDir, { recursive: true });
     const realTranscript = join(projectDir, 'abc123.jsonl');
     writeFileSync(realTranscript, '{}');
 
     // Worktree-encoded path that doesn't exist:
-    // ~/.claude/projects/-Users-user-project--claude-worktrees-refactor/<session>.jsonl
-    const worktreeDir = join(tempDir, 'projects', '-Users-user-project--claude-worktrees-refactor');
+    // ~/.gemini/projects/-Users-user-project--gemini-worktrees-refactor/<session>.jsonl
+    const worktreeDir = join(tempDir, 'projects', '-Users-user-project--gemini-worktrees-refactor');
     const worktreePath = join(worktreeDir, 'abc123.jsonl');
 
     const resolved = resolveTranscriptPath(worktreePath);
@@ -73,7 +73,7 @@ describe('resolveTranscriptPath', () => {
     const worktreePath = join(
       tempDir,
       'projects',
-      '-home-bellman-Workspace-myproject--claude-worktrees-home-bellman-Workspace-omc-worktrees-fix-issue-1094',
+      '-home-bellman-Workspace-myproject--gemini-worktrees-home-bellman-Workspace-omg-worktrees-fix-issue-1094',
       'session-uuid.jsonl',
     );
 
@@ -90,7 +90,7 @@ describe('resolveTranscriptPath', () => {
     const worktreePath = join(
       tempDir,
       'projects',
-      '-Users-dev-app--claude-worktrees-feature',
+      '-Users-dev-app--gemini-worktrees-feature',
       'sess.jsonl',
     );
 
@@ -103,7 +103,7 @@ describe('resolveTranscriptPath', () => {
     const worktreePath = join(
       tempDir,
       'projects',
-      '-missing-project--claude-worktrees-wt',
+      '-missing-project--gemini-worktrees-wt',
       'transcript.jsonl',
     );
 
@@ -125,12 +125,12 @@ describe('resolveTranscriptPath', () => {
   describe('native git worktree fallback', () => {
     let mainRepoDir: string;
     let worktreeDir: string;
-    let fakeClaudeDir: string;
-    let origClaudeConfigDir: string | undefined;
+    let fakeGeminiDir: string;
+    let origGeminiConfigDir: string | undefined;
 
     beforeEach(() => {
       // Save and override CLAUDE_CONFIG_DIR so Strategy 3 finds our fake projects dir
-      origClaudeConfigDir = process.env.CLAUDE_CONFIG_DIR;
+      origGeminiConfigDir = process.env.CLAUDE_CONFIG_DIR;
 
       // Create a real git repo with a linked worktree
       mainRepoDir = join(tempDir, 'main-repo');
@@ -152,21 +152,21 @@ describe('resolveTranscriptPath', () => {
         stdio: 'pipe',
       });
 
-      // Simulate ~/.claude/projects/ with a transcript at the main repo's encoded path
-      fakeClaudeDir = join(tempDir, 'fake-claude');
-      process.env.CLAUDE_CONFIG_DIR = fakeClaudeDir;
+      // Simulate ~/.gemini/projects/ with a transcript at the main repo's encoded path
+      fakeGeminiDir = join(tempDir, 'fake-gemini');
+      process.env.CLAUDE_CONFIG_DIR = fakeGeminiDir;
       const encodedMain = mainRepoDir.replace(/[/\\]/g, '-');
-      const projectDir = join(fakeClaudeDir, 'projects', encodedMain);
+      const projectDir = join(fakeGeminiDir, 'projects', encodedMain);
       mkdirSync(projectDir, { recursive: true });
       writeFileSync(join(projectDir, 'session-abc.jsonl'), '{}');
     });
 
     afterEach(() => {
       // Restore CLAUDE_CONFIG_DIR
-      if (origClaudeConfigDir === undefined) {
+      if (origGeminiConfigDir === undefined) {
         delete process.env.CLAUDE_CONFIG_DIR;
       } else {
-        process.env.CLAUDE_CONFIG_DIR = origClaudeConfigDir;
+        process.env.CLAUDE_CONFIG_DIR = origGeminiConfigDir;
       }
 
       // Clean up worktree before the main afterEach removes tempDir
@@ -183,18 +183,18 @@ describe('resolveTranscriptPath', () => {
     it('resolves transcript path from native git worktree to main repo (issue #1191)', () => {
       // The worktree-encoded transcript path (does not exist)
       const encodedWorktree = worktreeDir.replace(/[/\\]/g, '-');
-      const worktreePath = join(fakeClaudeDir, 'projects', encodedWorktree, 'session-abc.jsonl');
+      const worktreePath = join(fakeGeminiDir, 'projects', encodedWorktree, 'session-abc.jsonl');
 
       const resolved = resolveTranscriptPath(worktreePath, worktreeDir);
       const encodedMain = mainRepoDir.replace(/[/\\]/g, '-');
-      const expectedPath = join(fakeClaudeDir, 'projects', encodedMain, 'session-abc.jsonl');
+      const expectedPath = join(fakeGeminiDir, 'projects', encodedMain, 'session-abc.jsonl');
 
       expect(resolved).toBe(expectedPath);
     });
 
     it('does not alter path when CWD is the main repo (not a worktree)', () => {
       const encodedMain = mainRepoDir.replace(/[/\\]/g, '-');
-      const mainPath = join(fakeClaudeDir, 'projects', encodedMain, 'session-abc.jsonl');
+      const mainPath = join(fakeGeminiDir, 'projects', encodedMain, 'session-abc.jsonl');
 
       // Path exists and CWD is the main repo — should return as-is
       const resolved = resolveTranscriptPath(mainPath, mainRepoDir);
@@ -204,7 +204,7 @@ describe('resolveTranscriptPath', () => {
     it('returns original path when main repo transcript also missing', () => {
       const encodedWorktree = worktreeDir.replace(/[/\\]/g, '-');
       // Use a session file that doesn't exist at the main repo path either
-      const worktreePath = join(fakeClaudeDir, 'projects', encodedWorktree, 'nonexistent.jsonl');
+      const worktreePath = join(fakeGeminiDir, 'projects', encodedWorktree, 'nonexistent.jsonl');
 
       const resolved = resolveTranscriptPath(worktreePath, worktreeDir);
       expect(resolved).toBe(worktreePath);

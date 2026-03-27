@@ -54,8 +54,8 @@ By default, ralph operates in PRD mode. A scaffold `prd.json` is auto-generated 
 
 <Steps>
 1. **PRD Setup** (first iteration only):
-   a. Check if `prd.json` exists (in project root or `.omc/`). If it already exists, read it and proceed to Step 2.
-   b. If no `prd.json` exists, the system has auto-generated a scaffold. Read `.omc/prd.json`.
+   a. Check if `prd.json` exists (in project root or `.omg/`). If it already exists, read it and proceed to Step 2.
+   b. If no `prd.json` exists, the system has auto-generated a scaffold. Read `.omg/prd.json`.
    c. **CRITICAL: Refine the scaffold.** The auto-generated PRD has generic acceptance criteria ("Implementation is complete", etc.). You MUST replace these with task-specific criteria:
       - Analyze the original task and break it into right-sized user stories (each completable in one iteration)
       - Write concrete, verifiable acceptance criteria for each story (e.g., "Function X returns Y when given Z", "Test file exists at path P and passes")
@@ -93,13 +93,13 @@ By default, ralph operates in PRD mode. A scaffold `prd.json` is auto-generated 
    - <5 files, <100 lines with full tests: STANDARD tier minimum (architect-medium / Sonnet)
    - Standard changes: STANDARD tier (architect-medium / Sonnet)
    - >20 files or security/architectural changes: THOROUGH tier (architect / Opus)
-   - If `--critic=critic`, use the Claude `critic` agent for the approval pass
-   - If `--critic=codex`, run `omc ask codex --agent-prompt critic "..."` for the approval pass
+   - If `--critic=critic`, use the Gemini `critic` agent for the approval pass
+   - If `--critic=codex`, run `omg ask codex --agent-prompt critic "..."` for the approval pass
    - Ralph floor: always at least STANDARD, even for small changes
    - The selected reviewer verifies against the SPECIFIC acceptance criteria from prd.json, not vague "is it done?"
 
 7.5 **Mandatory Deslop Pass**:
-   - Unless `{{PROMPT}}` contains `--no-deslop`, run `oh-my-claudecode:ai-slop-cleaner` in standard mode (not `--review`) on the files changed during the current Ralph session only.
+   - Unless `{{PROMPT}}` contains `--no-deslop`, run `oh-my-gemini-cli:ai-slop-cleaner` in standard mode (not `--review`) on the files changed during the current Ralph session only.
    - Keep the scope bounded to the Ralph changed-file set; do not broaden the cleanup pass to unrelated files.
    - If the reviewer approved the implementation but the deslop pass introduces follow-up edits, keep those edits inside the same changed-file scope before proceeding.
 
@@ -109,15 +109,15 @@ By default, ralph operates in PRD mode. A scaffold `prd.json` is auto-generated 
    - If regression fails, roll back the cleaner changes or fix the regression, then rerun the verification loop until it passes.
    - Only proceed to completion after the post-deslop regression run passes (or `--no-deslop` was explicitly specified).
 
-8. **On approval**: After Step 7.6 passes (with Step 7.5 completed, or skipped via `--no-deslop`), run `/oh-my-claudecode:cancel` to cleanly exit and clean up all state files
+8. **On approval**: After Step 7.6 passes (with Step 7.5 completed, or skipped via `--no-deslop`), run `/oh-my-gemini-cli:cancel` to cleanly exit and clean up all state files
 
 9. **On rejection**: Fix the issues raised, re-verify with the same reviewer, then loop back to check if the story needs to be marked incomplete
 </Steps>
 
 <Tool_Usage>
-- Use `Task(subagent_type="oh-my-claudecode:architect", ...)` for architect verification cross-checks when changes are security-sensitive, architectural, or involve complex multi-system integration
-- Use `Task(subagent_type="oh-my-claudecode:critic", ...)` when `--critic=critic`
-- Use `omc ask codex --agent-prompt critic "..."` when `--critic=codex`
+- Use `Task(subagent_type="oh-my-gemini-cli:architect", ...)` for architect verification cross-checks when changes are security-sensitive, architectural, or involve complex multi-system integration
+- Use `Task(subagent_type="oh-my-gemini-cli:critic", ...)` when `--critic=critic`
+- Use `omg ask codex --agent-prompt critic "..."` when `--critic=codex`
 - Skip architect consultation for simple feature additions, well-tested changes, or time-critical verification
 - Proceed with architect agent verification alone -- never block on unavailable tools
 - Use `state_write` / `state_read` for ralph mode state persistence between iterations
@@ -144,9 +144,9 @@ Why good: Generic criteria replaced with specific, testable criteria.
 <Good>
 Correct parallel delegation:
 ```
-Task(subagent_type="oh-my-claudecode:executor", model="haiku", prompt="Add type export for UserConfig")
-Task(subagent_type="oh-my-claudecode:executor", model="sonnet", prompt="Implement the caching layer for API responses")
-Task(subagent_type="oh-my-claudecode:executor", model="opus", prompt="Refactor auth module to support OAuth2 flow")
+Task(subagent_type="oh-my-gemini-cli:executor", model="haiku", prompt="Add type export for UserConfig")
+Task(subagent_type="oh-my-gemini-cli:executor", model="sonnet", prompt="Implement the caching layer for API responses")
+Task(subagent_type="oh-my-gemini-cli:executor", model="opus", prompt="Refactor auth module to support OAuth2 flow")
 ```
 Why good: Three independent tasks fired simultaneously at appropriate tiers.
 </Good>
@@ -189,7 +189,7 @@ Why bad: Did not refine scaffold criteria into task-specific ones. This is PRD t
 
 <Escalation_And_Stop_Conditions>
 - Stop and report when a fundamental blocker requires user input (missing credentials, unclear requirements, external service down)
-- Stop when the user says "stop", "cancel", or "abort" -- run `/oh-my-claudecode:cancel`
+- Stop when the user says "stop", "cancel", or "abort" -- run `/oh-my-gemini-cli:cancel`
 - Continue working when the hook system sends "The boulder never stops" -- this means the iteration continues
 - If the selected reviewer rejects verification, fix the issues and re-verify (do not stop)
 - If the same issue recurs across 3+ iterations, report it as a potential fundamental problem
@@ -207,7 +207,7 @@ Why bad: Did not refine scaffold criteria into task-specific ones. This is PRD t
 - [ ] Selected reviewer verification passed against specific acceptance criteria
 - [ ] ai-slop-cleaner pass completed on changed files (or `--no-deslop` specified)
 - [ ] Post-deslop regression tests pass
-- [ ] `/oh-my-claudecode:cancel` run for clean state cleanup
+- [ ] `/oh-my-gemini-cli:cancel` run for clean state cleanup
 </Final_Checklist>
 
 <Advanced>

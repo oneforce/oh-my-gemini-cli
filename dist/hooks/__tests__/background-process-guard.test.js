@@ -38,15 +38,15 @@ const mockedLoadConfig = vi.mocked(loadConfig);
 describe('Background Process Guard (issue #302)', () => {
     const originalEnv = process.env;
     const resolvedDirectory = process.cwd();
-    let claudeConfigDir;
-    const writeClaudePermissions = (allow = [], ask = []) => {
-        const settingsPath = join(claudeConfigDir, 'settings.local.json');
-        mkdirSync(claudeConfigDir, { recursive: true });
+    let geminiConfigDir;
+    const writeGeminiPermissions = (allow = [], ask = []) => {
+        const settingsPath = join(geminiConfigDir, 'settings.local.json');
+        mkdirSync(geminiConfigDir, { recursive: true });
         writeFileSync(settingsPath, JSON.stringify({ permissions: { allow, ask } }, null, 2));
     };
     beforeEach(() => {
-        claudeConfigDir = mkdtempSync(join(tmpdir(), 'omc-bg-perms-'));
-        process.env = { ...originalEnv, CLAUDE_CONFIG_DIR: claudeConfigDir };
+        geminiConfigDir = mkdtempSync(join(tmpdir(), 'omg-bg-perms-'));
+        process.env = { ...originalEnv, CLAUDE_CONFIG_DIR: geminiConfigDir };
         delete process.env.DISABLE_OMC;
         delete process.env.OMC_SKIP_HOOKS;
         resetSkipHooksCache();
@@ -55,16 +55,16 @@ describe('Background Process Guard (issue #302)', () => {
         mockedLoadConfig.mockReturnValue({
             permissions: { maxBackgroundTasks: 5 },
         });
-        writeClaudePermissions();
+        writeGeminiPermissions();
     });
     afterEach(() => {
-        rmSync(claudeConfigDir, { recursive: true, force: true });
+        rmSync(geminiConfigDir, { recursive: true, force: true });
         process.env = originalEnv;
         resetSkipHooksCache();
     });
     describe('Task tool with run_in_background=true', () => {
         it('should allow background Task when under limit', async () => {
-            writeClaudePermissions(['Edit', 'Write']);
+            writeGeminiPermissions(['Edit', 'Write']);
             mockedGetRunningTaskCount.mockReturnValue(2);
             const input = {
                 sessionId: 'test-session',
@@ -81,7 +81,7 @@ describe('Background Process Guard (issue #302)', () => {
             expect(mockedAddBackgroundTask).toHaveBeenCalledWith(expect.stringContaining('task-'), 'test task', 'executor', resolvedDirectory);
         });
         it('should block background Task when at limit', async () => {
-            writeClaudePermissions(['Edit', 'Write']);
+            writeGeminiPermissions(['Edit', 'Write']);
             mockedGetRunningTaskCount.mockReturnValue(5);
             const input = {
                 sessionId: 'test-session',
@@ -99,7 +99,7 @@ describe('Background Process Guard (issue #302)', () => {
             expect(result.reason).toContain('5/5');
         });
         it('should block background Task when over limit', async () => {
-            writeClaudePermissions(['Edit', 'Write']);
+            writeGeminiPermissions(['Edit', 'Write']);
             mockedGetRunningTaskCount.mockReturnValue(8);
             const input = {
                 sessionId: 'test-session',
@@ -131,7 +131,7 @@ describe('Background Process Guard (issue #302)', () => {
             expect(mockedAddBackgroundTask).toHaveBeenCalledWith(expect.stringContaining('task-'), 'test task', 'executor', resolvedDirectory);
         });
         it('should track only background Task invocations with the hook tool_use_id', async () => {
-            writeClaudePermissions(['Edit', 'Write']);
+            writeGeminiPermissions(['Edit', 'Write']);
             const input = {
                 session_id: 'test-session',
                 tool_name: 'Task',
@@ -181,7 +181,7 @@ describe('Background Process Guard (issue #302)', () => {
             expect(result.modifiedInput).toBeUndefined();
         });
         it('should keep executor background Task when Edit/Write are pre-approved', async () => {
-            writeClaudePermissions(['Edit', 'Write']);
+            writeGeminiPermissions(['Edit', 'Write']);
             const input = {
                 sessionId: 'test-session',
                 toolName: 'Task',
@@ -200,7 +200,7 @@ describe('Background Process Guard (issue #302)', () => {
     });
     describe('HUD background task lifecycle tracking', () => {
         it('tracks only background Task invocations using tool_use_id', async () => {
-            writeClaudePermissions(['Edit', 'Write']);
+            writeGeminiPermissions(['Edit', 'Write']);
             const input = {
                 sessionId: 'test-session',
                 toolName: 'Task',
@@ -363,7 +363,7 @@ describe('Background Process Guard (issue #302)', () => {
             expect(result.modifiedInput).toBeUndefined();
         });
         it('should block safe-looking background Bash when ask rules require approval', async () => {
-            writeClaudePermissions([], ['Bash(git commit:*)']);
+            writeGeminiPermissions([], ['Bash(git commit:*)']);
             const input = {
                 sessionId: 'test-session',
                 toolName: 'Bash',
@@ -378,7 +378,7 @@ describe('Background Process Guard (issue #302)', () => {
             expect(result.reason).toContain('[BACKGROUND PERMISSIONS]');
         });
         it('should keep exact pre-approved background Bash commands in background', async () => {
-            writeClaudePermissions(['Bash(rm -rf ./tmp-build)']);
+            writeGeminiPermissions(['Bash(rm -rf ./tmp-build)']);
             const input = {
                 sessionId: 'test-session',
                 toolName: 'Bash',

@@ -19,7 +19,7 @@ describe('Task System Support', () => {
         it('should return correct path for session ID', () => {
             const sessionId = 'abc123';
             const result = getTaskDirectory(sessionId);
-            expect(result).toBe(path.join(mockHomedir, '.claude', 'tasks', sessionId));
+            expect(result).toBe(path.join(mockHomedir, '.gemini', 'tasks', sessionId));
         });
         it('should handle session ID with special characters', () => {
             const sessionId = 'session-123_test';
@@ -538,9 +538,9 @@ describe('Task System Support', () => {
             const result = checkLegacyTodos('session123');
             expect(result.count).toBe(1);
         });
-        it('should read from project .omc directory', () => {
+        it('should read from project .omg directory', () => {
             vi.mocked(fs.existsSync).mockImplementation((p) => {
-                return /[\\/]\.omc[\\/]todos\.json$/.test(p);
+                return /[\\/]\.omg[\\/]todos\.json$/.test(p);
             });
             vi.mocked(fs.readFileSync).mockReturnValue(JSON.stringify([{ content: 'Todo', status: 'pending' }]));
             const result = checkLegacyTodos(undefined, '/project/dir');
@@ -712,7 +712,7 @@ describe('Task System Support', () => {
         it('should return valid path for valid session ID', () => {
             const result = getTaskDirectory('valid-session-123');
             expect(result).toContain('valid-session-123');
-            expect(result).toContain(path.join('.claude', 'tasks'));
+            expect(result).toContain(path.join('.gemini', 'tasks'));
         });
     });
     describe('Security: readTaskFiles with validation', () => {

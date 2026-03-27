@@ -83,8 +83,8 @@ describe('killWorkerPanes', () => {
   });
 
   it('writes shutdown sentinel before force-killing', async () => {
-    const cwd = join(tmpdir(), `omc-cleanup-test-${process.pid}`);
-    const stateDir = join(cwd, '.omc', 'state', 'team', 'myteam');
+    const cwd = join(tmpdir(), `omg-cleanup-test-${process.pid}`);
+    const stateDir = join(cwd, '.omg', 'state', 'team', 'myteam');
     mkdirSync(stateDir, { recursive: true });
 
     try {
@@ -109,7 +109,7 @@ describe('killWorkerPanes', () => {
       killWorkerPanes({
         paneIds: ['%2'],
         teamName: 'nonexistent-team',
-        cwd: '/tmp/does-not-exist-omc-test',
+        cwd: '/tmp/does-not-exist-omg-test',
         graceMs: 0,
       })
     ).resolves.toBeUndefined();
@@ -150,51 +150,51 @@ describe('killTeamSession', () => {
   });
 
   it('calls kill-session for session-mode sessions (no ":" in name)', async () => {
-    await killTeamSession('omc-team-myteam-worker1');
-    expect(killedSessions).toContain('omc-team-myteam-worker1');
+    await killTeamSession('omg-team-myteam-worker1');
+    expect(killedSessions).toContain('omg-team-myteam-worker1');
   });
 });
 
 // ─── validateJobId regex ──────────────────────────────────────────────────────
 
-// Re-test the regex rule from team-server.ts (spec: /^omc-[a-z0-9]{1,12}$/)
-const JOB_ID_RE = /^omc-[a-z0-9]{1,12}$/;
+// Re-test the regex rule from team-server.ts (spec: /^omg-[a-z0-9]{1,12}$/)
+const JOB_ID_RE = /^omg-[a-z0-9]{1,12}$/;
 
-describe('validateJobId regex (/^omc-[a-z0-9]{1,12}$/)', () => {
+describe('validateJobId regex (/^omg-[a-z0-9]{1,12}$/)', () => {
   it('accepts valid job IDs', () => {
-    expect(JOB_ID_RE.test('omc-abc123')).toBe(true);
-    expect(JOB_ID_RE.test('omc-a')).toBe(true);
-    expect(JOB_ID_RE.test('omc-mlytzz5w')).toBe(true);
+    expect(JOB_ID_RE.test('omg-abc123')).toBe(true);
+    expect(JOB_ID_RE.test('omg-a')).toBe(true);
+    expect(JOB_ID_RE.test('omg-mlytzz5w')).toBe(true);
   });
 
   it('rejects path traversal attempts', () => {
-    expect(JOB_ID_RE.test('omc-../../etc/passwd')).toBe(false);
-    expect(JOB_ID_RE.test('../omc-abc')).toBe(false);
-    expect(JOB_ID_RE.test('omc-abc/../../x')).toBe(false);
+    expect(JOB_ID_RE.test('omg-../../etc/passwd')).toBe(false);
+    expect(JOB_ID_RE.test('../omg-abc')).toBe(false);
+    expect(JOB_ID_RE.test('omg-abc/../../x')).toBe(false);
   });
 
-  it('rejects IDs without the omc- prefix', () => {
+  it('rejects IDs without the omg- prefix', () => {
     expect(JOB_ID_RE.test('abc123')).toBe(false);
     expect(JOB_ID_RE.test('job-abc123')).toBe(false);
   });
 
   it('rejects IDs longer than 12 chars after prefix', () => {
-    expect(JOB_ID_RE.test('omc-' + 'a'.repeat(13))).toBe(false);
+    expect(JOB_ID_RE.test('omg-' + 'a'.repeat(13))).toBe(false);
   });
 
   it('rejects empty suffix', () => {
-    expect(JOB_ID_RE.test('omc-')).toBe(false);
+    expect(JOB_ID_RE.test('omg-')).toBe(false);
   });
 });
 
 describe('team start validation wiring', () => {
-  it('validates teamName at omc_run_team_start API boundary', () => {
+  it('validates teamName at omg_run_team_start API boundary', () => {
     const source = readFileSync(join(__dirname, '..', 'team-server.ts'), 'utf-8');
     expect(source).toContain("import { validateTeamName } from '../team/team-name.js'");
     expect(source).toContain('validateTeamName(input.teamName);');
   });
 
-  it('contains timeoutSeconds deprecation guard in omc_run_team_start', () => {
+  it('contains timeoutSeconds deprecation guard in omg_run_team_start', () => {
     const source = readFileSync(join(__dirname, '..', 'team-server.ts'), 'utf-8');
     expect(source).toContain("hasOwnProperty.call(args, 'timeoutSeconds')");
     expect(source).toContain('no longer accepts timeoutSeconds');
@@ -213,37 +213,37 @@ function handleStartGuard(args: unknown): void {
     && Object.prototype.hasOwnProperty.call(args, 'timeoutSeconds')
   ) {
     throw new Error(
-      'omc_run_team_start no longer accepts timeoutSeconds. Remove timeoutSeconds and use omc_run_team_wait timeout_ms to limit the wait call only (workers keep running until completion or explicit omc_run_team_cleanup).',
+      'omg_run_team_start no longer accepts timeoutSeconds. Remove timeoutSeconds and use omg_run_team_wait timeout_ms to limit the wait call only (workers keep running until completion or explicit omg_run_team_cleanup).',
     );
   }
 }
 
-describe('omc_run_team_start timeoutSeconds rejection', () => {
+describe('omg_run_team_start timeoutSeconds rejection', () => {
   it('throws when timeoutSeconds is present', () => {
     expect(() => handleStartGuard({
       teamName: 'test',
-      agentTypes: ['claude'],
+      agentTypes: ['gemini'],
       tasks: [{ subject: 'x', description: 'y' }],
       cwd: '/tmp',
       timeoutSeconds: 60,
     })).toThrow('no longer accepts timeoutSeconds');
   });
 
-  it('error message includes migration guidance (omc_run_team_wait + omc_run_team_cleanup)', () => {
+  it('error message includes migration guidance (omg_run_team_wait + omg_run_team_cleanup)', () => {
     expect(() => handleStartGuard({
       teamName: 'test',
-      agentTypes: ['claude'],
+      agentTypes: ['gemini'],
       tasks: [],
       cwd: '/tmp',
       timeoutSeconds: 30,
-    })).toThrow('omc_run_team_wait timeout_ms');
+    })).toThrow('omg_run_team_wait timeout_ms');
   });
 
   it('does not throw when timeoutSeconds is absent', () => {
     // Should not throw — the guard passes for well-formed input
     expect(() => handleStartGuard({
       teamName: 'test',
-      agentTypes: ['claude'],
+      agentTypes: ['gemini'],
       tasks: [],
       cwd: '/tmp',
     })).not.toThrow();

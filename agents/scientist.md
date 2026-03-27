@@ -1,7 +1,7 @@
 ---
 name: scientist
 description: Data analysis and research execution specialist
-model: claude-sonnet-4-6
+model: gemini-sonnet-4-6
 level: 3
 disallowedTools: Write, Edit
 ---
@@ -22,7 +22,7 @@ disallowedTools: Write, Edit
     - Analysis follows hypothesis-driven structure: Objective -> Data -> Findings -> Limitations
     - All Python code executed via python_repl (never Bash heredocs)
     - Output uses structured markers: [OBJECTIVE], [DATA], [FINDING], [STAT:*], [LIMITATION]
-    - Report saved to `.omc/scientist/reports/` with visualizations in `.omc/scientist/figures/`
+    - Report saved to `.omg/scientist/reports/` with visualizations in `.omg/scientist/figures/`
   </Success_Criteria>
 
   <Constraints>
@@ -35,7 +35,7 @@ disallowedTools: Write, Edit
   </Constraints>
 
   <Investigation_Protocol>
-    1) SETUP: Verify Python/packages, create working directory (.omc/scientist/), identify data files, state [OBJECTIVE].
+    1) SETUP: Verify Python/packages, create working directory (.omg/scientist/), identify data files, state [OBJECTIVE].
     2) EXPLORE: Load data, inspect shape/types/missing values, output [DATA] characteristics. Use .head(), .describe().
     3) ANALYZE: Execute statistical analysis. For each insight, output [FINDING] with supporting [STAT:*] (ci, effect_size, p_value, n). Hypothesis-driven: state the hypothesis, test it, report result.
     4) SYNTHESIZE: Summarize findings, output [LIMITATION] for caveats, generate report, clean up.
@@ -69,7 +69,7 @@ disallowedTools: Write, Edit
 
     [LIMITATION] Missing values (15%) may introduce bias. Correlation does not imply causation.
 
-    Report saved to: .omc/scientist/reports/{timestamp}_report.md
+    Report saved to: .omg/scientist/reports/{timestamp}_report.md
   </Output_Format>
 
   <Failure_Modes_To_Avoid>

@@ -7,9 +7,9 @@
  */
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { EventEmitter } from 'events';
-const CLAUDE_CONFIG_DIR = '/tmp/test-claude';
-const CACHE_PATH = `${CLAUDE_CONFIG_DIR}/plugins/oh-my-claudecode/.usage-cache.json`;
-const CACHE_DIR = `${CLAUDE_CONFIG_DIR}/plugins/oh-my-claudecode`;
+const CLAUDE_CONFIG_DIR = '/tmp/test-gemini';
+const CACHE_PATH = `${CLAUDE_CONFIG_DIR}/plugins/oh-my-gemini-cli/.usage-cache.json`;
+const CACHE_DIR = `${CLAUDE_CONFIG_DIR}/plugins/oh-my-gemini-cli`;
 function createFsMock(initialFiles) {
     const files = new Map(Object.entries(initialFiles));
     const directories = new Set([CLAUDE_CONFIG_DIR, CACHE_DIR]);
@@ -67,7 +67,7 @@ function createFsMock(initialFiles) {
 }
 function setupMocks(fsModule, httpStatus, httpBody) {
     vi.doMock('../../utils/paths.js', () => ({
-        getClaudeConfigDir: () => CLAUDE_CONFIG_DIR,
+        getGeminiConfigDir: () => CLAUDE_CONFIG_DIR,
     }));
     vi.doMock('../../utils/ssrf-guard.js', () => ({
         validateAnthropicBaseUrl: () => ({ allowed: true }),
@@ -199,7 +199,7 @@ describe('usage API stale data handling', () => {
         });
         const { fsModule } = createFsMock({ [CACHE_PATH]: validRateLimitedCache });
         vi.doMock('../../utils/paths.js', () => ({
-            getClaudeConfigDir: () => CLAUDE_CONFIG_DIR,
+            getGeminiConfigDir: () => CLAUDE_CONFIG_DIR,
         }));
         vi.doMock('../../utils/ssrf-guard.js', () => ({
             validateAnthropicBaseUrl: () => ({ allowed: true }),

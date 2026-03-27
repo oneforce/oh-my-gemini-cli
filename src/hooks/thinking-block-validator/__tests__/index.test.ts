@@ -6,7 +6,7 @@ import {
 } from '../index.js';
 import type { MessageWithParts } from '../types.js';
 
-const MODEL_ID = 'claude-sonnet-4-6';
+const MODEL_ID = 'gemini-sonnet-4-6';
 const SYNTHETIC_THINKING_CONTENT = '[Synthetic thinking block inserted to preserve message structure]';
 
 describe('thinking-block-validator issue #1386 regression', () => {

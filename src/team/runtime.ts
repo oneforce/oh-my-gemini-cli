@@ -2,7 +2,7 @@ import { mkdir, writeFile, readFile, rm, rename } from 'fs/promises';
 import { join } from 'path';
 import { existsSync } from 'fs';
 import type { CliAgentType } from './model-contract.js';
-import { buildWorkerArgv, resolveValidatedBinaryPath, getWorkerEnv as getModelWorkerEnv, isPromptModeAgent, getPromptModeArgs, resolveClaudeWorkerModel } from './model-contract.js';
+import { buildWorkerArgv, resolveValidatedBinaryPath, getWorkerEnv as getModelWorkerEnv, isPromptModeAgent, getPromptModeArgs, resolveGeminiWorkerModel } from './model-contract.js';
 import { validateTeamName } from './team-name.js';
 import {
   createTeamSession, spawnWorkerInPane, sendToWorker,
@@ -113,7 +113,7 @@ function workerName(index: number): string {
 
 function stateRoot(cwd: string, teamName: string): string {
   validateTeamName(teamName);
-  return join(cwd, `.omc/state/team/${teamName}`);
+  return join(cwd, `.omg/state/team/${teamName}`);
 }
 
 async function writeJson(filePath: string, data: unknown): Promise<void> {
@@ -172,10 +172,10 @@ function taskPath(root: string, taskId: string): string {
 
 async function writePanesTrackingFileIfPresent(runtime: TeamRuntime): Promise<void> {
   const jobId = process.env.OMC_JOB_ID;
-  const omcJobsDir = process.env.OMC_JOBS_DIR;
-  if (!jobId || !omcJobsDir) return;
+  const omgJobsDir = process.env.OMC_JOBS_DIR;
+  if (!jobId || !omgJobsDir) return;
 
-  const panesPath = join(omcJobsDir, `${jobId}-panes.json`);
+  const panesPath = join(omgJobsDir, `${jobId}-panes.json`);
   const tempPath = `${panesPath}.tmp`;
   await writeFile(
     tempPath,
@@ -349,7 +349,7 @@ function buildInitialTaskInstruction(
   task: { subject: string; description: string },
   taskId: string
 ): string {
-  const donePath = `.omc/state/team/${teamName}/workers/${workerName}/done.json`;
+  const donePath = `.omg/state/team/${teamName}/workers/${workerName}/done.json`;
   return [
     `## Initial Task Assignment`,
     `Task ID: ${taskId}`,
@@ -405,7 +405,7 @@ export async function startTeam(config: TeamConfig): Promise<TeamRuntime> {
   for (let i = 0; i < tasks.length; i++) {
     const wName = workerName(i);
     workerNames.push(wName);
-    const agentType = agentTypes[i % agentTypes.length] ?? agentTypes[0] ?? 'claude';
+    const agentType = agentTypes[i % agentTypes.length] ?? agentTypes[0] ?? 'gemini';
     await ensureWorkerStateDir(teamName, wName, cwd);
     await writeWorkerOverlay({
       teamName, workerName: wName, agentType,
@@ -701,7 +701,7 @@ export async function spawnWorkerForTask(
   const workerIndex = parseWorkerIndex(workerNameValue);
   const agentType = runtime.config.agentTypes[workerIndex % runtime.config.agentTypes.length]
     ?? runtime.config.agentTypes[0]
-    ?? 'claude';
+    ?? 'gemini';
   const usePromptMode = isPromptModeAgent(agentType);
 
   // Build the initial task instruction and write inbox before spawn.
@@ -718,7 +718,7 @@ export async function spawnWorkerForTask(
   runtime.resolvedBinaryPaths[agentType] = resolvedBinaryPath;
 
   // Resolve model from environment variables based on agent type.
-  // For Claude agents on Bedrock/Vertex, resolve the provider-specific model
+  // For Gemini agents on Bedrock/Vertex, resolve the provider-specific model
   // so workers don't fall back to invalid Anthropic API model names. (#1695)
   const modelForAgent = (() => {
     if (agentType === 'codex') {
@@ -731,8 +731,8 @@ export async function spawnWorkerForTask(
         || process.env.OMC_GEMINI_DEFAULT_MODEL
         || undefined;
     }
-    // Claude agents: resolve Bedrock/Vertex model when on those providers
-    return resolveClaudeWorkerModel();
+    // Gemini agents: resolve Bedrock/Vertex model when on those providers
+    return resolveGeminiWorkerModel();
   })();
 
   const [launchBinary, ...launchArgs] = buildWorkerArgv(agentType, {
@@ -878,7 +878,7 @@ export async function assignTask(
   // Write to worker inbox
   const inboxPath = join(root, 'workers', targetWorkerName, 'inbox.md');
   await mkdir(join(inboxPath, '..'), { recursive: true });
-  const msg = `\n\n---\n## New Task Assignment\nTask ID: ${taskId}\nClaim and execute task from: .omc/state/team/${teamName}/tasks/${taskId}.json\n`;
+  const msg = `\n\n---\n## New Task Assignment\nTask ID: ${taskId}\nClaim and execute task from: .omg/state/team/${teamName}/tasks/${taskId}.json\n`;
   const { appendFile } = await import('fs/promises');
   await appendFile(inboxPath, msg, 'utf-8');
 
@@ -922,11 +922,11 @@ export async function shutdownTeam(
 
   const configData = await readJsonSafe<TeamConfig>(join(root, 'config.json'));
 
-  // CLI workers (claude/codex/gemini tmux pane processes) never write shutdown-ack.json.
+  // CLI workers (gemini/codex/gemini tmux pane processes) never write shutdown-ack.json.
   // Polling for ACK files on CLI worker teams wastes the full timeoutMs on every shutdown.
   // Detect CLI worker teams by checking if all agent types are known CLI types, and skip
   // ACK polling — the tmux kill below handles process cleanup instead.
-  const CLI_AGENT_TYPES = new Set<string>(['claude', 'codex', 'gemini']);
+  const CLI_AGENT_TYPES = new Set<string>(['gemini', 'codex', 'gemini']);
   const agentTypes: string[] = configData?.agentTypes ?? [];
   const isCliWorkerTeam = agentTypes.length > 0 && agentTypes.every(t => CLI_AGENT_TYPES.has(t));
 
@@ -986,7 +986,7 @@ export async function resumeTeam(teamName: string, cwd: string): Promise<TeamRun
   const { execFile } = await import('child_process');
   const { promisify } = await import('util');
   const execFileAsync = promisify(execFile);
-  const sName = configData.tmuxSession || `omc-team-${teamName}`;
+  const sName = configData.tmuxSession || `omg-team-${teamName}`;
 
   try {
     await execFileAsync('tmux', ['has-session', '-t', sName.split(':')[0]]);

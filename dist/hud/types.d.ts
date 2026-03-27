@@ -159,7 +159,7 @@ export interface UsageResult {
 }
 /**
  * Custom rate limit provider configuration.
- * Set omcHud.rateLimitsProvider.type = 'custom' to enable.
+ * Set omgHud.rateLimitsProvider.type = 'custom' to enable.
  */
 export interface RateLimitsProviderConfig {
     type: 'custom';
@@ -258,7 +258,7 @@ export interface HudRenderContext {
     /** Session token total (input + output) when transcript parsing is reliable enough to calculate it */
     sessionTotalTokens?: number | null;
     /** Installed OMC version (e.g. "4.1.10") */
-    omcVersion: string | null;
+    omgVersion: string | null;
     /** Latest available version from npm registry (null if up to date or unknown) */
     updateAvailable: string | null;
     /** Total tool_use blocks seen in transcript */
@@ -307,7 +307,7 @@ export type CwdFormat = 'relative' | 'absolute' | 'folder';
  * Model name format options:
  * - short: 'Opus', 'Sonnet', 'Haiku'
  * - versioned: 'Opus 4.6', 'Sonnet 4.5', 'Haiku 4.5'
- * - full: raw model ID like 'claude-opus-4-6-20260205'
+ * - full: raw model ID like 'gemini-opus-4-6-20260205'
  */
 export type ModelFormat = 'short' | 'versioned' | 'full';
 export interface HudElementConfig {
@@ -318,7 +318,7 @@ export interface HudElementConfig {
     gitInfoPosition: 'above' | 'below';
     model: boolean;
     modelFormat: ModelFormat;
-    omcLabel: boolean;
+    omgLabel: boolean;
     rateLimits: boolean;
     ralph: boolean;
     autopilot: boolean;

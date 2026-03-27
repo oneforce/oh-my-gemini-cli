@@ -36,9 +36,9 @@ describe('shouldSkipEntry', () => {
     it('skips hidden directories', () => {
         expect(shouldSkipEntry('.cache', true, [])).toBe(true);
     });
-    it('does not skip hidden directory if important (CLAUDE.md is a file, so N/A)', () => {
-        // .omc is in SKIP_DIRS, so it is skipped
-        expect(shouldSkipEntry('.omc', true, [])).toBe(true);
+    it('does not skip hidden directory if important (GEMINI.md is a file, so N/A)', () => {
+        // .omg is in SKIP_DIRS, so it is skipped
+        expect(shouldSkipEntry('.omg', true, [])).toBe(true);
     });
     it('does not skip src directory', () => {
         expect(shouldSkipEntry('src', true, [])).toBe(false);

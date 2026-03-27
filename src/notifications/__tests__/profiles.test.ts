@@ -17,9 +17,9 @@ vi.mock("fs", async (importOriginal) => {
   };
 });
 
-// Mock getClaudeConfigDir to return a predictable path
+// Mock getGeminiConfigDir to return a predictable path
 vi.mock("../../utils/paths.js", () => ({
-  getClaudeConfigDir: () => "/mock-claude-config",
+  getGeminiConfigDir: () => "/mock-gemini-config",
 }));
 
 import { getNotificationConfig } from "../config.js";

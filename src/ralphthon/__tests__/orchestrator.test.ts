@@ -35,7 +35,7 @@ describe('Ralphthon Orchestrator', () => {
 
   beforeEach(() => {
     testDir = mkdtempSync(join(tmpdir(), 'ralphthon-orch-test-'));
-    mkdirSync(join(testDir, '.omc', 'state'), { recursive: true });
+    mkdirSync(join(testDir, '.omg', 'state'), { recursive: true });
   });
 
   afterEach(() => {
@@ -87,7 +87,7 @@ describe('Ralphthon Orchestrator', () => {
     it('should create initial state', () => {
       const state = initOrchestrator(
         testDir,
-        'omc-test-session',
+        'omg-test-session',
         '%0',
         'prd.json',
         'test-session',
@@ -95,14 +95,14 @@ describe('Ralphthon Orchestrator', () => {
 
       expect(state.active).toBe(true);
       expect(state.phase).toBe('execution');
-      expect(state.tmuxSession).toBe('omc-test-session');
+      expect(state.tmuxSession).toBe('omg-test-session');
       expect(state.leaderPaneId).toBe('%0');
       expect(state.currentWave).toBe(0);
       expect(state.consecutiveCleanWaves).toBe(0);
     });
 
     it('should persist state to disk', () => {
-      initOrchestrator(testDir, 'omc-test', '%0', 'prd.json', 'test-session');
+      initOrchestrator(testDir, 'omg-test', '%0', 'prd.json', 'test-session');
 
       const state = readRalphthonState(testDir, 'test-session');
       expect(state).not.toBeNull();
@@ -439,7 +439,7 @@ function createTestState(): RalphthonState {
     phase: 'execution',
     projectPath: '/tmp/test',
     prdPath: 'ralphthon-prd.json',
-    tmuxSession: 'omc-test',
+    tmuxSession: 'omg-test',
     leaderPaneId: '%0',
     startedAt: new Date().toISOString(),
     currentWave: 0,

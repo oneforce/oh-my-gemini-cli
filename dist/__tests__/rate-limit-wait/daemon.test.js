@@ -7,7 +7,7 @@ import { join } from 'path';
 import { tmpdir } from 'os';
 import { readDaemonState, isDaemonRunning, getDaemonStatus, formatDaemonState, } from '../../features/rate-limit-wait/daemon.js';
 describe('daemon', () => {
-    const testDir = join(tmpdir(), 'omc-daemon-test-' + Date.now());
+    const testDir = join(tmpdir(), 'omg-daemon-test-' + Date.now());
     const testConfig = {
         stateFilePath: join(testDir, 'state.json'),
         pidFilePath: join(testDir, 'daemon.pid'),
@@ -211,7 +211,7 @@ describe('daemon', () => {
                         paneIndex: 0,
                         isActive: true,
                         analysis: {
-                            hasClaudeCode: true,
+                            hasGeminiCLI: true,
                             hasRateLimitMessage: true,
                             isBlocked: true,
                             confidence: 0.9,

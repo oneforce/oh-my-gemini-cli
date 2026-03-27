@@ -6,10 +6,10 @@
  * delete, and clean up shared key-value entries namespaced by
  * session group or pipeline run.
  *
- * Storage: .omc/state/shared-memory/{namespace}/{key}.json
- * Config gate: agents.sharedMemory.enabled in ~/.claude/.omc-config.json
+ * Storage: .omg/state/shared-memory/{namespace}/{key}.json
+ * Config gate: agents.sharedMemory.enabled in ~/.gemini/.omg-config.json
  *
- * @see https://github.com/anthropics/oh-my-claudecode/issues/1119
+ * @see https://github.com/anthropics/oh-my-gemini-cli/issues/1119
  */
 import { z } from 'zod';
 import type { ToolDefinition } from './types.js';

@@ -30,17 +30,17 @@ Automatically detects which mode is active and cancels it:
 ## Usage
 
 ```
-/oh-my-claudecode:cancel
+/oh-my-gemini-cli:cancel
 ```
 
-Or say: "cancelomc", "stopomc"
+Or say: "cancelomg", "stopomg"
 
 ## Auto-Detection
 
-`/oh-my-claudecode:cancel` follows the session-aware state contract:
-- By default the command inspects the current session via `state_list_active` and `state_get_status`, navigating `.omc/state/sessions/{sessionId}/…` to discover which mode is active.
-- When a session id is provided or already known, that session-scoped path is authoritative. Legacy files in `.omc/state/*.json` are consulted only as a compatibility fallback if the session id is missing or empty.
-- Swarm is a shared SQLite/marker mode (`.omc/state/swarm.db` / `.omc/state/swarm-active.marker`) and is not session-scoped.
+`/oh-my-gemini-cli:cancel` follows the session-aware state contract:
+- By default the command inspects the current session via `state_list_active` and `state_get_status`, navigating `.omg/state/sessions/{sessionId}/…` to discover which mode is active.
+- When a session id is provided or already known, that session-scoped path is authoritative. Legacy files in `.omg/state/*.json` are consulted only as a compatibility fallback if the session id is missing or empty.
+- Swarm is a shared SQLite/marker mode (`.omg/state/swarm.db` / `.omg/state/swarm-active.marker`) and is not session-scoped.
 - The default cleanup flow calls `state_clear` with the session id to remove only the matching session files; modes stay bound to their originating session.
 
 Active modes are still cancelled in dependency order:
@@ -51,7 +51,7 @@ Active modes are still cancelled in dependency order:
 5. Swarm (standalone)
 6. Ultrapilot (standalone)
 7. Pipeline (standalone)
-8. Team (Claude Code native)
+8. Team (Gemini Code native)
 9. OMC Teams (tmux CLI workers)
 10. Plan Consensus (standalone)
 
@@ -60,48 +60,48 @@ Active modes are still cancelled in dependency order:
 Use `--force` or `--all` when you need to erase every session plus legacy artifacts, e.g., to reset the workspace entirely.
 
 ```
-/oh-my-claudecode:cancel --force
+/oh-my-gemini-cli:cancel --force
 ```
 
 ```
-/oh-my-claudecode:cancel --all
+/oh-my-gemini-cli:cancel --all
 ```
 
 Steps under the hood:
-1. `state_list_active` enumerates `.omc/state/sessions/{sessionId}/…` to find every known session.
+1. `state_list_active` enumerates `.omg/state/sessions/{sessionId}/…` to find every known session.
 2. `state_clear` runs once per session to drop that session’s files.
-3. A global `state_clear` without `session_id` removes legacy files under `.omc/state/*.json`, `.omc/state/swarm*.db`, and compatibility artifacts (see list).
-4. Team artifacts (`~/.claude/teams/*/`, `~/.claude/tasks/*/`, `.omc/state/team-state.json`) are best-effort cleared as part of the legacy fallback.
-   - Cancel for native team does NOT affect omc-teams state, and vice versa.
+3. A global `state_clear` without `session_id` removes legacy files under `.omg/state/*.json`, `.omg/state/swarm*.db`, and compatibility artifacts (see list).
+4. Team artifacts (`~/.gemini/teams/*/`, `~/.gemini/tasks/*/`, `.omg/state/team-state.json`) are best-effort cleared as part of the legacy fallback.
+   - Cancel for native team does NOT affect omg-teams state, and vice versa.
 
 Every `state_clear` command honors the `session_id` argument, so even force mode still uses the session-aware paths first before deleting legacy files.
 
 Legacy compatibility list (removed only under `--force`/`--all`):
-- `.omc/state/autopilot-state.json`
-- `.omc/state/ralph-state.json`
-- `.omc/state/ralph-plan-state.json`
-- `.omc/state/ralph-verification.json`
-- `.omc/state/ultrawork-state.json`
-- `.omc/state/ultraqa-state.json`
-- `.omc/state/swarm.db`
-- `.omc/state/swarm.db-wal`
-- `.omc/state/swarm.db-shm`
-- `.omc/state/swarm-active.marker`
-- `.omc/state/swarm-tasks.db`
-- `.omc/state/ultrapilot-state.json`
-- `.omc/state/ultrapilot-ownership.json`
-- `.omc/state/pipeline-state.json`
-- `.omc/state/omc-teams-state.json`
-- `.omc/state/plan-consensus.json`
-- `.omc/state/ralplan-state.json`
-- `.omc/state/boulder.json`
-- `.omc/state/hud-state.json`
-- `.omc/state/subagent-tracking.json`
-- `.omc/state/subagent-tracker.lock`
-- `.omc/state/rate-limit-daemon.pid`
-- `.omc/state/rate-limit-daemon.log`
-- `.omc/state/checkpoints/` (directory)
-- `.omc/state/sessions/` (empty directory cleanup after clearing sessions)
+- `.omg/state/autopilot-state.json`
+- `.omg/state/ralph-state.json`
+- `.omg/state/ralph-plan-state.json`
+- `.omg/state/ralph-verification.json`
+- `.omg/state/ultrawork-state.json`
+- `.omg/state/ultraqa-state.json`
+- `.omg/state/swarm.db`
+- `.omg/state/swarm.db-wal`
+- `.omg/state/swarm.db-shm`
+- `.omg/state/swarm-active.marker`
+- `.omg/state/swarm-tasks.db`
+- `.omg/state/ultrapilot-state.json`
+- `.omg/state/ultrapilot-ownership.json`
+- `.omg/state/pipeline-state.json`
+- `.omg/state/omg-teams-state.json`
+- `.omg/state/plan-consensus.json`
+- `.omg/state/ralplan-state.json`
+- `.omg/state/boulder.json`
+- `.omg/state/hud-state.json`
+- `.omg/state/subagent-tracking.json`
+- `.omg/state/subagent-tracker.lock`
+- `.omg/state/rate-limit-daemon.pid`
+- `.omg/state/rate-limit-daemon.log`
+- `.omg/state/checkpoints/` (directory)
+- `.omg/state/sessions/` (empty directory cleanup after clearing sessions)
 
 ## Implementation Steps
 
@@ -120,9 +120,9 @@ fi
 ### 2. Detect Active Modes
 
 The skill now relies on the session-aware state contract rather than hard-coded file paths:
-1. Call `state_list_active` to enumerate `.omc/state/sessions/{sessionId}/…` and discover every active session.
+1. Call `state_list_active` to enumerate `.omg/state/sessions/{sessionId}/…` and discover every active session.
 2. For each session id, call `state_get_status` to learn which mode is running (`autopilot`, `ralph`, `ultrawork`, etc.) and whether dependent modes exist.
-3. If a `session_id` was supplied to `/oh-my-claudecode:cancel`, skip legacy fallback entirely and operate solely within that session path; otherwise, consult legacy files in `.omc/state/*.json` only if the state tools report no active session. Swarm remains a shared SQLite/marker mode outside session scoping.
+3. If a `session_id` was supplied to `/oh-my-gemini-cli:cancel`, skip legacy fallback entirely and operate solely within that session path; otherwise, consult legacy files in `.omg/state/*.json` only if the state tools report no active session. Swarm remains a shared SQLite/marker mode outside session scoping.
 4. Any cancellation logic in this doc mirrors the dependency order discovered via state tools (autopilot → ralph → …).
 
 ### 3A. Force Mode (if --force or --all)
@@ -131,20 +131,20 @@ Use force mode to clear every session plus legacy artifacts via `state_clear`. D
 
 ### 3B. Smart Cancellation (default)
 
-#### If Team Active (Claude Code native)
+#### If Team Active (Gemini Code native)
 
-Teams are detected by checking for config files in `~/.claude/teams/`:
+Teams are detected by checking for config files in `~/.gemini/teams/`:
 
 ```bash
 # Check for active teams
-TEAM_CONFIGS=$(find ~/.claude/teams -name config.json -maxdepth 2 2>/dev/null)
+TEAM_CONFIGS=$(find ~/.gemini/teams -name config.json -maxdepth 2 2>/dev/null)
 ```
 
 **Two-pass cancellation protocol:**
 
 **Pass 1: Graceful Shutdown**
 ```
-For each team found in ~/.claude/teams/:
+For each team found in ~/.gemini/teams/:
   1. Read config.json to get team_name and members list
   2. For each non-lead member:
      a. Send shutdown_request via SendMessage
@@ -168,7 +168,7 @@ After graceful pass:
 
 **TeamDelete + Cleanup:**
 ```
-  1. Call TeamDelete() — removes ~/.claude/teams/{name}/ and ~/.claude/tasks/{name}/
+  1. Call TeamDelete() — removes ~/.gemini/teams/{name}/ and ~/.gemini/tasks/{name}/
   2. Clear team state: state_clear(mode="team")
   3. Check for linked ralph: state_read(mode="ralph") — if linked_team is true:
      a. Clear ralph state: state_clear(mode="ralph")
@@ -199,11 +199,11 @@ Team "{team_name}" cancelled:
   - Unresponsive: K (list names if any)
   - TeamDelete: success/failed
   - Manual cleanup needed: yes/no
-    Path: ~/.claude/teams/{name}/ and ~/.claude/tasks/{name}/
+    Path: ~/.gemini/teams/{name}/ and ~/.gemini/tasks/{name}/
 ```
 
 **Implementation note:** The cancel skill is executed by the LLM, not as a bash script. When you detect an active team:
-1. Read `~/.claude/teams/*/config.json` to find active teams
+1. Read `~/.gemini/teams/*/config.json` to find active teams
 2. If multiple teams exist, cancel oldest first (by `createdAt`)
 3. For each non-lead member, call `SendMessage(type: "shutdown_request", recipient: member-name, content: "Cancelling")`
 4. Wait briefly for shutdown responses (15s per member timeout)
@@ -252,8 +252,8 @@ The cancel skill runs as follows:
 1. Parse the `--force` / `--all` flags, tracking whether cleanup should span every session or stay scoped to the current session id.
 2. Use `state_list_active` to enumerate known session ids and `state_get_status` to learn the active mode (`autopilot`, `ralph`, `ultrawork`, etc.) for each session.
 3. When operating in default mode, call `state_clear` with that session_id to remove only the session’s files, then run mode-specific cleanup (autopilot → ralph → …) based on the state tool signals.
-4. In force mode, iterate every active session, call `state_clear` per session, then run a global `state_clear` without `session_id` to drop legacy files (`.omc/state/*.json`, compatibility artifacts) and report success. Swarm remains a shared SQLite/marker mode outside session scoping.
-5. Team artifacts (`~/.claude/teams/*/`, `~/.claude/tasks/*/`, `.omc/state/team-state.json`) remain best-effort cleanup items invoked during the legacy/global pass.
+4. In force mode, iterate every active session, call `state_clear` per session, then run a global `state_clear` without `session_id` to drop legacy files (`.omg/state/*.json`, compatibility artifacts) and report success. Swarm remains a shared SQLite/marker mode outside session scoping.
+5. Team artifacts (`~/.gemini/teams/*/`, `~/.gemini/tasks/*/`, `.omg/state/team-state.json`) remain best-effort cleanup items invoked during the legacy/global pass.
 
 State tools always honor the `session_id` argument, so even force mode still clears the session-scoped paths before deleting compatibility-only legacy state.
 
@@ -278,7 +278,7 @@ Mode-specific subsections below describe what extra cleanup each handler perform
 
 | Mode | State Preserved | Resume Command |
 |------|-----------------|----------------|
-| Autopilot | Yes (phase, files, spec, plan, verdicts) | `/oh-my-claudecode:autopilot` |
+| Autopilot | Yes (phase, files, spec, plan, verdicts) | `/oh-my-gemini-cli:autopilot` |
 | Ralph | No | N/A |
 | Ultrawork | No | N/A |
 | UltraQA | No | N/A |
@@ -292,26 +292,26 @@ Mode-specific subsections below describe what extra cleanup each handler perform
 - **Dependency-aware**: Autopilot cancellation cleans up Ralph and UltraQA
 - **Link-aware**: Ralph cancellation cleans up linked Ultrawork
 - **Safe**: Only clears linked Ultrawork, preserves standalone Ultrawork
-- **Local-only**: Clears state files in `.omc/state/` directory
+- **Local-only**: Clears state files in `.omg/state/` directory
 - **Resume-friendly**: Autopilot state is preserved for seamless resume
-- **Team-aware**: Detects native Claude Code teams and performs graceful shutdown
+- **Team-aware**: Detects native Gemini Code teams and performs graceful shutdown
 
 ## MCP Worker Cleanup
 
 When cancelling modes that may have spawned MCP workers (team bridge daemons), the cancel skill should also:
 
-1. **Check for active MCP workers**: Look for heartbeat files at `.omc/state/team-bridge/{team}/*.heartbeat.json`
+1. **Check for active MCP workers**: Look for heartbeat files at `.omg/state/team-bridge/{team}/*.heartbeat.json`
 2. **Send shutdown signals**: Write shutdown signal files for each active worker
-3. **Kill tmux sessions**: Run `tmux kill-session -t omc-team-{team}-{worker}` for each worker
+3. **Kill tmux sessions**: Run `tmux kill-session -t omg-team-{team}-{worker}` for each worker
 4. **Clean up heartbeat files**: Remove all heartbeat files for the team
-5. **Clean up shadow registry**: Remove `.omc/state/team-mcp-workers.json`
+5. **Clean up shadow registry**: Remove `.omg/state/team-mcp-workers.json`
 
 ### Force Clear Addition
 
 When `--force` is used, also clean up:
 ```bash
-rm -rf .omc/state/team-bridge/       # Heartbeat files
-rm -f .omc/state/team-mcp-workers.json  # Shadow registry
-# Kill all omc-team-* tmux sessions
-tmux list-sessions -F '#{session_name}' 2>/dev/null | grep '^omc-team-' | while read s; do tmux kill-session -t "$s" 2>/dev/null; done
+rm -rf .omg/state/team-bridge/       # Heartbeat files
+rm -f .omg/state/team-mcp-workers.json  # Shadow registry
+# Kill all omg-team-* tmux sessions
+tmux list-sessions -F '#{session_name}' 2>/dev/null | grep '^omg-team-' | while read s; do tmux kill-session -t "$s" 2>/dev/null; done
 ```

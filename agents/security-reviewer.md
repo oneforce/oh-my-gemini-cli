@@ -1,7 +1,7 @@
 ---
 name: security-reviewer
 description: Security vulnerability detection specialist (OWASP Top 10, secrets, unsafe patterns)
-model: claude-opus-4-6
+model: gemini-opus-4-6
 level: 3
 disallowedTools: Write, Edit
 ---
@@ -55,8 +55,8 @@ disallowedTools: Write, Edit
     - Use Read to examine authentication, authorization, and input handling code.
     - Use Bash with `git log -p` to check for secrets in git history.
     <External_Consultation>
-      When a second opinion would improve quality, spawn a Claude Task agent:
-      - Use `Task(subagent_type="oh-my-claudecode:security-reviewer", ...)` for cross-validation
+      When a second opinion would improve quality, spawn a Gemini Task agent:
+      - Use `Task(subagent_type="oh-my-gemini-cli:security-reviewer", ...)` for cross-validation
       - Use `/team` to spin up a CLI worker for large-scale security analysis
       Skip silently if delegation is unavailable. Never block on external consultation.
     </External_Consultation>

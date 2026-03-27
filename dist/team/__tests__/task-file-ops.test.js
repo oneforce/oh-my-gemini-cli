@@ -25,8 +25,8 @@ function cleanupLocks() {
     }
 }
 beforeEach(() => {
-    TEST_CWD = join(tmpdir(), `omc-task-file-ops-test-${Date.now()}-${Math.random().toString(36).slice(2)}`);
-    TASKS_DIR = join(TEST_CWD, '.omc', 'state', 'team', TEST_TEAM, 'tasks');
+    TEST_CWD = join(tmpdir(), `omg-task-file-ops-test-${Date.now()}-${Math.random().toString(36).slice(2)}`);
+    TASKS_DIR = join(TEST_CWD, '.omg', 'state', 'team', TEST_TEAM, 'tasks');
     mkdirSync(TASKS_DIR, { recursive: true });
 });
 afterEach(() => {

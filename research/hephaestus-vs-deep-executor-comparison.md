@@ -1,7 +1,7 @@
 # Hephaestus vs Deep-Executor: Comparative Analysis
 
 ## Analysis Summary
-- **Research Question**: How do the Hephaestus (oh-my-opencode) and Deep-Executor (oh-my-claudecode) agent architectures differ, and what can each learn from the other?
+- **Research Question**: How do the Hephaestus (oh-my-opencode) and Deep-Executor (oh-my-gemini-cli) agent architectures differ, and what can each learn from the other?
 - **Methodology**: Structured feature comparison across 14 capability dimensions, scored 0-3
 
 ---
@@ -14,7 +14,7 @@
 | **Execution Model** | Multi-agent parallel | Single-agent sequential |
 | **Agent Spawning** | 2-5 parallel background agents | BLOCKED (by design) |
 | **Tool Strategy** | Agents as tools | Direct MCP/LSP tools |
-| **Model** | GPT 5.2 with reasoning levels | Claude (Opus/Sonnet) |
+| **Model** | GPT 5.2 with reasoning levels | Gemini (Opus/Sonnet) |
 
 ### Key Insight
 These are fundamentally different architectural paradigms. Hephaestus is a **distributed system** -- it treats agents as microservices. Deep-Executor is a **monolith** -- it concentrates all capability in one process. Neither is inherently superior; they optimize for different constraints.

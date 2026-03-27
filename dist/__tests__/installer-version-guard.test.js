@@ -19,29 +19,29 @@ function withUnixPaths(pathLike) {
     return String(pathLike).replace(/\\/g, '/');
 }
 describe('install downgrade protection (issue #1382)', () => {
-    const claudeMdPath = join(CLAUDE_CONFIG_DIR, 'CLAUDE.md');
-    const homeClaudeMdPath = join(homedir(), 'CLAUDE.md');
+    const geminiMdPath = join(CLAUDE_CONFIG_DIR, 'GEMINI.md');
+    const homeGeminiMdPath = join(homedir(), 'GEMINI.md');
     beforeEach(() => {
         vi.clearAllMocks();
     });
     it('skips syncing when installed version metadata is newer than the CLI package version', () => {
         mockedExistsSync.mockImplementation((pathLike) => {
             const path = withUnixPaths(pathLike);
-            return path === withUnixPaths(VERSION_FILE) || path === withUnixPaths(claudeMdPath);
+            return path === withUnixPaths(VERSION_FILE) || path === withUnixPaths(geminiMdPath);
         });
         mockedReadFileSync.mockImplementation((pathLike) => {
             const path = withUnixPaths(pathLike);
             if (path === withUnixPaths(VERSION_FILE)) {
                 return JSON.stringify({ version: '4.7.5' });
             }
-            if (path === withUnixPaths(claudeMdPath)) {
+            if (path === withUnixPaths(geminiMdPath)) {
                 return '<!-- OMC:START -->\n<!-- OMC:VERSION:4.7.5 -->\n# OMC\n<!-- OMC:END -->\n';
             }
             throw new Error(`Unexpected read: ${path}`);
         });
         const result = install({
             version: '4.5.1',
-            skipClaudeCheck: true,
+            skipGeminiCheck: true,
         });
         expect(result.success).toBe(true);
         expect(result.message).toContain('Skipping install');
@@ -49,21 +49,21 @@ describe('install downgrade protection (issue #1382)', () => {
         expect(result.message).toContain('4.5.1');
         expect(mockedWriteFileSync).not.toHaveBeenCalled();
     });
-    it('falls back to the existing CLAUDE.md version marker when metadata is missing', () => {
+    it('falls back to the existing GEMINI.md version marker when metadata is missing', () => {
         mockedExistsSync.mockImplementation((pathLike) => {
             const path = withUnixPaths(pathLike);
-            return path === withUnixPaths(homeClaudeMdPath);
+            return path === withUnixPaths(homeGeminiMdPath);
         });
         mockedReadFileSync.mockImplementation((pathLike) => {
             const path = withUnixPaths(pathLike);
-            if (path === withUnixPaths(homeClaudeMdPath)) {
+            if (path === withUnixPaths(homeGeminiMdPath)) {
                 return '<!-- OMC:START -->\n<!-- OMC:VERSION:4.7.5 -->\n# OMC\n<!-- OMC:END -->\n';
             }
             throw new Error(`Unexpected read: ${path}`);
         });
         const result = install({
             version: '4.5.1',
-            skipClaudeCheck: true,
+            skipGeminiCheck: true,
         });
         expect(result.success).toBe(true);
         expect(result.message).toContain('Skipping install');

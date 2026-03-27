@@ -8,7 +8,7 @@
  * via PipelineConfig. The orchestrator manages state transitions, signal
  * detection, and prompt generation.
  *
- * @see https://github.com/Yeachan-Heo/oh-my-claudecode/issues/1130
+ * @see https://github.com/Yeachan-Heo/oh-my-gemini-cli/issues/1130
  */
 
 import type {
@@ -540,7 +540,7 @@ function buildContext(
     idea: state.originalIdea,
     directory: state.project_path || process.cwd(),
     sessionId: state.session_id,
-    specPath: state.expansion.spec_path || ".omc/autopilot/spec.md",
+    specPath: state.expansion.spec_path || ".omg/autopilot/spec.md",
     planPath: state.planning.plan_path || resolveAutopilotPlanPath(),
     openQuestionsPath: resolveOpenQuestionsPlanPath(),
     config: tracking.pipelineConfig,

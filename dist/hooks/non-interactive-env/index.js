@@ -41,7 +41,7 @@ function buildEnvPrefix(env) {
     return `export ${exports};`;
 }
 /**
- * Non-interactive environment hook for Claude Code.
+ * Non-interactive environment hook for Gemini Code.
  *
  * Detects and handles non-interactive environments (CI, cron, etc.) by:
  * - Warning about banned interactive commands (vim, less, etc.)

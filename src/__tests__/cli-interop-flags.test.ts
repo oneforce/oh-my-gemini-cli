@@ -6,7 +6,7 @@ describe('cli interop flag validation', () => {
     const flags = readInteropRuntimeFlags({} as NodeJS.ProcessEnv);
     expect(flags.enabled).toBe(false);
     expect(flags.mode).toBe('off');
-    expect(flags.omcInteropToolsEnabled).toBe(false);
+    expect(flags.omgInteropToolsEnabled).toBe(false);
     expect(flags.failClosed).toBe(true);
   });
 

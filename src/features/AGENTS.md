@@ -3,7 +3,7 @@
 
 # features
 
-Core feature modules for oh-my-claudecode - model routing, state management, verification, and more.
+Core feature modules for oh-my-gemini-cli - model routing, state management, verification, and more.
 
 ## Purpose
 
@@ -81,7 +81,7 @@ if (hasBoulder()) {
 }
 ```
 
-**State location:** `.omc/state/boulder.json`
+**State location:** `.omg/state/boulder.json`
 
 #### Verification Protocol
 
@@ -113,7 +113,7 @@ addLearning('my-plan', 'The API requires auth headers');
 addDecision('my-plan', 'Using JWT for authentication');
 ```
 
-**Location:** `.omc/notepads/{plan-name}/`
+**Location:** `.omg/notepads/{plan-name}/`
 
 #### Delegation Categories
 
@@ -175,14 +175,14 @@ npm test -- --grep "features"
 | Feature | Purpose | State Location |
 |---------|---------|----------------|
 | model-routing | Smart model selection | N/A (stateless) |
-| boulder-state | Plan progress tracking | `.omc/state/boulder.json` |
+| boulder-state | Plan progress tracking | `.omg/state/boulder.json` |
 | verification | Evidence-based verification | In-memory |
-| notepad-wisdom | Knowledge capture | `.omc/notepads/` |
+| notepad-wisdom | Knowledge capture | `.omg/notepads/` |
 | delegation-categories | Task categorization | N/A (stateless) |
 | task-decomposer | Parallelization | In-memory |
-| state-manager | File path standardization | `.omc/state/`, `~/.omc/state/` |
+| state-manager | File path standardization | `.omg/state/`, `~/.omg/state/` |
 | context-injector | Prompt enhancement | In-memory |
 | background-agent | Concurrency control | In-memory |
-| rate-limit-wait | Rate limit handling | `.omc/state/rate-limits.json` |
+| rate-limit-wait | Rate limit handling | `.omg/state/rate-limits.json` |
 
 <!-- MANUAL: -->

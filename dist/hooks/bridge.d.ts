@@ -9,7 +9,7 @@
  * ```bash
  * #!/bin/bash
  * INPUT=$(cat)
- * echo "$INPUT" | node ~/.claude/omc/hook-bridge.mjs --hook=keyword-detector
+ * echo "$INPUT" | node ~/.gemini/omg/hook-bridge.mjs --hook=keyword-detector
  * ```
  */
 /**
@@ -18,7 +18,7 @@
  */
 export declare function requiredKeysForHook(hookType: string): string[];
 /**
- * Input format from Claude Code hooks (via stdin)
+ * Input format from Gemini Code hooks (via stdin)
  */
 export interface HookInput {
     /** Session identifier */
@@ -44,7 +44,7 @@ export interface HookInput {
     directory?: string;
 }
 /**
- * Output format for Claude Code hooks (to stdout)
+ * Output format for Gemini Code hooks (to stdout)
  */
 export interface HookOutput {
     /** Whether to continue with the operation */

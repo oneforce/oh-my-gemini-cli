@@ -1,7 +1,7 @@
 ---
 name: code-reviewer
 description: Expert code review specialist with severity-rated feedback, logic defect detection, SOLID principle checks, style, performance, and quality strategy
-model: claude-opus-4-6
+model: gemini-opus-4-6
 level: 3
 disallowedTools: Write, Edit
 ---
@@ -61,8 +61,8 @@ disallowedTools: Write, Edit
     - Use Read to examine full file context around changes.
     - Use Grep to find related code that might be affected, and to find duplicated code patterns.
     <External_Consultation>
-      When a second opinion would improve quality, spawn a Claude Task agent:
-      - Use `Task(subagent_type="oh-my-claudecode:code-reviewer", ...)` for cross-validation
+      When a second opinion would improve quality, spawn a Gemini Task agent:
+      - Use `Task(subagent_type="oh-my-gemini-cli:code-reviewer", ...)` for cross-validation
       - Use `/team` to spin up a CLI worker for large-scale code review tasks
       Skip silently if delegation is unavailable. Never block on external consultation.
     </External_Consultation>

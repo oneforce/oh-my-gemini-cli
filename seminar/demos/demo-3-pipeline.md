@@ -73,12 +73,12 @@ EOF
 ## The Command
 
 ```
-/oh-my-claudecode:pipeline review
+/oh-my-gemini-cli:pipeline review
 ```
 
 Or demonstrate custom pipeline:
 ```
-/oh-my-claudecode:pipeline explore:haiku -> architect:opus -> critic:opus -> executor:sonnet
+/oh-my-gemini-cli:pipeline explore:haiku -> architect:opus -> critic:opus -> executor:sonnet
 ```
 
 ## Expected Flow (2-3 minutes)
@@ -148,7 +148,7 @@ Or demonstrate custom pipeline:
 
 ### Terminal Output
 ```
-$ /oh-my-claudecode:pipeline review
+$ /oh-my-gemini-cli:pipeline review
 
 Activating pipeline with preset 'review':
   Stage 1: explore (haiku) →
@@ -393,21 +393,21 @@ Total: 1m 23s, 4 stages, 6 issues fixed
 ### Variation 1: Custom Pipeline
 Show custom pipeline syntax:
 ```
-/oh-my-claudecode:pipeline explore:haiku -> architect:opus -> executor-high:opus -> qa-tester:sonnet
+/oh-my-gemini-cli:pipeline explore:haiku -> architect:opus -> executor-high:opus -> qa-tester:sonnet
 ```
 
 "You can define your own stage sequence - any agent, any model, any order"
 
 ### Variation 2: Research Pipeline
 ```
-/oh-my-claudecode:pipeline research
+/oh-my-gemini-cli:pipeline research
 ```
 
 "The 'research' preset: Parallel researchers gather data, architect synthesizes, writer documents"
 
 ### Variation 3: Show Pipeline State
 ```bash
-cat .omc/state/pipeline-state.json
+cat .omg/state/pipeline-state.json
 ```
 
 "Pipeline state is persisted - you can resume if interrupted"

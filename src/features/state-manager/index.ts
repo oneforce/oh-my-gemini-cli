@@ -2,8 +2,8 @@
  * State Manager
  *
  * Unified state management that standardizes state file locations:
- * - Local state: .omc/state/{name}.json
- * - Global state: ~/.omc/state/{name}.json
+ * - Local state: .omg/state/{name}.json
+ * - Global state: ~/.omg/state/{name}.json
  *
  * Features:
  * - Type-safe read/write operations
@@ -45,7 +45,7 @@ function getLocalStateDir(): string {
  * @deprecated for mode state. Global state directory is only used for analytics and daemon state.
  * Mode state should use LOCAL_STATE_DIR exclusively.
  */
-const GLOBAL_STATE_DIR = path.join(os.homedir(), ".omc", "state");
+const GLOBAL_STATE_DIR = path.join(os.homedir(), ".omg", "state");
 
 /** Maximum age for state files before they are considered stale (4 hours) */
 const MAX_STATE_AGE_MS = 4 * 60 * 60 * 1000;
@@ -70,18 +70,18 @@ export function clearStateCache(): void {
 
 // Legacy state locations (for backward compatibility)
 const LEGACY_LOCATIONS: Record<string, string[]> = {
-  boulder: [".omc/state/boulder.json"],
-  autopilot: [".omc/state/autopilot-state.json"],
-  "autopilot-state": [".omc/state/autopilot-state.json"],
-  ralph: [".omc/state/ralph-state.json"],
-  "ralph-state": [".omc/state/ralph-state.json"],
-  "ralph-verification": [".omc/state/ralph-verification.json"],
-  ultrawork: [".omc/state/ultrawork-state.json"],
-  "ultrawork-state": [".omc/state/ultrawork-state.json"],
-  ultraqa: [".omc/state/ultraqa-state.json"],
-  "ultraqa-state": [".omc/state/ultraqa-state.json"],
-  "hud-state": [".omc/state/hud-state.json"],
-  prd: [".omc/state/prd.json"],
+  boulder: [".omg/state/boulder.json"],
+  autopilot: [".omg/state/autopilot-state.json"],
+  "autopilot-state": [".omg/state/autopilot-state.json"],
+  ralph: [".omg/state/ralph-state.json"],
+  "ralph-state": [".omg/state/ralph-state.json"],
+  "ralph-verification": [".omg/state/ralph-verification.json"],
+  ultrawork: [".omg/state/ultrawork-state.json"],
+  "ultrawork-state": [".omg/state/ultrawork-state.json"],
+  ultraqa: [".omg/state/ultraqa-state.json"],
+  "ultraqa-state": [".omg/state/ultraqa-state.json"],
+  "hud-state": [".omg/state/hud-state.json"],
+  prd: [".omg/state/prd.json"],
 };
 
 /**
@@ -578,7 +578,7 @@ export function cleanupStaleStates(
   maxAgeMs: number = MAX_STATE_AGE_MS,
 ): number {
   const stateDir = directory
-    ? path.join(directory, ".omc", "state")
+    ? path.join(directory, ".omg", "state")
     : getLocalStateDir();
 
   if (!fs.existsSync(stateDir)) return 0;
@@ -632,10 +632,10 @@ export function cleanupStaleStates(
     }
   };
 
-  // Scan top-level state files (.omc/state/*.json)
+  // Scan top-level state files (.omg/state/*.json)
   scanDir(stateDir);
 
-  // Scan session directories (.omc/state/sessions/*/*.json)
+  // Scan session directories (.omg/state/sessions/*/*.json)
   const sessionsDir = path.join(stateDir, "sessions");
   if (fs.existsSync(sessionsDir)) {
     try {

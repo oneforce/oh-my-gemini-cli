@@ -10,7 +10,7 @@ vi.mock('../installer/index.js', async () => {
   return {
     ...actual,
     install: vi.fn(),
-    HOOKS_DIR: '/tmp/omc-test-hooks',
+    HOOKS_DIR: '/tmp/omg-test-hooks',
     isProjectScopedPlugin: vi.fn(),
     checkNodeVersion: vi.fn(),
   };
@@ -67,7 +67,7 @@ describe('auto-update reconciliation', () => {
     mockedExistsSync.mockReturnValue(true);
     mockedIsProjectScopedPlugin.mockReturnValue(false);
     mockedReadFileSync.mockImplementation((path: Parameters<typeof readFileSync>[0]) => {
-      if (String(path).includes('.omc-version.json')) {
+      if (String(path).includes('.omg-version.json')) {
         return JSON.stringify({
           version: '4.1.5',
           installedAt: '2026-02-09T00:00:00.000Z',
@@ -107,11 +107,11 @@ describe('auto-update reconciliation', () => {
     const result = reconcileUpdateRuntime({ verbose: false });
 
     expect(result.success).toBe(true);
-    expect(mockedMkdirSync).toHaveBeenCalledWith('/tmp/omc-test-hooks', { recursive: true });
+    expect(mockedMkdirSync).toHaveBeenCalledWith('/tmp/omg-test-hooks', { recursive: true });
     expect(mockedInstall).toHaveBeenCalledWith({
       force: true,
       verbose: false,
-      skipClaudeCheck: true,
+      skipGeminiCheck: true,
       forceHooks: true,
       refreshHooksInPlugin: true,
     });
@@ -127,7 +127,7 @@ describe('auto-update reconciliation', () => {
     expect(mockedInstall).toHaveBeenCalledWith({
       force: true,
       verbose: false,
-      skipClaudeCheck: true,
+      skipGeminiCheck: true,
       forceHooks: true,
       refreshHooksInPlugin: false,
     });
@@ -142,14 +142,14 @@ describe('auto-update reconciliation', () => {
     expect(mockedInstall).toHaveBeenNthCalledWith(1, {
       force: true,
       verbose: false,
-      skipClaudeCheck: true,
+      skipGeminiCheck: true,
       forceHooks: true,
       refreshHooksInPlugin: true,
     });
     expect(mockedInstall).toHaveBeenNthCalledWith(2, {
       force: true,
       verbose: false,
-      skipClaudeCheck: true,
+      skipGeminiCheck: true,
       forceHooks: true,
       refreshHooksInPlugin: true,
     });
@@ -157,11 +157,11 @@ describe('auto-update reconciliation', () => {
 
   it('syncs active plugin cache roots and logs when copy occurs', () => {
     const consoleLogSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
-    const activeRoot = '/tmp/.claude/plugins/cache/omc/oh-my-claudecode/4.1.5';
+    const activeRoot = '/tmp/.gemini/plugins/cache/omg/oh-my-gemini-cli/4.1.5';
 
     mockedReadFileSync.mockImplementation((path: Parameters<typeof readFileSync>[0]) => {
       const normalized = String(path).replace(/\\/g, '/');
-      if (normalized.includes('.omc-version.json')) {
+      if (normalized.includes('.omg-version.json')) {
         return JSON.stringify({
           version: '4.1.5',
           installedAt: '2026-02-09T00:00:00.000Z',
@@ -171,7 +171,7 @@ describe('auto-update reconciliation', () => {
       if (normalized.endsWith('/plugins/installed_plugins.json')) {
         return JSON.stringify({
           plugins: {
-            'oh-my-claudecode': [{ installPath: activeRoot }],
+            'oh-my-gemini-cli': [{ installPath: activeRoot }],
           },
         });
       }
@@ -210,7 +210,7 @@ describe('auto-update reconciliation', () => {
       expect.anything(),
       expect.anything(),
     );
-    expect(consoleLogSpy).toHaveBeenCalledWith('[omc update] Synced plugin cache');
+    expect(consoleLogSpy).toHaveBeenCalledWith('[omg update] Synced plugin cache');
   });
 
   it('skips plugin cache sync silently when no active plugin roots exist', () => {
@@ -228,13 +228,13 @@ describe('auto-update reconciliation', () => {
 
     expect(result.success).toBe(true);
     expect(mockedCpSync).not.toHaveBeenCalled();
-    expect(consoleLogSpy).not.toHaveBeenCalledWith('[omc update] Synced plugin cache');
+    expect(consoleLogSpy).not.toHaveBeenCalledWith('[omg update] Synced plugin cache');
   });
 
 
   it('syncs the plugin cache directory when cache root exists', () => {
     const consoleLogSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
-    const cacheRoot = join(homedir(), '.claude', 'plugins', 'cache', 'omc', 'oh-my-claudecode');
+    const cacheRoot = join(homedir(), '.gemini', 'plugins', 'cache', 'omg', 'oh-my-gemini-cli');
     const versionedCacheRoot = `${cacheRoot}/4.9.0`;
 
     mockedExecSync.mockImplementation((command: string) => {
@@ -246,10 +246,10 @@ describe('auto-update reconciliation', () => {
 
     mockedReadFileSync.mockImplementation((path: Parameters<typeof readFileSync>[0]) => {
       const normalized = String(path).replace(/\\/g, '/');
-      if (normalized === '/usr/lib/node_modules/oh-my-claude-sisyphus/package.json') {
+      if (normalized === '/usr/lib/node_modules/oh-my-gemini-sisyphus/package.json') {
         return JSON.stringify({ version: '4.9.0' });
       }
-      if (normalized.includes('.omc-version.json')) {
+      if (normalized.includes('.omg-version.json')) {
         return JSON.stringify({
           version: '4.1.5',
           installedAt: '2026-02-09T00:00:00.000Z',
@@ -264,7 +264,7 @@ describe('auto-update reconciliation', () => {
       if (normalized === cacheRoot) {
         return true;
       }
-      if (normalized.startsWith('/usr/lib/node_modules/oh-my-claude-sisyphus/')) {
+      if (normalized.startsWith('/usr/lib/node_modules/oh-my-gemini-sisyphus/')) {
         return normalized.endsWith('/dist') || normalized.endsWith('/package.json');
       }
       return true;
@@ -280,20 +280,20 @@ describe('auto-update reconciliation', () => {
     }));
     expect(mockedMkdirSync).toHaveBeenCalledWith(versionedCacheRoot, { recursive: true });
     expect(mockedCpSync).toHaveBeenCalledWith(
-      '/usr/lib/node_modules/oh-my-claude-sisyphus/dist',
+      '/usr/lib/node_modules/oh-my-gemini-sisyphus/dist',
       `${versionedCacheRoot}/dist`,
       expect.objectContaining({ recursive: true, force: true }),
     );
     expect(mockedCpSync).toHaveBeenCalledWith(
-      '/usr/lib/node_modules/oh-my-claude-sisyphus/package.json',
+      '/usr/lib/node_modules/oh-my-gemini-sisyphus/package.json',
       `${versionedCacheRoot}/package.json`,
       expect.objectContaining({ recursive: true, force: true }),
     );
-    expect(consoleLogSpy).toHaveBeenCalledWith('[omc update] Plugin cache synced');
+    expect(consoleLogSpy).toHaveBeenCalledWith('[omg update] Plugin cache synced');
   });
 
   it('skips plugin cache sync gracefully when cache dir does not exist', () => {
-    const cacheRoot = join(homedir(), '.claude', 'plugins', 'cache', 'omc', 'oh-my-claudecode');
+    const cacheRoot = join(homedir(), '.gemini', 'plugins', 'cache', 'omg', 'oh-my-gemini-cli');
     mockedExistsSync.mockImplementation((path: Parameters<typeof existsSync>[0]) => {
       const normalized = String(path).replace(/\\/g, '/');
       if (normalized === cacheRoot) {
@@ -311,7 +311,7 @@ describe('auto-update reconciliation', () => {
 
   it('handles plugin cache sync errors non-fatally', () => {
     const consoleWarnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
-    const cacheRoot = join(homedir(), '.claude', 'plugins', 'cache', 'omc', 'oh-my-claudecode');
+    const cacheRoot = join(homedir(), '.gemini', 'plugins', 'cache', 'omg', 'oh-my-gemini-cli');
     const versionedCacheRoot = `${cacheRoot}/4.9.0`;
 
     mockedExecSync.mockImplementation((command: string) => {
@@ -323,10 +323,10 @@ describe('auto-update reconciliation', () => {
 
     mockedReadFileSync.mockImplementation((path: Parameters<typeof readFileSync>[0]) => {
       const normalized = String(path).replace(/\\/g, '/');
-      if (normalized === '/usr/lib/node_modules/oh-my-claude-sisyphus/package.json') {
+      if (normalized === '/usr/lib/node_modules/oh-my-gemini-sisyphus/package.json') {
         return JSON.stringify({ version: '4.9.0' });
       }
-      if (normalized.includes('.omc-version.json')) {
+      if (normalized.includes('.omg-version.json')) {
         return JSON.stringify({
           version: '4.1.5',
           installedAt: '2026-02-09T00:00:00.000Z',
@@ -341,7 +341,7 @@ describe('auto-update reconciliation', () => {
       if (normalized === cacheRoot) {
         return true;
       }
-      if (normalized.startsWith('/usr/lib/node_modules/oh-my-claude-sisyphus/')) {
+      if (normalized.startsWith('/usr/lib/node_modules/oh-my-gemini-sisyphus/')) {
         return normalized.endsWith('/dist');
       }
       return true;
@@ -359,7 +359,7 @@ describe('auto-update reconciliation', () => {
       `Failed to sync dist to ${versionedCacheRoot}: copy failed`,
     ]);
     expect(consoleWarnSpy).toHaveBeenCalledWith(
-      `[omc update] Plugin cache sync warning: Failed to sync dist to ${versionedCacheRoot}: copy failed`,
+      `[omg update] Plugin cache sync warning: Failed to sync dist to ${versionedCacheRoot}: copy failed`,
     );
   });
 
@@ -370,7 +370,7 @@ describe('auto-update reconciliation', () => {
     delete process.env.CLAUDECODE_SESSION_ID;
     expect(shouldBlockStandaloneUpdateInCurrentSession()).toBe(false);
 
-    process.env.CLAUDE_PLUGIN_ROOT = '/tmp/.claude/plugins/cache/omc/oh-my-claudecode/4.1.5';
+    process.env.CLAUDE_PLUGIN_ROOT = '/tmp/.gemini/plugins/cache/omg/oh-my-gemini-cli/4.1.5';
     expect(shouldBlockStandaloneUpdateInCurrentSession()).toBe(false);
 
     process.env.CLAUDE_CODE_ENTRYPOINT = 'hook';
@@ -383,13 +383,13 @@ describe('auto-update reconciliation', () => {
 
   it('dedupes plugin roots and ignores missing targets during sync', () => {
     const consoleLogSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
-    const activeRoot = '/tmp/.claude/plugins/cache/omc/oh-my-claudecode/4.1.5';
-    const staleRoot = '/tmp/.claude/plugins/cache/omc/oh-my-claudecode/4.1.4';
+    const activeRoot = '/tmp/.gemini/plugins/cache/omg/oh-my-gemini-cli/4.1.5';
+    const staleRoot = '/tmp/.gemini/plugins/cache/omg/oh-my-gemini-cli/4.1.4';
     process.env.CLAUDE_PLUGIN_ROOT = activeRoot;
 
     mockedReadFileSync.mockImplementation((path: Parameters<typeof readFileSync>[0]) => {
       const normalized = String(path).replace(/\\/g, '/');
-      if (normalized.includes('.omc-version.json')) {
+      if (normalized.includes('.omg-version.json')) {
         return JSON.stringify({
           version: '4.1.5',
           installedAt: '2026-02-09T00:00:00.000Z',
@@ -399,7 +399,7 @@ describe('auto-update reconciliation', () => {
       if (normalized.endsWith('/plugins/installed_plugins.json')) {
         return JSON.stringify({
           plugins: {
-            'oh-my-claudecode': [
+            'oh-my-gemini-cli': [
               { installPath: activeRoot },
               { installPath: staleRoot },
             ],
@@ -430,12 +430,12 @@ describe('auto-update reconciliation', () => {
     expect(targetCalls.length).toBeGreaterThan(0);
     expect(mockedCpSync.mock.calls.some(([, destination]) => String(destination).startsWith(staleRoot))).toBe(false);
     expect(consoleLogSpy).toHaveBeenCalledTimes(1);
-    expect(consoleLogSpy).toHaveBeenCalledWith('[omc update] Synced plugin cache');
+    expect(consoleLogSpy).toHaveBeenCalledWith('[omg update] Synced plugin cache');
   });
 
-  it('allows standalone update when CLAUDE_PLUGIN_ROOT is inherited without an active Claude session', async () => {
-    const pluginRoot = join(homedir(), '.claude', 'plugins', 'cache', 'omc', 'oh-my-claudecode', '4.1.5');
-    const cacheRoot = join(homedir(), '.claude', 'plugins', 'cache', 'omc', 'oh-my-claudecode');
+  it('allows standalone update when CLAUDE_PLUGIN_ROOT is inherited without an active Gemini session', async () => {
+    const pluginRoot = join(homedir(), '.gemini', 'plugins', 'cache', 'omg', 'oh-my-gemini-cli', '4.1.5');
+    const cacheRoot = join(homedir(), '.gemini', 'plugins', 'cache', 'omg', 'oh-my-gemini-cli');
     process.env.OMC_UPDATE_RECONCILE = '1';
     process.env.CLAUDE_PLUGIN_ROOT = pluginRoot;
     delete process.env.CLAUDE_CODE_ENTRYPOINT;
@@ -456,7 +456,7 @@ describe('auto-update reconciliation', () => {
     }));
 
     mockedExecSync.mockImplementation((command: string) => {
-      if (command === 'npm install -g oh-my-claude-sisyphus@latest') {
+      if (command === 'npm install -g oh-my-gemini-sisyphus@latest') {
         return '';
       }
       if (command === 'npm root -g') {
@@ -482,7 +482,7 @@ describe('auto-update reconciliation', () => {
     const result = await performUpdate({ verbose: false });
 
     expect(result.success).toBe(true);
-    expect(mockedExecSync).toHaveBeenCalledWith('npm install -g oh-my-claude-sisyphus@latest', expect.any(Object));
+    expect(mockedExecSync).toHaveBeenCalledWith('npm install -g oh-my-gemini-sisyphus@latest', expect.any(Object));
   });
 
   it('runs reconciliation as part of performUpdate', async () => {
@@ -508,11 +508,11 @@ describe('auto-update reconciliation', () => {
     const result = await performUpdate({ verbose: false });
 
     expect(result.success).toBe(true);
-    expect(mockedExecSync).toHaveBeenCalledWith('npm install -g oh-my-claude-sisyphus@latest', expect.any(Object));
+    expect(mockedExecSync).toHaveBeenCalledWith('npm install -g oh-my-gemini-sisyphus@latest', expect.any(Object));
     expect(mockedInstall).toHaveBeenCalledWith({
       force: true,
       verbose: false,
-      skipClaudeCheck: true,
+      skipGeminiCheck: true,
       forceHooks: true,
       refreshHooksInPlugin: true,
     });
@@ -598,7 +598,7 @@ describe('auto-update reconciliation', () => {
     expect(result.success).toBe(true);
     expect(mockedExecFileSync).toHaveBeenCalledWith(
       'git',
-      ['-C', expect.stringContaining('/plugins/marketplaces/omc'), 'status', '--porcelain', '--untracked-files=normal'],
+      ['-C', expect.stringContaining('/plugins/marketplaces/omg'), 'status', '--porcelain', '--untracked-files=normal'],
       expect.any(Object)
     );
     expect(mockedExecFileSync).not.toHaveBeenCalledWith(
@@ -661,7 +661,7 @@ describe('auto-update reconciliation', () => {
     expect(result.success).toBe(true);
     expect(mockedExecFileSync).toHaveBeenCalledWith(
       'git',
-      ['-C', expect.stringContaining('/plugins/marketplaces/omc'), 'rev-list', '--left-right', '--count', 'HEAD...origin/main'],
+      ['-C', expect.stringContaining('/plugins/marketplaces/omg'), 'rev-list', '--left-right', '--count', 'HEAD...origin/main'],
       expect.any(Object)
     );
     expect(mockedExecFileSync).not.toHaveBeenCalledWith(
@@ -719,7 +719,7 @@ describe('auto-update reconciliation', () => {
     expect(result.success).toBe(true);
     expect(mockedExecFileSync).toHaveBeenCalledWith(
       'git',
-      ['-C', expect.stringContaining('/plugins/marketplaces/omc'), 'merge', '--ff-only', 'origin/main'],
+      ['-C', expect.stringContaining('/plugins/marketplaces/omg'), 'merge', '--ff-only', 'origin/main'],
       expect.any(Object)
     );
     expect(mockedExecFileSync).not.toHaveBeenCalledWith(
@@ -731,12 +731,12 @@ describe('auto-update reconciliation', () => {
     delete process.env.OMC_UPDATE_RECONCILE;
   });
 
-  it('re-execs with omc.cmd on Windows and persists metadata after reconciliation', async () => {
+  it('re-execs with omg.cmd on Windows and persists metadata after reconciliation', async () => {
     mockPlatform('win32');
 
     mockedExistsSync.mockImplementation((path: Parameters<typeof existsSync>[0]) => {
       const normalized = String(path).replace(/\\/g, '/');
-      if (normalized.endsWith('/plugins/marketplaces/omc')) {
+      if (normalized.endsWith('/plugins/marketplaces/omg')) {
         return false;
       }
       return true;
@@ -756,7 +756,7 @@ describe('auto-update reconciliation', () => {
     }));
 
     mockedExecSync.mockImplementation((command: string) => {
-      if (command === 'npm install -g oh-my-claude-sisyphus@latest') {
+      if (command === 'npm install -g oh-my-gemini-sisyphus@latest') {
         return '';
       }
       throw new Error(`Unexpected execSync command: ${command}`);
@@ -764,9 +764,9 @@ describe('auto-update reconciliation', () => {
 
     mockedExecFileSync.mockImplementation((command: string) => {
       if (command === 'where.exe') {
-        return 'C:\\Users\\bellman\\AppData\\Roaming\\npm\\omc.cmd\r\n';
+        return 'C:\\Users\\bellman\\AppData\\Roaming\\npm\\omg.cmd\r\n';
       }
-      if (command === 'C:\\Users\\bellman\\AppData\\Roaming\\npm\\omc.cmd') {
+      if (command === 'C:\\Users\\bellman\\AppData\\Roaming\\npm\\omg.cmd') {
         return '';
       }
       throw new Error(`Unexpected execFileSync command: ${command}`);
@@ -775,16 +775,16 @@ describe('auto-update reconciliation', () => {
     const result = await performUpdate({ verbose: false });
 
     expect(result.success).toBe(true);
-    expect(mockedExecSync).toHaveBeenCalledWith('npm install -g oh-my-claude-sisyphus@latest', expect.objectContaining({
+    expect(mockedExecSync).toHaveBeenCalledWith('npm install -g oh-my-gemini-sisyphus@latest', expect.objectContaining({
       windowsHide: true,
     }));
-    expect(mockedExecFileSync).toHaveBeenNthCalledWith(1, 'where.exe', ['omc.cmd'], expect.objectContaining({
+    expect(mockedExecFileSync).toHaveBeenNthCalledWith(1, 'where.exe', ['omg.cmd'], expect.objectContaining({
       encoding: 'utf-8',
       stdio: 'pipe',
       timeout: 5000,
       windowsHide: true,
     }));
-    expect(mockedExecFileSync).toHaveBeenNthCalledWith(2, 'C:\\Users\\bellman\\AppData\\Roaming\\npm\\omc.cmd', ['update-reconcile'], expect.objectContaining({
+    expect(mockedExecFileSync).toHaveBeenNthCalledWith(2, 'C:\\Users\\bellman\\AppData\\Roaming\\npm\\omg.cmd', ['update-reconcile'], expect.objectContaining({
       encoding: 'utf-8',
       stdio: 'pipe',
       timeout: 60000,
@@ -792,7 +792,7 @@ describe('auto-update reconciliation', () => {
       windowsHide: true,
       env: expect.objectContaining({ OMC_UPDATE_RECONCILE: '1' }),
     }));
-    expect(mockedWriteFileSync).toHaveBeenCalledWith(expect.stringContaining('.omc-version.json'), expect.stringContaining('"version": "4.1.6"'));
+    expect(mockedWriteFileSync).toHaveBeenCalledWith(expect.stringContaining('.omg-version.json'), expect.stringContaining('"version": "4.1.6"'));
   });
 
   it('does not persist metadata when Windows reconcile re-exec fails with ENOENT', async () => {
@@ -800,7 +800,7 @@ describe('auto-update reconciliation', () => {
 
     mockedExistsSync.mockImplementation((path: Parameters<typeof existsSync>[0]) => {
       const normalized = String(path).replace(/\\/g, '/');
-      if (normalized.endsWith('/plugins/marketplaces/omc')) {
+      if (normalized.endsWith('/plugins/marketplaces/omg')) {
         return false;
       }
       return true;
@@ -822,10 +822,10 @@ describe('auto-update reconciliation', () => {
     mockedExecSync.mockReturnValue('');
     mockedExecFileSync.mockImplementation((command: string) => {
       if (command === 'where.exe') {
-        return 'C:\\Users\\bellman\\AppData\\Roaming\\npm\\omc.cmd\r\n';
+        return 'C:\\Users\\bellman\\AppData\\Roaming\\npm\\omg.cmd\r\n';
       }
-      if (command === 'C:\\Users\\bellman\\AppData\\Roaming\\npm\\omc.cmd') {
-        const error = Object.assign(new Error('spawnSync C:\\Users\\bellman\\AppData\\Roaming\\npm\\omc.cmd ENOENT'), {
+      if (command === 'C:\\Users\\bellman\\AppData\\Roaming\\npm\\omg.cmd') {
+        const error = Object.assign(new Error('spawnSync C:\\Users\\bellman\\AppData\\Roaming\\npm\\omg.cmd ENOENT'), {
           code: 'ENOENT',
         });
         throw error;
@@ -837,8 +837,8 @@ describe('auto-update reconciliation', () => {
 
     expect(result.success).toBe(false);
     expect(result.message).toBe('Updated to 4.1.6, but runtime reconciliation failed');
-    expect(result.errors).toEqual(['spawnSync C:\\Users\\bellman\\AppData\\Roaming\\npm\\omc.cmd ENOENT']);
-    expect(mockedExecFileSync).toHaveBeenNthCalledWith(2, 'C:\\Users\\bellman\\AppData\\Roaming\\npm\\omc.cmd', ['update-reconcile'], expect.objectContaining({
+    expect(result.errors).toEqual(['spawnSync C:\\Users\\bellman\\AppData\\Roaming\\npm\\omg.cmd ENOENT']);
+    expect(mockedExecFileSync).toHaveBeenNthCalledWith(2, 'C:\\Users\\bellman\\AppData\\Roaming\\npm\\omg.cmd', ['update-reconcile'], expect.objectContaining({
       shell: true,
       windowsHide: true,
       env: expect.objectContaining({ OMC_UPDATE_RECONCILE: '1' }),
@@ -854,7 +854,7 @@ describe('auto-update reconciliation', () => {
             hooks: [
               {
                 type: 'command',
-                command: 'node $HOME/.claude/hooks/other-plugin.mjs',
+                command: 'node $HOME/.gemini/hooks/other-plugin.mjs',
               },
             ],
           },
@@ -862,7 +862,7 @@ describe('auto-update reconciliation', () => {
       },
     };
 
-    const settingsPath = join(homedir(), '.claude', 'settings.json');
+    const settingsPath = join(homedir(), '.gemini', 'settings.json');
     const baseHooks = hooksModule.getHooksSettingsConfig();
     const freshHooks = {
       ...baseHooks,
@@ -873,7 +873,7 @@ describe('auto-update reconciliation', () => {
             hooks: [
               {
                 type: 'command' as const,
-                command: 'node $HOME/.claude/hooks/keyword-detector.mjs',
+                command: 'node $HOME/.gemini/hooks/keyword-detector.mjs',
               },
             ],
           },
@@ -886,7 +886,7 @@ describe('auto-update reconciliation', () => {
       if (normalized === settingsPath) {
         return true;
       }
-      if (normalized.endsWith('/.claude/hud')) {
+      if (normalized.endsWith('/.gemini/hud')) {
         return false;
       }
       if (normalized.includes('/hooks/')) {
@@ -909,11 +909,11 @@ describe('auto-update reconciliation', () => {
     vi.spyOn(hooksModule, 'getHooksSettingsConfig').mockReturnValue(freshHooks);
 
     const originalPluginRoot = process.env.CLAUDE_PLUGIN_ROOT;
-    process.env.CLAUDE_PLUGIN_ROOT = join(homedir(), '.claude', 'plugins', 'cache', 'omc', 'oh-my-claudecode', '4.1.5');
+    process.env.CLAUDE_PLUGIN_ROOT = join(homedir(), '.gemini', 'plugins', 'cache', 'omg', 'oh-my-gemini-cli', '4.1.5');
 
     const result = install({
       force: true,
-      skipClaudeCheck: true,
+      skipGeminiCheck: true,
       refreshHooksInPlugin: true,
     });
 
@@ -926,7 +926,7 @@ describe('auto-update reconciliation', () => {
     const settingsWrite = mockedWriteFileSync.mock.calls.find((call) => String(call[0]).includes('settings.json'));
     if (settingsWrite) {
       const writtenSettings = JSON.parse(String(settingsWrite[1]));
-      expect(writtenSettings.hooks.UserPromptSubmit[0].hooks[0].command).toBe('node $HOME/.claude/hooks/other-plugin.mjs');
+      expect(writtenSettings.hooks.UserPromptSubmit[0].hooks[0].command).toBe('node $HOME/.gemini/hooks/other-plugin.mjs');
     }
     expect(result.hooksConfigured).toBe(true);
   });

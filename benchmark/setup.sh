@@ -36,7 +36,7 @@ log_info "All required tools found."
 # 2. Create necessary directories
 log_info "Creating directory structure..."
 mkdir -p "$SCRIPT_DIR/predictions/vanilla"
-mkdir -p "$SCRIPT_DIR/predictions/omc"
+mkdir -p "$SCRIPT_DIR/predictions/omg"
 mkdir -p "$SCRIPT_DIR/logs"
 mkdir -p "$SCRIPT_DIR/data"
 mkdir -p "$SCRIPT_DIR/cache"
@@ -109,7 +109,7 @@ if [ $? -ne 0 ]; then
 fi
 
 # 7. Build OMC project
-log_info "Building oh-my-claudecode project..."
+log_info "Building oh-my-gemini-cli project..."
 cd "$PROJECT_ROOT"
 npm install --silent
 npm run build --silent
@@ -150,6 +150,6 @@ log_info ""
 log_info "Next steps:"
 log_info "  1. Quick test: ./quick_test.sh"
 log_info "  2. Run vanilla: ./run_vanilla.sh"
-log_info "  3. Run OMC: ./run_omc.sh"
+log_info "  3. Run OMC: ./run_omg.sh"
 log_info "  4. Full comparison: ./run_full_comparison.sh"
 log_info ""

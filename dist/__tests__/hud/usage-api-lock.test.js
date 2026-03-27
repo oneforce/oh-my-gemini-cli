@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { EventEmitter } from 'events';
-const CLAUDE_CONFIG_DIR = '/tmp/test-claude';
-const CACHE_PATH = `${CLAUDE_CONFIG_DIR}/plugins/oh-my-claudecode/.usage-cache.json`;
+const CLAUDE_CONFIG_DIR = '/tmp/test-gemini';
+const CACHE_PATH = `${CLAUDE_CONFIG_DIR}/plugins/oh-my-gemini-cli/.usage-cache.json`;
 const LOCK_PATH = `${CACHE_PATH}.lock`;
 function createFsMock(initialFiles) {
     const files = new Map(Object.entries(initialFiles));
@@ -97,7 +97,7 @@ describe('getUsage lock failure fallback', () => {
             return originalKill.call(process, pid, signal);
         });
         vi.doMock('../../utils/paths.js', () => ({
-            getClaudeConfigDir: () => CLAUDE_CONFIG_DIR,
+            getGeminiConfigDir: () => CLAUDE_CONFIG_DIR,
         }));
         vi.doMock('../../utils/ssrf-guard.js', () => ({
             validateAnthropicBaseUrl: () => ({ allowed: true }),
@@ -137,7 +137,7 @@ describe('getUsage lock failure fallback', () => {
             return originalKill.call(process, pid, signal);
         });
         vi.doMock('../../utils/paths.js', () => ({
-            getClaudeConfigDir: () => CLAUDE_CONFIG_DIR,
+            getGeminiConfigDir: () => CLAUDE_CONFIG_DIR,
         }));
         vi.doMock('../../utils/ssrf-guard.js', () => ({
             validateAnthropicBaseUrl: () => ({ allowed: true }),
@@ -188,7 +188,7 @@ describe('getUsage lock behavior', () => {
         const { files, fsModule } = createFsMock({ [CACHE_PATH]: expiredCache });
         let requestSawLock = false;
         vi.doMock('../../utils/paths.js', () => ({
-            getClaudeConfigDir: () => CLAUDE_CONFIG_DIR,
+            getGeminiConfigDir: () => CLAUDE_CONFIG_DIR,
         }));
         vi.doMock('../../utils/ssrf-guard.js', () => ({
             validateAnthropicBaseUrl: () => ({ allowed: true }),

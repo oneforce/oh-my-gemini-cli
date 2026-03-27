@@ -13,14 +13,14 @@ import { registerBeadsContext } from '../beads-context/index.js';
 // Constants
 // ============================================================================
 const REQUIRED_DIRECTORIES = [
-    '.omc/state',
-    '.omc/logs',
-    '.omc/notepads',
-    '.omc/state/checkpoints',
-    '.omc/plans',
+    '.omg/state',
+    '.omg/logs',
+    '.omg/notepads',
+    '.omg/state/checkpoints',
+    '.omg/plans',
 ];
 const CONFIG_FILES = [
-    '.omc-config.json',
+    '.omg-config.json',
 ];
 const DEFAULT_STATE_MAX_AGE_DAYS = 7;
 // ============================================================================
@@ -88,7 +88,7 @@ export function setEnvironmentVariables() {
  *
  * The sh->find-node.sh->node chain introduced in v4.3.4 (issue #892) is only
  * needed on Unix where nvm/fnm may not expose `node` on PATH in non-interactive
- * shells.  On Windows (MSYS2 / Git Bash) the same chain triggers Claude Code UI
+ * shells.  On Windows (MSYS2 / Git Bash) the same chain triggers Gemini Code UI
  * bug #17088, which mislabels every successful hook as an error.
  *
  * This function reads the plugin's hooks.json and rewrites every command of the
@@ -142,7 +142,7 @@ export async function processSetupInit(input) {
         env_vars_set: [],
     };
     // On Windows, patch hooks.json to use direct node invocation (no sh wrapper).
-    // The sh->find-node.sh->node chain triggers Claude Code UI bug #17088 on
+    // The sh->find-node.sh->node chain triggers Gemini Code UI bug #17088 on
     // MSYS2/Git Bash, mislabeling every successful hook as an error (issue #899).
     // find-node.sh is only needed on Unix for nvm/fnm PATH discovery.
     if (process.platform === 'win32') {
@@ -190,10 +190,10 @@ export async function processSetupInit(input) {
 // Maintenance Functions
 // ============================================================================
 /**
- * Prune old state files from .omc/state directory
+ * Prune old state files from .omg/state directory
  */
 export function pruneOldStateFiles(directory, maxAgeDays = DEFAULT_STATE_MAX_AGE_DAYS) {
-    const stateDir = join(directory, '.omc/state');
+    const stateDir = join(directory, '.omg/state');
     if (!existsSync(stateDir)) {
         return 0;
     }
@@ -250,7 +250,7 @@ export function pruneOldStateFiles(directory, maxAgeDays = DEFAULT_STATE_MAX_AGE
  * Clean up orphaned state files (state files without corresponding active sessions)
  */
 export function cleanupOrphanedState(directory) {
-    const stateDir = join(directory, '.omc/state');
+    const stateDir = join(directory, '.omg/state');
     if (!existsSync(stateDir)) {
         return 0;
     }

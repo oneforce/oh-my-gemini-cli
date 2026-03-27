@@ -20,7 +20,7 @@ describe('session-replay', () => {
 
   beforeEach(() => {
     testDir = join(tmpdir(), `replay-test-${Date.now()}-${Math.random().toString(36).slice(2)}`);
-    mkdirSync(join(testDir, '.omc', 'state'), { recursive: true });
+    mkdirSync(join(testDir, '.omg', 'state'), { recursive: true });
     resetSessionStartTimes();
   });
 
@@ -31,7 +31,7 @@ describe('session-replay', () => {
   describe('getReplayFilePath', () => {
     it('should return correct path for session', () => {
       const path = getReplayFilePath(testDir, 'test-session');
-      expect(path).toContain(join('.omc', 'state', 'agent-replay-test-session.jsonl'));
+      expect(path).toContain(join('.omg', 'state', 'agent-replay-test-session.jsonl'));
     });
 
     it('should sanitize session ID', () => {
@@ -72,7 +72,7 @@ describe('session-replay', () => {
 
   describe('event helpers', () => {
     it('recordAgentStart should record start event', () => {
-      recordAgentStart(testDir, 'sess3', 'agent-123', 'oh-my-claudecode:executor', 'Fix the bug', 'ultrawork', 'sonnet');
+      recordAgentStart(testDir, 'sess3', 'agent-123', 'oh-my-gemini-cli:executor', 'Fix the bug', 'ultrawork', 'sonnet');
 
       const events = readReplayEvents(testDir, 'sess3');
       expect(events).toHaveLength(1);
@@ -83,7 +83,7 @@ describe('session-replay', () => {
     });
 
     it('recordAgentStop should record stop event', () => {
-      recordAgentStop(testDir, 'sess4', 'agent-456', 'oh-my-claudecode:architect', true, 5000);
+      recordAgentStop(testDir, 'sess4', 'agent-456', 'oh-my-gemini-cli:architect', true, 5000);
 
       const events = readReplayEvents(testDir, 'sess4');
       expect(events).toHaveLength(1);
@@ -168,7 +168,7 @@ describe('session-replay', () => {
 
     it('should skip malformed JSON lines', () => {
       const filePath = getReplayFilePath(testDir, 'malformed');
-      mkdirSync(join(testDir, '.omc', 'state'), { recursive: true });
+      mkdirSync(join(testDir, '.omg', 'state'), { recursive: true });
       const { writeFileSync } = require('fs');
       writeFileSync(filePath, '{"valid": true}\nnot json\n{"also": "valid"}\n');
 

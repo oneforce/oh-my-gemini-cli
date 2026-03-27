@@ -27,12 +27,12 @@ import { appendTeamEvent, emitMonitorDerivedEvents } from './events.js';
 import { DEFAULT_TEAM_GOVERNANCE, DEFAULT_TEAM_TRANSPORT_POLICY, getConfigGovernance, } from './governance.js';
 import { inferPhase } from './phase-controller.js';
 import { validateTeamName } from './team-name.js';
-import { buildWorkerArgv, resolveValidatedBinaryPath, getWorkerEnv as getModelWorkerEnv, isPromptModeAgent, getPromptModeArgs, resolveClaudeWorkerModel, } from './model-contract.js';
+import { buildWorkerArgv, resolveValidatedBinaryPath, getWorkerEnv as getModelWorkerEnv, isPromptModeAgent, getPromptModeArgs, resolveGeminiWorkerModel, } from './model-contract.js';
 import { createTeamSession, spawnWorkerInPane, sendToWorker, waitForPaneReady, paneHasActiveTask, paneLooksReady, } from './tmux-session.js';
 import { composeInitialInbox, ensureWorkerStateDir, writeWorkerOverlay, generateTriggerMessage, } from './worker-bootstrap.js';
 import { queueInboxInstruction } from './mcp-comm.js';
 import { cleanupTeamWorktrees } from './git-worktree.js';
-import { formatOmcCliInvocation } from '../utils/omc-cli-rendering.js';
+import { formatOmcCliInvocation } from '../utils/omg-cli-rendering.js';
 // ---------------------------------------------------------------------------
 // Feature flag
 // ---------------------------------------------------------------------------
@@ -101,7 +101,7 @@ function findOutstandingWorkerTask(worker, taskById, inProgressByOwner) {
 // ---------------------------------------------------------------------------
 /**
  * Build the initial task instruction for v2 workers.
- * Workers use `omc team api` CLI commands for all lifecycle transitions.
+ * Workers use `omg team api` CLI commands for all lifecycle transitions.
  */
 function buildV2TaskInstruction(teamName, workerName, task, taskId) {
     const claimTaskCommand = formatOmcCliInvocation(`team api claim-task --input '${JSON.stringify({ team_name: teamName, task_id: taskId, worker: workerName })}' --json`, {});
@@ -222,7 +222,7 @@ async function spawnV2Worker(opts) {
     const resolvedBinaryPath = opts.resolvedBinaryPaths[opts.agentType]
         ?? resolveValidatedBinaryPath(opts.agentType);
     // Resolve model from environment variables.
-    // For Claude agents on Bedrock/Vertex, resolve the provider-specific model
+    // For Gemini agents on Bedrock/Vertex, resolve the provider-specific model
     // so workers don't fall back to invalid Anthropic API model names. (#1695)
     const modelForAgent = (() => {
         if (opts.agentType === 'codex') {
@@ -235,8 +235,8 @@ async function spawnV2Worker(opts) {
                 || process.env.OMC_GEMINI_DEFAULT_MODEL
                 || undefined;
         }
-        // Claude agents: resolve Bedrock/Vertex model when on those providers
-        return resolveClaudeWorkerModel();
+        // Gemini agents: resolve Bedrock/Vertex model when on those providers
+        return resolveGeminiWorkerModel();
     })();
     const [launchBinary, ...launchArgs] = buildWorkerArgv(opts.agentType, {
         teamName: opts.teamName,
@@ -311,7 +311,7 @@ async function spawnV2Worker(opts) {
             startupFailureReason: dispatchOutcome.reason,
         };
     }
-    if (opts.agentType === 'claude') {
+    if (opts.agentType === 'gemini') {
         const settled = await waitForWorkerStartupEvidence(opts.teamName, opts.workerName, opts.taskId, opts.cwd);
         if (!settled) {
             const renotified = await notifyStartupInbox(opts.sessionName, paneId, inboxTriggerMessage);
@@ -327,7 +327,7 @@ async function spawnV2Worker(opts) {
                 return {
                     paneId,
                     startupAssigned: false,
-                    startupFailureReason: 'claude_startup_evidence_missing',
+                    startupFailureReason: 'gemini_startup_evidence_missing',
                 };
             }
         }
@@ -369,7 +369,7 @@ export async function startTeamV2(config) {
     // Create state directories
     await mkdir(absPath(leaderCwd, TeamPaths.tasks(sanitized)), { recursive: true });
     await mkdir(absPath(leaderCwd, TeamPaths.workers(sanitized)), { recursive: true });
-    await mkdir(join(leaderCwd, '.omc', 'state', 'team', sanitized, 'mailbox'), { recursive: true });
+    await mkdir(join(leaderCwd, '.omg', 'state', 'team', sanitized, 'mailbox'), { recursive: true });
     // Write task files
     for (let i = 0; i < config.tasks.length; i++) {
         const taskId = String(i + 1);
@@ -409,7 +409,7 @@ export async function startTeamV2(config) {
         const allocationWorkers = workerNames.map((name, i) => ({
             name,
             role: config.workerRoles?.[i]
-                ?? (agentTypes[i % agentTypes.length] ?? agentTypes[0] ?? 'claude'),
+                ?? (agentTypes[i % agentTypes.length] ?? agentTypes[0] ?? 'gemini'),
             currentLoad: 0,
         }));
         for (const r of allocateTasksToWorkers(allocationTasks, allocationWorkers)) {
@@ -419,7 +419,7 @@ export async function startTeamV2(config) {
     // Set up worker state dirs and overlays (with v2 CLI API instructions)
     for (let i = 0; i < workerNames.length; i++) {
         const wName = workerNames[i];
-        const agentType = (agentTypes[i % agentTypes.length] ?? agentTypes[0] ?? 'claude');
+        const agentType = (agentTypes[i % agentTypes.length] ?? agentTypes[0] ?? 'gemini');
         await ensureWorkerStateDir(sanitized, wName, leaderCwd);
         await writeWorkerOverlay({
             teamName: sanitized, workerName: wName, agentType,
@@ -443,7 +443,7 @@ export async function startTeamV2(config) {
         name: wName,
         index: i + 1,
         role: config.workerRoles?.[i]
-            ?? (agentTypes[i % agentTypes.length] ?? agentTypes[0] ?? 'claude'),
+            ?? (agentTypes[i % agentTypes.length] ?? agentTypes[0] ?? 'gemini'),
         assigned_tasks: [],
         working_dir: leaderCwd,
     }));
@@ -451,7 +451,7 @@ export async function startTeamV2(config) {
     const teamConfig = {
         name: sanitized,
         task: config.tasks.map(t => t.subject).join('; '),
-        agent_type: agentTypes[0] || 'claude',
+        agent_type: agentTypes[0] || 'gemini',
         worker_launch_mode: 'interactive',
         policy: DEFAULT_TEAM_TRANSPORT_POLICY,
         governance: DEFAULT_TEAM_GOVERNANCE,
@@ -528,7 +528,7 @@ export async function startTeamV2(config) {
             teamName: sanitized,
             workerName: wName,
             workerIndex,
-            agentType: (agentTypes[workerIndex % agentTypes.length] ?? agentTypes[0] ?? 'claude'),
+            agentType: (agentTypes[workerIndex % agentTypes.length] ?? agentTypes[0] ?? 'gemini'),
             task,
             taskId,
             cwd: leaderCwd,
@@ -1002,7 +1002,7 @@ export async function resumeTeamV2(teamName, cwd) {
         const { execFile } = await import('child_process');
         const { promisify } = await import('util');
         const execFileAsync = promisify(execFile);
-        const sessionName = config.tmux_session || `omc-team-${sanitized}`;
+        const sessionName = config.tmux_session || `omg-team-${sanitized}`;
         await execFileAsync('tmux', ['has-session', '-t', sessionName.split(':')[0]]);
         return {
             teamName: sanitized,
@@ -1021,7 +1021,7 @@ export async function resumeTeamV2(teamName, cwd) {
 // findActiveTeams — discover running teams
 // ---------------------------------------------------------------------------
 export async function findActiveTeamsV2(cwd) {
-    const root = join(cwd, '.omc', 'state', 'team');
+    const root = join(cwd, '.omg', 'state', 'team');
     if (!existsSync(root))
         return [];
     const entries = await readdir(root, { withFileTypes: true });

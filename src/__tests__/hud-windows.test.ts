@@ -2,13 +2,13 @@ import { describe, it, expect } from 'vitest';
 import { readFileSync, existsSync } from 'fs';
 import { join, dirname, sep } from 'path';
 import { fileURLToPath, pathToFileURL } from 'url';
-import { getPluginCacheBase, getClaudeConfigDir } from '../utils/paths.js';
+import { getPluginCacheBase, getGeminiConfigDir } from '../utils/paths.js';
 
 /**
  * HUD Windows Compatibility Tests
  *
  * These tests verify Windows compatibility fixes for HUD:
- * - File naming (omc-hud.mjs)
+ * - File naming (omg-hud.mjs)
  * - Windows dynamic import() requires file:// URLs (pathToFileURL)
  * - Version sorting (numeric vs lexicographic)
  * - Cross-platform plugin cache path resolution (#670)
@@ -22,22 +22,22 @@ const packageRoot = join(__dirname, '..', '..');
 
 describe('HUD Windows Compatibility', () => {
   describe('File Naming', () => {
-    it('session-start.mjs should reference omc-hud.mjs', () => {
+    it('session-start.mjs should reference omg-hud.mjs', () => {
       const sessionStartPath = join(packageRoot, 'scripts', 'session-start.mjs');
       expect(existsSync(sessionStartPath)).toBe(true);
 
       const content = readFileSync(sessionStartPath, 'utf-8');
-      expect(content).toContain('omc-hud.mjs');
-      // Note: May also contain 'omc-hud.mjs' for backward compatibility (dual naming)
+      expect(content).toContain('omg-hud.mjs');
+      // Note: May also contain 'omg-hud.mjs' for backward compatibility (dual naming)
     });
 
-    it('installer should create omc-hud.mjs', () => {
+    it('installer should create omg-hud.mjs', () => {
       const installerPath = join(packageRoot, 'src', 'installer', 'index.ts');
       expect(existsSync(installerPath)).toBe(true);
 
       const content = readFileSync(installerPath, 'utf-8');
-      expect(content).toContain('omc-hud.mjs');
-      // Note: May also contain 'omc-hud.mjs' for legacy support
+      expect(content).toContain('omg-hud.mjs');
+      // Note: May also contain 'omg-hud.mjs' for legacy support
     });
   });
 
@@ -130,18 +130,18 @@ describe('HUD Windows Compatibility', () => {
       const cachePath = getPluginCacheBase();
       // Should contain the expected path segments regardless of separator
       const normalized = cachePath.replace(/\\/g, '/');
-      expect(normalized).toContain('plugins/cache/omc/oh-my-claudecode');
+      expect(normalized).toContain('plugins/cache/omg/oh-my-gemini-cli');
     });
 
     it('getPluginCacheBase should use platform-native separators', () => {
       const cachePath = getPluginCacheBase();
       // On Windows: backslashes, on Unix: forward slashes
-      expect(cachePath).toContain(`plugins${sep}cache${sep}omc${sep}oh-my-claudecode`);
+      expect(cachePath).toContain(`plugins${sep}cache${sep}omg${sep}oh-my-gemini-cli`);
     });
 
-    it('getPluginCacheBase should be under claude config dir', () => {
+    it('getPluginCacheBase should be under gemini config dir', () => {
       const cachePath = getPluginCacheBase();
-      const configDir = getClaudeConfigDir();
+      const configDir = getGeminiConfigDir();
       expect(cachePath.startsWith(configDir)).toBe(true);
     });
 
@@ -165,18 +165,18 @@ describe('HUD Windows Compatibility', () => {
       expect(content).toContain('join(configDir,');
     });
 
-    it('omc-doctor skill should use cross-platform Node.js commands', () => {
-      const doctorPath = join(packageRoot, 'skills', 'omc-doctor', 'SKILL.md');
+    it('omg-doctor skill should use cross-platform Node.js commands', () => {
+      const doctorPath = join(packageRoot, 'skills', 'omg-doctor', 'SKILL.md');
       const content = readFileSync(doctorPath, 'utf-8');
 
       // Should NOT use ~ for plugin cache paths in bash commands
-      expect(content).not.toMatch(/ls ~\/\.claude\/plugins\/cache/);
+      expect(content).not.toMatch(/ls ~\/\.gemini\/plugins\/cache/);
       // Should use node -e for cross-platform compatibility
       expect(content).toContain("node -e");
       // Should use path.join for constructing paths
-      expect(content).toContain("p.join(d,'plugins','cache','omc','oh-my-claudecode')");
-      expect(content).not.toContain('ls ~/.claude/CLAUDE-*.md');
-      expect(content).toContain("find \"$HOME/.claude\" -maxdepth 1 -type f -name 'CLAUDE-*.md' -print 2>/dev/null");
+      expect(content).toContain("p.join(d,'plugins','cache','omg','oh-my-gemini-cli')");
+      expect(content).not.toContain('ls ~/.gemini/CLAUDE-*.md');
+      expect(content).toContain("find \"$HOME/.gemini\" -maxdepth 1 -type f -name 'CLAUDE-*.md' -print 2>/dev/null");
     });
 
     it('hud skill should use cross-platform Node.js commands for plugin detection', () => {
@@ -184,7 +184,7 @@ describe('HUD Windows Compatibility', () => {
       const content = readFileSync(hudPath, 'utf-8');
 
       // Step 1 and Step 2 should use node -e instead of ls/sort -V
-      expect(content).not.toMatch(/ls ~\/\.claude\/plugins\/cache/);
+      expect(content).not.toMatch(/ls ~\/\.gemini\/plugins\/cache/);
       expect(content).not.toMatch(/sort -V/);
       // Should use node for cross-platform path resolution
       expect(content).toContain("node -e");
@@ -197,8 +197,8 @@ describe('HUD Windows Compatibility', () => {
       expect(content).toContain(".split(require('path').sep).join('/')");
       expect(content).toContain('The command path MUST use forward slashes on all platforms');
       expect(content).toContain('On Windows the path uses forward slashes (not backslashes):');
-      expect(content).toContain('"command": "node C:/Users/username/.claude/hud/omc-hud.mjs"');
-      expect(content).not.toContain('"command": "node C:\\Users\\username\\.claude\\hud\\omc-hud.mjs"');
+      expect(content).toContain('"command": "node C:/Users/username/.gemini/hud/omg-hud.mjs"');
+      expect(content).not.toContain('"command": "node C:\\Users\\username\\.gemini\\hud\\omg-hud.mjs"');
     });
 
     it('usage-api should use path.join with separate segments', () => {
@@ -206,7 +206,7 @@ describe('HUD Windows Compatibility', () => {
       const content = readFileSync(usageApiPath, 'utf-8');
 
       // Should use join() with separate segments, not forward-slash literals
-      expect(content).toContain("'plugins', 'oh-my-claudecode', '.usage-cache.json'");
+      expect(content).toContain("'plugins', 'oh-my-gemini-cli', '.usage-cache.json'");
     });
   });
 });

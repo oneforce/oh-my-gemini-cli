@@ -461,14 +461,14 @@ Total: 3 iterations, 2 self-corrections, 1m 20s
 
 ### Variation 1: Ralph with Structured PRD
 ```
-/oh-my-claudecode:ralph-init
+/oh-my-gemini-cli:ralph-init
 ```
 
 "Ralph-init creates a Product Requirements Document. Ralph then works against that PRD with structured verification."
 
 ### Variation 2: Show Ralph State
 ```bash
-cat .omc/state/ralph-state.json
+cat .omg/state/ralph-state.json
 ```
 
 "Ralph state shows iteration history, errors encountered, fixes applied. Useful for debugging complex migrations."
@@ -510,7 +510,7 @@ ralph ulw: refactor all auth modules to TypeScript
 4. **Planning** - Interactive requirement gathering
 5. **Ralph** - Persistent completion
 
-Together, they transform Claude from a helpful assistant into a development team. Questions?"
+Together, they transform Gemini from a helpful assistant into a development team. Questions?"
 
 ## Q&A Preparation
 
@@ -533,10 +533,10 @@ A: Yes! Perfect use case. Ralph will attempt migration, handle errors (missing c
 A: Higher than single-pass due to iterations, but you're paying for guaranteed completion. A failed manual attempt costs MORE (wasted time + tokens).
 
 **Q: Can I see what Ralph is thinking during iterations?**
-A: Yes! Check `.omc/state/ralph-state.json` for iteration log, or use verbose mode: "ralph --verbose: refactor X"
+A: Yes! Check `.omg/state/ralph-state.json` for iteration log, or use verbose mode: "ralph --verbose: refactor X"
 
 **Q: What happens if I cancel Ralph mid-iteration?**
-A: State is saved. Resume with "resume ralph" or "/oh-my-claudecode:resume-session". It picks up where it left off.
+A: State is saved. Resume with "resume ralph" or "/oh-my-gemini-cli:resume-session". It picks up where it left off.
 
 **Q: Best practices for Ralph tasks?**
 A:

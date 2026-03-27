@@ -1,6 +1,6 @@
 /**
- * Native tmux shell launch for omc
- * Launches Claude Code with tmux session management
+ * Native tmux shell launch for omg
+ * Launches Gemini Code with tmux session management
  */
 
 import { execFileSync } from 'child_process';
@@ -9,7 +9,7 @@ import {
   buildTmuxSessionName,
   buildTmuxShellCommand,
   wrapWithLoginShell,
-  isClaudeAvailable,
+  isGeminiAvailable,
 } from './tmux-utils.js';
 
 // Flag mapping
@@ -27,7 +27,7 @@ const WEBHOOK_FLAG = '--webhook';
  * Extract the OMC-specific --notify flag from launch args.
  * --notify false  → disable notifications (OMC_NOTIFY=0)
  * --notify true   → enable notifications (default)
- * This flag must be stripped before passing args to Claude CLI.
+ * This flag must be stripped before passing args to Gemini CLI.
  */
 export function extractNotifyFlag(args: string[]): { notifyEnabled: boolean; remainingArgs: string[] } {
   let notifyEnabled = true;
@@ -65,7 +65,7 @@ export function extractNotifyFlag(args: string[]): { notifyEnabled: boolean; rem
  *   --openclaw=0      -> disable OpenClaw
  *
  * Does NOT consume the next positional arg (no space-separated value).
- * This flag is stripped before passing args to Claude CLI.
+ * This flag is stripped before passing args to Gemini CLI.
  */
 export function extractOpenClawFlag(args: string[]): { openclawEnabled: boolean; remainingArgs: string[] } {
   let openclawEnabled = false;
@@ -100,7 +100,7 @@ export function extractOpenClawFlag(args: string[]): { openclawEnabled: boolean;
  *   --telegram=0      -> disable
  *
  * Does NOT consume the next positional arg (no space-separated value).
- * This flag is stripped before passing args to Claude CLI.
+ * This flag is stripped before passing args to Gemini CLI.
  */
 export function extractTelegramFlag(args: string[]): { telegramEnabled: boolean | undefined; remainingArgs: string[] } {
   let telegramEnabled: boolean | undefined = undefined;
@@ -127,7 +127,7 @@ export function extractTelegramFlag(args: string[]): { telegramEnabled: boolean 
  *   --discord=0      -> disable
  *
  * Does NOT consume the next positional arg (no space-separated value).
- * This flag is stripped before passing args to Claude CLI.
+ * This flag is stripped before passing args to Gemini CLI.
  */
 export function extractDiscordFlag(args: string[]): { discordEnabled: boolean | undefined; remainingArgs: string[] } {
   let discordEnabled: boolean | undefined = undefined;
@@ -154,7 +154,7 @@ export function extractDiscordFlag(args: string[]): { discordEnabled: boolean | 
  *   --slack=0      -> disable
  *
  * Does NOT consume the next positional arg (no space-separated value).
- * This flag is stripped before passing args to Claude CLI.
+ * This flag is stripped before passing args to Gemini CLI.
  */
 export function extractSlackFlag(args: string[]): { slackEnabled: boolean | undefined; remainingArgs: string[] } {
   let slackEnabled: boolean | undefined = undefined;
@@ -181,7 +181,7 @@ export function extractSlackFlag(args: string[]): { slackEnabled: boolean | unde
  *   --webhook=0      -> disable
  *
  * Does NOT consume the next positional arg (no space-separated value).
- * This flag is stripped before passing args to Claude CLI.
+ * This flag is stripped before passing args to Gemini CLI.
  */
 export function extractWebhookFlag(args: string[]): { webhookEnabled: boolean | undefined; remainingArgs: string[] } {
   let webhookEnabled: boolean | undefined = undefined;
@@ -199,11 +199,11 @@ export function extractWebhookFlag(args: string[]): { webhookEnabled: boolean | 
 }
 
 /**
- * Normalize Claude launch arguments
+ * Normalize Gemini launch arguments
  * Maps --madmax/--yolo to --dangerously-skip-permissions
  * All other flags pass through unchanged
  */
-export function normalizeClaudeLaunchArgs(args: string[]): string[] {
+export function normalizeGeminiLaunchArgs(args: string[]): string[] {
   const normalized: string[] = [];
   let wantsBypass = false;
   let hasBypass = false;
@@ -234,7 +234,7 @@ export function normalizeClaudeLaunchArgs(args: string[]): string[] {
 }
 
 /**
- * preLaunch: Prepare environment before Claude starts
+ * preLaunch: Prepare environment before Gemini starts
  * Currently a placeholder - can be extended for:
  * - Session state initialization
  * - Environment setup
@@ -247,7 +247,7 @@ export async function preLaunch(_cwd: string, _sessionId: string): Promise<void>
 
 /**
  * Check if args contain --print or -p flag.
- * When in print mode, Claude outputs to stdout and must not be wrapped in tmux
+ * When in print mode, Gemini outputs to stdout and must not be wrapped in tmux
  * (which would capture stdout and prevent piping to the parent process).
  */
 export function isPrintMode(args: string[]): boolean {
@@ -255,18 +255,18 @@ export function isPrintMode(args: string[]): boolean {
 }
 
 /**
- * runClaude: Launch Claude CLI (blocks until exit)
+ * runGemini: Launch Gemini CLI (blocks until exit)
  * Handles 3 scenarios:
- * 1. inside-tmux: Launch claude in current pane
- * 2. outside-tmux: Create new tmux session with claude
- * 3. direct: tmux not available, run claude directly
+ * 1. inside-tmux: Launch gemini in current pane
+ * 2. outside-tmux: Create new tmux session with gemini
+ * 3. direct: tmux not available, run gemini directly
  *
  * When --print/-p is present, always runs direct to preserve stdout piping.
  */
-export function runClaude(cwd: string, args: string[], sessionId: string): void {
+export function runGemini(cwd: string, args: string[], sessionId: string): void {
   // Print mode must bypass tmux so stdout flows to the parent process (issue #1665)
   if (isPrintMode(args)) {
-    runClaudeDirect(cwd, args);
+    runGeminiDirect(cwd, args);
     return;
   }
 
@@ -274,58 +274,58 @@ export function runClaude(cwd: string, args: string[], sessionId: string): void 
 
   switch (policy) {
     case 'inside-tmux':
-      runClaudeInsideTmux(cwd, args);
+      runGeminiInsideTmux(cwd, args);
       break;
     case 'outside-tmux':
-      runClaudeOutsideTmux(cwd, args, sessionId);
+      runGeminiOutsideTmux(cwd, args, sessionId);
       break;
     case 'direct':
-      runClaudeDirect(cwd, args);
+      runGeminiDirect(cwd, args);
       break;
   }
 }
 
 /**
- * Run Claude inside existing tmux session
- * Launches Claude in current pane
+ * Run Gemini inside existing tmux session
+ * Launches Gemini in current pane
  */
-function runClaudeInsideTmux(cwd: string, args: string[]): void {
+function runGeminiInsideTmux(cwd: string, args: string[]): void {
   // Enable mouse scrolling in the current tmux session (non-fatal if it fails)
   try {
     execFileSync('tmux', ['set-option', 'mouse', 'on'], { stdio: 'ignore' });
   } catch { /* non-fatal — user's tmux may not support these options */ }
 
-  // Launch Claude in current pane
+  // Launch Gemini in current pane
   try {
-    execFileSync('claude', args, { cwd, stdio: 'inherit' });
+    execFileSync('gemini', args, { cwd, stdio: 'inherit' });
   } catch (error) {
     const err = error as NodeJS.ErrnoException & { status?: number | null };
     if (err.code === 'ENOENT') {
-      console.error('[omc] Error: claude CLI not found in PATH.');
+      console.error('[omg] Error: gemini CLI not found in PATH.');
       process.exit(1);
     }
-    // Propagate Claude's exit code so omc does not swallow failures
+    // Propagate Gemini's exit code so omg does not swallow failures
     process.exit(typeof err.status === 'number' ? err.status : 1);
   }
 }
 
 /**
- * Run Claude outside tmux - create new session
- * Creates tmux session with Claude
+ * Run Gemini outside tmux - create new session
+ * Creates tmux session with Gemini
  */
-function runClaudeOutsideTmux(cwd: string, args: string[], _sessionId: string): void {
-  const rawClaudeCmd = buildTmuxShellCommand('claude', args);
+function runGeminiOutsideTmux(cwd: string, args: string[], _sessionId: string): void {
+  const rawGeminiCmd = buildTmuxShellCommand('gemini', args);
   // Drain any pending terminal Device Attributes (DA1) response from stdin.
   // When tmux attach-session sends a DA1 query, the terminal replies with
-  // \e[?6c which lands in the pty buffer before Claude reads input.
+  // \e[?6c which lands in the pty buffer before Gemini reads input.
   // A short sleep lets the response arrive, then tcflush discards it.
   // Wrap in login shell so .bashrc/.zshrc are sourced (PATH, nvm, etc.)
-  const claudeCmd = wrapWithLoginShell(`sleep 0.3; perl -e 'use POSIX;tcflush(0,TCIFLUSH)' 2>/dev/null; ${rawClaudeCmd}`);
+  const geminiCmd = wrapWithLoginShell(`sleep 0.3; perl -e 'use POSIX;tcflush(0,TCIFLUSH)' 2>/dev/null; ${rawGeminiCmd}`);
   const sessionName = buildTmuxSessionName(cwd);
 
   const tmuxArgs = [
     'new-session', '-d', '-s', sessionName, '-c', cwd,
-    claudeCmd,
+    geminiCmd,
     ';', 'set-option', '-t', sessionName, 'mouse', 'on',
   ];
 
@@ -341,30 +341,30 @@ function runClaudeOutsideTmux(cwd: string, args: string[], _sessionId: string): 
       execFileSync('tmux', ['kill-session', '-t', sessionName], { stdio: 'ignore' });
     } catch { /* session may already be gone */ }
     // fall back to direct launch
-    runClaudeDirect(cwd, args);
+    runGeminiDirect(cwd, args);
   }
 }
 
 /**
- * Run Claude directly (no tmux)
+ * Run Gemini directly (no tmux)
  * Fallback when tmux is not available
  */
-function runClaudeDirect(cwd: string, args: string[]): void {
+function runGeminiDirect(cwd: string, args: string[]): void {
   try {
-    execFileSync('claude', args, { cwd, stdio: 'inherit' });
+    execFileSync('gemini', args, { cwd, stdio: 'inherit' });
   } catch (error) {
     const err = error as NodeJS.ErrnoException & { status?: number | null };
     if (err.code === 'ENOENT') {
-      console.error('[omc] Error: claude CLI not found in PATH.');
+      console.error('[omg] Error: gemini CLI not found in PATH.');
       process.exit(1);
     }
-    // Propagate Claude's exit code so omc does not swallow failures
+    // Propagate Gemini's exit code so omg does not swallow failures
     process.exit(typeof err.status === 'number' ? err.status : 1);
   }
 }
 
 /**
- * postLaunch: Cleanup after Claude exits
+ * postLaunch: Cleanup after Gemini exits
  * Currently a placeholder - can be extended for:
  * - Session cleanup
  * - State finalization
@@ -380,7 +380,7 @@ export async function postLaunch(_cwd: string, _sessionId: string): Promise<void
  * Orchestrates the 3-phase launch: preLaunch -> run -> postLaunch
  */
 export async function launchCommand(args: string[]): Promise<void> {
-  // Extract OMC-specific --notify flag before passing remaining args to Claude CLI
+  // Extract OMC-specific --notify flag before passing remaining args to Gemini CLI
   const { notifyEnabled, remainingArgs } = extractNotifyFlag(args);
   if (!notifyEnabled) {
     process.env.OMC_NOTIFY = '0';
@@ -430,31 +430,31 @@ export async function launchCommand(args: string[]): Promise<void> {
 
   // Pre-flight: check for nested session
   if (process.env.CLAUDECODE) {
-    console.error('[omc] Error: Already inside a Claude Code session. Nested launches are not supported.');
+    console.error('[omg] Error: Already inside a Gemini Code session. Nested launches are not supported.');
     process.exit(1);
   }
 
-  // Pre-flight: check claude CLI availability
-  if (!isClaudeAvailable()) {
-    console.error('[omc] Error: claude CLI not found. Install Claude Code first:');
-    console.error('  npm install -g @anthropic-ai/claude-code');
+  // Pre-flight: check gemini CLI availability
+  if (!isGeminiAvailable()) {
+    console.error('[omg] Error: gemini CLI not found. Install Gemini Code first:');
+    console.error('  npm install -g @anthropic-ai/gemini-code');
     process.exit(1);
   }
 
-  const normalizedArgs = normalizeClaudeLaunchArgs(argsAfterWebhook);
-  const sessionId = `omc-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+  const normalizedArgs = normalizeGeminiLaunchArgs(argsAfterWebhook);
+  const sessionId = `omg-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
 
   // Phase 1: preLaunch
   try {
     await preLaunch(cwd, sessionId);
   } catch (err) {
-    // preLaunch errors must NOT prevent Claude from starting
-    console.error(`[omc] preLaunch warning: ${err instanceof Error ? err.message : err}`);
+    // preLaunch errors must NOT prevent Gemini from starting
+    console.error(`[omg] preLaunch warning: ${err instanceof Error ? err.message : err}`);
   }
 
   // Phase 2: run
   try {
-    runClaude(cwd, normalizedArgs, sessionId);
+    runGemini(cwd, normalizedArgs, sessionId);
   } finally {
     // Phase 3: postLaunch
     await postLaunch(cwd, sessionId);

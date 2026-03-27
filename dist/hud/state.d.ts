@@ -34,7 +34,7 @@ export declare function getBackgroundTaskCount(state: OmcHudState | null): {
  */
 export declare function readHudConfig(): HudConfig;
 /**
- * Write HUD configuration to ~/.claude/settings.json (omcHud key)
+ * Write HUD configuration to ~/.gemini/settings.json (omgHud key)
  */
 export declare function writeHudConfig(config: HudConfig): boolean;
 /**

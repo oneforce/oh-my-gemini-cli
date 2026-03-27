@@ -1,21 +1,21 @@
 import { mkdir, writeFile, appendFile } from 'fs/promises';
 import { join, dirname } from 'path';
 import { sanitizePromptContent } from '../agents/prompt-helpers.js';
-import { formatOmcCliInvocation } from '../utils/omc-cli-rendering.js';
+import { formatOmcCliInvocation } from '../utils/omg-cli-rendering.js';
 function buildInstructionPath(...parts) {
     return join(...parts).replaceAll('\\', '/');
 }
-export function generateTriggerMessage(teamName, workerName, teamStateRoot = '.omc/state') {
+export function generateTriggerMessage(teamName, workerName, teamStateRoot = '.omg/state') {
     const inboxPath = buildInstructionPath(teamStateRoot, 'team', teamName, 'workers', workerName, 'inbox.md');
-    if (teamStateRoot !== '.omc/state') {
+    if (teamStateRoot !== '.omg/state') {
         return `Read ${inboxPath}, work now, report progress.`;
     }
     return `Read ${inboxPath}, start work now, report concrete progress (not ACK-only), and keep executing your assigned or next feasible work.`;
 }
-export function generateMailboxTriggerMessage(teamName, workerName, count = 1, teamStateRoot = '.omc/state') {
+export function generateMailboxTriggerMessage(teamName, workerName, count = 1, teamStateRoot = '.omg/state') {
     const normalizedCount = Number.isFinite(count) ? Math.max(1, Math.floor(count)) : 1;
     const mailboxPath = buildInstructionPath(teamStateRoot, 'team', teamName, 'mailbox', `${workerName}.json`);
-    if (teamStateRoot !== '.omc/state') {
+    if (teamStateRoot !== '.omg/state') {
         return `${normalizedCount} new msg(s): check ${mailboxPath}, act and report progress.`;
     }
     return `You have ${normalizedCount} new message(s). Check ${mailboxPath}, act now, reply with concrete progress (not ACK-only), and keep executing your assigned or next feasible work.`;
@@ -39,10 +39,10 @@ function agentTypeGuidance(agentType) {
                 '- Keep commit-sized changes scoped to assigned files only; no broad refactors.',
                 `- CRITICAL: You MUST run \`${claimTaskCommand}\` before starting work and \`${transitionTaskStatusCommand}\` when done. Do not exit without transitioning the task status.`,
             ].join('\n');
-        case 'claude':
+        case 'gemini':
         default:
             return [
-                '### Agent-Type Guidance (claude)',
+                '### Agent-Type Guidance (gemini)',
                 '- Keep reasoning focused on assigned task IDs and send concise progress acks to leader-fixed.',
                 '- Before any risky command, send a blocker/proposal message to leader-fixed and wait for updated inbox instructions.',
             ].join('\n');
@@ -62,10 +62,10 @@ export function generateWorkerOverlay(params) {
         subject: sanitizePromptContent(t.subject),
         description: sanitizePromptContent(t.description),
     }));
-    const sentinelPath = `.omc/state/team/${teamName}/workers/${workerName}/.ready`;
-    const heartbeatPath = `.omc/state/team/${teamName}/workers/${workerName}/heartbeat.json`;
-    const inboxPath = `.omc/state/team/${teamName}/workers/${workerName}/inbox.md`;
-    const statusPath = `.omc/state/team/${teamName}/workers/${workerName}/status.json`;
+    const sentinelPath = `.omg/state/team/${teamName}/workers/${workerName}/.ready`;
+    const heartbeatPath = `.omg/state/team/${teamName}/workers/${workerName}/heartbeat.json`;
+    const inboxPath = `.omg/state/team/${teamName}/workers/${workerName}/inbox.md`;
+    const statusPath = `.omg/state/team/${teamName}/workers/${workerName}/status.json`;
     const claimTaskCommand = formatOmcCliInvocation(`team api claim-task --input "{\\"team_name\\":\\"${teamName}\\",\\"task_id\\":\\"<id>\\",\\"worker\\":\\"${workerName}\\"}" --json`);
     const sendAckCommand = formatOmcCliInvocation(`team api send-message --input "{\\"team_name\\":\\"${teamName}\\",\\"from_worker\\":\\"${workerName}\\",\\"to_worker\\":\\"leader-fixed\\",\\"body\\":\\"ACK: ${workerName} initialized\\"}" --json`);
     const completeTaskCommand = formatOmcCliInvocation(`team api transition-task-status --input "{\\"team_name\\":\\"${teamName}\\",\\"task_id\\":\\"<id>\\",\\"from\\":\\"in_progress\\",\\"to\\":\\"completed\\",\\"claim_token\\":\\"<claim_token>\\"}" --json`);
@@ -146,7 +146,7 @@ Before doing any task work, send exactly one startup ACK to the leader:
 
 ## Shutdown Protocol
 When you see a shutdown request in your inbox:
-1. Write your decision to: .omc/state/team/${teamName}/workers/${workerName}/shutdown-ack.json
+1. Write your decision to: .omg/state/team/${teamName}/workers/${workerName}/shutdown-ack.json
 2. Format:
    - Accept: {"status":"accept","reason":"ok","updated_at":"<iso>"}
    - Reject: {"status":"reject","reason":"still working","updated_at":"<iso>"}
@@ -174,7 +174,7 @@ ${bootstrapInstructions ? `## Role Context\n${bootstrapInstructions}\n` : ''}`;
  * Write the initial inbox file for a worker.
  */
 export async function composeInitialInbox(teamName, workerName, content, cwd) {
-    const inboxPath = join(cwd, `.omc/state/team/${teamName}/workers/${workerName}/inbox.md`);
+    const inboxPath = join(cwd, `.omg/state/team/${teamName}/workers/${workerName}/inbox.md`);
     await mkdir(dirname(inboxPath), { recursive: true });
     await writeFile(inboxPath, content, 'utf-8');
 }
@@ -182,7 +182,7 @@ export async function composeInitialInbox(teamName, workerName, content, cwd) {
  * Append a message to the worker inbox.
  */
 export async function appendToInbox(teamName, workerName, message, cwd) {
-    const inboxPath = join(cwd, `.omc/state/team/${teamName}/workers/${workerName}/inbox.md`);
+    const inboxPath = join(cwd, `.omg/state/team/${teamName}/workers/${workerName}/inbox.md`);
     await mkdir(dirname(inboxPath), { recursive: true });
     await appendFile(inboxPath, `\n\n---\n${message}`, 'utf-8');
 }
@@ -192,13 +192,13 @@ export { getWorkerEnv } from './model-contract.js';
  * Ensure worker state directory exists.
  */
 export async function ensureWorkerStateDir(teamName, workerName, cwd) {
-    const workerDir = join(cwd, `.omc/state/team/${teamName}/workers/${workerName}`);
+    const workerDir = join(cwd, `.omg/state/team/${teamName}/workers/${workerName}`);
     await mkdir(workerDir, { recursive: true });
     // Also ensure mailbox dir
-    const mailboxDir = join(cwd, `.omc/state/team/${teamName}/mailbox`);
+    const mailboxDir = join(cwd, `.omg/state/team/${teamName}/mailbox`);
     await mkdir(mailboxDir, { recursive: true });
     // And tasks dir
-    const tasksDir = join(cwd, `.omc/state/team/${teamName}/tasks`);
+    const tasksDir = join(cwd, `.omg/state/team/${teamName}/tasks`);
     await mkdir(tasksDir, { recursive: true });
 }
 /**
@@ -208,7 +208,7 @@ export async function ensureWorkerStateDir(teamName, workerName, cwd) {
 export async function writeWorkerOverlay(params) {
     const { teamName, workerName, cwd } = params;
     const overlay = generateWorkerOverlay(params);
-    const overlayPath = join(cwd, `.omc/state/team/${teamName}/workers/${workerName}/AGENTS.md`);
+    const overlayPath = join(cwd, `.omg/state/team/${teamName}/workers/${workerName}/AGENTS.md`);
     await mkdir(dirname(overlayPath), { recursive: true });
     await writeFile(overlayPath, overlay, 'utf-8');
     return overlayPath;

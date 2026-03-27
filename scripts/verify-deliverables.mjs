@@ -8,7 +8,7 @@
  * that gap by verifying file existence and minimum content.
  *
  * Deliverable requirements are loaded from (in priority order):
- *   1. .omc/deliverables.json (project-specific overrides)
+ *   1. .omg/deliverables.json (project-specific overrides)
  *   2. ${CLAUDE_PLUGIN_ROOT}/templates/deliverables.json (OMC defaults)
  *
  * This hook is ADVISORY (non-blocking). It returns additionalContext warnings
@@ -41,7 +41,7 @@ function sanitizePath(filePath) {
  */
 function loadDeliverableConfig(directory) {
   // Priority 1: Project-specific overrides
-  const projectConfig = join(directory, '.omc', 'deliverables.json');
+  const projectConfig = join(directory, '.omg', 'deliverables.json');
   if (existsSync(projectConfig)) {
     try {
       return JSON.parse(readFileSync(projectConfig, 'utf-8'));
@@ -68,7 +68,7 @@ function loadDeliverableConfig(directory) {
 function detectStage(directory, sessionId) {
   // Try session-scoped state first
   if (sessionId) {
-    const sessionState = join(directory, '.omc', 'state', 'sessions', sessionId, 'team-state.json');
+    const sessionState = join(directory, '.omg', 'state', 'sessions', sessionId, 'team-state.json');
     if (existsSync(sessionState)) {
       try {
         const data = JSON.parse(readFileSync(sessionState, 'utf-8'));
@@ -78,7 +78,7 @@ function detectStage(directory, sessionId) {
   }
 
   // Fallback to legacy state
-  const legacyState = join(directory, '.omc', 'state', 'team-state.json');
+  const legacyState = join(directory, '.omg', 'state', 'team-state.json');
   if (existsSync(legacyState)) {
     try {
       const data = JSON.parse(readFileSync(legacyState, 'utf-8'));

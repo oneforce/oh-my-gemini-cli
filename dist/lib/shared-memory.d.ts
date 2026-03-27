@@ -4,7 +4,7 @@
  * Filesystem-based key-value store for cross-session memory sync
  * between agents in /team and /pipeline workflows.
  *
- * Storage: .omc/state/shared-memory/{namespace}/{key}.json
+ * Storage: .omg/state/shared-memory/{namespace}/{key}.json
  *
  * Each entry is a JSON file containing:
  * - key: string identifier
@@ -15,7 +15,7 @@
  * - ttl: optional time-to-live in seconds
  * - expiresAt: optional ISO timestamp (computed from ttl)
  *
- * @see https://github.com/anthropics/oh-my-claudecode/issues/1119
+ * @see https://github.com/anthropics/oh-my-gemini-cli/issues/1119
  */
 export interface SharedMemoryEntry {
     key: string;
@@ -36,7 +36,7 @@ export interface SharedMemoryListItem {
 /**
  * Check if shared memory is enabled via config.
  *
- * Reads `agents.sharedMemory.enabled` from ~/.claude/.omc-config.json.
+ * Reads `agents.sharedMemory.enabled` from ~/.gemini/.omg-config.json.
  * Defaults to true when the config key is absent (opt-out rather than opt-in
  * once the feature ships, but tools check this gate).
  */

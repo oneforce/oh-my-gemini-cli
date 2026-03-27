@@ -52,9 +52,9 @@ export function isExtendedThinkingModel(modelID: string): boolean {
   }
 
   return (
-    lower.includes("claude-sonnet-4") ||
-    lower.includes("claude-opus-4") ||
-    lower.includes("claude-3")
+    lower.includes("gemini-sonnet-4") ||
+    lower.includes("gemini-opus-4") ||
+    lower.includes("gemini-3")
   );
 }
 

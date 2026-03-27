@@ -187,13 +187,13 @@ describe('Keyword Detector', () => {
         });
         // New keyword types tests
         it('should detect cancel keyword', () => {
-            const detected = detectKeywordsWithType('cancelomc this task');
+            const detected = detectKeywordsWithType('cancelomg this task');
             expect(detected).toHaveLength(1);
             expect(detected[0].type).toBe('cancel');
-            expect(detected[0].keyword).toBe('cancelomc');
+            expect(detected[0].keyword).toBe('cancelomg');
         });
         it('should detect cancel keyword variations', () => {
-            const cancelTerms = ['cancelomc', 'stopomc'];
+            const cancelTerms = ['cancelomg', 'stopomg'];
             for (const term of cancelTerms) {
                 const detected = detectKeywordsWithType(`Please ${term} the process`);
                 expect(detected).toHaveLength(1);
@@ -371,17 +371,17 @@ describe('Keyword Detector', () => {
         });
         // New priority tests for new keywords
         it('should give cancel highest priority', () => {
-            const primary = getPrimaryKeyword('stopomc searching for files');
+            const primary = getPrimaryKeyword('stopomg searching for files');
             expect(primary).not.toBeNull();
             expect(primary.type).toBe('cancel');
         });
         it('should give cancel priority over analyze', () => {
-            const primary = getPrimaryKeyword('cancelomc this investigation');
+            const primary = getPrimaryKeyword('cancelomg this investigation');
             expect(primary).not.toBeNull();
             expect(primary.type).toBe('cancel');
         });
         it('should prioritize cancel over all other keywords', () => {
-            const primary = getPrimaryKeyword('stopomc ultrawork and search');
+            const primary = getPrimaryKeyword('stopomg ultrawork and search');
             expect(primary).not.toBeNull();
             expect(primary.type).toBe('cancel');
         });
@@ -395,8 +395,8 @@ describe('Keyword Detector', () => {
             const ralphMatch = detected.find(d => d.type === 'ralph');
             expect(ralphMatch).toBeUndefined();
         });
-        it('should not detect ralph in /oh-my-claudecode:ralph-init', () => {
-            const primary = getPrimaryKeyword('/oh-my-claudecode:ralph-init "my project"');
+        it('should not detect ralph in /oh-my-gemini-cli:ralph-init', () => {
+            const primary = getPrimaryKeyword('/oh-my-gemini-cli:ralph-init "my project"');
             expect(primary?.type).not.toBe('ralph');
         });
         it('should still detect ralph when standalone', () => {
@@ -451,15 +451,15 @@ describe('Team staged workflow integration', () => {
     let testDir;
     const sessionId = 'team-session-test';
     beforeEach(() => {
-        testDir = join(tmpdir(), `omc-team-test-${Date.now()}-${Math.random().toString(36).slice(2)}`);
-        mkdirSync(join(testDir, '.omc', 'state', 'sessions', sessionId), { recursive: true });
+        testDir = join(tmpdir(), `omg-team-test-${Date.now()}-${Math.random().toString(36).slice(2)}`);
+        mkdirSync(join(testDir, '.omg', 'state', 'sessions', sessionId), { recursive: true });
         execSync('git init', { cwd: testDir });
     });
     afterEach(() => {
         rmSync(testDir, { recursive: true, force: true });
     });
     it('restores active Team stage on session-start', async () => {
-        writeFileSync(join(testDir, '.omc', 'state', 'sessions', sessionId, 'team-state.json'), JSON.stringify({
+        writeFileSync(join(testDir, '.omg', 'state', 'sessions', sessionId, 'team-state.json'), JSON.stringify({
             active: true,
             session_id: sessionId,
             stage: 'team-exec',
@@ -475,7 +475,7 @@ describe('Team staged workflow integration', () => {
         expect(result.message || '').toContain('team-exec');
     });
     it('compacts OMC-style root AGENTS guidance on session-start without dropping key sections', async () => {
-        const agentsContent = `# oh-my-claudecode - Intelligent Multi-Agent Orchestration
+        const agentsContent = `# oh-my-gemini-cli - Intelligent Multi-Agent Orchestration
 
 <guidance_schema_contract>
 schema
@@ -514,7 +514,7 @@ schema
         expect(result.message || '').not.toContain('<team_compositions>');
     });
     it('emits terminal Team restore guidance on cancelled stage', async () => {
-        writeFileSync(join(testDir, '.omc', 'state', 'sessions', sessionId, 'team-state.json'), JSON.stringify({
+        writeFileSync(join(testDir, '.omg', 'state', 'sessions', sessionId, 'team-state.json'), JSON.stringify({
             active: true,
             session_id: sessionId,
             stage: 'team-fix',
@@ -530,7 +530,7 @@ schema
         expect(result.message || '').toContain('cancel');
     });
     it('enforces verify stage continuation while active and non-terminal', async () => {
-        writeFileSync(join(testDir, '.omc', 'state', 'sessions', sessionId, 'team-state.json'), JSON.stringify({
+        writeFileSync(join(testDir, '.omg', 'state', 'sessions', sessionId, 'team-state.json'), JSON.stringify({
             active: true,
             session_id: sessionId,
             stage: 'team-verify',
@@ -547,7 +547,7 @@ schema
         expect(result.message).toContain('Continue working');
     });
     it('enforces fix stage continuation while active and non-terminal', async () => {
-        writeFileSync(join(testDir, '.omc', 'state', 'sessions', sessionId, 'team-state.json'), JSON.stringify({
+        writeFileSync(join(testDir, '.omg', 'state', 'sessions', sessionId, 'team-state.json'), JSON.stringify({
             active: true,
             session_id: sessionId,
             stage: 'team-fix',
@@ -564,7 +564,7 @@ schema
         expect(result.message).toContain('Continue working');
     });
     it('skips Team stage continuation on authentication stop reasons', async () => {
-        writeFileSync(join(testDir, '.omc', 'state', 'sessions', sessionId, 'team-state.json'), JSON.stringify({
+        writeFileSync(join(testDir, '.omg', 'state', 'sessions', sessionId, 'team-state.json'), JSON.stringify({
             active: true,
             session_id: sessionId,
             stage: 'team-verify',
@@ -580,7 +580,7 @@ schema
         expect(result.message || '').toContain('AUTHENTICATION ERROR');
     });
     it('allows terminal cleanup when Team stage is cancelled', async () => {
-        writeFileSync(join(testDir, '.omc', 'state', 'sessions', sessionId, 'team-state.json'), JSON.stringify({
+        writeFileSync(join(testDir, '.omg', 'state', 'sessions', sessionId, 'team-state.json'), JSON.stringify({
             active: true,
             session_id: sessionId,
             stage: 'team-verify',
@@ -595,7 +595,7 @@ schema
         expect(result.message || '').not.toContain('[TEAM MODE CONTINUATION]');
     });
     it('fails open when Team stage is missing', async () => {
-        writeFileSync(join(testDir, '.omc', 'state', 'sessions', sessionId, 'team-state.json'), JSON.stringify({
+        writeFileSync(join(testDir, '.omg', 'state', 'sessions', sessionId, 'team-state.json'), JSON.stringify({
             active: true,
             session_id: sessionId,
             team_name: 'delivery-team'
@@ -608,7 +608,7 @@ schema
         expect(result.message || '').not.toContain('[TEAM MODE CONTINUATION]');
     });
     it('fails open when Team stage is unknown or malformed', async () => {
-        writeFileSync(join(testDir, '.omc', 'state', 'sessions', sessionId, 'team-state.json'), JSON.stringify({
+        writeFileSync(join(testDir, '.omg', 'state', 'sessions', sessionId, 'team-state.json'), JSON.stringify({
             active: true,
             session_id: sessionId,
             stage: { bad: true },
@@ -620,7 +620,7 @@ schema
         });
         expect(malformedResult.continue).toBe(true);
         expect(malformedResult.message || '').not.toContain('[TEAM MODE CONTINUATION]');
-        writeFileSync(join(testDir, '.omc', 'state', 'sessions', sessionId, 'team-state.json'), JSON.stringify({
+        writeFileSync(join(testDir, '.omg', 'state', 'sessions', sessionId, 'team-state.json'), JSON.stringify({
             active: true,
             session_id: sessionId,
             stage: 'team-unknown',
@@ -634,13 +634,13 @@ schema
         expect(unknownResult.message || '').not.toContain('[TEAM MODE CONTINUATION]');
     });
     it('trips Team continuation circuit breaker after max stop reinforcements', async () => {
-        writeFileSync(join(testDir, '.omc', 'state', 'sessions', sessionId, 'team-state.json'), JSON.stringify({
+        writeFileSync(join(testDir, '.omg', 'state', 'sessions', sessionId, 'team-state.json'), JSON.stringify({
             active: true,
             session_id: sessionId,
             stage: 'team-exec',
             team_name: 'delivery-team'
         }));
-        writeFileSync(join(testDir, '.omc', 'state', 'sessions', sessionId, 'team-pipeline-stop-breaker.json'), JSON.stringify({ count: 20, updated_at: new Date().toISOString() }, null, 2));
+        writeFileSync(join(testDir, '.omg', 'state', 'sessions', sessionId, 'team-pipeline-stop-breaker.json'), JSON.stringify({ count: 20, updated_at: new Date().toISOString() }, null, 2));
         const result = await processHook('persistent-mode', {
             sessionId,
             directory: testDir,
@@ -650,7 +650,7 @@ schema
     });
     it('bypasses autopilot continuation when transcript context is critically exhausted', async () => {
         const transcriptPath = join(testDir, 'transcript.jsonl');
-        writeFileSync(join(testDir, '.omc', 'state', 'sessions', sessionId, 'autopilot-state.json'), JSON.stringify({
+        writeFileSync(join(testDir, '.omg', 'state', 'sessions', sessionId, 'autopilot-state.json'), JSON.stringify({
             active: true,
             phase: 'execution',
             session_id: sessionId,
@@ -678,8 +678,8 @@ describe('Persistent-mode reply cleanup behavior', () => {
     let tempHome;
     const sessionId = 'reply-cleanup-session';
     beforeEach(() => {
-        testDir = join(tmpdir(), `omc-reply-cleanup-${Date.now()}-${Math.random().toString(36).slice(2)}`);
-        tempHome = join(tmpdir(), `omc-reply-home-${Date.now()}-${Math.random().toString(36).slice(2)}`);
+        testDir = join(tmpdir(), `omg-reply-cleanup-${Date.now()}-${Math.random().toString(36).slice(2)}`);
+        tempHome = join(tmpdir(), `omg-reply-home-${Date.now()}-${Math.random().toString(36).slice(2)}`);
         mkdirSync(testDir, { recursive: true });
         mkdirSync(tempHome, { recursive: true });
         execSync('git init', { cwd: testDir });
@@ -693,8 +693,8 @@ describe('Persistent-mode reply cleanup behavior', () => {
         rmSync(tempHome, { recursive: true, force: true });
     });
     it('does not remove reply-session registry on idle Stop/persistent-mode', async () => {
-        const registryPath = join(homedir(), '.omc', 'state', 'reply-session-registry.jsonl');
-        mkdirSync(join(homedir(), '.omc', 'state'), { recursive: true });
+        const registryPath = join(homedir(), '.omg', 'state', 'reply-session-registry.jsonl');
+        mkdirSync(join(homedir(), '.omg', 'state'), { recursive: true });
         writeFileSync(registryPath, `${JSON.stringify({
             platform: 'telegram',
             messageId: '123',
@@ -1252,10 +1252,10 @@ describe('Mutual Exclusion - UltraQA and Ralph', () => {
     let testDir;
     beforeEach(() => {
         // Create a unique temp directory for each test
-        testDir = join(tmpdir(), `omc-test-${Date.now()}-${Math.random().toString(36).slice(2)}`);
+        testDir = join(tmpdir(), `omg-test-${Date.now()}-${Math.random().toString(36).slice(2)}`);
         mkdirSync(testDir, { recursive: true });
-        mkdirSync(join(testDir, '.omc'), { recursive: true });
-        mkdirSync(join(testDir, '.omc', 'state'), { recursive: true });
+        mkdirSync(join(testDir, '.omg'), { recursive: true });
+        mkdirSync(join(testDir, '.omg', 'state'), { recursive: true });
     });
     afterEach(() => {
         // Clean up temp directory
@@ -1271,17 +1271,17 @@ describe('Mutual Exclusion - UltraQA and Ralph', () => {
             expect(isUltraQAActive(testDir)).toBe(false);
         });
         it('should return true when ultraqa is active', () => {
-            const stateFile = join(testDir, '.omc', 'state', 'ultraqa-state.json');
+            const stateFile = join(testDir, '.omg', 'state', 'ultraqa-state.json');
             writeFileSync(stateFile, JSON.stringify({ active: true }));
             expect(isUltraQAActive(testDir)).toBe(true);
         });
         it('should return false when ultraqa is not active', () => {
-            const stateFile = join(testDir, '.omc', 'state', 'ultraqa-state.json');
+            const stateFile = join(testDir, '.omg', 'state', 'ultraqa-state.json');
             writeFileSync(stateFile, JSON.stringify({ active: false }));
             expect(isUltraQAActive(testDir)).toBe(false);
         });
         it('should return false for invalid JSON', () => {
-            const stateFile = join(testDir, '.omc', 'state', 'ultraqa-state.json');
+            const stateFile = join(testDir, '.omg', 'state', 'ultraqa-state.json');
             writeFileSync(stateFile, 'invalid json');
             expect(isUltraQAActive(testDir)).toBe(false);
         });
@@ -1291,12 +1291,12 @@ describe('Mutual Exclusion - UltraQA and Ralph', () => {
             expect(isRalphLoopActive(testDir)).toBe(false);
         });
         it('should return true when ralph is active', () => {
-            const stateFile = join(testDir, '.omc', 'state', 'ralph-state.json');
+            const stateFile = join(testDir, '.omg', 'state', 'ralph-state.json');
             writeFileSync(stateFile, JSON.stringify({ active: true }));
             expect(isRalphLoopActive(testDir)).toBe(true);
         });
         it('should return false when ralph is not active', () => {
-            const stateFile = join(testDir, '.omc', 'state', 'ralph-state.json');
+            const stateFile = join(testDir, '.omg', 'state', 'ralph-state.json');
             writeFileSync(stateFile, JSON.stringify({ active: false }));
             expect(isRalphLoopActive(testDir)).toBe(false);
         });
@@ -1305,7 +1305,7 @@ describe('Mutual Exclusion - UltraQA and Ralph', () => {
         it('should fail to start UltraQA when Ralph is active', () => {
             // Activate Ralph first - write to session-scoped path since startUltraQA
             // passes sessionId which makes readRalphState check session path only
-            const sessionDir = join(testDir, '.omc', 'state', 'sessions', 'test-session');
+            const sessionDir = join(testDir, '.omg', 'state', 'sessions', 'test-session');
             mkdirSync(sessionDir, { recursive: true });
             const ralphStateFile = join(sessionDir, 'ralph-state.json');
             writeFileSync(ralphStateFile, JSON.stringify({ active: true }));
@@ -1322,7 +1322,7 @@ describe('Mutual Exclusion - UltraQA and Ralph', () => {
             clearUltraQAState(testDir);
         });
         it('should succeed starting UltraQA when ralph state exists but inactive', () => {
-            const ralphStateFile = join(testDir, '.omc', 'state', 'ralph-state.json');
+            const ralphStateFile = join(testDir, '.omg', 'state', 'ralph-state.json');
             writeFileSync(ralphStateFile, JSON.stringify({ active: false }));
             const result = startUltraQA(testDir, 'tests', 'test-session');
             expect(result.success).toBe(true);
@@ -1334,7 +1334,7 @@ describe('Mutual Exclusion - UltraQA and Ralph', () => {
         it('should fail to start Ralph when UltraQA is active', () => {
             // Activate UltraQA first - write to session-scoped path since startLoop
             // passes sessionId which makes isUltraQAActive check session path only
-            const sessionDir = join(testDir, '.omc', 'state', 'sessions', 'test-session');
+            const sessionDir = join(testDir, '.omg', 'state', 'sessions', 'test-session');
             mkdirSync(sessionDir, { recursive: true });
             const ultraqaStateFile = join(sessionDir, 'ultraqa-state.json');
             writeFileSync(ultraqaStateFile, JSON.stringify({ active: true }));
@@ -1351,7 +1351,7 @@ describe('Mutual Exclusion - UltraQA and Ralph', () => {
             clearRalphState(testDir);
         });
         it('should succeed starting Ralph when ultraqa state exists but inactive', () => {
-            const ultraqaStateFile = join(testDir, '.omc', 'state', 'ultraqa-state.json');
+            const ultraqaStateFile = join(testDir, '.omg', 'state', 'ultraqa-state.json');
             writeFileSync(ultraqaStateFile, JSON.stringify({ active: false }));
             const hook = createRalphLoopHook(testDir);
             const result = hook.startLoop('test-session', 'test prompt');

@@ -14,7 +14,7 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const CLAUDE_DIR = process.env.CLAUDE_CONFIG_DIR || join(homedir(), '.claude');
+const CLAUDE_DIR = process.env.CLAUDE_CONFIG_DIR || join(homedir(), '.gemini');
 const HUD_DIR = join(CLAUDE_DIR, 'hud');
 const SETTINGS_FILE = join(CLAUDE_DIR, 'settings.json');
 
@@ -26,7 +26,7 @@ if (!existsSync(HUD_DIR)) {
 }
 
 // 2. Create HUD wrapper script
-const hudScriptPath = join(HUD_DIR, 'omc-hud.mjs').replace(/\\/g, '/');
+const hudScriptPath = join(HUD_DIR, 'omg-hud.mjs').replace(/\\/g, '/');
 const hudScript = `#!/usr/bin/env node
 /**
  * OMC HUD - Statusline Script
@@ -60,10 +60,10 @@ async function main() {
   const home = homedir();
   let pluginCacheDir = null;
 
-  // 1. Try plugin cache first (marketplace: omc, plugin: oh-my-claudecode)
+  // 1. Try plugin cache first (marketplace: omg, plugin: oh-my-gemini-cli)
   // Respect CLAUDE_CONFIG_DIR so installs under a custom config dir are found
-  const configDir = process.env.CLAUDE_CONFIG_DIR || join(home, ".claude");
-  const pluginCacheBase = join(configDir, "plugins", "cache", "omc", "oh-my-claudecode");
+  const configDir = process.env.CLAUDE_CONFIG_DIR || join(home, ".gemini");
+  const pluginCacheBase = join(configDir, "plugins", "cache", "omg", "oh-my-gemini-cli");
   if (existsSync(pluginCacheBase)) {
     try {
       const versions = readdirSync(pluginCacheBase);
@@ -89,10 +89,10 @@ async function main() {
 
   // 2. Development paths
   const devPaths = [
-    join(home, "Workspace/oh-my-claudecode/dist/hud/index.js"),
-    join(home, "workspace/oh-my-claudecode/dist/hud/index.js"),
-    join(home, "Workspace/oh-my-claudecode/dist/hud/index.js"),
-    join(home, "workspace/oh-my-claudecode/dist/hud/index.js"),
+    join(home, "Workspace/oh-my-gemini-cli/dist/hud/index.js"),
+    join(home, "workspace/oh-my-gemini-cli/dist/hud/index.js"),
+    join(home, "Workspace/oh-my-gemini-cli/dist/hud/index.js"),
+    join(home, "workspace/oh-my-gemini-cli/dist/hud/index.js"),
   ];
 
   for (const devPath of devPaths) {
@@ -105,7 +105,7 @@ async function main() {
   }
 
   // 3. Marketplace clone (for marketplace installs without a populated cache)
-  const marketplaceHudPath = join(configDir, "plugins", "marketplaces", "omc", "dist/hud/index.js");
+  const marketplaceHudPath = join(configDir, "plugins", "marketplaces", "omg", "dist/hud/index.js");
   if (existsSync(marketplaceHudPath)) {
     try {
       await import(pathToFileURL(marketplaceHudPath).href);
@@ -122,9 +122,9 @@ async function main() {
       console.log(\`[OMC HUD] Plugin HUD load failed. Run: cd "\${pluginCacheDir}" && npm install && npm run build\`);
     }
   } else if (existsSync(pluginCacheBase)) {
-    console.log("[OMC HUD] Plugin cache found but no versions installed. Run: /oh-my-claudecode:omc-setup");
+    console.log("[OMC HUD] Plugin cache found but no versions installed. Run: /oh-my-gemini-cli:omg-setup");
   } else {
-    console.log("[OMC HUD] Plugin not installed. Run: /oh-my-claudecode:omc-setup");
+    console.log("[OMC HUD] Plugin not installed. Run: /oh-my-gemini-cli:omg-setup");
   }
 }
 
@@ -154,16 +154,16 @@ try {
   writeFileSync(SETTINGS_FILE, JSON.stringify(settings, null, 2));
   console.log('[OMC] Configured HUD statusLine in settings.json');
 
-  // Persist the node binary path to .omc-config.json for use by find-node.sh
+  // Persist the node binary path to .omg-config.json for use by find-node.sh
   try {
-    const configPath = join(CLAUDE_DIR, '.omc-config.json');
-    let omcConfig = {};
+    const configPath = join(CLAUDE_DIR, '.omg-config.json');
+    let omgConfig = {};
     if (existsSync(configPath)) {
-      omcConfig = JSON.parse(readFileSync(configPath, 'utf-8'));
+      omgConfig = JSON.parse(readFileSync(configPath, 'utf-8'));
     }
     if (nodeBin !== 'node') {
-      omcConfig.nodeBinary = nodeBin;
-      writeFileSync(configPath, JSON.stringify(omcConfig, null, 2));
+      omgConfig.nodeBinary = nodeBin;
+      writeFileSync(configPath, JSON.stringify(omgConfig, null, 2));
       console.log(`[OMC] Saved node binary path: ${nodeBin}`);
     }
   } catch (e) {
@@ -178,7 +178,7 @@ try {
 //
 // The source hooks.json uses shell-expanded `$CLAUDE_PLUGIN_ROOT` path segments
 // so bash preserves spaces in Windows profile paths; this step only substitutes
-// the real process.execPath so Claude Code always invokes the same Node binary
+// the real process.execPath so Gemini Code always invokes the same Node binary
 // that ran this setup script.
 //
 // Two patterns are handled:
@@ -232,7 +232,7 @@ try {
 
 // 5. Ensure runtime dependencies are installed in the plugin cache directory.
 //    The npm-published tarball includes only the files listed in "files" (package.json),
-//    which does NOT include node_modules.  When Claude Code extracts the plugin into its
+//    which does NOT include node_modules.  When Gemini Code extracts the plugin into its
 //    cache the dependencies are therefore missing, causing ERR_MODULE_NOT_FOUND at runtime.
 //    We detect this by probing for a known production dependency (commander) and running a
 //    production-only install when it is absent.  --ignore-scripts avoids re-triggering this
@@ -255,4 +255,4 @@ if (!existsSync(commanderCheck)) {
   console.log('[OMC] Runtime dependencies already present');
 }
 
-console.log('[OMC] Setup complete! Restart Claude Code to activate HUD.');
+console.log('[OMC] Setup complete! Restart Gemini Code to activate HUD.');

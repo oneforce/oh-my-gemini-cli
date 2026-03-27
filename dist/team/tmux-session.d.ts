@@ -51,7 +51,7 @@ export declare function buildWorkerStartCommand(config: WorkerPaneConfig): strin
 export declare function validateTmux(): void;
 /** Sanitize name to prevent tmux command injection (alphanum + hyphen only) */
 export declare function sanitizeName(name: string): string;
-/** Build session name: "omc-team-{teamName}-{workerName}" */
+/** Build session name: "omg-team-{teamName}-{workerName}" */
 export declare function sessionName(teamName: string, workerName: string): string;
 /** @deprecated Use createTeamSession() instead for split-pane topology */
 /** Create a detached tmux session. Kills stale session with same name first. */
@@ -69,7 +69,7 @@ export declare function listActiveSessions(teamName: string): string[];
  *
  * Instead of passing JSON via tmux send-keys (brittle quoting), the caller
  * writes config to a temp file and passes --config flag:
- *   node dist/team/bridge-entry.js --config /tmp/omc-bridge-{worker}.json
+ *   node dist/team/bridge-entry.js --config /tmp/omg-bridge-{worker}.json
  */
 export declare function spawnBridgeInSession(tmuxSession: string, bridgeScriptPath: string, configFilePath: string): void;
 /**
@@ -118,7 +118,7 @@ export declare function shouldAttemptAdaptiveRetry(args: {
  */
 export declare function sendToWorker(_sessionName: string, paneId: string, message: string): Promise<boolean>;
 /**
- * Inject a status message into the leader Claude pane.
+ * Inject a status message into the leader Gemini pane.
  * The message is typed into the leader's input, triggering a new conversation turn.
  * Prefixes with [OMC_TMUX_INJECT] marker to distinguish from user input.
  * Returns false on error (does not throw).

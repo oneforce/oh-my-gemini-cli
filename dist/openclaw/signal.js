@@ -1,4 +1,4 @@
-const CLAUDE_TEMP_CWD_PATTERN = /zsh:\d+: permission denied:.*\/T\/claude-[a-z0-9]+-cwd/gi;
+const CLAUDE_TEMP_CWD_PATTERN = /zsh:\d+: permission denied:.*\/T\/gemini-[a-z0-9]+-cwd/gi;
 const CLAUDE_EXIT_CODE_PREFIX = /^Error: Exit code \d+\s*$/gm;
 const PR_CREATE_PATTERN = /\bgh\s+pr\s+create\b/i;
 const PR_URL_PATTERN = /https:\/\/github\.com\/[^\s/]+\/[^\s/]+\/pull\/\d+/i;
@@ -11,11 +11,11 @@ const TEST_COMMAND_PATTERNS = [
     { pattern: /\bgo\s+test\b/i, runner: "go-test" },
     { pattern: /\bmake\s+test\b/i, runner: "make-test" },
 ];
-function stripClaudeTempCwdErrors(output) {
+function stripGeminiTempCwdErrors(output) {
     return output.replace(CLAUDE_TEMP_CWD_PATTERN, "");
 }
 function isNonZeroExitWithOutput(output) {
-    const cleaned = stripClaudeTempCwdErrors(output);
+    const cleaned = stripGeminiTempCwdErrors(output);
     if (!CLAUDE_EXIT_CODE_PREFIX.test(cleaned))
         return false;
     CLAUDE_EXIT_CODE_PREFIX.lastIndex = 0;
@@ -37,7 +37,7 @@ function isNonZeroExitWithOutput(output) {
     return !contentErrorPatterns.some((pattern) => pattern.test(remaining));
 }
 function detectBashFailure(output) {
-    const cleaned = stripClaudeTempCwdErrors(output);
+    const cleaned = stripGeminiTempCwdErrors(output);
     const errorPatterns = [
         /error:/i,
         /failed/i,
@@ -54,7 +54,7 @@ function detectBashFailure(output) {
     return errorPatterns.some((pattern) => pattern.test(cleaned));
 }
 function detectWriteFailure(output) {
-    const cleaned = stripClaudeTempCwdErrors(output);
+    const cleaned = stripGeminiTempCwdErrors(output);
     const errorPatterns = [
         /\berror:/i,
         /\bfailed to\b/i,

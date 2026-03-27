@@ -8,8 +8,8 @@
 
 set -euo pipefail
 
-STATE_FILE=".omc/state/setup-state.json"
-CONFIG_FILE="$HOME/.claude/.omc-config.json"
+STATE_FILE=".omg/state/setup-state.json"
+CONFIG_FILE="$HOME/.gemini/.omg-config.json"
 
 # Cross-platform ISO date to epoch conversion
 iso_to_epoch() {
@@ -35,7 +35,7 @@ iso_to_epoch() {
 cmd_save() {
   local step="$1"
   local config_type="${2:-unknown}"
-  mkdir -p .omc/state
+  mkdir -p .omg/state
   cat > "$STATE_FILE" << EOF
 {
   "lastCompletedStep": $step,
@@ -99,7 +99,7 @@ cmd_complete() {
     '. + {setupCompleted: $ts, setupVersion: $ver}' > "$CONFIG_FILE"
 
   echo "Setup completed successfully!"
-  echo "Note: Future updates will only refresh CLAUDE.md, not the full setup wizard."
+  echo "Note: Future updates will only refresh GEMINI.md, not the full setup wizard."
 }
 
 # Main dispatch

@@ -2,7 +2,7 @@
  * Autopilot Prompt Generation
  *
  * Generates phase-specific prompts that include Task tool invocations
- * for Claude to execute. This is the core of the agent invocation mechanism.
+ * for Gemini to execute. This is the core of the agent invocation mechanism.
  */
 import type { PluginConfig } from "../../shared/types.js";
 /**

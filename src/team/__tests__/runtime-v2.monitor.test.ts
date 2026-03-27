@@ -46,20 +46,20 @@ describe('monitorTeamV2 pane-based stall inference', () => {
   });
 
   async function writeConfigAndTask(taskStatus: 'pending' | 'in_progress' = 'pending'): Promise<void> {
-    const teamRoot = join(cwd, '.omc', 'state', 'team', 'demo-team');
+    const teamRoot = join(cwd, '.omg', 'state', 'team', 'demo-team');
     await mkdir(join(teamRoot, 'tasks'), { recursive: true });
     await mkdir(join(teamRoot, 'workers', 'worker-1'), { recursive: true });
     await writeFile(join(teamRoot, 'config.json'), JSON.stringify({
       name: 'demo-team',
       task: 'demo',
-      agent_type: 'claude',
+      agent_type: 'gemini',
       worker_launch_mode: 'interactive',
       worker_count: 1,
       max_workers: 20,
       workers: [{
         name: 'worker-1',
         index: 1,
-        role: 'claude',
+        role: 'gemini',
         assigned_tasks: ['1'],
         pane_id: '%2',
         working_dir: cwd,
@@ -71,7 +71,7 @@ describe('monitorTeamV2 pane-based stall inference', () => {
       resize_hook_name: null,
       resize_hook_target: null,
       next_task_id: 2,
-      team_state_root: join(cwd, '.omc', 'state', 'team', 'demo-team'),
+      team_state_root: join(cwd, '.omg', 'state', 'team', 'demo-team'),
       workspace_mode: 'single',
     }, null, 2), 'utf-8');
     await writeFile(join(teamRoot, 'tasks', '1.json'), JSON.stringify({
@@ -85,7 +85,7 @@ describe('monitorTeamV2 pane-based stall inference', () => {
   }
 
   it('flags pane-idle workers with assigned work but no work-start evidence', async () => {
-    cwd = await mkdtemp(join(tmpdir(), 'omc-runtime-v2-monitor-'));
+    cwd = await mkdtemp(join(tmpdir(), 'omg-runtime-v2-monitor-'));
     await writeConfigAndTask('pending');
 
     const { monitorTeamV2 } = await import('../runtime-v2.js');
@@ -98,7 +98,7 @@ describe('monitorTeamV2 pane-based stall inference', () => {
   });
 
   it('does not flag a worker when pane evidence shows active work despite missing reports', async () => {
-    cwd = await mkdtemp(join(tmpdir(), 'omc-runtime-v2-monitor-active-'));
+    cwd = await mkdtemp(join(tmpdir(), 'omg-runtime-v2-monitor-active-'));
     await writeConfigAndTask('in_progress');
     mocks.execFile.mockImplementation((_cmd: string, args: string[], cb: (err: Error | null, stdout: string, stderr: string) => void) => {
       if (args[0] === 'capture-pane') {
@@ -115,7 +115,7 @@ describe('monitorTeamV2 pane-based stall inference', () => {
   });
 
   it('does not flag a worker when pane evidence shows startup bootstrapping instead of idle readiness', async () => {
-    cwd = await mkdtemp(join(tmpdir(), 'omc-runtime-v2-monitor-bootstrap-'));
+    cwd = await mkdtemp(join(tmpdir(), 'omg-runtime-v2-monitor-bootstrap-'));
     await writeConfigAndTask('pending');
     mocks.execFile.mockImplementation((_cmd: string, args: string[], cb: (err: Error | null, stdout: string, stderr: string) => void) => {
       if (args[0] === 'capture-pane') {
@@ -132,19 +132,19 @@ describe('monitorTeamV2 pane-based stall inference', () => {
   });
 
   it('deduplicates duplicate worker rows from persisted config during monitoring', async () => {
-    cwd = await mkdtemp(join(tmpdir(), 'omc-runtime-v2-monitor-dedup-'));
+    cwd = await mkdtemp(join(tmpdir(), 'omg-runtime-v2-monitor-dedup-'));
     await writeConfigAndTask('pending');
-    const root = join(cwd, '.omc', 'state', 'team', 'demo-team');
+    const root = join(cwd, '.omg', 'state', 'team', 'demo-team');
     await writeFile(join(root, 'config.json'), JSON.stringify({
       name: 'demo-team',
       task: 'demo',
-      agent_type: 'claude',
+      agent_type: 'gemini',
       worker_launch_mode: 'interactive',
       worker_count: 2,
       max_workers: 20,
       workers: [
-        { name: 'worker-1', index: 1, role: 'claude', assigned_tasks: ['1'] },
-        { name: 'worker-1', index: 0, role: 'claude', assigned_tasks: [], pane_id: '%2', working_dir: cwd },
+        { name: 'worker-1', index: 1, role: 'gemini', assigned_tasks: ['1'] },
+        { name: 'worker-1', index: 0, role: 'gemini', assigned_tasks: [], pane_id: '%2', working_dir: cwd },
       ],
       created_at: new Date().toISOString(),
       tmux_session: 'demo-session:0',
@@ -153,7 +153,7 @@ describe('monitorTeamV2 pane-based stall inference', () => {
       resize_hook_name: null,
       resize_hook_target: null,
       next_task_id: 2,
-      team_state_root: join(cwd, '.omc', 'state', 'team', 'demo-team'),
+      team_state_root: join(cwd, '.omg', 'state', 'team', 'demo-team'),
       workspace_mode: 'single',
     }, null, 2), 'utf-8');
 

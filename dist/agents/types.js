@@ -1,5 +1,5 @@
 /**
- * Agent Types for Oh-My-ClaudeCode
+ * Agent Types for Oh-My-GeminiCLI
  *
  * Defines types for agent configuration and metadata used in dynamic prompt generation.
  * Ported from oh-my-opencode's agent type system.
@@ -11,10 +11,10 @@ export function isGptModel(modelId) {
     return modelId.toLowerCase().includes('gpt');
 }
 /**
- * Check if a model ID is a Claude model
+ * Check if a model ID is a Gemini model
  */
-export function isClaudeModel(modelId) {
-    return modelId.toLowerCase().includes('claude');
+export function isGeminiModel(modelId) {
+    return modelId.toLowerCase().includes('gemini');
 }
 /**
  * Get default model for a category

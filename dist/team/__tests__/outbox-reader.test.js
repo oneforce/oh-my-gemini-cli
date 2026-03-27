@@ -4,7 +4,7 @@ import { join } from 'path';
 import { homedir } from 'os';
 import { readNewOutboxMessages, readAllTeamOutboxMessages, resetOutboxCursor, } from '../outbox-reader.js';
 const TEST_TEAM = 'test-team-outbox-reader';
-const TEAMS_DIR = join(homedir(), '.claude', 'teams', TEST_TEAM);
+const TEAMS_DIR = join(homedir(), '.gemini', 'teams', TEST_TEAM);
 beforeEach(() => {
     mkdirSync(join(TEAMS_DIR, 'outbox'), { recursive: true });
 });

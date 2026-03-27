@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import { getOmcRoot } from '../../lib/worktree-paths.js';
-import { getClaudeConfigDir } from '../../utils/paths.js';
+import { getGeminiConfigDir } from '../../utils/paths.js';
 
 export interface PermissionRequestInput {
   session_id: string;
@@ -93,9 +93,9 @@ function readPermissionStringEntries(filePath: string, key: 'allow' | 'ask'): st
   }
 }
 
-export function getClaudePermissionAllowEntries(directory: string): string[] {
-  const projectSettingsPath = path.join(directory, '.claude', 'settings.local.json');
-  const globalConfigDir = getClaudeConfigDir();
+export function getGeminiPermissionAllowEntries(directory: string): string[] {
+  const projectSettingsPath = path.join(directory, '.gemini', 'settings.local.json');
+  const globalConfigDir = getGeminiConfigDir();
   const candidatePaths = [
     projectSettingsPath,
     path.join(globalConfigDir, 'settings.local.json'),
@@ -116,12 +116,12 @@ function hasGenericToolPermission(allowEntries: string[], toolName: string): boo
   return allowEntries.some(entry => entry === toolName || entry.startsWith(`${toolName}(`));
 }
 
-export function hasClaudePermissionApproval(
+export function hasGeminiPermissionApproval(
   directory: string,
   toolName: 'Edit' | 'Write' | 'Bash',
   command?: string,
 ): boolean {
-  const allowEntries = getClaudePermissionAllowEntries(directory);
+  const allowEntries = getGeminiPermissionAllowEntries(directory);
 
   if (toolName !== 'Bash') {
     return hasGenericToolPermission(allowEntries, toolName);
@@ -140,9 +140,9 @@ export function hasClaudePermissionApproval(
 }
 
 
-export function getClaudePermissionAskEntries(directory: string): string[] {
-  const projectSettingsPath = path.join(directory, '.claude', 'settings.local.json');
-  const globalConfigDir = getClaudeConfigDir();
+export function getGeminiPermissionAskEntries(directory: string): string[] {
+  const projectSettingsPath = path.join(directory, '.gemini', 'settings.local.json');
+  const globalConfigDir = getGeminiConfigDir();
   const candidatePaths = [
     projectSettingsPath,
     path.join(globalConfigDir, 'settings.local.json'),
@@ -182,12 +182,12 @@ function commandMatchesPermissionPattern(command: string, pattern: string): bool
   return nextChar === '' || /[\s:=(["']/.test(nextChar);
 }
 
-export function hasClaudePermissionAsk(
+export function hasGeminiPermissionAsk(
   directory: string,
   toolName: 'Edit' | 'Write' | 'Bash',
   command?: string,
 ): boolean {
-  const askEntries = getClaudePermissionAskEntries(directory);
+  const askEntries = getGeminiPermissionAskEntries(directory);
 
   if (toolName !== 'Bash') {
     return hasGenericToolPermission(askEntries, toolName);
@@ -226,7 +226,7 @@ export function getBackgroundTaskPermissionFallback(
   }
 
   const missingTools = ['Edit', 'Write'].filter(
-    toolName => !hasClaudePermissionApproval(directory, toolName as 'Edit' | 'Write'),
+    toolName => !hasGeminiPermissionApproval(directory, toolName as 'Edit' | 'Write'),
   );
 
   return {
@@ -243,7 +243,7 @@ export function getBackgroundBashPermissionFallback(
     return { shouldFallback: false, missingTools: [] };
   }
 
-  if (hasClaudePermissionAsk(directory, 'Bash', command)) {
+  if (hasGeminiPermissionAsk(directory, 'Bash', command)) {
     return { shouldFallback: true, missingTools: ['Bash'] };
   }
 
@@ -251,7 +251,7 @@ export function getBackgroundBashPermissionFallback(
     return { shouldFallback: false, missingTools: [] };
   }
 
-  return hasClaudePermissionApproval(directory, 'Bash', command)
+  return hasGeminiPermissionApproval(directory, 'Bash', command)
     ? { shouldFallback: false, missingTools: [] }
     : { shouldFallback: true, missingTools: ['Bash'] };
 }
@@ -274,7 +274,7 @@ export function isSafeCommand(command: string): boolean {
 /**
  * Check if a command is a heredoc command with a safe base command.
  * Issue #608: Heredoc commands contain shell metacharacters (<<, \n, $, etc.)
- * that cause isSafeCommand() to reject them. When they fall through to Claude
+ * that cause isSafeCommand() to reject them. When they fall through to Gemini
  * Code's native permission flow and the user approves "Always allow", the entire
  * heredoc body (potentially hundreds of lines) gets stored in settings.local.json.
  *
@@ -285,7 +285,7 @@ export function isSafeCommand(command: string): boolean {
 export function isHeredocWithSafeBase(command: string): boolean {
   const trimmed = command.trim();
 
-  // Heredoc commands from Claude Code are always multi-line
+  // Heredoc commands from Gemini Code are always multi-line
   if (!trimmed.includes('\n')) {
     return false;
   }
@@ -317,7 +317,7 @@ export function isActiveModeRunning(directory: string): boolean {
     'ralph-state.json',
     'ultrawork-state.json',
     'team-state.json',
-    'omc-teams-state.json',
+    'omg-teams-state.json',
   ];
 
   for (const stateFile of activeStateFiles) {
@@ -358,7 +358,7 @@ export function processPermissionRequest(input: PermissionRequestInput): HookOut
     return { continue: true };
   }
 
-  const shouldAskBashPermission = hasClaudePermissionAsk(input.cwd, 'Bash', command);
+  const shouldAskBashPermission = hasGeminiPermissionAsk(input.cwd, 'Bash', command);
 
   // Auto-allow safe commands
   if (!shouldAskBashPermission && isSafeCommand(command)) {

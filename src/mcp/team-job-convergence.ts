@@ -21,8 +21,8 @@ type ArtifactOutcome =
   | { kind: 'terminal'; status: 'completed' | 'failed'; raw: string }
   | { kind: 'parse-failed'; message: string; payload: string };
 
-function readResultArtifact(omcJobsDir: string, jobId: string): ArtifactOutcome {
-  const artifactPath = join(omcJobsDir, `${jobId}-result.json`);
+function readResultArtifact(omgJobsDir: string, jobId: string): ArtifactOutcome {
+  const artifactPath = join(omgJobsDir, `${jobId}-result.json`);
   if (!existsSync(artifactPath)) return { kind: 'none' };
 
   let raw: string;
@@ -57,9 +57,9 @@ function readResultArtifact(omcJobsDir: string, jobId: string): ArtifactOutcome 
 export function convergeJobWithResultArtifact(
   job: OmcTeamJob,
   jobId: string,
-  omcJobsDir: string,
+  omgJobsDir: string,
 ): { job: OmcTeamJob; changed: boolean } {
-  const artifact = readResultArtifact(omcJobsDir, jobId);
+  const artifact = readResultArtifact(omgJobsDir, jobId);
   if (artifact.kind === 'none') return { job, changed: false };
 
   if (artifact.kind === 'terminal') {
@@ -114,7 +114,7 @@ export function clearScopedTeamState(job: Pick<OmcTeamJob, 'cwd' | 'teamName'>):
     return `team state cleanup skipped (invalid teamName): ${error instanceof Error ? error.message : String(error)}`;
   }
 
-  const stateDir = join(job.cwd, '.omc', 'state', 'team', job.teamName);
+  const stateDir = join(job.cwd, '.omg', 'state', 'team', job.teamName);
   let worktreeMessage = 'worktree cleanup skipped.';
   try {
     cleanupTeamWorktrees(job.teamName, job.cwd);

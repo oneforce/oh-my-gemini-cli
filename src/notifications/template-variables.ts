@@ -78,7 +78,7 @@ export const TEMPLATE_VARIABLES: Record<string, TemplateVariable> = {
   },
   tmuxSession: {
     description: 'tmux session name',
-    example: 'claude:my-project',
+    example: 'gemini:my-project',
     availableIn: ['*']
   },
   tmuxPaneId: {

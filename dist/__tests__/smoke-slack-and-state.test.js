@@ -413,12 +413,12 @@ import { stateWriteTool, stateReadTool, stateClearTool, stateListActiveTool, sta
 import { resolveSessionStatePath, } from '../lib/worktree-paths.js';
 describe('SMOKE: State Cancel Cleanup — session-scoped I/O (issue #1143)', () => {
     let testDir;
-    let omcDir;
+    let omgDir;
     beforeEach(() => {
         testDir = join(tmpdir(), `smoke-state-${Date.now()}-${Math.random().toString(36).slice(2)}`);
-        omcDir = join(testDir, '.omc');
-        mkdirSync(omcDir, { recursive: true });
-        mockGetOmcRoot.mockReturnValue(omcDir);
+        omgDir = join(testDir, '.omg');
+        mkdirSync(omgDir, { recursive: true });
+        mockGetOmcRoot.mockReturnValue(omgDir);
     });
     afterEach(() => {
         if (existsSync(testDir))
@@ -479,9 +479,9 @@ describe('SMOKE: State Cancel Cleanup — session-scoped I/O (issue #1143)', () 
         });
         const after = Date.now();
         // Compute path directly — avoids mock boundary issues with resolveSessionStatePath internals.
-        // State tools write to: {omcRoot}/state/sessions/{sessionId}/cancel-signal-state.json
-        // omcRoot = getOmcRoot(root) = mockGetOmcRoot(testDir) = omcDir
-        const cancelSignalPath = join(omcDir, 'state', 'sessions', sessionId, 'cancel-signal-state.json');
+        // State tools write to: {omgRoot}/state/sessions/{sessionId}/cancel-signal-state.json
+        // omgRoot = getOmcRoot(root) = mockGetOmcRoot(testDir) = omgDir
+        const cancelSignalPath = join(omgDir, 'state', 'sessions', sessionId, 'cancel-signal-state.json');
         expect(existsSync(cancelSignalPath)).toBe(true);
         const signal = JSON.parse(readFileSync(cancelSignalPath, 'utf-8'));
         expect(signal.active).toBe(true);
@@ -503,7 +503,7 @@ describe('SMOKE: State Cancel Cleanup — session-scoped I/O (issue #1143)', () 
             active: true,
         });
         // Plant a legacy ghost file with matching sessionId in _meta
-        const legacyDir = join(omcDir, 'state');
+        const legacyDir = join(omgDir, 'state');
         mkdirSync(legacyDir, { recursive: true });
         const legacyPath = join(legacyDir, 'ultrawork-state.json');
         writeFileSync(legacyPath, JSON.stringify({
@@ -527,7 +527,7 @@ describe('SMOKE: State Cancel Cleanup — session-scoped I/O (issue #1143)', () 
             active: true,
         });
         // Plant a legacy ghost file belonging to another session
-        const legacyDir = join(omcDir, 'state');
+        const legacyDir = join(omgDir, 'state');
         mkdirSync(legacyDir, { recursive: true });
         const legacyPath = join(legacyDir, 'ultrawork-state.json');
         writeFileSync(legacyPath, JSON.stringify({
@@ -554,7 +554,7 @@ describe('SMOKE: State Cancel Cleanup — session-scoped I/O (issue #1143)', () 
             active: true,
         });
         // Write a legacy path directly
-        const legacyDir = join(omcDir, 'state');
+        const legacyDir = join(omgDir, 'state');
         mkdirSync(legacyDir, { recursive: true });
         const legacyPath = join(legacyDir, 'team-state.json');
         writeFileSync(legacyPath, JSON.stringify({ active: true }));
@@ -563,8 +563,8 @@ describe('SMOKE: State Cancel Cleanup — session-scoped I/O (issue #1143)', () 
         expect(clearResult).toMatch(/Cleared state|cleared/i);
         expect(clearResult).toContain('WARNING');
         // Both session paths should be gone
-        const sessAPath = resolveSessionStatePath('team', 'broadcast-sess-a', omcDir);
-        const sessBPath = resolveSessionStatePath('team', 'broadcast-sess-b', omcDir);
+        const sessAPath = resolveSessionStatePath('team', 'broadcast-sess-a', omgDir);
+        const sessBPath = resolveSessionStatePath('team', 'broadcast-sess-b', omgDir);
         expect(existsSync(sessAPath)).toBe(false);
         expect(existsSync(sessBPath)).toBe(false);
         expect(existsSync(legacyPath)).toBe(false);

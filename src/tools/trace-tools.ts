@@ -29,7 +29,7 @@ const REPLAY_PREFIX = 'agent-replay-';
  * Find the latest session ID from replay files
  */
 function findLatestSessionId(directory: string): string | null {
-  const stateDir = join(directory, '.omc', 'state');
+  const stateDir = join(directory, '.omg', 'state');
   try {
     const files = readdirSync(stateDir)
       .filter(f => f.startsWith(REPLAY_PREFIX) && f.endsWith('.jsonl'))

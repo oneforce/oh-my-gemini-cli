@@ -10,10 +10,10 @@ describe('session-start template guard for same-root parallel sessions (#1744)',
     let fakeHome;
     let fakeProject;
     beforeEach(() => {
-        tempDir = mkdtempSync(join(tmpdir(), 'omc-session-start-template-'));
+        tempDir = mkdtempSync(join(tmpdir(), 'omg-session-start-template-'));
         fakeHome = join(tempDir, 'home');
         fakeProject = join(tempDir, 'project');
-        mkdirSync(join(fakeProject, '.omc', 'state'), { recursive: true });
+        mkdirSync(join(fakeProject, '.omg', 'state'), { recursive: true });
     });
     afterEach(() => {
         rmSync(tempDir, { recursive: true, force: true });
@@ -33,7 +33,7 @@ describe('session-start template guard for same-root parallel sessions (#1744)',
     }
     it('warns and suppresses conflicting same-root restore for a different active session', () => {
         const now = new Date().toISOString();
-        writeFileSync(join(fakeProject, '.omc', 'state', 'ultrawork-state.json'), JSON.stringify({
+        writeFileSync(join(fakeProject, '.omg', 'state', 'ultrawork-state.json'), JSON.stringify({
             active: true,
             session_id: 'session-a',
             started_at: now,
@@ -53,7 +53,7 @@ describe('session-start template guard for same-root parallel sessions (#1744)',
         expect(context).not.toContain('Old task that should not bleed into session-b');
     });
     it('still restores ultrawork for the owning session', () => {
-        writeFileSync(join(fakeProject, '.omc', 'state', 'ultrawork-state.json'), JSON.stringify({
+        writeFileSync(join(fakeProject, '.omg', 'state', 'ultrawork-state.json'), JSON.stringify({
             active: true,
             session_id: 'session-owner',
             started_at: '2026-03-19T00:00:00.000Z',
@@ -72,8 +72,8 @@ describe('session-start template guard for same-root parallel sessions (#1744)',
         expect(context).not.toContain('[PARALLEL SESSION WARNING]');
     });
     it('does not warn for global fallback state from a different normalized project path', () => {
-        mkdirSync(join(fakeHome, '.omc', 'state'), { recursive: true });
-        writeFileSync(join(fakeHome, '.omc', 'state', 'ultrawork-state.json'), JSON.stringify({
+        mkdirSync(join(fakeHome, '.omg', 'state'), { recursive: true });
+        writeFileSync(join(fakeHome, '.omg', 'state', 'ultrawork-state.json'), JSON.stringify({
             active: true,
             session_id: 'session-a',
             started_at: '2026-03-19T00:00:00.000Z',

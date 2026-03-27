@@ -21,13 +21,13 @@ vi.mock('../autoresearch-guided.js', async (importOriginal) => {
         spawnAutoresearchTmux: spawnAutoresearchTmuxMock,
     };
 });
-import { autoresearchCommand, normalizeAutoresearchClaudeArgs, parseAutoresearchArgs, AUTORESEARCH_HELP } from '../autoresearch.js';
-describe('normalizeAutoresearchClaudeArgs', () => {
+import { autoresearchCommand, normalizeAutoresearchGeminiArgs, parseAutoresearchArgs, AUTORESEARCH_HELP } from '../autoresearch.js';
+describe('normalizeAutoresearchGeminiArgs', () => {
     it('adds permission bypass by default for autoresearch workers', () => {
-        expect(normalizeAutoresearchClaudeArgs(['--model', 'opus'])).toEqual(['--model', 'opus', '--dangerously-skip-permissions']);
+        expect(normalizeAutoresearchGeminiArgs(['--model', 'opus'])).toEqual(['--model', 'opus', '--dangerously-skip-permissions']);
     });
     it('deduplicates explicit bypass flags', () => {
-        expect(normalizeAutoresearchClaudeArgs(['--dangerously-skip-permissions'])).toEqual(['--dangerously-skip-permissions']);
+        expect(normalizeAutoresearchGeminiArgs(['--dangerously-skip-permissions'])).toEqual(['--dangerously-skip-permissions']);
     });
 });
 describe('parseAutoresearchArgs', () => {
@@ -36,7 +36,7 @@ describe('parseAutoresearchArgs', () => {
         expect(parsed.guided).toBe(true);
         expect(parsed.missionDir).toBeNull();
         expect(parsed.runId).toBeNull();
-        expect(parsed.claudeArgs).toEqual([]);
+        expect(parsed.geminiArgs).toEqual([]);
     });
     it('treats top-level topic/evaluator flags as seeded intake input', () => {
         const parsed = parseAutoresearchArgs(['--topic', 'Improve docs', '--evaluator', 'node eval.js', '--slug', 'docs-run']);
@@ -84,7 +84,7 @@ describe('parseAutoresearchArgs', () => {
         const parsed = parseAutoresearchArgs(['/path/to/mission']);
         expect(parsed.missionDir).toBe('/path/to/mission');
         expect(parsed.runId).toBeNull();
-        expect(parsed.claudeArgs).toEqual([]);
+        expect(parsed.geminiArgs).toEqual([]);
     });
     it('parses --resume with run-id', () => {
         const parsed = parseAutoresearchArgs(['--resume', 'my-run-id']);
@@ -94,7 +94,7 @@ describe('parseAutoresearchArgs', () => {
     it('parses --help and advertises detached setup behavior', () => {
         const parsed = parseAutoresearchArgs(['--help']);
         expect(parsed.missionDir).toBe('--help');
-        expect(AUTORESEARCH_HELP).toContain('detached Claude deep-interview setup session');
+        expect(AUTORESEARCH_HELP).toContain('detached Gemini deep-interview setup session');
         expect(AUTORESEARCH_HELP).toContain('/deep-interview --autoresearch');
         expect(AUTORESEARCH_HELP).toContain('Seed the legacy guided intake');
     });

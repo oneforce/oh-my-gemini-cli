@@ -8,7 +8,7 @@
 
 import { existsSync, readdirSync, readFileSync } from 'fs';
 import { join, basename } from 'path';
-import { getClaudeConfigDir } from '../../utils/paths.js';
+import { getGeminiConfigDir } from '../../utils/paths.js';
 import type {
   ParsedSlashCommand,
   CommandInfo,
@@ -18,18 +18,18 @@ import type {
 } from './types.js';
 import { resolveLiveData } from './live-data.js';
 import { parseFrontmatter, parseFrontmatterAliases, stripOptionalQuotes } from '../../utils/frontmatter.js';
-import { formatOmcCliInvocation, rewriteOmcCliInvocations } from '../../utils/omc-cli-rendering.js';
+import { formatOmcCliInvocation, rewriteOmcCliInvocations } from '../../utils/omg-cli-rendering.js';
 import { parseSkillPipelineMetadata, renderSkillPipelineGuidance } from '../../utils/skill-pipeline.js';
 import { renderSkillResourcesGuidance } from '../../utils/skill-resources.js';
 import { renderSkillRuntimeGuidance } from '../../features/builtin-skills/runtime-guidance.js';
 
-/** Claude config directory */
-const CLAUDE_CONFIG_DIR = getClaudeConfigDir();
+/** Gemini config directory */
+const CLAUDE_CONFIG_DIR = getGeminiConfigDir();
 
 /**
- * Claude Code native commands that must not be shadowed by user skills.
+ * Gemini Code native commands that must not be shadowed by user skills.
  * Skills whose canonical name or alias matches one of these will be prefixed
- * with `omc-` to avoid overriding built-in CC slash commands.
+ * with `omg-` to avoid overriding built-in CC slash commands.
  */
 const CC_NATIVE_COMMANDS = new Set([
   'review',
@@ -47,7 +47,7 @@ const CC_NATIVE_COMMANDS = new Set([
 function toSafeSkillName(name: string): string {
   const normalized = name.trim();
   return CC_NATIVE_COMMANDS.has(normalized.toLowerCase())
-    ? `omc-${normalized}`
+    ? `omg-${normalized}`
     : normalized;
 }
 
@@ -189,8 +189,8 @@ function discoverSkillsFromDir(skillsDir: string): CommandInfo[] {
  */
 export function discoverAllCommands(): CommandInfo[] {
   const userCommandsDir = join(CLAUDE_CONFIG_DIR, 'commands');
-  const projectCommandsDir = join(process.cwd(), '.claude', 'commands');
-  const projectOmcSkillsDir = join(process.cwd(), '.omc', 'skills');
+  const projectCommandsDir = join(process.cwd(), '.gemini', 'commands');
+  const projectOmcSkillsDir = join(process.cwd(), '.omg', 'skills');
   const projectAgentSkillsDir = join(process.cwd(), '.agents', 'skills');
   const userSkillsDir = join(CLAUDE_CONFIG_DIR, 'skills');
 
@@ -261,7 +261,7 @@ function renderDeepInterviewAutoresearchGuidance(args: string): string {
     '- Treat evaluator clarity as a required readiness gate before launch.',
     '- When the mission and evaluator are ready, launch direct execution with:',
     `  \`${formatOmcCliInvocation('autoresearch --mission "<mission>" --eval "<evaluator>" [--keep-policy <policy>] [--slug <slug>]')}\``,
-    '- Do **not** hand off to `omc-plan`, `autopilot`, `ralph`, or `team` in this mode.',
+    '- Do **not** hand off to `omg-plan`, `autopilot`, `ralph`, or `team` in this mode.',
   ];
 
   if (missionSeed) {
@@ -350,7 +350,7 @@ export function executeSlashCommand(parsed: ParsedSlashCommand): ExecuteResult {
   if (!command) {
     return {
       success: false,
-      error: `Command "/${parsed.command}" not found. Available commands are in $CLAUDE_CONFIG_DIR/commands/ (or ~/.claude/commands/ by default) or .claude/commands/`,
+      error: `Command "/${parsed.command}" not found. Available commands are in $CLAUDE_CONFIG_DIR/commands/ (or ~/.gemini/commands/ by default) or .gemini/commands/`,
     };
   }
 

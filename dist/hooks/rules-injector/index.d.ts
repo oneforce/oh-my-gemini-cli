@@ -1,9 +1,9 @@
 /**
  * Rules Injector Hook
  *
- * Automatically injects relevant rule files when Claude accesses files.
- * Supports project-level (.claude/rules, .github/instructions) and
- * user-level (~/.claude/rules) rule files.
+ * Automatically injects relevant rule files when Gemini accesses files.
+ * Supports project-level (.gemini/rules, .github/instructions) and
+ * user-level (~/.gemini/rules) rule files.
  *
  * Ported from oh-my-opencode's rules-injector hook.
  */
@@ -15,7 +15,7 @@ export * from './parser.js';
 export * from './matcher.js';
 export * from './storage.js';
 /**
- * Create a rules injector hook for Claude Code.
+ * Create a rules injector hook for Gemini Code.
  *
  * @param workingDirectory - The working directory for resolving paths
  * @returns Hook handlers for tool execution

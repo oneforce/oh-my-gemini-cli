@@ -7,7 +7,7 @@ const SCRIPT_PATH = join(process.cwd(), 'scripts', 'context-safety.mjs');
 const HOOKS_PATH = join(process.cwd(), 'hooks', 'hooks.json');
 const tempDirs = [];
 function makeTempDir() {
-    const dir = mkdtempSync(join(tmpdir(), 'omc-context-safety-'));
+    const dir = mkdtempSync(join(tmpdir(), 'omg-context-safety-'));
     tempDirs.push(dir);
     return dir;
 }

@@ -111,7 +111,7 @@ export async function scaleUp(
       };
     }
 
-    const teamStateRoot = config.team_state_root ?? `${leaderCwd}/.omc/state`;
+    const teamStateRoot = config.team_state_root ?? `${leaderCwd}/.omg/state`;
 
     // Resolve the monotonic worker index counter
     let nextIndex = config.next_worker_index ?? (currentCount + 1);
@@ -176,7 +176,7 @@ export async function scaleUp(
         workerName,
         envVars: extraEnv,
         launchArgs: [],
-        launchBinary: 'claude',
+        launchBinary: 'gemini',
         launchCmd: '',
         cwd: leaderCwd,
       });

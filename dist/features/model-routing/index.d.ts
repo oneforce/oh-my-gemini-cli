@@ -14,7 +14,7 @@
  * });
  *
  * console.log(decision.tier);  // 'LOW'
- * console.log(decision.model); // 'claude-haiku-4-5-20251001'
+ * console.log(decision.model); // 'gemini-haiku-4-5-20251001'
  * ```
  */
 export type { ComplexityTier, ComplexitySignals, LexicalSignals, StructuralSignals, ContextSignals, RoutingDecision, RoutingContext, RoutingConfig, RoutingRule, PromptAdaptationStrategy, } from './types.js';

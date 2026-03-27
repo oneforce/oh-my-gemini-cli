@@ -24,18 +24,18 @@ describe('bridge-entry workdir guardrails (source contract)', () => {
 
 describe('validateConfigPath guardrails', () => {
   const home = '/home/user';
-  const claudeConfigDir = '/home/user/.claude';
+  const geminiConfigDir = '/home/user/.gemini';
 
   it('rejects path outside home', () => {
-    expect(validateConfigPath('/tmp/.omc/config.json', home, claudeConfigDir)).toBe(false);
+    expect(validateConfigPath('/tmp/.omg/config.json', home, geminiConfigDir)).toBe(false);
   });
 
   it('rejects path not under trusted subpaths', () => {
-    expect(validateConfigPath('/home/user/project/config.json', home, claudeConfigDir)).toBe(false);
+    expect(validateConfigPath('/home/user/project/config.json', home, geminiConfigDir)).toBe(false);
   });
 
-  it('accepts trusted .omc path under home', () => {
-    expect(validateConfigPath('/home/user/project/.omc/state/config.json', home, claudeConfigDir)).toBe(true);
+  it('accepts trusted .omg path under home', () => {
+    expect(validateConfigPath('/home/user/project/.omg/state/config.json', home, geminiConfigDir)).toBe(true);
   });
 });
 

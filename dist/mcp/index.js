@@ -3,7 +3,7 @@
  */
 export { createExaServer, createContext7Server, createPlaywrightServer, createFilesystemServer, createMemoryServer, getDefaultMcpServers, toSdkMcpFormat } from './servers.js';
 // OMC Tools Server - in-process MCP server for custom tools
-export { omcToolsServer, omcToolNames, getOmcToolNames } from './omc-tools-server.js';
+export { omgToolsServer, omgToolNames, getOmcToolNames } from './omg-tools-server.js';
 // Prompt injection helper for system prompt support
 export { resolveSystemPrompt, buildPromptWithSystemContext, VALID_AGENT_ROLES, getValidAgentRoles, isValidAgentRoleName } from '../agents/prompt-helpers.js';
 // Prompt persistence for external model audit trail

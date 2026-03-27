@@ -104,7 +104,7 @@ export function buildAutoresearchSetupPrompt(input: AutoresearchSetupSessionInpu
     .map((answer, index) => `Clarification ${index + 1}: ${answer}`);
 
   return [
-    'You are a short-lived Claude Code setup assistant for OMC autoresearch.',
+    'You are a short-lived Gemini Code setup assistant for OMC autoresearch.',
     'Your job is to prepare a launch handoff for a detached autoresearch runtime.',
     'Stay domain-generic. Prefer repository evidence and explicit user input over assumptions.',
     'If the evaluator is explicit and valid, keep using it.',
@@ -142,7 +142,7 @@ export function buildAutoresearchSetupPrompt(input: AutoresearchSetupSessionInpu
 
 export function runAutoresearchSetupSession(input: AutoresearchSetupSessionInput): AutoresearchSetupHandoff {
   const prompt = buildAutoresearchSetupPrompt(input);
-  const result = spawnSync('claude', ['-p', prompt], {
+  const result = spawnSync('gemini', ['-p', prompt], {
     cwd: input.repoRoot,
     encoding: 'utf-8',
     env: {
@@ -155,7 +155,7 @@ export function runAutoresearchSetupSession(input: AutoresearchSetupSessionInput
     throw result.error;
   }
   if (result.status !== 0) {
-    throw new Error(`claude_autoresearch_setup_failed:${result.status ?? 'unknown'}`);
+    throw new Error(`gemini_autoresearch_setup_failed:${result.status ?? 'unknown'}`);
   }
 
   return parseAutoresearchSetupHandoffJson(result.stdout || '');

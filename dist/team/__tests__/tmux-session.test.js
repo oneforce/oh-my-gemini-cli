@@ -32,10 +32,10 @@ describe('sanitizeName', () => {
 });
 describe('sessionName', () => {
     it('builds correct session name', () => {
-        expect(sessionName('myteam', 'codex1')).toBe('omc-team-myteam-codex1');
+        expect(sessionName('myteam', 'codex1')).toBe('omg-team-myteam-codex1');
     });
     it('sanitizes both parts', () => {
-        expect(sessionName('my team!', 'work@er')).toBe('omc-team-myteam-worker');
+        expect(sessionName('my team!', 'work@er')).toBe('omg-team-myteam-worker');
     });
 });
 describe('getDefaultShell', () => {
@@ -147,21 +147,21 @@ describe('buildWorkerStartCommand', () => {
             teamName: 't',
             workerName: 'w',
             envVars: {
-                ANTHROPIC_MODEL: 'us.anthropic.claude-sonnet-4-6-v1[1m]',
+                ANTHROPIC_MODEL: 'us.anthropic.gemini-sonnet-4-6-v1[1m]',
                 CLAUDE_CODE_USE_BEDROCK: '1',
             },
-            launchBinary: '/usr/local/bin/claude',
+            launchBinary: '/usr/local/bin/gemini',
             launchArgs: ['--dangerously-skip-permissions'],
             cwd: '/tmp'
         });
         // env assignments must appear WITHOUT extra wrapping quotes.
-        // Correct:   ANTHROPIC_MODEL='us.anthropic.claude-sonnet-4-6-v1[1m]'
+        // Correct:   ANTHROPIC_MODEL='us.anthropic.gemini-sonnet-4-6-v1[1m]'
         // Wrong:     'ANTHROPIC_MODEL='"'"'us.anthropic...'"'"''  (double-escaped)
-        expect(cmd).toContain("ANTHROPIC_MODEL='us.anthropic.claude-sonnet-4-6-v1[1m]'");
+        expect(cmd).toContain("ANTHROPIC_MODEL='us.anthropic.gemini-sonnet-4-6-v1[1m]'");
         expect(cmd).toContain("CLAUDE_CODE_USE_BEDROCK='1'");
         // The env keyword and other args should still be shell-escaped
         expect(cmd).toMatch(/^'env'/);
-        expect(cmd).toContain("'/usr/local/bin/claude'");
+        expect(cmd).toContain("'/usr/local/bin/gemini'");
         expect(cmd).toContain("'--dangerously-skip-permissions'");
     });
     it('env vars with special characters survive single escaping correctly', () => {
@@ -173,15 +173,15 @@ describe('buildWorkerStartCommand', () => {
             workerName: 'w',
             envVars: {
                 OMC_TEAM_WORKER: 'my-team/worker-1',
-                ANTHROPIC_DEFAULT_SONNET_MODEL: 'global.anthropic.claude-sonnet-4-6[1m]',
+                ANTHROPIC_DEFAULT_SONNET_MODEL: 'global.anthropic.gemini-sonnet-4-6[1m]',
             },
-            launchBinary: '/usr/local/bin/claude',
+            launchBinary: '/usr/local/bin/gemini',
             launchArgs: [],
             cwd: '/tmp'
         });
         // Values with / and [] must be preserved without extra quoting
         expect(cmd).toContain("OMC_TEAM_WORKER='my-team/worker-1'");
-        expect(cmd).toContain("ANTHROPIC_DEFAULT_SONNET_MODEL='global.anthropic.claude-sonnet-4-6[1m]'");
+        expect(cmd).toContain("ANTHROPIC_DEFAULT_SONNET_MODEL='global.anthropic.gemini-sonnet-4-6[1m]'");
     });
     it('rejects relative launchBinary containing spaces', () => {
         vi.spyOn(process, 'platform', 'get').mockReturnValue('linux');
@@ -286,12 +286,12 @@ describe.skipIf(!hasTmux())('createSession with workingDirectory', () => {
     it('accepts optional workingDirectory param', () => {
         // Should not throw — workingDirectory is optional
         const name = createSession('tmuxtest', 'wdtest', '/tmp');
-        expect(name).toBe('omc-team-tmuxtest-wdtest');
+        expect(name).toBe('omg-team-tmuxtest-wdtest');
         killSession('tmuxtest', 'wdtest');
     });
     it('works without workingDirectory param', () => {
         const name = createSession('tmuxtest', 'nowd');
-        expect(name).toBe('omc-team-tmuxtest-nowd');
+        expect(name).toBe('omg-team-tmuxtest-nowd');
         killSession('tmuxtest', 'nowd');
     });
 });

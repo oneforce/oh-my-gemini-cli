@@ -44,12 +44,12 @@ describe('EDGE: Pipeline Orchestrator (issue #1132)', () => {
     beforeEach(() => {
         testDir = join(tmpdir(), `edge-pipe-${Date.now()}-${Math.random().toString(36).slice(2)}`);
         mkdirSync(testDir, { recursive: true });
-        // Pipeline state uses getOmcRoot(worktreeRoot) — mock returns <dir>/.omc for any arg
+        // Pipeline state uses getOmcRoot(worktreeRoot) — mock returns <dir>/.omg for any arg
         mockGetOmcRoot.mockImplementation((dir) => {
             const base = dir || testDir;
-            const omcDir = join(base, '.omc');
-            mkdirSync(omcDir, { recursive: true });
-            return omcDir;
+            const omgDir = join(base, '.omg');
+            mkdirSync(omgDir, { recursive: true });
+            return omgDir;
         });
     });
     afterEach(() => {
@@ -204,9 +204,9 @@ describe('EDGE: Shared Memory (issue #1137)', () => {
     let testDir;
     beforeEach(() => {
         testDir = join(tmpdir(), `edge-shmem-${Date.now()}-${Math.random().toString(36).slice(2)}`);
-        const omcDir = join(testDir, '.omc');
-        mkdirSync(omcDir, { recursive: true });
-        mockGetOmcRoot.mockReturnValue(omcDir);
+        const omgDir = join(testDir, '.omg');
+        mkdirSync(omgDir, { recursive: true });
+        mockGetOmcRoot.mockReturnValue(omgDir);
     });
     afterEach(() => {
         mockGetOmcRoot.mockReset();
@@ -250,8 +250,8 @@ describe('EDGE: Shared Memory (issue #1137)', () => {
     });
     it('listEntries on empty namespace returns empty array', () => {
         // Create an empty namespace dir
-        const omcDir = mockGetOmcRoot();
-        mkdirSync(join(omcDir, 'state', 'shared-memory', 'empty-ns'), { recursive: true });
+        const omgDir = mockGetOmcRoot();
+        mkdirSync(join(omgDir, 'state', 'shared-memory', 'empty-ns'), { recursive: true });
         const items = listEntries('empty-ns');
         expect(items).toEqual([]);
     });
@@ -267,8 +267,8 @@ describe('EDGE: Shared Memory (issue #1137)', () => {
         expect(result).toBe(false);
     });
     it('cleanupExpired on empty namespace returns {removed: 0}', () => {
-        const omcDir = mockGetOmcRoot();
-        mkdirSync(join(omcDir, 'state', 'shared-memory', 'clean-ns'), { recursive: true });
+        const omgDir = mockGetOmcRoot();
+        mkdirSync(join(omgDir, 'state', 'shared-memory', 'clean-ns'), { recursive: true });
         const result = cleanupExpired('clean-ns');
         expect(result.removed).toBe(0);
     });

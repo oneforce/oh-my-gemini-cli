@@ -18,7 +18,7 @@ const mockedExistsSync = vi.mocked(existsSync);
 const mockedReadFileSync = vi.mocked(readFileSync);
 
 describe('isHudEnabledInConfig', () => {
-  const configPath = join(CLAUDE_CONFIG_DIR, '.omc-config.json');
+  const configPath = join(CLAUDE_CONFIG_DIR, '.omg-config.json');
 
   beforeEach(() => {
     vi.clearAllMocks();
@@ -90,14 +90,14 @@ describe('isOmcStatusLine', () => {
   it('should return true for OMC HUD statusLine', () => {
     expect(isOmcStatusLine({
       type: 'command',
-      command: 'node /home/user/.claude/hud/omc-hud.mjs'
+      command: 'node /home/user/.gemini/hud/omg-hud.mjs'
     })).toBe(true);
   });
 
-  it('should return true for any command containing omc-hud', () => {
+  it('should return true for any command containing omg-hud', () => {
     expect(isOmcStatusLine({
       type: 'command',
-      command: '/usr/local/bin/node /some/path/omc-hud.mjs'
+      command: '/usr/local/bin/node /some/path/omg-hud.mjs'
     })).toBe(true);
   });
 
@@ -117,12 +117,12 @@ describe('isOmcStatusLine', () => {
   });
 
   // Legacy string format tests (pre-v4.5 compatibility)
-  it('should return true for legacy string containing omc-hud', () => {
-    expect(isOmcStatusLine('~/.claude/hud/omc-hud.mjs')).toBe(true);
+  it('should return true for legacy string containing omg-hud', () => {
+    expect(isOmcStatusLine('~/.gemini/hud/omg-hud.mjs')).toBe(true);
   });
 
-  it('should return true for legacy string with absolute path to omc-hud', () => {
-    expect(isOmcStatusLine('/home/user/.claude/hud/omc-hud.mjs')).toBe(true);
+  it('should return true for legacy string with absolute path to omg-hud', () => {
+    expect(isOmcStatusLine('/home/user/.gemini/hud/omg-hud.mjs')).toBe(true);
   });
 
   it('should return false for non-OMC string', () => {
@@ -144,14 +144,14 @@ describe('isOmcStatusLine', () => {
   it('should recognize portable $HOME statusLine as OMC', () => {
     expect(isOmcStatusLine({
       type: 'command',
-      command: 'node $HOME/.claude/hud/omc-hud.mjs'
+      command: 'node $HOME/.gemini/hud/omg-hud.mjs'
     })).toBe(true);
   });
 
   it('should recognize find-node.sh statusLine as OMC', () => {
     expect(isOmcStatusLine({
       type: 'command',
-      command: 'sh $HOME/.claude/hud/find-node.sh $HOME/.claude/hud/omc-hud.mjs'
+      command: 'sh $HOME/.gemini/hud/find-node.sh $HOME/.gemini/hud/omg-hud.mjs'
     })).toBe(true);
   });
 });

@@ -21,14 +21,14 @@ interface CliRunResult {
 }
 
 interface RunOptions {
-  preserveClaudeSessionEnv?: boolean;
+  preserveGeminiSessionEnv?: boolean;
 }
 
 function buildChildEnv(
   envOverrides: Record<string, string> = {},
   options: RunOptions = {},
 ): NodeJS.ProcessEnv {
-  if (options.preserveClaudeSessionEnv) {
+  if (options.preserveGeminiSessionEnv) {
     return { ...process.env, ...envOverrides };
   }
 
@@ -120,7 +120,7 @@ function writeAdvisorStub(dir: string): string {
   return stubPath;
 }
 
-function writeFakeProviderBinary(dir: string, provider: 'claude' | 'gemini'): string {
+function writeFakeProviderBinary(dir: string, provider: 'gemini' | 'gemini'): string {
   const binDir = join(dir, 'bin');
   mkdirSync(binDir, { recursive: true });
   const binPath = join(binDir, provider);
@@ -213,16 +213,16 @@ exit 9
 
 describe('parseAskArgs', () => {
   it('supports positional and print/prompt flag forms', () => {
-    expect(parseAskArgs(['claude', 'review', 'this'])).toEqual({ provider: 'claude', prompt: 'review this' });
+    expect(parseAskArgs(['gemini', 'review', 'this'])).toEqual({ provider: 'gemini', prompt: 'review this' });
     expect(parseAskArgs(['gemini', '-p', 'brainstorm'])).toEqual({ provider: 'gemini', prompt: 'brainstorm' });
-    expect(parseAskArgs(['claude', '--print', 'draft', 'summary'])).toEqual({ provider: 'claude', prompt: 'draft summary' });
+    expect(parseAskArgs(['gemini', '--print', 'draft', 'summary'])).toEqual({ provider: 'gemini', prompt: 'draft summary' });
     expect(parseAskArgs(['gemini', '--prompt=ship safely'])).toEqual({ provider: 'gemini', prompt: 'ship safely' });
     expect(parseAskArgs(['codex', 'review', 'this'])).toEqual({ provider: 'codex', prompt: 'review this' });
   });
 
   it('supports --agent-prompt flag and equals syntax', () => {
-    expect(parseAskArgs(['claude', '--agent-prompt', 'executor', 'do', 'it'])).toEqual({
-      provider: 'claude',
+    expect(parseAskArgs(['gemini', '--agent-prompt', 'executor', 'do', 'it'])).toEqual({
+      provider: 'gemini',
       prompt: 'do it',
       agentPromptRole: 'executor',
     });
@@ -239,13 +239,13 @@ describe('parseAskArgs', () => {
   });
 });
 
-describe('omc ask command', () => {
+describe('omg ask command', () => {
   it('accepts canonical advisor env and forwards prompt/task to advisor', () => {
-    const wd = mkdtempSync(join(tmpdir(), 'omc-ask-canonical-'));
+    const wd = mkdtempSync(join(tmpdir(), 'omg-ask-canonical-'));
     try {
       const stubPath = writeAdvisorStub(wd);
       const result = runCli(
-        ['ask', 'claude', '--print', 'hello world'],
+        ['ask', 'gemini', '--print', 'hello world'],
         wd,
         { OMC_ASK_ADVISOR_SCRIPT: stubPath },
       );
@@ -256,7 +256,7 @@ describe('omc ask command', () => {
 
       const payload = JSON.parse(result.stdout);
       expect(payload).toEqual({
-        provider: 'claude',
+        provider: 'gemini',
         prompt: 'hello world',
         originalTask: 'hello world',
         passthrough: null,
@@ -267,7 +267,7 @@ describe('omc ask command', () => {
   });
 
   it('accepts OMX advisor env alias in Phase-1 and emits deprecation warning', () => {
-    const wd = mkdtempSync(join(tmpdir(), 'omc-ask-alias-'));
+    const wd = mkdtempSync(join(tmpdir(), 'omg-ask-alias-'));
     try {
       const stubPath = writeAdvisorStub(wd);
       const result = runCli(
@@ -290,8 +290,8 @@ describe('omc ask command', () => {
     }
   });
 
-  it('allows codex ask inside a Claude Code session', () => {
-    const wd = mkdtempSync(join(tmpdir(), 'omc-ask-cli-codex-nested-'));
+  it('allows codex ask inside a Gemini Code session', () => {
+    const wd = mkdtempSync(join(tmpdir(), 'omg-ask-cli-codex-nested-'));
     try {
       const stubPath = writeAdvisorStub(wd);
       const result = runCli(
@@ -301,7 +301,7 @@ describe('omc ask command', () => {
           OMC_ASK_ADVISOR_SCRIPT: stubPath,
           CLAUDECODE: '1',
         },
-        { preserveClaudeSessionEnv: true },
+        { preserveGeminiSessionEnv: true },
       );
 
       expect(result.error).toBeUndefined();
@@ -320,8 +320,8 @@ describe('omc ask command', () => {
     }
   });
 
-  it('allows gemini ask inside a Claude Code session', () => {
-    const wd = mkdtempSync(join(tmpdir(), 'omc-ask-cli-gemini-nested-'));
+  it('allows gemini ask inside a Gemini Code session', () => {
+    const wd = mkdtempSync(join(tmpdir(), 'omg-ask-cli-gemini-nested-'));
     try {
       const stubPath = writeAdvisorStub(wd);
       const result = runCli(
@@ -331,7 +331,7 @@ describe('omc ask command', () => {
           OMC_ASK_ADVISOR_SCRIPT: stubPath,
           CLAUDECODE: '1',
         },
-        { preserveClaudeSessionEnv: true },
+        { preserveGeminiSessionEnv: true },
       );
 
       expect(result.error).toBeUndefined();
@@ -349,7 +349,7 @@ describe('omc ask command', () => {
   });
 
   it('loads --agent-prompt role from resolved prompts dir and prepends role content', () => {
-    const wd = mkdtempSync(join(tmpdir(), 'omc-ask-agent-prompt-'));
+    const wd = mkdtempSync(join(tmpdir(), 'omg-ask-agent-prompt-'));
     try {
       const stubPath = writeAdvisorStub(wd);
       mkdirSync(join(wd, '.omx'), { recursive: true });
@@ -358,7 +358,7 @@ describe('omc ask command', () => {
       writeFileSync(join(wd, '.codex', 'prompts', 'executor.md'), 'ROLE HEADER\nFollow checks.', 'utf8');
 
       const result = runCli(
-        ['ask', 'claude', '--agent-prompt=executor', '--prompt', 'ship feature'],
+        ['ask', 'gemini', '--agent-prompt=executor', '--prompt', 'ship feature'],
         wd,
         { OMC_ASK_ADVISOR_SCRIPT: stubPath },
       );
@@ -377,12 +377,12 @@ describe('omc ask command', () => {
 });
 
 describe('run-provider-advisor script contract', () => {
-  it('writes artifact to .omc/artifacts/ask/{provider}-{slug}-{timestamp}.md', () => {
-    const wd = mkdtempSync(join(tmpdir(), 'omc-ask-artifact-'));
+  it('writes artifact to .omg/artifacts/ask/{provider}-{slug}-{timestamp}.md', () => {
+    const wd = mkdtempSync(join(tmpdir(), 'omg-ask-artifact-'));
     try {
-      const binDir = writeFakeProviderBinary(wd, 'claude');
+      const binDir = writeFakeProviderBinary(wd, 'gemini');
       const result = runAdvisorScript(
-        ['claude', '--print', 'artifact path contract'],
+        ['gemini', '--print', 'artifact path contract'],
         wd,
         { PATH: `${binDir}:${process.env.PATH || ''}` },
       );
@@ -391,7 +391,7 @@ describe('run-provider-advisor script contract', () => {
       expect(result.status).toBe(0);
 
       const artifactPath = result.stdout.trim();
-      expect(artifactPath).toContain(join('.omc', 'artifacts', 'ask', 'claude-artifact-path-contract-'));
+      expect(artifactPath).toContain(join('.omg', 'artifacts', 'ask', 'gemini-artifact-path-contract-'));
       expect(existsSync(artifactPath)).toBe(true);
 
       const artifact = readFileSync(artifactPath, 'utf8');
@@ -402,7 +402,7 @@ describe('run-provider-advisor script contract', () => {
   });
 
   it('accepts OMX original-task alias in Phase-1 with deprecation warning', () => {
-    const wd = mkdtempSync(join(tmpdir(), 'omc-ask-original-alias-'));
+    const wd = mkdtempSync(join(tmpdir(), 'omg-ask-original-alias-'));
     try {
       const binDir = writeFakeProviderBinary(wd, 'gemini');
       const result = runAdvisorScript(
@@ -428,7 +428,7 @@ describe('run-provider-advisor script contract', () => {
   });
 
   it('sanitizes Rust env vars for codex so artifacts do not capture Rust stderr logs', () => {
-    const wd = mkdtempSync(join(tmpdir(), 'omc-ask-codex-rust-env-'));
+    const wd = mkdtempSync(join(tmpdir(), 'omg-ask-codex-rust-env-'));
     try {
       const binDir = writeFakeCodexBinary(wd);
       const result = runAdvisorScript(
@@ -456,7 +456,7 @@ describe('run-provider-advisor script contract', () => {
   });
 
   it('pipes the Windows codex prompt over stdin to avoid shell arg splitting', () => {
-    const wd = mkdtempSync(join(tmpdir(), 'omc-ask-codex-win32-shell-'));
+    const wd = mkdtempSync(join(tmpdir(), 'omg-ask-codex-win32-shell-'));
     try {
       const capturePath = join(wd, 'spawn-sync-calls.json');
       const preludePath = writeSpawnSyncCapturePrelude(wd);
@@ -493,7 +493,7 @@ describe('run-provider-advisor script contract', () => {
   });
 
   it('pipes the Windows gemini prompt over stdin to avoid --prompt conflicts and AttachConsole failures', () => {
-    const wd = mkdtempSync(join(tmpdir(), 'omc-ask-gemini-win32-stdin-'));
+    const wd = mkdtempSync(join(tmpdir(), 'omg-ask-gemini-win32-stdin-'));
     try {
       const capturePath = join(wd, 'spawn-sync-calls.json');
       const preludePath = writeSpawnSyncCapturePrelude(wd);
@@ -530,7 +530,7 @@ describe('run-provider-advisor script contract', () => {
   });
 
   it('shows install guidance when a Windows codex binary is missing under shell:true', () => {
-    const wd = mkdtempSync(join(tmpdir(), 'omc-ask-codex-win32-missing-'));
+    const wd = mkdtempSync(join(tmpdir(), 'omg-ask-codex-win32-missing-'));
     try {
       const capturePath = join(wd, 'spawn-sync-calls.json');
       const preludePath = writeSpawnSyncCapturePrelude(wd);

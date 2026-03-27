@@ -8,8 +8,8 @@ describe('team api compatibility (task + mailbox legacy formats)', () => {
     let cwd;
     const teamName = 'compat-team';
     beforeEach(async () => {
-        cwd = await mkdtemp(join(tmpdir(), 'omc-team-api-compat-'));
-        const base = join(cwd, '.omc', 'state', 'team', teamName);
+        cwd = await mkdtemp(join(tmpdir(), 'omg-team-api-compat-'));
+        const base = join(cwd, '.omg', 'state', 'team', teamName);
         await mkdir(join(base, 'tasks'), { recursive: true });
         await mkdir(join(base, 'mailbox'), { recursive: true });
         await mkdir(join(base, 'events'), { recursive: true });
@@ -29,7 +29,7 @@ describe('team api compatibility (task + mailbox legacy formats)', () => {
         await rm(cwd, { recursive: true, force: true });
     });
     it('reads legacy tasks/1.json and writes canonical task-1.json on claim', async () => {
-        const legacyTaskPath = join(cwd, '.omc', 'state', 'team', teamName, 'tasks', '1.json');
+        const legacyTaskPath = join(cwd, '.omg', 'state', 'team', teamName, 'tasks', '1.json');
         await writeFile(legacyTaskPath, JSON.stringify({
             id: '1',
             subject: 'Compat task',
@@ -54,11 +54,11 @@ describe('team api compatibility (task + mailbox legacy formats)', () => {
             worker: 'worker-1',
         }, cwd);
         expect(claimResult.ok).toBe(true);
-        const canonicalPath = join(cwd, '.omc', 'state', 'team', teamName, 'tasks', 'task-1.json');
+        const canonicalPath = join(cwd, '.omg', 'state', 'team', teamName, 'tasks', 'task-1.json');
         expect(existsSync(canonicalPath)).toBe(true);
     });
     it('reads legacy mailbox JSONL and migrates to canonical JSON on mark-notified', async () => {
-        const legacyMailboxPath = join(cwd, '.omc', 'state', 'team', teamName, 'mailbox', 'worker-1.jsonl');
+        const legacyMailboxPath = join(cwd, '.omg', 'state', 'team', teamName, 'mailbox', 'worker-1.jsonl');
         await writeFile(legacyMailboxPath, `${JSON.stringify({
             id: 'msg-1',
             from: 'leader-fixed',
@@ -82,7 +82,7 @@ describe('team api compatibility (task + mailbox legacy formats)', () => {
             message_id: 'msg-1',
         }, cwd);
         expect(markResult.ok).toBe(true);
-        const canonicalMailboxPath = join(cwd, '.omc', 'state', 'team', teamName, 'mailbox', 'worker-1.json');
+        const canonicalMailboxPath = join(cwd, '.omg', 'state', 'team', teamName, 'mailbox', 'worker-1.json');
         expect(existsSync(canonicalMailboxPath)).toBe(true);
         const canonicalRaw = await readFile(canonicalMailboxPath, 'utf-8');
         const canonical = JSON.parse(canonicalRaw);

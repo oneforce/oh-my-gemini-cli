@@ -24,7 +24,7 @@ describe("stop hook OpenClaw cooldown bypass (issue #1120)", () => {
   let tmpDir: string;
 
   beforeEach(() => {
-    tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), "omc-stop-claw-"));
+    tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), "omg-stop-claw-"));
     // git init so resolveToWorktreeRoot returns this directory
     execSync("git init", { cwd: tmpDir, stdio: "ignore" });
     resetSkipHooksCache();

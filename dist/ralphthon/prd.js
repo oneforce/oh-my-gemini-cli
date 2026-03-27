@@ -12,21 +12,21 @@ import { PRD_FILENAME, RALPHTHON_DEFAULTS, } from './types.js';
 // File Operations
 // ============================================================================
 /**
- * Get the path to the ralphthon PRD file in .omc
+ * Get the path to the ralphthon PRD file in .omg
  */
 export function getRalphthonPrdPath(directory) {
     return join(getOmcRoot(directory), PRD_FILENAME);
 }
 /**
- * Find ralphthon-prd.json (checks both root and .omc)
+ * Find ralphthon-prd.json (checks both root and .omg)
  */
 export function findRalphthonPrdPath(directory) {
     const rootPath = join(directory, PRD_FILENAME);
     if (existsSync(rootPath))
         return rootPath;
-    const omcPath = getRalphthonPrdPath(directory);
-    if (existsSync(omcPath))
-        return omcPath;
+    const omgPath = getRalphthonPrdPath(directory);
+    if (existsSync(omgPath))
+        return omgPath;
     return null;
 }
 /**
@@ -55,10 +55,10 @@ export function readRalphthonPrd(directory) {
 export function writeRalphthonPrd(directory, prd) {
     let prdPath = findRalphthonPrdPath(directory);
     if (!prdPath) {
-        const omcDir = getOmcRoot(directory);
-        if (!existsSync(omcDir)) {
+        const omgDir = getOmcRoot(directory);
+        if (!existsSync(omgDir)) {
             try {
-                mkdirSync(omcDir, { recursive: true });
+                mkdirSync(omgDir, { recursive: true });
             }
             catch {
                 return false;

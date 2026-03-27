@@ -1,30 +1,30 @@
 ---
 name: ralplan
-description: Alias for /omc-plan --consensus
+description: Alias for /omg-plan --consensus
 level: 4
 ---
 
 # Ralplan (Consensus Planning Alias)
 
-Ralplan is a shorthand alias for `/oh-my-claudecode:omc-plan --consensus`. It triggers iterative planning with Planner, Architect, and Critic agents until consensus is reached, with **RALPLAN-DR structured deliberation** (short mode by default, deliberate mode for high-risk work).
+Ralplan is a shorthand alias for `/oh-my-gemini-cli:omg-plan --consensus`. It triggers iterative planning with Planner, Architect, and Critic agents until consensus is reached, with **RALPLAN-DR structured deliberation** (short mode by default, deliberate mode for high-risk work).
 
 ## Usage
 
 ```
-/oh-my-claudecode:ralplan "task description"
+/oh-my-gemini-cli:ralplan "task description"
 ```
 
 ## Flags
 
 - `--interactive`: Enables user prompts at key decision points (draft review in step 2 and final approval in step 6). Without this flag the workflow runs fully automated — Planner → Architect → Critic loop — and outputs the final plan without asking for confirmation.
 - `--deliberate`: Forces deliberate mode for high-risk work. Adds pre-mortem (3 scenarios) and expanded test planning (unit/integration/e2e/observability). Without this flag, deliberate mode can still auto-enable when the request explicitly signals high risk (auth/security, migrations, destructive changes, production incidents, compliance/PII, public API breakage).
-- `--architect codex`: Use Codex for the Architect pass when Codex CLI is available. Otherwise, briefly note the fallback and keep the default Claude Architect review.
-- `--critic codex`: Use Codex for the Critic pass when Codex CLI is available. Otherwise, briefly note the fallback and keep the default Claude Critic review.
+- `--architect codex`: Use Codex for the Architect pass when Codex CLI is available. Otherwise, briefly note the fallback and keep the default Gemini Architect review.
+- `--critic codex`: Use Codex for the Critic pass when Codex CLI is available. Otherwise, briefly note the fallback and keep the default Gemini Critic review.
 
 ## Usage with interactive mode
 
 ```
-/oh-my-claudecode:ralplan --interactive "task description"
+/oh-my-gemini-cli:ralplan --interactive "task description"
 ```
 
 ## Behavior
@@ -32,7 +32,7 @@ Ralplan is a shorthand alias for `/oh-my-claudecode:omc-plan --consensus`. It tr
 This skill invokes the Plan skill in consensus mode:
 
 ```
-/oh-my-claudecode:omc-plan --consensus <arguments>
+/oh-my-gemini-cli:omg-plan --consensus <arguments>
 ```
 
 The consensus workflow:
@@ -54,7 +54,7 @@ The consensus workflow:
    f. If 5 iterations are reached without `APPROVE`, present the best version to the user
 6. On Critic approval *(--interactive only)*: If `--interactive` is set, use `AskUserQuestion` to present the plan with approval options (Approve and implement via team (Recommended) / Approve and execute via ralph / Clear context and implement / Request changes / Reject). Final plan must include ADR (Decision, Drivers, Alternatives considered, Why chosen, Consequences, Follow-ups). Otherwise, output the final plan and stop.
 7. *(--interactive only)* User chooses: Approve (team or ralph), Request changes, or Reject
-8. *(--interactive only)* On approval: invoke `Skill("oh-my-claudecode:team")` for parallel team execution (recommended) or `Skill("oh-my-claudecode:ralph")` for sequential execution -- never implement directly
+8. *(--interactive only)* On approval: invoke `Skill("oh-my-gemini-cli:team")` for parallel team execution (recommended) or `Skill("oh-my-gemini-cli:ralph")` for sequential execution -- never implement directly
 
 > **Important:** Steps 3 and 4 MUST run sequentially. Do NOT issue both agent Task calls in the same parallel batch. Always await the Architect result before issuing the Critic Task.
 

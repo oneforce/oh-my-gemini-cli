@@ -6,12 +6,12 @@
  * Cross-platform: Windows, macOS, Linux
  *
  * Supported keywords (in priority order):
- * 1. cancelomc/stopomc: Stop active modes
+ * 1. cancelomg/stopomg: Stop active modes
  * 2. ralph: Persistence mode until task completion
  * 3. autopilot: Full autonomous execution
  * 4. team: Explicit-only via /team (not auto-triggered)
  * 5. ultrawork/ulw: Maximum parallel execution
- * 5. ccg: Claude-Codex-Gemini tri-model orchestration
+ * 5. ccg: Gemini-Codex-Gemini tri-model orchestration
  * 6. ralplan: Iterative planning with consensus
  * 7. deep interview: Socratic interview workflow
  * 8. ai-slop-cleaner: Cleanup/deslop anti-slop workflow
@@ -203,7 +203,7 @@ function activateState(directory, prompt, stateName, sessionId) {
 
   // Write to session-scoped path if sessionId available
   if (sessionId && /^[a-zA-Z0-9][a-zA-Z0-9_-]{0,255}$/.test(sessionId)) {
-    const sessionDir = join(directory, '.omc', 'state', 'sessions', sessionId);
+    const sessionDir = join(directory, '.omg', 'state', 'sessions', sessionId);
     if (!existsSync(sessionDir)) {
       try { mkdirSync(sessionDir, { recursive: true }); } catch {}
     }
@@ -211,8 +211,8 @@ function activateState(directory, prompt, stateName, sessionId) {
     return;
   }
 
-  // Fallback: write to legacy local .omc/state directory
-  const localDir = join(directory, '.omc', 'state');
+  // Fallback: write to legacy local .omg/state directory
+  const localDir = join(directory, '.omg', 'state');
   if (!existsSync(localDir)) {
     try { mkdirSync(localDir, { recursive: true }); } catch {}
   }
@@ -224,13 +224,13 @@ function activateState(directory, prompt, stateName, sessionId) {
  */
 function clearStateFiles(directory, modeNames, sessionId) {
   for (const name of modeNames) {
-    const localPath = join(directory, '.omc', 'state', `${name}-state.json`);
-    const globalPath = join(homedir(), '.omc', 'state', `${name}-state.json`);
+    const localPath = join(directory, '.omg', 'state', `${name}-state.json`);
+    const globalPath = join(homedir(), '.omg', 'state', `${name}-state.json`);
     try { if (existsSync(localPath)) unlinkSync(localPath); } catch {}
     try { if (existsSync(globalPath)) unlinkSync(globalPath); } catch {}
     // Clear session-scoped file too
     if (sessionId && /^[a-zA-Z0-9][a-zA-Z0-9_-]{0,255}$/.test(sessionId)) {
-      const sessionPath = join(directory, '.omc', 'state', 'sessions', sessionId, `${name}-state.json`);
+      const sessionPath = join(directory, '.omg', 'state', 'sessions', sessionId, `${name}-state.json`);
       try { if (existsSync(sessionPath)) unlinkSync(sessionPath); } catch {}
     }
   }
@@ -243,9 +243,9 @@ function clearStateFiles(directory, modeNames, sessionId) {
 function linkRalphTeam(directory, sessionId) {
   const getStatePath = (modeName) => {
     if (sessionId && /^[a-zA-Z0-9][a-zA-Z0-9_-]{0,255}$/.test(sessionId)) {
-      return join(directory, '.omc', 'state', 'sessions', sessionId, `${modeName}-state.json`);
+      return join(directory, '.omg', 'state', 'sessions', sessionId, `${modeName}-state.json`);
     }
-    return join(directory, '.omc', 'state', `${modeName}-state.json`);
+    return join(directory, '.omg', 'state', `${modeName}-state.json`);
   };
 
   // Update ralph state with linked_team
@@ -270,14 +270,14 @@ function linkRalphTeam(directory, sessionId) {
 }
 
 /**
- * Check if the team feature is enabled in Claude Code settings.
- * Reads ~/.claude/settings.json and checks for CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS env var.
+ * Check if the team feature is enabled in Gemini Code settings.
+ * Reads ~/.gemini/settings.json and checks for CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS env var.
  * @returns {boolean} true if team feature is enabled
  */
 function isTeamEnabled() {
   try {
     // Check settings.json first (authoritative, user-controlled)
-    const cfgDir = process.env.CLAUDE_CONFIG_DIR || join(homedir(), '.claude');
+    const cfgDir = process.env.CLAUDE_CONFIG_DIR || join(homedir(), '.gemini');
     const settingsPath = join(cfgDir, 'settings.json');
     if (existsSync(settingsPath)) {
       const settings = JSON.parse(readFileSync(settingsPath, 'utf-8'));
@@ -298,7 +298,7 @@ function isTeamEnabled() {
 }
 
 /**
- * Create a skill invocation message that tells Claude to use the Skill tool
+ * Create a skill invocation message that tells Gemini to use the Skill tool
  */
 function createSkillInvocation(skillName, originalPrompt, args = '') {
   const argsSection = args ? `\nArguments: ${args}` : '';
@@ -306,7 +306,7 @@ function createSkillInvocation(skillName, originalPrompt, args = '') {
 
 You MUST invoke the skill using the Skill tool:
 
-Skill: oh-my-claudecode:${skillName}${argsSection}
+Skill: oh-my-gemini-cli:${skillName}${argsSection}
 
 User request:
 ${originalPrompt}
@@ -326,7 +326,7 @@ function createMultiSkillInvocation(skills, originalPrompt) {
   const skillBlocks = skills.map((s, i) => {
     const argsSection = s.args ? `\nArguments: ${s.args}` : '';
     return `### Skill ${i + 1}: ${s.name.toUpperCase()}
-Skill: oh-my-claudecode:${s.name}${argsSection}`;
+Skill: oh-my-gemini-cli:${s.name}${argsSection}`;
   }).join('\n\n');
 
   return `[MAGIC KEYWORDS DETECTED: ${skills.map(s => s.name.toUpperCase()).join(', ')}]
@@ -378,7 +378,7 @@ function resolveConflicts(matches) {
 }
 
 /**
- * Create proper hook output with additionalContext (Claude Code hooks API)
+ * Create proper hook output with additionalContext (Gemini Code hooks API)
  * The 'message' field is NOT a valid hook output - use hookSpecificOutput.additionalContext
  */
 function createHookOutput(additionalContext) {
@@ -431,7 +431,7 @@ async function main() {
     const matches = [];
 
     // Cancel keywords
-    if (hasActionableKeyword(cleanPrompt, /\b(cancelomc|stopomc)\b/i)) {
+    if (hasActionableKeyword(cleanPrompt, /\b(cancelomg|stopomg)\b/i)) {
       matches.push({ name: 'cancel', args: '' });
     }
 
@@ -460,11 +460,11 @@ async function main() {
 
 
     // Team keyword detection removed — team mode is now explicit-only via /team skill.
-    // This prevents infinite spawning when Claude workers receive prompts containing "team".
+    // This prevents infinite spawning when Gemini workers receive prompts containing "team".
 
 
-    // CCG keywords (Claude-Codex-Gemini tri-model orchestration)
-    if (hasActionableKeyword(cleanPrompt, /\b(ccg|claude-codex-gemini)\b/i)) {
+    // CCG keywords (Gemini-Codex-Gemini tri-model orchestration)
+    if (hasActionableKeyword(cleanPrompt, /\b(ccg|gemini-codex-gemini)\b/i)) {
       matches.push({ name: 'ccg', args: '' });
     }
 
@@ -553,8 +553,8 @@ async function main() {
     if (followupPlanner && planningArtifacts) {
       // Detect if ralplan state exists (was recently active) — serves as "prior skill = ralplan" signal
       const ralplanStatePath = sessionId && /^[a-zA-Z0-9][a-zA-Z0-9_-]{0,255}$/.test(sessionId)
-        ? join(directory, '.omc', 'state', 'sessions', sessionId, 'ralplan-state.json')
-        : join(directory, '.omc', 'state', 'ralplan-state.json');
+        ? join(directory, '.omg', 'state', 'sessions', sessionId, 'ralplan-state.json')
+        : join(directory, '.omg', 'state', 'ralplan-state.json');
       const ralplanWasActive = existsSync(ralplanStatePath);
 
       if (ralplanWasActive) {

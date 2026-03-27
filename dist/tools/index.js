@@ -2,7 +2,7 @@
  * Tool Registry and MCP Server Creation
  *
  * This module exports all custom tools and provides helpers
- * for creating MCP servers with the Claude Agent SDK.
+ * for creating MCP servers with the Gemini Agent SDK.
  */
 import { z } from 'zod';
 import { lspTools } from './lsp-tools.js';

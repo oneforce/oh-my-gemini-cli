@@ -1,7 +1,7 @@
 ---
 name: analyst
 description: Pre-planning consultant for requirements analysis (Opus)
-model: claude-opus-4-6
+model: gemini-opus-4-6
 level: 3
 disallowedTools: Write, Edit
 ---
@@ -99,7 +99,7 @@ disallowedTools: Write, Edit
     ```
 
     Do NOT attempt to write these to a file (Write and Edit tools are blocked for this agent).
-    The orchestrator or planner will persist open questions to `.omc/plans/open-questions.md` on your behalf.
+    The orchestrator or planner will persist open questions to `.omg/plans/open-questions.md` on your behalf.
   </Open_Questions>
 
   <Final_Checklist>

@@ -7,7 +7,7 @@
 
 ## Purpose
 
-Hooks intercept Claude Code events to enable:
+Hooks intercept Gemini Code events to enable:
 - **Execution modes**: autopilot, ultrawork, ralph, ultrapilot, swarm, pipeline (mode-registry)
 - **Validation**: thinking blocks, empty messages, comments
 - **Recovery**: edit errors, session recovery, context window
@@ -78,7 +78,7 @@ Hooks intercept Claude Code events to enable:
 | Directory | Purpose |
 |-----------|---------|
 | `todo-continuation/` | Enforces task completion |
-| `omc-orchestrator/` | Orchestrator behavior |
+| `omg-orchestrator/` | Orchestrator behavior |
 | `subagent-tracker/` | Tracks spawned sub-agents |
 | `session-end/` | Session termination handling |
 | `background-notification/` | Background task notifications |
@@ -190,7 +190,7 @@ writeState('autopilot-state', state);
 
 - Test specific hooks with `npm test -- --grep "hook-name"`
 - Test execution modes end-to-end with skill invocation
-- Verify state persistence in `.omc/state/`
+- Verify state persistence in `.omg/state/`
 - For security hooks, follow `templates/rules/security.md` checklist
 
 ## Dependencies
@@ -228,7 +228,7 @@ return {
 };
 ```
 
-**Why soft enforcement**: Hard blocking (`continue: false`) would prevent context compaction and could deadlock Claude Code.
+**Why soft enforcement**: Hard blocking (`continue: false`) would prevent context compaction and could deadlock Gemini Code.
 
 **Bypass conditions** (checked first, allow stopping):
 1. `context-limit` - Context window exhausted, must allow compaction
@@ -251,10 +251,10 @@ return {
 
 | Hook | State File |
 |------|------------|
-| autopilot | `.omc/state/autopilot-state.json` |
-| ultrapilot | `.omc/state/ultrapilot-state.json` |
-| ralph | `.omc/state/ralph-state.json` |
-| swarm | `.omc/state/swarm-tasks.db` (SQLite) |
-| learner | `~/.claude/local-skills/` |
+| autopilot | `.omg/state/autopilot-state.json` |
+| ultrapilot | `.omg/state/ultrapilot-state.json` |
+| ralph | `.omg/state/ralph-state.json` |
+| swarm | `.omg/state/swarm-tasks.db` (SQLite) |
+| learner | `~/.gemini/local-skills/` |
 
 <!-- MANUAL: -->

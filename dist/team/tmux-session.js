@@ -3,7 +3,7 @@
  * Tmux Session Management for MCP Team Bridge
  *
  * Create, kill, list, and manage tmux sessions for MCP worker bridge daemons.
- * Sessions are named "omc-team-{teamName}-{workerName}".
+ * Sessions are named "omg-team-{teamName}-{workerName}".
  */
 import { exec, execFile, execSync, execFileSync } from 'child_process';
 import { existsSync } from 'fs';
@@ -12,7 +12,7 @@ import { promisify } from 'util';
 import fs from 'fs/promises';
 import { validateTeamName } from './team-name.js';
 const sleep = (ms) => new Promise(r => setTimeout(r, ms));
-const TMUX_SESSION_PREFIX = 'omc-team';
+const TMUX_SESSION_PREFIX = 'omg-team';
 const promisifiedExec = promisify(exec);
 const promisifiedExecFile = promisify(execFile);
 export function detectTeamMultiplexerContext(env = process.env) {
@@ -266,7 +266,7 @@ export function sanitizeName(name) {
     // Truncate to safe length for tmux session names
     return sanitized.slice(0, 50);
 }
-/** Build session name: "omc-team-{teamName}-{workerName}" */
+/** Build session name: "omg-team-{teamName}-{workerName}" */
 export function sessionName(teamName, workerName) {
     return `${TMUX_SESSION_PREFIX}-${sanitizeName(teamName)}-${sanitizeName(workerName)}`;
 }
@@ -331,7 +331,7 @@ export function listActiveSessions(teamName) {
  *
  * Instead of passing JSON via tmux send-keys (brittle quoting), the caller
  * writes config to a temp file and passes --config flag:
- *   node dist/team/bridge-entry.js --config /tmp/omc-bridge-{worker}.json
+ *   node dist/team/bridge-entry.js --config /tmp/omg-bridge-{worker}.json
  */
 export function spawnBridgeInSession(tmuxSession, bridgeScriptPath, configFilePath) {
     const cmd = `node "${bridgeScriptPath}" --config "${configFilePath}"`;
@@ -413,7 +413,7 @@ export async function createTeamSession(teamName, workerCount, cwd, options = {}
     }
     if (useDedicatedWindow) {
         const targetSession = sessionAndWindow.split(':')[0] ?? sessionAndWindow;
-        const windowName = `omc-${sanitizeName(teamName)}`.slice(0, 32);
+        const windowName = `omg-${sanitizeName(teamName)}`.slice(0, 32);
         const newWindowResult = await execFileAsync('tmux', [
             'new-window', '-d', '-P', '-F', '#S:#I #{pane_id}',
             '-t', targetSession,
@@ -565,8 +565,8 @@ export function paneLooksReady(captured) {
     if (/^\s*[›>❯]\s*/u.test(lastLine))
         return true;
     const hasCodexPromptLine = lines.some((line) => /^\s*›\s*/u.test(line));
-    const hasClaudePromptLine = lines.some((line) => /^\s*❯\s*/u.test(line));
-    return hasCodexPromptLine || hasClaudePromptLine;
+    const hasGeminiPromptLine = lines.some((line) => /^\s*❯\s*/u.test(line));
+    return hasCodexPromptLine || hasGeminiPromptLine;
 }
 export async function waitForPaneReady(paneId, opts = {}) {
     const envTimeout = Number.parseInt(process.env.OMC_SHELL_READY_TIMEOUT_MS ?? '', 10);
@@ -727,14 +727,14 @@ export async function sendToWorker(_sessionName, paneId, message) {
     }
 }
 /**
- * Inject a status message into the leader Claude pane.
+ * Inject a status message into the leader Gemini pane.
  * The message is typed into the leader's input, triggering a new conversation turn.
  * Prefixes with [OMC_TMUX_INJECT] marker to distinguish from user input.
  * Returns false on error (does not throw).
  */
 export async function injectToLeaderPane(sessionName, leaderPaneId, message) {
     const prefixed = `[OMC_TMUX_INJECT] ${message}`.slice(0, 200);
-    // If the leader is running a blocking tool (e.g. omc_run_team_wait shows
+    // If the leader is running a blocking tool (e.g. omg_run_team_wait shows
     // "esc to interrupt"), send C-c first so the message is not queued in the
     // stdin buffer behind the blocked process.
     try {
@@ -778,7 +778,7 @@ export async function killWorkerPanes(opts) {
     if (!paneIds.length)
         return; // guard: nothing to kill
     // 1. Write graceful shutdown sentinel
-    const shutdownPath = join(cwd, '.omc', 'state', 'team', teamName, 'shutdown.json');
+    const shutdownPath = join(cwd, '.omg', 'state', 'team', teamName, 'shutdown.json');
     try {
         await fs.writeFile(shutdownPath, JSON.stringify({ requestedAt: Date.now() }));
         const aliveChecks = await Promise.all(paneIds.map(id => isWorkerAlive(id)));

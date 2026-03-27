@@ -1,13 +1,13 @@
 {
   "aliases": {
-    "omc": {
-      "repo": "Yeachan-Heo/oh-my-claudecode",
-      "local": "~/Workspace/oh-my-claudecode",
+    "omg": {
+      "repo": "Yeachan-Heo/oh-my-gemini-cli",
+      "local": "~/Workspace/oh-my-gemini-cli",
       "default_base": "main"
     },
     "cc": {
-      "repo": "anthropics/claude-code",
-      "local": "~/Workspace/claude-code",
+      "repo": "anthropics/gemini-code",
+      "local": "~/Workspace/gemini-code",
       "default_base": "main"
     }
   },

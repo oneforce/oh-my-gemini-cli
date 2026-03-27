@@ -2,8 +2,8 @@
  * State Manager
  *
  * Unified state management that standardizes state file locations:
- * - Local state: .omc/state/{name}.json
- * - Global state: ~/.omc/state/{name}.json
+ * - Local state: .omg/state/{name}.json
+ * - Global state: ~/.omg/state/{name}.json
  *
  * Features:
  * - Type-safe read/write operations

@@ -38,7 +38,7 @@ LOG_FILE="$LOGS_DIR/${RUN_MODE}_${TIMESTAMP}.log"
 # Parse arguments
 LIMIT=""
 SKIP=""
-MODEL="claude-sonnet-4-6-20260217"
+MODEL="gemini-sonnet-4-6-20260217"
 TIMEOUT="300"
 
 while [[ $# -gt 0 ]]; do
@@ -65,7 +65,7 @@ while [[ $# -gt 0 ]]; do
             echo "Options:"
             echo "  --limit N       Limit to N instances (default: all)"
             echo "  --skip N        Skip first N instances (default: 0)"
-            echo "  --model MODEL   Claude model to use (default: claude-sonnet-4-6-20260217)"
+            echo "  --model MODEL   Gemini model to use (default: gemini-sonnet-4-6-20260217)"
             echo "  --timeout SECS  Timeout per instance (default: 300)"
             echo "  -h, --help      Show this help message"
             exit 0
@@ -84,7 +84,7 @@ if [ -z "${ANTHROPIC_AUTH_TOKEN:-}" ] && [ -z "${ANTHROPIC_API_KEY:-}" ]; then
 fi
 
 log_info "=========================================="
-log_info "Running VANILLA Claude Code Benchmark"
+log_info "Running VANILLA Gemini Code Benchmark"
 log_info "=========================================="
 log_info "Mode: $RUN_MODE"
 log_info "Model: $MODEL"
@@ -127,7 +127,7 @@ if [ $EXIT_CODE -eq 0 ]; then
     log_info ""
     log_info "Next steps:"
     log_info "  1. Run evaluation: python3 evaluate.py --predictions $PREDICTIONS_DIR"
-    log_info "  2. Compare with OMC: ./run_omc.sh"
+    log_info "  2. Compare with OMC: ./run_omg.sh"
     log_info ""
 else
     log_error "=========================================="

@@ -40,7 +40,7 @@ export interface OmcHudState {
 }
 
 // ============================================================================
-// Stdin from Claude Code
+// Stdin from Gemini Code
 // ============================================================================
 
 export interface StatuslineStdin {
@@ -212,7 +212,7 @@ export interface UsageResult {
 
 /**
  * Custom rate limit provider configuration.
- * Set omcHud.rateLimitsProvider.type = 'custom' to enable.
+ * Set omgHud.rateLimitsProvider.type = 'custom' to enable.
  */
 export interface RateLimitsProviderConfig {
   type: 'custom';
@@ -340,7 +340,7 @@ export interface HudRenderContext {
   sessionTotalTokens?: number | null;
 
   /** Installed OMC version (e.g. "4.1.10") */
-  omcVersion: string | null;
+  omgVersion: string | null;
 
   /** Latest available version from npm registry (null if up to date or unknown) */
   updateAvailable: string | null;
@@ -406,7 +406,7 @@ export type CwdFormat = 'relative' | 'absolute' | 'folder';
  * Model name format options:
  * - short: 'Opus', 'Sonnet', 'Haiku'
  * - versioned: 'Opus 4.6', 'Sonnet 4.5', 'Haiku 4.5'
- * - full: raw model ID like 'claude-opus-4-6-20260205'
+ * - full: raw model ID like 'gemini-opus-4-6-20260205'
  */
 export type ModelFormat = 'short' | 'versioned' | 'full';
 
@@ -418,7 +418,7 @@ export interface HudElementConfig {
   gitInfoPosition: 'above' | 'below';  // Position of git info relative to main HUD line
   model: boolean;            // Show current model name
   modelFormat: ModelFormat;   // Model name verbosity level
-  omcLabel: boolean;
+  omgLabel: boolean;
   rateLimits: boolean;  // Show 5h and weekly rate limits
   ralph: boolean;
   autopilot: boolean;
@@ -444,7 +444,7 @@ export interface HudElementConfig {
   showTokens?: boolean;           // Show last-request token usage when enabled (tok:i1.2k/o340)
   useBars: boolean;           // Show visual progress bars instead of/alongside percentages
   showCallCounts?: boolean;   // Show tool/agent/skill call counts on the right of the status line (default: true)
-  sessionSummary: boolean;    // Show AI-generated session summary (<20 chars) - generated every 10 turns via claude -p
+  sessionSummary: boolean;    // Show AI-generated session summary (<20 chars) - generated every 10 turns via gemini -p
   maxOutputLines: number;     // Max total output lines to prevent input field shrinkage
   safeMode: boolean;          // Strip ANSI codes and use ASCII-only output to prevent terminal rendering corruption (Issue #346)
 }
@@ -498,7 +498,7 @@ export const DEFAULT_HUD_CONFIG: HudConfig = {
     gitInfoPosition: 'above',  // Git info above main HUD line (backward compatible)
     model: false,             // Disabled by default for backward compatibility
     modelFormat: 'short',     // Short names by default for backward compatibility
-    omcLabel: true,
+    omgLabel: true,
     rateLimits: true,  // Show rate limits by default
     ralph: true,
     autopilot: true,
@@ -551,7 +551,7 @@ export const PRESET_CONFIGS: Record<HudPreset, Partial<HudElementConfig>> = {
     gitInfoPosition: 'above',
     model: false,
     modelFormat: 'short',
-    omcLabel: true,
+    omgLabel: true,
     rateLimits: true,
     ralph: true,
     autopilot: true,
@@ -587,7 +587,7 @@ export const PRESET_CONFIGS: Record<HudPreset, Partial<HudElementConfig>> = {
     gitInfoPosition: 'above',
     model: false,
     modelFormat: 'short',
-    omcLabel: true,
+    omgLabel: true,
     rateLimits: true,
     ralph: true,
     autopilot: true,
@@ -611,7 +611,7 @@ export const PRESET_CONFIGS: Record<HudPreset, Partial<HudElementConfig>> = {
     showTokens: false,
     useBars: true,
     showCallCounts: true,
-    sessionSummary: false, // Opt-in: sends transcript to claude -p
+    sessionSummary: false, // Opt-in: sends transcript to gemini -p
     maxOutputLines: 4,
     safeMode: true,
   },
@@ -623,7 +623,7 @@ export const PRESET_CONFIGS: Record<HudPreset, Partial<HudElementConfig>> = {
     gitInfoPosition: 'above',
     model: false,
     modelFormat: 'short',
-    omcLabel: true,
+    omgLabel: true,
     rateLimits: true,
     ralph: true,
     autopilot: true,
@@ -647,7 +647,7 @@ export const PRESET_CONFIGS: Record<HudPreset, Partial<HudElementConfig>> = {
     showTokens: false,
     useBars: true,
     showCallCounts: true,
-    sessionSummary: false, // Opt-in: sends transcript to claude -p
+    sessionSummary: false, // Opt-in: sends transcript to gemini -p
     maxOutputLines: 12,
     safeMode: true,
   },
@@ -659,7 +659,7 @@ export const PRESET_CONFIGS: Record<HudPreset, Partial<HudElementConfig>> = {
     gitInfoPosition: 'above',
     model: false,
     modelFormat: 'short',
-    omcLabel: true,
+    omgLabel: true,
     rateLimits: false,
     ralph: true,
     autopilot: true,
@@ -695,7 +695,7 @@ export const PRESET_CONFIGS: Record<HudPreset, Partial<HudElementConfig>> = {
     gitInfoPosition: 'above',
     model: false,
     modelFormat: 'short',
-    omcLabel: true,
+    omgLabel: true,
     rateLimits: true,
     ralph: true,
     autopilot: true,
@@ -719,7 +719,7 @@ export const PRESET_CONFIGS: Record<HudPreset, Partial<HudElementConfig>> = {
     showTokens: false,
     useBars: true,
     showCallCounts: true,
-    sessionSummary: false, // Opt-in: sends transcript to claude -p
+    sessionSummary: false, // Opt-in: sends transcript to gemini -p
     maxOutputLines: 6,
     safeMode: true,
   },

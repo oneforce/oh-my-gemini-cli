@@ -9,11 +9,11 @@
  */
 export const DEFAULT_DELEGATION_CONFIG = {
     enabled: false,
-    defaultProvider: 'claude',
+    defaultProvider: 'gemini',
     roles: {},
 };
 /**
- * Role category to default Claude subagent mapping
+ * Role category to default Gemini subagent mapping
  */
 export const ROLE_CATEGORY_DEFAULTS = {
     // Exploration roles

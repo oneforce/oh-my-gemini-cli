@@ -1,22 +1,22 @@
 /**
- * Oh-My-ClaudeCode
+ * Oh-My-GeminiCLI
  *
- * A multi-agent orchestration system for the Claude Agent SDK.
- * Inspired by oh-my-opencode, reimagined for Claude Code.
+ * A multi-agent orchestration system for the Gemini Agent SDK.
+ * Inspired by oh-my-opencode, reimagined for Gemini Code.
  *
  * Main features:
  * - OMC: Primary orchestrator that delegates to specialized subagents
  * - Parallel execution: Background agents run concurrently
  * - LSP/AST tools: IDE-like capabilities for agents
- * - Context management: Auto-injection from AGENTS.md/CLAUDE.md
+ * - Context management: Auto-injection from AGENTS.md/GEMINI.md
  * - Continuation enforcement: Ensures tasks complete before stopping
  * - Magic keywords: Special triggers for enhanced behaviors
  */
 
 import { loadConfig, findContextFiles, loadContextFromFiles } from './config/loader.js';
-import { getAgentDefinitions, omcSystemPrompt } from './agents/definitions.js';
+import { getAgentDefinitions, omgSystemPrompt } from './agents/definitions.js';
 import { getDefaultMcpServers, toSdkMcpFormat } from './mcp/servers.js';
-import { omcToolsServer, getOmcToolNames } from './mcp/omc-tools-server.js';
+import { omgToolsServer, getOmcToolNames } from './mcp/omg-tools-server.js';
 import { createMagicKeywordProcessor, detectMagicKeywords } from './features/magic-keywords.js';
 import { continuationSystemPromptAddition } from './features/continuation-enforcement.js';
 import {
@@ -27,10 +27,10 @@ import {
 } from './features/background-tasks.js';
 import type { PluginConfig, SessionState } from './shared/types.js';
 
-export { loadConfig, getAgentDefinitions, omcSystemPrompt };
+export { loadConfig, getAgentDefinitions, omgSystemPrompt };
 export { getDefaultMcpServers, toSdkMcpFormat } from './mcp/servers.js';
 export { lspTools, astTools, allCustomTools } from './tools/index.js';
-export { omcToolsServer, omcToolNames, getOmcToolNames } from './mcp/omc-tools-server.js';
+export { omgToolsServer, omgToolNames, getOmcToolNames } from './mcp/omg-tools-server.js';
 export { createMagicKeywordProcessor, detectMagicKeywords } from './features/magic-keywords.js';
 export {
   createBackgroundTaskManager,
@@ -127,7 +127,7 @@ export {
   type AgentFactory,
   type AvailableAgent,
   isGptModel,
-  isClaudeModel,
+  isGeminiModel,
   getDefaultModelForCategory,
   // Utilities
   createAgentToolRestrictions,
@@ -184,7 +184,7 @@ export {
   install,
   isInstalled,
   getInstallInfo,
-  isClaudeInstalled,
+  isGeminiInstalled,
   CLAUDE_CONFIG_DIR as INSTALLER_CLAUDE_CONFIG_DIR,
   AGENTS_DIR,
   COMMANDS_DIR,
@@ -215,7 +215,7 @@ export interface OmcOptions {
  * Result of creating a OMC session
  */
 export interface OmcSession {
-  /** The query options to pass to Claude Agent SDK */
+  /** The query options to pass to Gemini Agent SDK */
   queryOptions: {
     options: {
       systemPrompt: string;
@@ -243,16 +243,16 @@ export interface OmcSession {
  * Create a OMC orchestration session
  *
  * This prepares all the configuration and options needed
- * to run a query with the Claude Agent SDK.
+ * to run a query with the Gemini Agent SDK.
  *
  * @example
  * ```typescript
- * import { createOmcSession } from 'oh-my-claudecode';
- * import { query } from '@anthropic-ai/claude-agent-sdk';
+ * import { createOmcSession } from 'oh-my-gemini-cli';
+ * import { query } from '@anthropic-ai/gemini-agent-sdk';
  *
  * const session = createOmcSession();
  *
- * // Use with Claude Agent SDK
+ * // Use with Gemini Agent SDK
  * for await (const message of query({
  *   prompt: session.processPrompt("ultrawork refactor the authentication module"),
  *   ...session.queryOptions
@@ -279,7 +279,7 @@ export function createOmcSession(options?: OmcOptions): OmcSession {
   }
 
   // Build system prompt
-  let systemPrompt = omcSystemPrompt;
+  let systemPrompt = omgSystemPrompt;
 
   // Add continuation enforcement
   if (config.features?.continuationEnforcement !== false) {
@@ -329,12 +329,12 @@ export function createOmcSession(options?: OmcOptions): OmcSession {
   }
 
   // Add OMC custom tools in MCP format (LSP, AST, python_repl)
-  const omcTools = getOmcToolNames({
+  const omgTools = getOmcToolNames({
     includeLsp: config.features?.lspTools !== false,
     includeAst: config.features?.astTools !== false,
     includePython: true
   });
-  allowedTools.push(...omcTools);
+  allowedTools.push(...omgTools);
 
   // Create magic keyword processor
   const processPrompt = createMagicKeywordProcessor(config.magicKeywords);
@@ -356,7 +356,7 @@ export function createOmcSession(options?: OmcOptions): OmcSession {
         agents,
         mcpServers: {
           ...toSdkMcpFormat(externalMcpServers),
-          't': omcToolsServer as any
+          't': omgToolsServer as any
         },
         allowedTools,
         permissionMode: 'acceptEdits'
@@ -390,7 +390,7 @@ export function getOmcSystemPrompt(options?: {
   includeContinuation?: boolean;
   customAddition?: string;
 }): string {
-  let prompt = omcSystemPrompt;
+  let prompt = omgSystemPrompt;
 
   if (options?.includeContinuation !== false) {
     prompt += continuationSystemPromptAddition;

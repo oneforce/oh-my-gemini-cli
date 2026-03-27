@@ -1,7 +1,7 @@
 /**
  * Popular Plugin Patterns
  *
- * Common hook patterns from the Claude Code community:
+ * Common hook patterns from the Gemini Code community:
  * - Auto-format on file save
  * - Lint validation before commit
  * - Commit message validation

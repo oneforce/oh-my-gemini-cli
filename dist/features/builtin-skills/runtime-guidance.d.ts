@@ -1,6 +1,6 @@
 import { type CliAgentType } from '../../team/model-contract.js';
 export interface SkillRuntimeAvailability {
-    claude: boolean;
+    gemini: boolean;
     codex: boolean;
     gemini: boolean;
 }

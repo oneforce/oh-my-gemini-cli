@@ -3,7 +3,7 @@ import { loadLocalTool, loadGlobalTool, listSkillsTool } from '../../tools/skill
 describe('skills-tools', () => {
     describe('loadLocalTool', () => {
         it('should have correct name and description', () => {
-            expect(loadLocalTool.name).toBe('load_omc_skills_local');
+            expect(loadLocalTool.name).toBe('load_omg_skills_local');
             expect(loadLocalTool.description).toContain('project-local');
         });
         it('should return content array from handler', async () => {
@@ -30,7 +30,7 @@ describe('skills-tools', () => {
     });
     describe('loadGlobalTool', () => {
         it('should have correct name and description', () => {
-            expect(loadGlobalTool.name).toBe('load_omc_skills_global');
+            expect(loadGlobalTool.name).toBe('load_omg_skills_global');
             expect(loadGlobalTool.description).toContain('global');
         });
         it('should return content array from handler', async () => {
@@ -42,7 +42,7 @@ describe('skills-tools', () => {
     });
     describe('listSkillsTool', () => {
         it('should have correct name and description', () => {
-            expect(listSkillsTool.name).toBe('list_omc_skills');
+            expect(listSkillsTool.name).toBe('list_omg_skills');
             expect(listSkillsTool.description).toContain('all available');
         });
         it('should return content array from handler', async () => {

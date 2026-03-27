@@ -1,21 +1,21 @@
 [English](README.md) | [한국어](README.ko.md) | [中文](README.zh.md) | 日本語 | [Español](README.es.md) | [Tiếng Việt](README.vi.md) | [Português](README.pt.md)
 
-# oh-my-claudecode
+# oh-my-gemini-cli
 
-[![npm version](https://img.shields.io/npm/v/oh-my-claude-sisyphus?color=cb3837)](https://www.npmjs.com/package/oh-my-claude-sisyphus)
-[![npm downloads](https://img.shields.io/npm/dm/oh-my-claude-sisyphus?color=blue)](https://www.npmjs.com/package/oh-my-claude-sisyphus)
-[![GitHub stars](https://img.shields.io/github/stars/Yeachan-Heo/oh-my-claudecode?style=flat&color=yellow)](https://github.com/Yeachan-Heo/oh-my-claudecode/stargazers)
+[![npm version](https://img.shields.io/npm/v/oh-my-gemini-sisyphus?color=cb3837)](https://www.npmjs.com/package/oh-my-gemini-sisyphus)
+[![npm downloads](https://img.shields.io/npm/dm/oh-my-gemini-sisyphus?color=blue)](https://www.npmjs.com/package/oh-my-gemini-sisyphus)
+[![GitHub stars](https://img.shields.io/github/stars/Yeachan-Heo/oh-my-gemini-cli?style=flat&color=yellow)](https://github.com/Yeachan-Heo/oh-my-gemini-cli/stargazers)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 [![Sponsor](https://img.shields.io/badge/Sponsor-❤️-red?style=flat&logo=github)](https://github.com/sponsors/Yeachan-Heo)
 [![Discord](https://img.shields.io/discord/1466022107199574193?color=5865F2&logo=discord&logoColor=white&label=Discord)](https://discord.gg/qRJw62Gvh7)
 
 > **Codex ユーザーの方へ:** [oh-my-codex](https://github.com/Yeachan-Heo/oh-my-codex) をチェックしてください — OpenAI Codex CLI 向けの同じオーケストレーション体験を提供します。
 
-**Claude Code のためのマルチエージェント・オーケストレーション。学習コストゼロ。**
+**Gemini Code のためのマルチエージェント・オーケストレーション。学習コストゼロ。**
 
-*Claude Code を学ぶ必要はありません。OMC を使うだけ。*
+*Gemini Code を学ぶ必要はありません。OMC を使うだけ。*
 
-[はじめる](#クイックスタート) • [ドキュメント](https://yeachan-heo.github.io/oh-my-claudecode-website) • [CLI リファレンス](https://yeachan-heo.github.io/oh-my-claudecode-website/docs.html#cli-reference) • [ワークフロー](https://yeachan-heo.github.io/oh-my-claudecode-website/docs.html#workflows) • [移行ガイド](docs/MIGRATION.md)
+[はじめる](#クイックスタート) • [ドキュメント](https://yeachan-heo.github.io/oh-my-gemini-cli-website) • [CLI リファレンス](https://yeachan-heo.github.io/oh-my-gemini-cli-website/docs.html#cli-reference) • [ワークフロー](https://yeachan-heo.github.io/oh-my-gemini-cli-website/docs.html#workflows) • [移行ガイド](docs/MIGRATION.md)
 
 ---
 
@@ -23,13 +23,13 @@
 
 **ステップ 1: インストール**
 ```bash
-/plugin marketplace add https://github.com/Yeachan-Heo/oh-my-claudecode
-/plugin install oh-my-claudecode
+/plugin marketplace add https://github.com/Yeachan-Heo/oh-my-gemini-cli
+/plugin install oh-my-gemini-cli
 ```
 
 **ステップ 2: セットアップ**
 ```bash
-/omc-setup
+/omg-setup
 ```
 
 **ステップ 3: 何か作ってみる**
@@ -61,7 +61,7 @@ Team はステージ型パイプラインで実行されます:
 
 `team-plan → team-prd → team-exec → team-verify → team-fix (loop)`
 
-`~/.claude/settings.json` で Claude Code ネイティブチームを有効化:
+`~/.gemini/settings.json` で Gemini Code ネイティブチームを有効化:
 
 ```json
 {
@@ -75,12 +75,12 @@ Team はステージ型パイプラインで実行されます:
 
 ### tmux CLI ワーカー — Codex & Gemini (v4.4.0+)
 
-**v4.4.0 で Codex/Gemini MCP サーバー**（`x`、`g` プロバイダー）が**削除されます**。代わりに `/omc-teams` を使って tmux 分割ペインで実際の CLI プロセスを起動してください:
+**v4.4.0 で Codex/Gemini MCP サーバー**（`x`、`g` プロバイダー）が**削除されます**。代わりに `/omg-teams` を使って tmux 分割ペインで実際の CLI プロセスを起動してください:
 
 ```bash
-/omc-teams 2:codex   "review auth module for security issues"
-/omc-teams 2:gemini  "redesign UI components for accessibility"
-/omc-teams 1:claude  "implement the payment flow"
+/omg-teams 2:codex   "review auth module for security issues"
+/omg-teams 2:gemini  "redesign UI components for accessibility"
+/omg-teams 1:gemini  "implement the payment flow"
 ```
 
 Codex + Gemini を一つのコマンドで使うには **`/ccg`** スキルを使います:
@@ -91,42 +91,42 @@ Codex + Gemini を一つのコマンドで使うには **`/ccg`** スキルを�
 
 | スキル | ワーカー | 最適用途 |
 |-------|---------|----------|
-| `/omc-teams N:codex` | N 個の Codex CLI ペイン | コードレビュー、セキュリティ解析、アーキテクチャ |
-| `/omc-teams N:gemini` | N 個の Gemini CLI ペイン | UI/UX デザイン、ドキュメント、大規模コンテキスト |
-| `/omc-teams N:claude` | N 個の Claude CLI ペイン | tmux で Claude CLI を使う汎用タスク |
+| `/omg-teams N:codex` | N 個の Codex CLI ペイン | コードレビュー、セキュリティ解析、アーキテクチャ |
+| `/omg-teams N:gemini` | N 個の Gemini CLI ペイン | UI/UX デザイン、ドキュメント、大規模コンテキスト |
+| `/omg-teams N:gemini` | N 個の Gemini CLI ペイン | tmux で Gemini CLI を使う汎用タスク |
 | `/ccg` | Codex 1 個 + Gemini 1 個 | 並列トライモデルオーケストレーション |
 
 ワーカーはオンデマンドで起動し、タスク完了後に終了します — アイドルリソースの無駄なし。`codex` / `gemini` CLI のインストールとアクティブな tmux セッションが必要です。
 
-> **注意: パッケージ名について** — プロジェクトのブランド名は **oh-my-claudecode**（リポジトリ、プラグイン、コマンド）ですが、npmパッケージは [`oh-my-claude-sisyphus`](https://www.npmjs.com/package/oh-my-claude-sisyphus) として公開されています。npm/bunでCLIツールをインストールする場合は `npm install -g oh-my-claude-sisyphus` を使用してください。
+> **注意: パッケージ名について** — プロジェクトのブランド名は **oh-my-gemini-cli**（リポジトリ、プラグイン、コマンド）ですが、npmパッケージは [`oh-my-gemini-sisyphus`](https://www.npmjs.com/package/oh-my-gemini-sisyphus) として公開されています。npm/bunでCLIツールをインストールする場合は `npm install -g oh-my-gemini-sisyphus` を使用してください。
 
 ### アップデート
 
 ```bash
 # 1. マーケットプレイスクローンを更新
-/plugin marketplace update omc
+/plugin marketplace update omg
 
 # 2. セットアップを再実行して設定を更新
-/omc-setup
+/omg-setup
 ```
 
-> **注意:** マーケットプレイスの自動更新が有効になっていない場合は、セットアップ実行前に `/plugin marketplace update omc` を手動で実行して最新バージョンを同期する必要があります。
+> **注意:** マーケットプレイスの自動更新が有効になっていない場合は、セットアップ実行前に `/plugin marketplace update omg` を手動で実行して最新バージョンを同期する必要があります。
 
 更新後に問題が発生した場合は、古いプラグインキャッシュをクリアしてください：
 
 ```bash
-/omc-doctor
+/omg-doctor
 ```
 
-<h1 align="center">あなたの Claude がステロイド級にパワーアップ。</h1>
+<h1 align="center">あなたの Gemini がステロイド級にパワーアップ。</h1>
 
 <p align="center">
-  <img src="assets/omc-character.jpg" alt="oh-my-claudecode" width="400" />
+  <img src="assets/omg-character.jpg" alt="oh-my-gemini-cli" width="400" />
 </p>
 
 ---
 
-## なぜ oh-my-claudecode なのか?
+## なぜ oh-my-gemini-cli なのか?
 
 - **設定不要** - 賢いデフォルト設定ですぐに使える
 - **Team ファースト・オーケストレーション** - Team が標準マルチエージェントサーフェス（swarm/ultrapilot は互換性ファサード）
@@ -142,13 +142,13 @@ Codex + Gemini を一つのコマンドで使うには **`/ccg`** スキルを�
 ## 機能
 
 ### 実行モード
-用途に応じた複数の戦略 - 完全自律ビルドからトークン効率の良いリファクタリングまで。[詳しくはこちら →](https://yeachan-heo.github.io/oh-my-claudecode-website/docs.html#execution-modes)
+用途に応じた複数の戦略 - 完全自律ビルドからトークン効率の良いリファクタリングまで。[詳しくはこちら →](https://yeachan-heo.github.io/oh-my-gemini-cli-website/docs.html#execution-modes)
 
 | モード | 特徴 | 用途 |
 |------|---------|------|
-| **Team（推奨）** | ステージ型パイプライン | 共有タスクリストで協力する Claude エージェント |
-| **omc-teams** | tmux CLI ワーカー | Codex/Gemini CLI タスク; オンデマンド起動、完了後終了 |
-| **ccg** | トライモデル並列 | Codex（分析）+ Gemini（デザイン）、Claude が統合 |
+| **Team（推奨）** | ステージ型パイプライン | 共有タスクリストで協力する Gemini エージェント |
+| **omg-teams** | tmux CLI ワーカー | Codex/Gemini CLI タスク; オンデマンド起動、完了後終了 |
+| **ccg** | トライモデル並列 | Codex（分析）+ Gemini（デザイン）、Gemini が統合 |
 | **Autopilot** | 自律実行 | 最小限のセレモニーで end-to-end 機能開発 |
 | **Ultrawork** | 最大並列 | Team 不要な並列修正/リファクタリング |
 | **Ralph** | 粘り強いモード | 完全に完了させるべきタスク |
@@ -174,12 +174,12 @@ Codex + Gemini を一つのコマンドで使うには **`/ccg`** スキルを�
 
 | | プロジェクトスコープ | ユーザースコープ |
 |---|---|---|
-| **パス** | `.omc/skills/` | `~/.omc/skills/` |
+| **パス** | `.omg/skills/` | `~/.omg/skills/` |
 | **共有先** | チーム（バージョン管理対象） | すべてのプロジェクトで利用可能 |
 | **優先度** | 高（ユーザースコープを上書き） | 低（フォールバック） |
 
 ```yaml
-# .omc/skills/fix-proxy-crash.md
+# .omg/skills/fix-proxy-crash.md
 ---
 name: Fix Proxy Crash
 description: aiohttp proxy crashes on ClientDisconnectedError
@@ -204,7 +204,7 @@ server.py:42 のハンドラーを try/except ClientDisconnectedError で囲ん�
 | キーワード | 効果 | 例 |
 |---------|-----|-----|
 | `team` | 標準 Team オーケストレーション | `/team 3:executor "fix all TypeScript errors"` |
-| `omc-teams` | tmux CLI ワーカー (codex/gemini/claude) | `/omc-teams 2:codex "security review"` |
+| `omg-teams` | tmux CLI ワーカー (codex/gemini/gemini) | `/omg-teams 2:codex "security review"` |
 | `ccg` | トライモデル Codex+Gemini オーケストレーション | `/ccg review this PR` |
 | `autopilot` | 完全自律実行 | `autopilot: build a todo app` |
 | `ralph` | 粘り強いモード | `ralph: refactor auth` |
@@ -225,12 +225,12 @@ server.py:42 のハンドラーを try/except ClientDisconnectedError で囲ん�
 
 ### レート制限待機
 
-レート制限がリセットされたら Claude Code セッションを自動再開。
+レート制限がリセットされたら Gemini Code セッションを自動再開。
 
 ```bash
-omc wait          # ステータス確認とガイダンス取得
-omc wait --start  # 自動再開デーモンを有効化
-omc wait --stop   # デーモンを無効化
+omg wait          # ステータス確認とガイダンス取得
+omg wait --start  # 自動再開デーモンを有効化
+omg wait --stop   # デーモンを無効化
 ```
 
 **必要なもの:** tmux (セッション検出用)
@@ -241,14 +241,14 @@ stop コールバックがセッション要約を送るときに、誰をタグ
 
 ```bash
 # タグ一覧を設定/置換
-omc config-stop-callback telegram --enable --token <bot_token> --chat <chat_id> --tag-list "@alice,bob"
-omc config-stop-callback discord --enable --webhook <url> --tag-list "@here,123456789012345678,role:987654321098765432"
-omc config-stop-callback slack --enable --webhook <url> --tag-list "<!here>,<@U1234567890>"
+omg config-stop-callback telegram --enable --token <bot_token> --chat <chat_id> --tag-list "@alice,bob"
+omg config-stop-callback discord --enable --webhook <url> --tag-list "@here,123456789012345678,role:987654321098765432"
+omg config-stop-callback slack --enable --webhook <url> --tag-list "<!here>,<@U1234567890>"
 
 # 追加・削除・クリア
-omc config-stop-callback telegram --add-tag charlie
-omc config-stop-callback discord --remove-tag @here
-omc config-stop-callback discord --clear-tags
+omg config-stop-callback telegram --add-tag charlie
+omg config-stop-callback discord --remove-tag @here
+omg config-stop-callback discord --clear-tags
 ```
 
 タグの挙動:
@@ -259,16 +259,16 @@ omc config-stop-callback discord --clear-tags
 
 ### OpenClaw 連携
 
-Claude Code セッションイベントを [OpenClaw](https://openclaw.ai/) ゲートウェイに転送し、OpenClaw エージェントを通じた自動応答とワークフローを実現します。
+Gemini Code セッションイベントを [OpenClaw](https://openclaw.ai/) ゲートウェイに転送し、OpenClaw エージェントを通じた自動応答とワークフローを実現します。
 
 **クイックセットアップ（推奨）:**
 
 ```bash
-/oh-my-claudecode:configure-notifications
+/oh-my-gemini-cli:configure-notifications
 # → プロンプトで "openclaw" と入力 → "OpenClaw Gateway" を選択
 ```
 
-**手動セットアップ:** `~/.claude/omc_config.openclaw.json` を作成します：
+**手動セットアップ:** `~/.gemini/omg_config.openclaw.json` を作成します：
 
 ```json
 {
@@ -301,9 +301,9 @@ Claude Code セッションイベントを [OpenClaw](https://openclaw.ai/) ゲ�
 | イベント | トリガー | 主要テンプレート変数 |
 |---------|---------|-------------------|
 | `session-start` | セッション開始時 | `{{sessionId}}`, `{{projectName}}`, `{{projectPath}}` |
-| `stop` | Claude のレスポンス完了時 | `{{sessionId}}`, `{{projectName}}` |
+| `stop` | Gemini のレスポンス完了時 | `{{sessionId}}`, `{{projectName}}` |
 | `keyword-detector` | プロンプト送信ごと | `{{prompt}}`, `{{sessionId}}` |
-| `ask-user-question` | Claude がユーザー入力を要求した時 | `{{question}}`, `{{sessionId}}` |
+| `ask-user-question` | Gemini がユーザー入力を要求した時 | `{{question}}`, `{{sessionId}}` |
 | `pre-tool-use` | ツール呼び出し前（高頻度） | `{{toolName}}`, `{{sessionId}}` |
 | `post-tool-use` | ツール呼び出し後（高頻度） | `{{toolName}}`, `{{sessionId}}` |
 
@@ -322,11 +322,11 @@ OpenClaw ペイロードを ClawdBot 経由で Discord にリレーするリフ�
 ## ドキュメント
 
 - **[完全リファレンス](docs/REFERENCE.md)** - 全機能の詳細ドキュメント
-- **[CLI リファレンス](https://yeachan-heo.github.io/oh-my-claudecode-website/docs.html#cli-reference)** - すべての `omc` コマンド、フラグ、ツール
-- **[通知ガイド](https://yeachan-heo.github.io/oh-my-claudecode-website/docs.html#notifications)** - Discord、Telegram、Slack、webhook のセットアップ
-- **[推奨ワークフロー](https://yeachan-heo.github.io/oh-my-claudecode-website/docs.html#workflows)** - 一般的なタスクのための実績あるスキルチェーン
-- **[リリースノート](https://yeachan-heo.github.io/oh-my-claudecode-website/docs.html#release-notes)** - 各バージョンの新機能
-- **[ウェブサイト](https://yeachan-heo.github.io/oh-my-claudecode-website)** - インタラクティブガイドと例
+- **[CLI リファレンス](https://yeachan-heo.github.io/oh-my-gemini-cli-website/docs.html#cli-reference)** - すべての `omg` コマンド、フラグ、ツール
+- **[通知ガイド](https://yeachan-heo.github.io/oh-my-gemini-cli-website/docs.html#notifications)** - Discord、Telegram、Slack、webhook のセットアップ
+- **[推奨ワークフロー](https://yeachan-heo.github.io/oh-my-gemini-cli-website/docs.html#workflows)** - 一般的なタスクのための実績あるスキルチェーン
+- **[リリースノート](https://yeachan-heo.github.io/oh-my-gemini-cli-website/docs.html#release-notes)** - 各バージョンの新機能
+- **[ウェブサイト](https://yeachan-heo.github.io/oh-my-gemini-cli-website)** - インタラクティブガイドと例
 - **[移行ガイド](docs/MIGRATION.md)** - v2.x からのアップグレード
 - **[アーキテクチャ](docs/ARCHITECTURE.md)** - 内部の仕組み
 - **[パフォーマンス監視](docs/PERFORMANCE-MONITORING.md)** - エージェント追跡、デバッグ、最適化
@@ -335,8 +335,8 @@ OpenClaw ペイロードを ClawdBot 経由で Discord にリレーするリフ�
 
 ## 動作環境
 
-- [Claude Code](https://docs.anthropic.com/claude-code) CLI
-- Claude Max/Pro サブスクリプション または Anthropic API キー
+- [Gemini Code](https://docs.anthropic.com/gemini-code) CLI
+- Gemini Max/Pro サブスクリプション または Anthropic API キー
 
 ### オプション：マルチ AI オーケストレーション
 
@@ -347,7 +347,7 @@ OMC はクロスバリデーションとデザイン一貫性のために、外�
 | [Gemini CLI](https://github.com/google-gemini/gemini-cli) | `npm install -g @google/gemini-cli` | デザインレビュー、UI 一貫性（1M トークンコンテキスト）|
 | [Codex CLI](https://github.com/openai/codex) | `npm install -g @openai/codex` | アーキテクチャ検証、コードレビュークロスチェック |
 
-**コスト：** 3つの Pro プラン（Claude + Gemini + ChatGPT）で月額約 $60 ですべてをカバーできます。
+**コスト：** 3つの Pro プラン（Gemini + Gemini + ChatGPT）で月額約 $60 ですべてをカバーできます。
 
 ---
 
@@ -359,7 +359,7 @@ MIT
 
 <div align="center">
 
-**インスピレーション元:** [oh-my-opencode](https://github.com/code-yeongyu/oh-my-opencode) • [claude-hud](https://github.com/ryanjoachim/claude-hud) • [Superpowers](https://github.com/obra/superpowers) • [everything-claude-code](https://github.com/affaan-m/everything-claude-code) • [Ouroboros](https://github.com/Q00/ouroboros)
+**インスピレーション元:** [oh-my-opencode](https://github.com/code-yeongyu/oh-my-opencode) • [gemini-hud](https://github.com/ryanjoachim/gemini-hud) • [Superpowers](https://github.com/obra/superpowers) • [everything-gemini-code](https://github.com/affaan-m/everything-gemini-code) • [Ouroboros](https://github.com/Q00/ouroboros)
 
 **学習コストゼロ。最大パワー。**
 
@@ -367,11 +367,11 @@ MIT
 
 ## Star History
 
-[![Star History Chart](https://api.star-history.com/svg?repos=Yeachan-Heo/oh-my-claudecode&type=date&legend=top-left)](https://www.star-history.com/#Yeachan-Heo/oh-my-claudecode&type=date&legend=top-left)
+[![Star History Chart](https://api.star-history.com/svg?repos=Yeachan-Heo/oh-my-gemini-cli&type=date&legend=top-left)](https://www.star-history.com/#Yeachan-Heo/oh-my-gemini-cli&type=date&legend=top-left)
 
 ## 💖 このプロジェクトを支援
 
-Oh-My-ClaudeCode があなたのワークフローに役立っているなら、スポンサーをご検討ください:
+Oh-My-GeminiCLI があなたのワークフローに役立っているなら、スポンサーをご検討ください:
 
 [![Sponsor on GitHub](https://img.shields.io/badge/Sponsor-❤️-red?style=for-the-badge&logo=github)](https://github.com/sponsors/Yeachan-Heo)
 

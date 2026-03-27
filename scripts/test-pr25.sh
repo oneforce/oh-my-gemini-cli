@@ -188,23 +188,23 @@ if node dist/cli/index.js postinstall &> /tmp/pr25-postinstall.log; then
     log_pass "Installer postinstall succeeded"
 
     # Verify file exists
-    if [ -f "$HOME/.claude/agents/qa-tester.md" ]; then
-        log_pass "qa-tester.md installed to ~/.claude/agents/"
+    if [ -f "$HOME/.gemini/agents/qa-tester.md" ]; then
+        log_pass "qa-tester.md installed to ~/.gemini/agents/"
 
         # Verify content
-        if grep -q "tmux" "$HOME/.claude/agents/qa-tester.md"; then
+        if grep -q "tmux" "$HOME/.gemini/agents/qa-tester.md"; then
             log_pass "qa-tester.md contains tmux content"
         else
             log_fail "qa-tester.md missing tmux content"
         fi
 
-        if grep -q "Architect" "$HOME/.claude/agents/qa-tester.md"; then
+        if grep -q "Architect" "$HOME/.gemini/agents/qa-tester.md"; then
             log_pass "qa-tester.md contains Architect collaboration section"
         else
             log_fail "qa-tester.md missing Architect collaboration section"
         fi
     else
-        log_fail "qa-tester.md NOT installed to ~/.claude/agents/"
+        log_fail "qa-tester.md NOT installed to ~/.gemini/agents/"
     fi
 else
     log_fail "Installer postinstall failed"
@@ -480,11 +480,11 @@ else
     log_fail "qa-tester NOT in AGENTS.md"
 fi
 
-# Check commands/omc.md updated
-if grep -q "qa-tester" commands/omc.md 2>/dev/null; then
-    log_pass "qa-tester in commands/omc.md"
+# Check commands/omg.md updated
+if grep -q "qa-tester" commands/omg.md 2>/dev/null; then
+    log_pass "qa-tester in commands/omg.md"
 else
-    log_fail "qa-tester NOT in commands/omc.md"
+    log_fail "qa-tester NOT in commands/omg.md"
 fi
 
 # Check commands/ultrawork.md updated

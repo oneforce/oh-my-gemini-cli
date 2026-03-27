@@ -22,33 +22,33 @@ const TEST_TEAM = 'test-auto-cleanup';
 let TEAMS_DIR;
 let TASKS_DIR;
 let WORK_DIR;
-let tmpClaudeDir;
-let originalClaudeConfigDir;
+let tmpGeminiDir;
+let originalGeminiConfigDir;
 beforeEach(() => {
-    const base = join(tmpdir(), `omc-auto-cleanup-${Date.now()}`);
-    tmpClaudeDir = join(base, 'claude');
-    TEAMS_DIR = join(tmpClaudeDir, 'teams', TEST_TEAM);
-    TASKS_DIR = join(tmpClaudeDir, 'tasks', TEST_TEAM);
+    const base = join(tmpdir(), `omg-auto-cleanup-${Date.now()}`);
+    tmpGeminiDir = join(base, 'gemini');
+    TEAMS_DIR = join(tmpGeminiDir, 'teams', TEST_TEAM);
+    TASKS_DIR = join(tmpGeminiDir, 'tasks', TEST_TEAM);
     WORK_DIR = join(base, 'work');
-    originalClaudeConfigDir = process.env.CLAUDE_CONFIG_DIR;
-    process.env.CLAUDE_CONFIG_DIR = tmpClaudeDir;
+    originalGeminiConfigDir = process.env.CLAUDE_CONFIG_DIR;
+    process.env.CLAUDE_CONFIG_DIR = tmpGeminiDir;
     mkdirSync(join(TEAMS_DIR, 'outbox'), { recursive: true });
     mkdirSync(TASKS_DIR, { recursive: true });
-    mkdirSync(join(WORK_DIR, '.omc', 'state', 'team-bridge', TEST_TEAM), { recursive: true });
-    mkdirSync(join(WORK_DIR, '.omc', 'state'), { recursive: true });
+    mkdirSync(join(WORK_DIR, '.omg', 'state', 'team-bridge', TEST_TEAM), { recursive: true });
+    mkdirSync(join(WORK_DIR, '.omg', 'state'), { recursive: true });
 });
 afterEach(() => {
-    if (originalClaudeConfigDir === undefined) {
+    if (originalGeminiConfigDir === undefined) {
         delete process.env.CLAUDE_CONFIG_DIR;
     }
     else {
-        process.env.CLAUDE_CONFIG_DIR = originalClaudeConfigDir;
+        process.env.CLAUDE_CONFIG_DIR = originalGeminiConfigDir;
     }
-    rmSync(tmpClaudeDir, { recursive: true, force: true });
+    rmSync(tmpGeminiDir, { recursive: true, force: true });
     rmSync(WORK_DIR, { recursive: true, force: true });
 });
 function writeWorkerRegistry(workers) {
-    const registryPath = join(WORK_DIR, '.omc', 'state', 'team-mcp-workers.json');
+    const registryPath = join(WORK_DIR, '.omg', 'state', 'team-mcp-workers.json');
     atomicWriteJson(registryPath, { teamName: TEST_TEAM, workers });
 }
 function writeTask(task) {
@@ -61,7 +61,7 @@ function makeWorker(name) {
         agentType: 'mcp-codex',
         model: 'test-model',
         joinedAt: Date.now(),
-        tmuxPaneId: `omc-team-${TEST_TEAM}-${name}`,
+        tmuxPaneId: `omg-team-${TEST_TEAM}-${name}`,
         cwd: WORK_DIR,
         backendType: 'tmux',
         subscriptions: [],

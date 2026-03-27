@@ -3,7 +3,7 @@
  * Standalone MCP Server for OMC Tools
  *
  * This server exposes LSP, AST, and Python REPL tools via stdio transport
- * for discovery by Claude Code's MCP management system.
+ * for discovery by Gemini Code's MCP management system.
  *
  * Usage: node dist/mcp/standalone-server.js
  */
@@ -24,7 +24,7 @@ import { registerStandaloneShutdownHandlers } from './standalone-shutdown.js';
 import { cleanupOwnedBridgeSessions } from '../tools/python-repl/bridge-manager.js';
 import { z } from 'zod';
 // Aggregate all tools - AST tools gracefully degrade if @ast-grep/napi is unavailable
-// Team runtime tools (omc_run_team_start, omc_run_team_status) live in the
+// Team runtime tools (omg_run_team_start, omg_run_team_status) live in the
 // separate "team" MCP server (bridge/team-mcp.cjs) registered in .mcp.json.
 const allTools = [
     ...lspTools,

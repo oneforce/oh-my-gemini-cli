@@ -48,22 +48,22 @@ describe('Ralph PRD Module', () => {
       expect(findPrdPath(testDir)).toBe(prdPath);
     });
 
-    it('should find prd.json in .omc directory', () => {
-      const omcDir = join(testDir, '.omc');
-      mkdirSync(omcDir, { recursive: true });
-      const prdPath = join(omcDir, PRD_FILENAME);
+    it('should find prd.json in .omg directory', () => {
+      const omgDir = join(testDir, '.omg');
+      mkdirSync(omgDir, { recursive: true });
+      const prdPath = join(omgDir, PRD_FILENAME);
       writeFileSync(prdPath, '{}');
       expect(findPrdPath(testDir)).toBe(prdPath);
     });
 
-    it('should prefer root over .omc', () => {
+    it('should prefer root over .omg', () => {
       const rootPath = join(testDir, PRD_FILENAME);
-      const omcDir = join(testDir, '.omc');
-      mkdirSync(omcDir, { recursive: true });
-      const omcPath = join(omcDir, PRD_FILENAME);
+      const omgDir = join(testDir, '.omg');
+      mkdirSync(omgDir, { recursive: true });
+      const omgPath = join(omgDir, PRD_FILENAME);
 
       writeFileSync(rootPath, '{"source": "root"}');
-      writeFileSync(omcPath, '{"source": "omc"}');
+      writeFileSync(omgPath, '{"source": "omg"}');
 
       expect(findPrdPath(testDir)).toBe(rootPath);
     });
@@ -104,9 +104,9 @@ describe('Ralph PRD Module', () => {
       expect(read).toEqual(samplePrd);
     });
 
-    it('should create .omc directory when writing', () => {
+    it('should create .omg directory when writing', () => {
       writePrd(testDir, samplePrd);
-      expect(existsSync(join(testDir, '.omc'))).toBe(true);
+      expect(existsSync(join(testDir, '.omg'))).toBe(true);
     });
 
     it('should return null for malformed JSON', () => {
@@ -225,7 +225,7 @@ describe('Ralph PRD Module', () => {
     });
 
     it('should return false when no prd exists', () => {
-      rmSync(join(testDir, '.omc'), { recursive: true, force: true });
+      rmSync(join(testDir, '.omg'), { recursive: true, force: true });
       expect(markStoryComplete(testDir, 'US-001')).toBe(false);
     });
   });

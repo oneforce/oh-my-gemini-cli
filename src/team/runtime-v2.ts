@@ -58,7 +58,7 @@ import type { CliAgentType } from './model-contract.js';
 import {
   buildWorkerArgv, resolveValidatedBinaryPath,
   getWorkerEnv as getModelWorkerEnv, isPromptModeAgent, getPromptModeArgs,
-  resolveClaudeWorkerModel,
+  resolveGeminiWorkerModel,
 } from './model-contract.js';
 import {
   createTeamSession, spawnWorkerInPane, sendToWorker,
@@ -72,7 +72,7 @@ import {
 } from './worker-bootstrap.js';
 import { queueInboxInstruction, type DispatchOutcome } from './mcp-comm.js';
 import { cleanupTeamWorktrees } from './git-worktree.js';
-import { formatOmcCliInvocation } from '../utils/omc-cli-rendering.js';
+import { formatOmcCliInvocation } from '../utils/omg-cli-rendering.js';
 
 // ---------------------------------------------------------------------------
 // Feature flag
@@ -234,7 +234,7 @@ export interface StartTeamV2Config {
 
 /**
  * Build the initial task instruction for v2 workers.
- * Workers use `omc team api` CLI commands for all lifecycle transitions.
+ * Workers use `omg team api` CLI commands for all lifecycle transitions.
  */
 function buildV2TaskInstruction(
   teamName: string,
@@ -429,7 +429,7 @@ async function spawnV2Worker(opts: SpawnV2WorkerOptions): Promise<SpawnV2WorkerR
     ?? resolveValidatedBinaryPath(opts.agentType);
 
   // Resolve model from environment variables.
-  // For Claude agents on Bedrock/Vertex, resolve the provider-specific model
+  // For Gemini agents on Bedrock/Vertex, resolve the provider-specific model
   // so workers don't fall back to invalid Anthropic API model names. (#1695)
   const modelForAgent = (() => {
     if (opts.agentType === 'codex') {
@@ -442,8 +442,8 @@ async function spawnV2Worker(opts: SpawnV2WorkerOptions): Promise<SpawnV2WorkerR
         || process.env.OMC_GEMINI_DEFAULT_MODEL
         || undefined;
     }
-    // Claude agents: resolve Bedrock/Vertex model when on those providers
-    return resolveClaudeWorkerModel();
+    // Gemini agents: resolve Bedrock/Vertex model when on those providers
+    return resolveGeminiWorkerModel();
   })();
 
   const [launchBinary, ...launchArgs] = buildWorkerArgv(opts.agentType, {
@@ -525,7 +525,7 @@ async function spawnV2Worker(opts: SpawnV2WorkerOptions): Promise<SpawnV2WorkerR
     };
   }
 
-  if (opts.agentType === 'claude') {
+  if (opts.agentType === 'gemini') {
     const settled = await waitForWorkerStartupEvidence(
       opts.teamName,
       opts.workerName,
@@ -551,7 +551,7 @@ async function spawnV2Worker(opts: SpawnV2WorkerOptions): Promise<SpawnV2WorkerR
         return {
           paneId,
           startupAssigned: false,
-          startupFailureReason: 'claude_startup_evidence_missing',
+          startupFailureReason: 'gemini_startup_evidence_missing',
         };
       }
     }
@@ -604,7 +604,7 @@ export async function startTeamV2(config: StartTeamV2Config): Promise<TeamRuntim
   // Create state directories
   await mkdir(absPath(leaderCwd, TeamPaths.tasks(sanitized)), { recursive: true });
   await mkdir(absPath(leaderCwd, TeamPaths.workers(sanitized)), { recursive: true });
-  await mkdir(join(leaderCwd, '.omc', 'state', 'team', sanitized, 'mailbox'), { recursive: true });
+  await mkdir(join(leaderCwd, '.omg', 'state', 'team', sanitized, 'mailbox'), { recursive: true });
 
   // Write task files
   for (let i = 0; i < config.tasks.length; i++) {
@@ -647,7 +647,7 @@ export async function startTeamV2(config: StartTeamV2Config): Promise<TeamRuntim
     const allocationWorkers: WorkerAllocationInput[] = workerNames.map((name, i) => ({
       name,
       role: config.workerRoles?.[i]
-        ?? (agentTypes[i % agentTypes.length] ?? agentTypes[0] ?? 'claude') as string,
+        ?? (agentTypes[i % agentTypes.length] ?? agentTypes[0] ?? 'gemini') as string,
       currentLoad: 0,
     }));
     for (const r of allocateTasksToWorkers(allocationTasks, allocationWorkers)) {
@@ -658,7 +658,7 @@ export async function startTeamV2(config: StartTeamV2Config): Promise<TeamRuntim
   // Set up worker state dirs and overlays (with v2 CLI API instructions)
   for (let i = 0; i < workerNames.length; i++) {
     const wName = workerNames[i];
-    const agentType = (agentTypes[i % agentTypes.length] ?? agentTypes[0] ?? 'claude') as CliAgentType;
+    const agentType = (agentTypes[i % agentTypes.length] ?? agentTypes[0] ?? 'gemini') as CliAgentType;
     await ensureWorkerStateDir(sanitized, wName, leaderCwd);
     await writeWorkerOverlay({
       teamName: sanitized, workerName: wName, agentType,
@@ -684,7 +684,7 @@ export async function startTeamV2(config: StartTeamV2Config): Promise<TeamRuntim
     name: wName,
     index: i + 1,
     role: config.workerRoles?.[i]
-      ?? (agentTypes[i % agentTypes.length] ?? agentTypes[0] ?? 'claude') as string,
+      ?? (agentTypes[i % agentTypes.length] ?? agentTypes[0] ?? 'gemini') as string,
     assigned_tasks: [] as string[],
     working_dir: leaderCwd,
   }));
@@ -693,7 +693,7 @@ export async function startTeamV2(config: StartTeamV2Config): Promise<TeamRuntim
   const teamConfig: TeamConfig = {
     name: sanitized,
     task: config.tasks.map(t => t.subject).join('; '),
-    agent_type: agentTypes[0] || 'claude',
+    agent_type: agentTypes[0] || 'gemini',
     worker_launch_mode: 'interactive',
     policy: DEFAULT_TEAM_TRANSPORT_POLICY,
     governance: DEFAULT_TEAM_GOVERNANCE,
@@ -770,7 +770,7 @@ export async function startTeamV2(config: StartTeamV2Config): Promise<TeamRuntim
       teamName: sanitized,
       workerName: wName,
       workerIndex,
-      agentType: (agentTypes[workerIndex % agentTypes.length] ?? agentTypes[0] ?? 'claude') as CliAgentType,
+      agentType: (agentTypes[workerIndex % agentTypes.length] ?? agentTypes[0] ?? 'gemini') as CliAgentType,
       task,
       taskId,
       cwd: leaderCwd,
@@ -1321,7 +1321,7 @@ export async function resumeTeamV2(
     const { execFile } = await import('child_process');
     const { promisify } = await import('util');
     const execFileAsync = promisify(execFile);
-    const sessionName = config.tmux_session || `omc-team-${sanitized}`;
+    const sessionName = config.tmux_session || `omg-team-${sanitized}`;
     await execFileAsync('tmux', ['has-session', '-t', sessionName.split(':')[0]]);
 
     return {
@@ -1342,7 +1342,7 @@ export async function resumeTeamV2(
 // ---------------------------------------------------------------------------
 
 export async function findActiveTeamsV2(cwd: string): Promise<string[]> {
-  const root = join(cwd, '.omc', 'state', 'team');
+  const root = join(cwd, '.omg', 'state', 'team');
   if (!existsSync(root)) return [];
   const entries = await readdir(root, { withFileTypes: true });
   const active: string[] = [];

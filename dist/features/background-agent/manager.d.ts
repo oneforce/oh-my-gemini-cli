@@ -2,7 +2,7 @@
  * Background Agent Manager
  *
  * Manages background tasks for the OMC system.
- * This is a simplified version that tracks tasks launched via Claude Code's
+ * This is a simplified version that tracks tasks launched via Gemini Code's
  * native Task tool with run_in_background: true.
  *
  * Adapted from oh-my-opencode's background-agent feature.

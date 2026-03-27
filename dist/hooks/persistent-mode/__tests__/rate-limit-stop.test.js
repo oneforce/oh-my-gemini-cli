@@ -1,8 +1,8 @@
 /**
  * Integration test for rate-limit stop guard in checkPersistentModes
- * Fix for: https://github.com/Yeachan-Heo/oh-my-claudecode/issues/777
+ * Fix for: https://github.com/Yeachan-Heo/oh-my-gemini-cli/issues/777
  *
- * Verifies that when Claude Code stops due to a rate limit (HTTP 429),
+ * Verifies that when Gemini Code stops due to a rate limit (HTTP 429),
  * the persistent-mode hook does NOT block the stop — preventing an
  * infinite retry loop.
  */
@@ -16,7 +16,7 @@ describe('persistent-mode rate-limit stop guard (fix #777)', () => {
     function makeRalphWorktree(sessionId) {
         const tempDir = mkdtempSync(join(tmpdir(), 'ralph-rate-limit-'));
         execFileSync('git', ['init'], { cwd: tempDir, stdio: 'pipe' });
-        const stateDir = join(tempDir, '.omc', 'state', 'sessions', sessionId);
+        const stateDir = join(tempDir, '.omg', 'state', 'sessions', sessionId);
         mkdirSync(stateDir, { recursive: true });
         writeFileSync(join(stateDir, 'ralph-state.json'), JSON.stringify({
             active: true,

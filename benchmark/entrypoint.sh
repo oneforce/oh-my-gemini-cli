@@ -3,9 +3,9 @@ set -e
 
 echo "=== SWE-bench Evaluation Environment ==="
 echo "Run Mode: ${RUN_MODE:-vanilla}"
-echo "Claude Code version: $(claude --version 2>/dev/null || echo 'not installed')"
+echo "Gemini Code version: $(gemini --version 2>/dev/null || echo 'not installed')"
 
-# Configure Claude Code if auth token is provided
+# Configure Gemini Code if auth token is provided
 if [ -n "$ANTHROPIC_AUTH_TOKEN" ]; then
     echo "Anthropic auth token configured"
     export ANTHROPIC_AUTH_TOKEN="$ANTHROPIC_AUTH_TOKEN"
@@ -19,21 +19,21 @@ if [ -n "$ANTHROPIC_BASE_URL" ]; then
     export ANTHROPIC_BASE_URL="$ANTHROPIC_BASE_URL"
 fi
 
-# Install OMC if in omc mode
-if [ "$RUN_MODE" = "omc" ]; then
-    echo "Installing oh-my-claudecode for enhanced mode..."
+# Install OMC if in omg mode
+if [ "$RUN_MODE" = "omg" ]; then
+    echo "Installing oh-my-gemini-cli for enhanced mode..."
 
     # Check if OMC source is mounted
-    if [ -d "/workspace/omc-source" ]; then
+    if [ -d "/workspace/omg-source" ]; then
         echo "Installing OMC from mounted source..."
-        cd /workspace/omc-source && npm install && npm link
+        cd /workspace/omg-source && npm install && npm link
     else
         echo "Installing OMC from npm..."
-        npm install -g oh-my-claudecode
+        npm install -g oh-my-gemini-cli
     fi
 
     # Initialize OMC configuration
-    mkdir -p ~/.claude
+    mkdir -p ~/.gemini
 
     echo "OMC installation complete"
 fi

@@ -1,21 +1,21 @@
 [English](README.md) | [한국어](README.ko.md) | 中文 | [日本語](README.ja.md) | [Español](README.es.md) | [Tiếng Việt](README.vi.md) | [Português](README.pt.md)
 
-# oh-my-claudecode
+# oh-my-gemini-cli
 
-[![npm version](https://img.shields.io/npm/v/oh-my-claude-sisyphus?color=cb3837)](https://www.npmjs.com/package/oh-my-claude-sisyphus)
-[![npm downloads](https://img.shields.io/npm/dm/oh-my-claude-sisyphus?color=blue)](https://www.npmjs.com/package/oh-my-claude-sisyphus)
-[![GitHub stars](https://img.shields.io/github/stars/Yeachan-Heo/oh-my-claudecode?style=flat&color=yellow)](https://github.com/Yeachan-Heo/oh-my-claudecode/stargazers)
+[![npm version](https://img.shields.io/npm/v/oh-my-gemini-sisyphus?color=cb3837)](https://www.npmjs.com/package/oh-my-gemini-sisyphus)
+[![npm downloads](https://img.shields.io/npm/dm/oh-my-gemini-sisyphus?color=blue)](https://www.npmjs.com/package/oh-my-gemini-sisyphus)
+[![GitHub stars](https://img.shields.io/github/stars/Yeachan-Heo/oh-my-gemini-cli?style=flat&color=yellow)](https://github.com/Yeachan-Heo/oh-my-gemini-cli/stargazers)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 [![Sponsor](https://img.shields.io/badge/Sponsor-❤️-red?style=flat&logo=github)](https://github.com/sponsors/Yeachan-Heo)
 [![Discord](https://img.shields.io/discord/1466022107199574193?color=5865F2&logo=discord&logoColor=white&label=Discord)](https://discord.gg/qRJw62Gvh7)
 
 > **Codex 用户：** 查看 [oh-my-codex](https://github.com/Yeachan-Heo/oh-my-codex) — 为 OpenAI Codex CLI 提供同样的编排体验。
 
-**Claude Code 的多智能体编排系统。零学习曲线。**
+**Gemini Code 的多智能体编排系统。零学习曲线。**
 
-*无需学习 Claude Code，直接使用 OMC。*
+*无需学习 Gemini Code，直接使用 OMC。*
 
-[快速开始](#快速开始) • [文档](https://yeachan-heo.github.io/oh-my-claudecode-website) • [CLI 参考](https://yeachan-heo.github.io/oh-my-claudecode-website/docs.html#cli-reference) • [工作流](https://yeachan-heo.github.io/oh-my-claudecode-website/docs.html#workflows) • [迁移指南](docs/MIGRATION.md)
+[快速开始](#快速开始) • [文档](https://yeachan-heo.github.io/oh-my-gemini-cli-website) • [CLI 参考](https://yeachan-heo.github.io/oh-my-gemini-cli-website/docs.html#cli-reference) • [工作流](https://yeachan-heo.github.io/oh-my-gemini-cli-website/docs.html#workflows) • [迁移指南](docs/MIGRATION.md)
 
 ---
 
@@ -23,13 +23,13 @@
 
 **第一步：安装**
 ```bash
-/plugin marketplace add https://github.com/Yeachan-Heo/oh-my-claudecode
-/plugin install oh-my-claudecode
+/plugin marketplace add https://github.com/Yeachan-Heo/oh-my-gemini-cli
+/plugin install oh-my-gemini-cli
 ```
 
 **第二步：配置**
 ```bash
-/omc-setup
+/omg-setup
 ```
 
 **第三步：开始构建**
@@ -61,7 +61,7 @@ Team 按阶段化流水线运行：
 
 `team-plan → team-prd → team-exec → team-verify → team-fix (loop)`
 
-在 `~/.claude/settings.json` 中启用 Claude Code 原生团队：
+在 `~/.gemini/settings.json` 中启用 Gemini Code 原生团队：
 
 ```json
 {
@@ -75,12 +75,12 @@ Team 按阶段化流水线运行：
 
 ### tmux CLI 工作者 — Codex & Gemini (v4.4.0+)
 
-**v4.4.0 移除了 Codex/Gemini MCP 服务器**（`x`、`g` 提供商）。请改用 `/omc-teams` 在 tmux 分屏中启动真实的 CLI 进程：
+**v4.4.0 移除了 Codex/Gemini MCP 服务器**（`x`、`g` 提供商）。请改用 `/omg-teams` 在 tmux 分屏中启动真实的 CLI 进程：
 
 ```bash
-/omc-teams 2:codex   "review auth module for security issues"
-/omc-teams 2:gemini  "redesign UI components for accessibility"
-/omc-teams 1:claude  "implement the payment flow"
+/omg-teams 2:codex   "review auth module for security issues"
+/omg-teams 2:gemini  "redesign UI components for accessibility"
+/omg-teams 1:gemini  "implement the payment flow"
 ```
 
 如需在一个命令中混合使用 Codex + Gemini，请使用 **`/ccg`** 技能：
@@ -91,42 +91,42 @@ Team 按阶段化流水线运行：
 
 | 技能 | 工作者 | 最适合 |
 |-------|---------|----------|
-| `/omc-teams N:codex` | N 个 Codex CLI 窗格 | 代码审查、安全分析、架构 |
-| `/omc-teams N:gemini` | N 个 Gemini CLI 窗格 | UI/UX 设计、文档、大上下文任务 |
-| `/omc-teams N:claude` | N 个 Claude CLI 窗格 | 通过 tmux 中的 Claude CLI 处理通用任务 |
+| `/omg-teams N:codex` | N 个 Codex CLI 窗格 | 代码审查、安全分析、架构 |
+| `/omg-teams N:gemini` | N 个 Gemini CLI 窗格 | UI/UX 设计、文档、大上下文任务 |
+| `/omg-teams N:gemini` | N 个 Gemini CLI 窗格 | 通过 tmux 中的 Gemini CLI 处理通用任务 |
 | `/ccg` | 1 个 Codex + 1 个 Gemini | 并行三模型编排 |
 
 工作者按需生成，任务完成后自动退出 — 无空闲资源浪费。需要安装 `codex` / `gemini` CLI 并有活跃的 tmux 会话。
 
-> **注意：包命名** — 项目品牌名为 **oh-my-claudecode**（仓库、插件、命令），但 npm 包以 [`oh-my-claude-sisyphus`](https://www.npmjs.com/package/oh-my-claude-sisyphus) 发布。通过 npm/bun 安装 CLI 工具时，请使用 `npm install -g oh-my-claude-sisyphus`。
+> **注意：包命名** — 项目品牌名为 **oh-my-gemini-cli**（仓库、插件、命令），但 npm 包以 [`oh-my-gemini-sisyphus`](https://www.npmjs.com/package/oh-my-gemini-sisyphus) 发布。通过 npm/bun 安装 CLI 工具时，请使用 `npm install -g oh-my-gemini-sisyphus`。
 
 ### 更新
 
 ```bash
 # 1. 更新 marketplace 克隆
-/plugin marketplace update omc
+/plugin marketplace update omg
 
 # 2. 重新运行设置以刷新配置
-/omc-setup
+/omg-setup
 ```
 
-> **注意：** 如果 marketplace 自动更新未启用，您需要在运行设置之前手动执行 `/plugin marketplace update omc` 来同步最新版本。
+> **注意：** 如果 marketplace 自动更新未启用，您需要在运行设置之前手动执行 `/plugin marketplace update omg` 来同步最新版本。
 
 如果更新后遇到问题，清除旧的插件缓存：
 
 ```bash
-/omc-doctor
+/omg-doctor
 ```
 
-<h1 align="center">你的 Claude 已被注入超能力。</h1>
+<h1 align="center">你的 Gemini 已被注入超能力。</h1>
 
 <p align="center">
-  <img src="assets/omc-character.jpg" alt="oh-my-claudecode" width="400" />
+  <img src="assets/omg-character.jpg" alt="oh-my-gemini-cli" width="400" />
 </p>
 
 ---
 
-## 为什么选择 oh-my-claudecode？
+## 为什么选择 oh-my-gemini-cli？
 
 - **无需配置** - 开箱即用，智能默认设置
 - **Team 优先编排** - Team 是标准的多智能体界面（swarm/ultrapilot 是兼容性外观）
@@ -142,13 +142,13 @@ Team 按阶段化流水线运行：
 ## 功能特性
 
 ### 执行模式
-针对不同场景的多种策略 - 从全自动构建到 token 高效重构。[了解更多 →](https://yeachan-heo.github.io/oh-my-claudecode-website/docs.html#execution-modes)
+针对不同场景的多种策略 - 从全自动构建到 token 高效重构。[了解更多 →](https://yeachan-heo.github.io/oh-my-gemini-cli-website/docs.html#execution-modes)
 
 | 模式 | 特点 | 适用场景 |
 |------|---------|---------|
-| **Team（推荐）** | 阶段化流水线 | 在共享任务列表上协作的 Claude 智能体 |
-| **omc-teams** | tmux CLI 工作者 | Codex/Gemini CLI 任务；按需生成，完成后退出 |
-| **ccg** | 三模型并行 | Codex（分析）+ Gemini（设计），Claude 合成 |
+| **Team（推荐）** | 阶段化流水线 | 在共享任务列表上协作的 Gemini 智能体 |
+| **omg-teams** | tmux CLI 工作者 | Codex/Gemini CLI 任务；按需生成，完成后退出 |
+| **ccg** | 三模型并行 | Codex（分析）+ Gemini（设计），Gemini 合成 |
 | **Autopilot** | 自主执行 | 最小化繁琐配置的端到端功能开发 |
 | **Ultrawork** | 最大并行 | 不需要 Team 的并行修复/重构 |
 | **Ralph** | 持久模式 | 必须完整完成的任务 |
@@ -174,12 +174,12 @@ Team 按阶段化流水线运行：
 
 | | 项目作用域 | 用户作用域 |
 |---|---|---|
-| **路径** | `.omc/skills/` | `~/.omc/skills/` |
+| **路径** | `.omg/skills/` | `~/.omg/skills/` |
 | **共享范围** | 团队（受版本控制） | 所有项目通用 |
 | **优先级** | 高（覆盖用户作用域） | 低（回退） |
 
 ```yaml
-# .omc/skills/fix-proxy-crash.md
+# .omg/skills/fix-proxy-crash.md
 ---
 name: Fix Proxy Crash
 description: aiohttp proxy crashes on ClientDisconnectedError
@@ -204,7 +204,7 @@ source: extracted
 | 关键词 | 效果 | 示例 |
 |---------|--------|---------|
 | `team` | 标准 Team 编排 | `/team 3:executor "fix all TypeScript errors"` |
-| `omc-teams` | tmux CLI 工作者 (codex/gemini/claude) | `/omc-teams 2:codex "security review"` |
+| `omg-teams` | tmux CLI 工作者 (codex/gemini/gemini) | `/omg-teams 2:codex "security review"` |
 | `ccg` | 三模型 Codex+Gemini 编排 | `/ccg review this PR` |
 | `autopilot` | 全自动执行 | `autopilot: build a todo app` |
 | `ralph` | 持久模式 | `ralph: refactor auth` |
@@ -225,12 +225,12 @@ source: extracted
 
 ### 速率限制等待
 
-当速率限制重置时自动恢复 Claude Code 会话。
+当速率限制重置时自动恢复 Gemini Code 会话。
 
 ```bash
-omc wait          # 检查状态，获取指导
-omc wait --start  # 启用自动恢复守护进程
-omc wait --stop   # 禁用守护进程
+omg wait          # 检查状态，获取指导
+omg wait --start  # 启用自动恢复守护进程
+omg wait --stop   # 禁用守护进程
 ```
 
 **需要：** tmux（用于会话检测）
@@ -241,14 +241,14 @@ omc wait --stop   # 禁用守护进程
 
 ```bash
 # 设置/替换标签列表
-omc config-stop-callback telegram --enable --token <bot_token> --chat <chat_id> --tag-list "@alice,bob"
-omc config-stop-callback discord --enable --webhook <url> --tag-list "@here,123456789012345678,role:987654321098765432"
-omc config-stop-callback slack --enable --webhook <url> --tag-list "<!here>,<@U1234567890>"
+omg config-stop-callback telegram --enable --token <bot_token> --chat <chat_id> --tag-list "@alice,bob"
+omg config-stop-callback discord --enable --webhook <url> --tag-list "@here,123456789012345678,role:987654321098765432"
+omg config-stop-callback slack --enable --webhook <url> --tag-list "<!here>,<@U1234567890>"
 
 # 增量更新
-omc config-stop-callback telegram --add-tag charlie
-omc config-stop-callback discord --remove-tag @here
-omc config-stop-callback discord --clear-tags
+omg config-stop-callback telegram --add-tag charlie
+omg config-stop-callback discord --remove-tag @here
+omg config-stop-callback discord --clear-tags
 ```
 
 标签规则：
@@ -259,16 +259,16 @@ omc config-stop-callback discord --clear-tags
 
 ### OpenClaw 集成
 
-将 Claude Code 会话事件转发到 [OpenClaw](https://openclaw.ai/) 网关，通过您的 OpenClaw 代理实现自动化响应和工作流程。
+将 Gemini Code 会话事件转发到 [OpenClaw](https://openclaw.ai/) 网关，通过您的 OpenClaw 代理实现自动化响应和工作流程。
 
 **快速设置（推荐）：**
 
 ```bash
-/oh-my-claudecode:configure-notifications
+/oh-my-gemini-cli:configure-notifications
 # → 提示时输入 "openclaw" → 选择 "OpenClaw Gateway"
 ```
 
-**手动设置：** 创建 `~/.claude/omc_config.openclaw.json`：
+**手动设置：** 创建 `~/.gemini/omg_config.openclaw.json`：
 
 ```json
 {
@@ -301,9 +301,9 @@ omc config-stop-callback discord --clear-tags
 | 事件 | 触发时机 | 主要模板变量 |
 |------|---------|-------------|
 | `session-start` | 会话开始时 | `{{sessionId}}`, `{{projectName}}`, `{{projectPath}}` |
-| `stop` | Claude 响应完成时 | `{{sessionId}}`, `{{projectName}}` |
+| `stop` | Gemini 响应完成时 | `{{sessionId}}`, `{{projectName}}` |
 | `keyword-detector` | 每次提交提示词时 | `{{prompt}}`, `{{sessionId}}` |
-| `ask-user-question` | Claude 请求用户输入时 | `{{question}}`, `{{sessionId}}` |
+| `ask-user-question` | Gemini 请求用户输入时 | `{{question}}`, `{{sessionId}}` |
 | `pre-tool-use` | 工具调用前（高频） | `{{toolName}}`, `{{sessionId}}` |
 | `post-tool-use` | 工具调用后（高频） | `{{toolName}}`, `{{sessionId}}` |
 
@@ -322,11 +322,11 @@ omc config-stop-callback discord --clear-tags
 ## 文档
 
 - **[完整参考](docs/REFERENCE.md)** - 完整功能文档
-- **[CLI 参考](https://yeachan-heo.github.io/oh-my-claudecode-website/docs.html#cli-reference)** - 所有 `omc` 命令、标志和工具
-- **[通知指南](https://yeachan-heo.github.io/oh-my-claudecode-website/docs.html#notifications)** - Discord、Telegram、Slack 和 webhook 设置
-- **[推荐工作流](https://yeachan-heo.github.io/oh-my-claudecode-website/docs.html#workflows)** - 常见任务的经过实战检验的技能链
-- **[发布说明](https://yeachan-heo.github.io/oh-my-claudecode-website/docs.html#release-notes)** - 每个版本的新内容
-- **[网站](https://yeachan-heo.github.io/oh-my-claudecode-website)** - 交互式指南和示例
+- **[CLI 参考](https://yeachan-heo.github.io/oh-my-gemini-cli-website/docs.html#cli-reference)** - 所有 `omg` 命令、标志和工具
+- **[通知指南](https://yeachan-heo.github.io/oh-my-gemini-cli-website/docs.html#notifications)** - Discord、Telegram、Slack 和 webhook 设置
+- **[推荐工作流](https://yeachan-heo.github.io/oh-my-gemini-cli-website/docs.html#workflows)** - 常见任务的经过实战检验的技能链
+- **[发布说明](https://yeachan-heo.github.io/oh-my-gemini-cli-website/docs.html#release-notes)** - 每个版本的新内容
+- **[网站](https://yeachan-heo.github.io/oh-my-gemini-cli-website)** - 交互式指南和示例
 - **[迁移指南](docs/MIGRATION.md)** - 从 v2.x 升级
 - **[架构](docs/ARCHITECTURE.md)** - 底层工作原理
 - **[性能监控](docs/PERFORMANCE-MONITORING.md)** - 智能体追踪、调试和优化
@@ -335,8 +335,8 @@ omc config-stop-callback discord --clear-tags
 
 ## 环境要求
 
-- [Claude Code](https://docs.anthropic.com/claude-code) CLI
-- Claude Max/Pro 订阅 或 Anthropic API 密钥
+- [Gemini Code](https://docs.anthropic.com/gemini-code) CLI
+- Gemini Max/Pro 订阅 或 Anthropic API 密钥
 
 ### 可选：多 AI 编排
 
@@ -347,7 +347,7 @@ OMC 可以选择性地调用外部 AI 提供商进行交叉验证和设计一致
 | [Gemini CLI](https://github.com/google-gemini/gemini-cli) | `npm install -g @google/gemini-cli` | 设计审查、UI 一致性（1M token 上下文）|
 | [Codex CLI](https://github.com/openai/codex) | `npm install -g @openai/codex` | 架构验证、代码审查交叉检查 |
 
-**费用：** 3 个 Pro 计划（Claude + Gemini + ChatGPT）每月约 $60 即可覆盖所有功能。
+**费用：** 3 个 Pro 计划（Gemini + Gemini + ChatGPT）每月约 $60 即可覆盖所有功能。
 
 ---
 
@@ -359,7 +359,7 @@ MIT
 
 <div align="center">
 
-**灵感来源：** [oh-my-opencode](https://github.com/code-yeongyu/oh-my-opencode) • [claude-hud](https://github.com/ryanjoachim/claude-hud) • [Superpowers](https://github.com/obra/superpowers) • [everything-claude-code](https://github.com/affaan-m/everything-claude-code) • [Ouroboros](https://github.com/Q00/ouroboros)
+**灵感来源：** [oh-my-opencode](https://github.com/code-yeongyu/oh-my-opencode) • [gemini-hud](https://github.com/ryanjoachim/gemini-hud) • [Superpowers](https://github.com/obra/superpowers) • [everything-gemini-code](https://github.com/affaan-m/everything-gemini-code) • [Ouroboros](https://github.com/Q00/ouroboros)
 
 **零学习曲线。最强大能。**
 
@@ -367,11 +367,11 @@ MIT
 
 ## Star 历史
 
-[![Star History Chart](https://api.star-history.com/svg?repos=Yeachan-Heo/oh-my-claudecode&type=date&legend=top-left)](https://www.star-history.com/#Yeachan-Heo/oh-my-claudecode&type=date&legend=top-left)
+[![Star History Chart](https://api.star-history.com/svg?repos=Yeachan-Heo/oh-my-gemini-cli&type=date&legend=top-left)](https://www.star-history.com/#Yeachan-Heo/oh-my-gemini-cli&type=date&legend=top-left)
 
 ## 💖 支持本项目
 
-如果 Oh-My-ClaudeCode 帮助了你的工作流，请考虑赞助：
+如果 Oh-My-GeminiCLI 帮助了你的工作流，请考虑赞助：
 
 [![Sponsor on GitHub](https://img.shields.io/badge/Sponsor-❤️-red?style=for-the-badge&logo=github)](https://github.com/sponsors/Yeachan-Heo)
 

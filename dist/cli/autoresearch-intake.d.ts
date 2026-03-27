@@ -30,7 +30,7 @@ export interface AutoresearchDeepInterviewResult {
     launchReady: boolean;
     blockedReasons: string[];
 }
-export declare const AUTORESEARCH_DEEP_INTERVIEW_RESULT_KIND = "omc.autoresearch.deep-interview/v1";
+export declare const AUTORESEARCH_DEEP_INTERVIEW_RESULT_KIND = "omg.autoresearch.deep-interview/v1";
 export declare function buildMissionContent(topic: string): string;
 export declare function buildSandboxContent(evaluatorCommand: string, keepPolicy?: AutoresearchKeepPolicy): string;
 export declare function isLaunchReadyEvaluatorCommand(command: string): boolean;

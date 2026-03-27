@@ -5,7 +5,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: swe-bench-omc
+    container_name: swe-bench-omg
 
     # Environment configuration
     environment:
@@ -28,11 +28,11 @@ services:
       # Execution logs
       - ./logs:/workspace/logs
       # Mount OMC source for development (optional)
-      - ../:/workspace/omc-source:ro
+      - ../:/workspace/omg-source:ro
       # Docker socket for SWE-bench container operations
       - /var/run/docker.sock:/var/run/docker.sock
-      # Claude config persistence
-      - claude-config:/root/.claude
+      # Gemini config persistence
+      - gemini-config:/root/.gemini
 
     # Resource limits
     deploy:
@@ -84,5 +84,5 @@ networks:
     driver: bridge
 
 volumes:
-  claude-config:
+  gemini-config:
     driver: local

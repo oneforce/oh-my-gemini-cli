@@ -37,7 +37,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # Parse arguments
 LIMIT=""
 SKIP=""
-MODEL="claude-sonnet-4-6-20260217"
+MODEL="gemini-sonnet-4-6-20260217"
 TIMEOUT="300"
 SKIP_VANILLA=false
 SKIP_OMC=false
@@ -65,7 +65,7 @@ while [[ $# -gt 0 ]]; do
             SKIP_VANILLA=true
             shift
             ;;
-        --skip-omc)
+        --skip-omg)
             SKIP_OMC=true
             shift
             ;;
@@ -81,10 +81,10 @@ while [[ $# -gt 0 ]]; do
             echo "Options:"
             echo "  --limit N         Limit to N instances (default: all)"
             echo "  --skip N          Skip first N instances (default: 0)"
-            echo "  --model MODEL     Claude model to use (default: claude-sonnet-4-6-20260217)"
+            echo "  --model MODEL     Gemini model to use (default: gemini-sonnet-4-6-20260217)"
             echo "  --timeout SECS    Timeout per instance (default: 300)"
             echo "  --skip-vanilla    Skip vanilla benchmark run"
-            echo "  --skip-omc        Skip OMC benchmark run"
+            echo "  --skip-omg        Skip OMC benchmark run"
             echo "  --skip-eval       Skip evaluation step"
             echo "  -h, --help        Show this help message"
             exit 0
@@ -114,7 +114,7 @@ echo ""
 
 # Step 1: Run vanilla benchmark
 if [ "$SKIP_VANILLA" = false ]; then
-    log_step "Step 1/4: Running vanilla Claude Code benchmark..."
+    log_step "Step 1/4: Running vanilla Gemini Code benchmark..."
     echo ""
     "$SCRIPT_DIR/run_vanilla.sh" $ARGS
     if [ $? -ne 0 ]; then
@@ -131,14 +131,14 @@ fi
 if [ "$SKIP_OMC" = false ]; then
     log_step "Step 2/4: Running OMC-enhanced benchmark..."
     echo ""
-    "$SCRIPT_DIR/run_omc.sh" $ARGS
+    "$SCRIPT_DIR/run_omg.sh" $ARGS
     if [ $? -ne 0 ]; then
         log_error "OMC benchmark failed. Aborting."
         exit 1
     fi
     echo ""
 else
-    log_warn "Skipping OMC benchmark (--skip-omc)"
+    log_warn "Skipping OMC benchmark (--skip-omg)"
     echo ""
 fi
 
@@ -162,8 +162,8 @@ if [ "$SKIP_EVAL" = false ]; then
     echo ""
     if [ -f "$SCRIPT_DIR/evaluate.py" ]; then
         python3 "$SCRIPT_DIR/evaluate.py" \
-            --predictions "$SCRIPT_DIR/predictions/omc" \
-            --output "$SCRIPT_DIR/results/omc_results.json"
+            --predictions "$SCRIPT_DIR/predictions/omg" \
+            --output "$SCRIPT_DIR/results/omg_results.json"
         if [ $? -ne 0 ]; then
             log_warn "OMC evaluation had issues (continuing...)"
         fi
@@ -190,7 +190,7 @@ echo ""
 if [ -f "$SCRIPT_DIR/compare_results.py" ]; then
     python3 "$SCRIPT_DIR/compare_results.py" \
         --vanilla "$SCRIPT_DIR/predictions/vanilla/predictions.jsonl" \
-        --omc "$SCRIPT_DIR/predictions/omc/predictions.jsonl" \
+        --omg "$SCRIPT_DIR/predictions/omg/predictions.jsonl" \
         --output "$SCRIPT_DIR/results/comparison_report.md"
 else
     log_warn "compare_results.py not found, generating basic report..."
@@ -208,13 +208,13 @@ $([ -n "$SKIP" ] && echo "- Skip: $SKIP instances")
 
 ## Results
 
-### Vanilla Claude Code
+### Vanilla Gemini Code
 Location: \`predictions/vanilla/\`
 Results: \`results/vanilla_results.json\`
 
 ### OMC-Enhanced
-Location: \`predictions/omc/\`
-Results: \`results/omc_results.json\`
+Location: \`predictions/omg/\`
+Results: \`results/omg_results.json\`
 
 ## Elapsed Time
 Total runtime: ${HOURS}h ${MINUTES}m ${SECONDS}s
@@ -231,7 +231,7 @@ log_info "Total runtime: ${HOURS}h ${MINUTES}m ${SECONDS}s"
 echo ""
 log_info "Results:"
 log_info "  Vanilla predictions: $SCRIPT_DIR/predictions/vanilla/"
-log_info "  OMC predictions:     $SCRIPT_DIR/predictions/omc/"
+log_info "  OMC predictions:     $SCRIPT_DIR/predictions/omg/"
 log_info "  Comparison report:   $SCRIPT_DIR/results/comparison_report.md"
 echo ""
 log_info "Review the comparison report for detailed analysis."

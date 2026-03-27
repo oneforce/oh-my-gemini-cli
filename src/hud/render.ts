@@ -232,10 +232,10 @@ export async function render(context: HudRenderContext, config: HudConfig): Prom
   }
 
   // [OMC#X.Y.Z] label with optional update notification
-  if (enabledElements.omcLabel) {
-    const versionTag = context.omcVersion ? `#${context.omcVersion}` : '';
+  if (enabledElements.omgLabel) {
+    const versionTag = context.omgVersion ? `#${context.omgVersion}` : '';
     if (context.updateAvailable) {
-      elements.push(bold(`[OMC${versionTag}] -> ${context.updateAvailable} omc update`));
+      elements.push(bold(`[OMC${versionTag}] -> ${context.updateAvailable} omg update`));
     } else {
       elements.push(bold(`[OMC${versionTag}]`));
     }

@@ -1,7 +1,7 @@
 /**
  * Auto-Update System
  *
- * Provides version checking and auto-update functionality for oh-my-claudecode.
+ * Provides version checking and auto-update functionality for oh-my-gemini-cli.
  *
  * Features:
  * - Check for new versions from GitHub releases
@@ -13,9 +13,9 @@ import { TaskTool } from '../hooks/beads-context/types.js';
 import type { NotificationConfig } from '../notifications/types.js';
 /** GitHub repository information */
 export declare const REPO_OWNER = "Yeachan-Heo";
-export declare const REPO_NAME = "oh-my-claudecode";
-export declare const GITHUB_API_URL = "https://api.github.com/repos/Yeachan-Heo/oh-my-claudecode";
-export declare const GITHUB_RAW_URL = "https://raw.githubusercontent.com/Yeachan-Heo/oh-my-claudecode";
+export declare const REPO_NAME = "oh-my-gemini-cli";
+export declare const GITHUB_API_URL = "https://api.github.com/repos/Yeachan-Heo/oh-my-gemini-cli";
+export declare const GITHUB_RAW_URL = "https://raw.githubusercontent.com/Yeachan-Heo/oh-my-gemini-cli";
 export declare function shouldBlockStandaloneUpdateInCurrentSession(): boolean;
 export declare function syncPluginCache(verbose?: boolean): {
     synced: boolean;
@@ -78,7 +78,7 @@ export interface StopHookCallbacksConfig {
     slack?: StopCallbackSlackConfig;
 }
 /**
- * OMC configuration (stored in .omc-config.json)
+ * OMC configuration (stored in .omg-config.json)
  */
 export interface OMCConfig {
     /** Whether silent auto-updates are enabled (opt-in for security) */
@@ -131,7 +131,7 @@ export declare function isAutoUpgradePromptEnabled(): boolean;
 /**
  * Check if team feature is enabled
  * Returns false by default - requires explicit opt-in
- * Checks ~/.claude/settings.json first, then env var fallback
+ * Checks ~/.gemini/settings.json first, then env var fallback
  */
 export declare function isTeamEnabled(): boolean;
 /**

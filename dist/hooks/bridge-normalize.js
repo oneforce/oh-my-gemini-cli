@@ -1,8 +1,8 @@
 /**
  * Hook Input Normalization
  *
- * Handles snake_case -> camelCase field mapping for Claude Code hook inputs.
- * Claude Code sends snake_case fields: tool_name, tool_input, tool_response,
+ * Handles snake_case -> camelCase field mapping for Gemini Code hook inputs.
+ * Gemini Code sends snake_case fields: tool_name, tool_input, tool_response,
  * session_id, cwd, hook_event_name. This module normalizes them to camelCase
  * with snake_case-first fallback.
  *
@@ -14,7 +14,7 @@ import { resolveTranscriptPath } from '../lib/worktree-paths.js';
 // --- Zod schemas for hook input validation ---
 /** Schema for the common hook input structure (supports both snake_case and camelCase) */
 const HookInputSchema = z.object({
-    // snake_case fields from Claude Code
+    // snake_case fields from Gemini Code
     tool_name: z.string().optional(),
     tool_input: z.unknown().optional(),
     tool_response: z.unknown().optional(),
@@ -58,7 +58,7 @@ const KNOWN_FIELDS = new Set([
     'permission_mode', 'tool_use_id', 'transcript_path',
     // Subagent fields
     'agent_id', 'agent_name', 'agent_type', 'parent_session_id',
-    // Common extra fields from Claude Code
+    // Common extra fields from Gemini Code
     'input', 'output', 'result', 'error', 'status',
     // Session-end fields
     'reason',
@@ -90,7 +90,7 @@ function isAlreadyCamelCase(obj) {
     return !hasSnakeCaseKeys(obj);
 }
 /**
- * Normalize hook input from Claude Code's snake_case format to the
+ * Normalize hook input from Gemini Code's snake_case format to the
  * camelCase HookInput interface used internally.
  *
  * Validates the input structure with Zod, then maps snake_case to camelCase.

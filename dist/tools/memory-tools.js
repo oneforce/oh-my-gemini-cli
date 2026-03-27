@@ -84,7 +84,7 @@ export const projectMemoryWriteTool = {
         const { memory, merge = false, workingDirectory } = args;
         try {
             const root = validateWorkingDirectory(workingDirectory);
-            // Ensure .omc directory exists
+            // Ensure .omg directory exists
             ensureOmcDir('', root);
             let finalMemory;
             if (merge) {

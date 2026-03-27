@@ -13,16 +13,16 @@ function writeTranscript(filePath, entries) {
 describe('session history search', () => {
     const repoRoot = process.cwd();
     let tempRoot;
-    let claudeDir;
+    let geminiDir;
     let otherProject;
     beforeEach(() => {
-        tempRoot = mkdtempSync(join(tmpdir(), 'omc-session-search-'));
-        claudeDir = join(tempRoot, 'claude');
+        tempRoot = mkdtempSync(join(tmpdir(), 'omg-session-search-'));
+        geminiDir = join(tempRoot, 'gemini');
         otherProject = join(tempRoot, 'other-project');
-        process.env.CLAUDE_CONFIG_DIR = claudeDir;
-        process.env.OMC_STATE_DIR = join(tempRoot, 'omc-state');
-        const currentProjectDir = join(claudeDir, 'projects', encodeProjectPath(repoRoot));
-        const otherProjectDir = join(claudeDir, 'projects', encodeProjectPath(otherProject));
+        process.env.CLAUDE_CONFIG_DIR = geminiDir;
+        process.env.OMC_STATE_DIR = join(tempRoot, 'omg-state');
+        const currentProjectDir = join(geminiDir, 'projects', encodeProjectPath(repoRoot));
+        const otherProjectDir = join(geminiDir, 'projects', encodeProjectPath(otherProject));
         writeTranscript(join(currentProjectDir, 'session-current.jsonl'), [
             {
                 sessionId: 'session-current',

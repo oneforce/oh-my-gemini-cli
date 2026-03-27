@@ -1,14 +1,14 @@
 /**
  * Interop CLI Command - Split-pane tmux session with OMC and OMX
  *
- * Creates a tmux split-pane layout with Claude Code (OMC) on the left
+ * Creates a tmux split-pane layout with Gemini Code (OMC) on the left
  * and Codex CLI (OMX) on the right, with shared interop state.
  */
 export type InteropMode = 'off' | 'observe' | 'active';
 export interface InteropRuntimeFlags {
     enabled: boolean;
     mode: InteropMode;
-    omcInteropToolsEnabled: boolean;
+    omgInteropToolsEnabled: boolean;
     failClosed: boolean;
 }
 export declare function readInteropRuntimeFlags(env?: NodeJS.ProcessEnv): InteropRuntimeFlags;

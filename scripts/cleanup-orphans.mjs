@@ -12,7 +12,7 @@
  *   node cleanup-orphans.mjs [--team-name <name>] [--dry-run]
  *
  * When --team-name is provided, only checks for orphans from that team.
- * When omitted, scans for ALL orphan claude agent processes.
+ * When omitted, scans for ALL orphan gemini agent processes.
  *
  * --dry-run: Report orphans without killing them.
  *
@@ -40,7 +40,7 @@ if (rawTeamName && !teamName) {
 }
 
 /**
- * Find claude agent processes that match team patterns.
+ * Find gemini agent processes that match team patterns.
  * Cross-platform: uses ps on Unix, tasklist on Windows.
  */
 function findOrphanProcesses(filterTeam) {
@@ -71,8 +71,8 @@ function findOrphanProcesses(filterTeam) {
       const output = execSync('ps aux', { encoding: 'utf-8', timeout: 10000 });
 
       for (const line of output.split('\n')) {
-        // Match claude/codex/gemini agent processes with team context
-        if ((line.includes('claude') || line.includes('codex') || line.includes('gemini') || line.includes('node'))) {
+        // Match gemini/codex/gemini agent processes with team context
+        if ((line.includes('gemini') || line.includes('codex') || line.includes('gemini') || line.includes('node'))) {
           // Restrict team name match to valid slug characters.
           // Support both native TeamDelete-style args and tmux worker env assignments.
           const match =
@@ -104,14 +104,14 @@ function getWindowsProcessListOutput() {
   try {
     // Primary path: WMIC (legacy but still available on some systems).
     return execSync(
-      'wmic process where "name like \'%node%\' or name like \'%claude%\'" get processid,commandline /format:csv',
+      'wmic process where "name like \'%node%\' or name like \'%gemini%\'" get processid,commandline /format:csv',
       { encoding: 'utf-8', timeout: 10000 }
     ).trim();
   } catch {
     // Fallback: PowerShell CIM query for command line + PID.
     try {
       return execSync(
-        'powershell -NoProfile -NonInteractive -Command "$procs = Get-CimInstance Win32_Process -ErrorAction Stop | Where-Object { $_.Name -like \'*node*\' -or $_.Name -like \'*claude*\' }; $procs | ForEach-Object { [string]$_.CommandLine + \',\' + [string]$_.ProcessId }"',
+        'powershell -NoProfile -NonInteractive -Command "$procs = Get-CimInstance Win32_Process -ErrorAction Stop | Where-Object { $_.Name -like \'*node*\' -or $_.Name -like \'*gemini*\' }; $procs | ForEach-Object { [string]$_.CommandLine + \',\' + [string]$_.ProcessId }"',
         { encoding: 'utf-8', timeout: 10000 }
       ).trim();
     } catch {
@@ -124,7 +124,7 @@ function getWindowsProcessListOutput() {
  * Check if a team's config still exists (i.e., team is still active).
  */
 function teamConfigExists(name) {
-  const configDir = process.env.CLAUDE_CONFIG_DIR || join(homedir(), '.claude');
+  const configDir = process.env.CLAUDE_CONFIG_DIR || join(homedir(), '.gemini');
   const configPath = join(configDir, 'teams', name, 'config.json');
   return existsSync(configPath);
 }

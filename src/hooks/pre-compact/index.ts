@@ -60,7 +60,7 @@ export interface CompactCheckpoint {
 
 export interface HookOutput {
   continue: boolean;
-  /** System message for context injection (Claude Code compatible) */
+  /** System message for context injection (Gemini Code compatible) */
   systemMessage?: string;
 }
 
@@ -241,7 +241,7 @@ function readTodoSummary(directory: string): {
   completed: number;
 } {
   const todoPaths = [
-    join(directory, ".claude", "todos.json"),
+    join(directory, ".gemini", "todos.json"),
     join(getOmcRoot(directory), "state", "todos.json"),
   ];
 
@@ -271,7 +271,7 @@ function readTodoSummary(directory: string): {
 
 /**
  * Get summary of active and recent background jobs from SQLite DB
- * Queries .omc/state/jobs.db for Codex/Gemini job statuses
+ * Queries .omg/state/jobs.db for Codex/Gemini job statuses
  */
 async function getActiveJobsSummary(directory: string): Promise<{
   activeJobs: Array<{ jobId: string; provider: string; model: string; agentRole: string; spawnedAt: string }>;

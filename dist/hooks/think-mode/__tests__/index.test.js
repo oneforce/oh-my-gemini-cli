@@ -3,7 +3,7 @@ import {
 // Detector functions
 removeCodeBlocks, detectThinkKeyword, extractPromptText, detectUltrathinkKeyword, 
 // Switcher functions
-getHighVariant, isAlreadyHighVariant, getThinkingConfig, getClaudeThinkingConfig, THINKING_CONFIGS, 
+getHighVariant, isAlreadyHighVariant, getThinkingConfig, getGeminiThinkingConfig, THINKING_CONFIGS, 
 // State management
 clearThinkModeState, getThinkModeState, isThinkModeActive, processThinkMode, 
 // Hook factory
@@ -144,21 +144,21 @@ World`);
         });
     });
     describe('switcher - getHighVariant', () => {
-        describe('Claude models', () => {
-            it('should return high variant for claude-sonnet-4-6', () => {
-                expect(getHighVariant('claude-sonnet-4-6')).toBe('claude-sonnet-4-6-high');
+        describe('Gemini models', () => {
+            it('should return high variant for gemini-sonnet-4-6', () => {
+                expect(getHighVariant('gemini-sonnet-4-6')).toBe('gemini-sonnet-4-6-high');
             });
-            it('should return high variant for claude-opus-4-6', () => {
-                expect(getHighVariant('claude-opus-4-6')).toBe('claude-opus-4-6-high');
+            it('should return high variant for gemini-opus-4-6', () => {
+                expect(getHighVariant('gemini-opus-4-6')).toBe('gemini-opus-4-6-high');
             });
-            it('should return high variant for claude-3-5-sonnet', () => {
-                expect(getHighVariant('claude-3-5-sonnet')).toBe('claude-sonnet-4-6-high');
+            it('should return high variant for gemini-3-5-sonnet', () => {
+                expect(getHighVariant('gemini-3-5-sonnet')).toBe('gemini-sonnet-4-6-high');
             });
-            it('should return high variant for claude-3-opus', () => {
-                expect(getHighVariant('claude-3-opus')).toBe('claude-opus-4-6-high');
+            it('should return high variant for gemini-3-opus', () => {
+                expect(getHighVariant('gemini-3-opus')).toBe('gemini-opus-4-6-high');
             });
             it('should handle version with dot notation', () => {
-                expect(getHighVariant('claude-sonnet-4.5')).toBe('claude-sonnet-4-6-high');
+                expect(getHighVariant('gemini-sonnet-4.5')).toBe('gemini-sonnet-4-6-high');
             });
         });
         describe('GPT models', () => {
@@ -188,7 +188,7 @@ World`);
         });
         describe('Already high variants', () => {
             it('should return null for already high variant', () => {
-                expect(getHighVariant('claude-sonnet-4-6-high')).toBeNull();
+                expect(getHighVariant('gemini-sonnet-4-6-high')).toBeNull();
             });
             it('should return null for model ending in -high', () => {
                 expect(getHighVariant('some-model-high')).toBeNull();
@@ -196,7 +196,7 @@ World`);
         });
         describe('Prefixed models', () => {
             it('should preserve prefix in high variant', () => {
-                expect(getHighVariant('vertex_ai/claude-sonnet-4-5')).toBe('vertex_ai/claude-sonnet-4-6-high');
+                expect(getHighVariant('vertex_ai/gemini-sonnet-4-5')).toBe('vertex_ai/gemini-sonnet-4-6-high');
             });
             it('should handle openai/ prefix', () => {
                 expect(getHighVariant('openai/gpt-4')).toBe('openai/gpt-4-high');
@@ -208,37 +208,37 @@ World`);
     });
     describe('switcher - isAlreadyHighVariant', () => {
         it('should return true for high variant models', () => {
-            expect(isAlreadyHighVariant('claude-sonnet-4-6-high')).toBe(true);
+            expect(isAlreadyHighVariant('gemini-sonnet-4-6-high')).toBe(true);
         });
         it('should return true for any model ending in -high', () => {
             expect(isAlreadyHighVariant('custom-model-high')).toBe(true);
         });
         it('should return false for non-high variant', () => {
-            expect(isAlreadyHighVariant('claude-sonnet-4-6')).toBe(false);
+            expect(isAlreadyHighVariant('gemini-sonnet-4-6')).toBe(false);
         });
         it('should handle prefixed models', () => {
-            expect(isAlreadyHighVariant('vertex_ai/claude-sonnet-4-6-high')).toBe(true);
-            expect(isAlreadyHighVariant('vertex_ai/claude-sonnet-4-6')).toBe(false);
+            expect(isAlreadyHighVariant('vertex_ai/gemini-sonnet-4-6-high')).toBe(true);
+            expect(isAlreadyHighVariant('vertex_ai/gemini-sonnet-4-6')).toBe(false);
         });
         it('should normalize dot notation', () => {
-            expect(isAlreadyHighVariant('claude-sonnet-4.5-high')).toBe(true);
+            expect(isAlreadyHighVariant('gemini-sonnet-4.5-high')).toBe(true);
         });
     });
     describe('switcher - getThinkingConfig', () => {
         describe('Anthropic provider', () => {
-            it('should return config for Claude models', () => {
-                const config = getThinkingConfig('anthropic', 'claude-sonnet-4-6');
+            it('should return config for Gemini models', () => {
+                const config = getThinkingConfig('anthropic', 'gemini-sonnet-4-6');
                 expect(config).not.toBeNull();
                 expect(config).toHaveProperty('thinking');
             });
             it('should return null for already high variant', () => {
-                const config = getThinkingConfig('anthropic', 'claude-sonnet-4-6-high');
+                const config = getThinkingConfig('anthropic', 'gemini-sonnet-4-6-high');
                 expect(config).toBeNull();
             });
         });
         describe('Amazon Bedrock provider', () => {
-            it('should return config for Claude models on Bedrock', () => {
-                const config = getThinkingConfig('amazon-bedrock', 'anthropic.claude-3-sonnet');
+            it('should return config for Gemini models on Bedrock', () => {
+                const config = getThinkingConfig('amazon-bedrock', 'anthropic.gemini-3-sonnet');
                 expect(config).not.toBeNull();
                 expect(config).toHaveProperty('reasoningConfig');
             });
@@ -262,8 +262,8 @@ World`);
             });
         });
         describe('GitHub Copilot proxy', () => {
-            it('should resolve to anthropic for Claude model', () => {
-                const config = getThinkingConfig('github-copilot', 'claude-sonnet-4-6');
+            it('should resolve to anthropic for Gemini model', () => {
+                const config = getThinkingConfig('github-copilot', 'gemini-sonnet-4-6');
                 expect(config).not.toBeNull();
                 expect(config).toHaveProperty('thinking');
             });
@@ -287,15 +287,15 @@ World`);
             expect(config).toBeNull();
         });
     });
-    describe('switcher - getClaudeThinkingConfig', () => {
+    describe('switcher - getGeminiThinkingConfig', () => {
         it('should return default config with 64000 tokens', () => {
-            const config = getClaudeThinkingConfig();
+            const config = getGeminiThinkingConfig();
             expect(config.thinking.type).toBe('enabled');
             expect(config.thinking.budgetTokens).toBe(64000);
             expect(config.maxTokens).toBe(128000);
         });
         it('should accept custom budget tokens', () => {
-            const config = getClaudeThinkingConfig(32000);
+            const config = getGeminiThinkingConfig(32000);
             expect(config.thinking.budgetTokens).toBe(32000);
         });
     });
@@ -429,13 +429,13 @@ World`);
                     message: {
                         model: {
                             providerId: 'anthropic',
-                            modelId: 'claude-sonnet-4-6',
+                            modelId: 'gemini-sonnet-4-6',
                         },
                     },
                 };
                 const state = hook.processChatParams('test-session', input);
                 expect(state.modelSwitched).toBe(true);
-                expect(input.message.model?.modelId).toBe('claude-sonnet-4-6-high');
+                expect(input.message.model?.modelId).toBe('gemini-sonnet-4-6-high');
             });
             it('should not switch already high variant', () => {
                 const hook = createThinkModeHook();
@@ -444,7 +444,7 @@ World`);
                     message: {
                         model: {
                             providerId: 'anthropic',
-                            modelId: 'claude-sonnet-4-6-high',
+                            modelId: 'gemini-sonnet-4-6-high',
                         },
                     },
                 };
@@ -458,7 +458,7 @@ World`);
                     message: {
                         model: {
                             providerId: 'anthropic',
-                            modelId: 'claude-sonnet-4-6',
+                            modelId: 'gemini-sonnet-4-6',
                         },
                     },
                 };
@@ -472,14 +472,14 @@ World`);
                     message: {
                         model: {
                             providerId: 'anthropic',
-                            modelId: 'claude-sonnet-4-6',
+                            modelId: 'gemini-sonnet-4-6',
                         },
                     },
                 };
                 hook.processChatParams('test-session', input);
                 const state = hook.getState('test-session');
                 expect(state?.providerId).toBe('anthropic');
-                expect(state?.modelId).toBe('claude-sonnet-4-6');
+                expect(state?.modelId).toBe('gemini-sonnet-4-6');
             });
         });
         describe('onSessionDeleted', () => {

@@ -1,7 +1,7 @@
 /**
  * Notification System - Public API
  *
- * Multi-platform lifecycle notifications for oh-my-claudecode.
+ * Multi-platform lifecycle notifications for oh-my-gemini-cli.
  * Sends notifications to Discord, Telegram, Slack, and generic webhooks
  * on session lifecycle events.
  *
@@ -127,7 +127,7 @@ export async function notify(
   event: NotificationEvent,
   data: Partial<NotificationPayload> & { sessionId: string; profileName?: string },
 ): Promise<DispatchResult | null> {
-  // OMC_NOTIFY=0 suppresses all CCNotifier events (set by `omc --notify false`)
+  // OMC_NOTIFY=0 suppresses all CCNotifier events (set by `omg --notify false`)
   if (process.env.OMC_NOTIFY === '0') {
     return null;
   }

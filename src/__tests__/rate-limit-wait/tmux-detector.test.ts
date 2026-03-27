@@ -26,9 +26,9 @@ describe('tmux-detector', () => {
   });
 
   describe('analyzePaneContent', () => {
-    it('should detect rate limit messages with Claude Code context', () => {
+    it('should detect rate limit messages with Gemini Code context', () => {
       const content = `
-        Claude Code v1.2.3
+        Gemini Code v1.2.3
         You've reached your rate limit. Please wait for the limit to reset.
         [1] Continue when ready
         [2] Exit
@@ -36,7 +36,7 @@ describe('tmux-detector', () => {
 
       const result = analyzePaneContent(content);
 
-      expect(result.hasClaudeCode).toBe(true);
+      expect(result.hasGeminiCLI).toBe(true);
       expect(result.hasRateLimitMessage).toBe(true);
       expect(result.isBlocked).toBe(true);
       expect(result.confidence).toBeGreaterThan(0.5);
@@ -44,7 +44,7 @@ describe('tmux-detector', () => {
 
     it('should detect 5-hour rate limit', () => {
       const content = `
-        Claude Code assistant
+        Gemini Code assistant
         5-hour usage limit reached
         [1] Wait for reset
       `;
@@ -57,7 +57,7 @@ describe('tmux-detector', () => {
 
     it('should detect weekly rate limit', () => {
       const content = `
-        Claude Code
+        Gemini Code
         Weekly usage quota exceeded
         Please try again later
       `;
@@ -68,7 +68,7 @@ describe('tmux-detector', () => {
       expect(result.rateLimitType).toBe('weekly');
     });
 
-    it('should not flag content without Claude Code indicators', () => {
+    it('should not flag content without Gemini Code indicators', () => {
       const content = `
         vim test.js
         Hello World
@@ -76,11 +76,11 @@ describe('tmux-detector', () => {
 
       const result = analyzePaneContent(content);
 
-      expect(result.hasClaudeCode).toBe(false);
+      expect(result.hasGeminiCLI).toBe(false);
       expect(result.isBlocked).toBe(false);
     });
 
-    it('should not flag rate limit messages in non-Claude contexts', () => {
+    it('should not flag rate limit messages in non-Gemini contexts', () => {
       const content = `
         curl api.example.com
         Error: rate limit exceeded
@@ -88,15 +88,15 @@ describe('tmux-detector', () => {
 
       const result = analyzePaneContent(content);
 
-      expect(result.hasClaudeCode).toBe(false);
+      expect(result.hasGeminiCLI).toBe(false);
       expect(result.hasRateLimitMessage).toBe(true);
-      expect(result.isBlocked).toBe(false); // No Claude context
+      expect(result.isBlocked).toBe(false); // No Gemini context
     });
 
     it('should handle empty content', () => {
       const result = analyzePaneContent('');
 
-      expect(result.hasClaudeCode).toBe(false);
+      expect(result.hasGeminiCLI).toBe(false);
       expect(result.hasRateLimitMessage).toBe(false);
       expect(result.isBlocked).toBe(false);
       expect(result.confidence).toBe(0);
@@ -104,7 +104,7 @@ describe('tmux-detector', () => {
 
     it('should detect waiting patterns', () => {
       const content = `
-        Claude assistant
+        Gemini assistant
         Rate limit reached
         [1] Continue
         [2] Cancel
@@ -115,9 +115,9 @@ describe('tmux-detector', () => {
       expect(result.confidence).toBeGreaterThan(0.6);
     });
 
-    it('should detect Claude limit screen phrasing: hit your limit + numeric menu', () => {
+    it('should detect Gemini limit screen phrasing: hit your limit + numeric menu', () => {
       const content = `
-        Claude Code
+        Gemini Code
         You've hit your limit · resets Feb 17 at 2pm (Asia/Seoul)
         What do you want to do?
 
@@ -129,7 +129,7 @@ describe('tmux-detector', () => {
 
       const result = analyzePaneContent(content);
 
-      expect(result.hasClaudeCode).toBe(true);
+      expect(result.hasGeminiCLI).toBe(true);
       expect(result.hasRateLimitMessage).toBe(true);
       expect(result.isBlocked).toBe(true);
       expect(result.confidence).toBeGreaterThanOrEqual(0.6);
@@ -184,7 +184,7 @@ describe('tmux-detector', () => {
       });
 
       vi.mocked(execSync).mockReturnValue(
-        'main:0.0 %0 1 dev Claude\nmain:0.1 %1 0 dev Other\n'
+        'main:0.0 %0 1 dev Gemini\nmain:0.1 %1 0 dev Other\n'
       );
 
       const panes = listTmuxPanes();
@@ -196,7 +196,7 @@ describe('tmux-detector', () => {
         windowIndex: 0,
         windowName: 'dev',
         paneIndex: 0,
-        title: 'Claude',
+        title: 'Gemini',
         isActive: true,
       });
       expect(panes[1]).toEqual({
@@ -330,7 +330,7 @@ describe('tmux-detector', () => {
   describe('formatBlockedPanesSummary', () => {
     it('should format empty list', () => {
       const result = formatBlockedPanesSummary([]);
-      expect(result).toBe('No blocked Claude Code sessions detected.');
+      expect(result).toBe('No blocked Gemini Code sessions detected.');
     });
 
     it('should format blocked panes', () => {
@@ -343,7 +343,7 @@ describe('tmux-detector', () => {
           paneIndex: 0,
           isActive: true,
           analysis: {
-            hasClaudeCode: true,
+            hasGeminiCLI: true,
             hasRateLimitMessage: true,
             isBlocked: true,
             rateLimitType: 'five_hour',
@@ -372,7 +372,7 @@ describe('tmux-detector', () => {
           paneIndex: 0,
           isActive: true,
           analysis: {
-            hasClaudeCode: true,
+            hasGeminiCLI: true,
             hasRateLimitMessage: true,
             isBlocked: true,
             confidence: 0.8,

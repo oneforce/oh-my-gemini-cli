@@ -10,9 +10,9 @@ describe('bridge-entry security', () => {
     it('has validateBridgeWorkingDirectory function', () => {
         expect(source).toContain('validateBridgeWorkingDirectory');
     });
-    it('validates config path is under ~/.claude/ or .omc/', () => {
-        expect(source).toContain('.claude/');
-        expect(source).toContain('.omc/');
+    it('validates config path is under ~/.gemini/ or .omg/', () => {
+        expect(source).toContain('.gemini/');
+        expect(source).toContain('.omg/');
     });
     it('sanitizes team and worker names', () => {
         expect(source).toContain('sanitizeName(config.teamName)');
@@ -58,25 +58,25 @@ describe('bridge-entry security', () => {
 });
 describe('validateConfigPath', () => {
     const home = '/home/user';
-    const claudeConfigDir = '/home/user/.claude';
+    const geminiConfigDir = '/home/user/.gemini';
     it('should reject paths outside home directory', () => {
-        expect(validateConfigPath('/tmp/.omc/config.json', home, claudeConfigDir)).toBe(false);
+        expect(validateConfigPath('/tmp/.omg/config.json', home, geminiConfigDir)).toBe(false);
     });
     it('should reject paths without trusted subpath', () => {
-        expect(validateConfigPath('/home/user/project/config.json', home, claudeConfigDir)).toBe(false);
+        expect(validateConfigPath('/home/user/project/config.json', home, geminiConfigDir)).toBe(false);
     });
-    it('should accept paths under ~/.claude/', () => {
-        expect(validateConfigPath('/home/user/.claude/teams/foo/config.json', home, claudeConfigDir)).toBe(true);
+    it('should accept paths under ~/.gemini/', () => {
+        expect(validateConfigPath('/home/user/.gemini/teams/foo/config.json', home, geminiConfigDir)).toBe(true);
     });
-    it('should accept paths under project/.omc/', () => {
-        expect(validateConfigPath('/home/user/project/.omc/state/config.json', home, claudeConfigDir)).toBe(true);
+    it('should accept paths under project/.omg/', () => {
+        expect(validateConfigPath('/home/user/project/.omg/state/config.json', home, geminiConfigDir)).toBe(true);
     });
     it('should reject path that matches subpath but not home', () => {
-        expect(validateConfigPath('/other/.claude/config.json', home, claudeConfigDir)).toBe(false);
+        expect(validateConfigPath('/other/.gemini/config.json', home, geminiConfigDir)).toBe(false);
     });
     it('should reject path traversal via ../ that escapes trusted subpath', () => {
-        // ~/foo/.claude/../../evil.json resolves to ~/evil.json (no trusted subpath)
-        expect(validateConfigPath('/home/user/foo/.claude/../../evil.json', home, claudeConfigDir)).toBe(false);
+        // ~/foo/.gemini/../../evil.json resolves to ~/evil.json (no trusted subpath)
+        expect(validateConfigPath('/home/user/foo/.gemini/../../evil.json', home, geminiConfigDir)).toBe(false);
     });
 });
 //# sourceMappingURL=bridge-entry.test.js.map

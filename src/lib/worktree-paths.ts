@@ -1,12 +1,12 @@
 /**
  * Worktree Path Enforcement
  *
- * Provides strict path validation and resolution for .omc/ paths,
+ * Provides strict path validation and resolution for .omg/ paths,
  * ensuring all operations stay within the worktree boundary.
  *
  * Supports OMC_STATE_DIR environment variable for centralized state storage.
  * When set, state is stored at $OMC_STATE_DIR/{project-identifier}/ instead
- * of {worktree}/.omc/. This preserves state across worktree deletions.
+ * of {worktree}/.omg/. This preserves state across worktree deletions.
  */
 
 import { createHash } from 'crypto';
@@ -15,23 +15,23 @@ import { existsSync, mkdirSync, realpathSync, readdirSync } from 'fs';
 import { homedir } from 'os';
 import { resolve, normalize, relative, sep, join, isAbsolute, basename, dirname } from 'path';
 
-/** Standard .omc subdirectories */
+/** Standard .omg subdirectories */
 export const OmcPaths = {
-  ROOT: '.omc',
-  STATE: '.omc/state',
-  SESSIONS: '.omc/state/sessions',
-  PLANS: '.omc/plans',
-  RESEARCH: '.omc/research',
-  NOTEPAD: '.omc/notepad.md',
-  PROJECT_MEMORY: '.omc/project-memory.json',
-  DRAFTS: '.omc/drafts',
-  NOTEPADS: '.omc/notepads',
-  LOGS: '.omc/logs',
-  SCIENTIST: '.omc/scientist',
-  AUTOPILOT: '.omc/autopilot',
-  SKILLS: '.omc/skills',
-  SHARED_MEMORY: '.omc/state/shared-memory',
-  DEEPINIT_MANIFEST: '.omc/deepinit-manifest.json',
+  ROOT: '.omg',
+  STATE: '.omg/state',
+  SESSIONS: '.omg/state/sessions',
+  PLANS: '.omg/plans',
+  RESEARCH: '.omg/research',
+  NOTEPAD: '.omg/notepad.md',
+  PROJECT_MEMORY: '.omg/project-memory.json',
+  DRAFTS: '.omg/drafts',
+  NOTEPADS: '.omg/notepads',
+  LOGS: '.omg/logs',
+  SCIENTIST: '.omg/scientist',
+  AUTOPILOT: '.omg/autopilot',
+  SKILLS: '.omg/skills',
+  SHARED_MEMORY: '.omg/state/shared-memory',
+  DEEPINIT_MANIFEST: '.omg/deepinit-manifest.json',
 } as const;
 
 /**
@@ -150,14 +150,14 @@ export function getProjectIdentifier(worktreeRoot?: string): string {
 }
 
 /**
- * Get the .omc root directory path.
+ * Get the .omg root directory path.
  *
  * When OMC_STATE_DIR is set, returns $OMC_STATE_DIR/{project-identifier}/
- * instead of {worktree}/.omc/. This allows centralized state storage that
+ * instead of {worktree}/.omg/. This allows centralized state storage that
  * survives worktree deletion.
  *
  * @param worktreeRoot - Optional worktree root
- * @returns Absolute path to the omc root directory
+ * @returns Absolute path to the omg root directory
  */
 export function getOmcRoot(worktreeRoot?: string): string {
   const customDir = process.env.OMC_STATE_DIR;
@@ -166,13 +166,13 @@ export function getOmcRoot(worktreeRoot?: string): string {
     const projectId = getProjectIdentifier(root);
     const centralizedPath = join(customDir, projectId);
 
-    // Log notice if both legacy .omc/ and new centralized dir exist
+    // Log notice if both legacy .omg/ and new centralized dir exist
     const legacyPath = join(root, OmcPaths.ROOT);
     const warningKey = `${legacyPath}:${centralizedPath}`;
     if (!dualDirWarnings.has(warningKey) && existsSync(legacyPath) && existsSync(centralizedPath)) {
       dualDirWarnings.add(warningKey);
       console.warn(
-        `[omc] Both legacy state dir (${legacyPath}) and centralized state dir (${centralizedPath}) exist. ` +
+        `[omg] Both legacy state dir (${legacyPath}) and centralized state dir (${centralizedPath}) exist. ` +
         `Using centralized dir. Consider migrating data from the legacy dir and removing it.`
       );
     }
@@ -184,24 +184,24 @@ export function getOmcRoot(worktreeRoot?: string): string {
 }
 
 /**
- * Resolve a relative path under .omc/ to an absolute path.
- * Validates the path is within the omc boundary.
+ * Resolve a relative path under .omg/ to an absolute path.
+ * Validates the path is within the omg boundary.
  *
- * @param relativePath - Path relative to .omc/ (e.g., "state/ralph.json")
+ * @param relativePath - Path relative to .omg/ (e.g., "state/ralph.json")
  * @param worktreeRoot - Optional worktree root (auto-detected if not provided)
  * @returns Absolute path
- * @throws Error if path would escape omc boundary
+ * @throws Error if path would escape omg boundary
  */
 export function resolveOmcPath(relativePath: string, worktreeRoot?: string): string {
   validatePath(relativePath);
 
-  const omcDir = getOmcRoot(worktreeRoot);
-  const fullPath = normalize(resolve(omcDir, relativePath));
+  const omgDir = getOmcRoot(worktreeRoot);
+  const fullPath = normalize(resolve(omgDir, relativePath));
 
-  // Verify resolved path is still under omc directory
-  const relativeToOmc = relative(omcDir, fullPath);
+  // Verify resolved path is still under omg directory
+  const relativeToOmc = relative(omgDir, fullPath);
   if (relativeToOmc.startsWith('..') || relativeToOmc.startsWith(sep + '..')) {
-    throw new Error(`Path escapes omc boundary: ${relativePath}`);
+    throw new Error(`Path escapes omg boundary: ${relativePath}`);
   }
 
   return fullPath;
@@ -224,10 +224,10 @@ export function resolveStatePath(stateName: string, worktreeRoot?: string): stri
 }
 
 /**
- * Ensure a directory exists under .omc/.
+ * Ensure a directory exists under .omg/.
  * Creates parent directories as needed.
  *
- * @param relativePath - Path relative to .omc/
+ * @param relativePath - Path relative to .omg/
  * @param worktreeRoot - Optional worktree root
  * @returns Absolute path to the created directory
  */
@@ -292,24 +292,24 @@ export function resolveWisdomPath(planName: string, worktreeRoot?: string): stri
 }
 
 /**
- * Check if an absolute path is under the .omc directory.
+ * Check if an absolute path is under the .omg directory.
  * @param absolutePath - Absolute path to check
  */
 export function isPathUnderOmc(absolutePath: string, worktreeRoot?: string): boolean {
-  const omcRoot = getOmcRoot(worktreeRoot);
+  const omgRoot = getOmcRoot(worktreeRoot);
   const normalizedPath = normalize(absolutePath);
-  const normalizedOmc = normalize(omcRoot);
+  const normalizedOmc = normalize(omgRoot);
   return normalizedPath.startsWith(normalizedOmc + sep) || normalizedPath === normalizedOmc;
 }
 
 /**
- * Ensure all standard .omc subdirectories exist.
+ * Ensure all standard .omg subdirectories exist.
  */
 export function ensureAllOmcDirs(worktreeRoot?: string): void {
-  const omcRoot = getOmcRoot(worktreeRoot);
+  const omgRoot = getOmcRoot(worktreeRoot);
   const subdirs = ['', 'state', 'plans', 'research', 'logs', 'notepads', 'drafts'];
   for (const subdir of subdirs) {
-    const fullPath = subdir ? join(omcRoot, subdir) : omcRoot;
+    const fullPath = subdir ? join(omgRoot, subdir) : omgRoot;
     if (!existsSync(fullPath)) {
       mkdirSync(fullPath, { recursive: true });
     }
@@ -347,7 +347,7 @@ let processSessionId: string | null = null;
  * Format: `pid-{PID}-{startTimestamp}`
  * Example: `pid-12345-1707350400000`
  *
- * This prevents concurrent Claude Code instances in the same repo from
+ * This prevents concurrent Gemini Code instances in the same repo from
  * sharing state files (Issue #456). The ID is stable for the process
  * lifetime and unique across concurrent processes.
  *
@@ -392,7 +392,7 @@ export function validateSessionId(sessionId: string): void {
 
 /**
  * Validate a transcript path to prevent arbitrary file reads.
- * Transcript files should only be read from known Claude directories.
+ * Transcript files should only be read from known Gemini directories.
  *
  * @param transcriptPath - The transcript path to validate
  * @returns true if path is valid, false otherwise
@@ -422,10 +422,10 @@ export function isValidTranscriptPath(transcriptPath: string): boolean {
   const normalized = normalize(expandedPath);
   const home = homedir();
 
-  // Allowed: ~/.claude/..., ~/.omc/..., /tmp/...
+  // Allowed: ~/.gemini/..., ~/.omg/..., /tmp/...
   const allowedPrefixes = [
-    join(home, '.claude'),
-    join(home, '.omc'),
+    join(home, '.gemini'),
+    join(home, '.omg'),
     '/tmp',
     '/var/folders', // macOS temp
   ];
@@ -436,7 +436,7 @@ export function isValidTranscriptPath(transcriptPath: string): boolean {
 
 /**
  * Resolve a session-scoped state file path.
- * Path: {omcRoot}/state/sessions/{sessionId}/{mode}-state.json
+ * Path: {omgRoot}/state/sessions/{sessionId}/{mode}-state.json
  *
  * @param stateName - State name (e.g., "ralph", "ultrawork")
  * @param sessionId - Session identifier
@@ -452,7 +452,7 @@ export function resolveSessionStatePath(stateName: string, sessionId: string, wo
 
 /**
  * Get the session state directory path.
- * Path: {omcRoot}/state/sessions/{sessionId}/
+ * Path: {omgRoot}/state/sessions/{sessionId}/
  *
  * @param sessionId - Session identifier
  * @param worktreeRoot - Optional worktree root
@@ -509,7 +509,7 @@ export function ensureSessionStateDir(sessionId: string, worktreeRoot?: string):
  * Walks up from `directory` using `git rev-parse --show-toplevel`.
  * Falls back to `getWorktreeRoot(process.cwd())`, then `process.cwd()`.
  *
- * This ensures .omc/ state is always written at the worktree root,
+ * This ensures .omg/ state is always written at the worktree root,
  * even when called from a subdirectory (fixes #576).
  *
  * @param directory - Any directory inside a git worktree (optional)
@@ -534,23 +534,23 @@ export function resolveToWorktreeRoot(directory?: string): string {
 // ============================================================================
 
 /**
- * Resolve a Claude Code transcript path that may be mismatched in worktree sessions.
+ * Resolve a Gemini Code transcript path that may be mismatched in worktree sessions.
  *
- * When Claude Code runs inside a worktree (.claude/worktrees/X), it encodes the
+ * When Gemini Code runs inside a worktree (.gemini/worktrees/X), it encodes the
  * worktree CWD into the project directory path, creating a transcript_path like:
- *   ~/.claude/projects/-path-to-project--claude-worktrees-X/<session>.jsonl
+ *   ~/.gemini/projects/-path-to-project--gemini-worktrees-X/<session>.jsonl
  *
  * But the actual transcript lives at the original project's path:
- *   ~/.claude/projects/-path-to-project/<session>.jsonl
+ *   ~/.gemini/projects/-path-to-project/<session>.jsonl
  *
- * Claude Code encodes `/` as `-` (dots are preserved). The `.claude/worktrees/`
- * segment becomes `-claude-worktrees-`, preceded by a `-` from the path
- * separator, yielding the distinctive `--claude-worktrees-` pattern in the
+ * Gemini Code encodes `/` as `-` (dots are preserved). The `.gemini/worktrees/`
+ * segment becomes `-gemini-worktrees-`, preceded by a `-` from the path
+ * separator, yielding the distinctive `--gemini-worktrees-` pattern in the
  * encoded directory name.
  *
  * This function detects the mismatch and resolves to the correct path.
  *
- * @param transcriptPath - The transcript_path from Claude Code hook input
+ * @param transcriptPath - The transcript_path from Gemini Code hook input
  * @param cwd - Optional CWD for fallback detection
  * @returns The resolved transcript path (original if already correct or no resolution found)
  */
@@ -561,21 +561,21 @@ export function resolveTranscriptPath(transcriptPath: string | undefined, cwd?: 
   if (existsSync(transcriptPath)) return transcriptPath;
 
   // Strategy 1: Detect worktree-encoded segment in the transcript path itself.
-  // The pattern `--claude-worktrees-` appears when Claude Code encodes a CWD
-  // containing `/.claude/worktrees/` (separator `/` → `-`, dot `.` → `-`).
+  // The pattern `--gemini-worktrees-` appears when Gemini Code encodes a CWD
+  // containing `/.gemini/worktrees/` (separator `/` → `-`, dot `.` → `-`).
   // Strip everything from this pattern to the next `/` to recover the original
   // project directory encoding.
-  const worktreeSegmentPattern = /--claude-worktrees-[^/\\]+/;
+  const worktreeSegmentPattern = /--gemini-worktrees-[^/\\]+/;
   if (worktreeSegmentPattern.test(transcriptPath)) {
     const resolved = transcriptPath.replace(worktreeSegmentPattern, '');
     if (existsSync(resolved)) return resolved;
   }
 
   // Strategy 2: Use CWD to detect worktree and reconstruct the path.
-  // When the CWD contains `/.claude/worktrees/`, we can derive the main
+  // When the CWD contains `/.gemini/worktrees/`, we can derive the main
   // project root and look for the transcript there.
   const effectiveCwd = cwd || process.cwd();
-  const worktreeMarker = '.claude/worktrees/';
+  const worktreeMarker = '.gemini/worktrees/';
   const markerIdx = effectiveCwd.indexOf(worktreeMarker);
   if (markerIdx !== -1) {
     // Adjust index to exclude the preceding path separator
@@ -588,12 +588,12 @@ export function resolveTranscriptPath(transcriptPath: string | undefined, cwd?: 
     const lastSep = transcriptPath.lastIndexOf('/');
     const sessionFile = lastSep !== -1 ? transcriptPath.substring(lastSep + 1) : '';
     if (sessionFile) {
-      // The projects directory is under the Claude config dir
-      const configDir = process.env.CLAUDE_CONFIG_DIR || join(homedir(), '.claude');
+      // The projects directory is under the Gemini config dir
+      const configDir = process.env.CLAUDE_CONFIG_DIR || join(homedir(), '.gemini');
       const projectsDir = join(configDir, 'projects');
 
       if (existsSync(projectsDir)) {
-        // Encode the main project root the same way Claude Code does:
+        // Encode the main project root the same way Gemini Code does:
         // replace path separators with `-`, replace dots with `-`.
         const encodedMain = mainProjectRoot.replace(/[/\\]/g, '-');
         const resolvedPath = join(projectsDir, encodedMain, sessionFile);
@@ -627,7 +627,7 @@ export function resolveTranscriptPath(transcriptPath: string | undefined, cwd?: 
       const lastSep = transcriptPath.lastIndexOf('/');
       const sessionFile = lastSep !== -1 ? transcriptPath.substring(lastSep + 1) : '';
       if (sessionFile) {
-        const configDir = process.env.CLAUDE_CONFIG_DIR || join(homedir(), '.claude');
+        const configDir = process.env.CLAUDE_CONFIG_DIR || join(homedir(), '.gemini');
         const projectsDir = join(configDir, 'projects');
         if (existsSync(projectsDir)) {
           const encodedMain = mainRepoRoot.replace(/[/\\]/g, '-');
@@ -650,7 +650,7 @@ export function resolveTranscriptPath(transcriptPath: string | undefined, cwd?: 
  * The trusted root is derived from process.cwd(), NOT from user input.
  *
  * Always returns a git worktree root — never a subdirectory.
- * This prevents .omc/state/ from being created in subdirectories (#576).
+ * This prevents .omg/state/ from being created in subdirectories (#576).
  *
  * @param workingDirectory - User-supplied working directory
  * @returns The validated worktree root
@@ -713,6 +713,6 @@ export function validateWorkingDirectory(workingDirectory?: string): string {
   }
 
   // Directory is under trusted root but git failed — return trusted root,
-  // never the subdirectory, to prevent .omc/ creation in subdirs (#576).
+  // never the subdirectory, to prevent .omg/ creation in subdirs (#576).
   return trustedRoot;
 }

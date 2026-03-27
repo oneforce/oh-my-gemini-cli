@@ -1,19 +1,19 @@
 [English](README.md) | [한국어](README.ko.md) | [中文](README.zh.md) | [日本語](README.ja.md) | [Español](README.es.md) | [Tiếng Việt](README.vi.md) | [Português](README.pt.md) | Русский | [Türkçe](README.tr.md) | [Deutsch](README.de.md) | [Français](README.fr.md) | [Italiano](README.it.md)
 
-# oh-my-claudecode
+# oh-my-gemini-cli
 
-[![npm version](https://img.shields.io/npm/v/oh-my-claude-sisyphus?color=cb3837)](https://www.npmjs.com/package/oh-my-claude-sisyphus)
-[![npm downloads](https://img.shields.io/npm/dm/oh-my-claude-sisyphus?color=blue)](https://www.npmjs.com/package/oh-my-claude-sisyphus)
-[![GitHub stars](https://img.shields.io/github/stars/Yeachan-Heo/oh-my-claudecode?style=flat&color=yellow)](https://github.com/Yeachan-Heo/oh-my-claudecode/stargazers)
+[![npm version](https://img.shields.io/npm/v/oh-my-gemini-sisyphus?color=cb3837)](https://www.npmjs.com/package/oh-my-gemini-sisyphus)
+[![npm downloads](https://img.shields.io/npm/dm/oh-my-gemini-sisyphus?color=blue)](https://www.npmjs.com/package/oh-my-gemini-sisyphus)
+[![GitHub stars](https://img.shields.io/github/stars/Yeachan-Heo/oh-my-gemini-cli?style=flat&color=yellow)](https://github.com/Yeachan-Heo/oh-my-gemini-cli/stargazers)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 [![Sponsor](https://img.shields.io/badge/Sponsor-❤️-red?style=flat&logo=github)](https://github.com/sponsors/Yeachan-Heo)
 [![Discord](https://img.shields.io/discord/1466022107199574193?color=5865F2&logo=discord&logoColor=white&label=Discord)](https://discord.gg/qRJw62Gvh7)
 
-**Мультиагентная оркестрация для Claude Code. Нулевой порог вхождения.**
+**Мультиагентная оркестрация для Gemini Code. Нулевой порог вхождения.**
 
-_Не изучайте Claude Code. Просто используйте OMC._
+_Не изучайте Gemini Code. Просто используйте OMC._
 
-[Начать](#быстрый-старт) • [Документация](https://yeachan-heo.github.io/oh-my-claudecode-website) • [Руководство по миграции](docs/MIGRATION.md)
+[Начать](#быстрый-старт) • [Документация](https://yeachan-heo.github.io/oh-my-gemini-cli-website) • [Руководство по миграции](docs/MIGRATION.md)
 
 ---
 
@@ -22,14 +22,14 @@ _Не изучайте Claude Code. Просто используйте OMC._
 **Шаг 1: Установка**
 
 ```bash
-/plugin marketplace add https://github.com/Yeachan-Heo/oh-my-claudecode
-/plugin install oh-my-claudecode
+/plugin marketplace add https://github.com/Yeachan-Heo/oh-my-gemini-cli
+/plugin install oh-my-gemini-cli
 ```
 
 **Шаг 2: Настройка**
 
 ```bash
-/oh-my-claudecode:omc-setup
+/oh-my-gemini-cli:omg-setup
 ```
 
 **Шаг 3: Создайте что-нибудь**
@@ -45,14 +45,14 @@ autopilot: build a REST API for managing tasks
 Начиная с **v4.1.7**, **Team** — это каноническая поверхность оркестрации в OMC. Устаревшие точки входа, такие как **swarm** и **ultrapilot**, по-прежнему поддерживаются, но теперь **направляются в Team под капотом**.
 
 ```bash
-/oh-my-claudecode:team 3:executor "fix all TypeScript errors"
+/oh-my-gemini-cli:team 3:executor "fix all TypeScript errors"
 ```
 
 Team работает как поэтапный pipeline:
 
 `team-plan → team-prd → team-exec → team-verify → team-fix (loop)`
 
-Включите нативные команды Claude Code в `~/.claude/settings.json`:
+Включите нативные команды Gemini Code в `~/.gemini/settings.json`:
 
 ```json
 {
@@ -64,33 +64,33 @@ Team работает как поэтапный pipeline:
 
 > Если teams отключены, OMC предупредит вас и переключится на выполнение без Team, если это возможно.
 
-> **Примечание: Название пакета** — Проект использует бренд **oh-my-claudecode** (репозиторий, плагин, команды), но npm-пакет публикуется как [`oh-my-claude-sisyphus`](https://www.npmjs.com/package/oh-my-claude-sisyphus). Если вы устанавливаете CLI-инструменты через npm/bun, используйте `npm install -g oh-my-claude-sisyphus`.
+> **Примечание: Название пакета** — Проект использует бренд **oh-my-gemini-cli** (репозиторий, плагин, команды), но npm-пакет публикуется как [`oh-my-gemini-sisyphus`](https://www.npmjs.com/package/oh-my-gemini-sisyphus). Если вы устанавливаете CLI-инструменты через npm/bun, используйте `npm install -g oh-my-gemini-sisyphus`.
 
 ### Обновление
 
 ```bash
 # 1. Обновите плагин
-/plugin install oh-my-claudecode
+/plugin install oh-my-gemini-cli
 
 # 2. Перезапустите setup для обновления конфигурации
-/oh-my-claudecode:omc-setup
+/oh-my-gemini-cli:omg-setup
 ```
 
 Если после обновления возникли проблемы, очистите старый кэш плагина:
 
 ```bash
-/oh-my-claudecode:omc-doctor
+/oh-my-gemini-cli:omg-doctor
 ```
 
-<h1 align="center">Ваш Claude только что получил суперсилу.</h1>
+<h1 align="center">Ваш Gemini только что получил суперсилу.</h1>
 
 <p align="center">
-  <img src="assets/omc-character.jpg" alt="oh-my-claudecode" width="400" />
+  <img src="assets/omg-character.jpg" alt="oh-my-gemini-cli" width="400" />
 </p>
 
 ---
 
-## Почему oh-my-claudecode?
+## Почему oh-my-gemini-cli?
 
 - **Настройка не требуется** — Работает сразу из коробки с умными значениями по умолчанию
 - **Team-first оркестрация** — Team является каноническим мультиагентным интерфейсом (swarm/ultrapilot — фасады совместимости)
@@ -107,7 +107,7 @@ Team работает как поэтапный pipeline:
 
 ### Режимы оркестрации
 
-Множество стратегий для разных сценариев — от оркестрации через Team до рефакторинга с экономией токенов. [Подробнее →](https://yeachan-heo.github.io/oh-my-claudecode-website/docs.html#execution-modes)
+Множество стратегий для разных сценариев — от оркестрации через Team до рефакторинга с экономией токенов. [Подробнее →](https://yeachan-heo.github.io/oh-my-gemini-cli-website/docs.html#execution-modes)
 
 | Режим                               | Описание                                                                                      | Применение                                                                        |
 | ----------------------------------- | --------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- |
@@ -138,12 +138,12 @@ Team работает как поэтапный pipeline:
 
 | | Область проекта | Область пользователя |
 |---|---|---|
-| **Путь** | `.omc/skills/` | `~/.omc/skills/` |
+| **Путь** | `.omg/skills/` | `~/.omg/skills/` |
 | **Доступно** | Команде (под контролем версий) | Всем вашим проектам |
 | **Приоритет** | Выше (переопределяет пользовательскую область) | Ниже (резервный) |
 
 ```yaml
-# .omc/skills/fix-proxy-crash.md
+# .omg/skills/fix-proxy-crash.md
 ---
 name: Fix Proxy Crash
 description: aiohttp proxy crashes on ClientDisconnectedError
@@ -167,7 +167,7 @@ source: extracted
 
 | Ключевое слово | Эффект                                          | Пример                                                          |
 | -------------- | ----------------------------------------------- | --------------------------------------------------------------- |
-| `team`         | Каноническая Team-оркестрация                   | `/oh-my-claudecode:team 3:executor "fix all TypeScript errors"` |
+| `team`         | Каноническая Team-оркестрация                   | `/oh-my-gemini-cli:team 3:executor "fix all TypeScript errors"` |
 | `autopilot`    | Полностью автономное выполнение                 | `autopilot: build a todo app`                                   |
 | `ralph`        | Режим настойчивости                             | `ralph: refactor auth`                                          |
 | `ulw`          | Максимальный параллелизм                        | `ulw fix all errors`                                            |
@@ -186,12 +186,12 @@ source: extracted
 
 ### Ожидание Rate Limit
 
-Автоматическое возобновление сессий Claude Code при сбросе rate limit.
+Автоматическое возобновление сессий Gemini Code при сбросе rate limit.
 
 ```bash
-omc wait          # Проверить статус, получить рекомендации
-omc wait --start  # Включить демон автовозобновления
-omc wait --stop   # Отключить демон
+omg wait          # Проверить статус, получить рекомендации
+omg wait --start  # Включить демон автовозобновления
+omg wait --stop   # Отключить демон
 ```
 
 **Требуется:** tmux (для обнаружения сессии)
@@ -202,13 +202,13 @@ omc wait --stop   # Отключить демон
 
 ```bash
 # Установить/заменить список тегов
-omc config-stop-callback telegram --enable --token <bot_token> --chat <chat_id> --tag-list "@alice,bob"
-omc config-stop-callback discord --enable --webhook <url> --tag-list "@here,123456789012345678,role:987654321098765432"
+omg config-stop-callback telegram --enable --token <bot_token> --chat <chat_id> --tag-list "@alice,bob"
+omg config-stop-callback discord --enable --webhook <url> --tag-list "@here,123456789012345678,role:987654321098765432"
 
 # Инкрементальные обновления
-omc config-stop-callback telegram --add-tag charlie
-omc config-stop-callback discord --remove-tag @here
-omc config-stop-callback discord --clear-tags
+omg config-stop-callback telegram --add-tag charlie
+omg config-stop-callback discord --remove-tag @here
+omg config-stop-callback discord --clear-tags
 ```
 
 Поведение тегов:
@@ -219,16 +219,16 @@ omc config-stop-callback discord --clear-tags
 
 ### Интеграция с OpenClaw
 
-Пересылайте события сессий Claude Code на шлюз [OpenClaw](https://openclaw.ai/), чтобы обеспечить автоматические ответы и рабочие процессы через вашего агента OpenClaw.
+Пересылайте события сессий Gemini Code на шлюз [OpenClaw](https://openclaw.ai/), чтобы обеспечить автоматические ответы и рабочие процессы через вашего агента OpenClaw.
 
 **Быстрая настройка (рекомендуется):**
 
 ```bash
-/oh-my-claudecode:configure-notifications
+/oh-my-gemini-cli:configure-notifications
 # → При запросе введите "openclaw" → выберите "OpenClaw Gateway"
 ```
 
-**Ручная настройка:** создайте `~/.claude/omc_config.openclaw.json`:
+**Ручная настройка:** создайте `~/.gemini/omg_config.openclaw.json`:
 
 ```json
 {
@@ -261,9 +261,9 @@ omc config-stop-callback discord --clear-tags
 | Событие | Триггер | Основные переменные шаблона |
 |---------|---------|----------------------------|
 | `session-start` | Начало сессии | `{{sessionId}}`, `{{projectName}}`, `{{projectPath}}` |
-| `stop` | Завершение ответа Claude | `{{sessionId}}`, `{{projectName}}` |
+| `stop` | Завершение ответа Gemini | `{{sessionId}}`, `{{projectName}}` |
 | `keyword-detector` | При каждой отправке промпта | `{{prompt}}`, `{{sessionId}}` |
-| `ask-user-question` | Claude запрашивает ввод пользователя | `{{question}}`, `{{sessionId}}` |
+| `ask-user-question` | Gemini запрашивает ввод пользователя | `{{question}}`, `{{sessionId}}` |
 | `pre-tool-use` | Перед вызовом инструмента (высокая частота) | `{{toolName}}`, `{{sessionId}}` |
 | `post-tool-use` | После вызова инструмента (высокая частота) | `{{toolName}}`, `{{sessionId}}` |
 
@@ -283,7 +283,7 @@ omc config-stop-callback discord --clear-tags
 
 - **[Полный справочник](docs/REFERENCE.md)** — Полная документация по функциям
 - **[Мониторинг производительности](docs/PERFORMANCE-MONITORING.md)** — Отслеживание агентов, отладка и оптимизация
-- **[Веб-сайт](https://yeachan-heo.github.io/oh-my-claudecode-website)** — Интерактивные руководства и примеры
+- **[Веб-сайт](https://yeachan-heo.github.io/oh-my-gemini-cli-website)** — Интерактивные руководства и примеры
 - **[Руководство по миграции](docs/MIGRATION.md)** — Обновление с v2.x
 - **[Архитектура](docs/ARCHITECTURE.md)** — Как это работает под капотом
 
@@ -291,8 +291,8 @@ omc config-stop-callback discord --clear-tags
 
 ## Требования
 
-- [Claude Code](https://docs.anthropic.com/claude-code) CLI
-- Подписка Claude Max/Pro ИЛИ API-ключ Anthropic
+- [Gemini Code](https://docs.anthropic.com/gemini-code) CLI
+- Подписка Gemini Max/Pro ИЛИ API-ключ Anthropic
 
 ### Опционально: Мульти-AI оркестрация
 
@@ -303,7 +303,7 @@ OMC может опционально использовать внешних AI
 | [Gemini CLI](https://github.com/google-gemini/gemini-cli) | `npm install -g @google/gemini-cli` | Ревью дизайна, единообразие UI (контекст 1M токенов)     |
 | [Codex CLI](https://github.com/openai/codex)              | `npm install -g @openai/codex`      | Валидация архитектуры, перекрёстная проверка code review |
 
-**Стоимость:** 3 плана Pro (Claude + Gemini + ChatGPT) покрывают всё за ~$60/месяц.
+**Стоимость:** 3 плана Pro (Gemini + Gemini + ChatGPT) покрывают всё за ~$60/месяц.
 
 ---
 
@@ -315,7 +315,7 @@ MIT
 
 <div align="center">
 
-**Вдохновлено:** [oh-my-opencode](https://github.com/code-yeongyu/oh-my-opencode) • [claude-hud](https://github.com/ryanjoachim/claude-hud) • [Superpowers](https://github.com/NexTechFusion/Superpowers) • [everything-claude-code](https://github.com/affaan-m/everything-claude-code)
+**Вдохновлено:** [oh-my-opencode](https://github.com/code-yeongyu/oh-my-opencode) • [gemini-hud](https://github.com/ryanjoachim/gemini-hud) • [Superpowers](https://github.com/NexTechFusion/Superpowers) • [everything-gemini-code](https://github.com/affaan-m/everything-gemini-code)
 
 **Нулевой порог вхождения. Максимальная мощность.**
 
@@ -323,11 +323,11 @@ MIT
 
 ## Star History
 
-[![Star History Chart](https://api.star-history.com/svg?repos=Yeachan-Heo/oh-my-claudecode&type=date&legend=top-left)](https://www.star-history.com/#Yeachan-Heo/oh-my-claudecode&type=date&legend=top-left)
+[![Star History Chart](https://api.star-history.com/svg?repos=Yeachan-Heo/oh-my-gemini-cli&type=date&legend=top-left)](https://www.star-history.com/#Yeachan-Heo/oh-my-gemini-cli&type=date&legend=top-left)
 
 ## 💖 Поддержите этот проект
 
-Если Oh-My-ClaudeCode помогает вашему рабочему процессу, рассмотрите спонсорство:
+Если Oh-My-GeminiCLI помогает вашему рабочему процессу, рассмотрите спонсорство:
 
 [![Sponsor on GitHub](https://img.shields.io/badge/Sponsor-❤️-red?style=for-the-badge&logo=github)](https://github.com/sponsors/Yeachan-Heo)
 

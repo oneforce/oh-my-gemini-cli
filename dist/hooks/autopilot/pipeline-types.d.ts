@@ -5,7 +5,7 @@
  * The pipeline unifies autopilot/ultrawork/ultrapilot into a single
  * configurable sequence: RALPLAN -> EXECUTION -> RALPH -> QA.
  *
- * @see https://github.com/Yeachan-Heo/oh-my-claudecode/issues/1130
+ * @see https://github.com/Yeachan-Heo/oh-my-gemini-cli/issues/1130
  */
 /**
  * Pipeline stage identifiers in execution order.
@@ -31,7 +31,7 @@ export interface VerificationConfig {
 }
 /**
  * User-facing pipeline configuration.
- * Stored in `.omc-config.json` under the `autopilot` key.
+ * Stored in `.omg-config.json` under the `autopilot` key.
  *
  * Example:
  * ```json
@@ -86,7 +86,7 @@ export interface PipelineStageAdapter {
     readonly id: PipelineStageId;
     /** Human-readable stage name for display */
     readonly name: string;
-    /** Signal string that Claude emits to indicate stage completion */
+    /** Signal string that Gemini emits to indicate stage completion */
     readonly completionSignal: string;
     /** Check if this stage should be skipped based on pipeline config */
     shouldSkip(config: PipelineConfig): boolean;

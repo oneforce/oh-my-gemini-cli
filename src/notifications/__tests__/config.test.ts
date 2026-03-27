@@ -247,11 +247,11 @@ describe("validateSlackUsername", () => {
   });
 
   it("accepts username with hyphens and underscores", () => {
-    expect(validateSlackUsername("omc-notify_bot")).toBe("omc-notify_bot");
+    expect(validateSlackUsername("omg-notify_bot")).toBe("omg-notify_bot");
   });
 
   it("accepts username with periods", () => {
-    expect(validateSlackUsername("omc.bot")).toBe("omc.bot");
+    expect(validateSlackUsername("omg.bot")).toBe("omg.bot");
   });
 
   it("accepts username with apostrophe", () => {

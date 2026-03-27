@@ -113,11 +113,11 @@ export function formatSessionEnd(payload) {
 }
 /**
  * Format session-idle notification message.
- * Sent when Claude stops and no persistent mode is blocking (truly idle).
+ * Sent when Gemini stops and no persistent mode is blocking (truly idle).
  */
 export function formatSessionIdle(payload) {
     const lines = [`# Session Idle`, ""];
-    lines.push(`Claude has finished and is waiting for input.`);
+    lines.push(`Gemini has finished and is waiting for input.`);
     lines.push("");
     if (payload.reason) {
         lines.push(`**Reason:** ${payload.reason}`);
@@ -216,7 +216,7 @@ export function formatAgentCall(payload) {
 }
 /**
  * Format ask-user-question notification message.
- * Notifies the user that Claude is waiting for input.
+ * Notifies the user that Gemini is waiting for input.
  */
 export function formatAskUserQuestion(payload) {
     const lines = [`# Input Needed`, ""];
@@ -224,7 +224,7 @@ export function formatAskUserQuestion(payload) {
         lines.push(`**Question:** ${payload.question}`);
         lines.push("");
     }
-    lines.push(`Claude is waiting for your response.`);
+    lines.push(`Gemini is waiting for your response.`);
     lines.push("");
     lines.push(buildFooter(payload, true));
     return lines.join("\n");

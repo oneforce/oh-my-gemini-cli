@@ -4,7 +4,7 @@ import * as path from 'path';
 
 // Hoist test state dir so it's available inside vi.mock factories
 const { TEST_STATE_DIR } = vi.hoisted(() => ({
-  TEST_STATE_DIR: '/tmp/omc-cache-test-state',
+  TEST_STATE_DIR: '/tmp/omg-cache-test-state',
 }));
 
 vi.mock('../../../lib/atomic-write.js', () => ({
@@ -151,8 +151,8 @@ describe('cleanupStaleStates', () => {
   let consoleWarnSpy: ReturnType<typeof vi.spyOn>;
 
   beforeEach(() => {
-    tmpDir = fs.mkdtempSync(path.join('/tmp', 'omc-cleanup-test-'));
-    const stateDir = path.join(tmpDir, '.omc', 'state');
+    tmpDir = fs.mkdtempSync(path.join('/tmp', 'omg-cleanup-test-'));
+    const stateDir = path.join(tmpDir, '.omg', 'state');
     fs.mkdirSync(stateDir, { recursive: true });
     clearStateCache();
     consoleWarnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
@@ -167,14 +167,14 @@ describe('cleanupStaleStates', () => {
   });
 
   function writeStateFile(name: string, data: unknown) {
-    const stateDir = path.join(tmpDir, '.omc', 'state');
+    const stateDir = path.join(tmpDir, '.omg', 'state');
     const filePath = path.join(stateDir, `${name}.json`);
     fs.writeFileSync(filePath, JSON.stringify(data, null, 2), 'utf-8');
     return filePath;
   }
 
   function readStateFile(name: string) {
-    const filePath = path.join(tmpDir, '.omc', 'state', `${name}.json`);
+    const filePath = path.join(tmpDir, '.omg', 'state', `${name}.json`);
     return JSON.parse(fs.readFileSync(filePath, 'utf-8'));
   }
 

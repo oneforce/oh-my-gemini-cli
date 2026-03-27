@@ -4,7 +4,7 @@
  * Intercepts Stop events to automatically delegate recently modified files
  * to the code-simplifier agent for cleanup and simplification.
  *
- * Opt-in via ~/.omc/config.json: { "codeSimplifier": { "enabled": true } }
+ * Opt-in via ~/.omg/config.json: { "codeSimplifier": { "enabled": true } }
  * Default: disabled (opt-in only)
  */
 /** Config shape for the code-simplifier feature */
@@ -27,7 +27,7 @@ export interface CodeSimplifierHookResult {
 /** Marker filename used to prevent re-triggering within the same turn cycle */
 export declare const TRIGGER_MARKER_FILENAME = "code-simplifier-triggered.marker";
 /**
- * Read the global OMC config from ~/.omc/config.json.
+ * Read the global OMC config from ~/.omg/config.json.
  * Returns null if the file does not exist or cannot be parsed.
  */
 export declare function readOmcConfig(): OmcGlobalConfig | null;
@@ -56,7 +56,7 @@ export declare function writeTriggerMarker(stateDir: string): void;
  */
 export declare function clearTriggerMarker(stateDir: string): void;
 /**
- * Build the message injected into Claude's context when code-simplifier triggers.
+ * Build the message injected into Gemini's context when code-simplifier triggers.
  */
 export declare function buildSimplifierMessage(files: string[]): string;
 /**

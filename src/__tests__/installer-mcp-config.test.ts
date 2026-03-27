@@ -7,13 +7,13 @@ vi.mock('fs', async () => {
   const actual = await vi.importActual<typeof import('fs')>('fs');
   const { join: pathJoin } = await import('path');
   const repoRoot = process.cwd();
-  const sourceClaudeMdPath = pathJoin(repoRoot, 'src', 'docs', 'CLAUDE.md');
-  const realClaudeMdPath = pathJoin(repoRoot, 'docs', 'CLAUDE.md');
+  const sourceGeminiMdPath = pathJoin(repoRoot, 'src', 'docs', 'GEMINI.md');
+  const realGeminiMdPath = pathJoin(repoRoot, 'docs', 'GEMINI.md');
 
   const withRedirect = (pathLike: unknown): string => {
     const normalized = String(pathLike).replace(/\\/g, '/');
-    if (normalized === sourceClaudeMdPath.replace(/\\/g, '/')) {
-      return realClaudeMdPath;
+    if (normalized === sourceGeminiMdPath.replace(/\\/g, '/')) {
+      return realGeminiMdPath;
     }
     return String(pathLike);
   };
@@ -29,12 +29,12 @@ vi.mock('fs', async () => {
   };
 });
 
-async function loadInstallerWithEnv(claudeConfigDir: string, homeDir: string, codexHome: string, omcHome: string) {
+async function loadInstallerWithEnv(geminiConfigDir: string, homeDir: string, codexHome: string, omgHome: string) {
   vi.resetModules();
-  process.env.CLAUDE_CONFIG_DIR = claudeConfigDir;
+  process.env.CLAUDE_CONFIG_DIR = geminiConfigDir;
   process.env.HOME = homeDir;
   process.env.CODEX_HOME = codexHome;
-  process.env.OMC_HOME = omcHome;
+  process.env.OMC_HOME = omgHome;
   delete process.env.CLAUDE_MCP_CONFIG_PATH;
   delete process.env.OMC_MCP_REGISTRY_PATH;
   return import('../installer/index.js');
@@ -43,22 +43,22 @@ async function loadInstallerWithEnv(claudeConfigDir: string, homeDir: string, co
 describe('installer MCP config ownership (issue #1802)', () => {
   let tempRoot: string;
   let homeDir: string;
-  let claudeConfigDir: string;
+  let geminiConfigDir: string;
   let codexHome: string;
-  let omcHome: string;
+  let omgHome: string;
   let originalEnv: NodeJS.ProcessEnv;
 
   beforeEach(() => {
-    tempRoot = mkdtempSync(join(tmpdir(), 'omc-installer-mcp-config-'));
+    tempRoot = mkdtempSync(join(tmpdir(), 'omg-installer-mcp-config-'));
     homeDir = join(tempRoot, 'home');
-    claudeConfigDir = join(homeDir, '.claude');
+    geminiConfigDir = join(homeDir, '.gemini');
     codexHome = join(tempRoot, '.codex');
-    omcHome = join(tempRoot, '.omc');
+    omgHome = join(tempRoot, '.omg');
 
     mkdirSync(homeDir, { recursive: true });
-    mkdirSync(claudeConfigDir, { recursive: true });
+    mkdirSync(geminiConfigDir, { recursive: true });
     mkdirSync(codexHome, { recursive: true });
-    mkdirSync(omcHome, { recursive: true });
+    mkdirSync(omgHome, { recursive: true });
 
     originalEnv = { ...process.env };
   });
@@ -69,11 +69,11 @@ describe('installer MCP config ownership (issue #1802)', () => {
     vi.resetModules();
   });
 
-  it('moves legacy settings.json mcpServers into ~/.claude.json during install', async () => {
-    const settingsPath = join(claudeConfigDir, 'settings.json');
-    const claudeRootConfigPath = join(homeDir, '.claude.json');
+  it('moves legacy settings.json mcpServers into ~/.gemini.json during install', async () => {
+    const settingsPath = join(geminiConfigDir, 'settings.json');
+    const geminiRootConfigPath = join(homeDir, '.gemini.json');
     const codexConfigPath = join(codexHome, 'config.toml');
-    const registryPath = join(omcHome, 'mcp-registry.json');
+    const registryPath = join(omgHome, 'mcp-registry.json');
 
     writeFileSync(settingsPath, JSON.stringify({
       theme: 'dark',
@@ -90,15 +90,15 @@ describe('installer MCP config ownership (issue #1802)', () => {
       },
     }, null, 2));
 
-    const installer = await loadInstallerWithEnv(claudeConfigDir, homeDir, codexHome, omcHome);
+    const installer = await loadInstallerWithEnv(geminiConfigDir, homeDir, codexHome, omgHome);
     const result = installer.install({
-      skipClaudeCheck: true,
+      skipGeminiCheck: true,
       skipHud: true,
     });
 
     expect(result.success).toBe(true);
     expect(existsSync(settingsPath)).toBe(true);
-    expect(existsSync(claudeRootConfigPath)).toBe(true);
+    expect(existsSync(geminiRootConfigPath)).toBe(true);
     expect(existsSync(registryPath)).toBe(true);
     expect(existsSync(codexConfigPath)).toBe(true);
 
@@ -112,8 +112,8 @@ describe('installer MCP config ownership (issue #1802)', () => {
     });
     expect(settings).not.toHaveProperty('mcpServers');
 
-    const claudeRootConfig = JSON.parse(readFileSync(claudeRootConfigPath, 'utf-8')) as Record<string, unknown>;
-    expect(claudeRootConfig).toEqual({
+    const geminiRootConfig = JSON.parse(readFileSync(geminiRootConfigPath, 'utf-8')) as Record<string, unknown>;
+    expect(geminiRootConfig).toEqual({
       mcpServers: {
         gitnexus: {
           command: 'gitnexus',

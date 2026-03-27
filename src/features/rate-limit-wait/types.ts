@@ -58,8 +58,8 @@ export interface TmuxPane {
 }
 
 export interface PaneAnalysisResult {
-  /** Whether this pane appears to have Claude Code */
-  hasClaudeCode: boolean;
+  /** Whether this pane appears to have Gemini Code */
+  hasGeminiCLI: boolean;
   /** Whether rate limit message is visible */
   hasRateLimitMessage: boolean;
   /** Whether the pane appears blocked (waiting for input) */
@@ -113,11 +113,11 @@ export interface DaemonConfig {
   paneLinesToCapture?: number;
   /** Whether to log verbose output (default: false) */
   verbose?: boolean;
-  /** State file path (default: ~/.omc/state/rate-limit-daemon.json) */
+  /** State file path (default: ~/.omg/state/rate-limit-daemon.json) */
   stateFilePath?: string;
-  /** PID file path (default: ~/.omc/state/rate-limit-daemon.pid) */
+  /** PID file path (default: ~/.omg/state/rate-limit-daemon.pid) */
   pidFilePath?: string;
-  /** Log file path (default: ~/.omc/state/rate-limit-daemon.log) */
+  /** Log file path (default: ~/.omg/state/rate-limit-daemon.log) */
   logFilePath?: string;
 }
 

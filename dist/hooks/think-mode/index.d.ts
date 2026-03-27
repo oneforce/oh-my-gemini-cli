@@ -6,7 +6,7 @@
  *
  * Ported from oh-my-opencode's think-mode hook.
  */
-import { getClaudeThinkingConfig } from './switcher.js';
+import { getGeminiThinkingConfig } from './switcher.js';
 import type { ThinkModeState, ThinkModeInput } from './types.js';
 export * from './detector.js';
 export * from './switcher.js';
@@ -29,7 +29,7 @@ export declare function isThinkModeActive(sessionId: string): boolean;
  */
 export declare function processThinkMode(sessionId: string, promptText: string): ThinkModeState;
 /**
- * Create the think mode hook for Claude Code integration.
+ * Create the think mode hook for Gemini Code integration.
  */
 export declare function createThinkModeHook(): {
     /**
@@ -63,8 +63,8 @@ export declare function shouldActivateThinkMode(prompt: string): boolean;
  */
 export declare function shouldActivateUltrathink(prompt: string): boolean;
 /**
- * Get Claude thinking configuration for extended thinking.
- * For direct use when manually configuring Claude API calls.
+ * Get Gemini thinking configuration for extended thinking.
+ * For direct use when manually configuring Gemini API calls.
  */
-export { getClaudeThinkingConfig };
+export { getGeminiThinkingConfig };
 //# sourceMappingURL=index.d.ts.map

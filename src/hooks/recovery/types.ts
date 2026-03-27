@@ -1,7 +1,7 @@
 /**
  * Unified Recovery Types
  *
- * Type definitions for all recovery mechanisms in Claude Code.
+ * Type definitions for all recovery mechanisms in Gemini Code.
  */
 
 /**
@@ -44,7 +44,7 @@ export interface ParsedTokenLimitError {
   errorType: string;
   /** Provider ID (e.g., 'anthropic') */
   providerID?: string;
-  /** Model ID (e.g., 'claude-opus-4-6') */
+  /** Model ID (e.g., 'gemini-opus-4-6') */
   modelID?: string;
   /** Index of the problematic message */
   messageIndex?: number;

@@ -1,21 +1,21 @@
 English | [한국어](README.ko.md) | [中文](README.zh.md) | [日本語](README.ja.md) | [Español](README.es.md) | [Tiếng Việt](README.vi.md) | [Português](README.pt.md)
 
-# oh-my-claudecode
+# oh-my-gemini-cli
 
-[![npm version](https://img.shields.io/npm/v/oh-my-claude-sisyphus?color=cb3837)](https://www.npmjs.com/package/oh-my-claude-sisyphus)
-[![npm downloads](https://img.shields.io/npm/dm/oh-my-claude-sisyphus?color=blue)](https://www.npmjs.com/package/oh-my-claude-sisyphus)
-[![GitHub stars](https://img.shields.io/github/stars/Yeachan-Heo/oh-my-claudecode?style=flat&color=yellow)](https://github.com/Yeachan-Heo/oh-my-claudecode/stargazers)
+[![npm version](https://img.shields.io/npm/v/oh-my-gemini-sisyphus?color=cb3837)](https://www.npmjs.com/package/oh-my-gemini-sisyphus)
+[![npm downloads](https://img.shields.io/npm/dm/oh-my-gemini-sisyphus?color=blue)](https://www.npmjs.com/package/oh-my-gemini-sisyphus)
+[![GitHub stars](https://img.shields.io/github/stars/Yeachan-Heo/oh-my-gemini-cli?style=flat&color=yellow)](https://github.com/Yeachan-Heo/oh-my-gemini-cli/stargazers)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 [![Sponsor](https://img.shields.io/badge/Sponsor-❤️-red?style=flat&logo=github)](https://github.com/sponsors/Yeachan-Heo)
 [![Discord](https://img.shields.io/discord/1466022107199574193?color=5865F2&logo=discord&logoColor=white&label=Discord)](https://discord.gg/qRJw62Gvh7)
 
 > **For Codex users:** Check out [oh-my-codex](https://github.com/Yeachan-Heo/oh-my-codex) — the same orchestration experience for OpenAI Codex CLI.
 
-**Multi-agent orchestration for Claude Code. Zero learning curve.**
+**Multi-agent orchestration for Gemini Code. Zero learning curve.**
 
-_Don't learn Claude Code. Just use OMC._
+_Don't learn Gemini Code. Just use OMC._
 
-[Get Started](#quick-start) • [Documentation](https://yeachan-heo.github.io/oh-my-claudecode-website) • [CLI Reference](https://yeachan-heo.github.io/oh-my-claudecode-website/docs.html#cli-reference) • [Workflows](https://yeachan-heo.github.io/oh-my-claudecode-website/docs.html#workflows) • [Migration Guide](docs/MIGRATION.md) • [Discord](https://discord.gg/qRJw62Gvh7)
+[Get Started](#quick-start) • [Documentation](https://yeachan-heo.github.io/oh-my-gemini-cli-website) • [CLI Reference](https://yeachan-heo.github.io/oh-my-gemini-cli-website/docs.html#cli-reference) • [Workflows](https://yeachan-heo.github.io/oh-my-gemini-cli-website/docs.html#workflows) • [Migration Guide](docs/MIGRATION.md) • [Discord](https://discord.gg/qRJw62Gvh7)
 
 ---
 
@@ -24,15 +24,15 @@ _Don't learn Claude Code. Just use OMC._
 **Step 1: Install**
 
 ```bash
-/plugin marketplace add https://github.com/Yeachan-Heo/oh-my-claudecode
-/plugin install oh-my-claudecode
+/plugin marketplace add https://github.com/Yeachan-Heo/oh-my-gemini-cli
+/plugin install oh-my-gemini-cli
 ```
 
 **Step 2: Setup**
 
 ```bash
 /setup
-/omc-setup
+/omg-setup
 ```
 
 **Step 3: Build something**
@@ -65,7 +65,7 @@ Team runs as a staged pipeline:
 
 `team-plan → team-prd → team-exec → team-verify → team-fix (loop)`
 
-Enable Claude Code native teams in `~/.claude/settings.json`:
+Enable Gemini Code native teams in `~/.gemini/settings.json`:
 
 ```json
 {
@@ -79,19 +79,19 @@ Enable Claude Code native teams in `~/.claude/settings.json`:
 
 ### tmux CLI Workers — Codex & Gemini (v4.4.0+)
 
-**v4.4.0 removes the Codex/Gemini MCP servers** (`x`, `g` providers). Use the CLI-first Team runtime (`omc team ...`) to spawn real tmux worker panes:
+**v4.4.0 removes the Codex/Gemini MCP servers** (`x`, `g` providers). Use the CLI-first Team runtime (`omg team ...`) to spawn real tmux worker panes:
 
 ```bash
-omc team 2:codex "review auth module for security issues"
-omc team 2:gemini "redesign UI components for accessibility"
-omc team 1:claude "implement the payment flow"
-omc team status auth-review
-omc team shutdown auth-review
+omg team 2:codex "review auth module for security issues"
+omg team 2:gemini "redesign UI components for accessibility"
+omg team 1:gemini "implement the payment flow"
+omg team status auth-review
+omg team shutdown auth-review
 ```
 
-`/omc-teams` remains as a legacy compatibility skill and now routes to `omc team ...`.
+`/omg-teams` remains as a legacy compatibility skill and now routes to `omg team ...`.
 
-For mixed Codex + Gemini work in one command, use the **`/ccg`** skill (routes via `/ask codex` + `/ask gemini`, then Claude synthesizes):
+For mixed Codex + Gemini work in one command, use the **`/ccg`** skill (routes via `/ask codex` + `/ask gemini`, then Gemini synthesizes):
 
 ```bash
 /ccg Review this PR — architecture (Codex) and UI components (Gemini)
@@ -99,52 +99,52 @@ For mixed Codex + Gemini work in one command, use the **`/ccg`** skill (routes v
 
 | Surface                   | Workers            | Best For                                     |
 | ------------------------- | ------------------ | -------------------------------------------- |
-| `omc team N:codex "..."`  | N Codex CLI panes  | Code review, security analysis, architecture |
-| `omc team N:gemini "..."` | N Gemini CLI panes | UI/UX design, docs, large-context tasks      |
-| `omc team N:claude "..."` | N Claude CLI panes | General tasks via Claude CLI in tmux         |
+| `omg team N:codex "..."`  | N Codex CLI panes  | Code review, security analysis, architecture |
+| `omg team N:gemini "..."` | N Gemini CLI panes | UI/UX design, docs, large-context tasks      |
+| `omg team N:gemini "..."` | N Gemini CLI panes | General tasks via Gemini CLI in tmux         |
 | `/ccg`                    | /ask codex + /ask gemini | Tri-model advisor synthesis           |
 
 Workers spawn on-demand and die when their task completes — no idle resource usage. Requires `codex` / `gemini` CLIs installed and an active tmux session.
 
-> **Note: Package naming** — The project is branded as **oh-my-claudecode** (repo, plugin, commands), but the npm package is published as [`oh-my-claude-sisyphus`](https://www.npmjs.com/package/oh-my-claude-sisyphus). If you install or upgrade the CLI tools via npm/bun, use `npm i -g oh-my-claude-sisyphus@latest`.
+> **Note: Package naming** — The project is branded as **oh-my-gemini-cli** (repo, plugin, commands), but the npm package is published as [`oh-my-gemini-sisyphus`](https://www.npmjs.com/package/oh-my-gemini-sisyphus). If you install or upgrade the CLI tools via npm/bun, use `npm i -g oh-my-gemini-sisyphus@latest`.
 
 ### Updating
 
 If you installed OMC via npm, upgrade with the published package name:
 
 ```bash
-npm i -g oh-my-claude-sisyphus@latest
+npm i -g oh-my-gemini-sisyphus@latest
 ```
 
-> **Package naming note:** the repo, plugin, and commands are branded **oh-my-claudecode**, but the published npm package name remains `oh-my-claude-sisyphus`.
+> **Package naming note:** the repo, plugin, and commands are branded **oh-my-gemini-cli**, but the published npm package name remains `oh-my-gemini-sisyphus`.
 
-If you installed OMC via the Claude Code marketplace/plugin flow, update with:
+If you installed OMC via the Gemini Code marketplace/plugin flow, update with:
 
 ```bash
 # 1. Update the marketplace clone
-/plugin marketplace update omc
+/plugin marketplace update omg
 
 # 2. Re-run setup to refresh configuration
-/omc-setup
+/omg-setup
 ```
 
-> **Note:** If marketplace auto-update is not enabled, you must manually run `/plugin marketplace update omc` to sync the latest version before running setup.
+> **Note:** If marketplace auto-update is not enabled, you must manually run `/plugin marketplace update omg` to sync the latest version before running setup.
 
 If you experience issues after updating, clear the old plugin cache:
 
 ```bash
-/omc-doctor
+/omg-doctor
 ```
 
-<h1 align="center">Your Claude Just Have been Steroided.</h1>
+<h1 align="center">Your Gemini Just Have been Steroided.</h1>
 
 <p align="center">
-  <img src="assets/omc-character.jpg" alt="oh-my-claudecode" width="400" />
+  <img src="assets/omg-character.jpg" alt="oh-my-gemini-cli" width="400" />
 </p>
 
 ---
 
-## Why oh-my-claudecode?
+## Why oh-my-gemini-cli?
 
 - **Zero configuration required** - Works out of the box with intelligent defaults
 - **Team-first orchestration** - Team is the canonical multi-agent surface
@@ -161,13 +161,13 @@ If you experience issues after updating, clear the old plugin cache:
 
 ### Orchestration Modes
 
-Multiple strategies for different use cases — from Team-backed orchestration to token-efficient refactoring. [Learn more →](https://yeachan-heo.github.io/oh-my-claudecode-website/docs.html#execution-modes)
+Multiple strategies for different use cases — from Team-backed orchestration to token-efficient refactoring. [Learn more →](https://yeachan-heo.github.io/oh-my-gemini-cli-website/docs.html#execution-modes)
 
 | Mode                    | What it is                                                                              | Use For                                                |
 | ----------------------- | --------------------------------------------------------------------------------------- | ------------------------------------------------------ |
-| **Team (recommended)**  | Canonical staged pipeline (`team-plan → team-prd → team-exec → team-verify → team-fix`) | Coordinated Claude agents on a shared task list        |
-| **omc team (CLI)**      | tmux CLI workers — real `claude`/`codex`/`gemini` processes in split-panes              | Codex/Gemini CLI tasks; on-demand spawn, die when done |
-| **ccg**                 | Tri-model advisors via `/ask codex` + `/ask gemini`, Claude synthesizes                   | Mixed backend+UI work needing both Codex and Gemini    |
+| **Team (recommended)**  | Canonical staged pipeline (`team-plan → team-prd → team-exec → team-verify → team-fix`) | Coordinated Gemini agents on a shared task list        |
+| **omg team (CLI)**      | tmux CLI workers — real `gemini`/`codex`/`gemini` processes in split-panes              | Codex/Gemini CLI tasks; on-demand spawn, die when done |
+| **ccg**                 | Tri-model advisors via `/ask codex` + `/ask gemini`, Gemini synthesizes                   | Mixed backend+UI work needing both Codex and Gemini    |
 | **Autopilot**           | Autonomous execution (single lead agent)                                                | End-to-end feature work with minimal ceremony          |
 | **Ultrawork**           | Maximum parallelism (non-team)                                                          | Burst parallel fixes/refactors where Team isn't needed |
 | **Ralph**               | Persistent mode with verify/fix loops                                                   | Tasks that must complete fully (no silent partials)    |
@@ -193,12 +193,12 @@ Learn once, reuse forever. OMC extracts hard-won debugging knowledge into portab
 
 | | Project Scope | User Scope |
 |---|---|---|
-| **Path** | `.omc/skills/` | `~/.omc/skills/` |
+| **Path** | `.omg/skills/` | `~/.omg/skills/` |
 | **Shared with** | Team (version-controlled) | All your projects |
 | **Priority** | Higher (overrides user) | Lower (fallback) |
 
 ```yaml
-# .omc/skills/fix-proxy-crash.md
+# .omg/skills/fix-proxy-crash.md
 ---
 name: Fix Proxy Crash
 description: aiohttp proxy crashes on ClientDisconnectedError
@@ -218,12 +218,12 @@ Wrap handler at server.py:42 in try/except ClientDisconnectedError...
 
 ## Magic Keywords
 
-Optional shortcuts for power users. Natural language works fine without them. Team mode is explicit: use `/team ...` or `omc team ...` rather than a keyword trigger.
+Optional shortcuts for power users. Natural language works fine without them. Team mode is explicit: use `/team ...` or `omg team ...` rather than a keyword trigger.
 
 | Keyword                | Effect                                 | Example                                        |
 | ---------------------- | -------------------------------------- | ---------------------------------------------- |
 | `team`                 | Canonical Team orchestration           | `/team 3:executor "fix all TypeScript errors"` |
-| `omc team`             | tmux CLI workers (codex/gemini/claude) | `omc team 2:codex "security review"`           |
+| `omg team`             | tmux CLI workers (codex/gemini/gemini) | `omg team 2:codex "security review"`           |
 | `ccg`                  | `/ask codex` + `/ask gemini` synthesis | `/ccg review this PR`                          |
 | `autopilot`            | Full autonomous execution              | `autopilot: build a todo app`                  |
 | `ralph`                | Persistence mode                       | `ralph: refactor auth`                         |
@@ -232,25 +232,25 @@ Optional shortcuts for power users. Natural language works fine without them. Te
 | `deep-interview`       | Socratic requirements clarification    | `deep-interview "vague idea"`                  |
 | `deepsearch`           | Codebase-focused search routing        | `deepsearch for auth middleware`               |
 | `ultrathink`           | Deep reasoning mode                    | `ultrathink about this architecture`           |
-| `cancelomc`, `stopomc` | Stop active OMC modes                  | `stopomc`                                      |
+| `cancelomg`, `stopomg` | Stop active OMC modes                  | `stopomg`                                      |
 
 **Notes:**
 
 - **ralph includes ultrawork**: when you activate ralph mode, it automatically includes ultrawork's parallel execution.
 - `swarm` compatibility alias has been removed; migrate existing prompts to `/team` syntax.
-- `plan this` / `plan the` keyword triggers were removed; use `ralplan` or explicit `/oh-my-claudecode:omc-plan`.
+- `plan this` / `plan the` keyword triggers were removed; use `ralplan` or explicit `/oh-my-gemini-cli:omg-plan`.
 
 ## Utilities
 
-### Provider Advisor (`omc ask`)
+### Provider Advisor (`omg ask`)
 
-Run local provider CLIs and save a markdown artifact under `.omc/artifacts/ask/`:
+Run local provider CLIs and save a markdown artifact under `.omg/artifacts/ask/`:
 
 ```bash
-omc ask claude "review this migration plan"
-omc ask codex --prompt "identify architecture risks"
-omc ask gemini --prompt "propose UI polish ideas"
-omc ask claude --agent-prompt executor --prompt "draft implementation steps"
+omg ask gemini "review this migration plan"
+omg ask codex --prompt "identify architecture risks"
+omg ask gemini --prompt "propose UI polish ideas"
+omg ask gemini --agent-prompt executor --prompt "draft implementation steps"
 ```
 
 Canonical env vars:
@@ -262,12 +262,12 @@ Phase-1 aliases `OMX_ASK_ADVISOR_SCRIPT` and `OMX_ASK_ORIGINAL_TASK` are accepte
 
 ### Rate Limit Wait
 
-Auto-resume Claude Code sessions when rate limits reset.
+Auto-resume Gemini Code sessions when rate limits reset.
 
 ```bash
-omc wait          # Check status, get guidance
-omc wait --start  # Enable auto-resume daemon
-omc wait --stop   # Disable daemon
+omg wait          # Check status, get guidance
+omg wait --start  # Enable auto-resume daemon
+omg wait --stop   # Disable daemon
 ```
 
 **Requires:** tmux (for session detection)
@@ -276,10 +276,10 @@ omc wait --stop   # Disable daemon
 
 Use the HUD for live observability and the current session/replay artifacts for post-session inspection:
 
-- HUD preset: `/oh-my-claudecode:hud setup` then use a supported preset such as `"omcHud": { "preset": "focused" }`
-- Session summaries: `.omc/sessions/*.json`
-- Replay logs: `.omc/state/agent-replay-*.jsonl`
-- Live HUD rendering: `omc hud`
+- HUD preset: `/oh-my-gemini-cli:hud setup` then use a supported preset such as `"omgHud": { "preset": "focused" }`
+- Session summaries: `.omg/sessions/*.json`
+- Replay logs: `.omg/state/agent-replay-*.jsonl`
+- Live HUD rendering: `omg hud`
 
 ### Notification Tags (Telegram/Discord/Slack)
 
@@ -287,14 +287,14 @@ You can configure who gets tagged when stop callbacks send session summaries.
 
 ```bash
 # Set/replace tag list
-omc config-stop-callback telegram --enable --token <bot_token> --chat <chat_id> --tag-list "@alice,bob"
-omc config-stop-callback discord --enable --webhook <url> --tag-list "@here,123456789012345678,role:987654321098765432"
-omc config-stop-callback slack --enable --webhook <url> --tag-list "<!here>,<@U1234567890>"
+omg config-stop-callback telegram --enable --token <bot_token> --chat <chat_id> --tag-list "@alice,bob"
+omg config-stop-callback discord --enable --webhook <url> --tag-list "@here,123456789012345678,role:987654321098765432"
+omg config-stop-callback slack --enable --webhook <url> --tag-list "<!here>,<@U1234567890>"
 
 # Incremental updates
-omc config-stop-callback telegram --add-tag charlie
-omc config-stop-callback discord --remove-tag @here
-omc config-stop-callback discord --clear-tags
+omg config-stop-callback telegram --add-tag charlie
+omg config-stop-callback discord --remove-tag @here
+omg config-stop-callback discord --clear-tags
 ```
 
 Tag behavior:
@@ -306,16 +306,16 @@ Tag behavior:
 
 ### OpenClaw Integration
 
-Forward Claude Code session events to an [OpenClaw](https://openclaw.ai/) gateway to enable automated responses and workflows via your OpenClaw agent.
+Forward Gemini Code session events to an [OpenClaw](https://openclaw.ai/) gateway to enable automated responses and workflows via your OpenClaw agent.
 
 **Quick setup (recommended):**
 
 ```bash
-/oh-my-claudecode:configure-notifications
+/oh-my-gemini-cli:configure-notifications
 # → When prompted, type "openclaw" → choose "OpenClaw Gateway"
 ```
 
-**Manual setup:** create `~/.claude/omc_config.openclaw.json`:
+**Manual setup:** create `~/.gemini/omg_config.openclaw.json`:
 
 ```json
 {
@@ -348,9 +348,9 @@ Forward Claude Code session events to an [OpenClaw](https://openclaw.ai/) gatewa
 | Event | Trigger | Key template variables |
 |-------|---------|----------------------|
 | `session-start` | Session begins | `{{sessionId}}`, `{{projectName}}`, `{{projectPath}}` |
-| `stop` | Claude response completes | `{{sessionId}}`, `{{projectName}}` |
+| `stop` | Gemini response completes | `{{sessionId}}`, `{{projectName}}` |
 | `keyword-detector` | Every prompt submission | `{{prompt}}`, `{{sessionId}}` |
-| `ask-user-question` | Claude requests user input | `{{question}}`, `{{sessionId}}` |
+| `ask-user-question` | Gemini requests user input | `{{question}}`, `{{sessionId}}` |
 | `pre-tool-use` | Before tool invocation (high frequency) | `{{toolName}}`, `{{sessionId}}` |
 | `post-tool-use` | After tool invocation (high frequency) | `{{toolName}}`, `{{sessionId}}` |
 
@@ -369,11 +369,11 @@ See `scripts/openclaw-gateway-demo.mjs` for a reference gateway that relays Open
 ## Documentation
 
 - **[Full Reference](docs/REFERENCE.md)** - Complete feature documentation
-- **[CLI Reference](https://yeachan-heo.github.io/oh-my-claudecode-website/docs.html#cli-reference)** - All `omc` commands, flags, and tools
-- **[Notifications Guide](https://yeachan-heo.github.io/oh-my-claudecode-website/docs.html#notifications)** - Discord, Telegram, Slack, and webhook setup
-- **[Recommended Workflows](https://yeachan-heo.github.io/oh-my-claudecode-website/docs.html#workflows)** - Battle-tested skill chains for common tasks
-- **[Release Notes](https://yeachan-heo.github.io/oh-my-claudecode-website/docs.html#release-notes)** - What's new in each version
-- **[Website](https://yeachan-heo.github.io/oh-my-claudecode-website)** - Interactive guides and examples
+- **[CLI Reference](https://yeachan-heo.github.io/oh-my-gemini-cli-website/docs.html#cli-reference)** - All `omg` commands, flags, and tools
+- **[Notifications Guide](https://yeachan-heo.github.io/oh-my-gemini-cli-website/docs.html#notifications)** - Discord, Telegram, Slack, and webhook setup
+- **[Recommended Workflows](https://yeachan-heo.github.io/oh-my-gemini-cli-website/docs.html#workflows)** - Battle-tested skill chains for common tasks
+- **[Release Notes](https://yeachan-heo.github.io/oh-my-gemini-cli-website/docs.html#release-notes)** - What's new in each version
+- **[Website](https://yeachan-heo.github.io/oh-my-gemini-cli-website)** - Interactive guides and examples
 - **[Migration Guide](docs/MIGRATION.md)** - Upgrade from v2.x
 - **[Architecture](docs/ARCHITECTURE.md)** - How it works under the hood
 - **[Performance Monitoring](docs/PERFORMANCE-MONITORING.md)** - Agent tracking, debugging, and optimization
@@ -382,12 +382,12 @@ See `scripts/openclaw-gateway-demo.mjs` for a reference gateway that relays Open
 
 ## Requirements
 
-- [Claude Code](https://docs.anthropic.com/claude-code) CLI
-- Claude Max/Pro subscription OR Anthropic API key
+- [Gemini Code](https://docs.anthropic.com/gemini-code) CLI
+- Gemini Max/Pro subscription OR Anthropic API key
 
 ### Platform & tmux
 
-OMC features like `omc team` and rate-limit detection require **tmux**:
+OMC features like `omg team` and rate-limit detection require **tmux**:
 
 | Platform       | tmux provider                                            | Install                |
 | -------------- | -------------------------------------------------------- | ---------------------- |
@@ -409,7 +409,7 @@ OMC can optionally orchestrate external AI providers for cross-validation and de
 | [Gemini CLI](https://github.com/google-gemini/gemini-cli) | `npm install -g @google/gemini-cli` | Design review, UI consistency (1M token context) |
 | [Codex CLI](https://github.com/openai/codex)              | `npm install -g @openai/codex`      | Architecture validation, code review cross-check |
 
-**Cost:** 3 Pro plans (Claude + Gemini + ChatGPT) cover everything for ~$60/month.
+**Cost:** 3 Pro plans (Gemini + Gemini + ChatGPT) cover everything for ~$60/month.
 
 ---
 
@@ -421,7 +421,7 @@ MIT
 
 <div align="center">
 
-**Inspired by:** [oh-my-opencode](https://github.com/code-yeongyu/oh-my-opencode) • [claude-hud](https://github.com/ryanjoachim/claude-hud) • [Superpowers](https://github.com/obra/superpowers) • [everything-claude-code](https://github.com/affaan-m/everything-claude-code) • [Ouroboros](https://github.com/Q00/ouroboros)
+**Inspired by:** [oh-my-opencode](https://github.com/code-yeongyu/oh-my-opencode) • [gemini-hud](https://github.com/ryanjoachim/gemini-hud) • [Superpowers](https://github.com/obra/superpowers) • [everything-gemini-code](https://github.com/affaan-m/everything-gemini-code) • [Ouroboros](https://github.com/Q00/ouroboros)
 
 **Zero learning curve. Maximum power.**
 
@@ -432,7 +432,7 @@ MIT
 
 Top personal non-fork, non-archived repos from all-time OMC contributors (100+ GitHub stars).
 
-- [@Yeachan-Heo](https://github.com/Yeachan-Heo) — [oh-my-claudecode](https://github.com/Yeachan-Heo/oh-my-claudecode) (⭐ 11k)
+- [@Yeachan-Heo](https://github.com/Yeachan-Heo) — [oh-my-gemini-cli](https://github.com/Yeachan-Heo/oh-my-gemini-cli) (⭐ 11k)
 - [@junhoyeo](https://github.com/junhoyeo) — [tokscale](https://github.com/junhoyeo/tokscale) (⭐ 1.3k)
 - [@psmux](https://github.com/psmux) — [psmux](https://github.com/psmux/psmux) (⭐ 695)
 - [@BowTiedSwan](https://github.com/BowTiedSwan) — [buildflow](https://github.com/BowTiedSwan/buildflow) (⭐ 284)
@@ -447,11 +447,11 @@ Top personal non-fork, non-archived repos from all-time OMC contributors (100+ G
 
 ## Star History
 
-[![Star History Chart](https://api.star-history.com/svg?repos=Yeachan-Heo/oh-my-claudecode&type=date&legend=top-left)](https://www.star-history.com/#Yeachan-Heo/oh-my-claudecode&type=date&legend=top-left)
+[![Star History Chart](https://api.star-history.com/svg?repos=Yeachan-Heo/oh-my-gemini-cli&type=date&legend=top-left)](https://www.star-history.com/#Yeachan-Heo/oh-my-gemini-cli&type=date&legend=top-left)
 
 ## 💖 Support This Project
 
-If Oh-My-ClaudeCode helps your workflow, consider sponsoring:
+If Oh-My-GeminiCLI helps your workflow, consider sponsoring:
 
 [![Sponsor on GitHub](https://img.shields.io/badge/Sponsor-❤️-red?style=for-the-badge&logo=github)](https://github.com/sponsors/Yeachan-Heo)
 

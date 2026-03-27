@@ -21,7 +21,7 @@ describe("formatSessionIdle", () => {
   it("should include idle header and waiting message", () => {
     const result = formatSessionIdle(basePayload);
     expect(result).toContain("# Session Idle");
-    expect(result).toContain("Claude has finished and is waiting for input.");
+    expect(result).toContain("Gemini has finished and is waiting for input.");
   });
 
   it("should include project info in footer", () => {
@@ -93,7 +93,7 @@ describe("formatNotification routing", () => {
       ...basePayload,
       event: "agent-call",
       agentName: "executor",
-      agentType: "oh-my-claudecode:executor",
+      agentType: "oh-my-gemini-cli:executor",
     });
     expect(result).toContain("# Agent Spawned");
   });
@@ -125,9 +125,9 @@ describe("formatAgentCall", () => {
   it("should include agent type when provided", () => {
     const result = formatAgentCall({
       ...basePayload,
-      agentType: "oh-my-claudecode:executor",
+      agentType: "oh-my-gemini-cli:executor",
     });
-    expect(result).toContain("**Type:** `oh-my-claudecode:executor`");
+    expect(result).toContain("**Type:** `oh-my-gemini-cli:executor`");
   });
 
   it("should include footer with project info", () => {

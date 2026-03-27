@@ -5,7 +5,7 @@
  * Uses JSONL append format for atomic writes, following the pattern from
  * session-replay.ts with secure file permissions from daemon.ts.
  *
- * Registry location: ~/.omc/state/reply-session-registry.jsonl (global, not worktree-local)
+ * Registry location: ~/.omg/state/reply-session-registry.jsonl (global, not worktree-local)
  * File permissions: 0600 (owner read/write only)
  */
 
@@ -43,11 +43,11 @@ const LOCK_MAX_WAIT_MS = 10000;
 
 /**
  * Return the registry state directory.
- * OMC_TEST_REGISTRY_DIR overrides the default (~/.omc/state) so that tests
+ * OMC_TEST_REGISTRY_DIR overrides the default (~/.omg/state) so that tests
  * can redirect all I/O to a temporary directory without touching global state.
  */
 function getRegistryStateDir(): string {
-  return process.env['OMC_TEST_REGISTRY_DIR'] ?? join(homedir(), '.omc', 'state');
+  return process.env['OMC_TEST_REGISTRY_DIR'] ?? join(homedir(), '.omg', 'state');
 }
 
 /** Global registry JSONL path */

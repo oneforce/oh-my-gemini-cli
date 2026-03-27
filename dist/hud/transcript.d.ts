@@ -1,8 +1,8 @@
 /**
  * OMC HUD - Transcript Parser
  *
- * Parse JSONL transcript from Claude Code to extract agents and todos.
- * Based on claude-hud reference implementation.
+ * Parse JSONL transcript from Gemini Code to extract agents and todos.
+ * Based on gemini-hud reference implementation.
  *
  * Performance optimizations:
  * - Tail-based parsing: reads only the last ~500KB of large transcripts
@@ -11,7 +11,7 @@
  */
 import type { TranscriptData, ActiveAgent, TodoItem } from "./types.js";
 /**
- * Parse a Claude Code transcript JSONL file.
+ * Parse a Gemini Code transcript JSONL file.
  * Extracts running agents and latest todo list.
  *
  * For large files (>500KB), only parses the tail portion for performance.

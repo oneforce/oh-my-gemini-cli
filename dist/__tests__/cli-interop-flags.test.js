@@ -5,7 +5,7 @@ describe('cli interop flag validation', () => {
         const flags = readInteropRuntimeFlags({});
         expect(flags.enabled).toBe(false);
         expect(flags.mode).toBe('off');
-        expect(flags.omcInteropToolsEnabled).toBe(false);
+        expect(flags.omgInteropToolsEnabled).toBe(false);
         expect(flags.failClosed).toBe(true);
     });
     it('rejects non-off mode when interop is disabled', () => {

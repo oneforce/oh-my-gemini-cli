@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 """
-SWE-bench Benchmark Runner for Claude Code (Vanilla vs OMC)
+SWE-bench Benchmark Runner for Gemini Code (Vanilla vs OMC)
 
-This script evaluates Claude Code with and without oh-my-claudecode orchestration
+This script evaluates Gemini Code with and without oh-my-gemini-cli orchestration
 on the SWE-bench Verified dataset.
 
 Usage:
     python run_benchmark.py --mode vanilla --limit 10
-    python run_benchmark.py --mode omc --output-dir ./predictions/omc
+    python run_benchmark.py --mode omg --output-dir ./predictions/omg
     python run_benchmark.py --mode vanilla --resume checkpoint.json
 """
 
@@ -50,7 +50,7 @@ class BenchmarkConfig:
     """Configuration for benchmark run."""
 
     dataset: str = "princeton-nlp/SWE-bench_Verified"
-    mode: str = "vanilla"  # vanilla or omc
+    mode: str = "vanilla"  # vanilla or omg
     output_dir: Path = field(default_factory=lambda: Path("./predictions"))
     max_workers: int = 1
     timeout: int = 1800  # 30 minutes default
@@ -58,7 +58,7 @@ class BenchmarkConfig:
     limit: Optional[int] = None
     retries: int = 3
     retry_delay: int = 30
-    model: str = "claude-sonnet-4-6-20260217"
+    model: str = "gemini-sonnet-4-6-20260217"
     skip: int = 0
 
 
@@ -143,7 +143,7 @@ class SWEBenchRunner:
         if result.success and result.patch:
             prediction = {
                 "instance_id": result.instance_id,
-                "model_name_or_path": f"claude-code-{self.config.mode}",
+                "model_name_or_path": f"gemini-code-{self.config.mode}",
                 "model_patch": result.patch,
             }
             with open(self.predictions_path, "a") as f:
@@ -260,11 +260,11 @@ Instructions:
 """
         return formatted
 
-    def _run_claude(self, problem: str, work_dir: Path) -> tuple[Optional[str], dict]:
-        """Run Claude Code on the problem and return the patch."""
+    def _run_gemini(self, problem: str, work_dir: Path) -> tuple[Optional[str], dict]:
+        """Run Gemini Code on the problem and return the patch."""
         if self.config.mode == "vanilla":
             cmd = [
-                "claude",
+                "gemini",
                 "--print",
                 "--model",
                 self.config.model,
@@ -272,13 +272,13 @@ Instructions:
                 "--allowedTools",
                 "Edit,Bash,Read,Write,Glob,Grep",
             ]
-        else:  # omc mode
+        else:  # omg mode
             cmd = [
-                "claude",
+                "gemini",
                 "--print",
                 "--model",
                 self.config.model,
-                f"/oh-my-claudecode:autopilot Fix this issue:\n\n{problem}",
+                f"/oh-my-gemini-cli:autopilot Fix this issue:\n\n{problem}",
             ]
 
         token_usage = {}
@@ -308,7 +308,7 @@ Instructions:
             )
 
             # Try to extract token usage from output
-            # Claude Code may include usage info in stderr or structured output
+            # Gemini Code may include usage info in stderr or structured output
             if result.stderr:
                 for line in result.stderr.split("\n"):
                     if "tokens" in line.lower():
@@ -319,10 +319,10 @@ Instructions:
             return patch, token_usage
 
         except subprocess.TimeoutExpired:
-            logger.warning(f"Claude timed out after {self.config.timeout}s")
+            logger.warning(f"Gemini timed out after {self.config.timeout}s")
             return None, {"error": "timeout"}
         except Exception as e:
-            logger.error(f"Error running Claude: {e}")
+            logger.error(f"Error running Gemini: {e}")
             return None, {"error": str(e)}
 
     def _extract_patch(self, work_dir: Path) -> Optional[str]:
@@ -392,8 +392,8 @@ Instructions:
                 # Format problem
                 problem = self._format_problem(instance)
 
-                # Run Claude
-                patch, token_usage = self._run_claude(problem, work_dir)
+                # Run Gemini
+                patch, token_usage = self._run_gemini(problem, work_dir)
 
                 if patch:
                     result.success = True
@@ -514,21 +514,21 @@ Instructions:
 def parse_args() -> argparse.Namespace:
     """Parse command line arguments."""
     parser = argparse.ArgumentParser(
-        description="SWE-bench Benchmark Runner for Claude Code",
+        description="SWE-bench Benchmark Runner for Gemini Code",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
-  # Run vanilla Claude Code on first 10 instances
+  # Run vanilla Gemini Code on first 10 instances
   python run_benchmark.py --mode vanilla --limit 10
 
   # Run OMC mode with 2 parallel workers
-  python run_benchmark.py --mode omc --max-workers 2
+  python run_benchmark.py --mode omg --max-workers 2
 
   # Resume from checkpoint
   python run_benchmark.py --mode vanilla --resume predictions/checkpoint.json
 
   # Custom timeout (45 minutes per instance)
-  python run_benchmark.py --mode omc --timeout 2700
+  python run_benchmark.py --mode omg --timeout 2700
         """,
     )
 
@@ -539,9 +539,9 @@ Examples:
     )
     parser.add_argument(
         "--mode",
-        choices=["vanilla", "omc"],
+        choices=["vanilla", "omg"],
         default=os.environ.get("RUN_MODE", "vanilla"),
-        help="Run mode: vanilla (bare Claude) or omc (with orchestration)",
+        help="Run mode: vanilla (bare Gemini) or omg (with orchestration)",
     )
     parser.add_argument(
         "--output-dir",
@@ -581,8 +581,8 @@ Examples:
     )
     parser.add_argument(
         "--model",
-        default="claude-sonnet-4-6-20260217",
-        help="Claude model to use (default: claude-sonnet-4-6-20260217)",
+        default="gemini-sonnet-4-6-20260217",
+        help="Gemini model to use (default: gemini-sonnet-4-6-20260217)",
     )
     parser.add_argument(
         "--skip",

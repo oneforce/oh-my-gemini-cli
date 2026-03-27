@@ -5,7 +5,7 @@ import { getConfigDir } from '../utils/config-dir.js';
 const MANAGED_START = '# BEGIN OMC MANAGED MCP REGISTRY';
 const MANAGED_END = '# END OMC MANAGED MCP REGISTRY';
 function getOmcHomeDir() {
-    return process.env.OMC_HOME?.trim() || join(homedir(), '.omc');
+    return process.env.OMC_HOME?.trim() || join(homedir(), '.omg');
 }
 export function getUnifiedMcpRegistryPath() {
     return process.env.OMC_MCP_REGISTRY_PATH?.trim() || join(getOmcHomeDir(), 'mcp-registry.json');
@@ -13,11 +13,11 @@ export function getUnifiedMcpRegistryPath() {
 function getUnifiedMcpRegistryStatePath() {
     return join(getOmcHomeDir(), 'mcp-registry-state.json');
 }
-export function getClaudeMcpConfigPath() {
+export function getGeminiMcpConfigPath() {
     if (process.env.CLAUDE_MCP_CONFIG_PATH?.trim()) {
         return process.env.CLAUDE_MCP_CONFIG_PATH.trim();
     }
-    return join(dirname(getConfigDir()), '.claude.json');
+    return join(dirname(getConfigDir()), '.gemini.json');
 }
 export function getCodexConfigPath() {
     const codexHome = process.env.CODEX_HOME?.trim() || join(homedir(), '.codex');
@@ -74,7 +74,7 @@ function normalizeRegistry(value) {
     }
     return Object.fromEntries(Object.entries(entries).sort(([left], [right]) => left.localeCompare(right)));
 }
-export function extractClaudeMcpRegistry(settings) {
+export function extractGeminiMcpRegistry(settings) {
     return normalizeRegistry(settings.mcpServers);
 }
 function loadRegistryFromDisk(path) {
@@ -111,8 +111,8 @@ function writeManagedServerNames(serverNames) {
     ensureParentDir(statePath);
     writeFileSync(statePath, JSON.stringify({ managedServers: [...serverNames].sort((a, b) => a.localeCompare(b)) }, null, 2));
 }
-function bootstrapRegistryFromClaude(settings, registryPath) {
-    const registry = extractClaudeMcpRegistry(settings);
+function bootstrapRegistryFromGemini(settings, registryPath) {
+    const registry = extractGeminiMcpRegistry(settings);
     if (Object.keys(registry).length === 0) {
         return {};
     }
@@ -126,20 +126,20 @@ function loadOrBootstrapRegistry(settings) {
         return {
             registry: loadRegistryFromDisk(registryPath),
             registryExists: true,
-            bootstrappedFromClaude: false,
+            bootstrappedFromGemini: false,
         };
     }
-    const registry = bootstrapRegistryFromClaude(settings, registryPath);
+    const registry = bootstrapRegistryFromGemini(settings, registryPath);
     return {
         registry,
         registryExists: Object.keys(registry).length > 0,
-        bootstrappedFromClaude: Object.keys(registry).length > 0,
+        bootstrappedFromGemini: Object.keys(registry).length > 0,
     };
 }
 function entriesEqual(left, right) {
     return JSON.stringify(left) === JSON.stringify(right);
 }
-export function applyRegistryToClaudeSettings(settings) {
+export function applyRegistryToGeminiSettings(settings) {
     const nextSettings = { ...settings };
     const changed = Object.prototype.hasOwnProperty.call(nextSettings, 'mcpServers');
     delete nextSettings.mcpServers;
@@ -148,8 +148,8 @@ export function applyRegistryToClaudeSettings(settings) {
         changed,
     };
 }
-function syncClaudeMcpConfig(existingClaudeConfig, registry, managedServerNames = [], legacySettingsServers = {}) {
-    const existingServers = extractClaudeMcpRegistry(existingClaudeConfig);
+function syncGeminiMcpConfig(existingGeminiConfig, registry, managedServerNames = [], legacySettingsServers = {}) {
+    const existingServers = extractGeminiMcpRegistry(existingGeminiConfig);
     const nextServers = { ...legacySettingsServers, ...existingServers };
     for (const managedName of managedServerNames) {
         delete nextServers[managedName];
@@ -157,16 +157,16 @@ function syncClaudeMcpConfig(existingClaudeConfig, registry, managedServerNames 
     for (const [name, entry] of Object.entries(registry)) {
         nextServers[name] = entry;
     }
-    const nextClaudeConfig = { ...existingClaudeConfig };
+    const nextGeminiConfig = { ...existingGeminiConfig };
     if (Object.keys(nextServers).length === 0) {
-        delete nextClaudeConfig.mcpServers;
+        delete nextGeminiConfig.mcpServers;
     }
     else {
-        nextClaudeConfig.mcpServers = nextServers;
+        nextGeminiConfig.mcpServers = nextServers;
     }
     return {
-        claudeConfig: nextClaudeConfig,
-        changed: !entriesEqual(existingClaudeConfig, nextClaudeConfig),
+        geminiConfig: nextGeminiConfig,
+        changed: !entriesEqual(existingGeminiConfig, nextGeminiConfig),
     };
 }
 function escapeTomlString(value) {
@@ -329,22 +329,22 @@ function parseCodexMcpRegistryEntries(content) {
 }
 export function syncUnifiedMcpRegistryTargets(settings) {
     const registryPath = getUnifiedMcpRegistryPath();
-    const claudeConfigPath = getClaudeMcpConfigPath();
+    const geminiConfigPath = getGeminiMcpConfigPath();
     const codexConfigPath = getCodexConfigPath();
     const managedServerNames = readManagedServerNames();
-    const legacyClaudeRegistry = extractClaudeMcpRegistry(settings);
-    const currentClaudeConfig = readJsonObject(claudeConfigPath);
-    const claudeConfigForBootstrap = Object.keys(extractClaudeMcpRegistry(currentClaudeConfig)).length > 0
-        ? currentClaudeConfig
+    const legacyGeminiRegistry = extractGeminiMcpRegistry(settings);
+    const currentGeminiConfig = readJsonObject(geminiConfigPath);
+    const geminiConfigForBootstrap = Object.keys(extractGeminiMcpRegistry(currentGeminiConfig)).length > 0
+        ? currentGeminiConfig
         : settings;
-    const registryState = loadOrBootstrapRegistry(claudeConfigForBootstrap);
+    const registryState = loadOrBootstrapRegistry(geminiConfigForBootstrap);
     const registry = registryState.registry;
     const serverNames = Object.keys(registry);
-    const cleanedSettings = applyRegistryToClaudeSettings(settings);
-    const claude = syncClaudeMcpConfig(currentClaudeConfig, registry, managedServerNames, legacyClaudeRegistry);
-    if (claude.changed) {
-        ensureParentDir(claudeConfigPath);
-        writeFileSync(claudeConfigPath, JSON.stringify(claude.claudeConfig, null, 2));
+    const cleanedSettings = applyRegistryToGeminiSettings(settings);
+    const gemini = syncGeminiMcpConfig(currentGeminiConfig, registry, managedServerNames, legacyGeminiRegistry);
+    if (gemini.changed) {
+        ensureParentDir(geminiConfigPath);
+        writeFileSync(geminiConfigPath, JSON.stringify(gemini.geminiConfig, null, 2));
     }
     let codexChanged = false;
     const currentCodexConfig = existsSync(codexConfigPath) ? readFileSync(codexConfigPath, 'utf-8') : '';
@@ -354,19 +354,19 @@ export function syncUnifiedMcpRegistryTargets(settings) {
         writeFileSync(codexConfigPath, nextCodexConfig.content);
         codexChanged = true;
     }
-    if (registryState.registryExists || Object.keys(legacyClaudeRegistry).length > 0 || managedServerNames.length > 0) {
+    if (registryState.registryExists || Object.keys(legacyGeminiRegistry).length > 0 || managedServerNames.length > 0) {
         writeManagedServerNames(serverNames);
     }
     return {
         settings: cleanedSettings.settings,
         result: {
             registryPath,
-            claudeConfigPath,
+            geminiConfigPath,
             codexConfigPath,
             registryExists: registryState.registryExists,
-            bootstrappedFromClaude: registryState.bootstrappedFromClaude,
+            bootstrappedFromGemini: registryState.bootstrappedFromGemini,
             serverNames,
-            claudeChanged: cleanedSettings.changed || claude.changed,
+            geminiChanged: cleanedSettings.changed || gemini.changed,
             codexChanged,
         },
     };
@@ -387,38 +387,38 @@ function readJsonObject(path) {
 }
 export function inspectUnifiedMcpRegistrySync() {
     const registryPath = getUnifiedMcpRegistryPath();
-    const claudeConfigPath = getClaudeMcpConfigPath();
+    const geminiConfigPath = getGeminiMcpConfigPath();
     const codexConfigPath = getCodexConfigPath();
     if (!existsSync(registryPath)) {
         return {
             registryPath,
-            claudeConfigPath,
+            geminiConfigPath,
             codexConfigPath,
             registryExists: false,
             serverNames: [],
-            claudeMissing: [],
-            claudeMismatched: [],
+            geminiMissing: [],
+            geminiMismatched: [],
             codexMissing: [],
             codexMismatched: [],
         };
     }
     const registry = loadRegistryFromDisk(registryPath);
     const serverNames = Object.keys(registry);
-    const claudeSettings = readJsonObject(claudeConfigPath);
-    const claudeEntries = extractClaudeMcpRegistry(claudeSettings);
+    const geminiSettings = readJsonObject(geminiConfigPath);
+    const geminiEntries = extractGeminiMcpRegistry(geminiSettings);
     const codexEntries = existsSync(codexConfigPath)
         ? parseCodexMcpRegistryEntries(readFileSync(codexConfigPath, 'utf-8'))
         : {};
-    const claudeMissing = [];
-    const claudeMismatched = [];
+    const geminiMissing = [];
+    const geminiMismatched = [];
     const codexMissing = [];
     const codexMismatched = [];
     for (const [name, entry] of Object.entries(registry)) {
-        if (!claudeEntries[name]) {
-            claudeMissing.push(name);
+        if (!geminiEntries[name]) {
+            geminiMissing.push(name);
         }
-        else if (!entriesEqual(claudeEntries[name], entry)) {
-            claudeMismatched.push(name);
+        else if (!entriesEqual(geminiEntries[name], entry)) {
+            geminiMismatched.push(name);
         }
         if (!codexEntries[name]) {
             codexMissing.push(name);
@@ -429,12 +429,12 @@ export function inspectUnifiedMcpRegistrySync() {
     }
     return {
         registryPath,
-        claudeConfigPath,
+        geminiConfigPath,
         codexConfigPath,
         registryExists: true,
         serverNames,
-        claudeMissing,
-        claudeMismatched,
+        geminiMissing,
+        geminiMismatched,
         codexMissing,
         codexMismatched,
     };

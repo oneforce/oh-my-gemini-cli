@@ -16,23 +16,23 @@ export type UnifiedMcpRegistry = Record<string, UnifiedMcpRegistryEntry>;
 
 export interface UnifiedMcpRegistrySyncResult {
   registryPath: string;
-  claudeConfigPath: string;
+  geminiConfigPath: string;
   codexConfigPath: string;
   registryExists: boolean;
-  bootstrappedFromClaude: boolean;
+  bootstrappedFromGemini: boolean;
   serverNames: string[];
-  claudeChanged: boolean;
+  geminiChanged: boolean;
   codexChanged: boolean;
 }
 
 export interface UnifiedMcpRegistryStatus {
   registryPath: string;
-  claudeConfigPath: string;
+  geminiConfigPath: string;
   codexConfigPath: string;
   registryExists: boolean;
   serverNames: string[];
-  claudeMissing: string[];
-  claudeMismatched: string[];
+  geminiMissing: string[];
+  geminiMismatched: string[];
   codexMissing: string[];
   codexMismatched: string[];
 }
@@ -41,7 +41,7 @@ const MANAGED_START = '# BEGIN OMC MANAGED MCP REGISTRY';
 const MANAGED_END = '# END OMC MANAGED MCP REGISTRY';
 
 function getOmcHomeDir(): string {
-  return process.env.OMC_HOME?.trim() || join(homedir(), '.omc');
+  return process.env.OMC_HOME?.trim() || join(homedir(), '.omg');
 }
 
 export function getUnifiedMcpRegistryPath(): string {
@@ -52,12 +52,12 @@ function getUnifiedMcpRegistryStatePath(): string {
   return join(getOmcHomeDir(), 'mcp-registry-state.json');
 }
 
-export function getClaudeMcpConfigPath(): string {
+export function getGeminiMcpConfigPath(): string {
   if (process.env.CLAUDE_MCP_CONFIG_PATH?.trim()) {
     return process.env.CLAUDE_MCP_CONFIG_PATH.trim();
   }
 
-  return join(dirname(getConfigDir()), '.claude.json');
+  return join(dirname(getConfigDir()), '.gemini.json');
 }
 
 export function getCodexConfigPath(): string {
@@ -126,7 +126,7 @@ function normalizeRegistry(value: unknown): UnifiedMcpRegistry {
   );
 }
 
-export function extractClaudeMcpRegistry(settings: Record<string, unknown>): UnifiedMcpRegistry {
+export function extractGeminiMcpRegistry(settings: Record<string, unknown>): UnifiedMcpRegistry {
   return normalizeRegistry(settings.mcpServers);
 }
 
@@ -167,8 +167,8 @@ function writeManagedServerNames(serverNames: string[]): void {
   writeFileSync(statePath, JSON.stringify({ managedServers: [...serverNames].sort((a, b) => a.localeCompare(b)) }, null, 2));
 }
 
-function bootstrapRegistryFromClaude(settings: Record<string, unknown>, registryPath: string): UnifiedMcpRegistry {
-  const registry = extractClaudeMcpRegistry(settings);
+function bootstrapRegistryFromGemini(settings: Record<string, unknown>, registryPath: string): UnifiedMcpRegistry {
+  const registry = extractGeminiMcpRegistry(settings);
   if (Object.keys(registry).length === 0) {
     return {};
   }
@@ -181,22 +181,22 @@ function bootstrapRegistryFromClaude(settings: Record<string, unknown>, registry
 function loadOrBootstrapRegistry(settings: Record<string, unknown>): {
   registry: UnifiedMcpRegistry;
   registryExists: boolean;
-  bootstrappedFromClaude: boolean;
+  bootstrappedFromGemini: boolean;
 } {
   const registryPath = getUnifiedMcpRegistryPath();
   if (existsSync(registryPath)) {
     return {
       registry: loadRegistryFromDisk(registryPath),
       registryExists: true,
-      bootstrappedFromClaude: false,
+      bootstrappedFromGemini: false,
     };
   }
 
-  const registry = bootstrapRegistryFromClaude(settings, registryPath);
+  const registry = bootstrapRegistryFromGemini(settings, registryPath);
   return {
     registry,
     registryExists: Object.keys(registry).length > 0,
-    bootstrappedFromClaude: Object.keys(registry).length > 0,
+    bootstrappedFromGemini: Object.keys(registry).length > 0,
   };
 }
 
@@ -204,7 +204,7 @@ function entriesEqual(left: unknown, right: unknown): boolean {
   return JSON.stringify(left) === JSON.stringify(right);
 }
 
-export function applyRegistryToClaudeSettings(
+export function applyRegistryToGeminiSettings(
   settings: Record<string, unknown>,
 ): { settings: Record<string, unknown>; changed: boolean } {
   const nextSettings = { ...settings };
@@ -217,13 +217,13 @@ export function applyRegistryToClaudeSettings(
   };
 }
 
-function syncClaudeMcpConfig(
-  existingClaudeConfig: Record<string, unknown>,
+function syncGeminiMcpConfig(
+  existingGeminiConfig: Record<string, unknown>,
   registry: UnifiedMcpRegistry,
   managedServerNames: string[] = [],
   legacySettingsServers: UnifiedMcpRegistry = {},
-): { claudeConfig: Record<string, unknown>; changed: boolean } {
-  const existingServers = extractClaudeMcpRegistry(existingClaudeConfig);
+): { geminiConfig: Record<string, unknown>; changed: boolean } {
+  const existingServers = extractGeminiMcpRegistry(existingGeminiConfig);
   const nextServers: UnifiedMcpRegistry = { ...legacySettingsServers, ...existingServers };
 
   for (const managedName of managedServerNames) {
@@ -234,16 +234,16 @@ function syncClaudeMcpConfig(
     nextServers[name] = entry;
   }
 
-  const nextClaudeConfig = { ...existingClaudeConfig };
+  const nextGeminiConfig = { ...existingGeminiConfig };
   if (Object.keys(nextServers).length === 0) {
-    delete nextClaudeConfig.mcpServers;
+    delete nextGeminiConfig.mcpServers;
   } else {
-    nextClaudeConfig.mcpServers = nextServers;
+    nextGeminiConfig.mcpServers = nextServers;
   }
 
   return {
-    claudeConfig: nextClaudeConfig,
-    changed: !entriesEqual(existingClaudeConfig, nextClaudeConfig),
+    geminiConfig: nextGeminiConfig,
+    changed: !entriesEqual(existingGeminiConfig, nextGeminiConfig),
   };
 }
 
@@ -431,24 +431,24 @@ export function syncUnifiedMcpRegistryTargets(
   settings: Record<string, unknown>,
 ): { settings: Record<string, unknown>; result: UnifiedMcpRegistrySyncResult } {
   const registryPath = getUnifiedMcpRegistryPath();
-  const claudeConfigPath = getClaudeMcpConfigPath();
+  const geminiConfigPath = getGeminiMcpConfigPath();
   const codexConfigPath = getCodexConfigPath();
   const managedServerNames = readManagedServerNames();
-  const legacyClaudeRegistry = extractClaudeMcpRegistry(settings);
-  const currentClaudeConfig = readJsonObject(claudeConfigPath);
-  const claudeConfigForBootstrap = Object.keys(extractClaudeMcpRegistry(currentClaudeConfig)).length > 0
-    ? currentClaudeConfig
+  const legacyGeminiRegistry = extractGeminiMcpRegistry(settings);
+  const currentGeminiConfig = readJsonObject(geminiConfigPath);
+  const geminiConfigForBootstrap = Object.keys(extractGeminiMcpRegistry(currentGeminiConfig)).length > 0
+    ? currentGeminiConfig
     : settings;
-  const registryState = loadOrBootstrapRegistry(claudeConfigForBootstrap);
+  const registryState = loadOrBootstrapRegistry(geminiConfigForBootstrap);
   const registry = registryState.registry;
   const serverNames = Object.keys(registry);
 
-  const cleanedSettings = applyRegistryToClaudeSettings(settings);
-  const claude = syncClaudeMcpConfig(currentClaudeConfig, registry, managedServerNames, legacyClaudeRegistry);
+  const cleanedSettings = applyRegistryToGeminiSettings(settings);
+  const gemini = syncGeminiMcpConfig(currentGeminiConfig, registry, managedServerNames, legacyGeminiRegistry);
 
-  if (claude.changed) {
-    ensureParentDir(claudeConfigPath);
-    writeFileSync(claudeConfigPath, JSON.stringify(claude.claudeConfig, null, 2));
+  if (gemini.changed) {
+    ensureParentDir(geminiConfigPath);
+    writeFileSync(geminiConfigPath, JSON.stringify(gemini.geminiConfig, null, 2));
   }
 
   let codexChanged = false;
@@ -460,7 +460,7 @@ export function syncUnifiedMcpRegistryTargets(
     codexChanged = true;
   }
 
-  if (registryState.registryExists || Object.keys(legacyClaudeRegistry).length > 0 || managedServerNames.length > 0) {
+  if (registryState.registryExists || Object.keys(legacyGeminiRegistry).length > 0 || managedServerNames.length > 0) {
     writeManagedServerNames(serverNames);
   }
 
@@ -468,12 +468,12 @@ export function syncUnifiedMcpRegistryTargets(
     settings: cleanedSettings.settings,
     result: {
       registryPath,
-      claudeConfigPath,
+      geminiConfigPath,
       codexConfigPath,
       registryExists: registryState.registryExists,
-      bootstrappedFromClaude: registryState.bootstrappedFromClaude,
+      bootstrappedFromGemini: registryState.bootstrappedFromGemini,
       serverNames,
-      claudeChanged: cleanedSettings.changed || claude.changed,
+      geminiChanged: cleanedSettings.changed || gemini.changed,
       codexChanged,
     },
   };
@@ -496,18 +496,18 @@ function readJsonObject(path: string): Record<string, unknown> {
 
 export function inspectUnifiedMcpRegistrySync(): UnifiedMcpRegistryStatus {
   const registryPath = getUnifiedMcpRegistryPath();
-  const claudeConfigPath = getClaudeMcpConfigPath();
+  const geminiConfigPath = getGeminiMcpConfigPath();
   const codexConfigPath = getCodexConfigPath();
 
   if (!existsSync(registryPath)) {
     return {
       registryPath,
-      claudeConfigPath,
+      geminiConfigPath,
       codexConfigPath,
       registryExists: false,
       serverNames: [],
-      claudeMissing: [],
-      claudeMismatched: [],
+      geminiMissing: [],
+      geminiMismatched: [],
       codexMissing: [],
       codexMismatched: [],
     };
@@ -515,22 +515,22 @@ export function inspectUnifiedMcpRegistrySync(): UnifiedMcpRegistryStatus {
 
   const registry = loadRegistryFromDisk(registryPath);
   const serverNames = Object.keys(registry);
-  const claudeSettings = readJsonObject(claudeConfigPath);
-  const claudeEntries = extractClaudeMcpRegistry(claudeSettings);
+  const geminiSettings = readJsonObject(geminiConfigPath);
+  const geminiEntries = extractGeminiMcpRegistry(geminiSettings);
   const codexEntries = existsSync(codexConfigPath)
     ? parseCodexMcpRegistryEntries(readFileSync(codexConfigPath, 'utf-8'))
     : {};
 
-  const claudeMissing: string[] = [];
-  const claudeMismatched: string[] = [];
+  const geminiMissing: string[] = [];
+  const geminiMismatched: string[] = [];
   const codexMissing: string[] = [];
   const codexMismatched: string[] = [];
 
   for (const [name, entry] of Object.entries(registry)) {
-    if (!claudeEntries[name]) {
-      claudeMissing.push(name);
-    } else if (!entriesEqual(claudeEntries[name], entry)) {
-      claudeMismatched.push(name);
+    if (!geminiEntries[name]) {
+      geminiMissing.push(name);
+    } else if (!entriesEqual(geminiEntries[name], entry)) {
+      geminiMismatched.push(name);
     }
 
     if (!codexEntries[name]) {
@@ -542,12 +542,12 @@ export function inspectUnifiedMcpRegistrySync(): UnifiedMcpRegistryStatus {
 
   return {
     registryPath,
-    claudeConfigPath,
+    geminiConfigPath,
     codexConfigPath,
     registryExists: true,
     serverNames,
-    claudeMissing,
-    claudeMismatched,
+    geminiMissing,
+    geminiMismatched,
     codexMissing,
     codexMismatched,
   };

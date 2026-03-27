@@ -1,28 +1,28 @@
 /**
- * Oh-My-ClaudeCode
+ * Oh-My-GeminiCLI
  *
- * A multi-agent orchestration system for the Claude Agent SDK.
- * Inspired by oh-my-opencode, reimagined for Claude Code.
+ * A multi-agent orchestration system for the Gemini Agent SDK.
+ * Inspired by oh-my-opencode, reimagined for Gemini Code.
  *
  * Main features:
  * - OMC: Primary orchestrator that delegates to specialized subagents
  * - Parallel execution: Background agents run concurrently
  * - LSP/AST tools: IDE-like capabilities for agents
- * - Context management: Auto-injection from AGENTS.md/CLAUDE.md
+ * - Context management: Auto-injection from AGENTS.md/GEMINI.md
  * - Continuation enforcement: Ensures tasks complete before stopping
  * - Magic keywords: Special triggers for enhanced behaviors
  */
 import { loadConfig, findContextFiles, loadContextFromFiles } from './config/loader.js';
-import { getAgentDefinitions, omcSystemPrompt } from './agents/definitions.js';
+import { getAgentDefinitions, omgSystemPrompt } from './agents/definitions.js';
 import { getDefaultMcpServers, toSdkMcpFormat } from './mcp/servers.js';
-import { omcToolsServer, getOmcToolNames } from './mcp/omc-tools-server.js';
+import { omgToolsServer, getOmcToolNames } from './mcp/omg-tools-server.js';
 import { createMagicKeywordProcessor, detectMagicKeywords } from './features/magic-keywords.js';
 import { continuationSystemPromptAddition } from './features/continuation-enforcement.js';
 import { createBackgroundTaskManager, shouldRunInBackground as shouldRunInBackgroundFn } from './features/background-tasks.js';
-export { loadConfig, getAgentDefinitions, omcSystemPrompt };
+export { loadConfig, getAgentDefinitions, omgSystemPrompt };
 export { getDefaultMcpServers, toSdkMcpFormat } from './mcp/servers.js';
 export { lspTools, astTools, allCustomTools } from './tools/index.js';
-export { omcToolsServer, omcToolNames, getOmcToolNames } from './mcp/omc-tools-server.js';
+export { omgToolsServer, omgToolNames, getOmcToolNames } from './mcp/omg-tools-server.js';
 export { createMagicKeywordProcessor, detectMagicKeywords } from './features/magic-keywords.js';
 export { createBackgroundTaskManager, shouldRunInBackground, getBackgroundTaskGuidance, DEFAULT_MAX_BACKGROUND_TASKS, LONG_RUNNING_PATTERNS, BLOCKING_PATTERNS } from './features/background-tasks.js';
 export { 
@@ -39,7 +39,7 @@ export { BOULDER_DIR, BOULDER_FILE, BOULDER_STATE_PATH, NOTEPAD_DIR, NOTEPAD_BAS
 ContextCollector, contextCollector, injectPendingContext, injectContextIntoText, createContextInjectorHook } from './features/index.js';
 export { searchSessionHistory, parseSinceSpec } from './features/index.js';
 // Agent module exports (modular agent system)
-export { isGptModel, isClaudeModel, getDefaultModelForCategory, 
+export { isGptModel, isGeminiModel, getDefaultModelForCategory, 
 // Utilities
 createAgentToolRestrictions, mergeAgentConfig, buildDelegationTable, buildUseAvoidSection, createEnvContext, getAvailableAgents, buildKeyTriggersSection, validateAgentConfig, deepMerge, loadAgentPrompt, 
 // Individual agents with metadata (rebranded intuitive names)
@@ -49,21 +49,21 @@ export { documentSpecialistAgent as researcherAgent } from './agents/document-sp
 // Command expansion utilities for SDK integration
 export { expandCommand, expandCommandPrompt, getCommand, getAllCommands, listCommands, commandExists, expandCommands, getCommandsDir } from './commands/index.js';
 // Installer exports
-export { install, isInstalled, getInstallInfo, isClaudeInstalled, CLAUDE_CONFIG_DIR as INSTALLER_CLAUDE_CONFIG_DIR, AGENTS_DIR, COMMANDS_DIR, VERSION as INSTALLER_VERSION } from './installer/index.js';
+export { install, isInstalled, getInstallInfo, isGeminiInstalled, CLAUDE_CONFIG_DIR as INSTALLER_CLAUDE_CONFIG_DIR, AGENTS_DIR, COMMANDS_DIR, VERSION as INSTALLER_VERSION } from './installer/index.js';
 /**
  * Create a OMC orchestration session
  *
  * This prepares all the configuration and options needed
- * to run a query with the Claude Agent SDK.
+ * to run a query with the Gemini Agent SDK.
  *
  * @example
  * ```typescript
- * import { createOmcSession } from 'oh-my-claudecode';
- * import { query } from '@anthropic-ai/claude-agent-sdk';
+ * import { createOmcSession } from 'oh-my-gemini-cli';
+ * import { query } from '@anthropic-ai/gemini-agent-sdk';
  *
  * const session = createOmcSession();
  *
- * // Use with Claude Agent SDK
+ * // Use with Gemini Agent SDK
  * for await (const message of query({
  *   prompt: session.processPrompt("ultrawork refactor the authentication module"),
  *   ...session.queryOptions
@@ -88,7 +88,7 @@ export function createOmcSession(options) {
         }
     }
     // Build system prompt
-    let systemPrompt = omcSystemPrompt;
+    let systemPrompt = omgSystemPrompt;
     // Add continuation enforcement
     if (config.features?.continuationEnforcement !== false) {
         systemPrompt += continuationSystemPromptAddition;
@@ -127,12 +127,12 @@ export function createOmcSession(options) {
         allowedTools.push(`mcp__${serverName}__*`);
     }
     // Add OMC custom tools in MCP format (LSP, AST, python_repl)
-    const omcTools = getOmcToolNames({
+    const omgTools = getOmcToolNames({
         includeLsp: config.features?.lspTools !== false,
         includeAst: config.features?.astTools !== false,
         includePython: true
     });
-    allowedTools.push(...omcTools);
+    allowedTools.push(...omgTools);
     // Create magic keyword processor
     const processPrompt = createMagicKeywordProcessor(config.magicKeywords);
     // Initialize session state
@@ -150,7 +150,7 @@ export function createOmcSession(options) {
                 agents,
                 mcpServers: {
                     ...toSdkMcpFormat(externalMcpServers),
-                    't': omcToolsServer
+                    't': omgToolsServer
                 },
                 allowedTools,
                 permissionMode: 'acceptEdits'
@@ -175,7 +175,7 @@ export function enhancePrompt(prompt, config) {
  * Get the system prompt for the orchestrator (for direct use)
  */
 export function getOmcSystemPrompt(options) {
-    let prompt = omcSystemPrompt;
+    let prompt = omgSystemPrompt;
     if (options?.includeContinuation !== false) {
         prompt += continuationSystemPromptAddition;
     }

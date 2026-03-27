@@ -57,7 +57,7 @@ export async function scaleUp(teamName, count, agentType, tasks, cwd, env = proc
                 error: `Cannot add ${count} workers: would exceed max_workers (${currentCount} + ${count} > ${maxWorkers})`,
             };
         }
-        const teamStateRoot = config.team_state_root ?? `${leaderCwd}/.omc/state`;
+        const teamStateRoot = config.team_state_root ?? `${leaderCwd}/.omg/state`;
         // Resolve the monotonic worker index counter
         let nextIndex = config.next_worker_index ?? (currentCount + 1);
         const initialNextIndex = nextIndex;
@@ -115,7 +115,7 @@ export async function scaleUp(teamName, count, agentType, tasks, cwd, env = proc
                 workerName,
                 envVars: extraEnv,
                 launchArgs: [],
-                launchBinary: 'claude',
+                launchBinary: 'gemini',
                 launchCmd: '',
                 cwd: leaderCwd,
             });

@@ -229,14 +229,14 @@ const DEFAULT_TEMPLATES = {
         "{{tmuxTailBlock}}" +
         "\n\n{{footer}}",
     "session-idle": "# Session Idle\n\n" +
-        "Claude has finished and is waiting for input.\n" +
+        "Gemini has finished and is waiting for input.\n" +
         "{{#if reason}}\n**Reason:** {{reason}}{{/if}}" +
         "{{#if modesDisplay}}\n**Modes:** {{modesDisplay}}{{/if}}" +
         "{{tmuxTailBlock}}" +
         "\n\n{{footer}}",
     "ask-user-question": "# Input Needed\n" +
         "{{#if question}}\n**Question:** {{question}}\n{{/if}}" +
-        "\nClaude is waiting for your response.\n\n{{footer}}",
+        "\nGemini is waiting for your response.\n\n{{footer}}",
     "agent-call": "# Agent Spawned\n" +
         "{{#if agentName}}\n**Agent:** `{{agentName}}`{{/if}}" +
         "{{#if agentType}}\n**Type:** `{{agentType}}`{{/if}}" +

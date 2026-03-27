@@ -226,7 +226,7 @@ export declare class LspClientManager {
     /**
      * Register process exit/signal handlers to kill all spawned LSP server processes.
      * Prevents orphaned language server processes (e.g. kotlin-language-server)
-     * when the MCP bridge process exits or a claude session ends.
+     * when the MCP bridge process exits or a gemini session ends.
      */
     private registerCleanupHandlers;
     /**

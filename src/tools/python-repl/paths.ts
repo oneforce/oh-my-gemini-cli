@@ -68,7 +68,7 @@ function isSecureRuntimeDir(dir: string): boolean {
  * Uses OS-appropriate temp directories.
  *
  * Priority:
- * 1. XDG_RUNTIME_DIR/omc (Linux standard, usually /run/user/{uid})
+ * 1. XDG_RUNTIME_DIR/omg (Linux standard, usually /run/user/{uid})
  * 2. Platform-specific user cache directory
  * 3. os.tmpdir() fallback
  *
@@ -76,32 +76,32 @@ function isSecureRuntimeDir(dir: string): boolean {
  *
  * @example
  * getRuntimeDir();
- * // Linux with XDG: '/run/user/1000/omc'
- * // macOS: '~/Library/Caches/omc/runtime'
- * // Fallback: '/tmp/omc/runtime'
+ * // Linux with XDG: '/run/user/1000/omg'
+ * // macOS: '~/Library/Caches/omg/runtime'
+ * // Fallback: '/tmp/omg/runtime'
  */
 export function getRuntimeDir(): string {
   // Priority 1: XDG_RUNTIME_DIR (Linux standard, usually /run/user/{uid})
   const xdgRuntime = process.env.XDG_RUNTIME_DIR;
   if (xdgRuntime && isSecureRuntimeDir(xdgRuntime)) {
-    return path.join(xdgRuntime, "omc");
+    return path.join(xdgRuntime, "omg");
   }
 
   // Priority 2: Platform-specific user cache directory
   const platform = process.platform;
   if (platform === "darwin") {
-    return path.join(os.homedir(), "Library", "Caches", "omc", "runtime");
+    return path.join(os.homedir(), "Library", "Caches", "omg", "runtime");
   } else if (platform === "linux") {
     // Linux fallback - use /tmp (XDG validation failed)
-    return path.join("/tmp", "omc", "runtime");
+    return path.join("/tmp", "omg", "runtime");
   } else if (platform === "win32") {
     // Windows: use LOCALAPPDATA (e.g., C:\Users\<user>\AppData\Local)
     const localAppData = process.env.LOCALAPPDATA || path.join(os.homedir(), "AppData", "Local");
-    return path.join(localAppData, "omc", "runtime");
+    return path.join(localAppData, "omg", "runtime");
   }
 
   // Priority 3: Final fallback to os.tmpdir() for any other platform
-  return path.join(os.tmpdir(), "omc", "runtime");
+  return path.join(os.tmpdir(), "omg", "runtime");
 }
 
 // =============================================================================

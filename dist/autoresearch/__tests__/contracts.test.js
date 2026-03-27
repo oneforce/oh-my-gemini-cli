@@ -5,7 +5,7 @@ import { join } from 'node:path';
 import { tmpdir } from 'node:os';
 import { loadAutoresearchMissionContract, parseEvaluatorResult, parseSandboxContract, slugifyMissionName, } from '../contracts.js';
 async function initRepo() {
-    const cwd = await mkdtemp(join(tmpdir(), 'omc-autoresearch-contracts-'));
+    const cwd = await mkdtemp(join(tmpdir(), 'omg-autoresearch-contracts-'));
     execFileSync('git', ['init'], { cwd, stdio: 'ignore' });
     execFileSync('git', ['config', 'user.email', 'test@example.com'], { cwd, stdio: 'ignore' });
     execFileSync('git', ['config', 'user.name', 'Test User'], { cwd, stdio: 'ignore' });

@@ -3,7 +3,7 @@
 This document defines the behavioral differences between agent tiers (LOW/MEDIUM/HIGH).
 
 ## LOW Tier (Haiku)
-**Model**: claude-haiku-4-5
+**Model**: gemini-haiku-4-5
 **Focus**: Speed and efficiency for simple, well-defined tasks
 
 ```markdown
@@ -21,7 +21,7 @@ This document defines the behavioral differences between agent tiers (LOW/MEDIUM
 ```
 
 ## MEDIUM Tier (Sonnet)
-**Model**: claude-sonnet-4-5
+**Model**: gemini-sonnet-4-5
 **Focus**: Balance between thoroughness and efficiency
 
 ```markdown
@@ -40,7 +40,7 @@ This document defines the behavioral differences between agent tiers (LOW/MEDIUM
 ```
 
 ## HIGH Tier (Opus)
-**Model**: claude-opus-4-6
+**Model**: gemini-opus-4-6
 **Focus**: Correctness and quality for complex tasks
 
 ```markdown

@@ -2,7 +2,7 @@
  * Rate Limit Wait Daemon
  *
  * Background daemon that monitors rate limits and auto-resumes
- * Claude Code sessions when rate limits reset.
+ * Gemini Code sessions when rate limits reset.
  *
  * Security considerations:
  * - State/PID/log files use restrictive permissions (0600)
@@ -44,9 +44,9 @@ const DEFAULT_CONFIG: Required<DaemonConfig> = {
   pollIntervalMs: 60 * 1000, // 1 minute
   paneLinesToCapture: 15,
   verbose: false,
-  stateFilePath: join(homedir(), '.omc', 'state', 'rate-limit-daemon.json'),
-  pidFilePath: join(homedir(), '.omc', 'state', 'rate-limit-daemon.pid'),
-  logFilePath: join(homedir(), '.omc', 'state', 'rate-limit-daemon.log'),
+  stateFilePath: join(homedir(), '.omg', 'state', 'rate-limit-daemon.json'),
+  pidFilePath: join(homedir(), '.omg', 'state', 'rate-limit-daemon.pid'),
+  logFilePath: join(homedir(), '.omg', 'state', 'rate-limit-daemon.log'),
 };
 
 /** Maximum log file size before rotation (1MB) */
@@ -537,7 +537,7 @@ export async function runDaemonForeground(config?: DaemonConfig): Promise<void> 
 
   // Check if already running
   if (isDaemonRunning(cfg)) {
-    console.error('Daemon is already running. Use "omc wait daemon stop" first.');
+    console.error('Daemon is already running. Use "omg wait daemon stop" first.');
     process.exit(1);
   }
 

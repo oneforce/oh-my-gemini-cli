@@ -71,8 +71,8 @@ function isUserAbort(data) {
 
 /**
  * Resolve a transcript path that may be mismatched in worktree sessions (issue #1094).
- * When Claude Code runs inside .claude/worktrees/X, the encoded project directory
- * contains `--claude-worktrees-X` which doesn't exist. Strip it to find the real path.
+ * When Gemini Code runs inside .gemini/worktrees/X, the encoded project directory
+ * contains `--gemini-worktrees-X` which doesn't exist. Strip it to find the real path.
  */
 function resolveTranscriptPath(transcriptPath, cwd) {
   if (!transcriptPath) return transcriptPath;
@@ -80,8 +80,8 @@ function resolveTranscriptPath(transcriptPath, cwd) {
     if (existsSync(transcriptPath)) return transcriptPath;
   } catch { /* fallthrough */ }
 
-  // Strategy 1: Strip Claude worktree segment from encoded project directory
-  const worktreePattern = /--claude-worktrees-[^/\\]+/;
+  // Strategy 1: Strip Gemini worktree segment from encoded project directory
+  const worktreePattern = /--gemini-worktrees-[^/\\]+/;
   if (worktreePattern.test(transcriptPath)) {
     const resolved = transcriptPath.replace(worktreePattern, '');
     try {
@@ -114,7 +114,7 @@ function resolveTranscriptPath(transcriptPath, cwd) {
       const lastSep = transcriptPath.lastIndexOf('/');
       const sessionFile = lastSep !== -1 ? transcriptPath.substring(lastSep + 1) : '';
       if (sessionFile) {
-        const configDir = process.env.CLAUDE_CONFIG_DIR || join(homedir(), '.claude');
+        const configDir = process.env.CLAUDE_CONFIG_DIR || join(homedir(), '.gemini');
         const projectsDir = join(configDir, 'projects');
         if (existsSync(projectsDir)) {
           const encodedMain = mainRepoRoot.replace(/[/\\]/g, '-');
@@ -174,7 +174,7 @@ function estimateContextPercent(transcriptPath) {
  */
 function getBlockCount(sessionId) {
   if (!sessionId || !SESSION_ID_PATTERN.test(sessionId)) return 0;
-  const guardFile = join(tmpdir(), `omc-context-guard-${sessionId}.json`);
+  const guardFile = join(tmpdir(), `omg-context-guard-${sessionId}.json`);
   try {
     if (existsSync(guardFile)) {
       const data = JSON.parse(readFileSync(guardFile, 'utf-8'));
@@ -186,7 +186,7 @@ function getBlockCount(sessionId) {
 
 function incrementBlockCount(sessionId) {
   if (!sessionId || !SESSION_ID_PATTERN.test(sessionId)) return;
-  const guardFile = join(tmpdir(), `omc-context-guard-${sessionId}.json`);
+  const guardFile = join(tmpdir(), `omg-context-guard-${sessionId}.json`);
   try {
     let count = 0;
     if (existsSync(guardFile)) {
@@ -202,7 +202,7 @@ function buildStopRecoveryAdvice(contextPercent, blockCount) {
   return `[OMC ${severity}] Context at ${contextPercent}% (threshold: ${THRESHOLD}%). ` +
     `Run /compact immediately before continuing. If /compact cannot complete, ` +
     `stop spawning new agents and recover in a fresh session using existing checkpoints ` +
-    `(.omc/state, .omc/notepad.md). (Block ${blockCount}/${MAX_BLOCKS})`;
+    `(.omg/state, .omg/notepad.md). (Block ${blockCount}/${MAX_BLOCKS})`;
 }
 
 async function main() {

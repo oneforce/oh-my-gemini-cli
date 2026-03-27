@@ -22,7 +22,7 @@ const MODE_STATE_FILES = [
   'ultraqa-state.json',
   'pipeline-state.json',
   'team-state.json',
-  'omc-teams-state.json',
+  'omg-teams-state.json',
 ];
 const AGENT_HEAVY_TOOLS = new Set(['Task', 'TaskCreate', 'TaskUpdate']);
 const PREFLIGHT_CONTEXT_THRESHOLD = parseInt(process.env.OMC_AGENT_PREFLIGHT_CONTEXT_THRESHOLD || '72', 10);
@@ -44,7 +44,7 @@ function resolveTranscriptPath(transcriptPath, cwd) {
     if (existsSync(transcriptPath)) return transcriptPath;
   } catch { /* fallthrough */ }
 
-  const worktreePattern = /--claude-worktrees-[^/\\]+/;
+  const worktreePattern = /--gemini-worktrees-[^/\\]+/;
   if (worktreePattern.test(transcriptPath)) {
     const resolvedPath = transcriptPath.replace(worktreePattern, '');
     try {
@@ -73,7 +73,7 @@ function resolveTranscriptPath(transcriptPath, cwd) {
       const lastSep = transcriptPath.lastIndexOf('/');
       const sessionFile = lastSep !== -1 ? transcriptPath.substring(lastSep + 1) : '';
       if (sessionFile) {
-        const configDir = process.env.CLAUDE_CONFIG_DIR || join(homedir(), '.claude');
+        const configDir = process.env.CLAUDE_CONFIG_DIR || join(homedir(), '.gemini');
         const projectsDir = join(configDir, 'projects');
         if (existsSync(projectsDir)) {
           const encodedMain = mainRepoRoot.replace(/[/\\]/g, '-');
@@ -126,7 +126,7 @@ function buildPreflightRecoveryAdvice(contextPercent) {
   return `[OMC] Preflight context guard: ${contextPercent}% used ` +
     `(threshold: ${PREFLIGHT_CONTEXT_THRESHOLD}%). Avoid spawning additional agent-heavy tasks ` +
     `until context is reduced. Safe recovery: (1) pause new Task fan-out, (2) run /compact now, ` +
-    `(3) if compact fails, open a fresh session and continue from .omc/state + .omc/notepad.md.`;
+    `(3) if compact fails, open a fresh session and continue from .omg/state + .omg/notepad.md.`;
 }
 
 // Simple JSON field extraction
@@ -143,7 +143,7 @@ function extractJsonField(input, field, defaultValue = '') {
 
 // Get agent tracking info from state file
 function getAgentTrackingInfo(directory) {
-  const trackingFile = join(directory, '.omc', 'state', 'subagent-tracking.json');
+  const trackingFile = join(directory, '.omg', 'state', 'subagent-tracking.json');
   try {
     if (existsSync(trackingFile)) {
       const data = JSON.parse(readFileSync(trackingFile, 'utf-8'));
@@ -161,8 +161,8 @@ function getTodoStatus(directory) {
 
   // Check project-local todos
   const localPaths = [
-    join(directory, '.omc', 'todos.json'),
-    join(directory, '.claude', 'todos.json')
+    join(directory, '.omg', 'todos.json'),
+    join(directory, '.gemini', 'todos.json')
   ];
 
   for (const todoFile of localPaths) {
@@ -181,7 +181,7 @@ function getTodoStatus(directory) {
     }
   }
 
-  // NOTE: We intentionally do NOT scan the global ~/.claude/todos/ directory.
+  // NOTE: We intentionally do NOT scan the global ~/.gemini/todos/ directory.
   // That directory accumulates todo files from ALL past sessions across all
   // projects, causing phantom task counts in fresh sessions (see issue #354).
 
@@ -227,7 +227,7 @@ function hasActiveSwarmMode(stateDir, { allowSessionTagged = false } = {}) {
 }
 
 function hasActiveMode(directory, sessionId) {
-  const stateDir = join(directory, '.omc', 'state');
+  const stateDir = join(directory, '.omg', 'state');
 
   if (isValidSessionId(sessionId)) {
     const sessionStateDir = join(stateDir, 'sessions', sessionId);
@@ -253,11 +253,11 @@ function getActiveTeamState(directory, sessionId) {
 
   // Session-scoped path (preferred)
   if (sessionId && SESSION_ID_PATTERN.test(sessionId)) {
-    paths.push(join(directory, '.omc', 'state', 'sessions', sessionId, 'team-state.json'));
+    paths.push(join(directory, '.omg', 'state', 'sessions', sessionId, 'team-state.json'));
   }
 
   // Legacy path
-  paths.push(join(directory, '.omc', 'state', 'team-state.json'));
+  paths.push(join(directory, '.omg', 'state', 'team-state.json'));
 
   for (const statePath of paths) {
     const state = readJsonFile(statePath);
@@ -296,7 +296,7 @@ function generateAgentSpawnMessage(toolInput, directory, todoStatus, sessionId) 
       `Task(team_name="${teamName}", name="worker-N", subagent_type="${agentType}"). ` +
       `Do NOT use Task without team_name during an active team session. ` +
       `If TeamCreate is not available in your tools, tell the user to verify ` +
-      `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1 is set in ~/.claude/settings.json and restart Claude Code.`;
+      `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1 is set in ~/.gemini/settings.json and restart Gemini Code.`;
   }
 
   if (QUIET_LEVEL >= 2) return '';
@@ -347,14 +347,14 @@ const SKILL_PROTECTION_CONFIGS = {
 
 const SKILL_PROTECTION_MAP = {
   autopilot: 'none', ralph: 'none', ultrawork: 'none', team: 'none',
-  'omc-teams': 'none', ultraqa: 'none', cancel: 'none',
-  trace: 'none', hud: 'none', 'omc-doctor': 'none', 'omc-help': 'none',
-  'learn-about-omc': 'none', note: 'none',
+  'omg-teams': 'none', ultraqa: 'none', cancel: 'none',
+  trace: 'none', hud: 'none', 'omg-doctor': 'none', 'omg-help': 'none',
+  'learn-about-omg': 'none', note: 'none',
   tdd: 'light', 'build-fix': 'light', analyze: 'light', skill: 'light',
   'configure-notifications': 'light',
   'code-review': 'medium', 'security-review': 'medium', plan: 'medium',
   ralplan: 'medium', review: 'medium', 'external-context': 'medium',
-  sciomc: 'medium', learner: 'medium', 'omc-setup': 'medium',
+  sciomg: 'medium', learner: 'medium', 'omg-setup': 'medium',
   'mcp-setup': 'medium', 'project-session-manager': 'medium',
   'writer-memory': 'medium', 'ralph-init': 'medium', ccg: 'medium',
   deepinit: 'heavy',
@@ -363,20 +363,20 @@ const SKILL_PROTECTION_MAP = {
 function getSkillProtectionLevel(skillName, rawSkillName) {
   // When rawSkillName is provided, only apply protection to OMC-prefixed skills.
   // Non-prefixed skills are project custom skills or other plugins — no protection.
-  // See: https://github.com/Yeachan-Heo/oh-my-claudecode/issues/1581
+  // See: https://github.com/Yeachan-Heo/oh-my-gemini-cli/issues/1581
   if (rawSkillName != null && typeof rawSkillName === 'string' &&
-      !rawSkillName.toLowerCase().startsWith('oh-my-claudecode:')) {
+      !rawSkillName.toLowerCase().startsWith('oh-my-gemini-cli:')) {
     return 'none';
   }
-  const normalized = (skillName || '').toLowerCase().replace(/^oh-my-claudecode:/, '');
+  const normalized = (skillName || '').toLowerCase().replace(/^oh-my-gemini-cli:/, '');
   return SKILL_PROTECTION_MAP[normalized] || 'none';
 }
 
 // Load OMC config to check forceInherit setting (issues #1135, #1201)
 function loadOmcConfig() {
   const configPaths = [
-    join(homedir(), '.claude', '.omc-config.json'),
-    join(process.cwd(), '.omc', 'config.json'),
+    join(homedir(), '.gemini', '.omg-config.json'),
+    join(process.cwd(), '.omg', 'config.json'),
   ];
   for (const configPath of configPaths) {
     try {
@@ -409,7 +409,7 @@ function writeSkillActiveState(directory, skillName, sessionId, rawSkillName) {
 
   const config = SKILL_PROTECTION_CONFIGS[protection];
   const now = new Date().toISOString();
-  const normalized = (skillName || '').toLowerCase().replace(/^oh-my-claudecode:/, '');
+  const normalized = (skillName || '').toLowerCase().replace(/^oh-my-gemini-cli:/, '');
 
   const state = {
     active: true,
@@ -422,7 +422,7 @@ function writeSkillActiveState(directory, skillName, sessionId, rawSkillName) {
     stale_ttl_ms: config.staleTtlMs,
   };
 
-  const stateDir = join(directory, '.omc', 'state');
+  const stateDir = join(directory, '.omg', 'state');
   const safeSessionId = sessionId && SESSION_ID_PATTERN.test(sessionId) ? sessionId : '';
   const targetDir = safeSessionId
     ? join(stateDir, 'sessions', safeSessionId)
@@ -443,7 +443,7 @@ function writeSkillActiveState(directory, skillName, sessionId, rawSkillName) {
 
 
 function clearAwaitingConfirmationFlag(directory, stateName, sessionId) {
-  const stateDir = join(directory, '.omc', 'state');
+  const stateDir = join(directory, '.omg', 'state');
   const safeSessionId = sessionId && SESSION_ID_PATTERN.test(sessionId) ? sessionId : '';
   const paths = [
     safeSessionId ? join(stateDir, 'sessions', safeSessionId, `${stateName}-state.json`) : null,

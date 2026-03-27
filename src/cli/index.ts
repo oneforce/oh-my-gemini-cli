@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /**
- * Oh-My-ClaudeCode CLI
+ * Oh-My-GeminiCLI CLI
  *
  * Command-line interface for the OMC multi-agent system.
  *
@@ -69,14 +69,14 @@ const program = new Command();
 // Win32 platform warning - OMC requires tmux which is not available on native Windows
 warnIfWin32();
 
-// Default action when running 'omc' with no subcommand
-// Forwards all args to launchCommand so 'omc --notify false --madmax' etc. work directly
+// Default action when running 'omg' with no subcommand
+// Forwards all args to launchCommand so 'omg --notify false --madmax' etc. work directly
 async function defaultAction() {
   // Pass all CLI args through to launch (strip node + script path)
   const args = process.argv.slice(2);
 
   // Defensive fallback: wrapper/bridge invocations must preserve explicit ask routing
-  // so nested Claude launch checks only apply to actual Claude launches.
+  // so nested Gemini launch checks only apply to actual Gemini launches.
   if (args[0] === 'ask') {
     await askCommand(args.slice(1));
     return;
@@ -87,27 +87,27 @@ async function defaultAction() {
 
 
 program
-  .name('omc')
-  .description('Multi-agent orchestration system for Claude Agent SDK')
+  .name('omg')
+  .description('Multi-agent orchestration system for Gemini Agent SDK')
   .version(version)
   .allowUnknownOption()
   .action(defaultAction);
 
 /**
- * Launch command - Native tmux shell launch for Claude Code
+ * Launch command - Native tmux shell launch for Gemini Code
  */
 program
   .command('launch [args...]')
-  .description('Launch Claude Code with native tmux shell integration')
+  .description('Launch Gemini Code with native tmux shell integration')
   .allowUnknownOption()
   .addHelpText('after', `
 Examples:
-  $ omc                                Launch Claude Code
-  $ omc --madmax                       Launch with permissions bypass
-  $ omc --yolo                         Launch with permissions bypass (alias)
-  $ omc --notify false                 Launch without CCNotifier events
-  $ omc launch                         Explicit launch subcommand (same as bare omc)
-  $ omc launch --madmax                Explicit launch with flags
+  $ omg                                Launch Gemini Code
+  $ omg --madmax                       Launch with permissions bypass
+  $ omg --yolo                         Launch with permissions bypass (alias)
+  $ omg --notify false                 Launch without CCNotifier events
+  $ omg launch                         Explicit launch subcommand (same as bare omg)
+  $ omg launch --madmax                Explicit launch with flags
 
 Options:
   --notify <bool>   Enable/disable CCNotifier events. false sets OMC_NOTIFY=0
@@ -126,18 +126,18 @@ Environment:
  */
 program
   .command('interop')
-  .description('Launch split-pane tmux session with Claude Code (OMC) and Codex (OMX)')
+  .description('Launch split-pane tmux session with Gemini Code (OMC) and Codex (OMX)')
   .addHelpText('after', `
 Requirements:
   - Must be running inside a tmux session
-  - Claude CLI must be installed
+  - Gemini CLI must be installed
   - Codex CLI recommended (graceful fallback if missing)`)
   .action(() => {
     interopCommand();
   });
 
 /**
- * Ask command - Run provider advisor prompt (claude|gemini)
+ * Ask command - Run provider advisor prompt (gemini|gemini)
  */
 program
   .command('ask [args...]')
@@ -159,9 +159,9 @@ program
   .option('-p, --paths', 'Show configuration file paths')
   .addHelpText('after', `
 Examples:
-  $ omc config                   Show current configuration
-  $ omc config --validate        Validate configuration files
-  $ omc config --paths           Show config file locations
+  $ omg config                   Show current configuration
+  $ omg config --validate        Validate configuration files
+  $ omg config --paths           Show config file locations
 
   }`)
   .action(async (options) => {
@@ -248,19 +248,19 @@ Profile types (use with --profile):
   webhook      Generic webhook (POST with JSON body)
 
 Examples:
-  $ omc config-stop-callback file --enable --path ~/.claude/logs/{date}.md
-  $ omc config-stop-callback telegram --enable --token <token> --chat <id>
-  $ omc config-stop-callback discord --enable --webhook <url>
-  $ omc config-stop-callback file --disable
-  $ omc config-stop-callback file --show
+  $ omg config-stop-callback file --enable --path ~/.gemini/logs/{date}.md
+  $ omg config-stop-callback telegram --enable --token <token> --chat <id>
+  $ omg config-stop-callback discord --enable --webhook <url>
+  $ omg config-stop-callback file --disable
+  $ omg config-stop-callback file --show
 
   # Named profiles (stored in notificationProfiles):
-  $ omc config-stop-callback discord --profile work --enable --webhook <url>
-  $ omc config-stop-callback telegram --profile work --enable --token <tk> --chat <id>
-  $ omc config-stop-callback discord-bot --profile ops --enable --token <tk> --channel-id <id>
+  $ omg config-stop-callback discord --profile work --enable --webhook <url>
+  $ omg config-stop-callback telegram --profile work --enable --token <tk> --chat <id>
+  $ omg config-stop-callback discord-bot --profile ops --enable --token <tk> --channel-id <id>
 
   # Select profile at launch:
-  $ OMC_NOTIFY_PROFILE=work claude`)
+  $ OMC_NOTIFY_PROFILE=work gemini`)
   .action(async (type: string, options) => {
     // When --profile is used, route to profile-based config
     if (options.profile) {
@@ -466,7 +466,7 @@ Examples:
         const current = config.stopHookCallbacks.file;
         config.stopHookCallbacks.file = {
           enabled: enabled ?? current?.enabled ?? false,
-          path: options.path ?? current?.path ?? '~/.claude/session-logs/{session_id}.md',
+          path: options.path ?? current?.path ?? '~/.gemini/session-logs/{session_id}.md',
           format: (options.format as 'markdown' | 'json') ?? current?.format ?? 'markdown',
         };
         break;
@@ -545,15 +545,15 @@ program
   .option('--delete', 'Delete a profile')
   .addHelpText('after', `
 Examples:
-  $ omc config-notify-profile --list
-  $ omc config-notify-profile work --show
-  $ omc config-notify-profile work --delete
+  $ omg config-notify-profile --list
+  $ omg config-notify-profile work --show
+  $ omg config-notify-profile work --delete
 
   # Create/update profiles via config-stop-callback --profile:
-  $ omc config-stop-callback discord --profile work --enable --webhook <url>
+  $ omg config-stop-callback discord --profile work --enable --webhook <url>
 
   # Select profile at launch:
-  $ OMC_NOTIFY_PROFILE=work claude`)
+  $ OMC_NOTIFY_PROFILE=work gemini`)
   .action(async (name: string | undefined, options) => {
     const config = getOMCConfig() as OMCConfig & { notificationProfiles?: Record<string, any> };
     const profiles = config.notificationProfiles || {};
@@ -562,7 +562,7 @@ Examples:
       const names = Object.keys(profiles);
       if (names.length === 0) {
         console.log(chalk.yellow('No notification profiles configured.'));
-        console.log(chalk.gray('Create one with: omc config-stop-callback <type> --profile <name> --enable ...'));
+        console.log(chalk.gray('Create one with: omg config-stop-callback <type> --profile <name> --enable ...'));
       } else {
         console.log(chalk.blue('Notification profiles:'));
         for (const pName of names) {
@@ -617,7 +617,7 @@ Examples:
       console.log(JSON.stringify(profiles[name], null, 2));
     } else {
       console.log(chalk.yellow(`Profile "${name}" not found.`));
-      console.log(chalk.gray('Create it with: omc config-stop-callback <type> --profile ' + name + ' --enable ...'));
+      console.log(chalk.gray('Create it with: omg config-stop-callback <type> --profile ' + name + ' --enable ...'));
     }
   });
 
@@ -630,11 +630,11 @@ program
   .description('Show system and agent information')
   .addHelpText('after', `
 Examples:
-  $ omc info                     Show agents, features, and MCP servers`)
+  $ omg info                     Show agents, features, and MCP servers`)
   .action(async () => {
     const session = createOmcSession();
 
-    console.log(chalk.blue.bold('\nOh-My-ClaudeCode System Information\n'));
+    console.log(chalk.blue.bold('\nOh-My-GeminiCLI System Information\n'));
     console.log(chalk.gray('━'.repeat(50)));
 
     console.log(chalk.blue('\nAvailable Agents:'));
@@ -677,8 +677,8 @@ program
   .description('Test how a prompt would be enhanced')
   .addHelpText('after', `
 Examples:
-  $ omc test-prompt "ultrawork fix bugs"    See how magic keywords are detected
-  $ omc test-prompt "analyze this code"     Test prompt enhancement`)
+  $ omg test-prompt "ultrawork fix bugs"    See how magic keywords are detected
+  $ omg test-prompt "analyze this code"     Test prompt enhancement`)
   .action(async (prompt: string) => {
     const session = createOmcSession();
 
@@ -708,13 +708,13 @@ program
   .option('--clean', 'Purge old plugin cache versions immediately (bypass 24h grace period)')
   .addHelpText('after', `
 Examples:
-  $ omc update                   Check and install updates
-  $ omc update --check           Only check, don't install
-  $ omc update --force           Force reinstall
-  $ omc update --standalone      Force npm update in plugin context`)
+  $ omg update                   Check and install updates
+  $ omg update --check           Only check, don't install
+  $ omg update --force           Force reinstall
+  $ omg update --standalone      Force npm update in plugin context`)
   .action(async (options) => {
     if (!options.quiet) {
-      console.log(chalk.blue('Oh-My-ClaudeCode Update\n'));
+      console.log(chalk.blue('Oh-My-GeminiCLI Update\n'));
     }
 
     try {
@@ -762,7 +762,7 @@ Examples:
       if (result.success) {
         if (!options.quiet) {
           console.log(chalk.green(`\n✓ ${result.message}`));
-          console.log(chalk.gray('\nPlease restart your Claude Code session to use the new version.'));
+          console.log(chalk.gray('\nPlease restart your Gemini Code session to use the new version.'));
         }
       } else {
         console.error(chalk.red(`\n✗ ${result.message}`));
@@ -774,7 +774,7 @@ Examples:
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error);
       console.error(chalk.red(`Update failed: ${message}`));
-      console.error(chalk.gray('Try again with "omc update --force", or reinstall with "omc install --force".'));
+      console.error(chalk.gray('Try again with "omg update --force", or reinstall with "omg install --force".'));
       process.exit(1);
     }
   });
@@ -816,11 +816,11 @@ program
   .description('Show detailed version information')
   .addHelpText('after', `
 Examples:
-  $ omc version                  Show version, install method, and commit hash`)
+  $ omg version                  Show version, install method, and commit hash`)
   .action(async () => {
     const installed = getInstalledVersion();
 
-    console.log(chalk.blue.bold('\nOh-My-ClaudeCode Version Information\n'));
+    console.log(chalk.blue.bold('\nOh-My-GeminiCLI Version Information\n'));
     console.log(chalk.gray('━'.repeat(50)));
 
     console.log(`\n  Package version:   ${chalk.green(version)}`);
@@ -841,28 +841,28 @@ Examples:
     }
 
     console.log(chalk.gray('\n━'.repeat(50)));
-    console.log(chalk.gray('\nTo check for updates, run: oh-my-claudecode update --check'));
+    console.log(chalk.gray('\nTo check for updates, run: oh-my-gemini-cli update --check'));
   });
 
 /**
- * Install command - Install agents and commands to ~/.claude/
+ * Install command - Install agents and commands to ~/.gemini/
  */
 program
   .command('install')
-  .description('Install OMC agents and commands to Claude Code config (~/.claude/)')
+  .description('Install OMC agents and commands to Gemini Code config (~/.gemini/)')
   .option('-f, --force', 'Overwrite existing files')
   .option('-q, --quiet', 'Suppress output except for errors')
-  .option('--skip-claude-check', 'Skip checking if Claude Code is installed')
+  .option('--skip-gemini-check', 'Skip checking if Gemini Code is installed')
   .addHelpText('after', `
 Examples:
-  $ omc install                  Install to ~/.claude/
-  $ omc install --force          Reinstall, overwriting existing files
-  $ omc install --quiet          Silent install for scripts`)
+  $ omg install                  Install to ~/.gemini/
+  $ omg install --force          Reinstall, overwriting existing files
+  $ omg install --quiet          Silent install for scripts`)
   .action(async (options) => {
     if (!options.quiet) {
       console.log(chalk.blue('╔═══════════════════════════════════════════════════════════╗'));
-      console.log(chalk.blue('║         Oh-My-ClaudeCode Installer                        ║'));
-      console.log(chalk.blue('║   Multi-Agent Orchestration for Claude Code               ║'));
+      console.log(chalk.blue('║         Oh-My-GeminiCLI Installer                        ║'));
+      console.log(chalk.blue('║   Multi-Agent Orchestration for Gemini Code               ║'));
       console.log(chalk.blue('╚═══════════════════════════════════════════════════════════╝'));
       console.log('');
     }
@@ -885,7 +885,7 @@ Examples:
     const result = installOmc({
       force: options.force,
       verbose: !options.quiet,
-      skipClaudeCheck: options.skipClaudeCheck
+      skipGeminiCheck: options.skipGeminiCheck
     });
 
     if (result.success) {
@@ -895,15 +895,15 @@ Examples:
         console.log(chalk.green('║         Installation Complete!                            ║'));
         console.log(chalk.green('╚═══════════════════════════════════════════════════════════╝'));
         console.log('');
-        console.log(chalk.gray(`Installed to: ~/.claude/`));
+        console.log(chalk.gray(`Installed to: ~/.gemini/`));
         console.log('');
         console.log(chalk.yellow('Usage:'));
-        console.log('  claude                        # Start Claude Code normally');
+        console.log('  gemini                        # Start Gemini Code normally');
         console.log('');
         console.log(chalk.yellow('Slash Commands:'));
-        console.log('  /omc <task>              # Activate OMC orchestration mode');
-        console.log('  /omc-default             # Configure for current project');
-        console.log('  /omc-default-global      # Configure globally');
+        console.log('  /omg <task>              # Activate OMC orchestration mode');
+        console.log('  /omg-default             # Configure for current project');
+        console.log('  /omg-default-global      # Configure globally');
         console.log('  /ultrawork <task>             # Maximum performance mode');
         console.log('  /deepsearch <query>           # Thorough codebase search');
         console.log('  /analyze <target>             # Deep analysis mode');
@@ -933,22 +933,22 @@ Examples:
         console.log('    designer-low        - Simple styling (Haiku)');
         console.log('');
         console.log(chalk.yellow('After Updates:'));
-        console.log('  Run \'/omc-default\' (project) or \'/omc-default-global\' (global)');
-        console.log('  to download the latest CLAUDE.md configuration.');
+        console.log('  Run \'/omg-default\' (project) or \'/omg-default-global\' (global)');
+        console.log('  to download the latest GEMINI.md configuration.');
         console.log('  This ensures you get the newest features and agent behaviors.');
         console.log('');
         console.log(chalk.blue('Quick Start:'));
-        console.log('  1. Run \'claude\' to start Claude Code');
-        console.log('  2. Type \'/omc-default\' for project or \'/omc-default-global\' for global');
-        console.log('  3. Or use \'/omc <task>\' for one-time activation');
+        console.log('  1. Run \'gemini\' to start Gemini Code');
+        console.log('  2. Type \'/omg-default\' for project or \'/omg-default-global\' for global');
+        console.log('  3. Or use \'/omg <task>\' for one-time activation');
       }
     } else {
       console.error(chalk.red(`Installation failed: ${result.message}`));
       if (result.errors.length > 0) {
         result.errors.forEach(err => console.error(chalk.red(`  - ${err}`)));
       }
-      console.error(chalk.gray('\nTry "omc install --force" to overwrite existing files.'));
-      console.error(chalk.gray('For more diagnostics, run "omc doctor conflicts".'));
+      console.error(chalk.gray('\nTry "omg install --force" to overwrite existing files.'));
+      console.error(chalk.gray('For more diagnostics, run "omg doctor conflicts".'));
       process.exit(1);
     }
   });
@@ -957,24 +957,24 @@ Examples:
  * Wait command - Rate limit wait and auto-resume
  *
  * Zero learning curve design:
- * - `omc wait` alone shows status and suggests next action
- * - `omc wait --start` starts the daemon (shortcut)
- * - `omc wait --stop` stops the daemon (shortcut)
+ * - `omg wait` alone shows status and suggests next action
+ * - `omg wait --start` starts the daemon (shortcut)
+ * - `omg wait --stop` stops the daemon (shortcut)
  * - Subcommands available for power users
  */
 const waitCmd = program
   .command('wait')
-  .description('Rate limit wait and auto-resume (just run "omc wait" to get started)')
+  .description('Rate limit wait and auto-resume (just run "omg wait" to get started)')
   .option('--json', 'Output as JSON')
   .option('--start', 'Start the auto-resume daemon')
   .option('--stop', 'Stop the auto-resume daemon')
   .addHelpText('after', `
 Examples:
-  $ omc wait                     Show status and suggestions
-  $ omc wait --start             Start auto-resume daemon
-  $ omc wait --stop              Stop auto-resume daemon
-  $ omc wait status              Show detailed rate limit status
-  $ omc wait detect              Scan for blocked tmux sessions`)
+  $ omg wait                     Show status and suggestions
+  $ omg wait --start             Start auto-resume daemon
+  $ omg wait --stop              Stop auto-resume daemon
+  $ omg wait status              Show detailed rate limit status
+  $ omg wait detect              Scan for blocked tmux sessions`)
   .action(async (options) => {
     await waitCommand(options);
   });
@@ -995,13 +995,13 @@ waitCmd
   .option('-i, --interval <seconds>', 'Poll interval in seconds', '60')
   .addHelpText('after', `
 Examples:
-  $ omc wait daemon start            Start background daemon
-  $ omc wait daemon stop             Stop the daemon
-  $ omc wait daemon start -f         Run in foreground`)
+  $ omg wait daemon start            Start background daemon
+  $ omg wait daemon stop             Stop the daemon
+  $ omg wait daemon start -f         Run in foreground`)
   .action(async (action: string, options) => {
     if (action !== 'start' && action !== 'stop') {
       console.error(chalk.red(`Invalid action "${action}". Valid options: start, stop`));
-      console.error(chalk.gray('Example: omc wait daemon start'));
+      console.error(chalk.gray('Example: omg wait daemon start'));
       process.exit(1);
     }
     await waitDaemonCommand(action as 'start' | 'stop', {
@@ -1013,7 +1013,7 @@ Examples:
 
 waitCmd
   .command('detect')
-  .description('Scan for blocked Claude Code sessions in tmux')
+  .description('Scan for blocked Gemini Code sessions in tmux')
   .option('--json', 'Output as JSON')
   .option('-l, --lines <number>', 'Number of pane lines to analyze', '15')
   .action(async (options) => {
@@ -1028,35 +1028,35 @@ waitCmd
  * Teleport command - Quick worktree creation
  *
  * Usage:
- * - `omc teleport '#123'` - Create worktree for issue/PR #123
- * - `omc teleport my-feature` - Create worktree for feature branch
- * - `omc teleport list` - List existing worktrees
- * - `omc teleport remove <path>` - Remove a worktree
+ * - `omg teleport '#123'` - Create worktree for issue/PR #123
+ * - `omg teleport my-feature` - Create worktree for feature branch
+ * - `omg teleport list` - List existing worktrees
+ * - `omg teleport remove <path>` - Remove a worktree
  */
 const teleportCmd = program
   .command('teleport [ref]')
-  .description("Create git worktree for isolated development (e.g., omc teleport '#123')")
+  .description("Create git worktree for isolated development (e.g., omg teleport '#123')")
   .option('--worktree', 'Create worktree (default behavior, flag kept for compatibility)')
-  .option('-p, --path <path>', 'Custom worktree path (default: ~/Workspace/omc-worktrees/)')
+  .option('-p, --path <path>', 'Custom worktree path (default: ~/Workspace/omg-worktrees/)')
   .option('-b, --base <branch>', 'Base branch to create from (default: main)')
   .option('--json', 'Output as JSON')
   .addHelpText('after', `
 Examples:
-  $ omc teleport '#42'           Create worktree for issue/PR #42
-  $ omc teleport add-auth        Create worktree for a feature branch
-  $ omc teleport list            List existing worktrees
-  $ omc teleport remove ./path   Remove a worktree
+  $ omg teleport '#42'           Create worktree for issue/PR #42
+  $ omg teleport add-auth        Create worktree for a feature branch
+  $ omg teleport list            List existing worktrees
+  $ omg teleport remove ./path   Remove a worktree
 
 Note:
-  In many shells, # starts a comment. Quote refs: omc teleport '#42'`)
+  In many shells, # starts a comment. Quote refs: omg teleport '#42'`)
   .action(async (ref: string | undefined, options) => {
     if (!ref) {
       // No ref provided, show help
       console.log(chalk.blue('Teleport - Quick worktree creation\n'));
       console.log('Usage:');
-      console.log('  omc teleport <ref>           Create worktree for issue/PR/feature');
-      console.log('  omc teleport list            List existing worktrees');
-      console.log('  omc teleport remove <path>   Remove a worktree');
+      console.log('  omg teleport <ref>           Create worktree for issue/PR/feature');
+      console.log('  omg teleport list            List existing worktrees');
+      console.log('  omg teleport remove <path>   Remove a worktree');
       console.log('');
       console.log('Reference formats:');
       console.log("  '#123'                       Issue/PR in current repo (quoted for shell safety)");
@@ -1064,11 +1064,11 @@ Note:
       console.log('  my-feature                   Feature branch name');
       console.log('  https://github.com/...       GitHub URL');
       console.log('');
-      console.log(chalk.yellow("Note: In many shells, # starts a comment. Quote refs: omc teleport '#42'"));
+      console.log(chalk.yellow("Note: In many shells, # starts a comment. Quote refs: omg teleport '#42'"));
       console.log('');
       console.log('Examples:');
-      console.log("  omc teleport '#42'           Create worktree for issue #42");
-      console.log('  omc teleport add-auth        Create worktree for feature "add-auth"');
+      console.log("  omg teleport '#42'           Create worktree for issue #42");
+      console.log('  omg teleport add-auth        Create worktree for feature "add-auth"');
       console.log('');
       return;
     }
@@ -1083,7 +1083,7 @@ Note:
 
 teleportCmd
   .command('list')
-  .description('List existing worktrees in ~/Workspace/omc-worktrees/')
+  .description('List existing worktrees in ~/Workspace/omg-worktrees/')
   .option('--json', 'Output as JSON')
   .action(async (options) => {
     await teleportListCommand(options);
@@ -1110,9 +1110,9 @@ const sessionCmd = program
   .description('Inspect prior local session history')
   .addHelpText('after', `
 Examples:
-  $ omc session search "team leader stale"
-  $ omc session search notify-hook --since 7d
-  $ omc session search provider-routing --project all --json`);
+  $ omg session search "team leader stale"
+  $ omg session search notify-hook --since 7d
+  $ omg session search provider-routing --project all --json`);
 
 sessionCmd
   .command('search <query>')
@@ -1145,7 +1145,7 @@ const doctorCmd = program
   .description('Diagnostic tools for troubleshooting OMC installation')
   .addHelpText('after', `
 Examples:
-  $ omc doctor conflicts         Check for plugin conflicts`);
+  $ omg doctor conflicts         Check for plugin conflicts`);
 
 doctorCmd
   .command('conflicts')
@@ -1153,15 +1153,15 @@ doctorCmd
   .option('--json', 'Output as JSON')
   .addHelpText('after', `
 Examples:
-  $ omc doctor conflicts         Check for configuration issues
-  $ omc doctor conflicts --json  Output results as JSON`)
+  $ omg doctor conflicts         Check for configuration issues
+  $ omg doctor conflicts --json  Output results as JSON`)
   .action(async (options) => {
     const exitCode = await doctorConflictsCommand(options);
     process.exit(exitCode);
   });
 
 /**
- * Setup command - Official CLI entry point for omc-setup
+ * Setup command - Official CLI entry point for omg-setup
  *
  * User-friendly command that syncs all OMC components:
  * - Installs/updates hooks, agents, and skills
@@ -1177,14 +1177,14 @@ program
   .option('--force-hooks', 'Force reinstall hooks even if unchanged')
   .addHelpText('after', `
 Examples:
-  $ omc setup                     Sync all OMC components
-  $ omc setup --force             Force reinstall everything
-  $ omc setup --quiet             Silent setup for scripts
-  $ omc setup --skip-hooks        Install without hooks
-  $ omc setup --force-hooks       Force reinstall hooks`)
+  $ omg setup                     Sync all OMC components
+  $ omg setup --force             Force reinstall everything
+  $ omg setup --quiet             Silent setup for scripts
+  $ omg setup --skip-hooks        Install without hooks
+  $ omg setup --force-hooks       Force reinstall hooks`)
   .action(async (options) => {
     if (!options.quiet) {
-      console.log(chalk.blue('Oh-My-ClaudeCode Setup\n'));
+      console.log(chalk.blue('Oh-My-GeminiCLI Setup\n'));
     }
 
     // Step 1: Run installation (which handles hooks, agents, skills)
@@ -1195,7 +1195,7 @@ Examples:
     const result = installOmc({
       force: !!options.force,
       verbose: !options.quiet,
-      skipClaudeCheck: true,
+      skipGeminiCheck: true,
       forceHooks: !!options.forceHooks,
     });
 
@@ -1241,7 +1241,7 @@ Examples:
       if (reportedVersion !== version) {
         console.log(chalk.gray(`CLI package version: ${version}`));
       }
-      console.log(chalk.gray('Start Claude Code and use /oh-my-claudecode:omc-setup for interactive setup.'));
+      console.log(chalk.gray('Start Gemini Code and use /oh-my-gemini-cli:omg-setup for interactive setup.'));
     }
   });
 
@@ -1256,17 +1256,17 @@ program
     const result = installOmc({
       force: false,
       verbose: false,
-      skipClaudeCheck: true
+      skipGeminiCheck: true
     });
 
     if (result.success) {
-      console.log(chalk.green('✓ Oh-My-ClaudeCode installed successfully!'));
-      console.log(chalk.gray('  Run "oh-my-claudecode info" to see available agents.'));
-      console.log(chalk.yellow('  Run "/omc-default" (project) or "/omc-default-global" (global) in Claude Code.'));
+      console.log(chalk.green('✓ Oh-My-GeminiCLI installed successfully!'));
+      console.log(chalk.gray('  Run "oh-my-gemini-cli info" to see available agents.'));
+      console.log(chalk.yellow('  Run "/omg-default" (project) or "/omg-default-global" (global) in Gemini Code.'));
     } else {
       // Don't fail the npm install, just warn
       console.warn(chalk.yellow('⚠ Could not complete OMC setup:'), result.message);
-      console.warn(chalk.gray('  Run "oh-my-claudecode install" manually to complete setup.'));
+      console.warn(chalk.gray('  Run "oh-my-gemini-cli install" manually to complete setup.'));
     }
   });
 
@@ -1314,7 +1314,7 @@ program
 
 /**
  * Team command - CLI API for team worker lifecycle operations
- * Exposes OMC's `omc team api` interface.
+ * Exposes OMC's `omg team api` interface.
  *
  * helpOption(false) prevents commander from intercepting --help;
  * our teamCommand handler provides its own help output.

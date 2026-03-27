@@ -24,13 +24,13 @@ describe('readHudConfig', () => {
             const config = readHudConfig();
             expect(config).toEqual(DEFAULT_HUD_CONFIG);
         });
-        it('reads from settings.json omcHud key first', () => {
+        it('reads from settings.json omgHud key first', () => {
             mockExistsSync.mockImplementation((path) => {
                 const s = String(path);
-                return /[\\/]Users[\\/]testuser[\\/]\.claude[\\/]settings\.json$/.test(s);
+                return /[\\/]Users[\\/]testuser[\\/]\.gemini[\\/]settings\.json$/.test(s);
             });
             mockReadFileSync.mockReturnValue(JSON.stringify({
-                omcHud: {
+                omgHud: {
                     elements: {
                         gitRepo: true,
                         gitBranch: true,
@@ -41,18 +41,18 @@ describe('readHudConfig', () => {
             expect(config.elements.gitRepo).toBe(true);
             expect(config.elements.gitBranch).toBe(true);
         });
-        it('falls back to legacy hud-config.json when settings.json has no omcHud', () => {
+        it('falls back to legacy hud-config.json when settings.json has no omgHud', () => {
             mockExistsSync.mockImplementation((path) => {
                 const s = String(path);
-                return /[\\/]Users[\\/]testuser[\\/]\.claude[\\/]settings\.json$/.test(s) ||
-                    /[\\/]Users[\\/]testuser[\\/]\.claude[\\/]\.omc[\\/]hud-config\.json$/.test(s);
+                return /[\\/]Users[\\/]testuser[\\/]\.gemini[\\/]settings\.json$/.test(s) ||
+                    /[\\/]Users[\\/]testuser[\\/]\.gemini[\\/]\.omg[\\/]hud-config\.json$/.test(s);
             });
             mockReadFileSync.mockImplementation((path) => {
                 const s = String(path);
-                if (/[\\/]Users[\\/]testuser[\\/]\.claude[\\/]settings\.json$/.test(s)) {
+                if (/[\\/]Users[\\/]testuser[\\/]\.gemini[\\/]settings\.json$/.test(s)) {
                     return JSON.stringify({ someOtherKey: true });
                 }
-                if (/[\\/]Users[\\/]testuser[\\/]\.claude[\\/]\.omc[\\/]hud-config\.json$/.test(s)) {
+                if (/[\\/]Users[\\/]testuser[\\/]\.gemini[\\/]\.omg[\\/]hud-config\.json$/.test(s)) {
                     return JSON.stringify({
                         elements: {
                             cwd: true,
@@ -68,16 +68,16 @@ describe('readHudConfig', () => {
             mockExistsSync.mockReturnValue(true);
             mockReadFileSync.mockImplementation((path) => {
                 const s = String(path);
-                if (/[\\/]Users[\\/]testuser[\\/]\.claude[\\/]settings\.json$/.test(s)) {
+                if (/[\\/]Users[\\/]testuser[\\/]\.gemini[\\/]settings\.json$/.test(s)) {
                     return JSON.stringify({
-                        omcHud: {
+                        omgHud: {
                             elements: {
                                 gitRepo: true,
                             }
                         }
                     });
                 }
-                if (/[\\/]Users[\\/]testuser[\\/]\.claude[\\/]\.omc[\\/]hud-config\.json$/.test(s)) {
+                if (/[\\/]Users[\\/]testuser[\\/]\.gemini[\\/]\.omg[\\/]hud-config\.json$/.test(s)) {
                     return JSON.stringify({
                         elements: {
                             gitRepo: false,
@@ -96,7 +96,7 @@ describe('readHudConfig', () => {
         it('returns defaults when settings.json is invalid JSON', () => {
             mockExistsSync.mockImplementation((path) => {
                 const s = String(path);
-                return /[\\/]Users[\\/]testuser[\\/]\.claude[\\/]settings\.json$/.test(s);
+                return /[\\/]Users[\\/]testuser[\\/]\.gemini[\\/]settings\.json$/.test(s);
             });
             mockReadFileSync.mockReturnValue('invalid json');
             const config = readHudConfig();
@@ -106,10 +106,10 @@ describe('readHudConfig', () => {
             mockExistsSync.mockReturnValue(true);
             mockReadFileSync.mockImplementation((path) => {
                 const s = String(path);
-                if (/[\\/]Users[\\/]testuser[\\/]\.claude[\\/]settings\.json$/.test(s)) {
+                if (/[\\/]Users[\\/]testuser[\\/]\.gemini[\\/]settings\.json$/.test(s)) {
                     throw new Error('Read error');
                 }
-                if (/[\\/]Users[\\/]testuser[\\/]\.claude[\\/]\.omc[\\/]hud-config\.json$/.test(s)) {
+                if (/[\\/]Users[\\/]testuser[\\/]\.gemini[\\/]\.omg[\\/]hud-config\.json$/.test(s)) {
                     return JSON.stringify({
                         elements: { cwd: true }
                     });
@@ -124,10 +124,10 @@ describe('readHudConfig', () => {
         it('allows mission board to be explicitly enabled from settings', () => {
             mockExistsSync.mockImplementation((path) => {
                 const s = String(path);
-                return /[\/]Users[\/]testuser[\/]\.claude[\/]settings\.json$/.test(s);
+                return /[\/]Users[\/]testuser[\/]\.gemini[\/]settings\.json$/.test(s);
             });
             mockReadFileSync.mockReturnValue(JSON.stringify({
-                omcHud: {
+                omgHud: {
                     elements: {
                         missionBoard: true,
                     }
@@ -140,10 +140,10 @@ describe('readHudConfig', () => {
         it('merges partial config with defaults', () => {
             mockExistsSync.mockImplementation((path) => {
                 const s = String(path);
-                return /[\\/]Users[\\/]testuser[\\/]\.claude[\\/]settings\.json$/.test(s);
+                return /[\\/]Users[\\/]testuser[\\/]\.gemini[\\/]settings\.json$/.test(s);
             });
             mockReadFileSync.mockReturnValue(JSON.stringify({
-                omcHud: {
+                omgHud: {
                     elements: {
                         gitRepo: true,
                     }
@@ -153,17 +153,17 @@ describe('readHudConfig', () => {
             // Custom value
             expect(config.elements.gitRepo).toBe(true);
             // Default values preserved
-            expect(config.elements.omcLabel).toBe(DEFAULT_HUD_CONFIG.elements.omcLabel);
+            expect(config.elements.omgLabel).toBe(DEFAULT_HUD_CONFIG.elements.omgLabel);
             expect(config.elements.contextBar).toBe(DEFAULT_HUD_CONFIG.elements.contextBar);
             expect(config.preset).toBe(DEFAULT_HUD_CONFIG.preset);
         });
         it('merges thresholds with defaults', () => {
             mockExistsSync.mockImplementation((path) => {
                 const s = String(path);
-                return /[\\/]Users[\\/]testuser[\\/]\.claude[\\/]settings\.json$/.test(s);
+                return /[\\/]Users[\\/]testuser[\\/]\.gemini[\\/]settings\.json$/.test(s);
             });
             mockReadFileSync.mockReturnValue(JSON.stringify({
-                omcHud: {
+                omgHud: {
                     thresholds: {
                         contextWarning: 80,
                     }
@@ -176,10 +176,10 @@ describe('readHudConfig', () => {
         it('merges maxWidth and wrapMode from settings', () => {
             mockExistsSync.mockImplementation((path) => {
                 const s = String(path);
-                return /[\\/]Users[\\/]testuser[\\/]\.claude[\\/]settings\.json$/.test(s);
+                return /[\\/]Users[\\/]testuser[\\/]\.gemini[\\/]settings\.json$/.test(s);
             });
             mockReadFileSync.mockReturnValue(JSON.stringify({
-                omcHud: {
+                omgHud: {
                     maxWidth: 80,
                     wrapMode: 'wrap',
                 }
@@ -191,10 +191,10 @@ describe('readHudConfig', () => {
         it('merges usageApiPollIntervalMs from settings', () => {
             mockExistsSync.mockImplementation((path) => {
                 const s = String(path);
-                return /[\\/]Users[\\/]testuser[\\/]\.claude[\\/]settings\.json$/.test(s);
+                return /[\\/]Users[\\/]testuser[\\/]\.gemini[\\/]settings\.json$/.test(s);
             });
             mockReadFileSync.mockReturnValue(JSON.stringify({
-                omcHud: {
+                omgHud: {
                     usageApiPollIntervalMs: 180_000,
                 }
             }));

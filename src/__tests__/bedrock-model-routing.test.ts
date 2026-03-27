@@ -1,17 +1,17 @@
 /**
  * Repro test for Bedrock model routing bug
  *
- * Bug: On Bedrock, workers get model ID "claude-sonnet-4-6" (bare builtin default)
+ * Bug: On Bedrock, workers get model ID "gemini-sonnet-4-6" (bare builtin default)
  * instead of inheriting the parent model. On Bedrock, this bare ID is invalid
- * — Bedrock requires full IDs like "us.anthropic.claude-sonnet-4-6-v1:0".
+ * — Bedrock requires full IDs like "us.anthropic.gemini-sonnet-4-6-v1:0".
  *
  * Root cause chain:
- * 1. buildDefaultConfig() → config.agents.executor.model = 'claude-sonnet-4-6'
+ * 1. buildDefaultConfig() → config.agents.executor.model = 'gemini-sonnet-4-6'
  *    (from CLAUDE_FAMILY_DEFAULTS.SONNET, because no Bedrock env vars found)
- * 2. getAgentDefinitions() resolves executor.model = 'claude-sonnet-4-6'
+ * 2. getAgentDefinitions() resolves executor.model = 'gemini-sonnet-4-6'
  *    (configuredModel from config takes precedence over agent's defaultModel)
- * 3. enforceModel() injects 'claude-sonnet-4-6' into Task calls
- * 4. Claude Code passes it to Bedrock API → 400 invalid model
+ * 3. enforceModel() injects 'gemini-sonnet-4-6' into Task calls
+ * 4. Gemini Code passes it to Bedrock API → 400 invalid model
  *
  * The defense (forceInherit) works IF CLAUDE_CODE_USE_BEDROCK=1 is in the env.
  * But if that env var doesn't propagate to the MCP server / hook process,
@@ -79,13 +79,13 @@ describe('Bedrock model routing repro', () => {
     });
 
     it('detects Bedrock model ID in CLAUDE_MODEL', async () => {
-      process.env.CLAUDE_MODEL = 'us.anthropic.claude-sonnet-4-6-v1:0';
+      process.env.CLAUDE_MODEL = 'us.anthropic.gemini-sonnet-4-6-v1:0';
       const { isBedrock } = await import('../config/models.js');
       expect(isBedrock()).toBe(true);
     });
 
     it('detects Bedrock model ID in ANTHROPIC_MODEL', async () => {
-      process.env.ANTHROPIC_MODEL = 'global.anthropic.claude-sonnet-4-6-v1:0';
+      process.env.ANTHROPIC_MODEL = 'global.anthropic.gemini-sonnet-4-6-v1:0';
       const { isBedrock } = await import('../config/models.js');
       expect(isBedrock()).toBe(true);
     });
@@ -98,15 +98,15 @@ describe('Bedrock model routing repro', () => {
 
   describe('tier resolution: getDefaultModelMedium()', () => {
     it('reads ANTHROPIC_DEFAULT_SONNET_MODEL', async () => {
-      process.env.ANTHROPIC_DEFAULT_SONNET_MODEL = 'global.anthropic.claude-sonnet-4-6-v1:0';
+      process.env.ANTHROPIC_DEFAULT_SONNET_MODEL = 'global.anthropic.gemini-sonnet-4-6-v1:0';
       const { getDefaultModelMedium } = await import('../config/models.js');
-      expect(getDefaultModelMedium()).toBe('global.anthropic.claude-sonnet-4-6-v1:0');
+      expect(getDefaultModelMedium()).toBe('global.anthropic.gemini-sonnet-4-6-v1:0');
     });
 
-    it('falls back to bare "claude-sonnet-4-6" without env vars', async () => {
+    it('falls back to bare "gemini-sonnet-4-6" without env vars', async () => {
       const { getDefaultModelMedium } = await import('../config/models.js');
       // getDefaultModelMedium returns the raw config value (not normalized)
-      expect(getDefaultModelMedium()).toBe('claude-sonnet-4-6');
+      expect(getDefaultModelMedium()).toBe('gemini-sonnet-4-6');
     });
   });
 
@@ -116,13 +116,13 @@ describe('Bedrock model routing repro', () => {
   describe('SCENARIO A: CLAUDE_CODE_USE_BEDROCK not propagated to hook process', () => {
     it('full chain: Task call injects invalid model for Bedrock', async () => {
       // ── Setup: simulate MCP server process that did NOT inherit
-      //    CLAUDE_CODE_USE_BEDROCK from parent Claude Code process ──
+      //    CLAUDE_CODE_USE_BEDROCK from parent Gemini Code process ──
       // (all Bedrock env vars already cleared by beforeEach)
 
       // 1. Bedrock detection fails
-      const { isBedrock, isNonClaudeProvider } = await import('../config/models.js');
+      const { isBedrock, isNonGeminiProvider } = await import('../config/models.js');
       expect(isBedrock()).toBe(false);
-      expect(isNonClaudeProvider()).toBe(false);
+      expect(isNonGeminiProvider()).toBe(false);
 
       // 2. loadConfig does NOT auto-enable forceInherit
       const { loadConfig } = await import('../config/loader.js');
@@ -132,9 +132,9 @@ describe('Bedrock model routing repro', () => {
       // 3. Agent definitions use full builtin model IDs from config
       const { getAgentDefinitions } = await import('../agents/definitions.js');
       const defs = getAgentDefinitions({ config });
-      expect(defs['executor'].model).toBe('claude-sonnet-4-6');
-      expect(defs['explore'].model).toBe('claude-haiku-4-5');
-      expect(defs['architect'].model).toBe('claude-opus-4-6');
+      expect(defs['executor'].model).toBe('gemini-sonnet-4-6');
+      expect(defs['explore'].model).toBe('gemini-haiku-4-5');
+      expect(defs['architect'].model).toBe('gemini-opus-4-6');
 
       // 4. enforceModel normalizes to bare CC-supported aliases (FIX)
       const { enforceModel } = await import('../features/delegation-enforcer.js');
@@ -143,7 +143,7 @@ describe('Bedrock model routing repro', () => {
       const executorResult = enforceModel({
         description: 'Implement feature',
         prompt: 'Write the code',
-        subagent_type: 'oh-my-claudecode:executor',
+        subagent_type: 'oh-my-gemini-cli:executor',
       });
       expect(executorResult.injected).toBe(true);
       expect(executorResult.modifiedInput.model).toBe('sonnet');
@@ -152,7 +152,7 @@ describe('Bedrock model routing repro', () => {
       const exploreResult = enforceModel({
         description: 'Find files',
         prompt: 'Search codebase',
-        subagent_type: 'oh-my-claudecode:explore',
+        subagent_type: 'oh-my-gemini-cli:explore',
       });
       expect(exploreResult.injected).toBe(true);
       expect(exploreResult.modifiedInput.model).toBe('haiku');
@@ -161,7 +161,7 @@ describe('Bedrock model routing repro', () => {
       const architectResult = enforceModel({
         description: 'Design system',
         prompt: 'Analyze architecture',
-        subagent_type: 'oh-my-claudecode:architect',
+        subagent_type: 'oh-my-gemini-cli:architect',
       });
       expect(architectResult.injected).toBe(true);
       expect(architectResult.modifiedInput.model).toBe('opus');
@@ -190,7 +190,7 @@ describe('Bedrock model routing repro', () => {
         const result = enforceModel({
           description: 'test',
           prompt: 'test',
-          subagent_type: `oh-my-claudecode:${agent}`,
+          subagent_type: `oh-my-gemini-cli:${agent}`,
         });
         expect(result.model).toBe('inherit');
         expect(result.modifiedInput.model).toBeUndefined();
@@ -206,14 +206,14 @@ describe('Bedrock model routing repro', () => {
     it('full chain: isBedrock misses Bedrock model in ANTHROPIC_DEFAULT_*_MODEL', async () => {
       // ── Setup: user has Bedrock-format models in ANTHROPIC_DEFAULT_*_MODEL
       //    (as shown in their settings) but CLAUDE_CODE_USE_BEDROCK is not set ──
-      process.env.ANTHROPIC_DEFAULT_SONNET_MODEL = 'global.anthropic.claude-sonnet-4-6-v1:0';
-      process.env.ANTHROPIC_DEFAULT_OPUS_MODEL = 'global.anthropic.claude-opus-4-6-v1:0';
-      process.env.ANTHROPIC_DEFAULT_HAIKU_MODEL = 'global.anthropic.claude-haiku-4-5-v1:0';
+      process.env.ANTHROPIC_DEFAULT_SONNET_MODEL = 'global.anthropic.gemini-sonnet-4-6-v1:0';
+      process.env.ANTHROPIC_DEFAULT_OPUS_MODEL = 'global.anthropic.gemini-opus-4-6-v1:0';
+      process.env.ANTHROPIC_DEFAULT_HAIKU_MODEL = 'global.anthropic.gemini-haiku-4-5-v1:0';
 
       // 1. isBedrock does NOT check ANTHROPIC_DEFAULT_*_MODEL env vars
-      const { isBedrock, isNonClaudeProvider } = await import('../config/models.js');
+      const { isBedrock, isNonGeminiProvider } = await import('../config/models.js');
       expect(isBedrock()).toBe(false);
-      expect(isNonClaudeProvider()).toBe(false);
+      expect(isNonGeminiProvider()).toBe(false);
 
       // 2. forceInherit is NOT auto-enabled
       const { loadConfig } = await import('../config/loader.js');
@@ -223,21 +223,21 @@ describe('Bedrock model routing repro', () => {
       // 3. BUT tier model resolution DOES read the Bedrock IDs
       const { getDefaultModelMedium, getDefaultModelHigh, getDefaultModelLow } =
         await import('../config/models.js');
-      expect(getDefaultModelMedium()).toBe('global.anthropic.claude-sonnet-4-6-v1:0');
-      expect(getDefaultModelHigh()).toBe('global.anthropic.claude-opus-4-6-v1:0');
-      expect(getDefaultModelLow()).toBe('global.anthropic.claude-haiku-4-5-v1:0');
+      expect(getDefaultModelMedium()).toBe('global.anthropic.gemini-sonnet-4-6-v1:0');
+      expect(getDefaultModelHigh()).toBe('global.anthropic.gemini-opus-4-6-v1:0');
+      expect(getDefaultModelLow()).toBe('global.anthropic.gemini-haiku-4-5-v1:0');
 
       // 4. config.agents get the Bedrock-format model IDs
-      expect(config.agents?.executor?.model).toBe('global.anthropic.claude-sonnet-4-6-v1:0');
-      expect(config.agents?.architect?.model).toBe('global.anthropic.claude-opus-4-6-v1:0');
-      expect(config.agents?.explore?.model).toBe('global.anthropic.claude-haiku-4-5-v1:0');
+      expect(config.agents?.executor?.model).toBe('global.anthropic.gemini-sonnet-4-6-v1:0');
+      expect(config.agents?.architect?.model).toBe('global.anthropic.gemini-opus-4-6-v1:0');
+      expect(config.agents?.explore?.model).toBe('global.anthropic.gemini-haiku-4-5-v1:0');
 
       // 5. enforceModel normalizes to bare alias (FIX: no longer injects full IDs)
       const { enforceModel } = await import('../features/delegation-enforcer.js');
       const result = enforceModel({
         description: 'Implement feature',
         prompt: 'Write the code',
-        subagent_type: 'oh-my-claudecode:executor',
+        subagent_type: 'oh-my-gemini-cli:executor',
       });
       expect(result.injected).toBe(true);
       // After the fix: enforceModel normalizes to 'sonnet' (CC-supported alias)
@@ -245,14 +245,14 @@ describe('Bedrock model routing repro', () => {
       expect(result.modifiedInput.model).toBe('sonnet');
 
       // Note: forceInherit should still ideally be enabled for Bedrock,
-      // but even without it, 'sonnet' is safe — Claude Code resolves it
+      // but even without it, 'sonnet' is safe — Gemini Code resolves it
       // to the correct Bedrock model ID internally.
     });
 
     it('isBedrock should detect Bedrock patterns in tier env vars', async () => {
       // Verify the detection gap: ANTHROPIC_DEFAULT_*_MODEL values contain
       // Bedrock patterns but isBedrock only checks CLAUDE_MODEL/ANTHROPIC_MODEL
-      process.env.ANTHROPIC_DEFAULT_SONNET_MODEL = 'global.anthropic.claude-sonnet-4-6-v1:0';
+      process.env.ANTHROPIC_DEFAULT_SONNET_MODEL = 'global.anthropic.gemini-sonnet-4-6-v1:0';
 
       const { isBedrock, hasTierModelEnvOverrides } = await import('../config/models.js');
 
@@ -283,8 +283,8 @@ describe('Bedrock model routing repro', () => {
       const taskInput: Record<string, unknown> = {
         description: 'Implement feature',
         prompt: 'Write the code',
-        subagent_type: 'oh-my-claudecode:executor',
-        model: 'sonnet', // LLM passes this based on CLAUDE.md instructions
+        subagent_type: 'oh-my-gemini-cli:executor',
+        model: 'sonnet', // LLM passes this based on GEMINI.md instructions
       };
 
       // Bridge logic (bridge.ts:1082-1093):
@@ -309,8 +309,8 @@ describe('Bedrock model routing repro', () => {
       const taskInput: Record<string, unknown> = {
         description: 'Implement feature',
         prompt: 'Write the code',
-        subagent_type: 'oh-my-claudecode:executor',
-        model: 'sonnet', // LLM passes this based on CLAUDE.md instructions
+        subagent_type: 'oh-my-gemini-cli:executor',
+        model: 'sonnet', // LLM passes this based on GEMINI.md instructions
       };
 
       const nextTaskInput = { ...taskInput };
@@ -318,14 +318,14 @@ describe('Bedrock model routing repro', () => {
         delete nextTaskInput.model;
       }
 
-      // Model NOT stripped → 'sonnet' passes through to Claude Code
+      // Model NOT stripped → 'sonnet' passes through to Gemini Code
       expect(nextTaskInput.model).toBe('sonnet');
-      // Claude Code resolves 'sonnet' → 'claude-sonnet-4-6' → Bedrock 400
+      // Gemini Code resolves 'sonnet' → 'gemini-sonnet-4-6' → Bedrock 400
     });
 
     it('even when enforceModel strips, LLM can still pass model directly', async () => {
       // The LLM can pass model: "sonnet" in the Task call because the
-      // CLAUDE.md instructions say: "Pass model on Task calls: haiku, sonnet, opus"
+      // GEMINI.md instructions say: "Pass model on Task calls: haiku, sonnet, opus"
       //
       // enforceModel only runs when model is NOT specified (it injects default).
       // If the LLM explicitly passes model, enforceModel preserves it (line 83-90).
@@ -336,26 +336,26 @@ describe('Bedrock model routing repro', () => {
       const result = enforceModel({
         description: 'Implement feature',
         prompt: 'Write the code',
-        subagent_type: 'oh-my-claudecode:executor',
+        subagent_type: 'oh-my-gemini-cli:executor',
         model: 'sonnet', // LLM passes this explicitly
       });
 
       // enforceModel preserves explicit model (doesn't override it)
       expect(result.injected).toBe(false);
       expect(result.modifiedInput.model).toBe('sonnet');
-      // → Claude Code resolves 'sonnet' → Bedrock can't handle it → 400
+      // → Gemini Code resolves 'sonnet' → Bedrock can't handle it → 400
     });
   });
 
   // ── Summary: which scenario matches the reported error? ────────────────────
 
   describe('DIAGNOSIS: matching error to scenario', () => {
-    it('reported error uses "claude-sonnet-4-6" → matches enforceModel injection path', async () => {
+    it('reported error uses "gemini-sonnet-4-6" → matches enforceModel injection path', async () => {
       const { enforceModel } = await import('../features/delegation-enforcer.js');
       const result = enforceModel({
         description: 'test',
         prompt: 'test',
-        subagent_type: 'oh-my-claudecode:executor',
+        subagent_type: 'oh-my-gemini-cli:executor',
       });
 
       // This is exactly the model ID from the error report
@@ -379,8 +379,8 @@ describe('Bedrock model routing repro', () => {
         toolInput: {
           description: 'Implement feature',
           prompt: 'Write the code',
-          subagent_type: 'oh-my-claudecode:executor',
-          model: 'claude-sonnet-4-6',
+          subagent_type: 'oh-my-gemini-cli:executor',
+          model: 'gemini-sonnet-4-6',
         },
         directory: process.cwd(),
       };
@@ -390,7 +390,7 @@ describe('Bedrock model routing repro', () => {
 
       // Should deny with permissionDecision
       expect(parsed.hookSpecificOutput?.permissionDecision).toBe('deny');
-      expect(parsed.hookSpecificOutput?.permissionDecisionReason).toContain('claude-sonnet-4-6');
+      expect(parsed.hookSpecificOutput?.permissionDecisionReason).toContain('gemini-sonnet-4-6');
       expect(parsed.hookSpecificOutput?.permissionDecisionReason).toContain('model');
     });
 
@@ -405,7 +405,7 @@ describe('Bedrock model routing repro', () => {
         toolInput: {
           description: 'Implement feature',
           prompt: 'Write the code',
-          subagent_type: 'oh-my-claudecode:executor',
+          subagent_type: 'oh-my-gemini-cli:executor',
           // No model param — this is the correct behavior
         },
         directory: process.cwd(),
@@ -428,7 +428,7 @@ describe('Bedrock model routing repro', () => {
         toolInput: {
           description: 'Implement feature',
           prompt: 'Write the code',
-          subagent_type: 'oh-my-claudecode:executor',
+          subagent_type: 'oh-my-gemini-cli:executor',
           model: 'sonnet',
         },
         directory: process.cwd(),

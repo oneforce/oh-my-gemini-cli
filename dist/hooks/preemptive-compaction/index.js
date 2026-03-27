@@ -6,7 +6,7 @@
  *
  * Adapted from oh-my-opencode's preemptive-compaction hook.
  *
- * Note: This is a simplified version for Claude Code's shell hook system.
+ * Note: This is a simplified version for Gemini Code's shell hook system.
  * The original uses OpenCode's plugin event system for automatic summarization.
  * This version injects warning messages to prompt manual compaction.
  */

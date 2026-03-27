@@ -13,7 +13,7 @@ function runCli(args, homeDir) {
         env: {
             ...process.env,
             HOME: homeDir,
-            CLAUDE_CONFIG_DIR: join(homeDir, '.claude'),
+            CLAUDE_CONFIG_DIR: join(homeDir, '.gemini'),
         },
         encoding: 'utf-8',
     });
@@ -26,11 +26,11 @@ function runCli(args, homeDir) {
 function readConfig(configPath) {
     return JSON.parse(readFileSync(configPath, 'utf-8'));
 }
-describe('omc config-stop-callback tag options', () => {
+describe('omg config-stop-callback tag options', () => {
     it('updates telegram tagList options and preserves existing config fields', () => {
-        const homeDir = mkdtempSync(join(tmpdir(), 'omc-cli-stop-callback-home-'));
-        const configPath = join(homeDir, '.claude', '.omc-config.json');
-        mkdirSync(join(homeDir, '.claude'), { recursive: true });
+        const homeDir = mkdtempSync(join(tmpdir(), 'omg-cli-stop-callback-home-'));
+        const configPath = join(homeDir, '.gemini', '.omg-config.json');
+        mkdirSync(join(homeDir, '.gemini'), { recursive: true });
         writeFileSync(configPath, JSON.stringify({
             silentAutoUpdate: false,
             taskTool: 'task',
@@ -62,9 +62,9 @@ describe('omc config-stop-callback tag options', () => {
         expect(show.stdout).toContain('"@alice"');
     });
     it('applies and clears discord tags and ignores tag options for file callback', () => {
-        const homeDir = mkdtempSync(join(tmpdir(), 'omc-cli-stop-callback-home-'));
-        const configPath = join(homeDir, '.claude', '.omc-config.json');
-        mkdirSync(join(homeDir, '.claude'), { recursive: true });
+        const homeDir = mkdtempSync(join(tmpdir(), 'omg-cli-stop-callback-home-'));
+        const configPath = join(homeDir, '.gemini', '.omg-config.json');
+        mkdirSync(join(homeDir, '.gemini'), { recursive: true });
         writeFileSync(configPath, JSON.stringify({
             silentAutoUpdate: false,
             stopHookCallbacks: {
@@ -98,9 +98,9 @@ describe('omc config-stop-callback tag options', () => {
         });
     });
     it('configures slack stop-callback with webhook and tags', () => {
-        const homeDir = mkdtempSync(join(tmpdir(), 'omc-cli-stop-callback-home-'));
-        const configPath = join(homeDir, '.claude', '.omc-config.json');
-        mkdirSync(join(homeDir, '.claude'), { recursive: true });
+        const homeDir = mkdtempSync(join(tmpdir(), 'omg-cli-stop-callback-home-'));
+        const configPath = join(homeDir, '.gemini', '.omg-config.json');
+        mkdirSync(join(homeDir, '.gemini'), { recursive: true });
         writeFileSync(configPath, JSON.stringify({
             silentAutoUpdate: false,
             stopHookCallbacks: {},

@@ -91,7 +91,7 @@ export interface EventNotificationConfig {
     "slack-bot"?: SlackBotNotificationConfig;
     webhook?: WebhookNotificationConfig;
 }
-/** Top-level notification configuration (stored in .omc-config.json) */
+/** Top-level notification configuration (stored in .omg-config.json) */
 export interface NotificationConfig {
     /** Global enable/disable for all notifications */
     enabled: boolean;
@@ -158,7 +158,7 @@ export interface NotificationPayload {
     tmuxPaneId?: string;
     /** Agent name for agent-call events (e.g., "executor", "architect") */
     agentName?: string;
-    /** Agent type for agent-call events (e.g., "oh-my-claudecode:executor") */
+    /** Agent type for agent-call events (e.g., "oh-my-gemini-cli:executor") */
     agentType?: string;
     /** Captured tmux pane content (last N lines) */
     tmuxTail?: string;

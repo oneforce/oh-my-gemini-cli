@@ -34,9 +34,9 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
   mod
 ));
 
-// ../../home/bellman/Workspace/oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/commander/lib/error.js
+// ../../home/bellman/Workspace/oh-my-gemini-cli.omx-worktrees/launch-feat-refactor-skills/node_modules/commander/lib/error.js
 var require_error = __commonJS({
-  "../../home/bellman/Workspace/oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/commander/lib/error.js"(exports2) {
+  "../../home/bellman/Workspace/oh-my-gemini-cli.omx-worktrees/launch-feat-refactor-skills/node_modules/commander/lib/error.js"(exports2) {
     var CommanderError2 = class extends Error {
       /**
        * Constructs the CommanderError class
@@ -69,9 +69,9 @@ var require_error = __commonJS({
   }
 });
 
-// ../../home/bellman/Workspace/oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/commander/lib/argument.js
+// ../../home/bellman/Workspace/oh-my-gemini-cli.omx-worktrees/launch-feat-refactor-skills/node_modules/commander/lib/argument.js
 var require_argument = __commonJS({
-  "../../home/bellman/Workspace/oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/commander/lib/argument.js"(exports2) {
+  "../../home/bellman/Workspace/oh-my-gemini-cli.omx-worktrees/launch-feat-refactor-skills/node_modules/commander/lib/argument.js"(exports2) {
     var { InvalidArgumentError: InvalidArgumentError2 } = require_error();
     var Argument2 = class {
       /**
@@ -196,9 +196,9 @@ var require_argument = __commonJS({
   }
 });
 
-// ../../home/bellman/Workspace/oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/commander/lib/help.js
+// ../../home/bellman/Workspace/oh-my-gemini-cli.omx-worktrees/launch-feat-refactor-skills/node_modules/commander/lib/help.js
 var require_help = __commonJS({
-  "../../home/bellman/Workspace/oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/commander/lib/help.js"(exports2) {
+  "../../home/bellman/Workspace/oh-my-gemini-cli.omx-worktrees/launch-feat-refactor-skills/node_modules/commander/lib/help.js"(exports2) {
     var { humanReadableArgName } = require_argument();
     var Help2 = class {
       constructor() {
@@ -610,9 +610,9 @@ var require_help = __commonJS({
   }
 });
 
-// ../../home/bellman/Workspace/oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/commander/lib/option.js
+// ../../home/bellman/Workspace/oh-my-gemini-cli.omx-worktrees/launch-feat-refactor-skills/node_modules/commander/lib/option.js
 var require_option = __commonJS({
-  "../../home/bellman/Workspace/oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/commander/lib/option.js"(exports2) {
+  "../../home/bellman/Workspace/oh-my-gemini-cli.omx-worktrees/launch-feat-refactor-skills/node_modules/commander/lib/option.js"(exports2) {
     var { InvalidArgumentError: InvalidArgumentError2 } = require_error();
     var Option2 = class {
       /**
@@ -882,9 +882,9 @@ var require_option = __commonJS({
   }
 });
 
-// ../../home/bellman/Workspace/oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/commander/lib/suggestSimilar.js
+// ../../home/bellman/Workspace/oh-my-gemini-cli.omx-worktrees/launch-feat-refactor-skills/node_modules/commander/lib/suggestSimilar.js
 var require_suggestSimilar = __commonJS({
-  "../../home/bellman/Workspace/oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/commander/lib/suggestSimilar.js"(exports2) {
+  "../../home/bellman/Workspace/oh-my-gemini-cli.omx-worktrees/launch-feat-refactor-skills/node_modules/commander/lib/suggestSimilar.js"(exports2) {
     var maxDistance = 3;
     function editDistance(a, b) {
       if (Math.abs(a.length - b.length) > maxDistance)
@@ -962,9 +962,9 @@ var require_suggestSimilar = __commonJS({
   }
 });
 
-// ../../home/bellman/Workspace/oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/commander/lib/command.js
+// ../../home/bellman/Workspace/oh-my-gemini-cli.omx-worktrees/launch-feat-refactor-skills/node_modules/commander/lib/command.js
 var require_command = __commonJS({
-  "../../home/bellman/Workspace/oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/commander/lib/command.js"(exports2) {
+  "../../home/bellman/Workspace/oh-my-gemini-cli.omx-worktrees/launch-feat-refactor-skills/node_modules/commander/lib/command.js"(exports2) {
     var EventEmitter = require("node:events").EventEmitter;
     var childProcess = require("node:child_process");
     var path20 = require("node:path");
@@ -3005,9 +3005,9 @@ Expecting one of '${allowedValues.join("', '")}'`);
   }
 });
 
-// ../../home/bellman/Workspace/oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/commander/index.js
+// ../../home/bellman/Workspace/oh-my-gemini-cli.omx-worktrees/launch-feat-refactor-skills/node_modules/commander/index.js
 var require_commander = __commonJS({
-  "../../home/bellman/Workspace/oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/commander/index.js"(exports2) {
+  "../../home/bellman/Workspace/oh-my-gemini-cli.omx-worktrees/launch-feat-refactor-skills/node_modules/commander/index.js"(exports2) {
     var { Argument: Argument2 } = require_argument();
     var { Command: Command2 } = require_command();
     var { CommanderError: CommanderError2, InvalidArgumentError: InvalidArgumentError2 } = require_error();
@@ -3029,7 +3029,7 @@ var require_commander = __commonJS({
 
 // src/utils/config-dir.ts
 function getConfigDir() {
-  return process.env.CLAUDE_CONFIG_DIR || (0, import_node_path.join)((0, import_node_os2.homedir)(), ".claude");
+  return process.env.CLAUDE_CONFIG_DIR || (0, import_node_path.join)((0, import_node_os2.homedir)(), ".gemini");
 }
 var import_node_os2, import_node_path;
 var init_config_dir = __esm({
@@ -3044,7 +3044,7 @@ var init_config_dir = __esm({
 function toForwardSlash(path20) {
   return path20.replace(/\\/g, "/");
 }
-function getClaudeConfigDir() {
+function getGeminiConfigDir() {
   return getConfigDir();
 }
 function getDataDir() {
@@ -3075,7 +3075,7 @@ function stripTrailing(p) {
 }
 function purgeStalePluginCacheVersions(options) {
   const result = { removed: 0, removedPaths: [], errors: [] };
-  const configDir = getClaudeConfigDir();
+  const configDir = getGeminiConfigDir();
   const pluginsDir = (0, import_path.join)(configDir, "plugins");
   const installedFile = (0, import_path.join)(pluginsDir, "installed_plugins.json");
   const cacheDir = (0, import_path.join)(pluginsDir, "cache");
@@ -3355,9 +3355,9 @@ function getDefaultTierModels() {
     HIGH: getDefaultModelHigh()
   };
 }
-function resolveClaudeFamily(modelId) {
+function resolveGeminiFamily(modelId) {
   const lower = modelId.toLowerCase();
-  if (!lower.includes("claude")) return null;
+  if (!lower.includes("gemini")) return null;
   if (lower.includes("sonnet")) return "SONNET";
   if (lower.includes("opus")) return "OPUS";
   if (lower.includes("haiku")) return "HAIKU";
@@ -3368,16 +3368,16 @@ function isBedrock() {
     return true;
   }
   const modelId = process.env.CLAUDE_MODEL || process.env.ANTHROPIC_MODEL || "";
-  if (modelId && /^((us|eu|ap|global)\.anthropic\.|anthropic\.claude)/i.test(modelId)) {
+  if (modelId && /^((us|eu|ap|global)\.anthropic\.|anthropic\.gemini)/i.test(modelId)) {
     return true;
   }
-  if (modelId && /^arn:aws(-[^:]+)?:bedrock:/i.test(modelId) && /:(inference-profile|application-inference-profile)\//i.test(modelId) && modelId.toLowerCase().includes("claude")) {
+  if (modelId && /^arn:aws(-[^:]+)?:bedrock:/i.test(modelId) && /:(inference-profile|application-inference-profile)\//i.test(modelId) && modelId.toLowerCase().includes("gemini")) {
     return true;
   }
   return false;
 }
 function isProviderSpecificModelId(modelId) {
-  if (/^((us|eu|ap|global)\.anthropic\.|anthropic\.claude)/i.test(modelId)) {
+  if (/^((us|eu|ap|global)\.anthropic\.|anthropic\.gemini)/i.test(modelId)) {
     return true;
   }
   if (/^arn:aws(-[^:]+)?:bedrock:/i.test(modelId)) {
@@ -3398,7 +3398,7 @@ function isVertexAI() {
   }
   return false;
 }
-function isNonClaudeProvider() {
+function isNonGeminiProvider() {
   if (process.env.OMC_ROUTING_FORCE_INHERIT === "true") {
     return true;
   }
@@ -3409,7 +3409,7 @@ function isNonClaudeProvider() {
     return true;
   }
   const modelId = process.env.CLAUDE_MODEL || process.env.ANTHROPIC_MODEL || "";
-  if (modelId && !modelId.toLowerCase().includes("claude")) {
+  if (modelId && !modelId.toLowerCase().includes("gemini")) {
     return true;
   }
   const baseUrl = process.env.ANTHROPIC_BASE_URL || "";
@@ -3448,9 +3448,9 @@ var init_models = __esm({
       ]
     };
     CLAUDE_FAMILY_DEFAULTS = {
-      HAIKU: "claude-haiku-4-5",
-      SONNET: "claude-sonnet-4-6",
-      OPUS: "claude-opus-4-6"
+      HAIKU: "gemini-haiku-4-5",
+      SONNET: "gemini-sonnet-4-6",
+      OPUS: "gemini-opus-4-6"
     };
     BUILTIN_TIER_MODEL_DEFAULTS = {
       LOW: CLAUDE_FAMILY_DEFAULTS.HAIKU,
@@ -3474,7 +3474,7 @@ function buildDefaultConfig() {
   const defaultTierModels = getDefaultTierModels();
   return {
     agents: {
-      omc: { model: defaultTierModels.HIGH },
+      omg: { model: defaultTierModels.HIGH },
       explore: { model: defaultTierModels.LOW },
       analyst: { model: defaultTierModels.HIGH },
       planner: { model: defaultTierModels.HIGH },
@@ -3585,11 +3585,11 @@ function buildDefaultConfig() {
     // Delegation routing configuration (opt-in feature for external model routing)
     delegationRouting: {
       enabled: false,
-      defaultProvider: "claude",
+      defaultProvider: "gemini",
       roles: {}
     },
     planOutput: {
-      directory: ".omc/plans",
+      directory: ".omg/plans",
       filenameTemplate: "{{name}}.md"
     },
     startupCodebaseMap: {
@@ -3608,8 +3608,8 @@ function buildDefaultConfig() {
 function getConfigPaths() {
   const userConfigDir = getConfigDir2();
   return {
-    user: (0, import_path2.join)(userConfigDir, "claude-omc", "config.jsonc"),
-    project: (0, import_path2.join)(process.cwd(), ".claude", "omc.jsonc")
+    user: (0, import_path2.join)(userConfigDir, "gemini-omg", "config.jsonc"),
+    project: (0, import_path2.join)(process.cwd(), ".gemini", "omg.jsonc")
   };
 }
 function loadJsoncFile(path20) {
@@ -3737,7 +3737,7 @@ function loadEnvConfig() {
   };
   if (process.env.OMC_EXTERNAL_MODELS_FALLBACK_POLICY) {
     const policy = process.env.OMC_EXTERNAL_MODELS_FALLBACK_POLICY;
-    if (policy === "provider_chain" || policy === "cross_provider" || policy === "claude_only") {
+    if (policy === "provider_chain" || policy === "cross_provider" || policy === "gemini_only") {
       externalModelsFallback.onModelFailure = policy;
     }
   }
@@ -3755,7 +3755,7 @@ function loadEnvConfig() {
   }
   if (process.env.OMC_DELEGATION_ROUTING_DEFAULT_PROVIDER) {
     const provider = process.env.OMC_DELEGATION_ROUTING_DEFAULT_PROVIDER;
-    if (["claude", "codex", "gemini"].includes(provider)) {
+    if (["gemini", "codex", "gemini"].includes(provider)) {
       config2.delegationRouting = {
         ...config2.delegationRouting,
         defaultProvider: provider
@@ -3777,7 +3777,7 @@ function loadConfig() {
   }
   const envConfig = loadEnvConfig();
   config2 = deepMerge(config2, envConfig);
-  if (config2.routing?.forceInherit !== true && process.env.OMC_ROUTING_FORCE_INHERIT === void 0 && isNonClaudeProvider()) {
+  if (config2.routing?.forceInherit !== true && process.env.OMC_ROUTING_FORCE_INHERIT === void 0 && isNonGeminiProvider()) {
     config2.routing = {
       ...config2.routing,
       forceInherit: true
@@ -3786,7 +3786,7 @@ function loadConfig() {
   return config2;
 }
 function looksLikeOmcGuidance(content) {
-  return content.includes("<guidance_schema_contract>") && /oh-my-(claudecode|codex)/i.test(content) && OMC_STARTUP_COMPACTABLE_SECTIONS.some(
+  return content.includes("<guidance_schema_contract>") && /oh-my-(gemini-cli|codex)/i.test(content) && OMC_STARTUP_COMPACTABLE_SECTIONS.some(
     (section) => content.includes(`<${section}>`) && content.includes(`</${section}>`)
   );
 }
@@ -3817,9 +3817,9 @@ function findContextFiles(startDir) {
   const searchDir = startDir ?? process.cwd();
   const contextFileNames = [
     "AGENTS.md",
-    "CLAUDE.md",
-    ".claude/CLAUDE.md",
-    ".claude/AGENTS.md"
+    "GEMINI.md",
+    ".gemini/GEMINI.md",
+    ".gemini/AGENTS.md"
   ];
   let currentDir = searchDir;
   const searchedDirs = /* @__PURE__ */ new Set();
@@ -4093,7 +4093,7 @@ var init_utils = __esm({
     import_fs3 = require("fs");
     import_path3 = require("path");
     import_url = require("url");
-    OPEN_QUESTIONS_PATH = ".omc/plans/open-questions.md";
+    OPEN_QUESTIONS_PATH = ".omg/plans/open-questions.md";
   }
 });
 
@@ -4673,7 +4673,7 @@ function getAgentDefinitions(options) {
   }
   return result;
 }
-var debuggerAgent, verifierAgent, testEngineerAgent, securityReviewerAgent, codeReviewerAgent, gitMasterAgent, codeSimplifierAgent, AGENT_CONFIG_KEY_MAP, omcSystemPrompt;
+var debuggerAgent, verifierAgent, testEngineerAgent, securityReviewerAgent, codeReviewerAgent, gitMasterAgent, codeSimplifierAgent, AGENT_CONFIG_KEY_MAP, omgSystemPrompt;
 var init_definitions = __esm({
   "src/agents/definitions.ts"() {
     "use strict";
@@ -4773,7 +4773,7 @@ var init_definitions = __esm({
       critic: "critic",
       "document-specialist": "documentSpecialist"
     };
-    omcSystemPrompt = `You are the relentless orchestrator of a multi-agent development system.
+    omgSystemPrompt = `You are the relentless orchestrator of a multi-agent development system.
 
 ## RELENTLESS EXECUTION
 
@@ -4908,18 +4908,18 @@ function isSecureRuntimeDir(dir) {
 function getRuntimeDir() {
   const xdgRuntime = process.env.XDG_RUNTIME_DIR;
   if (xdgRuntime && isSecureRuntimeDir(xdgRuntime)) {
-    return path.join(xdgRuntime, "omc");
+    return path.join(xdgRuntime, "omg");
   }
   const platform = process.platform;
   if (platform === "darwin") {
-    return path.join(os2.homedir(), "Library", "Caches", "omc", "runtime");
+    return path.join(os2.homedir(), "Library", "Caches", "omg", "runtime");
   } else if (platform === "linux") {
-    return path.join("/tmp", "omc", "runtime");
+    return path.join("/tmp", "omg", "runtime");
   } else if (platform === "win32") {
     const localAppData = process.env.LOCALAPPDATA || path.join(os2.homedir(), "AppData", "Local");
-    return path.join(localAppData, "omc", "runtime");
+    return path.join(localAppData, "omg", "runtime");
   }
-  return path.join(os2.tmpdir(), "omc", "runtime");
+  return path.join(os2.tmpdir(), "omg", "runtime");
 }
 function shortenSessionId(sessionId) {
   return crypto.createHash("sha256").update(sessionId).digest("hex").slice(0, SHORT_SESSION_ID_LENGTH);
@@ -5756,7 +5756,7 @@ function getOmcRoot(worktreeRoot) {
     if (!dualDirWarnings.has(warningKey) && (0, import_fs13.existsSync)(legacyPath) && (0, import_fs13.existsSync)(centralizedPath)) {
       dualDirWarnings.add(warningKey);
       console.warn(
-        `[omc] Both legacy state dir (${legacyPath}) and centralized state dir (${centralizedPath}) exist. Using centralized dir. Consider migrating data from the legacy dir and removing it.`
+        `[omg] Both legacy state dir (${legacyPath}) and centralized state dir (${centralizedPath}) exist. Using centralized dir. Consider migrating data from the legacy dir and removing it.`
       );
     }
     return centralizedPath;
@@ -5766,11 +5766,11 @@ function getOmcRoot(worktreeRoot) {
 }
 function resolveOmcPath(relativePath, worktreeRoot) {
   validatePath(relativePath);
-  const omcDir = getOmcRoot(worktreeRoot);
-  const fullPath = (0, import_path15.normalize)((0, import_path15.resolve)(omcDir, relativePath));
-  const relativeToOmc = (0, import_path15.relative)(omcDir, fullPath);
+  const omgDir = getOmcRoot(worktreeRoot);
+  const fullPath = (0, import_path15.normalize)((0, import_path15.resolve)(omgDir, relativePath));
+  const relativeToOmc = (0, import_path15.relative)(omgDir, fullPath);
   if (relativeToOmc.startsWith("..") || relativeToOmc.startsWith(import_path15.sep + "..")) {
-    throw new Error(`Path escapes omc boundary: ${relativePath}`);
+    throw new Error(`Path escapes omg boundary: ${relativePath}`);
   }
   return fullPath;
 }
@@ -5819,8 +5819,8 @@ function isValidTranscriptPath(transcriptPath) {
   const normalized = (0, import_path15.normalize)(expandedPath);
   const home = (0, import_os3.homedir)();
   const allowedPrefixes = [
-    (0, import_path15.join)(home, ".claude"),
-    (0, import_path15.join)(home, ".omc"),
+    (0, import_path15.join)(home, ".gemini"),
+    (0, import_path15.join)(home, ".omg"),
     "/tmp",
     "/var/folders"
     // macOS temp
@@ -5869,13 +5869,13 @@ function resolveToWorktreeRoot(directory) {
 function resolveTranscriptPath(transcriptPath, cwd2) {
   if (!transcriptPath) return void 0;
   if ((0, import_fs13.existsSync)(transcriptPath)) return transcriptPath;
-  const worktreeSegmentPattern = /--claude-worktrees-[^/\\]+/;
+  const worktreeSegmentPattern = /--gemini-worktrees-[^/\\]+/;
   if (worktreeSegmentPattern.test(transcriptPath)) {
     const resolved = transcriptPath.replace(worktreeSegmentPattern, "");
     if ((0, import_fs13.existsSync)(resolved)) return resolved;
   }
   const effectiveCwd = cwd2 || process.cwd();
-  const worktreeMarker = ".claude/worktrees/";
+  const worktreeMarker = ".gemini/worktrees/";
   const markerIdx = effectiveCwd.indexOf(worktreeMarker);
   if (markerIdx !== -1) {
     const mainProjectRoot = effectiveCwd.substring(
@@ -5885,7 +5885,7 @@ function resolveTranscriptPath(transcriptPath, cwd2) {
     const lastSep = transcriptPath.lastIndexOf("/");
     const sessionFile = lastSep !== -1 ? transcriptPath.substring(lastSep + 1) : "";
     if (sessionFile) {
-      const configDir = process.env.CLAUDE_CONFIG_DIR || (0, import_path15.join)((0, import_os3.homedir)(), ".claude");
+      const configDir = process.env.CLAUDE_CONFIG_DIR || (0, import_path15.join)((0, import_os3.homedir)(), ".gemini");
       const projectsDir = (0, import_path15.join)(configDir, "projects");
       if ((0, import_fs13.existsSync)(projectsDir)) {
         const encodedMain = mainProjectRoot.replace(/[/\\]/g, "-");
@@ -5911,7 +5911,7 @@ function resolveTranscriptPath(transcriptPath, cwd2) {
       const lastSep = transcriptPath.lastIndexOf("/");
       const sessionFile = lastSep !== -1 ? transcriptPath.substring(lastSep + 1) : "";
       if (sessionFile) {
-        const configDir = process.env.CLAUDE_CONFIG_DIR || (0, import_path15.join)((0, import_os3.homedir)(), ".claude");
+        const configDir = process.env.CLAUDE_CONFIG_DIR || (0, import_path15.join)((0, import_os3.homedir)(), ".gemini");
         const projectsDir = (0, import_path15.join)(configDir, "projects");
         if ((0, import_fs13.existsSync)(projectsDir)) {
           const encodedMain = mainRepoRoot.replace(/[/\\]/g, "-");
@@ -5976,21 +5976,21 @@ var init_worktree_paths = __esm({
     import_os3 = require("os");
     import_path15 = require("path");
     OmcPaths = {
-      ROOT: ".omc",
-      STATE: ".omc/state",
-      SESSIONS: ".omc/state/sessions",
-      PLANS: ".omc/plans",
-      RESEARCH: ".omc/research",
-      NOTEPAD: ".omc/notepad.md",
-      PROJECT_MEMORY: ".omc/project-memory.json",
-      DRAFTS: ".omc/drafts",
-      NOTEPADS: ".omc/notepads",
-      LOGS: ".omc/logs",
-      SCIENTIST: ".omc/scientist",
-      AUTOPILOT: ".omc/autopilot",
-      SKILLS: ".omc/skills",
-      SHARED_MEMORY: ".omc/state/shared-memory",
-      DEEPINIT_MANIFEST: ".omc/deepinit-manifest.json"
+      ROOT: ".omg",
+      STATE: ".omg/state",
+      SESSIONS: ".omg/state/sessions",
+      PLANS: ".omg/plans",
+      RESEARCH: ".omg/research",
+      NOTEPAD: ".omg/notepad.md",
+      PROJECT_MEMORY: ".omg/project-memory.json",
+      DRAFTS: ".omg/drafts",
+      NOTEPADS: ".omg/notepads",
+      LOGS: ".omg/logs",
+      SCIENTIST: ".omg/scientist",
+      AUTOPILOT: ".omg/autopilot",
+      SKILLS: ".omg/skills",
+      SHARED_MEMORY: ".omg/state/shared-memory",
+      DEEPINIT_MANIFEST: ".omg/deepinit-manifest.json"
     };
     MAX_WORKTREE_CACHE_SIZE = 8;
     worktreeCacheMap = /* @__PURE__ */ new Map();
@@ -6008,8 +6008,8 @@ var init_constants = __esm({
     import_os4 = require("os");
     init_paths();
     init_worktree_paths();
-    USER_SKILLS_DIR = (0, import_path16.join)(getClaudeConfigDir(), "skills", "omc-learned");
-    GLOBAL_SKILLS_DIR = (0, import_path16.join)((0, import_os4.homedir)(), ".omc", "skills");
+    USER_SKILLS_DIR = (0, import_path16.join)(getGeminiConfigDir(), "skills", "omg-learned");
+    GLOBAL_SKILLS_DIR = (0, import_path16.join)((0, import_os4.homedir)(), ".omg", "skills");
     PROJECT_SKILLS_SUBDIR = OmcPaths.SKILLS;
     PROJECT_AGENT_SKILLS_SUBDIR = (0, import_path16.join)(".agents", "skills");
     MAX_RECURSION_DEPTH = 10;
@@ -6531,7 +6531,7 @@ function canStartMode(mode, cwd2) {
         return {
           allowed: false,
           blockedBy: exclusiveMode,
-          message: `Cannot start ${MODE_CONFIGS[mode].name} while ${config2.name} is active. Cancel ${config2.name} first with /oh-my-claudecode:cancel.`
+          message: `Cannot start ${MODE_CONFIGS[mode].name} while ${config2.name} is active. Cancel ${config2.name} first with /oh-my-gemini-cli:cancel.`
         };
       }
     }
@@ -6998,7 +6998,7 @@ function appendReplayEvent(directory, sessionId, event) {
 function recordAgentStart(directory, sessionId, agentId, agentType, task, parentMode, model) {
   appendReplayEvent(directory, sessionId, {
     agent: agentId.substring(0, 7),
-    agent_type: agentType.replace("oh-my-claudecode:", ""),
+    agent_type: agentType.replace("oh-my-gemini-cli:", ""),
     event: "agent_start",
     task: task?.substring(0, 100),
     parent_mode: parentMode,
@@ -7008,7 +7008,7 @@ function recordAgentStart(directory, sessionId, agentId, agentType, task, parent
 function recordAgentStop(directory, sessionId, agentId, agentType, success, durationMs) {
   appendReplayEvent(directory, sessionId, {
     agent: agentId.substring(0, 7),
-    agent_type: agentType.replace("oh-my-claudecode:", ""),
+    agent_type: agentType.replace("oh-my-gemini-cli:", ""),
     event: "agent_stop",
     success,
     duration_ms: durationMs
@@ -7427,7 +7427,7 @@ Ralph mode auto-activates Ultrawork for maximum parallel execution. Follow these
 ### Completion Requirements
 - Verify ALL requirements from the original task are met
 - Architect verification is MANDATORY before claiming completion
-- When FULLY complete, run \`/oh-my-claudecode:cancel\` to cleanly exit and clean up state files
+- When FULLY complete, run \`/oh-my-gemini-cli:cancel\` to cleanly exit and clean up state files
 
 Continue working until the task is truly done.
 `;
@@ -7454,7 +7454,7 @@ Respond to the user in their original language.
                 type: "command",
                 // Note: On Windows, %USERPROFILE% is expanded by cmd.exe
                 // On Unix with node hooks, $HOME is expanded by the shell
-                command: isWindows() ? 'node "%USERPROFILE%\\.claude\\hooks\\keyword-detector.mjs"' : 'node "$HOME/.claude/hooks/keyword-detector.mjs"'
+                command: isWindows() ? 'node "%USERPROFILE%\\.gemini\\hooks\\keyword-detector.mjs"' : 'node "$HOME/.gemini/hooks/keyword-detector.mjs"'
               }
             ]
           }
@@ -7464,7 +7464,7 @@ Respond to the user in their original language.
             hooks: [
               {
                 type: "command",
-                command: isWindows() ? 'node "%USERPROFILE%\\.claude\\hooks\\session-start.mjs"' : 'node "$HOME/.claude/hooks/session-start.mjs"'
+                command: isWindows() ? 'node "%USERPROFILE%\\.gemini\\hooks\\session-start.mjs"' : 'node "$HOME/.gemini/hooks/session-start.mjs"'
               }
             ]
           }
@@ -7474,7 +7474,7 @@ Respond to the user in their original language.
             hooks: [
               {
                 type: "command",
-                command: isWindows() ? 'node "%USERPROFILE%\\.claude\\hooks\\pre-tool-use.mjs"' : 'node "$HOME/.claude/hooks/pre-tool-use.mjs"'
+                command: isWindows() ? 'node "%USERPROFILE%\\.gemini\\hooks\\pre-tool-use.mjs"' : 'node "$HOME/.gemini/hooks/pre-tool-use.mjs"'
               }
             ]
           }
@@ -7484,7 +7484,7 @@ Respond to the user in their original language.
             hooks: [
               {
                 type: "command",
-                command: isWindows() ? 'node "%USERPROFILE%\\.claude\\hooks\\post-tool-use.mjs"' : 'node "$HOME/.claude/hooks/post-tool-use.mjs"'
+                command: isWindows() ? 'node "%USERPROFILE%\\.gemini\\hooks\\post-tool-use.mjs"' : 'node "$HOME/.gemini/hooks/post-tool-use.mjs"'
               }
             ]
           }
@@ -7494,7 +7494,7 @@ Respond to the user in their original language.
             hooks: [
               {
                 type: "command",
-                command: isWindows() ? 'node "%USERPROFILE%\\.claude\\hooks\\post-tool-use-failure.mjs"' : 'node "$HOME/.claude/hooks/post-tool-use-failure.mjs"'
+                command: isWindows() ? 'node "%USERPROFILE%\\.gemini\\hooks\\post-tool-use-failure.mjs"' : 'node "$HOME/.gemini/hooks/post-tool-use-failure.mjs"'
               }
             ]
           }
@@ -7504,7 +7504,7 @@ Respond to the user in their original language.
             hooks: [
               {
                 type: "command",
-                command: isWindows() ? 'node "%USERPROFILE%\\.claude\\hooks\\persistent-mode.mjs"' : 'node "$HOME/.claude/hooks/persistent-mode.mjs"'
+                command: isWindows() ? 'node "%USERPROFILE%\\.gemini\\hooks\\persistent-mode.mjs"' : 'node "$HOME/.gemini/hooks/persistent-mode.mjs"'
               }
             ]
           },
@@ -7512,7 +7512,7 @@ Respond to the user in their original language.
             hooks: [
               {
                 type: "command",
-                command: isWindows() ? 'node "%USERPROFILE%\\.claude\\hooks\\code-simplifier.mjs"' : 'node "$HOME/.claude/hooks/code-simplifier.mjs"'
+                command: isWindows() ? 'node "%USERPROFILE%\\.gemini\\hooks\\code-simplifier.mjs"' : 'node "$HOME/.gemini/hooks/code-simplifier.mjs"'
               }
             ]
           }
@@ -7627,7 +7627,7 @@ var init_resolve_node = __esm({
 
 // src/installer/mcp-registry.ts
 function getOmcHomeDir() {
-  return process.env.OMC_HOME?.trim() || (0, import_path39.join)((0, import_os9.homedir)(), ".omc");
+  return process.env.OMC_HOME?.trim() || (0, import_path39.join)((0, import_os9.homedir)(), ".omg");
 }
 function getUnifiedMcpRegistryPath() {
   return process.env.OMC_MCP_REGISTRY_PATH?.trim() || (0, import_path39.join)(getOmcHomeDir(), "mcp-registry.json");
@@ -7680,7 +7680,7 @@ function normalizeRegistry(value) {
     Object.entries(entries).sort(([left], [right]) => left.localeCompare(right))
   );
 }
-function extractClaudeMcpRegistry(settings) {
+function extractGeminiMcpRegistry(settings) {
   return normalizeRegistry(settings.mcpServers);
 }
 function loadRegistryFromDisk(path20) {
@@ -7713,8 +7713,8 @@ function writeManagedServerNames(serverNames) {
   ensureParentDir(statePath);
   (0, import_fs31.writeFileSync)(statePath, JSON.stringify({ managedServers: [...serverNames].sort((a, b) => a.localeCompare(b)) }, null, 2));
 }
-function bootstrapRegistryFromClaude(settings, registryPath) {
-  const registry2 = extractClaudeMcpRegistry(settings);
+function bootstrapRegistryFromGemini(settings, registryPath) {
+  const registry2 = extractGeminiMcpRegistry(settings);
   if (Object.keys(registry2).length === 0) {
     return {};
   }
@@ -7728,21 +7728,21 @@ function loadOrBootstrapRegistry(settings) {
     return {
       registry: loadRegistryFromDisk(registryPath),
       registryExists: true,
-      bootstrappedFromClaude: false
+      bootstrappedFromGemini: false
     };
   }
-  const registry2 = bootstrapRegistryFromClaude(settings, registryPath);
+  const registry2 = bootstrapRegistryFromGemini(settings, registryPath);
   return {
     registry: registry2,
     registryExists: Object.keys(registry2).length > 0,
-    bootstrappedFromClaude: Object.keys(registry2).length > 0
+    bootstrappedFromGemini: Object.keys(registry2).length > 0
   };
 }
 function entriesEqual(left, right) {
   return JSON.stringify(left) === JSON.stringify(right);
 }
-function applyRegistryToClaudeSettings(settings, registry2, managedServerNames = []) {
-  const existingServers = extractClaudeMcpRegistry(settings);
+function applyRegistryToGeminiSettings(settings, registry2, managedServerNames = []) {
+  const existingServers = extractGeminiMcpRegistry(settings);
   const nextServers = { ...existingServers };
   for (const managedName of managedServerNames) {
     delete nextServers[managedName];
@@ -7915,7 +7915,7 @@ function syncUnifiedMcpRegistryTargets(settings) {
   const registryState = loadOrBootstrapRegistry(settings);
   const registry2 = registryState.registry;
   const serverNames = Object.keys(registry2);
-  const claude = applyRegistryToClaudeSettings(settings, registry2, managedServerNames);
+  const gemini = applyRegistryToGeminiSettings(settings, registry2, managedServerNames);
   let codexChanged = false;
   const currentCodexConfig = (0, import_fs31.existsSync)(codexConfigPath) ? (0, import_fs31.readFileSync)(codexConfigPath, "utf-8") : "";
   const nextCodexConfig = syncCodexConfigToml(currentCodexConfig, registry2);
@@ -7928,14 +7928,14 @@ function syncUnifiedMcpRegistryTargets(settings) {
     writeManagedServerNames(serverNames);
   }
   return {
-    settings: claude.settings,
+    settings: gemini.settings,
     result: {
       registryPath,
       codexConfigPath,
       registryExists: registryState.registryExists,
-      bootstrappedFromClaude: registryState.bootstrappedFromClaude,
+      bootstrappedFromGemini: registryState.bootstrappedFromGemini,
       serverNames,
-      claudeChanged: claude.changed,
+      geminiChanged: gemini.changed,
       codexChanged
     }
   };
@@ -7960,26 +7960,26 @@ function inspectUnifiedMcpRegistrySync() {
       codexConfigPath,
       registryExists: false,
       serverNames: [],
-      claudeMissing: [],
-      claudeMismatched: [],
+      geminiMissing: [],
+      geminiMismatched: [],
       codexMissing: [],
       codexMismatched: []
     };
   }
   const registry2 = loadRegistryFromDisk(registryPath);
   const serverNames = Object.keys(registry2);
-  const claudeSettings = readJsonObject((0, import_path39.join)(getConfigDir(), "settings.json"));
-  const claudeEntries = extractClaudeMcpRegistry(claudeSettings);
+  const geminiSettings = readJsonObject((0, import_path39.join)(getConfigDir(), "settings.json"));
+  const geminiEntries = extractGeminiMcpRegistry(geminiSettings);
   const codexEntries = (0, import_fs31.existsSync)(codexConfigPath) ? parseCodexMcpRegistryEntries((0, import_fs31.readFileSync)(codexConfigPath, "utf-8")) : {};
-  const claudeMissing = [];
-  const claudeMismatched = [];
+  const geminiMissing = [];
+  const geminiMismatched = [];
   const codexMissing = [];
   const codexMismatched = [];
   for (const [name, entry] of Object.entries(registry2)) {
-    if (!claudeEntries[name]) {
-      claudeMissing.push(name);
-    } else if (!entriesEqual(claudeEntries[name], entry)) {
-      claudeMismatched.push(name);
+    if (!geminiEntries[name]) {
+      geminiMissing.push(name);
+    } else if (!entriesEqual(geminiEntries[name], entry)) {
+      geminiMismatched.push(name);
     }
     if (!codexEntries[name]) {
       codexMissing.push(name);
@@ -7992,8 +7992,8 @@ function inspectUnifiedMcpRegistrySync() {
     codexConfigPath,
     registryExists: true,
     serverNames,
-    claudeMissing,
-    claudeMismatched,
+    geminiMissing,
+    geminiMismatched,
     codexMissing,
     codexMismatched
   };
@@ -8042,11 +8042,11 @@ function getNewestInstalledVersionHint() {
     } catch {
     }
   }
-  const claudeCandidates = [
-    (0, import_path40.join)(CLAUDE_CONFIG_DIR, "CLAUDE.md"),
-    (0, import_path40.join)((0, import_os10.homedir)(), "CLAUDE.md")
+  const geminiCandidates = [
+    (0, import_path40.join)(CLAUDE_CONFIG_DIR, "GEMINI.md"),
+    (0, import_path40.join)((0, import_os10.homedir)(), "GEMINI.md")
   ];
-  for (const candidatePath of claudeCandidates) {
+  for (const candidatePath of geminiCandidates) {
     if (!(0, import_fs32.existsSync)(candidatePath)) continue;
     try {
       const detectedVersion = extractOmcVersionMarker((0, import_fs32.readFileSync)(candidatePath, "utf-8"));
@@ -8090,14 +8090,14 @@ function stripGeneratedUserCustomizationHeaders(content) {
     ""
   );
 }
-function trimClaudeUserContent(content) {
+function trimGeminiUserContent(content) {
   if (content.trim().length === 0) {
     return "";
   }
   return content.replace(/^(?:[ \t]*\r?\n)+/, "").replace(/(?:\r?\n[ \t]*)+$/, "").replace(/(?:\r?\n){3,}/g, "\n\n");
 }
 function isHudEnabledInConfig() {
-  const configPath = (0, import_path40.join)(CLAUDE_CONFIG_DIR, ".omc-config.json");
+  const configPath = (0, import_path40.join)(CLAUDE_CONFIG_DIR, ".omg-config.json");
   if (!(0, import_fs32.existsSync)(configPath)) {
     return true;
   }
@@ -8112,24 +8112,24 @@ function isHudEnabledInConfig() {
 function isOmcStatusLine(statusLine) {
   if (!statusLine) return false;
   if (typeof statusLine === "string") {
-    return statusLine.includes("omc-hud");
+    return statusLine.includes("omg-hud");
   }
   if (typeof statusLine === "object") {
     const sl = statusLine;
     if (typeof sl.command === "string") {
-      return sl.command.includes("omc-hud");
+      return sl.command.includes("omg-hud");
     }
   }
   return false;
 }
 function isOmcHook(command) {
   const lowerCommand = command.toLowerCase();
-  const omcPattern = /(?:^|[\/\\_-])omc(?:$|[\/\\_-])/;
-  const fullNamePattern = /oh-my-claudecode/;
-  if (omcPattern.test(lowerCommand) || fullNamePattern.test(lowerCommand)) {
+  const omgPattern = /(?:^|[\/\\_-])omg(?:$|[\/\\_-])/;
+  const fullNamePattern = /oh-my-gemini-cli/;
+  if (omgPattern.test(lowerCommand) || fullNamePattern.test(lowerCommand)) {
     return true;
   }
-  const hookPathMatch = lowerCommand.match(/\.claude[/\\]hooks[/\\]([a-z0-9-]+\.mjs)/);
+  const hookPathMatch = lowerCommand.match(/\.gemini[/\\]hooks[/\\]([a-z0-9-]+\.mjs)/);
   if (hookPathMatch && OMC_HOOK_FILENAMES.has(hookPathMatch[1])) {
     return true;
   }
@@ -8143,9 +8143,9 @@ function checkNodeVersion() {
     required: MIN_NODE_VERSION
   };
 }
-function isClaudeInstalled() {
+function isGeminiInstalled() {
   try {
-    const command = isWindows() ? "where claude" : "which claude";
+    const command = isWindows() ? "where gemini" : "which gemini";
     (0, import_child_process12.execSync)(command, { encoding: "utf-8", stdio: "pipe" });
     return true;
   } catch {
@@ -8189,7 +8189,7 @@ function getInstalledOmcPluginRoots() {
     const raw = JSON.parse((0, import_fs32.readFileSync)(installedPluginsPath, "utf-8"));
     const plugins = raw.plugins ?? raw;
     for (const [pluginId, entries] of Object.entries(plugins)) {
-      if (!pluginId.toLowerCase().includes("oh-my-claudecode") || !Array.isArray(entries)) {
+      if (!pluginId.toLowerCase().includes("oh-my-gemini-cli") || !Array.isArray(entries)) {
         continue;
       }
       for (const entry of entries) {
@@ -8246,21 +8246,21 @@ function loadCommandDefinitions() {
   }
   return definitions;
 }
-function loadClaudeMdContent() {
-  const claudeMdPath = (0, import_path40.join)(getPackageDir3(), "docs", "CLAUDE.md");
-  if (!(0, import_fs32.existsSync)(claudeMdPath)) {
-    console.error(`FATAL: CLAUDE.md not found: ${claudeMdPath}`);
+function loadGeminiMdContent() {
+  const geminiMdPath = (0, import_path40.join)(getPackageDir3(), "docs", "GEMINI.md");
+  if (!(0, import_fs32.existsSync)(geminiMdPath)) {
+    console.error(`FATAL: GEMINI.md not found: ${geminiMdPath}`);
     process.exit(1);
   }
-  return (0, import_fs32.readFileSync)(claudeMdPath, "utf-8");
+  return (0, import_fs32.readFileSync)(geminiMdPath, "utf-8");
 }
-function extractOmcVersionFromClaudeMd(content) {
+function extractOmcVersionFromGeminiMd(content) {
   const versionMarkerMatch = content.match(/<!--\s*OMC:VERSION:([^\s]+)\s*-->/i);
   if (versionMarkerMatch?.[1]) {
     const markerVersion = versionMarkerMatch[1].trim();
     return markerVersion.startsWith("v") ? markerVersion : `v${markerVersion}`;
   }
-  const headingMatch = content.match(/^#\s+oh-my-claudecode.*?\b(v?\d+\.\d+\.\d+(?:[-+][^\s]+)?)\b/m);
+  const headingMatch = content.match(/^#\s+oh-my-gemini-cli.*?\b(v?\d+\.\d+\.\d+(?:[-+][^\s]+)?)\b/m);
   if (headingMatch?.[1]) {
     const headingVersion = headingMatch[1].trim();
     return headingVersion.startsWith("v") ? headingVersion : `v${headingVersion}`;
@@ -8268,7 +8268,7 @@ function extractOmcVersionFromClaudeMd(content) {
   return null;
 }
 function syncPersistedSetupVersion(options) {
-  const configPath = options?.configPath ?? (0, import_path40.join)(CLAUDE_CONFIG_DIR, ".omc-config.json");
+  const configPath = options?.configPath ?? (0, import_path40.join)(CLAUDE_CONFIG_DIR, ".omg-config.json");
   let config2 = {};
   if ((0, import_fs32.existsSync)(configPath)) {
     const rawConfig = (0, import_fs32.readFileSync)(configPath, "utf-8").trim();
@@ -8283,9 +8283,9 @@ function syncPersistedSetupVersion(options) {
   }
   let detectedVersion = options?.version?.trim();
   if (!detectedVersion) {
-    const claudeMdPath = options?.claudeMdPath ?? (0, import_path40.join)(CLAUDE_CONFIG_DIR, "CLAUDE.md");
-    if ((0, import_fs32.existsSync)(claudeMdPath)) {
-      detectedVersion = extractOmcVersionFromClaudeMd((0, import_fs32.readFileSync)(claudeMdPath, "utf-8")) ?? void 0;
+    const geminiMdPath = options?.geminiMdPath ?? (0, import_path40.join)(CLAUDE_CONFIG_DIR, "GEMINI.md");
+    if ((0, import_fs32.existsSync)(geminiMdPath)) {
+      detectedVersion = extractOmcVersionFromGeminiMd((0, import_fs32.readFileSync)(geminiMdPath, "utf-8")) ?? void 0;
     }
   }
   const normalizedVersion = (() => {
@@ -8299,7 +8299,7 @@ function syncPersistedSetupVersion(options) {
   (0, import_fs32.writeFileSync)(configPath, JSON.stringify({ ...config2, setupVersion: normalizedVersion }, null, 2));
   return true;
 }
-function mergeClaudeMd(existingContent, omcContent, version3) {
+function mergeGeminiMd(existingContent, omgContent, version3) {
   const START_MARKER = "<!-- OMC:START -->";
   const END_MARKER = "<!-- OMC:END -->";
   const USER_CUSTOMIZATIONS = "<!-- User customizations -->";
@@ -8309,11 +8309,11 @@ function mergeClaudeMd(existingContent, omcContent, version3) {
   );
   const markerStartRegex = createLineAnchoredMarkerRegex(START_MARKER);
   const markerEndRegex = createLineAnchoredMarkerRegex(END_MARKER);
-  let cleanOmcContent = omcContent;
-  const omcStartIdx = findLineAnchoredMarker(omcContent, START_MARKER);
-  const omcEndIdx = findLineAnchoredMarker(omcContent, END_MARKER, true);
-  if (omcStartIdx !== -1 && omcEndIdx !== -1 && omcStartIdx < omcEndIdx) {
-    cleanOmcContent = omcContent.substring(omcStartIdx + START_MARKER.length, omcEndIdx).trim();
+  let cleanOmcContent = omgContent;
+  const omgStartIdx = findLineAnchoredMarker(omgContent, START_MARKER);
+  const omgEndIdx = findLineAnchoredMarker(omgContent, END_MARKER, true);
+  if (omgStartIdx !== -1 && omgEndIdx !== -1 && omgStartIdx < omgEndIdx) {
+    cleanOmcContent = omgContent.substring(omgStartIdx + START_MARKER.length, omgEndIdx).trim();
   }
   cleanOmcContent = cleanOmcContent.replace(/<!-- OMC:VERSION:[^\s]*? -->\n?/, "");
   const versionMarker = version3 ? `<!-- OMC:VERSION:${version3} -->
@@ -8335,7 +8335,7 @@ ${END_MARKER}
 <!-- User customizations (recovered from corrupted markers) -->
 ${existingContent}`;
   }
-  const preservedUserContent = trimClaudeUserContent(
+  const preservedUserContent = trimGeminiUserContent(
     stripGeneratedUserCustomizationHeaders(strippedExistingContent)
   );
   if (!preservedUserContent) {
@@ -8376,7 +8376,7 @@ function install(options = {}) {
   const targetVersion = options.version ?? VERSION;
   const installedVersionHint = getNewestInstalledVersionHint();
   if (isComparableVersion(targetVersion) && isComparableVersion(installedVersionHint) && compareVersions(targetVersion, installedVersionHint) < 0) {
-    const message = `Skipping install: installed OMC ${installedVersionHint} is newer than CLI package ${targetVersion}. Run "omc update" to update the CLI package, then rerun "omc setup".`;
+    const message = `Skipping install: installed OMC ${installedVersionHint} is newer than CLI package ${targetVersion}. Run "omg update" to update the CLI package, then rerun "omg setup".`;
     log3(message);
     result.success = true;
     result.message = message;
@@ -8389,8 +8389,8 @@ function install(options = {}) {
   const shouldInstallLegacyAgents = !runningAsPlugin && !pluginProvidesAgentFiles;
   const allowPluginHookRefresh = runningAsPlugin && options.refreshHooksInPlugin && !projectScoped;
   if (runningAsPlugin) {
-    log3("Detected Claude Code plugin context - skipping agent/command file installation");
-    log3("Plugin files are managed by Claude Code plugin system");
+    log3("Detected Gemini Code plugin context - skipping agent/command file installation");
+    log3("Plugin files are managed by Gemini Code plugin system");
     if (projectScoped) {
       log3("Detected project-scoped plugin - skipping global HUD/settings modifications");
     } else {
@@ -8400,14 +8400,14 @@ function install(options = {}) {
       }
     }
   } else if (pluginProvidesAgentFiles) {
-    log3("Detected installed OMC plugin agent definitions - skipping legacy ~/.claude/agents sync");
+    log3("Detected installed OMC plugin agent definitions - skipping legacy ~/.gemini/agents sync");
   }
-  if (!options.skipClaudeCheck && !isClaudeInstalled()) {
-    log3("Warning: Claude Code not found. Install it first:");
+  if (!options.skipGeminiCheck && !isGeminiInstalled()) {
+    log3("Warning: Gemini Code not found. Install it first:");
     if (isWindows()) {
-      log3("  Visit https://docs.anthropic.com/claude-code for Windows installation");
+      log3("  Visit https://docs.anthropic.com/gemini-code for Windows installation");
     } else {
-      log3("  curl -fsSL https://claude.ai/install.sh | bash");
+      log3("  curl -fsSL https://gemini.ai/install.sh | bash");
     }
   }
   try {
@@ -8462,29 +8462,29 @@ function install(options = {}) {
           log3(`  Installed ${filename}`);
         }
       }
-      const claudeMdPath = (0, import_path40.join)(CLAUDE_CONFIG_DIR, "CLAUDE.md");
-      const homeMdPath = (0, import_path40.join)((0, import_os10.homedir)(), "CLAUDE.md");
+      const geminiMdPath = (0, import_path40.join)(CLAUDE_CONFIG_DIR, "GEMINI.md");
+      const homeMdPath = (0, import_path40.join)((0, import_os10.homedir)(), "GEMINI.md");
       if (!(0, import_fs32.existsSync)(homeMdPath)) {
-        const omcContent = loadClaudeMdContent();
+        const omgContent = loadGeminiMdContent();
         let existingContent = null;
-        if ((0, import_fs32.existsSync)(claudeMdPath)) {
-          existingContent = (0, import_fs32.readFileSync)(claudeMdPath, "utf-8");
+        if ((0, import_fs32.existsSync)(geminiMdPath)) {
+          existingContent = (0, import_fs32.readFileSync)(geminiMdPath, "utf-8");
         }
         if (existingContent !== null) {
           const timestamp = (/* @__PURE__ */ new Date()).toISOString().replace(/:/g, "-").split(".")[0];
-          const backupPath = (0, import_path40.join)(CLAUDE_CONFIG_DIR, `CLAUDE.md.backup.${timestamp}`);
+          const backupPath = (0, import_path40.join)(CLAUDE_CONFIG_DIR, `GEMINI.md.backup.${timestamp}`);
           (0, import_fs32.writeFileSync)(backupPath, existingContent);
-          log3(`Backed up existing CLAUDE.md to ${backupPath}`);
+          log3(`Backed up existing GEMINI.md to ${backupPath}`);
         }
-        const mergedContent = mergeClaudeMd(existingContent, omcContent, targetVersion);
-        (0, import_fs32.writeFileSync)(claudeMdPath, mergedContent);
+        const mergedContent = mergeGeminiMd(existingContent, omgContent, targetVersion);
+        (0, import_fs32.writeFileSync)(geminiMdPath, mergedContent);
         if (existingContent) {
-          log3("Updated CLAUDE.md (merged with existing content)");
+          log3("Updated GEMINI.md (merged with existing content)");
         } else {
-          log3("Created CLAUDE.md");
+          log3("Created GEMINI.md");
         }
       } else {
-        log3("CLAUDE.md exists in home directory, skipping");
+        log3("GEMINI.md exists in home directory, skipping");
       }
       result.hooksConfigured = true;
     } else {
@@ -8499,7 +8499,7 @@ function install(options = {}) {
     } else if (hudDisabledByOption) {
       log3("Skipping HUD statusline (user opted out)");
     } else if (hudDisabledByConfig) {
-      log3("Skipping HUD statusline (hudEnabled is false in .omc-config.json)");
+      log3("Skipping HUD statusline (hudEnabled is false in .omg-config.json)");
     } else {
       log3("Installing HUD statusline...");
     }
@@ -8507,7 +8507,7 @@ function install(options = {}) {
       if (!(0, import_fs32.existsSync)(HUD_DIR)) {
         (0, import_fs32.mkdirSync)(HUD_DIR, { recursive: true });
       }
-      hudScriptPath = (0, import_path40.join)(HUD_DIR, "omc-hud.mjs").replace(/\\/g, "/");
+      hudScriptPath = (0, import_path40.join)(HUD_DIR, "omg-hud.mjs").replace(/\\/g, "/");
       const hudScriptLines = [
         "#!/usr/bin/env node",
         "/**",
@@ -8528,9 +8528,9 @@ function install(options = {}) {
         "  // 1. Development paths (only when OMC_DEV=1)",
         '  if (process.env.OMC_DEV === "1") {',
         "    const devPaths = [",
-        '      join(home, "Workspace/oh-my-claudecode/dist/hud/index.js"),',
-        '      join(home, "workspace/oh-my-claudecode/dist/hud/index.js"),',
-        '      join(home, "projects/oh-my-claudecode/dist/hud/index.js"),',
+        '      join(home, "Workspace/oh-my-gemini-cli/dist/hud/index.js"),',
+        '      join(home, "workspace/oh-my-gemini-cli/dist/hud/index.js"),',
+        '      join(home, "projects/oh-my-gemini-cli/dist/hud/index.js"),',
         "    ];",
         "    ",
         "    for (const devPath of devPaths) {",
@@ -8545,8 +8545,8 @@ function install(options = {}) {
         "  ",
         "  // 2. Plugin cache (for production installs)",
         "  // Respect CLAUDE_CONFIG_DIR so installs under a custom config dir are found",
-        '  const configDir = process.env.CLAUDE_CONFIG_DIR || join(home, ".claude");',
-        '  const pluginCacheBase = join(configDir, "plugins", "cache", "omc", "oh-my-claudecode");',
+        '  const configDir = process.env.CLAUDE_CONFIG_DIR || join(home, ".gemini");',
+        '  const pluginCacheBase = join(configDir, "plugins", "cache", "omg", "oh-my-gemini-cli");',
         "  if (existsSync(pluginCacheBase)) {",
         "    try {",
         "      const versions = readdirSync(pluginCacheBase);",
@@ -8576,7 +8576,7 @@ function install(options = {}) {
         "  }",
         "  ",
         "  // 3. Marketplace clone (for marketplace installs without a populated cache)",
-        '  const marketplaceHudPath = join(configDir, "plugins", "marketplaces", "omc", "dist/hud/index.js");',
+        '  const marketplaceHudPath = join(configDir, "plugins", "marketplaces", "omg", "dist/hud/index.js");',
         "  if (existsSync(marketplaceHudPath)) {",
         "    try {",
         "      await import(pathToFileURL(marketplaceHudPath).href);",
@@ -8586,7 +8586,7 @@ function install(options = {}) {
         "  ",
         "  // 4. npm package (global or local install)",
         "  try {",
-        '    await import("oh-my-claudecode/dist/hud/index.js");',
+        '    await import("oh-my-gemini-cli/dist/hud/index.js");',
         "    return;",
         "  } catch { /* continue */ }",
         "  ",
@@ -8601,10 +8601,10 @@ function install(options = {}) {
         "    }",
         "  } else if (existsSync(pluginCacheBase)) {",
         "    // Plugin cache directory exists but no versions",
-        "    console.log(`[OMC HUD] Plugin cache found but no versions installed. Run: /oh-my-claudecode:omc-setup`);",
+        "    console.log(`[OMC HUD] Plugin cache found but no versions installed. Run: /oh-my-gemini-cli:omg-setup`);",
         "  } else {",
         "    // No plugin installation found at all",
-        '    console.log("[OMC HUD] Plugin not installed. Run: /oh-my-claudecode:omc-setup");',
+        '    console.log("[OMC HUD] Plugin not installed. Run: /oh-my-gemini-cli:omg-setup");',
         "  }",
         "}",
         "",
@@ -8615,7 +8615,7 @@ function install(options = {}) {
       if (!isWindows()) {
         (0, import_fs32.chmodSync)(hudScriptPath, 493);
       }
-      log3("  Installed omc-hud.mjs");
+      log3("  Installed omg-hud.mjs");
     } catch (_e) {
       log3("  Warning: Could not install HUD statusline script (non-fatal)");
       hudScriptPath = null;
@@ -8638,7 +8638,7 @@ function install(options = {}) {
           const groupList = groups;
           const filtered = groupList.filter((group) => {
             const isLegacy = group.hooks.every(
-              (h) => h.type === "command" && h.command.includes("/.claude/hooks/")
+              (h) => h.type === "command" && h.command.includes("/.gemini/hooks/")
             );
             if (isLegacy) legacyRemoved++;
             return !isLegacy;
@@ -8665,9 +8665,9 @@ function install(options = {}) {
             const findNodeDest = (0, import_path40.join)(HUD_DIR, "find-node.sh");
             (0, import_fs32.copyFileSync)(findNodeSrc, findNodeDest);
             (0, import_fs32.chmodSync)(findNodeDest, 493);
-            statusLineCommand = "sh $HOME/.claude/hud/find-node.sh $HOME/.claude/hud/omc-hud.mjs";
+            statusLineCommand = "sh $HOME/.gemini/hud/find-node.sh $HOME/.gemini/hud/omg-hud.mjs";
           } catch {
-            statusLineCommand = "node $HOME/.claude/hud/omc-hud.mjs";
+            statusLineCommand = "node $HOME/.gemini/hud/omg-hud.mjs";
           }
         }
         const needsMigration = typeof existingSettings.statusLine === "string" && isOmcStatusLine(existingSettings.statusLine);
@@ -8690,26 +8690,26 @@ function install(options = {}) {
         }
       }
       try {
-        const configPath = (0, import_path40.join)(CLAUDE_CONFIG_DIR, ".omc-config.json");
-        let omcConfig = {};
+        const configPath = (0, import_path40.join)(CLAUDE_CONFIG_DIR, ".omg-config.json");
+        let omgConfig = {};
         if ((0, import_fs32.existsSync)(configPath)) {
-          omcConfig = JSON.parse((0, import_fs32.readFileSync)(configPath, "utf-8"));
+          omgConfig = JSON.parse((0, import_fs32.readFileSync)(configPath, "utf-8"));
         }
         const detectedNode = resolveNodeBinary();
         if (detectedNode !== "node") {
-          omcConfig.nodeBinary = detectedNode;
-          (0, import_fs32.writeFileSync)(configPath, JSON.stringify(omcConfig, null, 2));
-          log3(`  Saved node binary path to .omc-config.json: ${detectedNode}`);
+          omgConfig.nodeBinary = detectedNode;
+          (0, import_fs32.writeFileSync)(configPath, JSON.stringify(omgConfig, null, 2));
+          log3(`  Saved node binary path to .omg-config.json: ${detectedNode}`);
         }
       } catch {
         log3("  Warning: Could not save node binary path (non-fatal)");
       }
       const mcpSync = syncUnifiedMcpRegistryTargets(existingSettings);
       existingSettings = mcpSync.settings;
-      if (mcpSync.result.bootstrappedFromClaude) {
+      if (mcpSync.result.bootstrappedFromGemini) {
         log3(`  Bootstrapped unified MCP registry: ${mcpSync.result.registryPath}`);
       }
-      if (mcpSync.result.claudeChanged) {
+      if (mcpSync.result.geminiChanged) {
         log3(`  Synced ${mcpSync.result.serverNames.length} MCP server(s) into settings.json`);
       }
       if (mcpSync.result.codexChanged) {
@@ -8794,7 +8794,7 @@ var init_installer = __esm({
     HOOKS_DIR = (0, import_path40.join)(CLAUDE_CONFIG_DIR, "hooks");
     HUD_DIR = (0, import_path40.join)(CLAUDE_CONFIG_DIR, "hud");
     SETTINGS_FILE = (0, import_path40.join)(CLAUDE_CONFIG_DIR, "settings.json");
-    VERSION_FILE = (0, import_path40.join)(CLAUDE_CONFIG_DIR, ".omc-version.json");
+    VERSION_FILE = (0, import_path40.join)(CLAUDE_CONFIG_DIR, ".omg-version.json");
     CORE_COMMANDS = [];
     VERSION = getRuntimePackageVersion();
     OMC_VERSION_MARKER_PATTERN = /<!-- OMC:VERSION:([^\s]+) -->/;
@@ -8843,7 +8843,7 @@ __export(auto_update_exports, {
   updateLastCheckTime: () => updateLastCheckTime
 });
 function syncMarketplaceClone(verbose = false) {
-  const marketplacePath = (0, import_path41.join)(getConfigDir(), "plugins", "marketplaces", "omc");
+  const marketplacePath = (0, import_path41.join)(getConfigDir(), "plugins", "marketplaces", "omg");
   if (!(0, import_fs33.existsSync)(marketplacePath)) {
     return { ok: true, message: "Marketplace clone not found; skipping" };
   }
@@ -8959,15 +8959,15 @@ function isTeamEnabled() {
 function getInstalledVersion() {
   if (!(0, import_fs33.existsSync)(VERSION_FILE2)) {
     try {
-      const result = (0, import_child_process13.execSync)("npm list -g oh-my-claude-sisyphus --json", {
+      const result = (0, import_child_process13.execSync)("npm list -g oh-my-gemini-sisyphus --json", {
         encoding: "utf-8",
         timeout: 5e3,
         stdio: "pipe"
       });
       const data = JSON.parse(result);
-      if (data.dependencies?.["oh-my-claude-sisyphus"]?.version) {
+      if (data.dependencies?.["oh-my-gemini-sisyphus"]?.version) {
         return {
-          version: data.dependencies["oh-my-claude-sisyphus"].version,
+          version: data.dependencies["oh-my-gemini-sisyphus"].version,
           installedAt: (/* @__PURE__ */ new Date()).toISOString(),
           installMethod: "npm"
         };
@@ -9002,13 +9002,13 @@ async function fetchLatestRelease() {
   const response = await fetch(`${GITHUB_API_URL}/releases/latest`, {
     headers: {
       "Accept": "application/vnd.github.v3+json",
-      "User-Agent": "oh-my-claudecode-updater"
+      "User-Agent": "oh-my-gemini-cli-updater"
     }
   });
   if (response.status === 404) {
     const pkgResponse = await fetch(`${GITHUB_RAW_URL}/main/package.json`, {
       headers: {
-        "User-Agent": "oh-my-claudecode-updater"
+        "User-Agent": "oh-my-gemini-cli-updater"
       }
     });
     if (pkgResponse.ok) {
@@ -9076,7 +9076,7 @@ function reconcileUpdateRuntime(options) {
     const installResult = install({
       force: true,
       verbose: options?.verbose ?? false,
-      skipClaudeCheck: true,
+      skipGeminiCheck: true,
       forceHooks: true,
       refreshHooksInPlugin: !projectScopedPlugin
     });
@@ -9090,11 +9090,11 @@ function reconcileUpdateRuntime(options) {
   try {
     const purgeResult = purgeStalePluginCacheVersions({ skipGracePeriod: options?.skipGracePeriod });
     if (purgeResult.removed > 0 && options?.verbose) {
-      console.log(`[omc] Purged ${purgeResult.removed} stale plugin cache version(s)`);
+      console.log(`[omg] Purged ${purgeResult.removed} stale plugin cache version(s)`);
     }
     if (purgeResult.errors.length > 0 && options?.verbose) {
       for (const err of purgeResult.errors) {
-        console.warn(`[omc] Cache purge warning: ${err}`);
+        console.warn(`[omg] Cache purge warning: ${err}`);
       }
     }
   } catch {
@@ -9114,20 +9114,20 @@ function reconcileUpdateRuntime(options) {
 function getFirstResolvedBinaryPath(output) {
   const resolved = output.split(/\r?\n/).map((line) => line.trim()).find(Boolean);
   if (!resolved) {
-    throw new Error("Unable to resolve omc binary path for update reconciliation");
+    throw new Error("Unable to resolve omg binary path for update reconciliation");
   }
   return resolved;
 }
 function resolveOmcBinaryPath() {
   if (process.platform === "win32") {
-    return getFirstResolvedBinaryPath((0, import_child_process13.execFileSync)("where.exe", ["omc.cmd"], {
+    return getFirstResolvedBinaryPath((0, import_child_process13.execFileSync)("where.exe", ["omg.cmd"], {
       encoding: "utf-8",
       stdio: "pipe",
       timeout: 5e3,
       windowsHide: true
     }));
   }
-  return getFirstResolvedBinaryPath((0, import_child_process13.execSync)("which omc 2>/dev/null || where omc 2>NUL", {
+  return getFirstResolvedBinaryPath((0, import_child_process13.execSync)("which omg 2>/dev/null || where omg 2>NUL", {
     encoding: "utf-8",
     stdio: "pipe",
     timeout: 5e3
@@ -9142,13 +9142,13 @@ async function performUpdate(options) {
         success: false,
         previousVersion,
         newVersion: "unknown",
-        message: 'Running as a Claude Code plugin. Use "/plugin install oh-my-claudecode" to update, or pass --standalone to force npm update.'
+        message: 'Running as a Gemini Code plugin. Use "/plugin install oh-my-gemini-cli" to update, or pass --standalone to force npm update.'
       };
     }
     const release = await fetchLatestRelease();
     const newVersion = release.tag_name.replace(/^v/, "");
     try {
-      (0, import_child_process13.execSync)("npm install -g oh-my-claude-sisyphus@latest", {
+      (0, import_child_process13.execSync)("npm install -g oh-my-gemini-sisyphus@latest", {
         encoding: "utf-8",
         stdio: options?.verbose ? "inherit" : "pipe",
         timeout: 12e4,
@@ -9157,13 +9157,13 @@ async function performUpdate(options) {
       });
       const marketplaceSync = syncMarketplaceClone(options?.verbose ?? false);
       if (!marketplaceSync.ok && options?.verbose) {
-        console.warn(`[omc update] ${marketplaceSync.message}`);
+        console.warn(`[omg update] ${marketplaceSync.message}`);
       }
       if (!process.env.OMC_UPDATE_RECONCILE) {
         process.env.OMC_UPDATE_RECONCILE = "1";
-        const omcPath = resolveOmcBinaryPath();
+        const omgPath = resolveOmcBinaryPath();
         try {
-          (0, import_child_process13.execFileSync)(omcPath, ["update-reconcile", ...options?.clean ? ["--skip-grace-period"] : []], {
+          (0, import_child_process13.execFileSync)(omgPath, ["update-reconcile", ...options?.clean ? ["--skip-grace-period"] : []], {
             encoding: "utf-8",
             stdio: options?.verbose ? "inherit" : "pipe",
             timeout: 6e4,
@@ -9212,8 +9212,8 @@ async function performUpdate(options) {
     } catch (npmError) {
       throw new Error(
         `Auto-update via npm failed. Please run manually:
-  npm install -g oh-my-claude-sisyphus@latest
-Or use: /plugin install oh-my-claudecode
+  npm install -g oh-my-gemini-sisyphus@latest
+Or use: /plugin install oh-my-gemini-cli
 Error: ${npmError instanceof Error ? npmError.message : npmError}`
       );
     }
@@ -9230,18 +9230,18 @@ Error: ${npmError instanceof Error ? npmError.message : npmError}`
 }
 function formatUpdateNotification(checkResult) {
   if (!checkResult.updateAvailable) {
-    return `oh-my-claudecode is up to date (v${checkResult.currentVersion ?? "unknown"})`;
+    return `oh-my-gemini-cli is up to date (v${checkResult.currentVersion ?? "unknown"})`;
   }
   const lines = [
     "\u2554\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2557",
-    "\u2551           oh-my-claudecode Update Available!              \u2551",
+    "\u2551           oh-my-gemini-cli Update Available!              \u2551",
     "\u255A\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u255D",
     "",
     `  Current version: ${checkResult.currentVersion ?? "unknown"}`,
     `  Latest version:  ${checkResult.latestVersion}`,
     "",
     "  To update, run: /update",
-    "  Or reinstall via: /plugin install oh-my-claudecode",
+    "  Or reinstall via: /plugin install oh-my-gemini-cli",
     ""
   ];
   if (checkResult.releaseNotes && checkResult.releaseNotes !== "No release notes available.") {
@@ -9295,7 +9295,7 @@ async function interactiveUpdate() {
     if (result.success) {
       console.log(`
 \u2713 ${result.message}`);
-      console.log("\nPlease restart your Claude Code session to use the new version.");
+      console.log("\nPlease restart your Gemini Code session to use the new version.");
     } else {
       console.error(`
 \u2717 ${result.message}`);
@@ -9345,7 +9345,7 @@ async function silentAutoUpdate(config2 = {}) {
   const {
     checkIntervalHours = 24,
     autoApply = true,
-    logFile = (0, import_path41.join)(CLAUDE_CONFIG_DIR2, ".omc-update.log"),
+    logFile = (0, import_path41.join)(CLAUDE_CONFIG_DIR2, ".omg-update.log"),
     maxRetries = 3
   } = config2;
   if (!isSilentAutoUpdateEnabled()) {
@@ -9441,13 +9441,13 @@ var init_auto_update = __esm({
     init_config_dir();
     init_paths();
     REPO_OWNER = "Yeachan-Heo";
-    REPO_NAME = "oh-my-claudecode";
+    REPO_NAME = "oh-my-gemini-cli";
     GITHUB_API_URL = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}`;
     GITHUB_RAW_URL = `https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}`;
     CLAUDE_CONFIG_DIR2 = getConfigDir();
-    VERSION_FILE2 = (0, import_path41.join)(CLAUDE_CONFIG_DIR2, ".omc-version.json");
-    CONFIG_FILE = (0, import_path41.join)(CLAUDE_CONFIG_DIR2, ".omc-config.json");
-    SILENT_UPDATE_STATE_FILE = (0, import_path41.join)(CLAUDE_CONFIG_DIR2, ".omc-silent-update.json");
+    VERSION_FILE2 = (0, import_path41.join)(CLAUDE_CONFIG_DIR2, ".omg-version.json");
+    CONFIG_FILE = (0, import_path41.join)(CLAUDE_CONFIG_DIR2, ".omg-config.json");
+    SILENT_UPDATE_STATE_FILE = (0, import_path41.join)(CLAUDE_CONFIG_DIR2, ".omg-silent-update.json");
   }
 });
 
@@ -9463,9 +9463,9 @@ function findPrdPath(directory) {
   if ((0, import_fs34.existsSync)(rootPath)) {
     return rootPath;
   }
-  const omcPath = getOmcPrdPath(directory);
-  if ((0, import_fs34.existsSync)(omcPath)) {
-    return omcPath;
+  const omgPath = getOmcPrdPath(directory);
+  if ((0, import_fs34.existsSync)(omgPath)) {
+    return omgPath;
   }
   return null;
 }
@@ -9488,10 +9488,10 @@ function readPrd(directory) {
 function writePrd(directory, prd) {
   let prdPath = findPrdPath(directory);
   if (!prdPath) {
-    const omcDir = getOmcRoot(directory);
-    if (!(0, import_fs34.existsSync)(omcDir)) {
+    const omgDir = getOmcRoot(directory);
+    if (!(0, import_fs34.existsSync)(omgDir)) {
       try {
-        (0, import_fs34.mkdirSync)(omcDir, { recursive: true });
+        (0, import_fs34.mkdirSync)(omgDir, { recursive: true });
       } catch {
         return false;
       }
@@ -9663,7 +9663,7 @@ ${story.acceptanceCriteria.map((c, i) => `${i + 1}. ${c}`).join("\n")}
 2. Verify ALL acceptance criteria are met
 3. Run quality checks (tests, typecheck, lint)
 4. When complete, mark story as passes: true in prd.json
-5. If ALL stories are done, run \`/oh-my-claudecode:cancel\` to cleanly exit ralph mode and clean up all state files
+5. If ALL stories are done, run \`/oh-my-gemini-cli:cancel\` to cleanly exit ralph mode and clean up all state files
 
 </current-story>
 
@@ -9695,9 +9695,9 @@ function findProgressPath(directory) {
   if ((0, import_fs35.existsSync)(rootPath)) {
     return rootPath;
   }
-  const omcPath = getOmcProgressPath(directory);
-  if ((0, import_fs35.existsSync)(omcPath)) {
-    return omcPath;
+  const omgPath = getOmcProgressPath(directory);
+  if ((0, import_fs35.existsSync)(omgPath)) {
+    return omgPath;
   }
   return null;
 }
@@ -9799,10 +9799,10 @@ function readProgress(directory) {
   return parseProgress(content);
 }
 function initProgress(directory) {
-  const omcDir = getOmcRoot(directory);
-  if (!(0, import_fs35.existsSync)(omcDir)) {
+  const omgDir = getOmcRoot(directory);
+  if (!(0, import_fs35.existsSync)(omgDir)) {
     try {
-      (0, import_fs35.mkdirSync)(omcDir, { recursive: true });
+      (0, import_fs35.mkdirSync)(omgDir, { recursive: true });
     } catch {
       return false;
     }
@@ -10164,7 +10164,7 @@ var init_types = __esm({
 // src/hooks/team-pipeline/state.ts
 function getTeamStatePath(directory, sessionId) {
   if (!sessionId) {
-    return `${directory}/.omc/state/team-state.json`;
+    return `${directory}/.omg/state/team-state.json`;
   }
   return resolveSessionStatePath("team", sessionId, directory);
 }
@@ -10216,8 +10216,8 @@ function isUltraQAActive(directory, sessionId) {
       return false;
     }
   }
-  const omcDir = getOmcRoot(directory);
-  const stateFile = (0, import_path44.join)(omcDir, "state", "ultraqa-state.json");
+  const omgDir = getOmcRoot(directory);
+  const stateFile = (0, import_path44.join)(omgDir, "state", "ultraqa-state.json");
   try {
     const content = (0, import_fs38.readFileSync)(stateFile, "utf-8");
     const state = JSON.parse(content);
@@ -10289,7 +10289,7 @@ function createRalphLoopHook(directory) {
   const startLoop = (sessionId, prompt, options) => {
     if (isUltraQAActive(directory, sessionId)) {
       console.error(
-        "Cannot start Ralph Loop while UltraQA is active. Cancel UltraQA first with /oh-my-claudecode:cancel."
+        "Cannot start Ralph Loop while UltraQA is active. Cancel UltraQA first with /oh-my-gemini-cli:cancel."
       );
       return false;
     }
@@ -10489,7 +10489,7 @@ function getVerificationAgentStep(mode) {
     case "codex":
       return `1. **Run an external Codex critic review**:
    \`\`\`
-   omc ask codex --agent-prompt critic "<verification prompt covering the task, completion claim, and acceptance criteria>"
+   omg ask codex --agent-prompt critic "<verification prompt covering the task, completion claim, and acceptance criteria>"
    \`\`\`
    Use the Codex output as the reviewer verdict before deciding pass/fix.`;
     default:
@@ -10623,7 +10623,7 @@ ${getVerificationAgentStep(state.critic_mode)}
    - Are tests passing (if applicable)?
 
 3. **Based on ${criticLabel}'s response:**
-   - If APPROVED: Output \`${approvalTag}\`, then run \`/oh-my-claudecode:cancel\` to cleanly exit
+   - If APPROVED: Output \`${approvalTag}\`, then run \`/oh-my-gemini-cli:cancel\` to cleanly exit
    - If REJECTED: Continue working on the identified issues
 
 </ralph-verification>
@@ -10651,7 +10651,7 @@ ${state.original_task}
 1. Address ALL issues identified by ${criticLabel}
 2. Do NOT claim completion again until issues are fixed
 3. When truly done, another ${criticLabel} verification will be triggered
-4. After ${criticLabel} approves, run \`/oh-my-claudecode:cancel\` to cleanly exit
+4. After ${criticLabel} approves, run \`/oh-my-gemini-cli:cancel\` to cleanly exit
 
 Continue working now.
 
@@ -10835,8 +10835,8 @@ function isExplicitCancelCommand(context) {
   if (!context) return false;
   const prompt = (context.prompt ?? "").trim();
   if (prompt) {
-    const slashCancelPattern = /^\/(?:oh-my-claudecode:)?cancel(?:\s+--force)?\s*$/i;
-    const keywordCancelPattern = /^(?:cancelomc|stopomc)\s*$/i;
+    const slashCancelPattern = /^\/(?:oh-my-gemini-cli:)?cancel(?:\s+--force)?\s*$/i;
+    const keywordCancelPattern = /^(?:cancelomg|stopomg)\s*$/i;
     if (slashCancelPattern.test(prompt) || keywordCancelPattern.test(prompt)) {
       return true;
     }
@@ -10858,7 +10858,7 @@ function isExplicitCancelCommand(context) {
   const toolInput = context.tool_input ?? context.toolInput;
   if (toolName.includes("skill") && toolInput && typeof toolInput.skill === "string") {
     const skill = toolInput.skill.toLowerCase();
-    if (skill === "oh-my-claudecode:cancel" || skill.endsWith(":cancel")) {
+    if (skill === "oh-my-gemini-cli:cancel" || skill.endsWith(":cancel")) {
       return true;
     }
   }
@@ -10909,15 +10909,15 @@ function isAuthenticationError(context) {
   return AUTHENTICATION_ERROR_PATTERNS.some((pattern) => reason.includes(pattern) || endTurnReason.includes(pattern));
 }
 function getTodoFilePaths(sessionId, directory) {
-  const claudeDir = getClaudeConfigDir();
+  const geminiDir = getGeminiConfigDir();
   const paths = [];
   if (sessionId) {
-    paths.push((0, import_path46.join)(claudeDir, "sessions", sessionId, "todos.json"));
-    paths.push((0, import_path46.join)(claudeDir, "todos", `${sessionId}.json`));
+    paths.push((0, import_path46.join)(geminiDir, "sessions", sessionId, "todos.json"));
+    paths.push((0, import_path46.join)(geminiDir, "todos", `${sessionId}.json`));
   }
   if (directory) {
     paths.push((0, import_path46.join)(getOmcRoot(directory), "todos.json"));
-    paths.push((0, import_path46.join)(directory, ".claude", "todos.json"));
+    paths.push((0, import_path46.join)(directory, ".gemini", "todos.json"));
   }
   return paths;
 }
@@ -10949,7 +10949,7 @@ function getTaskDirectory(sessionId) {
   if (!isValidSessionId(sessionId)) {
     return "";
   }
-  return (0, import_path46.join)(getClaudeConfigDir(), "tasks", sessionId);
+  return (0, import_path46.join)(getGeminiConfigDir(), "tasks", sessionId);
 }
 function isValidTask(data) {
   if (data === null || typeof data !== "object") return false;
@@ -11244,7 +11244,7 @@ function latest(...values) {
   return values.filter((value) => Boolean(value)).sort((left, right) => parseTime(right) - parseTime(left))[0];
 }
 function shortAgentType(agentType) {
-  return agentType.replace(/^oh-my-claudecode:/, "").trim() || "agent";
+  return agentType.replace(/^oh-my-gemini-cli:/, "").trim() || "agent";
 }
 function sessionAgentName(agentType, agentId) {
   return `${shortAgentType(agentType)}:${agentId.slice(0, 7)}`;
@@ -11577,7 +11577,7 @@ var init_types2 = __esm({
         // Disabled by default for backward compatibility
         modelFormat: "short",
         // Short names by default for backward compatibility
-        omcLabel: true,
+        omgLabel: true,
         rateLimits: true,
         // Show rate limits by default
         ralph: true,
@@ -11642,7 +11642,7 @@ var init_types2 = __esm({
         gitInfoPosition: "above",
         model: false,
         modelFormat: "short",
-        omcLabel: true,
+        omgLabel: true,
         rateLimits: true,
         ralph: true,
         autopilot: true,
@@ -11678,7 +11678,7 @@ var init_types2 = __esm({
         gitInfoPosition: "above",
         model: false,
         modelFormat: "short",
-        omcLabel: true,
+        omgLabel: true,
         rateLimits: true,
         ralph: true,
         autopilot: true,
@@ -11703,7 +11703,7 @@ var init_types2 = __esm({
         useBars: true,
         showCallCounts: true,
         sessionSummary: false,
-        // Opt-in: sends transcript to claude -p
+        // Opt-in: sends transcript to gemini -p
         maxOutputLines: 4,
         safeMode: true
       },
@@ -11715,7 +11715,7 @@ var init_types2 = __esm({
         gitInfoPosition: "above",
         model: false,
         modelFormat: "short",
-        omcLabel: true,
+        omgLabel: true,
         rateLimits: true,
         ralph: true,
         autopilot: true,
@@ -11740,7 +11740,7 @@ var init_types2 = __esm({
         useBars: true,
         showCallCounts: true,
         sessionSummary: false,
-        // Opt-in: sends transcript to claude -p
+        // Opt-in: sends transcript to gemini -p
         maxOutputLines: 12,
         safeMode: true
       },
@@ -11752,7 +11752,7 @@ var init_types2 = __esm({
         gitInfoPosition: "above",
         model: false,
         modelFormat: "short",
-        omcLabel: true,
+        omgLabel: true,
         rateLimits: false,
         ralph: true,
         autopilot: true,
@@ -11788,7 +11788,7 @@ var init_types2 = __esm({
         gitInfoPosition: "above",
         model: false,
         modelFormat: "short",
-        omcLabel: true,
+        omgLabel: true,
         rateLimits: true,
         ralph: true,
         autopilot: true,
@@ -11813,7 +11813,7 @@ var init_types2 = __esm({
         useBars: true,
         showCallCounts: true,
         sessionSummary: false,
-        // Opt-in: sends transcript to claude -p
+        // Opt-in: sends transcript to gemini -p
         maxOutputLines: 6,
         safeMode: true
       }
@@ -11890,20 +11890,20 @@ var init_background_cleanup = __esm({
 // src/hud/state.ts
 function getLocalStateFilePath(directory) {
   const baseDir = validateWorkingDirectory(directory);
-  const omcStateDir = (0, import_path48.join)(getOmcRoot(baseDir), "state");
-  return (0, import_path48.join)(omcStateDir, "hud-state.json");
+  const omgStateDir = (0, import_path48.join)(getOmcRoot(baseDir), "state");
+  return (0, import_path48.join)(omgStateDir, "hud-state.json");
 }
 function getSettingsFilePath() {
-  return (0, import_path48.join)(getClaudeConfigDir(), "settings.json");
+  return (0, import_path48.join)(getGeminiConfigDir(), "settings.json");
 }
 function getConfigFilePath() {
-  return (0, import_path48.join)(getClaudeConfigDir(), ".omc", "hud-config.json");
+  return (0, import_path48.join)(getGeminiConfigDir(), ".omg", "hud-config.json");
 }
 function ensureStateDir(directory) {
   const baseDir = validateWorkingDirectory(directory);
-  const omcStateDir = (0, import_path48.join)(getOmcRoot(baseDir), "state");
-  if (!(0, import_fs43.existsSync)(omcStateDir)) {
-    (0, import_fs43.mkdirSync)(omcStateDir, { recursive: true });
+  const omgStateDir = (0, import_path48.join)(getOmcRoot(baseDir), "state");
+  if (!(0, import_fs43.existsSync)(omgStateDir)) {
+    (0, import_fs43.mkdirSync)(omgStateDir, { recursive: true });
   }
 }
 function readHudState(directory) {
@@ -11956,8 +11956,8 @@ function readHudConfig() {
     try {
       const content = (0, import_fs43.readFileSync)(settingsFile, "utf-8");
       const settings = JSON.parse(content);
-      if (settings.omcHud) {
-        const config2 = settings.omcHud;
+      if (settings.omgHud) {
+        const config2 = settings.omgHud;
         return mergeWithDefaults(config2);
       }
     } catch (error2) {
@@ -12092,7 +12092,7 @@ var init_plan_output = __esm({
     "use strict";
     import_path49 = require("path");
     init_worktree_paths();
-    DEFAULT_PLAN_OUTPUT_DIRECTORY = ".omc/plans";
+    DEFAULT_PLAN_OUTPUT_DIRECTORY = ".omg/plans";
     DEFAULT_PLAN_OUTPUT_FILENAME_TEMPLATE = "{{name}}.md";
   }
 });
@@ -12617,7 +12617,7 @@ function getAgentDashboard(directory) {
     const elapsed = Math.round(
       (now - new Date(agent.started_at).getTime()) / 1e3
     );
-    const shortType = agent.agent_type.replace("oh-my-claudecode:", "");
+    const shortType = agent.agent_type.replace("oh-my-gemini-cli:", "");
     const toolCount = agent.tool_usage?.length || 0;
     const lastTool = agent.tool_usage?.[agent.tool_usage.length - 1]?.tool_name || "-";
     const desc = agent.task_description ? ` "${agent.task_description.substring(0, 60)}"` : "";
@@ -12643,7 +12643,7 @@ function getAgentObservatory(directory) {
     const elapsed = Math.round(
       (now - new Date(agent.started_at).getTime()) / 1e3
     );
-    const shortType = agent.agent_type.replace("oh-my-claudecode:", "");
+    const shortType = agent.agent_type.replace("oh-my-gemini-cli:", "");
     const toolCount = agent.tool_usage?.length || 0;
     const cost = agent.token_usage?.cost_usd || 0;
     totalCost += cost;
@@ -12667,7 +12667,7 @@ function getAgentObservatory(directory) {
     lines.push(line);
   }
   for (const intervention of interventions.slice(0, 3)) {
-    const shortType = intervention.agent_type.replace("oh-my-claudecode:", "");
+    const shortType = intervention.agent_type.replace("oh-my-gemini-cli:", "");
     lines.push(`\u26A0 ${shortType}: ${intervention.reason}`);
   }
   const header = `Agent Observatory (${running.length} active, ${efficiency.score}% efficiency)`;
@@ -12729,7 +12729,7 @@ function suggestInterventions(directory) {
           type: "file_conflict",
           agent_id: agents[i].id,
           agent_type: agents[i].type,
-          reason: `File conflict on ${file} with ${agents[0].type.replace("oh-my-claudecode:", "")}`,
+          reason: `File conflict on ${file} with ${agents[0].type.replace("oh-my-gemini-cli:", "")}`,
           suggested_action: "warn",
           auto_execute: false
         });
@@ -12779,7 +12779,7 @@ function detectFileConflicts(directory) {
       if (!fileToAgents.has(file)) {
         fileToAgents.set(file, []);
       }
-      fileToAgents.get(file).push(agent.agent_type.replace("oh-my-claudecode:", ""));
+      fileToAgents.get(file).push(agent.agent_type.replace("oh-my-gemini-cli:", ""));
     }
   }
   const conflicts = [];
@@ -12795,7 +12795,7 @@ function getFileOwnershipMap(directory) {
   const running = state.agents.filter((a) => a.status === "running");
   const map = /* @__PURE__ */ new Map();
   for (const agent of running) {
-    const shortType = agent.agent_type.replace("oh-my-claudecode:", "");
+    const shortType = agent.agent_type.replace("oh-my-gemini-cli:", "");
     for (const file of agent.file_ownership || []) {
       map.set(file, shortType);
     }
@@ -12929,10 +12929,10 @@ __export(skill_state_exports, {
   writeSkillActiveState: () => writeSkillActiveState
 });
 function getSkillProtection(skillName, rawSkillName) {
-  if (rawSkillName != null && !rawSkillName.toLowerCase().startsWith("oh-my-claudecode:")) {
+  if (rawSkillName != null && !rawSkillName.toLowerCase().startsWith("oh-my-gemini-cli:")) {
     return "none";
   }
-  const normalized = skillName.toLowerCase().replace(/^oh-my-claudecode:/, "");
+  const normalized = skillName.toLowerCase().replace(/^oh-my-gemini-cli:/, "");
   return SKILL_PROTECTION[normalized] ?? "none";
 }
 function getSkillConfig(skillName, rawSkillName) {
@@ -12952,7 +12952,7 @@ function writeSkillActiveState(directory, skillName, sessionId, rawSkillName) {
   }
   const config2 = PROTECTION_CONFIGS[protection];
   const now = (/* @__PURE__ */ new Date()).toISOString();
-  const normalized = skillName.toLowerCase().replace(/^oh-my-claudecode:/, "");
+  const normalized = skillName.toLowerCase().replace(/^oh-my-gemini-cli:/, "");
   const state = {
     active: true,
     skill_name: normalized,
@@ -13031,22 +13031,22 @@ var init_skill_state = __esm({
       ralph: "none",
       ultrawork: "none",
       team: "none",
-      "omc-teams": "none",
+      "omg-teams": "none",
       ultraqa: "none",
       cancel: "none",
       // === Instant / read-only → no protection needed ===
       trace: "none",
       hud: "none",
-      "omc-doctor": "none",
-      "omc-help": "none",
-      "learn-about-omc": "none",
+      "omg-doctor": "none",
+      "omg-help": "none",
+      "learn-about-omg": "none",
       note: "none",
       // === Light protection (simple shortcuts, 3 reinforcements) ===
       skill: "light",
       ask: "light",
       "configure-notifications": "light",
       // === Medium protection (review/planning, 5 reinforcements) ===
-      "omc-plan": "medium",
+      "omg-plan": "medium",
       plan: "medium",
       ralplan: "none",
       // Has first-class checkRalplan() enforcement; no skill-active needed
@@ -13054,11 +13054,11 @@ var init_skill_state = __esm({
       review: "medium",
       "external-context": "medium",
       "ai-slop-cleaner": "medium",
-      sciomc: "medium",
+      sciomg: "medium",
       learner: "medium",
-      "omc-setup": "medium",
+      "omg-setup": "medium",
       setup: "medium",
-      // alias for omc-setup
+      // alias for omg-setup
       "mcp-setup": "medium",
       "project-session-manager": "medium",
       psm: "medium",
@@ -13078,11 +13078,11 @@ var permission_handler_exports = {};
 __export(permission_handler_exports, {
   getBackgroundBashPermissionFallback: () => getBackgroundBashPermissionFallback,
   getBackgroundTaskPermissionFallback: () => getBackgroundTaskPermissionFallback,
-  getClaudePermissionAllowEntries: () => getClaudePermissionAllowEntries,
-  getClaudePermissionAskEntries: () => getClaudePermissionAskEntries,
+  getGeminiPermissionAllowEntries: () => getGeminiPermissionAllowEntries,
+  getGeminiPermissionAskEntries: () => getGeminiPermissionAskEntries,
   handlePermissionRequest: () => handlePermissionRequest,
-  hasClaudePermissionApproval: () => hasClaudePermissionApproval,
-  hasClaudePermissionAsk: () => hasClaudePermissionAsk,
+  hasGeminiPermissionApproval: () => hasGeminiPermissionApproval,
+  hasGeminiPermissionAsk: () => hasGeminiPermissionAsk,
   isActiveModeRunning: () => isActiveModeRunning,
   isHeredocWithSafeBase: () => isHeredocWithSafeBase,
   isSafeCommand: () => isSafeCommand,
@@ -13100,9 +13100,9 @@ function readPermissionStringEntries(filePath, key) {
     return [];
   }
 }
-function getClaudePermissionAllowEntries(directory) {
-  const projectSettingsPath = path13.join(directory, ".claude", "settings.local.json");
-  const globalConfigDir = getClaudeConfigDir();
+function getGeminiPermissionAllowEntries(directory) {
+  const projectSettingsPath = path13.join(directory, ".gemini", "settings.local.json");
+  const globalConfigDir = getGeminiConfigDir();
   const candidatePaths = [
     projectSettingsPath,
     path13.join(globalConfigDir, "settings.local.json"),
@@ -13119,8 +13119,8 @@ function getClaudePermissionAllowEntries(directory) {
 function hasGenericToolPermission(allowEntries, toolName) {
   return allowEntries.some((entry) => entry === toolName || entry.startsWith(`${toolName}(`));
 }
-function hasClaudePermissionApproval(directory, toolName, command) {
-  const allowEntries = getClaudePermissionAllowEntries(directory);
+function hasGeminiPermissionApproval(directory, toolName, command) {
+  const allowEntries = getGeminiPermissionAllowEntries(directory);
   if (toolName !== "Bash") {
     return hasGenericToolPermission(allowEntries, toolName);
   }
@@ -13133,9 +13133,9 @@ function hasClaudePermissionApproval(directory, toolName, command) {
   }
   return allowEntries.includes(`Bash(${trimmedCommand})`);
 }
-function getClaudePermissionAskEntries(directory) {
-  const projectSettingsPath = path13.join(directory, ".claude", "settings.local.json");
-  const globalConfigDir = getClaudeConfigDir();
+function getGeminiPermissionAskEntries(directory) {
+  const projectSettingsPath = path13.join(directory, ".gemini", "settings.local.json");
+  const globalConfigDir = getGeminiConfigDir();
   const candidatePaths = [
     projectSettingsPath,
     path13.join(globalConfigDir, "settings.local.json"),
@@ -13167,8 +13167,8 @@ function commandMatchesPermissionPattern(command, pattern) {
   const nextChar = command.charAt(normalizedPrefix.length);
   return nextChar === "" || /[\s:=(["']/.test(nextChar);
 }
-function hasClaudePermissionAsk(directory, toolName, command) {
-  const askEntries = getClaudePermissionAskEntries(directory);
+function hasGeminiPermissionAsk(directory, toolName, command) {
+  const askEntries = getGeminiPermissionAskEntries(directory);
   if (toolName !== "Bash") {
     return hasGenericToolPermission(askEntries, toolName);
   }
@@ -13192,7 +13192,7 @@ function getBackgroundTaskPermissionFallback(directory, subagentType) {
     return { shouldFallback: false, missingTools: [] };
   }
   const missingTools = ["Edit", "Write"].filter(
-    (toolName) => !hasClaudePermissionApproval(directory, toolName)
+    (toolName) => !hasGeminiPermissionApproval(directory, toolName)
   );
   return {
     shouldFallback: missingTools.length > 0,
@@ -13203,13 +13203,13 @@ function getBackgroundBashPermissionFallback(directory, command) {
   if (!command) {
     return { shouldFallback: false, missingTools: [] };
   }
-  if (hasClaudePermissionAsk(directory, "Bash", command)) {
+  if (hasGeminiPermissionAsk(directory, "Bash", command)) {
     return { shouldFallback: true, missingTools: ["Bash"] };
   }
   if (isSafeCommand(command) || isHeredocWithSafeBase(command)) {
     return { shouldFallback: false, missingTools: [] };
   }
-  return hasClaudePermissionApproval(directory, "Bash", command) ? { shouldFallback: false, missingTools: [] } : { shouldFallback: true, missingTools: ["Bash"] };
+  return hasGeminiPermissionApproval(directory, "Bash", command) ? { shouldFallback: false, missingTools: [] } : { shouldFallback: true, missingTools: ["Bash"] };
 }
 function isSafeCommand(command) {
   const trimmed = command.trim();
@@ -13239,7 +13239,7 @@ function isActiveModeRunning(directory) {
     "ralph-state.json",
     "ultrawork-state.json",
     "team-state.json",
-    "omc-teams-state.json"
+    "omg-teams-state.json"
   ];
   for (const stateFile of activeStateFiles) {
     const statePath = path13.join(stateDir, stateFile);
@@ -13266,7 +13266,7 @@ function processPermissionRequest(input) {
   if (!command || typeof command !== "string") {
     return { continue: true };
   }
-  const shouldAskBashPermission = hasClaudePermissionAsk(input.cwd, "Bash", command);
+  const shouldAskBashPermission = hasGeminiPermissionAsk(input.cwd, "Bash", command);
   if (!shouldAskBashPermission && isSafeCommand(command)) {
     return {
       continue: true,
@@ -13452,7 +13452,7 @@ function startUltraQA(directory, goalType, sessionId, options) {
   if (isRalphLoopActive(directory, sessionId)) {
     return {
       success: false,
-      error: "Cannot start UltraQA while Ralph Loop is active. Cancel Ralph Loop first with /oh-my-claudecode:cancel."
+      error: "Cannot start UltraQA while Ralph Loop is active. Cancel Ralph Loop first with /oh-my-gemini-cli:cancel."
     };
   }
   const state = {
@@ -13798,13 +13798,13 @@ You are now in validation phase. Spawn parallel validation architects:
 
 \`\`\`
 // Spawn all three in parallel
-Task(subagent_type="oh-my-claudecode:architect", model="opus",
+Task(subagent_type="oh-my-gemini-cli:architect", model="opus",
   prompt="FUNCTIONAL COMPLETENESS REVIEW: Verify all requirements from spec are implemented")
 
-Task(subagent_type="oh-my-claudecode:security-reviewer", model="opus",
+Task(subagent_type="oh-my-gemini-cli:security-reviewer", model="opus",
   prompt="SECURITY REVIEW: Check for vulnerabilities, injection risks, auth issues")
 
-Task(subagent_type="oh-my-claudecode:code-reviewer", model="opus",
+Task(subagent_type="oh-my-gemini-cli:code-reviewer", model="opus",
   prompt="CODE QUALITY REVIEW: Check patterns, maintainability, test coverage")
 \`\`\`
 
@@ -13874,7 +13874,7 @@ Your task: Expand this product idea into detailed requirements and technical spe
 
 \`\`\`
 Task(
-  subagent_type="oh-my-claudecode:analyst",
+  subagent_type="oh-my-gemini-cli:analyst",
   model="opus",
   prompt="REQUIREMENTS ANALYSIS for: ${escapeForPrompt(idea)}
 
@@ -13896,7 +13896,7 @@ After Analyst completes, spawn Architect:
 
 \`\`\`
 Task(
-  subagent_type="oh-my-claudecode:architect",
+  subagent_type="oh-my-gemini-cli:architect",
   model="opus",
   prompt="TECHNICAL SPECIFICATION for: ${escapeForPrompt(idea)}
 
@@ -13925,7 +13925,7 @@ The Analyst is read-only and cannot write files, so you must persist its open qu
 ### Step 3: Save Combined Spec
 
 Combine Analyst requirements + Architect technical spec into a single document.
-Save to: \`.omc/autopilot/spec.md\`
+Save to: \`.omg/autopilot/spec.md\`
 
 ### Step 4: Signal Completion
 
@@ -13948,7 +13948,7 @@ Spawn Architect to create the implementation plan:
 
 \`\`\`
 Task(
-  subagent_type="oh-my-claudecode:architect",
+  subagent_type="oh-my-gemini-cli:architect",
   model="opus",
   prompt="CREATE IMPLEMENTATION PLAN
 
@@ -13986,7 +13986,7 @@ After Architect creates the plan:
 
 \`\`\`
 Task(
-  subagent_type="oh-my-claudecode:critic",
+  subagent_type="oh-my-gemini-cli:critic",
   model="opus",
   prompt="REVIEW IMPLEMENTATION PLAN
 
@@ -14032,13 +14032,13 @@ Ralph and Ultrawork are now active. Execute tasks in parallel where possible.
 
 \`\`\`
 // For simple tasks (single file, straightforward logic)
-Task(subagent_type="oh-my-claudecode:executor-low", model="haiku", prompt="...")
+Task(subagent_type="oh-my-gemini-cli:executor-low", model="haiku", prompt="...")
 
 // For standard implementation (feature, multiple methods)
-Task(subagent_type="oh-my-claudecode:executor", model="sonnet", prompt="...")
+Task(subagent_type="oh-my-gemini-cli:executor", model="sonnet", prompt="...")
 
 // For complex work (architecture, debugging, refactoring)
-Task(subagent_type="oh-my-claudecode:executor-high", model="opus", prompt="...")
+Task(subagent_type="oh-my-gemini-cli:executor-high", model="opus", prompt="...")
 \`\`\`
 
 ### Progress Tracking
@@ -14085,7 +14085,7 @@ For each failure:
 1. **Diagnose** - Understand the error
 \`\`\`
 Task(
-  subagent_type="oh-my-claudecode:architect-low",
+  subagent_type="oh-my-gemini-cli:architect-low",
   model="haiku",
   prompt="Diagnose this error and suggest fix: [ERROR]"
 )
@@ -14094,7 +14094,7 @@ Task(
 2. **Fix** - Apply the fix
 \`\`\`
 Task(
-  subagent_type="oh-my-claudecode:debugger",
+  subagent_type="oh-my-gemini-cli:debugger",
   model="sonnet",
   prompt="Fix this error with minimal changes: [ERROR]"
 )
@@ -14124,7 +14124,7 @@ Spawn all three architects in parallel:
 \`\`\`
 // Functional Completeness Review
 Task(
-  subagent_type="oh-my-claudecode:architect",
+  subagent_type="oh-my-gemini-cli:architect",
   model="opus",
   prompt="FUNCTIONAL COMPLETENESS REVIEW
 
@@ -14141,7 +14141,7 @@ Verdict: APPROVED (all requirements met) or REJECTED (with specific gaps)"
 
 // Security Review
 Task(
-  subagent_type="oh-my-claudecode:security-reviewer",
+  subagent_type="oh-my-gemini-cli:security-reviewer",
   model="opus",
   prompt="SECURITY REVIEW
 
@@ -14158,7 +14158,7 @@ Verdict: APPROVED (no vulnerabilities) or REJECTED (with specific issues)"
 
 // Code Quality Review
 Task(
-  subagent_type="oh-my-claudecode:code-reviewer",
+  subagent_type="oh-my-gemini-cli:code-reviewer",
   model="opus",
   prompt="CODE QUALITY REVIEW
 
@@ -14201,7 +14201,7 @@ function getPhasePrompt(phase, context) {
       );
     case "planning":
       return getDirectPlanningPrompt(
-        context.specPath || ".omc/autopilot/spec.md",
+        context.specPath || ".omg/autopilot/spec.md",
         context.planPath || resolveAutopilotPlanPath()
       );
     case "execution":
@@ -14209,7 +14209,7 @@ function getPhasePrompt(phase, context) {
     case "qa":
       return getQAPrompt();
     case "validation":
-      return getValidationPrompt(context.specPath || ".omc/autopilot/spec.md");
+      return getValidationPrompt(context.specPath || ".omg/autopilot/spec.md");
     default:
       return "";
   }
@@ -14310,7 +14310,7 @@ Spawn all three validation architects in parallel to review the implementation:
 \`\`\`
 // 1. Functional Completeness Review
 Task(
-  subagent_type="oh-my-claudecode:architect",
+  subagent_type="oh-my-gemini-cli:architect",
   model="opus",
   prompt="FUNCTIONAL COMPLETENESS REVIEW
 
@@ -14327,7 +14327,7 @@ Output: APPROVED or REJECTED with specific gaps"
 
 // 2. Security Review
 Task(
-  subagent_type="oh-my-claudecode:security-reviewer",
+  subagent_type="oh-my-gemini-cli:security-reviewer",
   model="opus",
   prompt="SECURITY REVIEW
 
@@ -14344,7 +14344,7 @@ Output: APPROVED or REJECTED with specific issues"
 
 // 3. Code Quality Review
 Task(
-  subagent_type="oh-my-claudecode:code-reviewer",
+  subagent_type="oh-my-gemini-cli:code-reviewer",
   model="opus",
   prompt="CODE QUALITY REVIEW
 
@@ -14731,7 +14731,7 @@ var init_ralplan_adapter = __esm({
         return config2.planning === false;
       },
       getPrompt(context) {
-        const specPath = context.specPath || ".omc/autopilot/spec.md";
+        const specPath = context.specPath || ".omg/autopilot/spec.md";
         const planPath = context.planPath || resolveAutopilotPlanPath();
         if (context.config.planning === "ralplan") {
           return `## PIPELINE STAGE: RALPLAN (Consensus Planning)
@@ -14748,7 +14748,7 @@ ${getExpansionPrompt(context.idea)}
 
 After the spec is created at \`${specPath}\`, invoke the RALPLAN consensus workflow:
 
-Use the \`/oh-my-claudecode:ralplan\` skill to create a consensus-driven implementation plan.
+Use the \`/oh-my-gemini-cli:ralplan\` skill to create a consensus-driven implementation plan.
 The plan should be saved to: \`${planPath}\`
 
 The RALPLAN process will:
@@ -14874,13 +14874,13 @@ Execute tasks sequentially (or with limited parallelism via background agents):
 
 \`\`\`
 // For simple tasks (single file, straightforward logic)
-Task(subagent_type="oh-my-claudecode:executor", model="haiku", prompt="...")
+Task(subagent_type="oh-my-gemini-cli:executor", model="haiku", prompt="...")
 
 // For standard implementation (feature, multiple methods)
-Task(subagent_type="oh-my-claudecode:executor", model="sonnet", prompt="...")
+Task(subagent_type="oh-my-gemini-cli:executor", model="sonnet", prompt="...")
 
 // For complex work (architecture, debugging, refactoring)
-Task(subagent_type="oh-my-claudecode:executor", model="opus", prompt="...")
+Task(subagent_type="oh-my-gemini-cli:executor", model="opus", prompt="...")
 \`\`\`
 
 ### Progress Tracking
@@ -14915,7 +14915,7 @@ var init_ralph_adapter = __esm({
         return config2.verification === false;
       },
       getPrompt(context) {
-        const specPath = context.specPath || ".omc/autopilot/spec.md";
+        const specPath = context.specPath || ".omg/autopilot/spec.md";
         const maxIterations = context.config.verification !== false ? context.config.verification.maxIterations : 100;
         return `## PIPELINE STAGE: RALPH (Verification)
 
@@ -14930,7 +14930,7 @@ Spawn parallel verification reviewers:
 \`\`\`
 // Functional Completeness Review
 Task(
-  subagent_type="oh-my-claudecode:architect",
+  subagent_type="oh-my-gemini-cli:architect",
   model="opus",
   prompt="FUNCTIONAL COMPLETENESS REVIEW
 
@@ -14947,7 +14947,7 @@ Verdict: APPROVED (all requirements met) or REJECTED (with specific gaps)"
 
 // Security Review
 Task(
-  subagent_type="oh-my-claudecode:security-reviewer",
+  subagent_type="oh-my-gemini-cli:security-reviewer",
   model="opus",
   prompt="SECURITY REVIEW
 
@@ -14964,7 +14964,7 @@ Verdict: APPROVED (no vulnerabilities) or REJECTED (with specific issues)"
 
 // Code Quality Review
 Task(
-  subagent_type="oh-my-claudecode:code-reviewer",
+  subagent_type="oh-my-gemini-cli:code-reviewer",
   model="opus",
   prompt="CODE QUALITY REVIEW
 
@@ -15310,7 +15310,7 @@ function buildContext(state, tracking) {
     idea: state.originalIdea,
     directory: state.project_path || process.cwd(),
     sessionId: state.session_id,
-    specPath: state.expansion.spec_path || ".omc/autopilot/spec.md",
+    specPath: state.expansion.spec_path || ".omg/autopilot/spec.md",
     planPath: state.planning.plan_path || resolveAutopilotPlanPath(),
     openQuestionsPath: resolveOpenQuestionsPlanPath(),
     config: tracking.pipelineConfig
@@ -15331,11 +15331,11 @@ var init_pipeline = __esm({
 
 // src/hooks/autopilot/enforcement.ts
 function detectSignal(sessionId, signal) {
-  const claudeDir = getClaudeConfigDir();
+  const geminiDir = getGeminiConfigDir();
   const possiblePaths = [
-    (0, import_path53.join)(claudeDir, "sessions", sessionId, "transcript.md"),
-    (0, import_path53.join)(claudeDir, "sessions", sessionId, "messages.json"),
-    (0, import_path53.join)(claudeDir, "transcripts", `${sessionId}.md`)
+    (0, import_path53.join)(geminiDir, "sessions", sessionId, "transcript.md"),
+    (0, import_path53.join)(geminiDir, "sessions", sessionId, "messages.json"),
+    (0, import_path53.join)(geminiDir, "transcripts", `${sessionId}.md`)
   ];
   const pattern = SIGNAL_PATTERNS[signal];
   if (!pattern) return false;
@@ -15466,7 +15466,7 @@ function generateContinuationPrompt(state, directory, sessionId) {
   writeAutopilotState(directory, state, sessionId);
   const phasePrompt = getPhasePrompt(state.phase, {
     idea: state.originalIdea,
-    specPath: state.expansion.spec_path || `.omc/autopilot/spec.md`,
+    specPath: state.expansion.spec_path || `.omg/autopilot/spec.md`,
     planPath: state.planning.plan_path || resolveAutopilotPlanPath(),
     openQuestionsPath: resolveOpenQuestionsPlanPath()
   });
@@ -15546,7 +15546,7 @@ function checkPipelineAutopilot(state, sessionId, directory) {
       idea: state.originalIdea,
       directory: state.project_path || directory,
       sessionId,
-      specPath: state.expansion.spec_path || ".omc/autopilot/spec.md",
+      specPath: state.expansion.spec_path || ".omg/autopilot/spec.md",
       planPath: state.planning.plan_path || resolveAutopilotPlanPath(),
       openQuestionsPath: resolveOpenQuestionsPlanPath(),
       config: tracking.pipelineConfig
@@ -15585,7 +15585,7 @@ ${stagePrompt2}
     idea: state.originalIdea,
     directory: state.project_path || directory,
     sessionId,
-    specPath: state.expansion.spec_path || ".omc/autopilot/spec.md",
+    specPath: state.expansion.spec_path || ".omg/autopilot/spec.md",
     planPath: state.planning.plan_path || resolveAutopilotPlanPath(),
     openQuestionsPath: resolveOpenQuestionsPlanPath(),
     config: tracking.pipelineConfig
@@ -15622,11 +15622,11 @@ IMPORTANT: When this stage is complete, output the signal: ${currentAdapter.comp
   };
 }
 function detectPipelineSignal(sessionId, signal) {
-  const claudeDir = getClaudeConfigDir();
+  const geminiDir = getGeminiConfigDir();
   const possiblePaths = [
-    (0, import_path53.join)(claudeDir, "sessions", sessionId, "transcript.md"),
-    (0, import_path53.join)(claudeDir, "sessions", sessionId, "messages.json"),
-    (0, import_path53.join)(claudeDir, "transcripts", `${sessionId}.md`)
+    (0, import_path53.join)(geminiDir, "sessions", sessionId, "transcript.md"),
+    (0, import_path53.join)(geminiDir, "sessions", sessionId, "messages.json"),
+    (0, import_path53.join)(geminiDir, "transcripts", `${sessionId}.md`)
   ];
   const pattern = new RegExp(signal, "i");
   for (const transcriptPath of possiblePaths) {
@@ -15882,7 +15882,7 @@ function resetTodoContinuationAttempts(sessionId) {
   todoContinuationAttempts.delete(sessionId);
 }
 function getIdleNotificationCooldownSeconds() {
-  const configPath = (0, import_path54.join)((0, import_os11.homedir)(), ".omc", "config.json");
+  const configPath = (0, import_path54.join)((0, import_os11.homedir)(), ".omg", "config.json");
   try {
     if (!(0, import_fs48.existsSync)(configPath)) return 60;
     const config2 = JSON.parse((0, import_fs48.readFileSync)(configPath, "utf-8"));
@@ -15967,11 +15967,11 @@ function isCriticalContextStop(stopContext) {
   return estimateTranscriptContextPercent(transcriptPath) >= CRITICAL_CONTEXT_STOP_PERCENT;
 }
 function checkArchitectApprovalInTranscript(sessionId) {
-  const claudeDir = getClaudeConfigDir();
+  const geminiDir = getGeminiConfigDir();
   const possiblePaths = [
-    (0, import_path54.join)(claudeDir, "sessions", sessionId, "transcript.md"),
-    (0, import_path54.join)(claudeDir, "sessions", sessionId, "messages.json"),
-    (0, import_path54.join)(claudeDir, "transcripts", `${sessionId}.md`)
+    (0, import_path54.join)(geminiDir, "sessions", sessionId, "transcript.md"),
+    (0, import_path54.join)(geminiDir, "sessions", sessionId, "messages.json"),
+    (0, import_path54.join)(geminiDir, "transcripts", `${sessionId}.md`)
   ];
   for (const transcriptPath of possiblePaths) {
     if ((0, import_fs48.existsSync)(transcriptPath)) {
@@ -15988,11 +15988,11 @@ function checkArchitectApprovalInTranscript(sessionId) {
   return false;
 }
 function checkArchitectRejectionInTranscript(sessionId) {
-  const claudeDir = getClaudeConfigDir();
+  const geminiDir = getGeminiConfigDir();
   const possiblePaths = [
-    (0, import_path54.join)(claudeDir, "sessions", sessionId, "transcript.md"),
-    (0, import_path54.join)(claudeDir, "sessions", sessionId, "messages.json"),
-    (0, import_path54.join)(claudeDir, "transcripts", `${sessionId}.md`)
+    (0, import_path54.join)(geminiDir, "sessions", sessionId, "transcript.md"),
+    (0, import_path54.join)(geminiDir, "sessions", sessionId, "messages.json"),
+    (0, import_path54.join)(geminiDir, "transcripts", `${sessionId}.md`)
   ];
   for (const transcriptPath of possiblePaths) {
     if ((0, import_fs48.existsSync)(transcriptPath)) {
@@ -16162,7 +16162,7 @@ CRITICAL INSTRUCTIONS:
 1. Review your progress and the original task
 ${prdInstruction}
 3. Continue from where you left off
-4. When FULLY complete (after ${state.critic_mode === "codex" ? "Codex critic" : state.critic_mode === "critic" ? "Critic" : "Architect"} verification), run \`/oh-my-claudecode:cancel\` to cleanly exit and clean up state files. If cancel fails, retry with \`/oh-my-claudecode:cancel --force\`.
+4. When FULLY complete (after ${state.critic_mode === "codex" ? "Codex critic" : state.critic_mode === "critic" ? "Critic" : "Architect"} verification), run \`/oh-my-gemini-cli:cancel\` to cleanly exit and clean up state files. If cancel fails, retry with \`/oh-my-gemini-cli:cancel --force\`.
 5. Do NOT stop until the task is truly done
 
 ${newState.prompt ? `Original task: ${newState.prompt}` : ""}
@@ -16285,7 +16285,7 @@ async function checkTeamPipeline(sessionId, directory, cancelInProgress) {
 
 The team pipeline is active in phase "${phase}". Continue working on the team workflow.
 Do not stop until the pipeline reaches a terminal state (complete/failed/cancelled).
-When done, run \`/oh-my-claudecode:cancel\` to cleanly exit.
+When done, run \`/oh-my-gemini-cli:cancel\` to cleanly exit.
 
 </team-pipeline-continuation>
 
@@ -16342,7 +16342,7 @@ async function checkRalplan(sessionId, directory, cancelInProgress) {
 
 The ralplan consensus workflow is active. Continue the Planner/Architect/Critic loop.
 Do not stop until consensus is reached or the workflow completes.
-When done, run \`/oh-my-claudecode:cancel\` to cleanly exit.
+When done, run \`/oh-my-gemini-cli:cancel\` to cleanly exit.
 
 </ralplan-continuation>
 
@@ -16577,7 +16577,7 @@ var init_hook_config = __esm({
     import_fs49 = require("fs");
     import_path55 = require("path");
     init_paths();
-    DEFAULT_CONFIG_PATH = (0, import_path55.join)(getClaudeConfigDir(), "omc_config.hook.json");
+    DEFAULT_CONFIG_PATH = (0, import_path55.join)(getGeminiConfigDir(), "omg_config.hook.json");
   }
 });
 
@@ -17161,7 +17161,7 @@ function getReplyConfig() {
   );
   if (hasDiscordBot && authorizedDiscordUserIds.length === 0) {
     console.warn(
-      "[notifications] Discord reply listening disabled: authorizedDiscordUserIds is empty. Set OMC_REPLY_DISCORD_USER_IDS or add to .omc-config.json notifications.reply.authorizedDiscordUserIds"
+      "[notifications] Discord reply listening disabled: authorizedDiscordUserIds is empty. Set OMC_REPLY_DISCORD_USER_IDS or add to .omg-config.json notifications.reply.authorizedDiscordUserIds"
     );
   }
   return {
@@ -17273,7 +17273,7 @@ var init_config = __esm({
     init_paths();
     init_hook_config();
     init_validation2();
-    CONFIG_FILE2 = (0, import_path56.join)(getClaudeConfigDir(), ".omc-config.json");
+    CONFIG_FILE2 = (0, import_path56.join)(getGeminiConfigDir(), ".omg-config.json");
     DEFAULT_TMUX_TAIL_LINES = 15;
     VALID_VERBOSITY_LEVELS = /* @__PURE__ */ new Set([
       "verbose",
@@ -17294,7 +17294,7 @@ var init_config = __esm({
       "session-idle",
       "session-end"
     ];
-    LEGACY_OPENCLAW_CONFIG = (0, import_path56.join)(getClaudeConfigDir(), "omc_config.openclaw.json");
+    LEGACY_OPENCLAW_CONFIG = (0, import_path56.join)(getGeminiConfigDir(), "omg_config.openclaw.json");
   }
 });
 
@@ -17386,7 +17386,7 @@ function formatSessionEnd(payload) {
 }
 function formatSessionIdle(payload) {
   const lines = [`# Session Idle`, ""];
-  lines.push(`Claude has finished and is waiting for input.`);
+  lines.push(`Gemini has finished and is waiting for input.`);
   lines.push("");
   if (payload.reason) {
     lines.push(`**Reason:** ${payload.reason}`);
@@ -17447,7 +17447,7 @@ function formatAskUserQuestion(payload) {
     lines.push(`**Question:** ${payload.question}`);
     lines.push("");
   }
-  lines.push(`Claude is waiting for your response.`);
+  lines.push(`Gemini is waiting for your response.`);
   lines.push("");
   lines.push(buildFooter(payload, true));
   return lines.join("\n");
@@ -17653,8 +17653,8 @@ var init_template_engine = __esm({
       "session-start": "# Session Started\n\n**Session:** `{{sessionId}}`\n**Project:** `{{projectDisplay}}`\n**Time:** {{time}}{{#if tmuxSession}}\n**tmux:** `{{tmuxSession}}`{{/if}}",
       "session-stop": "# Session Continuing\n{{#if activeMode}}\n**Mode:** {{activeMode}}{{/if}}{{#if iterationDisplay}}\n**Iteration:** {{iterationDisplay}}{{/if}}{{#if incompleteTasks}}\n**Incomplete tasks:** {{incompleteTasks}}{{/if}}\n\n{{footer}}",
       "session-end": "# Session Ended\n\n**Session:** `{{sessionId}}`\n**Duration:** {{duration}}\n**Reason:** {{reasonDisplay}}{{#if agentDisplay}}\n**Agents:** {{agentDisplay}}{{/if}}{{#if modesDisplay}}\n**Modes:** {{modesDisplay}}{{/if}}{{#if contextSummary}}\n\n**Summary:** {{contextSummary}}{{/if}}{{tmuxTailBlock}}\n\n{{footer}}",
-      "session-idle": "# Session Idle\n\nClaude has finished and is waiting for input.\n{{#if reason}}\n**Reason:** {{reason}}{{/if}}{{#if modesDisplay}}\n**Modes:** {{modesDisplay}}{{/if}}{{tmuxTailBlock}}\n\n{{footer}}",
-      "ask-user-question": "# Input Needed\n{{#if question}}\n**Question:** {{question}}\n{{/if}}\nClaude is waiting for your response.\n\n{{footer}}",
+      "session-idle": "# Session Idle\n\nGemini has finished and is waiting for input.\n{{#if reason}}\n**Reason:** {{reason}}{{/if}}{{#if modesDisplay}}\n**Modes:** {{modesDisplay}}{{/if}}{{tmuxTailBlock}}\n\n{{footer}}",
+      "ask-user-question": "# Input Needed\n{{#if question}}\n**Question:** {{question}}\n{{/if}}\nGemini is waiting for your response.\n\n{{footer}}",
       "agent-call": "# Agent Spawned\n{{#if agentName}}\n**Agent:** `{{agentName}}`{{/if}}{{#if agentType}}\n**Type:** `{{agentType}}`{{/if}}\n\n{{footer}}"
     };
   }
@@ -18278,7 +18278,7 @@ function getCurrentTmuxSession() {
 function getTeamTmuxSessions(teamName) {
   const sanitized = teamName.replace(/[^a-zA-Z0-9-]/g, "");
   if (!sanitized) return [];
-  const prefix = `omc-team-${sanitized}-`;
+  const prefix = `omg-team-${sanitized}-`;
   try {
     const output = (0, import_child_process16.execSync)("tmux list-sessions -F '#{session_name}'", {
       encoding: "utf-8",
@@ -18984,7 +18984,7 @@ var init_template_variables = __esm({
       },
       tmuxSession: {
         description: "tmux session name",
-        example: "claude:my-project",
+        example: "gemini:my-project",
         availableIn: ["*"]
       },
       tmuxPaneId: {
@@ -19120,13 +19120,13 @@ function capturePaneContent(paneId, lines = 15) {
 function analyzePaneContent(content) {
   if (!content.trim()) {
     return {
-      hasClaudeCode: false,
+      hasGeminiCLI: false,
       hasRateLimitMessage: false,
       isBlocked: false,
       confidence: 0
     };
   }
-  const hasClaudeCode = CLAUDE_CODE_PATTERNS.some(
+  const hasGeminiCLI = CLAUDE_CODE_PATTERNS.some(
     (pattern) => pattern.test(content)
   );
   const rateLimitMatches = RATE_LIMIT_PATTERNS.filter(
@@ -19145,13 +19145,13 @@ function analyzePaneContent(content) {
     }
   }
   let confidence = 0;
-  if (hasClaudeCode) confidence += 0.4;
+  if (hasGeminiCLI) confidence += 0.4;
   if (hasRateLimitMessage) confidence += 0.4;
   if (isWaiting) confidence += 0.2;
   if (rateLimitMatches.length > 1) confidence += 0.1;
-  const isBlocked = hasClaudeCode && hasRateLimitMessage && confidence >= 0.6;
+  const isBlocked = hasGeminiCLI && hasRateLimitMessage && confidence >= 0.6;
   return {
-    hasClaudeCode,
+    hasGeminiCLI,
     hasRateLimitMessage,
     isBlocked,
     rateLimitType,
@@ -19219,10 +19219,10 @@ function sendToPane(paneId, text, pressEnter = true) {
 }
 function formatBlockedPanesSummary(blockedPanes) {
   if (blockedPanes.length === 0) {
-    return "No blocked Claude Code sessions detected.";
+    return "No blocked Gemini Code sessions detected.";
   }
   const lines = [
-    `Found ${blockedPanes.length} blocked Claude Code session(s):`,
+    `Found ${blockedPanes.length} blocked Gemini Code session(s):`,
     ""
   ];
   for (const pane of blockedPanes) {
@@ -19254,10 +19254,10 @@ var init_tmux_detector = __esm({
       /weekly/i
     ];
     CLAUDE_CODE_PATTERNS = [
-      /claude/i,
+      /gemini/i,
       /anthropic/i,
-      /\$ claude/,
-      /claude code/i,
+      /\$ gemini/,
+      /gemini code/i,
       /conversation/i,
       /assistant/i
     ];
@@ -19288,7 +19288,7 @@ __export(session_registry_exports, {
   removeSession: () => removeSession
 });
 function getRegistryStateDir() {
-  return process.env["OMC_TEST_REGISTRY_DIR"] ?? (0, import_path59.join)((0, import_os12.homedir)(), ".omc", "state");
+  return process.env["OMC_TEST_REGISTRY_DIR"] ?? (0, import_path59.join)((0, import_os12.homedir)(), ".omg", "state");
 }
 function getRegistryPath() {
   return (0, import_path59.join)(getRegistryStateDir(), "reply-session-registry.jsonl");
@@ -19927,8 +19927,8 @@ var init_codebase_map = __esm({
       ".venv",
       "venv",
       "env",
-      ".omc",
-      ".claude",
+      ".omg",
+      ".gemini",
       "tmp",
       "temp"
     ]);
@@ -19980,7 +19980,7 @@ var init_codebase_map = __esm({
       "Cargo.toml",
       "go.mod",
       "go.sum",
-      "CLAUDE.md",
+      "GEMINI.md",
       "AGENTS.md",
       "README.md",
       "CONTRIBUTING.md",
@@ -20302,7 +20302,7 @@ async function pollDiscord(config2, state, rateLimiter) {
                 "Content-Type": "application/json"
               },
               body: JSON.stringify({
-                content: `${mentionPrefix}Injected into Claude Code session.`,
+                content: `${mentionPrefix}Injected into Gemini Code session.`,
                 message_reference: { message_id: msg.id },
                 allowed_mentions: feedbackAllowedMentions
               }),
@@ -20407,7 +20407,7 @@ async function pollTelegram(config2, state, rateLimiter) {
         try {
           const replyBody = JSON.stringify({
             chat_id: config2.telegramChatId,
-            text: "Injected into Claude Code session.",
+            text: "Injected into Gemini Code session.",
             reply_to_message_id: msg.message_id
           });
           await new Promise((resolve15) => {
@@ -20809,7 +20809,7 @@ var init_reply_listener = __esm({
       "windir",
       "COMSPEC"
     ];
-    DEFAULT_STATE_DIR = (0, import_path62.join)((0, import_os13.homedir)(), ".omc", "state");
+    DEFAULT_STATE_DIR = (0, import_path62.join)((0, import_os13.homedir)(), ".omg", "state");
     PID_FILE_PATH = (0, import_path62.join)(DEFAULT_STATE_DIR, "reply-listener.pid");
     STATE_FILE_PATH = (0, import_path62.join)(DEFAULT_STATE_DIR, "reply-listener-state.json");
     LOG_FILE_PATH = (0, import_path62.join)(DEFAULT_STATE_DIR, "reply-listener.log");
@@ -20889,7 +20889,7 @@ var init_config2 = __esm({
     import_fs53 = require("fs");
     import_path63 = require("path");
     init_paths();
-    CONFIG_FILE3 = process.env.OMC_OPENCLAW_CONFIG || (0, import_path63.join)(getClaudeConfigDir(), "omc_config.openclaw.json");
+    CONFIG_FILE3 = process.env.OMC_OPENCLAW_CONFIG || (0, import_path63.join)(getGeminiConfigDir(), "omg_config.openclaw.json");
     _cachedConfig = null;
   }
 });
@@ -20998,11 +20998,11 @@ var init_dispatcher2 = __esm({
 });
 
 // src/openclaw/signal.ts
-function stripClaudeTempCwdErrors(output) {
+function stripGeminiTempCwdErrors(output) {
   return output.replace(CLAUDE_TEMP_CWD_PATTERN, "");
 }
 function isNonZeroExitWithOutput(output) {
-  const cleaned = stripClaudeTempCwdErrors(output);
+  const cleaned = stripGeminiTempCwdErrors(output);
   if (!CLAUDE_EXIT_CODE_PREFIX.test(cleaned)) return false;
   CLAUDE_EXIT_CODE_PREFIX.lastIndex = 0;
   const remaining = cleaned.replace(CLAUDE_EXIT_CODE_PREFIX, "").trim();
@@ -21022,7 +21022,7 @@ function isNonZeroExitWithOutput(output) {
   return !contentErrorPatterns.some((pattern) => pattern.test(remaining));
 }
 function detectBashFailure(output) {
-  const cleaned = stripClaudeTempCwdErrors(output);
+  const cleaned = stripGeminiTempCwdErrors(output);
   const errorPatterns = [
     /error:/i,
     /failed/i,
@@ -21039,7 +21039,7 @@ function detectBashFailure(output) {
   return errorPatterns.some((pattern) => pattern.test(cleaned));
 }
 function detectWriteFailure(output) {
-  const cleaned = stripClaudeTempCwdErrors(output);
+  const cleaned = stripGeminiTempCwdErrors(output);
   const errorPatterns = [
     /\berror:/i,
     /\bfailed to\b/i,
@@ -21189,7 +21189,7 @@ var CLAUDE_TEMP_CWD_PATTERN, CLAUDE_EXIT_CODE_PREFIX, PR_CREATE_PATTERN, PR_URL_
 var init_signal = __esm({
   "src/openclaw/signal.ts"() {
     "use strict";
-    CLAUDE_TEMP_CWD_PATTERN = /zsh:\d+: permission denied:.*\/T\/claude-[a-z0-9]+-cwd/gi;
+    CLAUDE_TEMP_CWD_PATTERN = /zsh:\d+: permission denied:.*\/T\/gemini-[a-z0-9]+-cwd/gi;
     CLAUDE_EXIT_CODE_PREFIX = /^Error: Exit code \d+\s*$/gm;
     PR_CREATE_PATTERN = /\bgh\s+pr\s+create\b/i;
     PR_URL_PATTERN = /https:\/\/github\.com\/[^\s/]+\/[^\s/]+\/pull\/\d+/i;
@@ -21548,36 +21548,36 @@ var init_state_paths = __esm({
     "use strict";
     import_path66 = require("path");
     TeamPaths = {
-      root: (teamName) => `.omc/state/team/${teamName}`,
-      config: (teamName) => `.omc/state/team/${teamName}/config.json`,
-      shutdown: (teamName) => `.omc/state/team/${teamName}/shutdown.json`,
-      tasks: (teamName) => `.omc/state/team/${teamName}/tasks`,
-      taskFile: (teamName, taskId) => `.omc/state/team/${teamName}/tasks/${normalizeTaskFileStem(taskId)}.json`,
-      workers: (teamName) => `.omc/state/team/${teamName}/workers`,
-      workerDir: (teamName, workerName2) => `.omc/state/team/${teamName}/workers/${workerName2}`,
-      heartbeat: (teamName, workerName2) => `.omc/state/team/${teamName}/workers/${workerName2}/heartbeat.json`,
-      inbox: (teamName, workerName2) => `.omc/state/team/${teamName}/workers/${workerName2}/inbox.md`,
-      outbox: (teamName, workerName2) => `.omc/state/team/${teamName}/workers/${workerName2}/outbox.jsonl`,
-      ready: (teamName, workerName2) => `.omc/state/team/${teamName}/workers/${workerName2}/.ready`,
-      overlay: (teamName, workerName2) => `.omc/state/team/${teamName}/workers/${workerName2}/AGENTS.md`,
-      shutdownAck: (teamName, workerName2) => `.omc/state/team/${teamName}/workers/${workerName2}/shutdown-ack.json`,
-      mailbox: (teamName, workerName2) => `.omc/state/team/${teamName}/mailbox/${workerName2}.json`,
-      mailboxLockDir: (teamName, workerName2) => `.omc/state/team/${teamName}/mailbox/.lock-${workerName2}`,
-      dispatchRequests: (teamName) => `.omc/state/team/${teamName}/dispatch/requests.json`,
-      dispatchLockDir: (teamName) => `.omc/state/team/${teamName}/dispatch/.lock`,
-      workerStatus: (teamName, workerName2) => `.omc/state/team/${teamName}/workers/${workerName2}/status.json`,
-      workerIdleNotify: (teamName) => `.omc/state/team/${teamName}/worker-idle-notify.json`,
-      workerPrevNotifyState: (teamName, workerName2) => `.omc/state/team/${teamName}/workers/${workerName2}/prev-notify-state.json`,
-      events: (teamName) => `.omc/state/team/${teamName}/events.jsonl`,
-      approval: (teamName, taskId) => `.omc/state/team/${teamName}/approvals/${taskId}.json`,
-      manifest: (teamName) => `.omc/state/team/${teamName}/manifest.json`,
-      monitorSnapshot: (teamName) => `.omc/state/team/${teamName}/monitor-snapshot.json`,
-      summarySnapshot: (teamName) => `.omc/state/team/${teamName}/summary-snapshot.json`,
-      phaseState: (teamName) => `.omc/state/team/${teamName}/phase-state.json`,
-      scalingLock: (teamName) => `.omc/state/team/${teamName}/.scaling-lock`,
-      workerIdentity: (teamName, workerName2) => `.omc/state/team/${teamName}/workers/${workerName2}/identity.json`,
-      workerAgentsMd: (teamName) => `.omc/state/team/${teamName}/worker-agents.md`,
-      shutdownRequest: (teamName, workerName2) => `.omc/state/team/${teamName}/workers/${workerName2}/shutdown-request.json`
+      root: (teamName) => `.omg/state/team/${teamName}`,
+      config: (teamName) => `.omg/state/team/${teamName}/config.json`,
+      shutdown: (teamName) => `.omg/state/team/${teamName}/shutdown.json`,
+      tasks: (teamName) => `.omg/state/team/${teamName}/tasks`,
+      taskFile: (teamName, taskId) => `.omg/state/team/${teamName}/tasks/${normalizeTaskFileStem(taskId)}.json`,
+      workers: (teamName) => `.omg/state/team/${teamName}/workers`,
+      workerDir: (teamName, workerName2) => `.omg/state/team/${teamName}/workers/${workerName2}`,
+      heartbeat: (teamName, workerName2) => `.omg/state/team/${teamName}/workers/${workerName2}/heartbeat.json`,
+      inbox: (teamName, workerName2) => `.omg/state/team/${teamName}/workers/${workerName2}/inbox.md`,
+      outbox: (teamName, workerName2) => `.omg/state/team/${teamName}/workers/${workerName2}/outbox.jsonl`,
+      ready: (teamName, workerName2) => `.omg/state/team/${teamName}/workers/${workerName2}/.ready`,
+      overlay: (teamName, workerName2) => `.omg/state/team/${teamName}/workers/${workerName2}/AGENTS.md`,
+      shutdownAck: (teamName, workerName2) => `.omg/state/team/${teamName}/workers/${workerName2}/shutdown-ack.json`,
+      mailbox: (teamName, workerName2) => `.omg/state/team/${teamName}/mailbox/${workerName2}.json`,
+      mailboxLockDir: (teamName, workerName2) => `.omg/state/team/${teamName}/mailbox/.lock-${workerName2}`,
+      dispatchRequests: (teamName) => `.omg/state/team/${teamName}/dispatch/requests.json`,
+      dispatchLockDir: (teamName) => `.omg/state/team/${teamName}/dispatch/.lock`,
+      workerStatus: (teamName, workerName2) => `.omg/state/team/${teamName}/workers/${workerName2}/status.json`,
+      workerIdleNotify: (teamName) => `.omg/state/team/${teamName}/worker-idle-notify.json`,
+      workerPrevNotifyState: (teamName, workerName2) => `.omg/state/team/${teamName}/workers/${workerName2}/prev-notify-state.json`,
+      events: (teamName) => `.omg/state/team/${teamName}/events.jsonl`,
+      approval: (teamName, taskId) => `.omg/state/team/${teamName}/approvals/${taskId}.json`,
+      manifest: (teamName) => `.omg/state/team/${teamName}/manifest.json`,
+      monitorSnapshot: (teamName) => `.omg/state/team/${teamName}/monitor-snapshot.json`,
+      summarySnapshot: (teamName) => `.omg/state/team/${teamName}/summary-snapshot.json`,
+      phaseState: (teamName) => `.omg/state/team/${teamName}/phase-state.json`,
+      scalingLock: (teamName) => `.omg/state/team/${teamName}/.scaling-lock`,
+      workerIdentity: (teamName, workerName2) => `.omg/state/team/${teamName}/workers/${workerName2}/identity.json`,
+      workerAgentsMd: (teamName) => `.omg/state/team/${teamName}/worker-agents.md`,
+      shutdownRequest: (teamName, workerName2) => `.omg/state/team/${teamName}/workers/${workerName2}/shutdown-request.json`
     };
   }
 });
@@ -21989,7 +21989,7 @@ async function teamReadConfig(teamName, cwd2) {
     return {
       name: manifest.name,
       task: manifest.task,
-      agent_type: "claude",
+      agent_type: "gemini",
       policy: manifest.policy,
       governance: manifest.governance,
       worker_launch_mode: manifest.policy.worker_launch_mode,
@@ -22738,7 +22738,7 @@ var init_types4 = __esm({
 
 // src/features/delegation-enforcer.ts
 function normalizeToCcAlias(model) {
-  const family = resolveClaudeFamily(model);
+  const family = resolveGeminiFamily(model);
   return family ? FAMILY_TO_ALIAS[family] ?? model : model;
 }
 var FAMILY_TO_ALIAS;
@@ -22808,7 +22808,7 @@ function resolveCliBinaryPath(binary) {
     throw new Error(`Resolved CLI binary '${binary}' to untrusted location: ${resolvedPath}`);
   }
   if (!isTrustedPrefix(resolvedPath)) {
-    console.warn(`[omc:cli-security] CLI binary '${binary}' resolved to non-standard path: ${resolvedPath}`);
+    console.warn(`[omg:cli-security] CLI binary '${binary}' resolved to non-standard path: ${resolvedPath}`);
   }
   resolvedPathCache.set(binary, resolvedPath);
   return resolvedPath;
@@ -22894,7 +22894,7 @@ function isPromptModeAgent(agentType) {
   const contract = getContract(agentType);
   return !!contract.supportsPromptMode;
 }
-function resolveClaudeWorkerModel(env2 = process.env) {
+function resolveGeminiWorkerModel(env2 = process.env) {
   if (!isBedrock() && !isVertexAI()) {
     return void 0;
   }
@@ -22906,9 +22906,9 @@ function resolveClaudeWorkerModel(env2 = process.env) {
   if (bedrockModel) {
     return bedrockModel;
   }
-  const omcModel = env2.OMC_MODEL_MEDIUM || "";
-  if (omcModel) {
-    return omcModel;
+  const omgModel = env2.OMC_MODEL_MEDIUM || "";
+  if (omgModel) {
+    return omgModel;
   }
   return void 0;
 }
@@ -22938,10 +22938,10 @@ var init_model_contract = __esm({
       /^\/dev\/shm(\/|$)/
     ];
     CONTRACTS = {
-      claude: {
-        agentType: "claude",
-        binary: "claude",
-        installInstructions: "Install Claude CLI: https://claude.ai/download",
+      gemini: {
+        agentType: "gemini",
+        binary: "gemini",
+        installInstructions: "Install Gemini CLI: https://gemini.ai/download",
         buildLaunchArgs(model, extraFlags = []) {
           const args = ["--dangerously-skip-permissions"];
           if (model) {
@@ -23339,7 +23339,7 @@ async function createTeamSession(teamName, workerCount, cwd2, options = {}) {
   }
   if (useDedicatedWindow) {
     const targetSession = sessionAndWindow.split(":")[0] ?? sessionAndWindow;
-    const windowName = `omc-${sanitizeName(teamName)}`.slice(0, 32);
+    const windowName = `omg-${sanitizeName(teamName)}`.slice(0, 32);
     const newWindowResult = await execFileAsync5("tmux", [
       "new-window",
       "-d",
@@ -23489,8 +23489,8 @@ function paneLooksReady(captured) {
   const lastLine = lines[lines.length - 1];
   if (/^\s*[›>❯]\s*/u.test(lastLine)) return true;
   const hasCodexPromptLine = lines.some((line) => /^\s*›\s*/u.test(line));
-  const hasClaudePromptLine = lines.some((line) => /^\s*❯\s*/u.test(line));
-  return hasCodexPromptLine || hasClaudePromptLine;
+  const hasGeminiPromptLine = lines.some((line) => /^\s*❯\s*/u.test(line));
+  return hasCodexPromptLine || hasGeminiPromptLine;
 }
 async function waitForPaneReady(paneId, opts = {}) {
   const envTimeout = Number.parseInt(process.env.OMC_SHELL_READY_TIMEOUT_MS ?? "", 10);
@@ -23651,7 +23651,7 @@ async function isWorkerAlive(paneId) {
 async function killWorkerPanes(opts) {
   const { paneIds, leaderPaneId, teamName, cwd: cwd2, graceMs = 1e4 } = opts;
   if (!paneIds.length) return;
-  const shutdownPath = (0, import_path71.join)(cwd2, ".omc", "state", "team", teamName, "shutdown.json");
+  const shutdownPath = (0, import_path71.join)(cwd2, ".omg", "state", "team", teamName, "shutdown.json");
   try {
     await import_promises10.default.writeFile(shutdownPath, JSON.stringify({ requestedAt: Date.now() }));
     const aliveChecks = await Promise.all(paneIds.map((id) => isWorkerAlive(id)));
@@ -23721,7 +23721,7 @@ var init_tmux_session = __esm({
     import_promises10 = __toESM(require("fs/promises"), 1);
     init_team_name();
     sleep4 = (ms) => new Promise((r) => setTimeout(r, ms));
-    TMUX_SESSION_PREFIX = "omc-team";
+    TMUX_SESSION_PREFIX = "omg-team";
     promisifiedExec = (0, import_util8.promisify)(import_child_process20.exec);
     promisifiedExecFile = (0, import_util8.promisify)(import_child_process20.execFile);
     SUPPORTED_POSIX_SHELLS = /* @__PURE__ */ new Set(["sh", "bash", "zsh", "fish", "ksh"]);
@@ -23735,17 +23735,17 @@ var init_tmux_session = __esm({
 function buildInstructionPath(...parts) {
   return (0, import_path72.join)(...parts).replaceAll("\\", "/");
 }
-function generateTriggerMessage(teamName, workerName2, teamStateRoot2 = ".omc/state") {
+function generateTriggerMessage(teamName, workerName2, teamStateRoot2 = ".omg/state") {
   const inboxPath = buildInstructionPath(teamStateRoot2, "team", teamName, "workers", workerName2, "inbox.md");
-  if (teamStateRoot2 !== ".omc/state") {
+  if (teamStateRoot2 !== ".omg/state") {
     return `Read ${inboxPath}, work now, report progress.`;
   }
   return `Read ${inboxPath}, start work now, report concrete progress (not ACK-only), and keep executing your assigned or next feasible work.`;
 }
-function generateMailboxTriggerMessage(teamName, workerName2, count = 1, teamStateRoot2 = ".omc/state") {
+function generateMailboxTriggerMessage(teamName, workerName2, count = 1, teamStateRoot2 = ".omg/state") {
   const normalizedCount = Number.isFinite(count) ? Math.max(1, Math.floor(count)) : 1;
   const mailboxPath2 = buildInstructionPath(teamStateRoot2, "team", teamName, "mailbox", `${workerName2}.json`);
-  if (teamStateRoot2 !== ".omc/state") {
+  if (teamStateRoot2 !== ".omg/state") {
     return `${normalizedCount} new msg(s): check ${mailboxPath2}, act and report progress.`;
   }
   return `You have ${normalizedCount} new message(s). Check ${mailboxPath2}, act now, reply with concrete progress (not ACK-only), and keep executing your assigned or next feasible work.`;
@@ -23755,21 +23755,21 @@ function agentTypeGuidance(agentType) {
     case "codex":
       return [
         "### Agent-Type Guidance (codex)",
-        "- Prefer short, explicit `omc team api ... --json` commands and parse outputs before next step.",
+        "- Prefer short, explicit `omg team api ... --json` commands and parse outputs before next step.",
         "- If a command fails, report the exact stderr to leader-fixed before retrying.",
-        "- You MUST run `omc team api claim-task` before starting work and `omc team api transition-task-status` when done."
+        "- You MUST run `omg team api claim-task` before starting work and `omg team api transition-task-status` when done."
       ].join("\n");
     case "gemini":
       return [
         "### Agent-Type Guidance (gemini)",
         "- Execute task work in small, verifiable increments and report each milestone to leader-fixed.",
         "- Keep commit-sized changes scoped to assigned files only; no broad refactors.",
-        "- CRITICAL: You MUST run `omc team api claim-task` before starting work and `omc team api transition-task-status` when done. Do not exit without transitioning the task status."
+        "- CRITICAL: You MUST run `omg team api claim-task` before starting work and `omg team api transition-task-status` when done. Do not exit without transitioning the task status."
       ].join("\n");
-    case "claude":
+    case "gemini":
     default:
       return [
-        "### Agent-Type Guidance (claude)",
+        "### Agent-Type Guidance (gemini)",
         "- Keep reasoning focused on assigned task IDs and send concise progress acks to leader-fixed.",
         "- Before any risky command, send a blocker/proposal message to leader-fixed and wait for updated inbox instructions."
       ].join("\n");
@@ -23782,10 +23782,10 @@ function generateWorkerOverlay(params) {
     subject: sanitizePromptContent(t.subject),
     description: sanitizePromptContent(t.description)
   }));
-  const sentinelPath = `.omc/state/team/${teamName}/workers/${workerName2}/.ready`;
-  const heartbeatPath = `.omc/state/team/${teamName}/workers/${workerName2}/heartbeat.json`;
-  const inboxPath = `.omc/state/team/${teamName}/workers/${workerName2}/inbox.md`;
-  const statusPath = `.omc/state/team/${teamName}/workers/${workerName2}/status.json`;
+  const sentinelPath = `.omg/state/team/${teamName}/workers/${workerName2}/.ready`;
+  const heartbeatPath = `.omg/state/team/${teamName}/workers/${workerName2}/heartbeat.json`;
+  const inboxPath = `.omg/state/team/${teamName}/workers/${workerName2}/inbox.md`;
+  const statusPath = `.omg/state/team/${teamName}/workers/${workerName2}/status.json`;
   const taskList = sanitizedTasks.length > 0 ? sanitizedTasks.map((t) => `- **Task ${t.id}**: ${t.subject}
   Description: ${t.description}
   Status: pending`).join("\n") : "- No tasks assigned yet. Check your inbox for assignments.";
@@ -23803,14 +23803,14 @@ mkdir -p $(dirname ${sentinelPath}) && touch ${sentinelPath}
 You MUST complete ALL of these steps. Do NOT skip any step. Do NOT exit without step 4.
 
 1. **Claim** your task (run this command first):
-   \`omc team api claim-task --input "{"team_name":"${teamName}","task_id":"<id>","worker":"${workerName2}"}" --json\`
+   \`omg team api claim-task --input "{"team_name":"${teamName}","task_id":"<id>","worker":"${workerName2}"}" --json\`
    Save the \`claim_token\` from the response \u2014 you need it for step 4.
 2. **Do the work** described in your task assignment below.
 3. **Send ACK** to the leader:
-   \`omc team api send-message --input "{"team_name":"${teamName}","from_worker":"${workerName2}","to_worker":"leader-fixed","body":"ACK: ${workerName2} initialized"}" --json\`
+   \`omg team api send-message --input "{"team_name":"${teamName}","from_worker":"${workerName2}","to_worker":"leader-fixed","body":"ACK: ${workerName2} initialized"}" --json\`
 4. **Transition** the task status (REQUIRED before exit):
-   - On success: \`omc team api transition-task-status --input "{"team_name":"${teamName}","task_id":"<id>","from":"in_progress","to":"completed","claim_token":"<claim_token>"}" --json\`
-   - On failure: \`omc team api transition-task-status --input "{"team_name":"${teamName}","task_id":"<id>","from":"in_progress","to":"failed","claim_token":"<claim_token>"}" --json\`
+   - On success: \`omg team api transition-task-status --input "{"team_name":"${teamName}","task_id":"<id>","from":"in_progress","to":"completed","claim_token":"<claim_token>"}" --json\`
+   - On failure: \`omg team api transition-task-status --input "{"team_name":"${teamName}","task_id":"<id>","from":"in_progress","to":"failed","claim_token":"<claim_token>"}" --json\`
 5. **Keep going after replies**: ACK/progress messages are not a stop signal. Keep executing your assigned or next feasible work until the task is actually complete or failed, then transition and exit.
 
 ## Identity
@@ -23825,12 +23825,12 @@ ${taskList}
 ## Task Lifecycle Reference (CLI API)
 Use the CLI API for all task lifecycle operations. Do NOT directly edit task files.
 
-- Inspect task state: \`omc team api read-task --input "{"team_name":"${teamName}","task_id":"<id>"}" --json\`
+- Inspect task state: \`omg team api read-task --input "{"team_name":"${teamName}","task_id":"<id>"}" --json\`
 - Task id format: State/CLI APIs use task_id: "<id>" (example: "1"), not "task-1"
-- Claim task: \`omc team api claim-task --input "{"team_name":"${teamName}","task_id":"<id>","worker":"${workerName2}"}" --json\`
-- Complete task: \`omc team api transition-task-status --input "{"team_name":"${teamName}","task_id":"<id>","from":"in_progress","to":"completed","claim_token":"<claim_token>"}" --json\`
-- Fail task: \`omc team api transition-task-status --input "{"team_name":"${teamName}","task_id":"<id>","from":"in_progress","to":"failed","claim_token":"<claim_token>"}" --json\`
-- Release claim (rollback): \`omc team api release-task-claim --input "{"team_name":"${teamName}","task_id":"<id>","claim_token":"<claim_token>","worker":"${workerName2}"}" --json\`
+- Claim task: \`omg team api claim-task --input "{"team_name":"${teamName}","task_id":"<id>","worker":"${workerName2}"}" --json\`
+- Complete task: \`omg team api transition-task-status --input "{"team_name":"${teamName}","task_id":"<id>","from":"in_progress","to":"completed","claim_token":"<claim_token>"}" --json\`
+- Fail task: \`omg team api transition-task-status --input "{"team_name":"${teamName}","task_id":"<id>","from":"in_progress","to":"failed","claim_token":"<claim_token>"}" --json\`
+- Release claim (rollback): \`omg team api release-task-claim --input "{"team_name":"${teamName}","task_id":"<id>","claim_token":"<claim_token>","worker":"${workerName2}"}" --json\`
 
 ## Communication Protocol
 - **Inbox**: Read ${inboxPath} for new instructions
@@ -23846,17 +23846,17 @@ Use the CLI API for all task lifecycle operations. Do NOT directly edit task fil
 
 ## Message Protocol
 Send messages via CLI API:
-- To leader: \`omc team api send-message --input "{\\"team_name\\":\\"${teamName}\\",\\"from_worker\\":\\"${workerName2}\\",\\"to_worker\\":\\"leader-fixed\\",\\"body\\":\\"<message>\\"}" --json\`
-- Check mailbox: \`omc team api mailbox-list --input "{\\"team_name\\":\\"${teamName}\\",\\"worker\\":\\"${workerName2}\\"}" --json\`
-- Mark delivered: \`omc team api mailbox-mark-delivered --input "{\\"team_name\\":\\"${teamName}\\",\\"worker\\":\\"${workerName2}\\",\\"message_id\\":\\"<id>\\"}" --json\`
+- To leader: \`omg team api send-message --input "{\\"team_name\\":\\"${teamName}\\",\\"from_worker\\":\\"${workerName2}\\",\\"to_worker\\":\\"leader-fixed\\",\\"body\\":\\"<message>\\"}" --json\`
+- Check mailbox: \`omg team api mailbox-list --input "{\\"team_name\\":\\"${teamName}\\",\\"worker\\":\\"${workerName2}\\"}" --json\`
+- Mark delivered: \`omg team api mailbox-mark-delivered --input "{\\"team_name\\":\\"${teamName}\\",\\"worker\\":\\"${workerName2}\\",\\"message_id\\":\\"<id>\\"}" --json\`
 
 ## Startup Handshake (Required)
 Before doing any task work, send exactly one startup ACK to the leader:
-\`omc team api send-message --input "{\\"team_name\\":\\"${teamName}\\",\\"from_worker\\":\\"${workerName2}\\",\\"to_worker\\":\\"leader-fixed\\",\\"body\\":\\"ACK: ${workerName2} initialized\\"}" --json\`
+\`omg team api send-message --input "{\\"team_name\\":\\"${teamName}\\",\\"from_worker\\":\\"${workerName2}\\",\\"to_worker\\":\\"leader-fixed\\",\\"body\\":\\"ACK: ${workerName2} initialized\\"}" --json\`
 
 ## Shutdown Protocol
 When you see a shutdown request in your inbox:
-1. Write your decision to: .omc/state/team/${teamName}/workers/${workerName2}/shutdown-ack.json
+1. Write your decision to: .omg/state/team/${teamName}/workers/${workerName2}/shutdown-ack.json
 2. Format:
    - Accept: {"status":"accept","reason":"ok","updated_at":"<iso>"}
    - Reject: {"status":"reject","reason":"still working","updated_at":"<iso>"}
@@ -23868,14 +23868,14 @@ When you see a shutdown request in your inbox:
 - Do NOT write lifecycle fields (status, owner, result, error) directly in task files; use CLI API
 - Do NOT spawn sub-agents. Complete work in this worker session only.
 - Do NOT create tmux panes/sessions (\`tmux split-window\`, \`tmux new-session\`, etc.).
-- Do NOT run team spawning/orchestration commands (for example: \`omc team ...\`, \`omx team ...\`, \`$team\`, \`$ultrawork\`, \`$autopilot\`, \`$ralph\`).
-- Worker-allowed control surface is only: \`omc team api ... --json\` (and equivalent \`omx team api ... --json\` where configured).
+- Do NOT run team spawning/orchestration commands (for example: \`omg team ...\`, \`omx team ...\`, \`$team\`, \`$ultrawork\`, \`$autopilot\`, \`$ralph\`).
+- Worker-allowed control surface is only: \`omg team api ... --json\` (and equivalent \`omx team api ... --json\` where configured).
 - If blocked, write {"state": "blocked", "reason": "..."} to your status file
 
 ${agentTypeGuidance(agentType)}
 
 ## BEFORE YOU EXIT
-You MUST call \`omc team api transition-task-status\` to mark your task as "completed" or "failed" before exiting.
+You MUST call \`omg team api transition-task-status\` to mark your task as "completed" or "failed" before exiting.
 If you skip this step, the leader cannot track your work and the task will appear stuck.
 
 ${bootstrapInstructions ? `## Role Context
@@ -23883,22 +23883,22 @@ ${bootstrapInstructions}
 ` : ""}`;
 }
 async function composeInitialInbox(teamName, workerName2, content, cwd2) {
-  const inboxPath = (0, import_path72.join)(cwd2, `.omc/state/team/${teamName}/workers/${workerName2}/inbox.md`);
+  const inboxPath = (0, import_path72.join)(cwd2, `.omg/state/team/${teamName}/workers/${workerName2}/inbox.md`);
   await (0, import_promises11.mkdir)((0, import_path72.dirname)(inboxPath), { recursive: true });
   await (0, import_promises11.writeFile)(inboxPath, content, "utf-8");
 }
 async function ensureWorkerStateDir(teamName, workerName2, cwd2) {
-  const workerDir = (0, import_path72.join)(cwd2, `.omc/state/team/${teamName}/workers/${workerName2}`);
+  const workerDir = (0, import_path72.join)(cwd2, `.omg/state/team/${teamName}/workers/${workerName2}`);
   await (0, import_promises11.mkdir)(workerDir, { recursive: true });
-  const mailboxDir = (0, import_path72.join)(cwd2, `.omc/state/team/${teamName}/mailbox`);
+  const mailboxDir = (0, import_path72.join)(cwd2, `.omg/state/team/${teamName}/mailbox`);
   await (0, import_promises11.mkdir)(mailboxDir, { recursive: true });
-  const tasksDir = (0, import_path72.join)(cwd2, `.omc/state/team/${teamName}/tasks`);
+  const tasksDir = (0, import_path72.join)(cwd2, `.omg/state/team/${teamName}/tasks`);
   await (0, import_promises11.mkdir)(tasksDir, { recursive: true });
 }
 async function writeWorkerOverlay(params) {
   const { teamName, workerName: workerName2, cwd: cwd2 } = params;
   const overlay = generateWorkerOverlay(params);
-  const overlayPath = (0, import_path72.join)(cwd2, `.omc/state/team/${teamName}/workers/${workerName2}/AGENTS.md`);
+  const overlayPath = (0, import_path72.join)(cwd2, `.omg/state/team/${teamName}/workers/${workerName2}/AGENTS.md`);
   await (0, import_promises11.mkdir)((0, import_path72.dirname)(overlayPath), { recursive: true });
   await (0, import_promises11.writeFile)(overlayPath, overlay, "utf-8");
   return overlayPath;
@@ -24444,13 +24444,13 @@ var init_mcp_comm = __esm({
 
 // src/team/git-worktree.ts
 function getWorktreePath(repoRoot, teamName, workerName2) {
-  return (0, import_node_path6.join)(repoRoot, ".omc", "worktrees", sanitizeName(teamName), sanitizeName(workerName2));
+  return (0, import_node_path6.join)(repoRoot, ".omg", "worktrees", sanitizeName(teamName), sanitizeName(workerName2));
 }
 function getBranchName(teamName, workerName2) {
-  return `omc-team/${sanitizeName(teamName)}/${sanitizeName(workerName2)}`;
+  return `omg-team/${sanitizeName(teamName)}/${sanitizeName(workerName2)}`;
 }
 function getMetadataPath(repoRoot, teamName) {
-  return (0, import_node_path6.join)(repoRoot, ".omc", "state", "team-bridge", sanitizeName(teamName), "worktrees.json");
+  return (0, import_node_path6.join)(repoRoot, ".omg", "state", "team-bridge", sanitizeName(teamName), "worktrees.json");
 }
 function readMetadata(repoRoot, teamName) {
   const metaPath = getMetadataPath(repoRoot, teamName);
@@ -24464,7 +24464,7 @@ function readMetadata(repoRoot, teamName) {
 function writeMetadata(repoRoot, teamName, entries) {
   const metaPath = getMetadataPath(repoRoot, teamName);
   validateResolvedPath(metaPath, repoRoot);
-  const dir = (0, import_node_path6.join)(repoRoot, ".omc", "state", "team-bridge", sanitizeName(teamName));
+  const dir = (0, import_node_path6.join)(repoRoot, ".omg", "state", "team-bridge", sanitizeName(teamName));
   ensureDirWithMode(dir);
   atomicWriteJson2(metaPath, entries);
 }
@@ -24572,13 +24572,13 @@ function buildV2TaskInstruction(teamName, workerName2, task, taskId) {
     `You MUST run these commands. Do NOT skip any step.`,
     ``,
     `1. Claim your task:`,
-    `   omc team api claim-task --input '{"team_name":"${teamName}","task_id":"${taskId}","worker":"${workerName2}"}' --json`,
+    `   omg team api claim-task --input '{"team_name":"${teamName}","task_id":"${taskId}","worker":"${workerName2}"}' --json`,
     `   Save the claim_token from the response.`,
     `2. Do the work described below.`,
     `3. On completion (use claim_token from step 1):`,
-    `   omc team api transition-task-status --input '{"team_name":"${teamName}","task_id":"${taskId}","from":"in_progress","to":"completed","claim_token":"<claim_token>"}' --json`,
+    `   omg team api transition-task-status --input '{"team_name":"${teamName}","task_id":"${taskId}","from":"in_progress","to":"completed","claim_token":"<claim_token>"}' --json`,
     `4. On failure (use claim_token from step 1):`,
-    `   omc team api transition-task-status --input '{"team_name":"${teamName}","task_id":"${taskId}","from":"in_progress","to":"failed","claim_token":"<claim_token>"}' --json`,
+    `   omg team api transition-task-status --input '{"team_name":"${teamName}","task_id":"${taskId}","from":"in_progress","to":"failed","claim_token":"<claim_token>"}' --json`,
     `5. ACK/progress replies are not a stop signal. Keep executing your assigned or next feasible work until the task is actually complete or failed, then transition and exit.`,
     ``,
     `## Task Assignment`,
@@ -24683,7 +24683,7 @@ async function spawnV2Worker(opts) {
     if (opts.agentType === "gemini") {
       return process.env.OMC_EXTERNAL_MODELS_DEFAULT_GEMINI_MODEL || process.env.OMC_GEMINI_DEFAULT_MODEL || void 0;
     }
-    return resolveClaudeWorkerModel();
+    return resolveGeminiWorkerModel();
   })();
   const [launchBinary, ...launchArgs] = buildWorkerArgv(opts.agentType, {
     teamName: opts.teamName,
@@ -24758,7 +24758,7 @@ async function spawnV2Worker(opts) {
       startupFailureReason: dispatchOutcome.reason
     };
   }
-  if (opts.agentType === "claude") {
+  if (opts.agentType === "gemini") {
     const settled = await waitForWorkerStartupEvidence(
       opts.teamName,
       opts.workerName,
@@ -24784,7 +24784,7 @@ async function spawnV2Worker(opts) {
         return {
           paneId,
           startupAssigned: false,
-          startupFailureReason: "claude_startup_evidence_missing"
+          startupFailureReason: "gemini_startup_evidence_missing"
         };
       }
     }
@@ -24820,7 +24820,7 @@ async function startTeamV2(config2) {
   }
   await (0, import_promises13.mkdir)(absPath(leaderCwd, TeamPaths.tasks(sanitized)), { recursive: true });
   await (0, import_promises13.mkdir)(absPath(leaderCwd, TeamPaths.workers(sanitized)), { recursive: true });
-  await (0, import_promises13.mkdir)((0, import_path75.join)(leaderCwd, ".omc", "state", "team", sanitized, "mailbox"), { recursive: true });
+  await (0, import_promises13.mkdir)((0, import_path75.join)(leaderCwd, ".omg", "state", "team", sanitized, "mailbox"), { recursive: true });
   for (let i = 0; i < config2.tasks.length; i++) {
     const taskId = String(i + 1);
     const taskFilePath2 = absPath(leaderCwd, TeamPaths.taskFile(sanitized, taskId));
@@ -24855,7 +24855,7 @@ async function startTeamV2(config2) {
     }));
     const allocationWorkers = workerNames.map((name, i) => ({
       name,
-      role: config2.workerRoles?.[i] ?? (agentTypes[i % agentTypes.length] ?? agentTypes[0] ?? "claude"),
+      role: config2.workerRoles?.[i] ?? (agentTypes[i % agentTypes.length] ?? agentTypes[0] ?? "gemini"),
       currentLoad: 0
     }));
     for (const r of allocateTasksToWorkers(allocationTasks, allocationWorkers)) {
@@ -24864,7 +24864,7 @@ async function startTeamV2(config2) {
   }
   for (let i = 0; i < workerNames.length; i++) {
     const wName = workerNames[i];
-    const agentType = agentTypes[i % agentTypes.length] ?? agentTypes[0] ?? "claude";
+    const agentType = agentTypes[i % agentTypes.length] ?? agentTypes[0] ?? "gemini";
     await ensureWorkerStateDir(sanitized, wName, leaderCwd);
     await writeWorkerOverlay({
       teamName: sanitized,
@@ -24889,14 +24889,14 @@ async function startTeamV2(config2) {
   const workersInfo = workerNames.map((wName, i) => ({
     name: wName,
     index: i + 1,
-    role: config2.workerRoles?.[i] ?? (agentTypes[i % agentTypes.length] ?? agentTypes[0] ?? "claude"),
+    role: config2.workerRoles?.[i] ?? (agentTypes[i % agentTypes.length] ?? agentTypes[0] ?? "gemini"),
     assigned_tasks: [],
     working_dir: leaderCwd
   }));
   const teamConfig = {
     name: sanitized,
     task: config2.tasks.map((t) => t.subject).join("; "),
-    agent_type: agentTypes[0] || "claude",
+    agent_type: agentTypes[0] || "gemini",
     worker_launch_mode: "interactive",
     policy: DEFAULT_TEAM_TRANSPORT_POLICY,
     governance: DEFAULT_TEAM_GOVERNANCE,
@@ -24969,7 +24969,7 @@ async function startTeamV2(config2) {
       teamName: sanitized,
       workerName: wName,
       workerIndex,
-      agentType: agentTypes[workerIndex % agentTypes.length] ?? agentTypes[0] ?? "claude",
+      agentType: agentTypes[workerIndex % agentTypes.length] ?? agentTypes[0] ?? "gemini",
       task,
       taskId,
       cwd: leaderCwd,
@@ -25356,7 +25356,7 @@ async function resumeTeamV2(teamName, cwd2) {
     const { execFile: execFile7 } = await import("child_process");
     const { promisify: promisify7 } = await import("util");
     const execFileAsync5 = promisify7(execFile7);
-    const sessionName2 = config2.tmux_session || `omc-team-${sanitized}`;
+    const sessionName2 = config2.tmux_session || `omg-team-${sanitized}`;
     await execFileAsync5("tmux", ["has-session", "-t", sessionName2.split(":")[0]]);
     return {
       teamName: sanitized,
@@ -25371,7 +25371,7 @@ async function resumeTeamV2(teamName, cwd2) {
   }
 }
 async function findActiveTeamsV2(cwd2) {
-  const root2 = (0, import_path75.join)(cwd2, ".omc", "state", "team");
+  const root2 = (0, import_path75.join)(cwd2, ".omg", "state", "team");
   if (!(0, import_fs61.existsSync)(root2)) return [];
   const entries = await (0, import_promises13.readdir)(root2, { withFileTypes: true });
   const active = [];
@@ -25521,7 +25521,7 @@ function sanitizeTaskId(taskId) {
 function canonicalTasksDir(teamName, cwd2) {
   const root2 = cwd2 ?? process.cwd();
   const dir = getTaskStoragePath(root2, sanitizeName(teamName));
-  validateResolvedPath(dir, (0, import_path76.join)(root2, ".omc", "state", "team"));
+  validateResolvedPath(dir, (0, import_path76.join)(root2, ".omg", "state", "team"));
   return dir;
 }
 function failureSidecarPath(teamName, taskId, cwd2) {
@@ -25582,7 +25582,7 @@ function workerName(index) {
 }
 function stateRoot(cwd2, teamName) {
   validateTeamName(teamName);
-  return (0, import_path77.join)(cwd2, `.omc/state/team/${teamName}`);
+  return (0, import_path77.join)(cwd2, `.omg/state/team/${teamName}`);
 }
 async function writeJson(filePath, data) {
   await (0, import_promises14.mkdir)((0, import_path77.join)(filePath, ".."), { recursive: true });
@@ -25625,9 +25625,9 @@ function taskPath(root2, taskId) {
 }
 async function writePanesTrackingFileIfPresent(runtime) {
   const jobId = process.env.OMC_JOB_ID;
-  const omcJobsDir = process.env.OMC_JOBS_DIR;
-  if (!jobId || !omcJobsDir) return;
-  const panesPath = (0, import_path77.join)(omcJobsDir, `${jobId}-panes.json`);
+  const omgJobsDir = process.env.OMC_JOBS_DIR;
+  if (!jobId || !omgJobsDir) return;
+  const panesPath = (0, import_path77.join)(omgJobsDir, `${jobId}-panes.json`);
   const tempPath = `${panesPath}.tmp`;
   await (0, import_promises14.writeFile)(
     tempPath,
@@ -25758,7 +25758,7 @@ async function allTasksTerminal(runtime) {
   return true;
 }
 function buildInitialTaskInstruction(teamName, workerName2, task, taskId) {
-  const donePath = `.omc/state/team/${teamName}/workers/${workerName2}/done.json`;
+  const donePath = `.omg/state/team/${teamName}/workers/${workerName2}/done.json`;
   return [
     `## Initial Task Assignment`,
     `Task ID: ${taskId}`,
@@ -25800,7 +25800,7 @@ async function startTeam(config2) {
   for (let i = 0; i < tasks.length; i++) {
     const wName = workerName(i);
     workerNames.push(wName);
-    const agentType = agentTypes[i % agentTypes.length] ?? agentTypes[0] ?? "claude";
+    const agentType = agentTypes[i % agentTypes.length] ?? agentTypes[0] ?? "gemini";
     await ensureWorkerStateDir(teamName, wName, cwd2);
     await writeWorkerOverlay({
       teamName,
@@ -26045,7 +26045,7 @@ async function spawnWorkerForTask(runtime, workerNameValue, taskIndex) {
   const paneId = splitResult.stdout.split("\n")[0]?.trim();
   if (!paneId) return "";
   const workerIndex = parseWorkerIndex(workerNameValue);
-  const agentType = runtime.config.agentTypes[workerIndex % runtime.config.agentTypes.length] ?? runtime.config.agentTypes[0] ?? "claude";
+  const agentType = runtime.config.agentTypes[workerIndex % runtime.config.agentTypes.length] ?? runtime.config.agentTypes[0] ?? "gemini";
   const usePromptMode = isPromptModeAgent(agentType);
   const instruction = buildInitialTaskInstruction(runtime.teamName, workerNameValue, task, taskId);
   await composeInitialInbox(runtime.teamName, workerNameValue, instruction, runtime.cwd);
@@ -26062,7 +26062,7 @@ async function spawnWorkerForTask(runtime, workerNameValue, taskIndex) {
     if (agentType === "gemini") {
       return process.env.OMC_EXTERNAL_MODELS_DEFAULT_GEMINI_MODEL || process.env.OMC_GEMINI_DEFAULT_MODEL || void 0;
     }
-    return resolveClaudeWorkerModel();
+    return resolveGeminiWorkerModel();
   })();
   const [launchBinary, ...launchArgs] = buildWorkerArgv(agentType, {
     teamName: runtime.teamName,
@@ -26166,7 +26166,7 @@ async function assignTask(teamName, taskId, targetWorkerName, paneId, sessionNam
 ---
 ## New Task Assignment
 Task ID: ${taskId}
-Claim and execute task from: .omc/state/team/${teamName}/tasks/${taskId}.json
+Claim and execute task from: .omg/state/team/${teamName}/tasks/${taskId}.json
 `;
   const { appendFile: appendFile5 } = await import("fs/promises");
   await appendFile5(inboxPath, msg, "utf-8");
@@ -26193,7 +26193,7 @@ async function shutdownTeam(teamName, sessionName2, cwd2, timeoutMs = 3e4, worke
     teamName
   });
   const configData = await readJsonSafe4((0, import_path77.join)(root2, "config.json"));
-  const CLI_AGENT_TYPES = /* @__PURE__ */ new Set(["claude", "codex", "gemini"]);
+  const CLI_AGENT_TYPES = /* @__PURE__ */ new Set(["gemini", "codex", "gemini"]);
   const agentTypes = configData?.agentTypes ?? [];
   const isCliWorkerTeam = agentTypes.length > 0 && agentTypes.every((t) => CLI_AGENT_TYPES.has(t));
   if (!isCliWorkerTeam) {
@@ -26230,7 +26230,7 @@ async function resumeTeam(teamName, cwd2) {
   const { execFile: execFile7 } = await import("child_process");
   const { promisify: promisify7 } = await import("util");
   const execFileAsync5 = promisify7(execFile7);
-  const sName = configData.tmuxSession || `omc-team-${teamName}`;
+  const sName = configData.tmuxSession || `omg-team-${teamName}`;
   try {
     await execFileAsync5("tmux", ["has-session", "-t", sName.split(":")[0]]);
   } catch {
@@ -26421,11 +26421,11 @@ function recordSessionMetrics(directory, input) {
 }
 function cleanupTransientState(directory) {
   let filesRemoved = 0;
-  const omcDir = getOmcRoot(directory);
-  if (!fs12.existsSync(omcDir)) {
+  const omgDir = getOmcRoot(directory);
+  if (!fs12.existsSync(omgDir)) {
     return filesRemoved;
   }
-  const trackingPath = path14.join(omcDir, "state", "subagent-tracking.json");
+  const trackingPath = path14.join(omgDir, "state", "subagent-tracking.json");
   if (fs12.existsSync(trackingPath)) {
     try {
       fs12.unlinkSync(trackingPath);
@@ -26433,7 +26433,7 @@ function cleanupTransientState(directory) {
     } catch (_error) {
     }
   }
-  const checkpointsDir = path14.join(omcDir, "checkpoints");
+  const checkpointsDir = path14.join(omgDir, "checkpoints");
   if (fs12.existsSync(checkpointsDir)) {
     const now = Date.now();
     const oneDayAgo = now - 24 * 60 * 60 * 1e3;
@@ -26465,8 +26465,8 @@ function cleanupTransientState(directory) {
     } catch (_error) {
     }
   };
-  removeTmpFiles(omcDir);
-  const stateDir = path14.join(omcDir, "state");
+  removeTmpFiles(omgDir);
+  const stateDir = path14.join(omgDir, "state");
   if (fs12.existsSync(stateDir)) {
     const transientPatterns = [
       /^agent-replay-.*\.jsonl$/,
@@ -26710,7 +26710,7 @@ async function cleanupSessionOwnedTeams(directory, sessionId) {
       }
       if (Array.isArray(config2.agentTypes)) {
         const legacyConfig = config2;
-        const sessionName2 = typeof legacyConfig.tmuxSession === "string" && legacyConfig.tmuxSession.trim() !== "" ? legacyConfig.tmuxSession.trim() : `omc-team-${teamName}`;
+        const sessionName2 = typeof legacyConfig.tmuxSession === "string" && legacyConfig.tmuxSession.trim() !== "" ? legacyConfig.tmuxSession.trim() : `omg-team-${teamName}`;
         const leaderPaneId = typeof legacyConfig.leaderPaneId === "string" && legacyConfig.leaderPaneId.trim() !== "" ? legacyConfig.leaderPaneId.trim() : void 0;
         await shutdownTeam2(teamName, sessionName2, directory, 0, void 0, leaderPaneId, legacyConfig.tmuxOwnsWindow === true);
         cleaned.push(teamName);
@@ -26848,10 +26848,10 @@ function getDb(cwd2) {
   return null;
 }
 function getDbPath(cwd2) {
-  return (0, import_path78.join)(cwd2, ".omc", "state", "jobs.db");
+  return (0, import_path78.join)(cwd2, ".omg", "state", "jobs.db");
 }
 function ensureStateDir3(cwd2) {
-  const stateDir = (0, import_path78.join)(cwd2, ".omc", "state");
+  const stateDir = (0, import_path78.join)(cwd2, ".omg", "state");
   if (!(0, import_fs64.existsSync)(stateDir)) {
     (0, import_fs64.mkdirSync)(stateDir, { recursive: true });
   }
@@ -27153,7 +27153,7 @@ async function saveModeSummary(directory) {
 }
 function readTodoSummary(directory) {
   const todoPaths = [
-    (0, import_path79.join)(directory, ".claude", "todos.json"),
+    (0, import_path79.join)(directory, ".gemini", "todos.json"),
     (0, import_path79.join)(getOmcRoot(directory), "state", "todos.json")
   ];
   for (const todoPath of todoPaths) {
@@ -27605,7 +27605,7 @@ async function processSetupInit(input) {
   };
 }
 function pruneOldStateFiles(directory, maxAgeDays = DEFAULT_STATE_MAX_AGE_DAYS) {
-  const stateDir = (0, import_path80.join)(directory, ".omc/state");
+  const stateDir = (0, import_path80.join)(directory, ".omg/state");
   if (!(0, import_fs67.existsSync)(stateDir)) {
     return 0;
   }
@@ -27647,7 +27647,7 @@ function pruneOldStateFiles(directory, maxAgeDays = DEFAULT_STATE_MAX_AGE_DAYS) 
   return deletedCount;
 }
 function cleanupOrphanedState(directory) {
-  const stateDir = (0, import_path80.join)(directory, ".omc/state");
+  const stateDir = (0, import_path80.join)(directory, ".omg/state");
   if (!(0, import_fs67.existsSync)(stateDir)) {
     return 0;
   }
@@ -27727,14 +27727,14 @@ var init_setup = __esm({
     import_path80 = require("path");
     init_beads_context();
     REQUIRED_DIRECTORIES = [
-      ".omc/state",
-      ".omc/logs",
-      ".omc/notepads",
-      ".omc/state/checkpoints",
-      ".omc/plans"
+      ".omg/state",
+      ".omg/logs",
+      ".omg/notepads",
+      ".omg/state/checkpoints",
+      ".omg/plans"
     ];
     CONFIG_FILES = [
-      ".omc-config.json"
+      ".omg-config.json"
     ];
     DEFAULT_STATE_MAX_AGE_DAYS = 7;
   }
@@ -27754,7 +27754,7 @@ __export(code_simplifier_exports, {
   writeTriggerMarker: () => writeTriggerMarker
 });
 function readOmcConfig() {
-  const configPath = (0, import_path81.join)((0, import_os15.homedir)(), ".omc", "config.json");
+  const configPath = (0, import_path81.join)((0, import_os15.homedir)(), ".omg", "config.json");
   if (!(0, import_fs68.existsSync)(configPath)) {
     return null;
   }
@@ -27809,7 +27809,7 @@ function buildSimplifierMessage(files) {
 
 ${fileList}
 
-Use: Task(subagent_type="oh-my-claudecode:code-simplifier", prompt="Simplify the recently modified files:\\n${fileArgs}")`;
+Use: Task(subagent_type="oh-my-gemini-cli:code-simplifier", prompt="Simplify the recently modified files:\\n${fileArgs}")`;
 }
 function processCodeSimplifier(cwd2, stateDir) {
   if (!isCodeSimplifierEnabled()) {
@@ -27935,7 +27935,7 @@ function isZaiHost(urlString) {
   }
 }
 function getCachePath() {
-  return (0, import_path99.join)(getClaudeConfigDir(), "plugins", "oh-my-claudecode", ".usage-cache.json");
+  return (0, import_path99.join)(getGeminiConfigDir(), "plugins", "oh-my-gemini-cli", ".usage-cache.json");
 }
 function readCache() {
   try {
@@ -28065,9 +28065,9 @@ function getKeychainServiceName() {
   const configDir = process.env.CLAUDE_CONFIG_DIR;
   if (configDir) {
     const hash = (0, import_crypto15.createHash)("sha256").update(configDir).digest("hex").slice(0, 8);
-    return `Claude Code-credentials-${hash}`;
+    return `Gemini Code-credentials-${hash}`;
   }
-  return "Claude Code-credentials";
+  return "Gemini Code-credentials";
 }
 function isCredentialExpired(creds) {
   return creds.expiresAt != null && creds.expiresAt <= Date.now();
@@ -28081,7 +28081,7 @@ function readKeychainCredential(serviceName, account) {
     ).trim();
     if (!result) return null;
     const parsed = JSON.parse(result);
-    const creds = parsed.claudeAiOauth || parsed;
+    const creds = parsed.geminiAiOauth || parsed;
     if (!creds.accessToken) return null;
     return {
       accessToken: creds.accessToken,
@@ -28118,11 +28118,11 @@ function readKeychainCredentials() {
 }
 function readFileCredentials() {
   try {
-    const credPath = (0, import_path99.join)(getClaudeConfigDir(), ".credentials.json");
+    const credPath = (0, import_path99.join)(getGeminiConfigDir(), ".credentials.json");
     if (!(0, import_fs84.existsSync)(credPath)) return null;
     const content = (0, import_fs84.readFileSync)(credPath, "utf-8");
     const parsed = JSON.parse(content);
-    const creds = parsed.claudeAiOauth || parsed;
+    const creds = parsed.geminiAiOauth || parsed;
     if (creds.accessToken) {
       return {
         accessToken: creds.accessToken,
@@ -28310,17 +28310,17 @@ function fetchUsageFromZai() {
 }
 function writeBackCredentials(creds) {
   try {
-    const credPath = (0, import_path99.join)(getClaudeConfigDir(), ".credentials.json");
+    const credPath = (0, import_path99.join)(getGeminiConfigDir(), ".credentials.json");
     if (!(0, import_fs84.existsSync)(credPath)) return;
     const content = (0, import_fs84.readFileSync)(credPath, "utf-8");
     const parsed = JSON.parse(content);
-    if (parsed.claudeAiOauth) {
-      parsed.claudeAiOauth.accessToken = creds.accessToken;
+    if (parsed.geminiAiOauth) {
+      parsed.geminiAiOauth.accessToken = creds.accessToken;
       if (creds.expiresAt != null) {
-        parsed.claudeAiOauth.expiresAt = creds.expiresAt;
+        parsed.geminiAiOauth.expiresAt = creds.expiresAt;
       }
       if (creds.refreshToken) {
-        parsed.claudeAiOauth.refreshToken = creds.refreshToken;
+        parsed.geminiAiOauth.refreshToken = creds.refreshToken;
       }
     } else {
       parsed.accessToken = creds.accessToken;
@@ -28559,7 +28559,7 @@ var init_usage_api = __esm({
     MAX_RATE_LIMITED_BACKOFF_MS = 5 * 60 * 1e3;
     API_TIMEOUT_MS2 = 1e4;
     MAX_STALE_DATA_MS = 15 * 60 * 1e3;
-    TOKEN_REFRESH_URL_HOSTNAME = "platform.claude.com";
+    TOKEN_REFRESH_URL_HOSTNAME = "platform.gemini.com";
     USAGE_CACHE_LOCK_OPTS = { staleLockMs: API_TIMEOUT_MS2 + 5e3 };
     TOKEN_REFRESH_URL_PATH = "/v1/oauth/token";
     DEFAULT_OAUTH_CLIENT_ID = "9d1c250a-e61b-44d9-88ed-5944d1962f5e";
@@ -28646,12 +28646,12 @@ var init_leader_nudge_guidance = __esm({
 // src/hud/stdin.ts
 function getStdinCachePath() {
   const root2 = getWorktreeRoot() || process.cwd();
-  return (0, import_path110.join)(root2, ".omc", "state", "hud-stdin-cache.json");
+  return (0, import_path110.join)(root2, ".omg", "state", "hud-stdin-cache.json");
 }
 function writeStdinCache(stdin) {
   try {
     const root2 = getWorktreeRoot() || process.cwd();
-    const cacheDir = (0, import_path110.join)(root2, ".omc", "state");
+    const cacheDir = (0, import_path110.join)(root2, ".omg", "state");
     if (!(0, import_fs96.existsSync)(cacheDir)) {
       (0, import_fs96.mkdirSync)(cacheDir, { recursive: true });
     }
@@ -29054,7 +29054,7 @@ var init_transcript = __esm({
   }
 });
 
-// src/hud/omc-state.ts
+// src/hud/omg-state.ts
 function isStateFileStale(filePath) {
   try {
     const stat3 = (0, import_fs98.statSync)(filePath);
@@ -29067,8 +29067,8 @@ function isStateFileStale(filePath) {
 function resolveStatePath2(directory, filename) {
   let bestPath = null;
   let bestMtime = 0;
-  const omcRoot = getOmcRoot(directory);
-  const sessionsDir = (0, import_path112.join)(omcRoot, "state", "sessions");
+  const omgRoot = getOmcRoot(directory);
+  const sessionsDir = (0, import_path112.join)(omgRoot, "state", "sessions");
   if ((0, import_fs98.existsSync)(sessionsDir)) {
     try {
       const entries = (0, import_fs98.readdirSync)(sessionsDir, { withFileTypes: true });
@@ -29089,7 +29089,7 @@ function resolveStatePath2(directory, filename) {
     } catch {
     }
   }
-  const newPath = (0, import_path112.join)(omcRoot, "state", filename);
+  const newPath = (0, import_path112.join)(omgRoot, "state", filename);
   if ((0, import_fs98.existsSync)(newPath)) {
     try {
       const mtime = (0, import_fs98.statSync)(newPath).mtimeMs;
@@ -29101,7 +29101,7 @@ function resolveStatePath2(directory, filename) {
       if (!bestPath) bestPath = newPath;
     }
   }
-  const legacyPath = (0, import_path112.join)(omcRoot, filename);
+  const legacyPath = (0, import_path112.join)(omgRoot, filename);
   if ((0, import_fs98.existsSync)(legacyPath)) {
     try {
       const mtime = (0, import_fs98.statSync)(legacyPath).mtimeMs;
@@ -29213,8 +29213,8 @@ function readAutopilotStateForHud(directory) {
   }
 }
 var import_fs98, import_path112, MAX_STATE_AGE_MS2;
-var init_omc_state = __esm({
-  "src/hud/omc-state.ts"() {
+var init_omg_state = __esm({
+  "src/hud/omg-state.ts"() {
     "use strict";
     import_fs98 = require("fs");
     import_path112 = require("path");
@@ -29226,9 +29226,9 @@ var init_omc_state = __esm({
 // src/hud/custom-rate-provider.ts
 function getCachePath2() {
   return (0, import_path113.join)(
-    getClaudeConfigDir(),
+    getGeminiConfigDir(),
     "plugins",
-    "oh-my-claudecode",
+    "oh-my-gemini-cli",
     ".custom-rate-cache.json"
   );
 }
@@ -30431,10 +30431,10 @@ function settingsFileHasApiKey(filePath) {
 }
 function detectApiKeySource(cwd2) {
   if (cwd2) {
-    const projectSettings = (0, import_path114.join)(cwd2, ".claude", "settings.local.json");
+    const projectSettings = (0, import_path114.join)(cwd2, ".gemini", "settings.local.json");
     if (settingsFileHasApiKey(projectSettings)) return "project";
   }
-  const globalSettings = (0, import_path114.join)(getClaudeConfigDir(), "settings.json");
+  const globalSettings = (0, import_path114.join)(getGeminiConfigDir(), "settings.json");
   if (settingsFileHasApiKey(globalSettings)) return "global";
   if (process.env.ANTHROPIC_API_KEY) return "env";
   return null;
@@ -30624,10 +30624,10 @@ async function render(context, config2) {
   if (enabledElements.profile && context.profileName) {
     gitElements.push(bold(`profile:${context.profileName}`));
   }
-  if (enabledElements.omcLabel) {
-    const versionTag = context.omcVersion ? `#${context.omcVersion}` : "";
+  if (enabledElements.omgLabel) {
+    const versionTag = context.omgVersion ? `#${context.omgVersion}` : "";
     if (context.updateAvailable) {
-      elements.push(bold(`[OMC${versionTag}] -> ${context.updateAvailable} omc update`));
+      elements.push(bold(`[OMC${versionTag}] -> ${context.updateAvailable} omg update`));
     } else {
       elements.push(bold(`[OMC${versionTag}]`));
     }
@@ -30888,7 +30888,7 @@ async function main2(watchMode = false, skipInit = false) {
         return;
       }
     } else {
-      console.log("[OMC] run /omc-setup to install properly");
+      console.log("[OMC] run /omg-setup to install properly");
       return;
     }
     const cwd2 = resolveToWorktreeRoot(stdin.cwd || void 0);
@@ -30920,22 +30920,22 @@ async function main2(watchMode = false, skipInit = false) {
     }
     const rateLimitsResult = config2.elements.rateLimits !== false ? await getUsage() : null;
     const customBuckets = config2.rateLimitsProvider?.type === "custom" ? await executeCustomProvider(config2.rateLimitsProvider) : null;
-    let omcVersion = null;
+    let omgVersion = null;
     let updateAvailable = null;
     try {
-      omcVersion = getRuntimePackageVersion();
-      if (omcVersion === "unknown") omcVersion = null;
+      omgVersion = getRuntimePackageVersion();
+      if (omgVersion === "unknown") omgVersion = null;
     } catch (error2) {
       if (process.env.OMC_DEBUG) {
         console.error("[HUD] Version detection error:", error2 instanceof Error ? error2.message : error2);
       }
     }
     try {
-      const updateCacheFile = (0, import_path115.join)((0, import_os27.homedir)(), ".omc", "update-check.json");
+      const updateCacheFile = (0, import_path115.join)((0, import_os27.homedir)(), ".omg", "update-check.json");
       await (0, import_promises21.access)(updateCacheFile);
       const content = await (0, import_promises21.readFile)(updateCacheFile, "utf-8");
       const cached2 = JSON.parse(content);
-      if (cached2?.latestVersion && omcVersion && compareVersions2(omcVersion, cached2.latestVersion) < 0) {
+      if (cached2?.latestVersion && omgVersion && compareVersions2(omgVersion, cached2.latestVersion) < 0) {
         updateAvailable = cached2.latestVersion;
       }
     } catch (error2) {
@@ -30946,11 +30946,11 @@ async function main2(watchMode = false, skipInit = false) {
     let sessionSummary = null;
     const sessionSummaryEnabled = config2.elements.sessionSummary ?? false;
     if (sessionSummaryEnabled && resolvedTranscriptPath && currentSessionId) {
-      const omcStateDir = (0, import_path115.join)(getOmcRoot(cwd2), "state");
-      sessionSummary = readSessionSummary(omcStateDir, currentSessionId);
+      const omgStateDir = (0, import_path115.join)(getOmcRoot(cwd2), "state");
+      sessionSummary = readSessionSummary(omgStateDir, currentSessionId);
       const shouldSpawn = !sessionSummary?.generatedAt || Date.now() - new Date(sessionSummary.generatedAt).getTime() > 6e4;
       if (shouldSpawn) {
-        spawnSessionSummaryScript(resolvedTranscriptPath, omcStateDir, currentSessionId);
+        spawnSessionSummaryScript(resolvedTranscriptPath, omgStateDir, currentSessionId);
       }
     }
     const missionBoardEnabled = config2.missionBoard?.enabled ?? config2.elements.missionBoard ?? false;
@@ -30978,7 +30978,7 @@ async function main2(watchMode = false, skipInit = false) {
       ),
       lastRequestTokenUsage: transcriptData.lastRequestTokenUsage || null,
       sessionTotalTokens: transcriptData.sessionTotalTokens ?? null,
-      omcVersion,
+      omgVersion,
       updateAvailable,
       toolCallCount: transcriptData.toolCallCount,
       agentCallCount: transcriptData.agentCallCount,
@@ -31000,9 +31000,9 @@ async function main2(watchMode = false, skipInit = false) {
     }
     if (config2.contextLimitWarning.autoCompact && context.contextPercent >= config2.contextLimitWarning.threshold) {
       try {
-        const omcStateDir = (0, import_path115.join)(getOmcRoot(cwd2), "state");
-        (0, import_fs101.mkdirSync)(omcStateDir, { recursive: true });
-        const triggerFile = (0, import_path115.join)(omcStateDir, "compact-requested.json");
+        const omgStateDir = (0, import_path115.join)(getOmcRoot(cwd2), "state");
+        (0, import_fs101.mkdirSync)(omgStateDir, { recursive: true });
+        const triggerFile = (0, import_path115.join)(omgStateDir, "compact-requested.json");
         (0, import_fs101.writeFileSync)(
           triggerFile,
           JSON.stringify({
@@ -31029,7 +31029,7 @@ async function main2(watchMode = false, skipInit = false) {
   } catch (error2) {
     const isInstallError = error2 instanceof Error && (error2.message.includes("ENOENT") || error2.message.includes("MODULE_NOT_FOUND") || error2.message.includes("Cannot find module"));
     if (isInstallError) {
-      console.log("[OMC] run /omc-setup to install properly");
+      console.log("[OMC] run /omg-setup to install properly");
     } else {
       console.log("[OMC] HUD error - check stderr");
       console.error(
@@ -31046,7 +31046,7 @@ var init_hud = __esm({
     init_stdin();
     init_transcript();
     init_state2();
-    init_omc_state();
+    init_omg_state();
     init_usage_api();
     init_custom_rate_provider();
     init_render();
@@ -31067,7 +31067,7 @@ var init_hud = __esm({
   }
 });
 
-// ../../home/bellman/Workspace/oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/commander/esm.mjs
+// ../../home/bellman/Workspace/oh-my-gemini-cli.omx-worktrees/launch-feat-refactor-skills/node_modules/commander/esm.mjs
 var import_index = __toESM(require_commander(), 1);
 var {
   program,
@@ -31084,7 +31084,7 @@ var {
   Help
 } = import_index.default;
 
-// ../../home/bellman/Workspace/oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/chalk/source/vendor/ansi-styles/index.js
+// ../../home/bellman/Workspace/oh-my-gemini-cli.omx-worktrees/launch-feat-refactor-skills/node_modules/chalk/source/vendor/ansi-styles/index.js
 var ANSI_BACKGROUND_OFFSET = 10;
 var wrapAnsi16 = (offset = 0) => (code) => `\x1B[${code + offset}m`;
 var wrapAnsi256 = (offset = 0) => (code) => `\x1B[${38 + offset};5;${code}m`;
@@ -31270,7 +31270,7 @@ function assembleStyles() {
 var ansiStyles = assembleStyles();
 var ansi_styles_default = ansiStyles;
 
-// ../../home/bellman/Workspace/oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/chalk/source/vendor/supports-color/index.js
+// ../../home/bellman/Workspace/oh-my-gemini-cli.omx-worktrees/launch-feat-refactor-skills/node_modules/chalk/source/vendor/supports-color/index.js
 var import_node_process = __toESM(require("node:process"), 1);
 var import_node_os = __toESM(require("node:os"), 1);
 var import_node_tty = __toESM(require("node:tty"), 1);
@@ -31402,7 +31402,7 @@ var supportsColor = {
 };
 var supports_color_default = supportsColor;
 
-// ../../home/bellman/Workspace/oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/chalk/source/utilities.js
+// ../../home/bellman/Workspace/oh-my-gemini-cli.omx-worktrees/launch-feat-refactor-skills/node_modules/chalk/source/utilities.js
 function stringReplaceAll(string3, substring, replacer) {
   let index = string3.indexOf(substring);
   if (index === -1) {
@@ -31432,7 +31432,7 @@ function stringEncaseCRLFWithFirstIndex(string3, prefix, postfix, index) {
   return returnValue;
 }
 
-// ../../home/bellman/Workspace/oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/chalk/source/index.js
+// ../../home/bellman/Workspace/oh-my-gemini-cli.omx-worktrees/launch-feat-refactor-skills/node_modules/chalk/source/index.js
 var { stdout: stdoutColor, stderr: stderrColor } = supports_color_default;
 var GENERATOR = /* @__PURE__ */ Symbol("GENERATOR");
 var STYLER = /* @__PURE__ */ Symbol("STYLER");
@@ -31641,7 +31641,7 @@ function toSdkMcpFormat(servers) {
   return result;
 }
 
-// ../../home/bellman/Workspace/oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/@anthropic-ai/claude-agent-sdk/sdk.mjs
+// ../../home/bellman/Workspace/oh-my-gemini-cli.omx-worktrees/launch-feat-refactor-skills/node_modules/@anthropic-ai/gemini-agent-sdk/sdk.mjs
 var import_path4 = require("path");
 var import_url2 = require("url");
 var import_events = require("events");
@@ -38346,8 +38346,8 @@ function shouldShowDebugMessage(message, filter) {
   const categories = extractDebugCategories(message);
   return shouldShowDebugCategories(categories, filter);
 }
-function getClaudeConfigHomeDir() {
-  return process.env.CLAUDE_CONFIG_DIR ?? (0, import_path5.join)((0, import_os2.homedir)(), ".claude");
+function getGeminiConfigHomeDir() {
+  return process.env.CLAUDE_CONFIG_DIR ?? (0, import_path5.join)((0, import_os2.homedir)(), ".gemini");
 }
 function isEnvTruthy(envVar) {
   if (!envVar)
@@ -38649,7 +38649,7 @@ function logForDebugging(message, { level } = {
   getDebugWriter().write(output);
 }
 function getDebugLogPath() {
-  return process.env.CLAUDE_CODE_DEBUG_LOGS_DIR ?? (0, import_path6.join)(getClaudeConfigHomeDir(), "debug", `${getSessionId()}.txt`);
+  return process.env.CLAUDE_CODE_DEBUG_LOGS_DIR ?? (0, import_path6.join)(getGeminiConfigHomeDir(), "debug", `${getSessionId()}.txt`);
 }
 var updateLatestDebugLogSymlink = memoize_default(() => {
   if (process.argv[2] === "--ripgrep") {
@@ -51260,7 +51260,7 @@ function createSdkMcpServer(options) {
   };
 }
 
-// ../../home/bellman/Workspace/oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/zod/v3/external.js
+// ../../home/bellman/Workspace/oh-my-gemini-cli.omx-worktrees/launch-feat-refactor-skills/node_modules/zod/v3/external.js
 var external_exports = {};
 __export(external_exports, {
   BRAND: () => BRAND,
@@ -51372,7 +51372,7 @@ __export(external_exports, {
   void: () => voidType2
 });
 
-// ../../home/bellman/Workspace/oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/zod/v3/helpers/util.js
+// ../../home/bellman/Workspace/oh-my-gemini-cli.omx-worktrees/launch-feat-refactor-skills/node_modules/zod/v3/helpers/util.js
 var util2;
 (function(util3) {
   util3.assertEqual = (_) => {
@@ -51506,7 +51506,7 @@ var getParsedType3 = (data) => {
   }
 };
 
-// ../../home/bellman/Workspace/oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/zod/v3/ZodError.js
+// ../../home/bellman/Workspace/oh-my-gemini-cli.omx-worktrees/launch-feat-refactor-skills/node_modules/zod/v3/ZodError.js
 var ZodIssueCode2 = util2.arrayToEnum([
   "invalid_type",
   "invalid_literal",
@@ -51624,7 +51624,7 @@ ZodError3.create = (issues) => {
   return error2;
 };
 
-// ../../home/bellman/Workspace/oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/zod/v3/locales/en.js
+// ../../home/bellman/Workspace/oh-my-gemini-cli.omx-worktrees/launch-feat-refactor-skills/node_modules/zod/v3/locales/en.js
 var errorMap2 = (issue2, _ctx) => {
   let message;
   switch (issue2.code) {
@@ -51727,7 +51727,7 @@ var errorMap2 = (issue2, _ctx) => {
 };
 var en_default3 = errorMap2;
 
-// ../../home/bellman/Workspace/oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/zod/v3/errors.js
+// ../../home/bellman/Workspace/oh-my-gemini-cli.omx-worktrees/launch-feat-refactor-skills/node_modules/zod/v3/errors.js
 var overrideErrorMap2 = en_default3;
 function setErrorMap(map) {
   overrideErrorMap2 = map;
@@ -51736,7 +51736,7 @@ function getErrorMap2() {
   return overrideErrorMap2;
 }
 
-// ../../home/bellman/Workspace/oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/zod/v3/helpers/parseUtil.js
+// ../../home/bellman/Workspace/oh-my-gemini-cli.omx-worktrees/launch-feat-refactor-skills/node_modules/zod/v3/helpers/parseUtil.js
 var makeIssue2 = (params) => {
   const { data, path: path20, errorMaps, issueData } = params;
   const fullPath = [...path20, ...issueData.path || []];
@@ -51846,14 +51846,14 @@ var isDirty2 = (x) => x.status === "dirty";
 var isValid2 = (x) => x.status === "valid";
 var isAsync2 = (x) => typeof Promise !== "undefined" && x instanceof Promise;
 
-// ../../home/bellman/Workspace/oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/zod/v3/helpers/errorUtil.js
+// ../../home/bellman/Workspace/oh-my-gemini-cli.omx-worktrees/launch-feat-refactor-skills/node_modules/zod/v3/helpers/errorUtil.js
 var errorUtil2;
 (function(errorUtil3) {
   errorUtil3.errToObj = (message) => typeof message === "string" ? { message } : message || {};
   errorUtil3.toString = (message) => typeof message === "string" ? message : message?.message;
 })(errorUtil2 || (errorUtil2 = {}));
 
-// ../../home/bellman/Workspace/oh-my-claudecode.omx-worktrees/launch-feat-refactor-skills/node_modules/zod/v3/types.js
+// ../../home/bellman/Workspace/oh-my-gemini-cli.omx-worktrees/launch-feat-refactor-skills/node_modules/zod/v3/types.js
 var ParseInputLazyPath2 = class {
   constructor(parent, value, path20, key) {
     this._cachedPath = [];
@@ -55953,7 +55953,7 @@ var LspClientManager = class {
   /**
    * Register process exit/signal handlers to kill all spawned LSP server processes.
    * Prevents orphaned language server processes (e.g. kotlin-language-server)
-   * when the MCP bridge process exits or a claude session ends.
+   * when the MCP bridge process exits or a gemini session ends.
    */
   registerCleanupHandlers() {
     const forceKillAll = () => {
@@ -56174,7 +56174,7 @@ var LspClientManager = class {
     this.evictIdleClients();
   }
 };
-var LSP_CLIENT_MANAGER_KEY = "__omcLspClientManager";
+var LSP_CLIENT_MANAGER_KEY = "__omgLspClientManager";
 var globalWithLspClientManager = globalThis;
 var lspClientManager = globalWithLspClientManager[LSP_CLIENT_MANAGER_KEY] ?? (globalWithLspClientManager[LSP_CLIENT_MANAGER_KEY] = new LspClientManager());
 
@@ -58369,8 +58369,8 @@ function formatSkillOutput(skills) {
   return lines.join("\n");
 }
 var loadLocalTool = {
-  name: "load_omc_skills_local",
-  description: "Load and list skills from the project-local .omc/skills/ directory. Returns skill metadata (id, name, description, triggers, tags) for all discovered project-scoped skills.",
+  name: "load_omg_skills_local",
+  description: "Load and list skills from the project-local .omg/skills/ directory. Returns skill metadata (id, name, description, triggers, tags) for all discovered project-scoped skills.",
   schema: loadLocalSchema,
   handler: async (args) => {
     const projectRoot = args.projectRoot ? validateProjectRoot(args.projectRoot) : process.cwd();
@@ -58387,8 +58387,8 @@ ${formatSkillOutput(projectSkills)}`
   }
 };
 var loadGlobalTool = {
-  name: "load_omc_skills_global",
-  description: "Load and list skills from global user directories (~/.omc/skills/ and ~/.claude/skills/omc-learned/). Returns skill metadata for all discovered user-scoped skills.",
+  name: "load_omg_skills_global",
+  description: "Load and list skills from global user directories (~/.omg/skills/ and ~/.gemini/skills/omg-learned/). Returns skill metadata for all discovered user-scoped skills.",
   schema: loadGlobalSchema,
   handler: async (_args) => {
     const allSkills = loadAllSkills(null);
@@ -58404,7 +58404,7 @@ ${formatSkillOutput(userSkills)}`
   }
 };
 var listSkillsTool = {
-  name: "list_omc_skills",
+  name: "list_omg_skills",
   description: "List all available skills (both project-local and global user skills). Project skills take priority over user skills with the same ID.",
   schema: listSkillsSchema,
   handler: async (args) => {
@@ -58427,7 +58427,7 @@ ${formatSkillOutput(projectSkills)}
 ${formatSkillOutput(userSkills)}`;
     }
     if (skills.length === 0) {
-      output = "## No Skills Found\n\nNo skill files were discovered in any searched directories.\n\nSearched:\n- Project: .omc/skills/\n- Global: ~/.omc/skills/\n- Legacy: ~/.claude/skills/omc-learned/";
+      output = "## No Skills Found\n\nNo skill files were discovered in any searched directories.\n\nSearched:\n- Project: .omg/skills/\n- Global: ~/.omg/skills/\n- Legacy: ~/.gemini/skills/omg-learned/";
     }
     return {
       content: [{
@@ -58515,10 +58515,10 @@ var EXECUTION_MODES = [
 var STATE_TOOL_MODES = [
   ...EXECUTION_MODES,
   "ralplan",
-  "omc-teams",
+  "omg-teams",
   "deep-interview"
 ];
-var EXTRA_STATE_ONLY_MODES = ["ralplan", "omc-teams", "deep-interview"];
+var EXTRA_STATE_ONLY_MODES = ["ralplan", "omg-teams", "deep-interview"];
 var CANCEL_SIGNAL_TTL_MS = 3e4;
 function readTeamNamesFromStateFile(statePath) {
   if (!(0, import_fs18.existsSync)(statePath)) return [];
@@ -59335,10 +59335,10 @@ function getNotepadPath(directory) {
   return (0, import_path23.join)(getOmcRoot(directory), NOTEPAD_FILENAME);
 }
 function initNotepad(directory) {
-  const omcDir = getOmcRoot(directory);
-  if (!(0, import_fs20.existsSync)(omcDir)) {
+  const omgDir = getOmcRoot(directory);
+  if (!(0, import_fs20.existsSync)(omgDir)) {
     try {
-      (0, import_fs20.mkdirSync)(omcDir, { recursive: true });
+      (0, import_fs20.mkdirSync)(omgDir, { recursive: true });
     } catch {
       return false;
     }
@@ -59871,7 +59871,7 @@ var import_path25 = require("path");
 // src/hooks/rules-injector/constants.ts
 var import_path24 = require("path");
 var import_os6 = require("os");
-var OMC_STORAGE_DIR = (0, import_path24.join)((0, import_os6.homedir)(), ".omc");
+var OMC_STORAGE_DIR = (0, import_path24.join)((0, import_os6.homedir)(), ".omg");
 var RULES_INJECTOR_STORAGE = (0, import_path24.join)(OMC_STORAGE_DIR, "rules-injector");
 
 // src/hooks/project-memory/storage.ts
@@ -59903,9 +59903,9 @@ async function loadProjectMemory(projectRoot) {
 }
 async function saveProjectMemory(projectRoot, memory) {
   const memoryPath = getMemoryPath(projectRoot);
-  const omcDir = import_path26.default.dirname(memoryPath);
+  const omgDir = import_path26.default.dirname(memoryPath);
   try {
-    await import_promises2.default.mkdir(omcDir, { recursive: true });
+    await import_promises2.default.mkdir(omgDir, { recursive: true });
     await atomicWriteJson(memoryPath, memory);
   } catch (error2) {
     console.error("Failed to save project memory:", error2);
@@ -60320,8 +60320,8 @@ var import_readline2 = require("readline");
 init_worktree_paths();
 var DEFAULT_LIMIT = 10;
 var DEFAULT_CONTEXT_CHARS = 120;
-function getClaudeConfigDir2() {
-  return process.env.CLAUDE_CONFIG_DIR || (0, import_path31.join)((0, import_os7.homedir)(), ".claude");
+function getGeminiConfigDir2() {
+  return process.env.CLAUDE_CONFIG_DIR || (0, import_path31.join)((0, import_os7.homedir)(), ".gemini");
 }
 function compactWhitespace(text) {
   return text.replace(/\s+/g, " ").trim();
@@ -60367,8 +60367,8 @@ function getMainRepoRoot(projectRoot) {
     return null;
   }
 }
-function getClaudeWorktreeParent(projectRoot) {
-  const marker = `${(0, import_path31.normalize)("/.claude/worktrees/")}`;
+function getGeminiWorktreeParent(projectRoot) {
+  const marker = `${(0, import_path31.normalize)("/.gemini/worktrees/")}`;
   const normalizedRoot = (0, import_path31.normalize)(projectRoot);
   const idx = normalizedRoot.indexOf(marker);
   if (idx === -1) return null;
@@ -60415,45 +60415,45 @@ function uniqueSortedTargets(targets) {
   });
 }
 function buildCurrentProjectTargets(projectRoot) {
-  const claudeDir = getClaudeConfigDir2();
+  const geminiDir = getGeminiConfigDir2();
   const projectRoots = /* @__PURE__ */ new Set([projectRoot]);
   const mainRepoRoot = getMainRepoRoot(projectRoot);
   if (mainRepoRoot) projectRoots.add(mainRepoRoot);
-  const claudeWorktreeParent = getClaudeWorktreeParent(projectRoot);
-  if (claudeWorktreeParent) projectRoots.add(claudeWorktreeParent);
+  const geminiWorktreeParent = getGeminiWorktreeParent(projectRoot);
+  if (geminiWorktreeParent) projectRoots.add(geminiWorktreeParent);
   const targets = [];
   for (const root2 of projectRoots) {
-    const encodedDir = (0, import_path31.join)(claudeDir, "projects", encodeProjectPath(root2));
+    const encodedDir = (0, import_path31.join)(geminiDir, "projects", encodeProjectPath(root2));
     for (const filePath of listJsonlFiles(encodedDir)) {
       targets.push({ filePath, sourceType: "project-transcript" });
     }
   }
-  const legacyTranscriptsDir = (0, import_path31.join)(claudeDir, "transcripts");
+  const legacyTranscriptsDir = (0, import_path31.join)(geminiDir, "transcripts");
   for (const filePath of listJsonlFiles(legacyTranscriptsDir)) {
     targets.push({ filePath, sourceType: "legacy-transcript" });
   }
-  const omcRoot = getOmcRoot(projectRoot);
-  const sessionSummariesDir = (0, import_path31.join)(omcRoot, "sessions");
+  const omgRoot = getOmcRoot(projectRoot);
+  const sessionSummariesDir = (0, import_path31.join)(omgRoot, "sessions");
   for (const filePath of listJsonlFiles(sessionSummariesDir)) {
-    targets.push({ filePath, sourceType: "omc-session-summary" });
+    targets.push({ filePath, sourceType: "omg-session-summary" });
   }
-  const replayDir = (0, import_path31.join)(omcRoot, "state");
+  const replayDir = (0, import_path31.join)(omgRoot, "state");
   if ((0, import_fs23.existsSync)(replayDir)) {
     for (const filePath of listJsonlFiles(replayDir)) {
       if (filePath.includes("agent-replay-") && filePath.endsWith(".jsonl")) {
-        targets.push({ filePath, sourceType: "omc-session-replay" });
+        targets.push({ filePath, sourceType: "omg-session-replay" });
       }
     }
   }
   return uniqueSortedTargets(targets);
 }
 function buildAllProjectTargets() {
-  const claudeDir = getClaudeConfigDir2();
+  const geminiDir = getGeminiConfigDir2();
   const targets = [];
-  for (const filePath of listJsonlFiles((0, import_path31.join)(claudeDir, "projects"))) {
+  for (const filePath of listJsonlFiles((0, import_path31.join)(geminiDir, "projects"))) {
     targets.push({ filePath, sourceType: "project-transcript" });
   }
-  for (const filePath of listJsonlFiles((0, import_path31.join)(claudeDir, "transcripts"))) {
+  for (const filePath of listJsonlFiles((0, import_path31.join)(geminiDir, "transcripts"))) {
     targets.push({ filePath, sourceType: "legacy-transcript" });
   }
   return uniqueSortedTargets(targets);
@@ -60559,7 +60559,7 @@ function buildJsonArtifactEntry(entry, sourceType) {
     return null;
   }
   const timestamp = typeof entry.ended_at === "string" ? entry.ended_at : typeof entry.started_at === "string" ? entry.started_at : typeof entry.timestamp === "string" ? entry.timestamp : void 0;
-  const entryType = sourceType === "omc-session-summary" ? "session-summary" : "session-replay";
+  const entryType = sourceType === "omg-session-summary" ? "session-summary" : "session-replay";
   return {
     sessionId,
     timestamp,
@@ -60569,10 +60569,10 @@ function buildJsonArtifactEntry(entry, sourceType) {
   };
 }
 function buildSearchableEntry(entry, sourceType) {
-  if (sourceType === "project-transcript" || sourceType === "legacy-transcript" || sourceType === "omc-session-replay") {
-    return buildTranscriptEntry(entry) ?? (sourceType === "omc-session-replay" ? buildJsonArtifactEntry(entry, sourceType) : null);
+  if (sourceType === "project-transcript" || sourceType === "legacy-transcript" || sourceType === "omg-session-replay") {
+    return buildTranscriptEntry(entry) ?? (sourceType === "omg-session-replay" ? buildJsonArtifactEntry(entry, sourceType) : null);
   }
-  if (sourceType === "omc-session-summary") {
+  if (sourceType === "omg-session-summary") {
     return buildJsonArtifactEntry(entry, sourceType);
   }
   return null;
@@ -60611,7 +60611,7 @@ function buildScopeMode(project) {
 async function collectMatchesFromFile(target, options) {
   const matches = [];
   const fileMtime = (0, import_fs23.existsSync)(target.filePath) ? (0, import_fs23.statSync)(target.filePath).mtimeMs : 0;
-  if (target.sourceType === "omc-session-summary" && target.filePath.endsWith(".json")) {
+  if (target.sourceType === "omg-session-summary" && target.filePath.endsWith(".json")) {
     try {
       const payload = JSON.parse(await import("fs/promises").then((fs19) => fs19.readFile(target.filePath, "utf-8")));
       const entry = buildSearchableEntry(payload, target.sourceType);
@@ -60702,7 +60702,7 @@ async function searchSessionHistory(rawOptions) {
   const currentProjectRoot = resolveToWorktreeRoot(workingDirectory);
   const scopeMode = buildScopeMode(rawOptions.project);
   const projectFilter = scopeMode === "project" ? rawOptions.project : void 0;
-  const currentProjectRoots = [currentProjectRoot].concat(getMainRepoRoot(currentProjectRoot) ?? []).concat(getClaudeWorktreeParent(currentProjectRoot) ?? []).filter((value, index, arr) => Boolean(value) && arr.indexOf(value) === index);
+  const currentProjectRoots = [currentProjectRoot].concat(getMainRepoRoot(currentProjectRoot) ?? []).concat(getGeminiWorktreeParent(currentProjectRoot) ?? []).filter((value, index, arr) => Boolean(value) && arr.indexOf(value) === index);
   const targets = scopeMode === "all" ? buildAllProjectTargets() : buildCurrentProjectTargets(currentProjectRoot);
   const allMatches = [];
   for (const target of targets) {
@@ -60750,7 +60750,7 @@ var sessionSearchTool = {
     limit: external_exports.number().int().positive().optional().describe("Maximum number of matches to return (default: 10)"),
     sessionId: external_exports.string().optional().describe("Restrict search to a specific session id"),
     since: external_exports.string().optional().describe("Only include matches since a relative duration (e.g. 7d, 24h) or absolute date"),
-    project: external_exports.string().optional().describe('Project filter. Defaults to current project. Use "all" to search across all local Claude projects.'),
+    project: external_exports.string().optional().describe('Project filter. Defaults to current project. Use "all" to search across all local Gemini projects.'),
     caseSensitive: external_exports.boolean().optional().describe("Whether to match case-sensitively (default: false)"),
     contextChars: external_exports.number().int().positive().optional().describe("Approximate snippet context on each side of a match (default: 120)"),
     workingDirectory: external_exports.string().optional().describe("Working directory used to determine the current project scope")
@@ -60779,7 +60779,7 @@ var sessionSearchTool = {
 // src/tools/trace-tools.ts
 var REPLAY_PREFIX2 = "agent-replay-";
 function findLatestSessionId(directory) {
-  const stateDir = (0, import_path32.join)(directory, ".omc", "state");
+  const stateDir = (0, import_path32.join)(directory, ".omg", "state");
   try {
     const files = (0, import_fs24.readdirSync)(stateDir).filter((f) => f.startsWith(REPLAY_PREFIX2) && f.endsWith(".jsonl")).map((f) => ({
       name: f,
@@ -61134,12 +61134,12 @@ init_worktree_paths();
 var import_fs25 = require("fs");
 var import_path33 = require("path");
 init_worktree_paths();
-var CONFIG_FILE_NAME = ".omc-config.json";
+var CONFIG_FILE_NAME = ".omg-config.json";
 function isSharedMemoryEnabled() {
   try {
     const configPath = (0, import_path33.join)(
       process.env.HOME || process.env.USERPROFILE || "",
-      ".claude",
+      ".gemini",
       CONFIG_FILE_NAME
     );
     if (!(0, import_fs25.existsSync)(configPath)) return true;
@@ -61176,8 +61176,8 @@ function validateKey(key) {
 }
 function getNamespaceDir(namespace, worktreeRoot) {
   validateNamespace(namespace);
-  const omcRoot = getOmcRoot(worktreeRoot);
-  return (0, import_path33.join)(omcRoot, SHARED_MEMORY_DIR, namespace);
+  const omgRoot = getOmcRoot(worktreeRoot);
+  return (0, import_path33.join)(omgRoot, SHARED_MEMORY_DIR, namespace);
 }
 function getEntryPath(namespace, key, worktreeRoot) {
   validateKey(key);
@@ -61279,8 +61279,8 @@ function deleteEntry(namespace, key, worktreeRoot) {
   }
 }
 function cleanupExpired(namespace, worktreeRoot) {
-  const omcRoot = getOmcRoot(worktreeRoot);
-  const sharedMemDir = (0, import_path33.join)(omcRoot, SHARED_MEMORY_DIR);
+  const omgRoot = getOmcRoot(worktreeRoot);
+  const sharedMemDir = (0, import_path33.join)(omgRoot, SHARED_MEMORY_DIR);
   if (!(0, import_fs25.existsSync)(sharedMemDir)) return { removed: 0, namespaces: [] };
   const namespacesToClean = [];
   if (namespace) {
@@ -61327,8 +61327,8 @@ function cleanupExpired(namespace, worktreeRoot) {
   return { removed, namespaces: cleanedNamespaces };
 }
 function listNamespaces(worktreeRoot) {
-  const omcRoot = getOmcRoot(worktreeRoot);
-  const sharedMemDir = (0, import_path33.join)(omcRoot, SHARED_MEMORY_DIR);
+  const omgRoot = getOmcRoot(worktreeRoot);
+  const sharedMemDir = (0, import_path33.join)(omgRoot, SHARED_MEMORY_DIR);
   if (!(0, import_fs25.existsSync)(sharedMemDir)) return [];
   try {
     const entries = (0, import_fs25.readdirSync)(sharedMemDir, { withFileTypes: true });
@@ -61339,7 +61339,7 @@ function listNamespaces(worktreeRoot) {
 }
 
 // src/tools/shared-memory-tools.ts
-var DISABLED_MSG = "Shared memory is disabled. Set agents.sharedMemory.enabled = true in ~/.claude/.omc-config.json to enable.";
+var DISABLED_MSG = "Shared memory is disabled. Set agents.sharedMemory.enabled = true in ~/.gemini/.omg-config.json to enable.";
 function disabledResponse() {
   return {
     content: [{ type: "text", text: DISABLED_MSG }],
@@ -61569,14 +61569,14 @@ init_atomic_write();
 var InteropConfigSchema = external_exports.object({
   sessionId: external_exports.string(),
   createdAt: external_exports.string(),
-  omcCwd: external_exports.string(),
+  omgCwd: external_exports.string(),
   omxCwd: external_exports.string().optional(),
   status: external_exports.enum(["active", "completed", "failed"])
 });
 var SharedTaskSchema = external_exports.object({
   id: external_exports.string(),
-  source: external_exports.enum(["omc", "omx"]),
-  target: external_exports.enum(["omc", "omx"]),
+  source: external_exports.enum(["omg", "omx"]),
+  target: external_exports.enum(["omg", "omx"]),
   type: external_exports.enum(["analyze", "implement", "review", "test", "custom"]),
   description: external_exports.string(),
   context: external_exports.record(external_exports.unknown()).optional(),
@@ -61589,25 +61589,25 @@ var SharedTaskSchema = external_exports.object({
 });
 var SharedMessageSchema = external_exports.object({
   id: external_exports.string(),
-  source: external_exports.enum(["omc", "omx"]),
-  target: external_exports.enum(["omc", "omx"]),
+  source: external_exports.enum(["omg", "omx"]),
+  target: external_exports.enum(["omg", "omx"]),
   content: external_exports.string(),
   metadata: external_exports.record(external_exports.unknown()).optional(),
   timestamp: external_exports.string(),
   read: external_exports.boolean()
 });
 function getInteropDir(cwd2) {
-  return (0, import_path34.join)(cwd2, ".omc", "state", "interop");
+  return (0, import_path34.join)(cwd2, ".omg", "state", "interop");
 }
-function initInteropSession(sessionId, omcCwd, omxCwd) {
-  const interopDir = getInteropDir(omcCwd);
+function initInteropSession(sessionId, omgCwd, omxCwd) {
+  const interopDir = getInteropDir(omgCwd);
   if (!(0, import_fs26.existsSync)(interopDir)) {
     (0, import_fs26.mkdirSync)(interopDir, { recursive: true });
   }
   const config2 = {
     sessionId,
     createdAt: (/* @__PURE__ */ new Date()).toISOString(),
-    omcCwd,
+    omgCwd,
     omxCwd,
     status: "active"
   };
@@ -61925,7 +61925,7 @@ var interopSendTaskTool = {
   name: "interop_send_task",
   description: "Send a task to the other tool (OMC -> OMX or OMX -> OMC) for execution. The task will be queued in shared state for the target tool to pick up.",
   schema: {
-    target: external_exports.enum(["omc", "omx"]).describe("Target tool to send the task to"),
+    target: external_exports.enum(["omg", "omx"]).describe("Target tool to send the task to"),
     type: external_exports.enum(["analyze", "implement", "review", "test", "custom"]).describe("Type of task"),
     description: external_exports.string().describe("Task description"),
     context: external_exports.record(external_exports.string(), external_exports.unknown()).optional().describe("Additional context data"),
@@ -61936,7 +61936,7 @@ var interopSendTaskTool = {
     const { target, type, description, context, files, workingDirectory } = args;
     try {
       const cwd2 = workingDirectory || process.cwd();
-      const source = target === "omc" ? "omx" : "omc";
+      const source = target === "omg" ? "omx" : "omg";
       const task = addSharedTask(cwd2, {
         source,
         target,
@@ -61976,7 +61976,7 @@ var interopReadResultsTool = {
   name: "interop_read_results",
   description: "Read task results from the shared interop state. Can filter by source tool and status.",
   schema: {
-    source: external_exports.enum(["omc", "omx"]).optional().describe("Filter by source tool"),
+    source: external_exports.enum(["omg", "omx"]).optional().describe("Filter by source tool"),
     status: external_exports.enum(["pending", "in_progress", "completed", "failed"]).optional().describe("Filter by task status"),
     limit: external_exports.number().optional().describe("Maximum number of tasks to return (default: 10)"),
     workingDirectory: external_exports.string().optional().describe("Working directory (defaults to cwd)")
@@ -62045,7 +62045,7 @@ var interopSendMessageTool = {
   name: "interop_send_message",
   description: "Send a message to the other tool for informational purposes or coordination.",
   schema: {
-    target: external_exports.enum(["omc", "omx"]).describe("Target tool to send the message to"),
+    target: external_exports.enum(["omg", "omx"]).describe("Target tool to send the message to"),
     content: external_exports.string().describe("Message content"),
     metadata: external_exports.record(external_exports.string(), external_exports.unknown()).optional().describe("Additional metadata"),
     workingDirectory: external_exports.string().optional().describe("Working directory (defaults to cwd)")
@@ -62054,7 +62054,7 @@ var interopSendMessageTool = {
     const { target, content, metadata, workingDirectory } = args;
     try {
       const cwd2 = workingDirectory || process.cwd();
-      const source = target === "omc" ? "omx" : "omc";
+      const source = target === "omg" ? "omx" : "omg";
       const message = addSharedMessage(cwd2, {
         source,
         target,
@@ -62088,7 +62088,7 @@ var interopReadMessagesTool = {
   name: "interop_read_messages",
   description: "Read messages from the shared interop state. Can filter by source tool and read status.",
   schema: {
-    source: external_exports.enum(["omc", "omx"]).optional().describe("Filter by source tool"),
+    source: external_exports.enum(["omg", "omx"]).optional().describe("Filter by source tool"),
     unreadOnly: external_exports.boolean().optional().describe("Show only unread messages (default: false)"),
     limit: external_exports.number().optional().describe("Maximum number of messages to return (default: 10)"),
     markAsRead: external_exports.boolean().optional().describe("Mark retrieved messages as read (default: false)"),
@@ -62209,7 +62209,7 @@ var interopSendOmxMessageTool = {
   description: "Send a message to an OMX team worker mailbox using the native omx format. Supports direct messages and broadcasts.",
   schema: {
     teamName: external_exports.string().describe("OMX team name"),
-    fromWorker: external_exports.string().describe('Sender worker name (e.g., "omc-bridge")'),
+    fromWorker: external_exports.string().describe('Sender worker name (e.g., "omg-bridge")'),
     toWorker: external_exports.string().describe("Target worker name (ignored if broadcast=true)"),
     body: external_exports.string().describe("Message body"),
     broadcast: external_exports.boolean().optional().describe("Broadcast to all workers (default: false)"),
@@ -62709,7 +62709,7 @@ var deepinitManifestTool = {
   }
 };
 
-// src/mcp/omc-tools-server.ts
+// src/mcp/omg-tools-server.ts
 function tagCategory(tools, category) {
   return tools.map((t) => ({ ...t, category }));
 }
@@ -62770,12 +62770,12 @@ var sdkTools = enabledTools.map(
     async (args) => await t.handler(args)
   )
 );
-var omcToolsServer = createSdkMcpServer({
+var omgToolsServer = createSdkMcpServer({
   name: "t",
   version: "1.0.0",
   tools: sdkTools
 });
-var omcToolNames = enabledTools.map((t) => `mcp__t__${t.name}`);
+var omgToolNames = enabledTools.map((t) => `mcp__t__${t.name}`);
 var toolCategoryMap = new Map(
   allTools.map((t) => [`mcp__t__${t.name}`, t.category])
 );
@@ -62805,8 +62805,8 @@ function getOmcToolNames(options) {
   if (!includeInterop) excludedCategories.add(TOOL_CATEGORIES.INTEROP);
   if (!includeSharedMemory) excludedCategories.add(TOOL_CATEGORIES.SHARED_MEMORY);
   if (!includeDeepinit) excludedCategories.add(TOOL_CATEGORIES.DEEPINIT);
-  if (excludedCategories.size === 0) return [...omcToolNames];
-  return omcToolNames.filter((name) => {
+  if (excludedCategories.size === 0) return [...omgToolNames];
+  return omgToolNames.filter((name) => {
     const category = toolCategoryMap.get(name);
     return !category || !excludedCategories.has(category);
   });
@@ -62852,19 +62852,19 @@ You ARE the planner. You ARE NOT an implementer. You DO NOT write code. You DO N
 **TOOL RESTRICTIONS (SYSTEM-ENFORCED):**
 | Tool | Allowed | Blocked |
 |------|---------|---------|
-| Write/Edit | \`.omc/**/*.md\` ONLY | Everything else |
+| Write/Edit | \`.omg/**/*.md\` ONLY | Everything else |
 | Read | All files | - |
 | Bash | Research commands only | Implementation commands |
 | Task | explore, document-specialist | - |
 
-**IF YOU TRY TO WRITE/EDIT OUTSIDE \`.omc/\`:**
+**IF YOU TRY TO WRITE/EDIT OUTSIDE \`.omg/\`:**
 - System will BLOCK your action
 - You will receive an error
 - DO NOT retry - you are not supposed to implement
 
 **YOUR ONLY WRITABLE PATHS:**
-- \`.omc/plans/*.md\` - Final work plans
-- \`.omc/drafts/*.md\` - Working drafts during interview
+- \`.omg/plans/*.md\` - Final work plans
+- \`.omg/drafts/*.md\` - Working drafts during interview
 
 **WHEN USER ASKS YOU TO IMPLEMENT:**
 REFUSE. Say: "I'm a planner. I create work plans, not implementations. Start implementing after I finish planning."
@@ -63440,7 +63440,7 @@ If ANY box is unchecked, CONTINUE WORKING.
 You may ONLY stop when:
 1. **100% Complete**: Every single task is marked 'completed'
 2. **User Override**: User explicitly says "stop", "cancel", or "that's enough"
-3. **Clean Exit**: You run \`/oh-my-claudecode:cancel\` to properly exit the active mode and clean up state files
+3. **Clean Exit**: You run \`/oh-my-gemini-cli:cancel\` to properly exit the active mode and clean up state files
 
 ### ANTI-STOPPING MECHANISMS
 
@@ -63610,12 +63610,12 @@ function isHeavyMode(keywordType) {
 
 // src/hooks/keyword-detector/index.ts
 var KEYWORD_PATTERNS = {
-  cancel: /\b(cancelomc|stopomc)\b/i,
+  cancel: /\b(cancelomg|stopomg)\b/i,
   ralph: /\b(ralph)\b(?!-)/i,
   autopilot: /\b(autopilot|auto[\s-]?pilot|fullsend|full\s+auto)\b/i,
   ultrawork: /\b(ultrawork|ulw)\b/i,
   // Team keyword detection disabled — team mode is now explicit-only via /team skill.
-  // This prevents infinite spawning when Claude workers receive prompts containing "team".
+  // This prevents infinite spawning when Gemini workers receive prompts containing "team".
   team: /(?!x)x/,
   // never-match placeholder (type system requires the key)
   ralplan: /\b(ralplan)\b/i,
@@ -63626,7 +63626,7 @@ var KEYWORD_PATTERNS = {
   deepsearch: /\b(deepsearch)\b|\bsearch\s+the\s+codebase\b|\bfind\s+in\s+(the\s+)?codebase\b/i,
   analyze: /\b(deep[\s-]?analyze|deepanalyze)\b/i,
   "deep-interview": /\b(deep[\s-]interview|ouroboros)\b/i,
-  ccg: /\b(ccg|claude-codex-gemini)\b/i,
+  ccg: /\b(ccg|gemini-codex-gemini)\b/i,
   codex: /\b(ask|use|delegate\s+to)\s+(codex|gpt)\b/i,
   gemini: /\b(ask|use|delegate\s+to)\s+gemini\b/i
 };
@@ -63841,25 +63841,25 @@ var import_fs69 = require("fs");
 var import_path82 = require("path");
 init_worktree_paths();
 
-// src/hooks/omc-orchestrator/index.ts
+// src/hooks/omg-orchestrator/index.ts
 var path12 = __toESM(require("path"), 1);
 var import_child_process14 = require("child_process");
 init_worktree_paths();
 init_paths();
 var import_fs42 = require("fs");
 
-// src/hooks/omc-orchestrator/constants.ts
+// src/hooks/omg-orchestrator/constants.ts
 var ALLOWED_PATH_PATTERNS = [
-  /^\.omc\//,
-  // .omc/**
-  /^\.claude\//,
-  // .claude/** (local)
-  /^~?\/\.claude\//,
-  // ~/.claude/** (global)
-  /\/\.claude\//,
-  // any /.claude/ path
+  /^\.omg\//,
+  // .omg/**
+  /^\.gemini\//,
+  // .gemini/** (local)
+  /^~?\/\.gemini\//,
+  // ~/.gemini/** (global)
+  /\/\.gemini\//,
+  // any /.gemini/ path
   /CLAUDE\.md$/,
-  // **/CLAUDE.md
+  // **/GEMINI.md
   /AGENTS\.md$/
   // **/AGENTS.md
 ];
@@ -63910,7 +63910,7 @@ var DIRECT_WORK_REMINDER = `
 
 [SYSTEM REMINDER - DELEGATION REQUIRED]
 
-You just performed direct file modifications outside \`.omc/\`.
+You just performed direct file modifications outside \`.omg/\`.
 
 **You are an ORCHESTRATOR, not an IMPLEMENTER.**
 
@@ -63920,8 +63920,8 @@ As an orchestrator, you should:
 - **COORDINATE** multiple tasks and ensure completion
 
 You should NOT:
-- Write code directly (except for \`.omc/\` files like plans and notepads)
-- Make direct file edits outside \`.omc/\`
+- Write code directly (except for \`.omg/\` files like plans and notepads)
+- Make direct file edits outside \`.omg/\`
 - Implement features yourself
 
 **If you need to make changes:**
@@ -63939,7 +63939,7 @@ var ORCHESTRATOR_DELEGATION_REQUIRED = `
 
 **STOP. YOU ARE VIOLATING ORCHESTRATOR PROTOCOL.**
 
-You (coordinator) are attempting to directly modify a file outside \`.omc/\`.
+You (coordinator) are attempting to directly modify a file outside \`.omg/\`.
 
 **Path attempted:** $FILE_PATH
 
@@ -63953,15 +63953,15 @@ As an ORCHESTRATOR, you MUST:
 3. **COORDINATE** - you orchestrate, you don't implement
 
 **ALLOWED direct file operations:**
-- Files inside \`.omc/\` (plans, notepads, drafts)
-- Files inside \`~/.claude/\` (global config)
-- \`CLAUDE.md\` and \`AGENTS.md\` files
+- Files inside \`.omg/\` (plans, notepads, drafts)
+- Files inside \`~/.gemini/\` (global config)
+- \`GEMINI.md\` and \`AGENTS.md\` files
 - Reading files for verification
 - Running diagnostics/tests
 
 **FORBIDDEN direct file operations:**
 - Writing/editing source code
-- Creating new files outside \`.omc/\`
+- Creating new files outside \`.omg/\`
 - Any implementation work
 
 ---
@@ -64045,7 +64045,7 @@ function getPlanProgress(planPath) {
   }
 }
 
-// src/hooks/omc-orchestrator/audit.ts
+// src/hooks/omg-orchestrator/audit.ts
 var fs9 = __toESM(require("fs"), 1);
 var path11 = __toESM(require("path"), 1);
 init_worktree_paths();
@@ -64065,7 +64065,7 @@ function logAuditEntry(entry) {
   }
 }
 
-// src/hooks/omc-orchestrator/index.ts
+// src/hooks/omg-orchestrator/index.ts
 init_worktree_paths();
 init_paths();
 var enforcementCache = null;
@@ -64076,7 +64076,7 @@ function getEnforcementLevel(directory) {
     return enforcementCache.level;
   }
   const localConfig = path12.join(getOmcRoot(directory), "config.json");
-  const globalConfig2 = path12.join(getClaudeConfigDir(), ".omc-config.json");
+  const globalConfig2 = path12.join(getGeminiConfigDir(), ".omg-config.json");
   let level = "warn";
   for (const configPath of [localConfig, globalConfig2]) {
     if ((0, import_fs42.existsSync)(configPath)) {
@@ -64349,7 +64349,7 @@ ${buildVerificationReminder()}
 // src/hooks/bridge-normalize.ts
 init_worktree_paths();
 var HookInputSchema = external_exports.object({
-  // snake_case fields from Claude Code
+  // snake_case fields from Gemini Code
   tool_name: external_exports.string().optional(),
   tool_input: external_exports.unknown().optional(),
   tool_response: external_exports.unknown().optional(),
@@ -64405,7 +64405,7 @@ var KNOWN_FIELDS = /* @__PURE__ */ new Set([
   "agent_name",
   "agent_type",
   "parent_session_id",
-  // Common extra fields from Claude Code
+  // Common extra fields from Gemini Code
   "input",
   "output",
   "result",
@@ -64735,8 +64735,8 @@ function getTeamStagePrompt(stage) {
   }
 }
 function teamWorkerIdentityFromEnv(env2 = process.env) {
-  const omc = typeof env2.OMC_TEAM_WORKER === "string" ? env2.OMC_TEAM_WORKER.trim() : "";
-  if (omc) return omc;
+  const omg = typeof env2.OMC_TEAM_WORKER === "string" ? env2.OMC_TEAM_WORKER.trim() : "";
+  if (omg) return omg;
   const omx = typeof env2.OMX_TEAM_WORKER === "string" ? env2.OMX_TEAM_WORKER.trim() : "";
   return omx;
 }
@@ -64746,7 +64746,7 @@ function workerBashBlockReason(command) {
     return "Team worker cannot run tmux pane/session orchestration commands.";
   }
   if (WORKER_BLOCKED_TEAM_CLI_PATTERN.test(command)) {
-    return "Team worker cannot run team orchestration commands. Use only `omc team api ... --json`.";
+    return "Team worker cannot run team orchestration commands. Use only `omg team api ... --json`.";
   }
   if (WORKER_BLOCKED_SKILL_PATTERN.test(command)) {
     return "Team worker cannot invoke orchestration skills (`$team`, `$ultrawork`, `$autopilot`, `$ralph`).";
@@ -64951,9 +64951,9 @@ Running directly without heavy agent stacking. Prefix with \`quick:\`, \`simple:
       case "gemini": {
         messages.push(
           `[MAGIC KEYWORD: team]
-User intent: delegate to ${keywordType} CLI workers via omc team CLI.
+User intent: delegate to ${keywordType} CLI workers via omg team CLI.
 Agent type: ${keywordType}. Parse N from user message (default 1).
-Invoke: omc team start --agent ${keywordType} --count N --task "<task from user message>"`
+Invoke: omg team start --agent ${keywordType} --count N --task "<task from user message>"`
         );
         break;
       }
@@ -65252,7 +65252,7 @@ Please continue working on these tasks.
 
 This environment uses a non-standard model provider (AWS Bedrock, Google Vertex AI, or a proxy).
 Do NOT pass the \`model\` parameter on Task/Agent calls. Omit it entirely so agents inherit the parent session's model.
-The CLAUDE.md instruction "Pass model on Task calls: haiku, sonnet, opus" does NOT apply here.
+The GEMINI.md instruction "Pass model on Task calls: haiku, sonnet, opus" does NOT apply here.
 
 </system-reminder>`);
     }
@@ -65366,7 +65366,7 @@ Command blocked: ${command}`
         subagentType
       );
       if (permissionFallback.shouldFallback) {
-        const reason = `[BACKGROUND PERMISSIONS] ${subagentType || "This background agent"} may need ${permissionFallback.missingTools.join(", ")} permissions, but background agents cannot request interactive approval. Re-run without \`run_in_background=true\` or pre-approve ${permissionFallback.missingTools.join(", ")} in Claude Code settings.`;
+        const reason = `[BACKGROUND PERMISSIONS] ${subagentType || "This background agent"} may need ${permissionFallback.missingTools.join(", ")} permissions, but background agents cannot request interactive approval. Re-run without \`run_in_background=true\` or pre-approve ${permissionFallback.missingTools.join(", ")} in Gemini Code settings.`;
         return {
           continue: false,
           reason,
@@ -65385,7 +65385,7 @@ Command blocked: ${command}`
         command
       );
       if (permissionFallback.shouldFallback) {
-        const reason = "[BACKGROUND PERMISSIONS] This Bash command is not auto-approved for background execution. Re-run without `run_in_background=true` or pre-approve the command in Claude Code settings.";
+        const reason = "[BACKGROUND PERMISSIONS] This Bash command is not auto-approved for background execution. Re-run without `run_in_background=true` or pre-approve the command in Gemini Code settings.";
         return {
           continue: false,
           reason,
@@ -65623,7 +65623,7 @@ async function processAutopilot(input) {
   const config2 = loadConfig();
   const context = {
     idea: state.originalIdea,
-    specPath: state.expansion.spec_path || ".omc/autopilot/spec.md",
+    specPath: state.expansion.spec_path || ".omg/autopilot/spec.md",
     planPath: state.planning.plan_path || resolveAutopilotPlanPath(config2),
     openQuestionsPath: resolveOpenQuestionsPlanPath(config2)
   };
@@ -65813,7 +65813,7 @@ async function processHook(hookType, rawInput) {
         const directory = input.directory ?? process.cwd();
         const stateDir = (0, import_path82.join)(
           resolveToWorktreeRoot(directory),
-          ".omc",
+          ".omg",
           "state"
         );
         const { processCodeSimplifier: processCodeSimplifier2 } = await Promise.resolve().then(() => (init_code_simplifier(), code_simplifier_exports));
@@ -65986,7 +65986,7 @@ var THINK_PATTERNS = [...ENGLISH_PATTERNS, ...MULTILINGUAL_PATTERNS];
 // src/hooks/think-mode/switcher.ts
 init_models();
 var HIGH_VARIANT_MAP = {
-  // Claude canonical families
+  // Gemini canonical families
   [CLAUDE_FAMILY_DEFAULTS.SONNET]: CLAUDE_FAMILY_HIGH_VARIANTS.SONNET,
   [CLAUDE_FAMILY_DEFAULTS.OPUS]: CLAUDE_FAMILY_HIGH_VARIANTS.OPUS,
   [CLAUDE_FAMILY_DEFAULTS.HAIKU]: CLAUDE_FAMILY_HIGH_VARIANTS.HAIKU,
@@ -66084,7 +66084,7 @@ function normalizeSkillReference(value) {
   if (!value) return void 0;
   const trimmed = stripOptionalQuotes(value).trim();
   if (!trimmed) return void 0;
-  return trimmed.replace(/^\/oh-my-claudecode:/i, "").replace(/^oh-my-claudecode:/i, "").replace(/^\//, "").trim().toLowerCase() || void 0;
+  return trimmed.replace(/^\/oh-my-gemini-cli:/i, "").replace(/^oh-my-gemini-cli:/i, "").replace(/^\//, "").trim().toLowerCase() || void 0;
 }
 function uniqueStrings(values) {
   const seen = /* @__PURE__ */ new Set();
@@ -66127,7 +66127,7 @@ function renderSkillPipelineGuidance(skillName, pipeline) {
     ...pipeline.nextSkill ? [pipeline.nextSkill] : []
   ]);
   const nextInvocation = pipeline.nextSkill ? [
-    `Skill("oh-my-claudecode:${pipeline.nextSkill}")`,
+    `Skill("oh-my-gemini-cli:${pipeline.nextSkill}")`,
     pipeline.nextSkillArgs ? `with arguments \`${pipeline.nextSkillArgs}\`` : void 0,
     "using the handoff context from this stage"
   ].filter(Boolean).join(" ") : void 0;
@@ -66213,7 +66213,7 @@ function renderSkillResourcesGuidance(skillFilePath) {
 init_model_contract();
 function detectSkillRuntimeAvailability(detector = isCliAvailable) {
   return {
-    claude: detector("claude"),
+    gemini: detector("gemini"),
     codex: detector("codex"),
     gemini: detector("gemini")
   };
@@ -66227,13 +66227,13 @@ function renderDeepInterviewRuntimeGuidance(availability) {
   }
   return [
     "## Provider-Aware Execution Recommendations",
-    "When Phase 5 presents post-interview execution choices, keep the Claude-only defaults above and add these Codex variants because Codex CLI is available:",
+    "When Phase 5 presents post-interview execution choices, keep the Gemini-only defaults above and add these Codex variants because Codex CLI is available:",
     "",
-    '- `/ralplan --architect codex "<spec or task>"` \u2014 Codex handles the architect pass; best for implementation-heavy design review; higher cost than Claude-only ralplan.',
-    '- `/ralplan --critic codex "<spec or task>"` \u2014 Codex handles the critic pass; cheaper than moving the full loop off Claude; strong second-opinion review.',
+    '- `/ralplan --architect codex "<spec or task>"` \u2014 Codex handles the architect pass; best for implementation-heavy design review; higher cost than Gemini-only ralplan.',
+    '- `/ralplan --critic codex "<spec or task>"` \u2014 Codex handles the critic pass; cheaper than moving the full loop off Gemini; strong second-opinion review.',
     '- `/ralph --critic codex "<spec or task>"` \u2014 Ralph still executes normally, but final verification goes through the Codex critic; smallest multi-provider upgrade.',
     "",
-    "If Codex becomes unavailable, briefly note that and fall back to the Claude-only recommendations already listed in Phase 5."
+    "If Codex becomes unavailable, briefly note that and fall back to the Gemini-only recommendations already listed in Phase 5."
   ].join("\n");
 }
 function renderSkillRuntimeGuidance(skillName, availability) {
@@ -66246,7 +66246,7 @@ function renderSkillRuntimeGuidance(skillName, availability) {
 }
 
 // src/hooks/auto-slash-command/executor.ts
-var CLAUDE_CONFIG_DIR3 = getClaudeConfigDir();
+var CLAUDE_CONFIG_DIR3 = getGeminiConfigDir();
 
 // src/hooks/comment-checker/index.ts
 var fs13 = __toESM(require("fs"), 1);
@@ -66262,10 +66262,10 @@ var fs14 = __toESM(require("fs"), 1);
 var import_node_path7 = require("node:path");
 var import_node_os3 = require("node:os");
 init_paths();
-function getClaudeCodeStorageDir() {
-  return (0, import_node_path7.join)(getDataDir(), "claude-code", "storage");
+function getGeminiCLIStorageDir() {
+  return (0, import_node_path7.join)(getDataDir(), "gemini-code", "storage");
 }
-var CLAUDE_CODE_STORAGE = getClaudeCodeStorageDir();
+var CLAUDE_CODE_STORAGE = getGeminiCLIStorageDir();
 var MESSAGE_STORAGE = (0, import_node_path7.join)(CLAUDE_CODE_STORAGE, "message");
 var PART_STORAGE = (0, import_node_path7.join)(CLAUDE_CODE_STORAGE, "part");
 var DEBUG3 = process.env.RECOVERY_DEBUG === "1" || process.env.CONTEXT_LIMIT_RECOVERY_DEBUG === "1" || process.env.SESSION_RECOVERY_DEBUG === "1";
@@ -66288,12 +66288,12 @@ var import_fs75 = require("fs");
 var import_path89 = require("path");
 init_paths();
 var DEFAULT_TASK_TTL_MS = 30 * 60 * 1e3;
-var BACKGROUND_TASKS_DIR = (0, import_path89.join)(getClaudeConfigDir(), ".omc", "background-tasks");
+var BACKGROUND_TASKS_DIR = (0, import_path89.join)(getGeminiConfigDir(), ".omg", "background-tasks");
 
 // src/hooks/directory-readme-injector/constants.ts
 var import_node_path8 = require("node:path");
 var import_node_os4 = require("node:os");
-var OMC_STORAGE_DIR2 = (0, import_node_path8.join)((0, import_node_os4.homedir)(), ".omc");
+var OMC_STORAGE_DIR2 = (0, import_node_path8.join)((0, import_node_os4.homedir)(), ".omg");
 var README_INJECTOR_STORAGE = (0, import_node_path8.join)(
   OMC_STORAGE_DIR2,
   "directory-readme"
@@ -66370,7 +66370,7 @@ var import_path91 = require("path");
 // src/hooks/agent-usage-reminder/constants.ts
 var import_path90 = require("path");
 var import_os20 = require("os");
-var OMC_STORAGE_DIR3 = (0, import_path90.join)((0, import_os20.homedir)(), ".omc");
+var OMC_STORAGE_DIR3 = (0, import_path90.join)((0, import_os20.homedir)(), ".omg");
 var AGENT_USAGE_REMINDER_STORAGE = (0, import_path90.join)(
   OMC_STORAGE_DIR3,
   "agent-usage-reminder"
@@ -66398,7 +66398,7 @@ var import_fs78 = require("fs");
 var import_path93 = require("path");
 init_paths();
 init_constants();
-var CONFIG_PATH = (0, import_path93.join)(getClaudeConfigDir(), "omc", "learner.json");
+var CONFIG_PATH = (0, import_path93.join)(getGeminiConfigDir(), "omg", "learner.json");
 
 // src/hooks/learner/index.ts
 init_constants();
@@ -66473,7 +66473,7 @@ var CC_NATIVE_COMMANDS = /* @__PURE__ */ new Set([
 ]);
 function toSafeSkillName(name) {
   const normalized = name.trim();
-  return CC_NATIVE_COMMANDS.has(normalized.toLowerCase()) ? `omc-${normalized}` : normalized;
+  return CC_NATIVE_COMMANDS.has(normalized.toLowerCase()) ? `omg-${normalized}` : normalized;
 }
 function loadSkillFromFile(skillPath, skillName) {
   try {
@@ -66580,7 +66580,7 @@ var path19 = __toESM(require("path"), 1);
 var os5 = __toESM(require("os"), 1);
 init_atomic_write();
 init_worktree_paths();
-var GLOBAL_STATE_DIR = path19.join(os5.homedir(), ".omc", "state");
+var GLOBAL_STATE_DIR = path19.join(os5.homedir(), ".omg", "state");
 var MAX_STATE_AGE_MS = 4 * 60 * 60 * 1e3;
 
 // src/features/verification/index.ts
@@ -66634,7 +66634,7 @@ function createOmcSession(options) {
 ${loadContextFromFiles(contextFiles)}`;
     }
   }
-  let systemPrompt = omcSystemPrompt;
+  let systemPrompt = omgSystemPrompt;
   if (config2.features?.continuationEnforcement !== false) {
     systemPrompt += continuationSystemPromptAddition;
   }
@@ -66675,12 +66675,12 @@ ${options.customSystemPrompt}`;
   for (const serverName of Object.keys(externalMcpServers)) {
     allowedTools.push(`mcp__${serverName}__*`);
   }
-  const omcTools = getOmcToolNames({
+  const omgTools = getOmcToolNames({
     includeLsp: config2.features?.lspTools !== false,
     includeAst: config2.features?.astTools !== false,
     includePython: true
   });
-  allowedTools.push(...omcTools);
+  allowedTools.push(...omgTools);
   const processPrompt = createMagicKeywordProcessor(config2.magicKeywords);
   const state = {
     activeAgents: /* @__PURE__ */ new Map(),
@@ -66695,7 +66695,7 @@ ${options.customSystemPrompt}`;
         agents,
         mcpServers: {
           ...toSdkMcpFormat(externalMcpServers),
-          "t": omcToolsServer
+          "t": omgToolsServer
         },
         allowedTools,
         permissionMode: "acceptEdits"
@@ -66853,9 +66853,9 @@ var DEFAULT_CONFIG5 = {
   // 1 minute
   paneLinesToCapture: 15,
   verbose: false,
-  stateFilePath: (0, import_path100.join)((0, import_os23.homedir)(), ".omc", "state", "rate-limit-daemon.json"),
-  pidFilePath: (0, import_path100.join)((0, import_os23.homedir)(), ".omc", "state", "rate-limit-daemon.pid"),
-  logFilePath: (0, import_path100.join)((0, import_os23.homedir)(), ".omc", "state", "rate-limit-daemon.log")
+  stateFilePath: (0, import_path100.join)((0, import_os23.homedir)(), ".omg", "state", "rate-limit-daemon.json"),
+  pidFilePath: (0, import_path100.join)((0, import_os23.homedir)(), ".omg", "state", "rate-limit-daemon.pid"),
+  logFilePath: (0, import_path100.join)((0, import_os23.homedir)(), ".omg", "state", "rate-limit-daemon.log")
 };
 var MAX_LOG_SIZE_BYTES2 = 1 * 1024 * 1024;
 var SECURE_FILE_MODE3 = 384;
@@ -67212,7 +67212,7 @@ function startDaemon(config2) {
 async function runDaemonForeground(config2) {
   const cfg = getConfig(config2);
   if (isDaemonRunning2(cfg)) {
-    console.error('Daemon is already running. Use "omc wait daemon stop" first.');
+    console.error('Daemon is already running. Use "omg wait daemon stop" first.');
     process.exit(1);
   }
   writePidFile2(process.pid, cfg);
@@ -67345,7 +67345,7 @@ async function waitCommand(options) {
   console.log(source_default.bold("\n\u{1F550} Rate Limit Status\n"));
   if (!rateLimitStatus) {
     console.log(source_default.yellow("Unable to check rate limits (OAuth credentials required)\n"));
-    console.log(source_default.gray("Rate limit monitoring requires Claude Pro/Max subscription."));
+    console.log(source_default.gray("Rate limit monitoring requires Gemini Pro/Max subscription."));
     return;
   }
   if (rateLimitStatus.isLimited) {
@@ -67359,8 +67359,8 @@ ${formatRateLimitStatus(rateLimitStatus)}
       console.log(source_default.gray("   apt install tmux   (Linux)\n"));
     } else if (!daemonRunning) {
       console.log(source_default.cyan("\u{1F4A1} Want to auto-resume when the limit clears?"));
-      console.log(source_default.white("   Run: ") + source_default.green("omc wait --start"));
-      console.log(source_default.gray("   (or: omc wait daemon start)\n"));
+      console.log(source_default.white("   Run: ") + source_default.green("omg wait --start"));
+      console.log(source_default.gray("   (or: omg wait daemon start)\n"));
     } else {
       console.log(source_default.green("\u2713 Auto-resume daemon is running"));
       console.log(source_default.gray("  Your session will resume automatically when the limit clears.\n"));
@@ -67378,7 +67378,7 @@ ${formatRateLimitStatus(rateLimitStatus)}
     console.log(source_default.green("\u2713 Not rate limited\n"));
     if (daemonRunning) {
       console.log(source_default.gray("Auto-resume daemon is running (not needed when not rate limited)"));
-      console.log(source_default.gray("Stop with: omc wait --stop\n"));
+      console.log(source_default.gray("Stop with: omg wait --stop\n"));
     }
   }
 }
@@ -67460,10 +67460,10 @@ async function waitDaemonCommand(action, options) {
         console.log(source_default.green(`\u2713 ${result.message}`));
         console.log(source_default.gray("\nThe daemon will:"));
         console.log(source_default.gray("  \u2022 Poll rate limit status every minute"));
-        console.log(source_default.gray("  \u2022 Track blocked Claude Code sessions in tmux"));
+        console.log(source_default.gray("  \u2022 Track blocked Gemini Code sessions in tmux"));
         console.log(source_default.gray("  \u2022 Auto-resume sessions when rate limit clears"));
-        console.log(source_default.gray('\nUse "omc wait status" to check daemon status'));
-        console.log(source_default.gray('Use "omc wait daemon stop" to stop the daemon'));
+        console.log(source_default.gray('\nUse "omg wait status" to check daemon status'));
+        console.log(source_default.gray('Use "omg wait daemon stop" to stop the daemon'));
       } else {
         console.error(source_default.red(`\u2717 ${result.message}`));
         if (result.error) {
@@ -67491,7 +67491,7 @@ async function waitDetectCommand(options) {
     console.log(source_default.gray("Install tmux to use session detection and auto-resume"));
     process.exit(1);
   }
-  console.log(source_default.blue("Scanning for blocked Claude Code sessions...\n"));
+  console.log(source_default.blue("Scanning for blocked Gemini Code sessions...\n"));
   const config2 = {
     paneLinesToCapture: options.lines
   };
@@ -67503,7 +67503,7 @@ async function waitDetectCommand(options) {
   console.log(result.message);
   if (result.state?.blockedPanes && result.state.blockedPanes.length > 0) {
     console.log(source_default.gray("\nTip: Start the daemon to auto-resume when rate limit clears:"));
-    console.log(source_default.gray("  omc wait daemon start"));
+    console.log(source_default.gray("  omg wait daemon start"));
   }
   if (result.state?.rateLimitStatus) {
     console.log(source_default.bold("\nCurrent Rate Limit:"));
@@ -67552,8 +67552,8 @@ function collectHooksFromSettings(settingsPath) {
   return conflicts;
 }
 function checkHookConflicts() {
-  const profileSettingsPath = (0, import_path101.join)(getClaudeConfigDir(), "settings.json");
-  const projectSettingsPath = (0, import_path101.join)(process.cwd(), ".claude", "settings.json");
+  const profileSettingsPath = (0, import_path101.join)(getGeminiConfigDir(), "settings.json");
+  const projectSettingsPath = (0, import_path101.join)(process.cwd(), ".gemini", "settings.json");
   const profileHooks = collectHooksFromSettings(profileSettingsPath);
   const projectHooks = collectHooksFromSettings(projectSettingsPath);
   const seen = /* @__PURE__ */ new Set();
@@ -67589,56 +67589,56 @@ function checkFileForOmcMarkers(filePath) {
     return null;
   }
 }
-function findCompanionClaudeMdFiles(configDir) {
+function findCompanionGeminiMdFiles(configDir) {
   try {
     return (0, import_fs86.readdirSync)(configDir).filter((f) => /^CLAUDE-.+\.md$/i.test(f)).map((f) => (0, import_path101.join)(configDir, f));
   } catch {
     return [];
   }
 }
-function checkClaudeMdStatus() {
-  const configDir = getClaudeConfigDir();
-  const claudeMdPath = (0, import_path101.join)(configDir, "CLAUDE.md");
-  if (!(0, import_fs86.existsSync)(claudeMdPath)) {
+function checkGeminiMdStatus() {
+  const configDir = getGeminiConfigDir();
+  const geminiMdPath = (0, import_path101.join)(configDir, "GEMINI.md");
+  if (!(0, import_fs86.existsSync)(geminiMdPath)) {
     return null;
   }
   try {
-    const mainResult = checkFileForOmcMarkers(claudeMdPath);
+    const mainResult = checkFileForOmcMarkers(geminiMdPath);
     if (!mainResult) return null;
     if (mainResult.hasMarkers) {
       return {
         hasMarkers: true,
         hasUserContent: mainResult.hasUserContent,
-        path: claudeMdPath
+        path: geminiMdPath
       };
     }
-    const companions = findCompanionClaudeMdFiles(configDir);
+    const companions = findCompanionGeminiMdFiles(configDir);
     for (const companionPath of companions) {
       const companionResult = checkFileForOmcMarkers(companionPath);
       if (companionResult?.hasMarkers) {
         return {
           hasMarkers: true,
           hasUserContent: mainResult.hasUserContent,
-          path: claudeMdPath,
+          path: geminiMdPath,
           companionFile: companionPath
         };
       }
     }
-    const content = (0, import_fs86.readFileSync)(claudeMdPath, "utf-8");
+    const content = (0, import_fs86.readFileSync)(geminiMdPath, "utf-8");
     const companionRefPattern = /CLAUDE-[^\s)]+\.md/i;
     const refMatch = content.match(companionRefPattern);
     if (refMatch) {
       return {
         hasMarkers: false,
         hasUserContent: mainResult.hasUserContent,
-        path: claudeMdPath,
+        path: geminiMdPath,
         companionFile: (0, import_path101.join)(configDir, refMatch[0])
       };
     }
     return {
       hasMarkers: false,
       hasUserContent: mainResult.hasUserContent,
-      path: claudeMdPath
+      path: geminiMdPath
     };
   } catch (_error) {
     return null;
@@ -67653,7 +67653,7 @@ function checkEnvFlags() {
   return { disableOmc, skipHooks };
 }
 function checkLegacySkills() {
-  const legacySkillsDir = (0, import_path101.join)(getClaudeConfigDir(), "skills");
+  const legacySkillsDir = (0, import_path101.join)(getGeminiConfigDir(), "skills");
   if (!(0, import_fs86.existsSync)(legacySkillsDir)) return [];
   const collisions = [];
   try {
@@ -67673,7 +67673,7 @@ function checkLegacySkills() {
 }
 function checkConfigIssues() {
   const unknownFields = [];
-  const configPath = (0, import_path101.join)(getClaudeConfigDir(), ".omc-config.json");
+  const configPath = (0, import_path101.join)(getGeminiConfigDir(), ".omg-config.json");
   if (!(0, import_fs86.existsSync)(configPath)) {
     return { unknownFields };
   }
@@ -67687,7 +67687,7 @@ function checkConfigIssues() {
       "permissions",
       "magicKeywords",
       "routing",
-      // OMCConfig fields (from auto-update.ts / omc-setup)
+      // OMCConfig fields (from auto-update.ts / omg-setup)
       "silentAutoUpdate",
       "configuredAt",
       "configVersion",
@@ -67722,7 +67722,7 @@ function checkConfigIssues() {
 }
 function runConflictCheck() {
   const hookConflicts = checkHookConflicts();
-  const claudeMdStatus = checkClaudeMdStatus();
+  const geminiMdStatus = checkGeminiMdStatus();
   const legacySkills = checkLegacySkills();
   const envFlags = checkEnvFlags();
   const configIssues = checkConfigIssues();
@@ -67732,10 +67732,10 @@ function runConflictCheck() {
   envFlags.disableOmc || // OMC is disabled
   envFlags.skipHooks.length > 0 || // Hooks are being skipped
   configIssues.unknownFields.length > 0 || // Unknown config fields
-  mcpRegistrySync.claudeMissing.length > 0 || mcpRegistrySync.claudeMismatched.length > 0 || mcpRegistrySync.codexMissing.length > 0 || mcpRegistrySync.codexMismatched.length > 0;
+  mcpRegistrySync.geminiMissing.length > 0 || mcpRegistrySync.geminiMismatched.length > 0 || mcpRegistrySync.codexMissing.length > 0 || mcpRegistrySync.codexMismatched.length > 0;
   return {
     hookConflicts,
-    claudeMdStatus,
+    geminiMdStatus,
     legacySkills,
     envFlags,
     configIssues,
@@ -67749,7 +67749,7 @@ function formatReport2(report, json) {
   }
   const lines = [];
   lines.push("");
-  lines.push(colors.bold("\u{1F50D} Oh-My-ClaudeCode Conflict Diagnostic"));
+  lines.push(colors.bold("\u{1F50D} Oh-My-GeminiCLI Conflict Diagnostic"));
   lines.push(colors.gray("\u2501".repeat(60)));
   lines.push("");
   if (report.hookConflicts.length > 0) {
@@ -67766,31 +67766,31 @@ function formatReport2(report, json) {
     lines.push(`  ${colors.gray("No hooks configured")}`);
     lines.push("");
   }
-  if (report.claudeMdStatus) {
-    lines.push(colors.bold("\u{1F4C4} CLAUDE.md Status"));
+  if (report.geminiMdStatus) {
+    lines.push(colors.bold("\u{1F4C4} GEMINI.md Status"));
     lines.push("");
-    if (report.claudeMdStatus.hasMarkers) {
-      if (report.claudeMdStatus.companionFile) {
+    if (report.geminiMdStatus.hasMarkers) {
+      if (report.geminiMdStatus.companionFile) {
         lines.push(`  ${colors.green("\u2713")} OMC markers found in companion file`);
-        lines.push(`    ${colors.gray(`Companion: ${report.claudeMdStatus.companionFile}`)}`);
+        lines.push(`    ${colors.gray(`Companion: ${report.geminiMdStatus.companionFile}`)}`);
       } else {
         lines.push(`  ${colors.green("\u2713")} OMC markers present`);
       }
-      if (report.claudeMdStatus.hasUserContent) {
+      if (report.geminiMdStatus.hasUserContent) {
         lines.push(`  ${colors.green("\u2713")} User content preserved outside markers`);
       }
     } else {
       lines.push(`  ${colors.yellow("\u26A0")} No OMC markers found`);
-      lines.push(`    ${colors.gray("Run /oh-my-claudecode:omc-setup to add markers")}`);
-      if (report.claudeMdStatus.hasUserContent) {
+      lines.push(`    ${colors.gray("Run /oh-my-gemini-cli:omg-setup to add markers")}`);
+      if (report.geminiMdStatus.hasUserContent) {
         lines.push(`  ${colors.blue("\u2139")} User content present - will be preserved`);
       }
     }
-    lines.push(`  ${colors.gray(`Path: ${report.claudeMdStatus.path}`)}`);
+    lines.push(`  ${colors.gray(`Path: ${report.geminiMdStatus.path}`)}`);
     lines.push("");
   } else {
-    lines.push(colors.bold("\u{1F4C4} CLAUDE.md Status"));
-    lines.push(`  ${colors.gray("No CLAUDE.md found")}`);
+    lines.push(colors.bold("\u{1F4C4} GEMINI.md Status"));
+    lines.push(`  ${colors.gray("No GEMINI.md found")}`);
     lines.push("");
   }
   lines.push(colors.bold("\u{1F527} Environment Flags"));
@@ -67819,7 +67819,7 @@ function formatReport2(report, json) {
   if (report.configIssues.unknownFields.length > 0) {
     lines.push(colors.bold("\u2699\uFE0F  Configuration Issues"));
     lines.push("");
-    lines.push(`  ${colors.yellow("\u26A0")} Unknown fields in .omc-config.json:`);
+    lines.push(`  ${colors.yellow("\u26A0")} Unknown fields in .omg-config.json:`);
     for (const field of report.configIssues.unknownFields) {
       lines.push(`    - ${field}`);
     }
@@ -67837,12 +67837,12 @@ function formatReport2(report, json) {
     lines.push(`  ${colors.green("\u2713")} Registry servers: ${report.mcpRegistrySync.serverNames.join(", ")}`);
     lines.push(`    ${colors.gray(`Registry: ${report.mcpRegistrySync.registryPath}`)}`);
     lines.push(`    ${colors.gray(`Codex: ${report.mcpRegistrySync.codexConfigPath}`)}`);
-    if (report.mcpRegistrySync.claudeMissing.length > 0) {
-      lines.push(`  ${colors.yellow("\u26A0")} Missing from Claude settings.json: ${report.mcpRegistrySync.claudeMissing.join(", ")}`);
-    } else if (report.mcpRegistrySync.claudeMismatched.length > 0) {
-      lines.push(`  ${colors.yellow("\u26A0")} Mismatched in Claude settings.json: ${report.mcpRegistrySync.claudeMismatched.join(", ")}`);
+    if (report.mcpRegistrySync.geminiMissing.length > 0) {
+      lines.push(`  ${colors.yellow("\u26A0")} Missing from Gemini settings.json: ${report.mcpRegistrySync.geminiMissing.join(", ")}`);
+    } else if (report.mcpRegistrySync.geminiMismatched.length > 0) {
+      lines.push(`  ${colors.yellow("\u26A0")} Mismatched in Gemini settings.json: ${report.mcpRegistrySync.geminiMismatched.join(", ")}`);
     } else {
-      lines.push(`  ${colors.green("\u2713")} Claude settings.json is in sync`);
+      lines.push(`  ${colors.green("\u2713")} Gemini settings.json is in sync`);
     }
     if (report.mcpRegistrySync.codexMissing.length > 0) {
       lines.push(`  ${colors.yellow("\u26A0")} Missing from Codex config.toml: ${report.mcpRegistrySync.codexMissing.join(", ")}`);
@@ -67856,7 +67856,7 @@ function formatReport2(report, json) {
   lines.push(colors.gray("\u2501".repeat(60)));
   if (report.hasConflicts) {
     lines.push(`${colors.yellow("\u26A0")} Potential conflicts detected`);
-    lines.push(`${colors.gray("Review the issues above and run /oh-my-claudecode:omc-setup if needed")}`);
+    lines.push(`${colors.gray("Review the issues above and run /oh-my-gemini-cli:omg-setup if needed")}`);
   } else {
     lines.push(`${colors.green("\u2713")} No conflicts detected`);
     lines.push(`${colors.gray("OMC is properly configured")}`);
@@ -67981,7 +67981,7 @@ function parseValidatedTaskIdArray(value, fieldName) {
 }
 function teamStateExists(teamName, candidateCwd) {
   if (!TEAM_NAME_SAFE_PATTERN.test(teamName)) return false;
-  const teamRoot = (0, import_node_path9.join)(candidateCwd, ".omc", "state", "team", teamName);
+  const teamRoot = (0, import_node_path9.join)(candidateCwd, ".omg", "state", "team", teamName);
   return (0, import_node_fs6.existsSync)((0, import_node_path9.join)(teamRoot, "config.json")) || (0, import_node_fs6.existsSync)((0, import_node_path9.join)(teamRoot, "tasks")) || (0, import_node_fs6.existsSync)(teamRoot);
 }
 function parseTeamWorkerEnv(raw) {
@@ -68015,7 +68015,7 @@ async function executeTeamCleanupViaRuntime(teamName, cwd2) {
   }
   if (isLegacyRuntimeConfig(config2)) {
     const legacyConfig = config2;
-    const sessionName2 = typeof legacyConfig.tmuxSession === "string" && legacyConfig.tmuxSession.trim() !== "" ? legacyConfig.tmuxSession.trim() : `omc-team-${teamName}`;
+    const sessionName2 = typeof legacyConfig.tmuxSession === "string" && legacyConfig.tmuxSession.trim() !== "" ? legacyConfig.tmuxSession.trim() : `omg-team-${teamName}`;
     const leaderPaneId = typeof legacyConfig.leaderPaneId === "string" && legacyConfig.leaderPaneId.trim() !== "" ? legacyConfig.leaderPaneId.trim() : void 0;
     await shutdownTeam(teamName, sessionName2, cwd2, 3e4, void 0, leaderPaneId, legacyConfig.tmuxOwnsWindow === true);
     return;
@@ -68034,7 +68034,7 @@ function readTeamStateRootFromFile(path20) {
 function stateRootToWorkingDirectory(stateRoot2) {
   const absolute = (0, import_node_path9.resolve)(stateRoot2);
   const normalized = absolute.replaceAll("\\", "/");
-  for (const marker of ["/.omc/state/team/", "/.omx/state/team/"]) {
+  for (const marker of ["/.omg/state/team/", "/.omx/state/team/"]) {
     const idx = normalized.lastIndexOf(marker);
     if (idx >= 0) {
       const workspaceRoot = absolute.slice(0, idx);
@@ -68042,7 +68042,7 @@ function stateRootToWorkingDirectory(stateRoot2) {
       return (0, import_node_path9.dirname)((0, import_node_path9.dirname)((0, import_node_path9.dirname)((0, import_node_path9.dirname)(absolute))));
     }
   }
-  for (const marker of ["/.omc/state", "/.omx/state"]) {
+  for (const marker of ["/.omg/state", "/.omx/state"]) {
     const idx = normalized.lastIndexOf(marker);
     if (idx >= 0) {
       const workspaceRoot = absolute.slice(0, idx);
@@ -68053,7 +68053,7 @@ function stateRootToWorkingDirectory(stateRoot2) {
   return (0, import_node_path9.dirname)((0, import_node_path9.dirname)(absolute));
 }
 function resolveTeamWorkingDirectoryFromMetadata(teamName, candidateCwd, workerContext) {
-  const teamRoot = (0, import_node_path9.join)(candidateCwd, ".omc", "state", "team", teamName);
+  const teamRoot = (0, import_node_path9.join)(candidateCwd, ".omg", "state", "team", teamName);
   if (!(0, import_node_fs6.existsSync)(teamRoot)) return null;
   if (workerContext?.teamName === teamName) {
     const workerRoot = readTeamStateRootFromFile((0, import_node_path9.join)(teamRoot, "workers", workerContext.workerName, "identity.json"));
@@ -68636,35 +68636,35 @@ var HELP_TOKENS = /* @__PURE__ */ new Set(["--help", "-h", "help"]);
 var MIN_WORKER_COUNT = 1;
 var MAX_WORKER_COUNT = 20;
 var TEAM_HELP = `
-Usage: omc team [N:agent-type[:role]] [--new-window] "<task description>"
-       omc team status <team-name>
-       omc team shutdown <team-name> [--force]
-       omc team api <operation> [--input <json>] [--json]
-       omc team api --help
+Usage: omg team [N:agent-type[:role]] [--new-window] "<task description>"
+       omg team status <team-name>
+       omg team shutdown <team-name> [--force]
+       omg team api <operation> [--input <json>] [--json]
+       omg team api --help
 
 Examples:
-  omc team 3:claude "fix failing tests"
-  omc team 2:codex:architect "design auth system"
-  omc team 1:gemini:executor "implement feature"
-  omc team 1:codex,1:gemini "compare approaches"
-  omc team 2:codex "review auth flow" --new-window
-  omc team status fix-failing-tests
-  omc team shutdown fix-failing-tests
-  omc team api send-message --input '{"team_name":"my-team","from_worker":"worker-1","to_worker":"leader-fixed","body":"ACK"}' --json
+  omg team 3:gemini "fix failing tests"
+  omg team 2:codex:architect "design auth system"
+  omg team 1:gemini:executor "implement feature"
+  omg team 1:codex,1:gemini "compare approaches"
+  omg team 2:codex "review auth flow" --new-window
+  omg team status fix-failing-tests
+  omg team shutdown fix-failing-tests
+  omg team api send-message --input '{"team_name":"my-team","from_worker":"worker-1","to_worker":"leader-fixed","body":"ACK"}' --json
 
 Roles (optional): architect, executor, planner, analyst, critic, debugger, verifier,
   code-reviewer, security-reviewer, test-engineer, debugger, designer, writer, scientist
 `;
 var TEAM_API_HELP = `
-Usage: omc team api <operation> [--input <json>] [--json]
-       omc team api <operation> --help
+Usage: omg team api <operation> [--input <json>] [--json]
+       omg team api <operation> --help
 
 Supported operations:
   ${TEAM_API_OPERATIONS.join("\n  ")}
 
 Examples:
-  omc team api list-tasks --input '{"team_name":"my-team"}' --json
-  omc team api claim-task --input '{"team_name":"my-team","task_id":"1","worker":"worker-1","expected_version":1}' --json
+  omg team api list-tasks --input '{"team_name":"my-team"}' --json
+  omg team api claim-task --input '{"team_name":"my-team","task_id":"1","worker":"worker-1","expected_version":1}' --json
 `;
 var TEAM_API_OPERATION_REQUIRED_FIELDS = {
   "send-message": ["team_name", "from_worker", "to_worker", "body"],
@@ -68771,8 +68771,8 @@ function slugifyTask(task) {
   return task.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/-+/g, "-").replace(/^-|-$/g, "").slice(0, 30) || "team-task";
 }
 function getTeamWorkerIdentityFromEnv(env2 = process.env) {
-  const omc = typeof env2.OMC_TEAM_WORKER === "string" ? env2.OMC_TEAM_WORKER.trim() : "";
-  if (omc) return omc;
+  const omg = typeof env2.OMC_TEAM_WORKER === "string" ? env2.OMC_TEAM_WORKER.trim() : "";
+  if (omg) return omg;
   const omx = typeof env2.OMX_TEAM_WORKER === "string" ? env2.OMX_TEAM_WORKER.trim() : "";
   return omx || null;
 }
@@ -68843,7 +68843,7 @@ function parseTeamArgs(tokens) {
       if (!Number.isFinite(count) || count < MIN_WORKER_COUNT || count > MAX_WORKER_COUNT) {
         throw new Error(`Invalid worker count "${m[1]}". Expected ${MIN_WORKER_COUNT}-${MAX_WORKER_COUNT}.`);
       }
-      parsedSegments.push({ count, type: m[2] || "claude", role: m[3] });
+      parsedSegments.push({ count, type: m[2] || "gemini", role: m[3] });
     }
     if (allValid && parsedSegments.length > 0) {
       workerCount = 0;
@@ -68872,7 +68872,7 @@ function parseTeamArgs(tokens) {
         throw new Error(`Invalid worker count "${match[1]}". Expected ${MIN_WORKER_COUNT}-${MAX_WORKER_COUNT}.`);
       }
       workerCount = count;
-      const type = match[2] || "claude";
+      const type = match[2] || "gemini";
       if (match[3]) role = match[3];
       agentTypes = Array.from({ length: workerCount }, () => type);
       workerSpecs = Array.from({ length: workerCount }, () => ({ agentType: type, ...role ? { role } : {} }));
@@ -68880,12 +68880,12 @@ function parseTeamArgs(tokens) {
     }
   }
   if (agentTypes.length === 0) {
-    agentTypes = Array.from({ length: workerCount }, () => "claude");
-    workerSpecs = Array.from({ length: workerCount }, () => ({ agentType: "claude" }));
+    agentTypes = Array.from({ length: workerCount }, () => "gemini");
+    workerSpecs = Array.from({ length: workerCount }, () => ({ agentType: "gemini" }));
   }
   const task = filteredArgs.join(" ").trim();
   if (!task) {
-    throw new Error('Usage: omc team [N:agent-type] "<task description>"');
+    throw new Error('Usage: omg team [N:agent-type] "<task description>"');
   }
   const teamName = slugifyTask(task);
   return { workerCount, agentTypes, workerSpecs, role, task, teamName, json, newWindow };
@@ -68978,17 +68978,17 @@ Note:
   ${TEAM_API_OPERATION_NOTES[operation]}
 ` : "";
   return `
-Usage: omc team api ${operation} --input <json> [--json]
+Usage: omg team api ${operation} --input <json> [--json]
 
 Required input fields:
 ${required2}${optional2}${note}Example:
-  omc team api ${operation} --input '${sampleInputJson}' --json
+  omg team api ${operation} --input '${sampleInputJson}' --json
 `.trim();
 }
 function parseTeamApiArgs(args) {
   const operation = resolveTeamApiOperation(args[0] || "");
   if (!operation) {
-    throw new Error(`Usage: omc team api <operation> [--input <json>] [--json]
+    throw new Error(`Usage: omg team api <operation> [--input <json>] [--json]
 Supported operations: ${TEAM_API_OPERATIONS.join(", ")}`);
   }
   let input = {};
@@ -69027,7 +69027,7 @@ Supported operations: ${TEAM_API_OPERATIONS.join(", ")}`);
       }
       continue;
     }
-    throw new Error(`Unknown argument for "omc team api": ${token}`);
+    throw new Error(`Unknown argument for "omg team api": ${token}`);
   }
   return { operation, input, json };
 }
@@ -69192,7 +69192,7 @@ async function handleTeamShutdown(teamName, cwd2, force) {
     return;
   }
   const { shutdownTeam: shutdownTeam2 } = await Promise.resolve().then(() => (init_runtime(), runtime_exports));
-  await shutdownTeam2(teamName, `omc-team-${teamName}`, cwd2);
+  await shutdownTeam2(teamName, `omg-team-${teamName}`, cwd2);
   console.log(`Team shutdown complete: ${teamName}`);
 }
 async function handleTeamApi(args, cwd2) {
@@ -69227,7 +69227,7 @@ async function handleTeamApi(args, cwd2) {
       console.log(JSON.stringify({
         ...jsonBase,
         ok: false,
-        command: "omc team api",
+        command: "omg team api",
         operation: "unknown",
         error: {
           code: "invalid_input",
@@ -69243,7 +69243,7 @@ async function handleTeamApi(args, cwd2) {
   if (parsedApi.json) {
     console.log(JSON.stringify({
       ...jsonBase,
-      command: `omc team api ${parsedApi.operation}`,
+      command: `omg team api ${parsedApi.operation}`,
       ...envelope
     }));
     if (!envelope.ok) process.exitCode = 1;
@@ -69271,14 +69271,14 @@ async function teamCommand(args) {
   }
   if (subcommand === "status") {
     const name = args[1];
-    if (!name) throw new Error("Usage: omc team status <team-name>");
+    if (!name) throw new Error("Usage: omg team status <team-name>");
     await handleTeamStatus(name, cwd2);
     return;
   }
   if (subcommand === "shutdown") {
     const nameOrFlag = args.filter((a) => !a.startsWith("--"));
     const name = nameOrFlag[1];
-    if (!name) throw new Error("Usage: omc team shutdown <team-name> [--force]");
+    if (!name) throw new Error("Usage: omg team shutdown <team-name> [--force]");
     const force = args.includes("--force");
     await handleTeamShutdown(name, cwd2, force);
     return;
@@ -69320,8 +69320,8 @@ function getRalphthonPrdPath(directory) {
 function findRalphthonPrdPath(directory) {
   const rootPath = (0, import_path102.join)(directory, PRD_FILENAME2);
   if ((0, import_fs87.existsSync)(rootPath)) return rootPath;
-  const omcPath = getRalphthonPrdPath(directory);
-  if ((0, import_fs87.existsSync)(omcPath)) return omcPath;
+  const omgPath = getRalphthonPrdPath(directory);
+  if ((0, import_fs87.existsSync)(omgPath)) return omgPath;
   return null;
 }
 function readRalphthonPrd(directory) {
@@ -69340,10 +69340,10 @@ function readRalphthonPrd(directory) {
 function writeRalphthonPrd(directory, prd) {
   let prdPath = findRalphthonPrdPath(directory);
   if (!prdPath) {
-    const omcDir = getOmcRoot(directory);
-    if (!(0, import_fs87.existsSync)(omcDir)) {
+    const omgDir = getOmcRoot(directory);
+    if (!(0, import_fs87.existsSync)(omgDir)) {
       try {
-        (0, import_fs87.mkdirSync)(omcDir, { recursive: true });
+        (0, import_fs87.mkdirSync)(omgDir, { recursive: true });
       } catch {
         return false;
       }
@@ -69772,7 +69772,7 @@ function startOrchestratorLoop(directory, sessionId, onEvent) {
 
 // src/cli/commands/ralphthon.ts
 var RALPHTHON_HELP = `
-Usage: omc ralphthon [options] [task]
+Usage: omg ralphthon [options] [task]
 
 Autonomous hackathon lifecycle mode.
 Generates PRD via deep-interview, executes all tasks with ralph loop,
@@ -69786,10 +69786,10 @@ Options:
   --help, -h            Show this help
 
 Examples:
-  omc ralphthon "Build a REST API for user management"
-  omc ralphthon --skip-interview "Implement auth middleware"
-  omc ralphthon --resume
-  omc ralphthon --max-waves 5 --poll-interval 60 "Add caching layer"
+  omg ralphthon "Build a REST API for user management"
+  omg ralphthon --skip-interview "Implement auth middleware"
+  omg ralphthon --resume
+  omg ralphthon --max-waves 5 --poll-interval 60 "Add caching layer"
 `;
 function parseRalphthonArgs(args) {
   const options = {
@@ -69915,12 +69915,12 @@ async function ralphthonCommand(args) {
     return;
   }
   if (!options.task) {
-    console.error(source_default.red('Task description required. Usage: omc ralphthon "your task"'));
+    console.error(source_default.red('Task description required. Usage: omg ralphthon "your task"'));
     console.log(RALPHTHON_HELP);
     process.exit(1);
   }
   if (!isInsideTmux2()) {
-    console.error(source_default.red("Ralphthon requires tmux. Run inside a tmux session or use `omc` to launch one."));
+    console.error(source_default.red("Ralphthon requires tmux. Run inside a tmux session or use `omg` to launch one."));
     process.exit(1);
   }
   const tmuxSession = getCurrentTmuxSession2();
@@ -69949,7 +69949,7 @@ async function ralphthonCommand(args) {
     console.log(source_default.gray("The leader pane will run deep-interview to generate the PRD."));
     const interviewPrompt = `/deep-interview ${options.task}
 
-After the interview, generate a ralphthon-prd.json file in .omc/ with this structure:
+After the interview, generate a ralphthon-prd.json file in .omg/ with this structure:
 {
   "project": "<project name>",
   "branchName": "<branch>",
@@ -70616,7 +70616,7 @@ function getProvider(name) {
 }
 
 // src/cli/commands/teleport.ts
-var DEFAULT_WORKTREE_ROOT = (0, import_path103.join)((0, import_os24.homedir)(), "Workspace", "omc-worktrees");
+var DEFAULT_WORKTREE_ROOT = (0, import_path103.join)((0, import_os24.homedir)(), "Workspace", "omg-worktrees");
 function parseRef(ref) {
   const ghPrUrlMatch = ref.match(/^https?:\/\/[^/]*github\.com\/([^/]+)\/([^/]+)\/pull\/(\d+)(?:[?#].*)?$/);
   if (ghPrUrlMatch) {
@@ -71082,9 +71082,9 @@ function isTmuxAvailable2() {
     return false;
   }
 }
-function isClaudeAvailable() {
+function isGeminiAvailable() {
   try {
-    (0, import_child_process31.execFileSync)("claude", ["--version"], { stdio: "ignore" });
+    (0, import_child_process31.execFileSync)("gemini", ["--version"], { stdio: "ignore" });
     return true;
   } catch {
     return false;
@@ -71118,7 +71118,7 @@ function buildTmuxSessionName(cwd2) {
   const now = /* @__PURE__ */ new Date();
   const pad = (n) => String(n).padStart(2, "0");
   const utcTimestamp = `${now.getUTCFullYear()}${pad(now.getUTCMonth() + 1)}${pad(now.getUTCDate())}${pad(now.getUTCHours())}${pad(now.getUTCMinutes())}${pad(now.getUTCSeconds())}`;
-  const name = `omc-${dirToken}-${branchToken}-${utcTimestamp}`;
+  const name = `omg-${dirToken}-${branchToken}-${utcTimestamp}`;
   return name.length > 120 ? name.slice(0, 120) : name;
 }
 function sanitizeTmuxToken(value) {
@@ -71257,7 +71257,7 @@ function extractWebhookFlag(args) {
   }
   return { webhookEnabled, remainingArgs };
 }
-function normalizeClaudeLaunchArgs(args) {
+function normalizeGeminiLaunchArgs(args) {
   const normalized = [];
   let wantsBypass = false;
   let hasBypass = false;
@@ -71286,43 +71286,43 @@ async function preLaunch(_cwd, _sessionId) {
 function isPrintMode(args) {
   return args.some((arg) => arg === "--print" || arg === "-p");
 }
-function runClaude(cwd2, args, sessionId) {
+function runGemini(cwd2, args, sessionId) {
   if (isPrintMode(args)) {
-    runClaudeDirect(cwd2, args);
+    runGeminiDirect(cwd2, args);
     return;
   }
   const policy = resolveLaunchPolicy(process.env, args);
   switch (policy) {
     case "inside-tmux":
-      runClaudeInsideTmux(cwd2, args);
+      runGeminiInsideTmux(cwd2, args);
       break;
     case "outside-tmux":
-      runClaudeOutsideTmux(cwd2, args, sessionId);
+      runGeminiOutsideTmux(cwd2, args, sessionId);
       break;
     case "direct":
-      runClaudeDirect(cwd2, args);
+      runGeminiDirect(cwd2, args);
       break;
   }
 }
-function runClaudeInsideTmux(cwd2, args) {
+function runGeminiInsideTmux(cwd2, args) {
   try {
     (0, import_child_process32.execFileSync)("tmux", ["set-option", "mouse", "on"], { stdio: "ignore" });
   } catch {
   }
   try {
-    (0, import_child_process32.execFileSync)("claude", args, { cwd: cwd2, stdio: "inherit" });
+    (0, import_child_process32.execFileSync)("gemini", args, { cwd: cwd2, stdio: "inherit" });
   } catch (error2) {
     const err = error2;
     if (err.code === "ENOENT") {
-      console.error("[omc] Error: claude CLI not found in PATH.");
+      console.error("[omg] Error: gemini CLI not found in PATH.");
       process.exit(1);
     }
     process.exit(typeof err.status === "number" ? err.status : 1);
   }
 }
-function runClaudeOutsideTmux(cwd2, args, _sessionId) {
-  const rawClaudeCmd = buildTmuxShellCommand("claude", args);
-  const claudeCmd = wrapWithLoginShell(`sleep 0.3; perl -e 'use POSIX;tcflush(0,TCIFLUSH)' 2>/dev/null; ${rawClaudeCmd}`);
+function runGeminiOutsideTmux(cwd2, args, _sessionId) {
+  const rawGeminiCmd = buildTmuxShellCommand("gemini", args);
+  const geminiCmd = wrapWithLoginShell(`sleep 0.3; perl -e 'use POSIX;tcflush(0,TCIFLUSH)' 2>/dev/null; ${rawGeminiCmd}`);
   const sessionName2 = buildTmuxSessionName(cwd2);
   const tmuxArgs = [
     "new-session",
@@ -71331,7 +71331,7 @@ function runClaudeOutsideTmux(cwd2, args, _sessionId) {
     sessionName2,
     "-c",
     cwd2,
-    claudeCmd,
+    geminiCmd,
     ";",
     "set-option",
     "-t",
@@ -71347,16 +71347,16 @@ function runClaudeOutsideTmux(cwd2, args, _sessionId) {
       (0, import_child_process32.execFileSync)("tmux", ["kill-session", "-t", sessionName2], { stdio: "ignore" });
     } catch {
     }
-    runClaudeDirect(cwd2, args);
+    runGeminiDirect(cwd2, args);
   }
 }
-function runClaudeDirect(cwd2, args) {
+function runGeminiDirect(cwd2, args) {
   try {
-    (0, import_child_process32.execFileSync)("claude", args, { cwd: cwd2, stdio: "inherit" });
+    (0, import_child_process32.execFileSync)("gemini", args, { cwd: cwd2, stdio: "inherit" });
   } catch (error2) {
     const err = error2;
     if (err.code === "ENOENT") {
-      console.error("[omc] Error: claude CLI not found in PATH.");
+      console.error("[omg] Error: gemini CLI not found in PATH.");
       process.exit(1);
     }
     process.exit(typeof err.status === "number" ? err.status : 1);
@@ -71401,23 +71401,23 @@ async function launchCommand(args) {
   }
   const cwd2 = process.cwd();
   if (process.env.CLAUDECODE) {
-    console.error("[omc] Error: Already inside a Claude Code session. Nested launches are not supported.");
+    console.error("[omg] Error: Already inside a Gemini Code session. Nested launches are not supported.");
     process.exit(1);
   }
-  if (!isClaudeAvailable()) {
-    console.error("[omc] Error: claude CLI not found. Install Claude Code first:");
-    console.error("  npm install -g @anthropic-ai/claude-code");
+  if (!isGeminiAvailable()) {
+    console.error("[omg] Error: gemini CLI not found. Install Gemini Code first:");
+    console.error("  npm install -g @anthropic-ai/gemini-code");
     process.exit(1);
   }
-  const normalizedArgs = normalizeClaudeLaunchArgs(argsAfterWebhook);
-  const sessionId = `omc-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+  const normalizedArgs = normalizeGeminiLaunchArgs(argsAfterWebhook);
+  const sessionId = `omg-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
   try {
     await preLaunch(cwd2, sessionId);
   } catch (err) {
-    console.error(`[omc] preLaunch warning: ${err instanceof Error ? err.message : err}`);
+    console.error(`[omg] preLaunch warning: ${err instanceof Error ? err.message : err}`);
   }
   try {
-    runClaude(cwd2, normalizedArgs, sessionId);
+    runGemini(cwd2, normalizedArgs, sessionId);
   } finally {
     await postLaunch(cwd2, sessionId);
   }
@@ -71432,7 +71432,7 @@ function readInteropRuntimeFlags(env2 = process.env) {
   return {
     enabled: env2.OMX_OMC_INTEROP_ENABLED === "1",
     mode,
-    omcInteropToolsEnabled: env2.OMC_INTEROP_TOOLS_ENABLED === "1",
+    omgInteropToolsEnabled: env2.OMC_INTEROP_TOOLS_ENABLED === "1",
     failClosed: env2.OMX_OMC_INTEROP_FAIL_CLOSED !== "0"
   };
 }
@@ -71440,7 +71440,7 @@ function validateInteropRuntimeFlags(flags) {
   if (!flags.enabled && flags.mode !== "off") {
     return { ok: false, reason: 'OMX_OMC_INTEROP_MODE must be "off" when OMX_OMC_INTEROP_ENABLED=0.' };
   }
-  if (flags.mode === "active" && !flags.omcInteropToolsEnabled) {
+  if (flags.mode === "active" && !flags.omgInteropToolsEnabled) {
     return { ok: false, reason: "Active mode requires OMC_INTEROP_TOOLS_ENABLED=1." };
   }
   return { ok: true };
@@ -71456,7 +71456,7 @@ function isCodexAvailable() {
 function launchInteropSession(cwd2 = process.cwd()) {
   const flags = readInteropRuntimeFlags();
   const flagCheck = validateInteropRuntimeFlags(flags);
-  console.log(`[interop] mode=${flags.mode}, enabled=${flags.enabled ? "1" : "0"}, tools=${flags.omcInteropToolsEnabled ? "1" : "0"}, failClosed=${flags.failClosed ? "1" : "0"}`);
+  console.log(`[interop] mode=${flags.mode}, enabled=${flags.enabled ? "1" : "0"}, tools=${flags.omgInteropToolsEnabled ? "1" : "0"}, failClosed=${flags.failClosed ? "1" : "0"}`);
   if (!flagCheck.ok) {
     console.error(`Error: ${flagCheck.reason}`);
     console.error("Refusing to start interop in invalid flag configuration.");
@@ -71467,13 +71467,13 @@ function launchInteropSession(cwd2 = process.cwd()) {
     process.exit(1);
   }
   const hasCodex = isCodexAvailable();
-  const hasClaude = isClaudeAvailable();
-  if (!hasClaude) {
-    console.error("Error: claude CLI is not available. Install Claude Code CLI first.");
+  const hasGemini = isGeminiAvailable();
+  if (!hasGemini) {
+    console.error("Error: gemini CLI is not available. Install Gemini Code CLI first.");
     process.exit(1);
   }
   if (!hasCodex) {
-    console.warn("Warning: codex CLI is not available. Only Claude Code will be launched.");
+    console.warn("Warning: codex CLI is not available. Only Gemini Code will be launched.");
     console.warn("Install oh-my-codex (npm install -g @openai/codex) for full interop support.\n");
   }
   const inTmux = Boolean(process.env.TMUX);
@@ -71486,7 +71486,7 @@ function launchInteropSession(cwd2 = process.cwd()) {
   const _config = initInteropSession(sessionId, cwd2, hasCodex ? cwd2 : void 0);
   console.log(`Initializing interop session: ${sessionId}`);
   console.log(`Working directory: ${cwd2}`);
-  console.log(`Config saved to: ${cwd2}/.omc/state/interop/config.json
+  console.log(`Config saved to: ${cwd2}/.omg/state/interop/config.json
 `);
   let currentPaneId;
   try {
@@ -71504,7 +71504,7 @@ function launchInteropSession(cwd2 = process.cwd()) {
   }
   try {
     if (hasCodex) {
-      console.log("Splitting pane: Left (Claude Code) | Right (Codex)");
+      console.log("Splitting pane: Left (Gemini Code) | Right (Codex)");
       (0, import_child_process33.execFileSync)("tmux", [
         "split-window",
         "-h",
@@ -71516,7 +71516,7 @@ function launchInteropSession(cwd2 = process.cwd()) {
       ], { stdio: "inherit" });
       (0, import_child_process33.execFileSync)("tmux", ["select-pane", "-t", currentPaneId], { stdio: "ignore" });
       console.log("\nInterop session ready!");
-      console.log("- Left pane: Claude Code (this terminal)");
+      console.log("- Left pane: Gemini Code (this terminal)");
       console.log("- Right pane: Codex CLI");
       console.log("\nYou can now use interop MCP tools to communicate between the two:");
       console.log("- interop_send_task: Send tasks between tools");
@@ -71524,7 +71524,7 @@ function launchInteropSession(cwd2 = process.cwd()) {
       console.log("- interop_send_message: Send messages");
       console.log("- interop_read_messages: Read messages");
     } else {
-      console.log("\nClaude Code is ready in this pane.");
+      console.log("\nGemini Code is ready in this pane.");
       console.log("Install oh-my-codex to enable split-pane interop mode.");
       console.log("\nInstall: npm install -g @openai/codex");
     }
@@ -71546,14 +71546,14 @@ var import_os25 = require("os");
 var import_path105 = require("path");
 var import_url14 = require("url");
 var ASK_USAGE = [
-  "Usage: omc ask <claude|codex|gemini> <question or task>",
-  '   or: omc ask <claude|codex|gemini> -p "<prompt>"',
-  '   or: omc ask <claude|codex|gemini> --print "<prompt>"',
-  '   or: omc ask <claude|codex|gemini> --prompt "<prompt>"',
-  '   or: omc ask <claude|codex|gemini> --agent-prompt <role> "<prompt>"',
-  '   or: omc ask <claude|codex|gemini> --agent-prompt=<role> --prompt "<prompt>"'
+  "Usage: omg ask <gemini|codex|gemini> <question or task>",
+  '   or: omg ask <gemini|codex|gemini> -p "<prompt>"',
+  '   or: omg ask <gemini|codex|gemini> --print "<prompt>"',
+  '   or: omg ask <gemini|codex|gemini> --prompt "<prompt>"',
+  '   or: omg ask <gemini|codex|gemini> --agent-prompt <role> "<prompt>"',
+  '   or: omg ask <gemini|codex|gemini> --agent-prompt=<role> --prompt "<prompt>"'
 ].join("\n");
-var ASK_PROVIDERS = ["claude", "codex", "gemini"];
+var ASK_PROVIDERS = ["gemini", "codex", "gemini"];
 var ASK_PROVIDER_SET = new Set(ASK_PROVIDERS);
 var ASK_AGENT_PROMPT_FLAG = "--agent-prompt";
 var SAFE_ROLE_PATTERN = /^[a-z][a-z0-9-]*$/;
@@ -71936,7 +71936,7 @@ var import_promises17 = require("fs/promises");
 var import_path107 = require("path");
 init_mode_state_io();
 var AUTORESEARCH_RESULTS_HEADER = "iteration	commit	pass	score	status	description\n";
-var AUTORESEARCH_WORKTREE_EXCLUDES = ["results.tsv", "run.log", "node_modules", ".omc/"];
+var AUTORESEARCH_WORKTREE_EXCLUDES = ["results.tsv", "run.log", "node_modules", ".omg/"];
 var EXCLUSIVE_MODES2 = ["ralph", "ultrawork", "autopilot", "autoresearch"];
 function nowIso() {
   return (/* @__PURE__ */ new Date()).toISOString();
@@ -71949,7 +71949,7 @@ function buildRunId(missionSlug, runTag) {
   return `${missionSlug}-${runTag.toLowerCase()}`;
 }
 function activeRunStateFile(projectRoot) {
-  return (0, import_path107.join)(projectRoot, ".omc", "state", "autoresearch-state.json");
+  return (0, import_path107.join)(projectRoot, ".omg", "state", "autoresearch-state.json");
 }
 function trimContent(value, max = 4e3) {
   const trimmed = value.trim();
@@ -72430,7 +72430,7 @@ async function materializeAutoresearchMissionToWorktree(contract, worktreePath) 
   };
 }
 async function loadAutoresearchRunManifest(projectRoot, runId) {
-  const manifestFile = (0, import_path107.join)(projectRoot, ".omc", "logs", "autoresearch", runId, "manifest.json");
+  const manifestFile = (0, import_path107.join)(projectRoot, ".omg", "logs", "autoresearch", runId, "manifest.json");
   if (!(0, import_fs92.existsSync)(manifestFile)) {
     throw new Error(`autoresearch_resume_manifest_missing:${runId}`);
   }
@@ -72500,7 +72500,7 @@ async function prepareAutoresearchRuntime(contract, projectRoot, worktreePath, o
   const runId = buildRunId(contract.missionSlug, runTag);
   const baselineCommit = readGitShortHead(worktreePath);
   const branchName = readGit2(worktreePath, ["symbolic-ref", "--quiet", "--short", "HEAD"]);
-  const runDir = (0, import_path107.join)(projectRoot, ".omc", "logs", "autoresearch", runId);
+  const runDir = (0, import_path107.join)(projectRoot, ".omg", "logs", "autoresearch", runId);
   const stateFile = activeRunStateFile(projectRoot);
   const instructionsFile = (0, import_path107.join)(runDir, "bootstrap-instructions.md");
   const manifestFile = (0, import_path107.join)(runDir, "manifest.json");
@@ -72984,16 +72984,16 @@ var BLOCKED_EVALUATOR_PATTERNS = [
 ];
 var DEEP_INTERVIEW_DRAFT_PREFIX = "deep-interview-autoresearch-";
 var AUTORESEARCH_ARTIFACT_DIR_PREFIX = "autoresearch-";
-var AUTORESEARCH_DEEP_INTERVIEW_RESULT_KIND = "omc.autoresearch.deep-interview/v1";
+var AUTORESEARCH_DEEP_INTERVIEW_RESULT_KIND = "omg.autoresearch.deep-interview/v1";
 function defaultDraftEvaluator(topic) {
   const detail = topic.trim() || "the mission";
   return `TODO replace with evaluator command for: ${detail}`;
 }
 function buildArtifactDir(repoRoot, slug) {
-  return (0, import_node_path10.join)(repoRoot, ".omc", "specs", `${AUTORESEARCH_ARTIFACT_DIR_PREFIX}${slug}`);
+  return (0, import_node_path10.join)(repoRoot, ".omg", "specs", `${AUTORESEARCH_ARTIFACT_DIR_PREFIX}${slug}`);
 }
 function buildDraftArtifactPath(repoRoot, slug) {
-  return (0, import_node_path10.join)(repoRoot, ".omc", "specs", `${DEEP_INTERVIEW_DRAFT_PREFIX}${slug}.md`);
+  return (0, import_node_path10.join)(repoRoot, ".omg", "specs", `${DEEP_INTERVIEW_DRAFT_PREFIX}${slug}.md`);
 }
 function buildResultPath(repoRoot, slug) {
   return (0, import_node_path10.join)(buildArtifactDir(repoRoot, slug), "result.json");
@@ -73088,7 +73088,7 @@ async function writeAutoresearchDraftArtifact(input) {
     parseSandboxContract(buildSandboxContent(evaluatorCommand, input.keepPolicy));
   }
   const launchReady = blockedReasons.length === 0;
-  const specsDir = (0, import_node_path10.join)(input.repoRoot, ".omc", "specs");
+  const specsDir = (0, import_node_path10.join)(input.repoRoot, ".omg", "specs");
   await (0, import_promises18.mkdir)(specsDir, { recursive: true });
   const path20 = buildDraftArtifactPath(input.repoRoot, slug);
   const content = buildAutoresearchDraftArtifactContent(compileTarget, input.seedInputs || {}, launchReady, blockedReasons);
@@ -73308,7 +73308,7 @@ function spawnAutoresearchTmux(missionDir, slug) {
   if (!checkTmuxAvailable()) {
     throw new Error("tmux is required for background autoresearch execution. Install tmux and try again.");
   }
-  const sessionName2 = `omc-autoresearch-${slug}`;
+  const sessionName2 = `omg-autoresearch-${slug}`;
   try {
     (0, import_child_process39.execFileSync)("tmux", ["has-session", "-t", sessionName2], { stdio: "ignore" });
     throw new Error(
@@ -73323,8 +73323,8 @@ function spawnAutoresearchTmux(missionDir, slug) {
     }
   }
   const repoRoot = resolveMissionRepoRoot(missionDir);
-  const omcPath = (0, import_path109.resolve)((0, import_path109.join)(__dirname, "..", "..", "bin", "omc.js"));
-  const command = buildTmuxShellCommand(process.execPath, [omcPath, "autoresearch", missionDir]);
+  const omgPath = (0, import_path109.resolve)((0, import_path109.join)(__dirname, "..", "..", "bin", "omg.js"));
+  const command = buildTmuxShellCommand(process.execPath, [omgPath, "autoresearch", missionDir]);
   const wrappedCommand = wrapWithLoginShell(command);
   (0, import_child_process39.execFileSync)("tmux", ["new-session", "-d", "-s", sessionName2, "-c", repoRoot, wrappedCommand], { stdio: "ignore" });
   assertTmuxSessionAvailable(sessionName2);
@@ -73369,13 +73369,13 @@ function spawnAutoresearchSetupTmux(repoRoot) {
   if (!checkTmuxAvailable()) {
     throw new Error("tmux is required for autoresearch setup. Install tmux and try again.");
   }
-  const sessionName2 = `omc-autoresearch-setup-${Date.now().toString(36)}`;
+  const sessionName2 = `omg-autoresearch-setup-${Date.now().toString(36)}`;
   const codexHome = prepareAutoresearchSetupCodexHome(repoRoot, sessionName2);
-  const claudeCommand = buildTmuxShellCommand("env", [`CODEX_HOME=${codexHome}`, "claude", CLAUDE_BYPASS_FLAG2]);
-  const wrappedClaudeCommand = wrapWithLoginShell(claudeCommand);
+  const geminiCommand = buildTmuxShellCommand("env", [`CODEX_HOME=${codexHome}`, "gemini", CLAUDE_BYPASS_FLAG2]);
+  const wrappedGeminiCommand = wrapWithLoginShell(geminiCommand);
   const paneId = (0, import_child_process39.execFileSync)(
     "tmux",
-    ["new-session", "-d", "-P", "-F", "#{pane_id}", "-s", sessionName2, "-c", repoRoot, wrappedClaudeCommand],
+    ["new-session", "-d", "-P", "-F", "#{pane_id}", "-s", sessionName2, "-c", repoRoot, wrappedGeminiCommand],
     { encoding: "utf-8" }
   ).trim();
   assertTmuxSessionAvailable(sessionName2);
@@ -73383,7 +73383,7 @@ function spawnAutoresearchSetupTmux(repoRoot) {
     (0, import_child_process39.execFileSync)("tmux", ["send-keys", "-t", paneId, "-l", buildAutoresearchSetupSlashCommand()], { stdio: "ignore" });
     (0, import_child_process39.execFileSync)("tmux", ["send-keys", "-t", paneId, "Enter"], { stdio: "ignore" });
   }
-  console.log("\nAutoresearch setup launched in background Claude session.");
+  console.log("\nAutoresearch setup launched in background Gemini session.");
   console.log(`  Session:  ${sessionName2}`);
   console.log(`  Starter:  ${buildAutoresearchSetupSlashCommand()}`);
   console.log(`  CODEX_HOME: ${quoteShellArg(codexHome)}`);
@@ -73392,20 +73392,20 @@ function spawnAutoresearchSetupTmux(repoRoot) {
 
 // src/cli/autoresearch.ts
 var CLAUDE_BYPASS_FLAG3 = "--dangerously-skip-permissions";
-var AUTORESEARCH_HELP = `omc autoresearch - Launch OMC autoresearch with thin-supervisor parity semantics
+var AUTORESEARCH_HELP = `omg autoresearch - Launch OMC autoresearch with thin-supervisor parity semantics
 
 Usage:
-  omc autoresearch                                                (detached Claude deep-interview setup session)
-  omc autoresearch [--topic T] [--evaluator CMD] [--keep-policy P] [--slug S]
-  omc autoresearch --mission TEXT --eval CMD [--keep-policy P] [--slug S]
-  omc autoresearch init [--topic T] [--eval CMD] [--keep-policy P] [--slug S]
-  omc autoresearch <mission-dir> [claude-args...]
-  omc autoresearch --resume <run-id> [claude-args...]
+  omg autoresearch                                                (detached Gemini deep-interview setup session)
+  omg autoresearch [--topic T] [--evaluator CMD] [--keep-policy P] [--slug S]
+  omg autoresearch --mission TEXT --eval CMD [--keep-policy P] [--slug S]
+  omg autoresearch init [--topic T] [--eval CMD] [--keep-policy P] [--slug S]
+  omg autoresearch <mission-dir> [gemini-args...]
+  omg autoresearch --resume <run-id> [gemini-args...]
 
 Arguments:
-  (no args)        Launches a detached Claude session and starts /deep-interview --autoresearch.
+  (no args)        Launches a detached Gemini session and starts /deep-interview --autoresearch.
                    That interview lane should clarify the mission/evaluator, then launch direct
-                   execution via omc autoresearch --mission ... --eval ... from inside Claude.
+                   execution via omg autoresearch --mission ... --eval ... from inside Gemini.
   --topic/...      Seed the legacy guided intake with draft values; still requires
                    refinement/confirmation before launch.
   --mission/       Explicit bypass path. --mission is raw mission text and --eval is the raw
@@ -73414,22 +73414,22 @@ Arguments:
   init             Non-interactive mission scaffolding via flags (--topic, --eval, --slug;
                    optional --keep-policy).
   <mission-dir>    Directory inside a git repository containing mission.md and sandbox.md
-  <run-id>         Existing autoresearch run id from .omc/logs/autoresearch/<run-id>/manifest.json
+  <run-id>         Existing autoresearch run id from .omg/logs/autoresearch/<run-id>/manifest.json
 
 Behavior:
-  - guided intake writes canonical artifacts under .omc/specs before launch when using --topic/--evaluator flow
+  - guided intake writes canonical artifacts under .omg/specs before launch when using --topic/--evaluator flow
   - validates mission.md and sandbox.md
   - requires sandbox.md YAML frontmatter with evaluator.command and evaluator.format=json
   - fresh launch creates a run-tagged autoresearch/<slug>/<run-tag> lane
-  - supervisor records baseline, candidate, keep/discard/reset, and results artifacts under .omc/logs/autoresearch/
+  - supervisor records baseline, candidate, keep/discard/reset, and results artifacts under .omg/logs/autoresearch/
   - --resume loads the authoritative per-run manifest and continues from the last kept commit
 `;
 var AUTORESEARCH_APPEND_INSTRUCTIONS_ENV = "OMC_AUTORESEARCH_APPEND_INSTRUCTIONS_FILE";
 var AUTORESEARCH_MAX_CONSECUTIVE_NOOPS = 3;
-function normalizeAutoresearchClaudeArgs(claudeArgs) {
+function normalizeAutoresearchGeminiArgs(geminiArgs) {
   const normalized = [];
   let hasBypass = false;
-  for (const arg of claudeArgs) {
+  for (const arg of geminiArgs) {
     if (arg === CLAUDE_BYPASS_FLAG3) {
       if (!hasBypass) {
         normalized.push(arg);
@@ -73444,10 +73444,10 @@ function normalizeAutoresearchClaudeArgs(claudeArgs) {
   }
   return normalized;
 }
-function runAutoresearchTurn(worktreePath, instructionsFile, claudeArgs) {
+function runAutoresearchTurn(worktreePath, instructionsFile, geminiArgs) {
   const prompt = (0, import_fs95.readFileSync)(instructionsFile, "utf-8");
-  const launchArgs = ["--print", ...normalizeAutoresearchClaudeArgs(claudeArgs), "-p", prompt];
-  const result = (0, import_child_process40.spawnSync)("claude", launchArgs, {
+  const launchArgs = ["--print", ...normalizeAutoresearchGeminiArgs(geminiArgs), "-p", prompt];
+  const result = (0, import_child_process40.spawnSync)("gemini", launchArgs, {
     cwd: worktreePath,
     stdio: ["pipe", "inherit", "inherit"],
     encoding: "utf-8",
@@ -73458,7 +73458,7 @@ function runAutoresearchTurn(worktreePath, instructionsFile, claudeArgs) {
   }
   if (result.status !== 0) {
     process.exitCode = typeof result.status === "number" ? result.status : 1;
-    throw new Error(`autoresearch_claude_exec_failed:${result.status ?? "unknown"}`);
+    throw new Error(`autoresearch_gemini_exec_failed:${result.status ?? "unknown"}`);
   }
 }
 function parseAutoresearchKeepPolicy(value) {
@@ -73555,7 +73555,7 @@ ${AUTORESEARCH_HELP}`
   return {
     missionDir: null,
     runId: null,
-    claudeArgs: [],
+    geminiArgs: [],
     missionText: missionText.trim(),
     sandboxCommand: sandboxCommand.trim(),
     keepPolicy,
@@ -73572,7 +73572,7 @@ function resolveRepoRoot(cwd2) {
 function parseAutoresearchArgs(args) {
   const values = [...args];
   if (values.length === 0) {
-    return { missionDir: null, runId: null, claudeArgs: [], guided: true };
+    return { missionDir: null, runId: null, geminiArgs: [], guided: true };
   }
   const bypass = parseAutoresearchBypassArgs(values);
   if (bypass) {
@@ -73580,10 +73580,10 @@ function parseAutoresearchArgs(args) {
   }
   const first = values[0];
   if (first === "init") {
-    return { missionDir: null, runId: null, claudeArgs: [], guided: true, initArgs: values.slice(1) };
+    return { missionDir: null, runId: null, geminiArgs: [], guided: true, initArgs: values.slice(1) };
   }
   if (first === "--help" || first === "-h" || first === "help") {
-    return { missionDir: "--help", runId: null, claudeArgs: [] };
+    return { missionDir: "--help", runId: null, geminiArgs: [] };
   }
   if (first === "--resume") {
     const runId = values[1]?.trim();
@@ -73591,7 +73591,7 @@ function parseAutoresearchArgs(args) {
       throw new Error(`--resume requires <run-id>.
 ${AUTORESEARCH_HELP}`);
     }
-    return { missionDir: null, runId, claudeArgs: values.slice(2) };
+    return { missionDir: null, runId, geminiArgs: values.slice(2) };
   }
   if (first.startsWith("--resume=")) {
     const runId = first.slice("--resume=".length).trim();
@@ -73599,26 +73599,26 @@ ${AUTORESEARCH_HELP}`);
       throw new Error(`--resume requires <run-id>.
 ${AUTORESEARCH_HELP}`);
     }
-    return { missionDir: null, runId, claudeArgs: values.slice(1) };
+    return { missionDir: null, runId, geminiArgs: values.slice(1) };
   }
   if (first.startsWith("-")) {
     return {
       missionDir: null,
       runId: null,
-      claudeArgs: [],
+      geminiArgs: [],
       guided: true,
       seedArgs: parseInitArgs(values)
     };
   }
-  return { missionDir: first, runId: null, claudeArgs: values.slice(1) };
+  return { missionDir: first, runId: null, geminiArgs: values.slice(1) };
 }
-async function runAutoresearchLoop(claudeArgs, runtime, missionDir) {
+async function runAutoresearchLoop(geminiArgs, runtime, missionDir) {
   const previousInstructionsFile = process.env[AUTORESEARCH_APPEND_INSTRUCTIONS_ENV];
   const originalCwd = process.cwd();
   process.env[AUTORESEARCH_APPEND_INSTRUCTIONS_ENV] = runtime.instructionsFile;
   try {
     while (true) {
-      runAutoresearchTurn(runtime.worktreePath, runtime.instructionsFile, claudeArgs);
+      runAutoresearchTurn(runtime.worktreePath, runtime.instructionsFile, geminiArgs);
       const contract = await loadAutoresearchMissionContract(missionDir);
       const manifest = await loadAutoresearchRunManifest(runtime.repoRoot, JSON.parse((0, import_child_process40.execFileSync)("cat", [runtime.manifestFile], { encoding: "utf-8" })).run_id);
       const decision = await processAutoresearchCandidate(contract, manifest, runtime.repoRoot);
@@ -73647,7 +73647,7 @@ async function runAutoresearchLoop(claudeArgs, runtime, missionDir) {
   }
 }
 function planWorktree(repoRoot, missionSlug, runTag) {
-  const worktreePath = `${repoRoot}/../${repoRoot.split("/").pop()}.omc-worktrees/autoresearch-${missionSlug}-${runTag.toLowerCase()}`;
+  const worktreePath = `${repoRoot}/../${repoRoot.split("/").pop()}.omg-worktrees/autoresearch-${missionSlug}-${runTag.toLowerCase()}`;
   const branchName = `autoresearch/${missionSlug}/${runTag.toLowerCase()}`;
   return { worktreePath, branchName };
 }
@@ -73701,7 +73701,7 @@ ${AUTORESEARCH_HELP}`
     await assertModeStartAllowed("autoresearch", repoRoot);
     const manifest = await loadAutoresearchRunManifest(repoRoot, parsed.runId);
     const runtime2 = await resumeAutoresearchRuntime(repoRoot, parsed.runId);
-    await runAutoresearchLoop(parsed.claudeArgs, runtime2, manifest.mission_dir);
+    await runAutoresearchLoop(parsed.geminiArgs, runtime2, manifest.mission_dir);
     return;
   }
   const contract = await loadAutoresearchMissionContract(parsed.missionDir);
@@ -73714,7 +73714,7 @@ ${AUTORESEARCH_HELP}`
   });
   const worktreeContract = await materializeAutoresearchMissionToWorktree(contract, plan.worktreePath);
   const runtime = await prepareAutoresearchRuntime(worktreeContract, contract.repoRoot, plan.worktreePath, { runTag });
-  await runAutoresearchLoop(parsed.claudeArgs, runtime, worktreeContract.missionDir);
+  await runAutoresearchLoop(parsed.geminiArgs, runtime, worktreeContract.missionDir);
 }
 
 // src/mcp/standalone-shutdown.ts
@@ -73827,15 +73827,15 @@ async function defaultAction() {
   }
   await launchCommand(args);
 }
-program2.name("omc").description("Multi-agent orchestration system for Claude Agent SDK").version(version2).allowUnknownOption().action(defaultAction);
-program2.command("launch [args...]").description("Launch Claude Code with native tmux shell integration").allowUnknownOption().addHelpText("after", `
+program2.name("omg").description("Multi-agent orchestration system for Gemini Agent SDK").version(version2).allowUnknownOption().action(defaultAction);
+program2.command("launch [args...]").description("Launch Gemini Code with native tmux shell integration").allowUnknownOption().addHelpText("after", `
 Examples:
-  $ omc                                Launch Claude Code
-  $ omc --madmax                       Launch with permissions bypass
-  $ omc --yolo                         Launch with permissions bypass (alias)
-  $ omc --notify false                 Launch without CCNotifier events
-  $ omc launch                         Explicit launch subcommand (same as bare omc)
-  $ omc launch --madmax                Explicit launch with flags
+  $ omg                                Launch Gemini Code
+  $ omg --madmax                       Launch with permissions bypass
+  $ omg --yolo                         Launch with permissions bypass (alias)
+  $ omg --notify false                 Launch without CCNotifier events
+  $ omg launch                         Explicit launch subcommand (same as bare omg)
+  $ omg launch --madmax                Explicit launch with flags
 
 Options:
   --notify <bool>   Enable/disable CCNotifier events. false sets OMC_NOTIFY=0
@@ -73847,10 +73847,10 @@ Environment:
 `).action(async (args) => {
   await launchCommand(args);
 });
-program2.command("interop").description("Launch split-pane tmux session with Claude Code (OMC) and Codex (OMX)").addHelpText("after", `
+program2.command("interop").description("Launch split-pane tmux session with Gemini Code (OMC) and Codex (OMX)").addHelpText("after", `
 Requirements:
   - Must be running inside a tmux session
-  - Claude CLI must be installed
+  - Gemini CLI must be installed
   - Codex CLI recommended (graceful fallback if missing)`).action(() => {
   interopCommand();
 });
@@ -73860,9 +73860,9 @@ ${ASK_USAGE}`).action(async (args) => {
 });
 program2.command("config").description("Show current configuration").option("-v, --validate", "Validate configuration").option("-p, --paths", "Show configuration file paths").addHelpText("after", `
 Examples:
-  $ omc config                   Show current configuration
-  $ omc config --validate        Validate configuration files
-  $ omc config --paths           Show config file locations
+  $ omg config                   Show current configuration
+  $ omg config --validate        Validate configuration files
+  $ omg config --paths           Show config file locations
 
   }`).action(async (options) => {
   if (options.paths) {
@@ -73915,19 +73915,19 @@ Profile types (use with --profile):
   webhook      Generic webhook (POST with JSON body)
 
 Examples:
-  $ omc config-stop-callback file --enable --path ~/.claude/logs/{date}.md
-  $ omc config-stop-callback telegram --enable --token <token> --chat <id>
-  $ omc config-stop-callback discord --enable --webhook <url>
-  $ omc config-stop-callback file --disable
-  $ omc config-stop-callback file --show
+  $ omg config-stop-callback file --enable --path ~/.gemini/logs/{date}.md
+  $ omg config-stop-callback telegram --enable --token <token> --chat <id>
+  $ omg config-stop-callback discord --enable --webhook <url>
+  $ omg config-stop-callback file --disable
+  $ omg config-stop-callback file --show
 
   # Named profiles (stored in notificationProfiles):
-  $ omc config-stop-callback discord --profile work --enable --webhook <url>
-  $ omc config-stop-callback telegram --profile work --enable --token <tk> --chat <id>
-  $ omc config-stop-callback discord-bot --profile ops --enable --token <tk> --channel-id <id>
+  $ omg config-stop-callback discord --profile work --enable --webhook <url>
+  $ omg config-stop-callback telegram --profile work --enable --token <tk> --chat <id>
+  $ omg config-stop-callback discord-bot --profile ops --enable --token <tk> --channel-id <id>
 
   # Select profile at launch:
-  $ OMC_NOTIFY_PROFILE=work claude`).action(async (type, options) => {
+  $ OMC_NOTIFY_PROFILE=work gemini`).action(async (type, options) => {
   if (options.profile) {
     const profileValidTypes = ["file", "telegram", "discord", "discord-bot", "slack", "webhook"];
     if (!profileValidTypes.includes(type)) {
@@ -74100,7 +74100,7 @@ Examples:
       const current = config2.stopHookCallbacks.file;
       config2.stopHookCallbacks.file = {
         enabled: enabled ?? current?.enabled ?? false,
-        path: options.path ?? current?.path ?? "~/.claude/session-logs/{session_id}.md",
+        path: options.path ?? current?.path ?? "~/.gemini/session-logs/{session_id}.md",
         format: options.format ?? current?.format ?? "markdown"
       };
       break;
@@ -74164,22 +74164,22 @@ Examples:
 });
 program2.command("config-notify-profile [name]").description("Manage notification profiles").option("--list", "List all profiles").option("--show", "Show profile configuration").option("--delete", "Delete a profile").addHelpText("after", `
 Examples:
-  $ omc config-notify-profile --list
-  $ omc config-notify-profile work --show
-  $ omc config-notify-profile work --delete
+  $ omg config-notify-profile --list
+  $ omg config-notify-profile work --show
+  $ omg config-notify-profile work --delete
 
   # Create/update profiles via config-stop-callback --profile:
-  $ omc config-stop-callback discord --profile work --enable --webhook <url>
+  $ omg config-stop-callback discord --profile work --enable --webhook <url>
 
   # Select profile at launch:
-  $ OMC_NOTIFY_PROFILE=work claude`).action(async (name, options) => {
+  $ OMC_NOTIFY_PROFILE=work gemini`).action(async (name, options) => {
   const config2 = getOMCConfig();
   const profiles = config2.notificationProfiles || {};
   if (options.list || !name) {
     const names = Object.keys(profiles);
     if (names.length === 0) {
       console.log(source_default.yellow("No notification profiles configured."));
-      console.log(source_default.gray("Create one with: omc config-stop-callback <type> --profile <name> --enable ..."));
+      console.log(source_default.gray("Create one with: omg config-stop-callback <type> --profile <name> --enable ..."));
     } else {
       console.log(source_default.blue("Notification profiles:"));
       for (const pName of names) {
@@ -74229,14 +74229,14 @@ Active profile (OMC_NOTIFY_PROFILE): ${activeProfile}`));
     console.log(JSON.stringify(profiles[name], null, 2));
   } else {
     console.log(source_default.yellow(`Profile "${name}" not found.`));
-    console.log(source_default.gray("Create it with: omc config-stop-callback <type> --profile " + name + " --enable ..."));
+    console.log(source_default.gray("Create it with: omg config-stop-callback <type> --profile " + name + " --enable ..."));
   }
 });
 program2.command("info").description("Show system and agent information").addHelpText("after", `
 Examples:
-  $ omc info                     Show agents, features, and MCP servers`).action(async () => {
+  $ omg info                     Show agents, features, and MCP servers`).action(async () => {
   const session = createOmcSession();
-  console.log(source_default.blue.bold("\nOh-My-ClaudeCode System Information\n"));
+  console.log(source_default.blue.bold("\nOh-My-GeminiCLI System Information\n"));
   console.log(source_default.gray("\u2501".repeat(50)));
   console.log(source_default.blue("\nAvailable Agents:"));
   const agents = session.queryOptions.options.agents;
@@ -74267,8 +74267,8 @@ Examples:
 });
 program2.command("test-prompt <prompt>").description("Test how a prompt would be enhanced").addHelpText("after", `
 Examples:
-  $ omc test-prompt "ultrawork fix bugs"    See how magic keywords are detected
-  $ omc test-prompt "analyze this code"     Test prompt enhancement`).action(async (prompt) => {
+  $ omg test-prompt "ultrawork fix bugs"    See how magic keywords are detected
+  $ omg test-prompt "analyze this code"     Test prompt enhancement`).action(async (prompt) => {
   const session = createOmcSession();
   console.log(source_default.blue("Original prompt:"));
   console.log(source_default.gray(prompt));
@@ -74282,12 +74282,12 @@ Examples:
 });
 program2.command("update").description("Check for and install updates").option("-c, --check", "Only check for updates, do not install").option("-f, --force", "Force reinstall even if up to date").option("-q, --quiet", "Suppress output except for errors").option("--standalone", "Force npm update even in plugin context").option("--clean", "Purge old plugin cache versions immediately (bypass 24h grace period)").addHelpText("after", `
 Examples:
-  $ omc update                   Check and install updates
-  $ omc update --check           Only check, don't install
-  $ omc update --force           Force reinstall
-  $ omc update --standalone      Force npm update in plugin context`).action(async (options) => {
+  $ omg update                   Check and install updates
+  $ omg update --check           Only check, don't install
+  $ omg update --force           Force reinstall
+  $ omg update --standalone      Force npm update in plugin context`).action(async (options) => {
   if (!options.quiet) {
-    console.log(source_default.blue("Oh-My-ClaudeCode Update\n"));
+    console.log(source_default.blue("Oh-My-GeminiCLI Update\n"));
   }
   try {
     const installed = getInstalledVersion();
@@ -74324,7 +74324,7 @@ Examples:
       if (!options.quiet) {
         console.log(source_default.green(`
 \u2713 ${result.message}`));
-        console.log(source_default.gray("\nPlease restart your Claude Code session to use the new version."));
+        console.log(source_default.gray("\nPlease restart your Gemini Code session to use the new version."));
       }
     } else {
       console.error(source_default.red(`
@@ -74337,7 +74337,7 @@ Examples:
   } catch (error2) {
     const message = error2 instanceof Error ? error2.message : String(error2);
     console.error(source_default.red(`Update failed: ${message}`));
-    console.error(source_default.gray('Try again with "omc update --force", or reinstall with "omc install --force".'));
+    console.error(source_default.gray('Try again with "omg update --force", or reinstall with "omg install --force".'));
     process.exit(1);
   }
 });
@@ -74362,9 +74362,9 @@ program2.command("update-reconcile").description("Internal: Reconcile runtime st
 });
 program2.command("version").description("Show detailed version information").addHelpText("after", `
 Examples:
-  $ omc version                  Show version, install method, and commit hash`).action(async () => {
+  $ omg version                  Show version, install method, and commit hash`).action(async () => {
   const installed = getInstalledVersion();
-  console.log(source_default.blue.bold("\nOh-My-ClaudeCode Version Information\n"));
+  console.log(source_default.blue.bold("\nOh-My-GeminiCLI Version Information\n"));
   console.log(source_default.gray("\u2501".repeat(50)));
   console.log(`
   Package version:   ${source_default.green(version2)}`);
@@ -74383,17 +74383,17 @@ Examples:
     console.log(source_default.gray("  (Run the install script to create version metadata)"));
   }
   console.log(source_default.gray("\n\u2501".repeat(50)));
-  console.log(source_default.gray("\nTo check for updates, run: oh-my-claudecode update --check"));
+  console.log(source_default.gray("\nTo check for updates, run: oh-my-gemini-cli update --check"));
 });
-program2.command("install").description("Install OMC agents and commands to Claude Code config (~/.claude/)").option("-f, --force", "Overwrite existing files").option("-q, --quiet", "Suppress output except for errors").option("--skip-claude-check", "Skip checking if Claude Code is installed").addHelpText("after", `
+program2.command("install").description("Install OMC agents and commands to Gemini Code config (~/.gemini/)").option("-f, --force", "Overwrite existing files").option("-q, --quiet", "Suppress output except for errors").option("--skip-gemini-check", "Skip checking if Gemini Code is installed").addHelpText("after", `
 Examples:
-  $ omc install                  Install to ~/.claude/
-  $ omc install --force          Reinstall, overwriting existing files
-  $ omc install --quiet          Silent install for scripts`).action(async (options) => {
+  $ omg install                  Install to ~/.gemini/
+  $ omg install --force          Reinstall, overwriting existing files
+  $ omg install --quiet          Silent install for scripts`).action(async (options) => {
   if (!options.quiet) {
     console.log(source_default.blue("\u2554\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2557"));
-    console.log(source_default.blue("\u2551         Oh-My-ClaudeCode Installer                        \u2551"));
-    console.log(source_default.blue("\u2551   Multi-Agent Orchestration for Claude Code               \u2551"));
+    console.log(source_default.blue("\u2551         Oh-My-GeminiCLI Installer                        \u2551"));
+    console.log(source_default.blue("\u2551   Multi-Agent Orchestration for Gemini Code               \u2551"));
     console.log(source_default.blue("\u255A\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u255D"));
     console.log("");
   }
@@ -74412,7 +74412,7 @@ Examples:
   const result = install({
     force: options.force,
     verbose: !options.quiet,
-    skipClaudeCheck: options.skipClaudeCheck
+    skipGeminiCheck: options.skipGeminiCheck
   });
   if (result.success) {
     if (!options.quiet) {
@@ -74421,15 +74421,15 @@ Examples:
       console.log(source_default.green("\u2551         Installation Complete!                            \u2551"));
       console.log(source_default.green("\u255A\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u255D"));
       console.log("");
-      console.log(source_default.gray(`Installed to: ~/.claude/`));
+      console.log(source_default.gray(`Installed to: ~/.gemini/`));
       console.log("");
       console.log(source_default.yellow("Usage:"));
-      console.log("  claude                        # Start Claude Code normally");
+      console.log("  gemini                        # Start Gemini Code normally");
       console.log("");
       console.log(source_default.yellow("Slash Commands:"));
-      console.log("  /omc <task>              # Activate OMC orchestration mode");
-      console.log("  /omc-default             # Configure for current project");
-      console.log("  /omc-default-global      # Configure globally");
+      console.log("  /omg <task>              # Activate OMC orchestration mode");
+      console.log("  /omg-default             # Configure for current project");
+      console.log("  /omg-default-global      # Configure globally");
       console.log("  /ultrawork <task>             # Maximum performance mode");
       console.log("  /deepsearch <query>           # Thorough codebase search");
       console.log("  /analyze <target>             # Deep analysis mode");
@@ -74459,32 +74459,32 @@ Examples:
       console.log("    designer-low        - Simple styling (Haiku)");
       console.log("");
       console.log(source_default.yellow("After Updates:"));
-      console.log("  Run '/omc-default' (project) or '/omc-default-global' (global)");
-      console.log("  to download the latest CLAUDE.md configuration.");
+      console.log("  Run '/omg-default' (project) or '/omg-default-global' (global)");
+      console.log("  to download the latest GEMINI.md configuration.");
       console.log("  This ensures you get the newest features and agent behaviors.");
       console.log("");
       console.log(source_default.blue("Quick Start:"));
-      console.log("  1. Run 'claude' to start Claude Code");
-      console.log("  2. Type '/omc-default' for project or '/omc-default-global' for global");
-      console.log("  3. Or use '/omc <task>' for one-time activation");
+      console.log("  1. Run 'gemini' to start Gemini Code");
+      console.log("  2. Type '/omg-default' for project or '/omg-default-global' for global");
+      console.log("  3. Or use '/omg <task>' for one-time activation");
     }
   } else {
     console.error(source_default.red(`Installation failed: ${result.message}`));
     if (result.errors.length > 0) {
       result.errors.forEach((err) => console.error(source_default.red(`  - ${err}`)));
     }
-    console.error(source_default.gray('\nTry "omc install --force" to overwrite existing files.'));
-    console.error(source_default.gray('For more diagnostics, run "omc doctor conflicts".'));
+    console.error(source_default.gray('\nTry "omg install --force" to overwrite existing files.'));
+    console.error(source_default.gray('For more diagnostics, run "omg doctor conflicts".'));
     process.exit(1);
   }
 });
-var waitCmd = program2.command("wait").description('Rate limit wait and auto-resume (just run "omc wait" to get started)').option("--json", "Output as JSON").option("--start", "Start the auto-resume daemon").option("--stop", "Stop the auto-resume daemon").addHelpText("after", `
+var waitCmd = program2.command("wait").description('Rate limit wait and auto-resume (just run "omg wait" to get started)').option("--json", "Output as JSON").option("--start", "Start the auto-resume daemon").option("--stop", "Stop the auto-resume daemon").addHelpText("after", `
 Examples:
-  $ omc wait                     Show status and suggestions
-  $ omc wait --start             Start auto-resume daemon
-  $ omc wait --stop              Stop auto-resume daemon
-  $ omc wait status              Show detailed rate limit status
-  $ omc wait detect              Scan for blocked tmux sessions`).action(async (options) => {
+  $ omg wait                     Show status and suggestions
+  $ omg wait --start             Start auto-resume daemon
+  $ omg wait --stop              Stop auto-resume daemon
+  $ omg wait status              Show detailed rate limit status
+  $ omg wait detect              Scan for blocked tmux sessions`).action(async (options) => {
   await waitCommand(options);
 });
 waitCmd.command("status").description("Show detailed rate limit and daemon status").option("--json", "Output as JSON").action(async (options) => {
@@ -74492,12 +74492,12 @@ waitCmd.command("status").description("Show detailed rate limit and daemon statu
 });
 waitCmd.command("daemon <action>").description("Start or stop the auto-resume daemon").option("-v, --verbose", "Enable verbose logging").option("-f, --foreground", "Run in foreground (blocking)").option("-i, --interval <seconds>", "Poll interval in seconds", "60").addHelpText("after", `
 Examples:
-  $ omc wait daemon start            Start background daemon
-  $ omc wait daemon stop             Stop the daemon
-  $ omc wait daemon start -f         Run in foreground`).action(async (action, options) => {
+  $ omg wait daemon start            Start background daemon
+  $ omg wait daemon stop             Stop the daemon
+  $ omg wait daemon start -f         Run in foreground`).action(async (action, options) => {
   if (action !== "start" && action !== "stop") {
     console.error(source_default.red(`Invalid action "${action}". Valid options: start, stop`));
-    console.error(source_default.gray("Example: omc wait daemon start"));
+    console.error(source_default.gray("Example: omg wait daemon start"));
     process.exit(1);
   }
   await waitDaemonCommand(action, {
@@ -74506,27 +74506,27 @@ Examples:
     interval: parseInt(options.interval)
   });
 });
-waitCmd.command("detect").description("Scan for blocked Claude Code sessions in tmux").option("--json", "Output as JSON").option("-l, --lines <number>", "Number of pane lines to analyze", "15").action(async (options) => {
+waitCmd.command("detect").description("Scan for blocked Gemini Code sessions in tmux").option("--json", "Output as JSON").option("-l, --lines <number>", "Number of pane lines to analyze", "15").action(async (options) => {
   await waitDetectCommand({
     json: options.json,
     lines: parseInt(options.lines)
   });
 });
-var teleportCmd = program2.command("teleport [ref]").description("Create git worktree for isolated development (e.g., omc teleport '#123')").option("--worktree", "Create worktree (default behavior, flag kept for compatibility)").option("-p, --path <path>", "Custom worktree path (default: ~/Workspace/omc-worktrees/)").option("-b, --base <branch>", "Base branch to create from (default: main)").option("--json", "Output as JSON").addHelpText("after", `
+var teleportCmd = program2.command("teleport [ref]").description("Create git worktree for isolated development (e.g., omg teleport '#123')").option("--worktree", "Create worktree (default behavior, flag kept for compatibility)").option("-p, --path <path>", "Custom worktree path (default: ~/Workspace/omg-worktrees/)").option("-b, --base <branch>", "Base branch to create from (default: main)").option("--json", "Output as JSON").addHelpText("after", `
 Examples:
-  $ omc teleport '#42'           Create worktree for issue/PR #42
-  $ omc teleport add-auth        Create worktree for a feature branch
-  $ omc teleport list            List existing worktrees
-  $ omc teleport remove ./path   Remove a worktree
+  $ omg teleport '#42'           Create worktree for issue/PR #42
+  $ omg teleport add-auth        Create worktree for a feature branch
+  $ omg teleport list            List existing worktrees
+  $ omg teleport remove ./path   Remove a worktree
 
 Note:
-  In many shells, # starts a comment. Quote refs: omc teleport '#42'`).action(async (ref, options) => {
+  In many shells, # starts a comment. Quote refs: omg teleport '#42'`).action(async (ref, options) => {
   if (!ref) {
     console.log(source_default.blue("Teleport - Quick worktree creation\n"));
     console.log("Usage:");
-    console.log("  omc teleport <ref>           Create worktree for issue/PR/feature");
-    console.log("  omc teleport list            List existing worktrees");
-    console.log("  omc teleport remove <path>   Remove a worktree");
+    console.log("  omg teleport <ref>           Create worktree for issue/PR/feature");
+    console.log("  omg teleport list            List existing worktrees");
+    console.log("  omg teleport remove <path>   Remove a worktree");
     console.log("");
     console.log("Reference formats:");
     console.log("  '#123'                       Issue/PR in current repo (quoted for shell safety)");
@@ -74534,11 +74534,11 @@ Note:
     console.log("  my-feature                   Feature branch name");
     console.log("  https://github.com/...       GitHub URL");
     console.log("");
-    console.log(source_default.yellow("Note: In many shells, # starts a comment. Quote refs: omc teleport '#42'"));
+    console.log(source_default.yellow("Note: In many shells, # starts a comment. Quote refs: omg teleport '#42'"));
     console.log("");
     console.log("Examples:");
-    console.log("  omc teleport '#42'           Create worktree for issue #42");
-    console.log('  omc teleport add-auth        Create worktree for feature "add-auth"');
+    console.log("  omg teleport '#42'           Create worktree for issue #42");
+    console.log('  omg teleport add-auth        Create worktree for feature "add-auth"');
     console.log("");
     return;
   }
@@ -74550,7 +74550,7 @@ Note:
     json: options.json
   });
 });
-teleportCmd.command("list").description("List existing worktrees in ~/Workspace/omc-worktrees/").option("--json", "Output as JSON").action(async (options) => {
+teleportCmd.command("list").description("List existing worktrees in ~/Workspace/omg-worktrees/").option("--json", "Output as JSON").action(async (options) => {
   await teleportListCommand(options);
 });
 teleportCmd.command("remove <path>").alias("rm").description("Remove a worktree").option("-f, --force", "Force removal even with uncommitted changes").option("--json", "Output as JSON").action(async (path20, options) => {
@@ -74559,9 +74559,9 @@ teleportCmd.command("remove <path>").alias("rm").description("Remove a worktree"
 });
 var sessionCmd = program2.command("session").alias("sessions").description("Inspect prior local session history").addHelpText("after", `
 Examples:
-  $ omc session search "team leader stale"
-  $ omc session search notify-hook --since 7d
-  $ omc session search provider-routing --project all --json`);
+  $ omg session search "team leader stale"
+  $ omg session search notify-hook --since 7d
+  $ omg session search provider-routing --project all --json`);
 sessionCmd.command("search <query>").description("Search prior local session transcripts and OMC session artifacts").option("-l, --limit <number>", "Maximum number of matches to return", "10").option("-s, --session <id>", "Restrict search to a specific session id").option("--since <duration|date>", "Only include matches since a duration (e.g. 7d, 24h) or absolute date").option("--project <scope>", 'Project scope. Defaults to current project. Use "all" to search all local projects').option("--json", "Output results as JSON").option("--case-sensitive", "Match query case-sensitively").option("--context <chars>", "Approximate snippet context on each side of a match", "120").action(async (query, options) => {
   await sessionSearchCommand(query, {
     limit: parseInt(options.limit, 10),
@@ -74576,23 +74576,23 @@ sessionCmd.command("search <query>").description("Search prior local session tra
 });
 var doctorCmd = program2.command("doctor").description("Diagnostic tools for troubleshooting OMC installation").addHelpText("after", `
 Examples:
-  $ omc doctor conflicts         Check for plugin conflicts`);
+  $ omg doctor conflicts         Check for plugin conflicts`);
 doctorCmd.command("conflicts").description("Check for plugin coexistence issues and configuration conflicts").option("--json", "Output as JSON").addHelpText("after", `
 Examples:
-  $ omc doctor conflicts         Check for configuration issues
-  $ omc doctor conflicts --json  Output results as JSON`).action(async (options) => {
+  $ omg doctor conflicts         Check for configuration issues
+  $ omg doctor conflicts --json  Output results as JSON`).action(async (options) => {
   const exitCode = await doctorConflictsCommand(options);
   process.exit(exitCode);
 });
 program2.command("setup").description("Run OMC setup to sync all components (hooks, agents, skills)").option("-f, --force", "Force reinstall even if already up to date").option("-q, --quiet", "Suppress output except for errors").option("--skip-hooks", "Skip hook installation").option("--force-hooks", "Force reinstall hooks even if unchanged").addHelpText("after", `
 Examples:
-  $ omc setup                     Sync all OMC components
-  $ omc setup --force             Force reinstall everything
-  $ omc setup --quiet             Silent setup for scripts
-  $ omc setup --skip-hooks        Install without hooks
-  $ omc setup --force-hooks       Force reinstall hooks`).action(async (options) => {
+  $ omg setup                     Sync all OMC components
+  $ omg setup --force             Force reinstall everything
+  $ omg setup --quiet             Silent setup for scripts
+  $ omg setup --skip-hooks        Install without hooks
+  $ omg setup --force-hooks       Force reinstall hooks`).action(async (options) => {
   if (!options.quiet) {
-    console.log(source_default.blue("Oh-My-ClaudeCode Setup\n"));
+    console.log(source_default.blue("Oh-My-GeminiCLI Setup\n"));
   }
   if (!options.quiet) {
     console.log(source_default.gray("Syncing OMC components..."));
@@ -74600,7 +74600,7 @@ Examples:
   const result = install({
     force: !!options.force,
     verbose: !options.quiet,
-    skipClaudeCheck: true,
+    skipGeminiCheck: true,
     forceHooks: !!options.forceHooks
   });
   if (!result.success) {
@@ -74640,22 +74640,22 @@ Examples:
     if (reportedVersion !== version2) {
       console.log(source_default.gray(`CLI package version: ${version2}`));
     }
-    console.log(source_default.gray("Start Claude Code and use /oh-my-claudecode:omc-setup for interactive setup."));
+    console.log(source_default.gray("Start Gemini Code and use /oh-my-gemini-cli:omg-setup for interactive setup."));
   }
 });
 program2.command("postinstall", { hidden: true }).description("Run post-install setup (called automatically by npm)").action(async () => {
   const result = install({
     force: false,
     verbose: false,
-    skipClaudeCheck: true
+    skipGeminiCheck: true
   });
   if (result.success) {
-    console.log(source_default.green("\u2713 Oh-My-ClaudeCode installed successfully!"));
-    console.log(source_default.gray('  Run "oh-my-claudecode info" to see available agents.'));
-    console.log(source_default.yellow('  Run "/omc-default" (project) or "/omc-default-global" (global) in Claude Code.'));
+    console.log(source_default.green("\u2713 Oh-My-GeminiCLI installed successfully!"));
+    console.log(source_default.gray('  Run "oh-my-gemini-cli info" to see available agents.'));
+    console.log(source_default.yellow('  Run "/omg-default" (project) or "/omg-default-global" (global) in Gemini Code.'));
   } else {
     console.warn(source_default.yellow("\u26A0 Could not complete OMC setup:"), result.message);
-    console.warn(source_default.gray('  Run "oh-my-claudecode install" manually to complete setup.'));
+    console.warn(source_default.gray('  Run "oh-my-gemini-cli install" manually to complete setup.'));
   }
 });
 program2.command("hud").description("Run the OMC HUD statusline renderer").option("--watch", "Run in watch mode (continuous polling for tmux pane)").option("--interval <ms>", "Poll interval in milliseconds", "1000").action(async (options) => {

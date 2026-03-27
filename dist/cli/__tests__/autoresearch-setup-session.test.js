@@ -16,7 +16,7 @@ describe('collectAutoresearchRepoSignals', () => {
         vi.restoreAllMocks();
     });
     it('collects generic repo signals from package.json and mission examples', () => {
-        const repo = mkdtempSync(join(tmpdir(), 'omc-autoresearch-signals-'));
+        const repo = mkdtempSync(join(tmpdir(), 'omg-autoresearch-signals-'));
         writeFileSync(join(repo, 'package.json'), JSON.stringify({ scripts: { test: 'vitest run', build: 'tsc --noEmit' } }), 'utf-8');
         mkdirSync(join(repo, 'missions', 'demo'), { recursive: true });
         writeFileSync(join(repo, 'missions', 'demo', 'sandbox.md'), '---\nevaluator:\n  command: npm run test\n  format: json\n---\n', 'utf-8');
@@ -43,7 +43,7 @@ describe('runAutoresearchSetupSession', () => {
     afterEach(() => {
         vi.mocked(spawnSync).mockReset();
     });
-    it('parses validated JSON from claude print mode', () => {
+    it('parses validated JSON from gemini print mode', () => {
         vi.mocked(spawnSync).mockReturnValue({
             status: 0,
             stdout: '{"missionText":"Improve launch flow","evaluatorCommand":"npm run test:run -- launch","evaluatorSource":"inferred","confidence":0.86,"slug":"launch-flow","readyToLaunch":true}',
@@ -55,10 +55,10 @@ describe('runAutoresearchSetupSession', () => {
         const result = runAutoresearchSetupSession({ repoRoot: '/repo', missionText: 'Improve launch flow' });
         expect(result.slug).toBe('launch-flow');
         expect(result.readyToLaunch).toBe(true);
-        expect(vi.mocked(spawnSync).mock.calls[0]?.[0]).toBe('claude');
+        expect(vi.mocked(spawnSync).mock.calls[0]?.[0]).toBe('gemini');
         expect(vi.mocked(spawnSync).mock.calls[0]?.[1]).toEqual(['-p', expect.any(String)]);
     });
-    it('fails when claude returns non-zero', () => {
+    it('fails when gemini returns non-zero', () => {
         vi.mocked(spawnSync).mockReturnValue({
             status: 2,
             stdout: '',
@@ -67,7 +67,7 @@ describe('runAutoresearchSetupSession', () => {
             output: [],
             signal: null,
         });
-        expect(() => runAutoresearchSetupSession({ repoRoot: '/repo', missionText: 'Improve launch flow' })).toThrow(/claude_autoresearch_setup_failed:2/);
+        expect(() => runAutoresearchSetupSession({ repoRoot: '/repo', missionText: 'Improve launch flow' })).toThrow(/gemini_autoresearch_setup_failed:2/);
     });
 });
 //# sourceMappingURL=autoresearch-setup-session.test.js.map

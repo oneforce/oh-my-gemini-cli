@@ -24,47 +24,47 @@ function detectConflicts(hooks) {
     }
     return conflicts;
 }
-const TEST_CLAUDE_DIR = join(homedir(), '.claude-test-safe-installer');
+const TEST_CLAUDE_DIR = join(homedir(), '.gemini-test-safe-installer');
 const TEST_SETTINGS_FILE = join(TEST_CLAUDE_DIR, 'settings.json');
 describe('isOmcHook', () => {
-    it('returns true for commands containing "omc"', () => {
-        expect(isOmcHook('node ~/.claude/hooks/omc-hook.mjs')).toBe(true);
-        expect(isOmcHook('bash $HOME/.claude/hooks/omc-detector.sh')).toBe(true);
-        expect(isOmcHook('/usr/bin/omc-tool')).toBe(true);
+    it('returns true for commands containing "omg"', () => {
+        expect(isOmcHook('node ~/.gemini/hooks/omg-hook.mjs')).toBe(true);
+        expect(isOmcHook('bash $HOME/.gemini/hooks/omg-detector.sh')).toBe(true);
+        expect(isOmcHook('/usr/bin/omg-tool')).toBe(true);
     });
-    it('returns true for commands containing "oh-my-claudecode"', () => {
-        expect(isOmcHook('node ~/.claude/hooks/oh-my-claudecode-hook.mjs')).toBe(true);
-        expect(isOmcHook('bash $HOME/.claude/hooks/oh-my-claudecode.sh')).toBe(true);
+    it('returns true for commands containing "oh-my-gemini-cli"', () => {
+        expect(isOmcHook('node ~/.gemini/hooks/oh-my-gemini-cli-hook.mjs')).toBe(true);
+        expect(isOmcHook('bash $HOME/.gemini/hooks/oh-my-gemini-cli.sh')).toBe(true);
     });
-    it('returns false for commands not containing omc or oh-my-claudecode', () => {
-        expect(isOmcHook('node ~/.claude/hooks/other-plugin.mjs')).toBe(false);
-        expect(isOmcHook('bash $HOME/.claude/hooks/beads-hook.sh')).toBe(false);
+    it('returns false for commands not containing omg or oh-my-gemini-cli', () => {
+        expect(isOmcHook('node ~/.gemini/hooks/other-plugin.mjs')).toBe(false);
+        expect(isOmcHook('bash $HOME/.gemini/hooks/beads-hook.sh')).toBe(false);
         expect(isOmcHook('python /usr/bin/custom-hook.py')).toBe(false);
     });
     it('is case-insensitive', () => {
-        expect(isOmcHook('node ~/.claude/hooks/OMC-hook.mjs')).toBe(true);
-        expect(isOmcHook('bash $HOME/.claude/hooks/OH-MY-CLAUDECODE.sh')).toBe(true);
+        expect(isOmcHook('node ~/.gemini/hooks/OMC-hook.mjs')).toBe(true);
+        expect(isOmcHook('bash $HOME/.gemini/hooks/OH-MY-CLAUDECODE.sh')).toBe(true);
     });
 });
 describe('isOmcHook detection', () => {
     it('detects real OMC hooks correctly', () => {
-        expect(isOmcHook('node ~/.claude/hooks/omc-hook.mjs')).toBe(true);
-        expect(isOmcHook('node ~/.claude/hooks/oh-my-claudecode-hook.mjs')).toBe(true);
-        expect(isOmcHook('node ~/.claude/hooks/omc-pre-tool-use.mjs')).toBe(true);
-        expect(isOmcHook('/usr/local/bin/omc')).toBe(true);
+        expect(isOmcHook('node ~/.gemini/hooks/omg-hook.mjs')).toBe(true);
+        expect(isOmcHook('node ~/.gemini/hooks/oh-my-gemini-cli-hook.mjs')).toBe(true);
+        expect(isOmcHook('node ~/.gemini/hooks/omg-pre-tool-use.mjs')).toBe(true);
+        expect(isOmcHook('/usr/local/bin/omg')).toBe(true);
     });
     it('detects actual OMC hook commands from settings.json (issue #606)', () => {
         // These are the real commands OMC installs into settings.json
-        expect(isOmcHook('node "$HOME/.claude/hooks/keyword-detector.mjs"')).toBe(true);
-        expect(isOmcHook('node "$HOME/.claude/hooks/session-start.mjs"')).toBe(true);
-        expect(isOmcHook('node "$HOME/.claude/hooks/pre-tool-use.mjs"')).toBe(true);
-        expect(isOmcHook('node "$HOME/.claude/hooks/post-tool-use.mjs"')).toBe(true);
-        expect(isOmcHook('node "$HOME/.claude/hooks/post-tool-use-failure.mjs"')).toBe(true);
-        expect(isOmcHook('node "$HOME/.claude/hooks/persistent-mode.mjs"')).toBe(true);
+        expect(isOmcHook('node "$HOME/.gemini/hooks/keyword-detector.mjs"')).toBe(true);
+        expect(isOmcHook('node "$HOME/.gemini/hooks/session-start.mjs"')).toBe(true);
+        expect(isOmcHook('node "$HOME/.gemini/hooks/pre-tool-use.mjs"')).toBe(true);
+        expect(isOmcHook('node "$HOME/.gemini/hooks/post-tool-use.mjs"')).toBe(true);
+        expect(isOmcHook('node "$HOME/.gemini/hooks/post-tool-use-failure.mjs"')).toBe(true);
+        expect(isOmcHook('node "$HOME/.gemini/hooks/persistent-mode.mjs"')).toBe(true);
     });
     it('detects Windows-style OMC hook commands (issue #606)', () => {
-        expect(isOmcHook('node "%USERPROFILE%\\.claude\\hooks\\keyword-detector.mjs"')).toBe(true);
-        expect(isOmcHook('node "%USERPROFILE%\\.claude\\hooks\\pre-tool-use.mjs"')).toBe(true);
+        expect(isOmcHook('node "%USERPROFILE%\\.gemini\\hooks\\keyword-detector.mjs"')).toBe(true);
+        expect(isOmcHook('node "%USERPROFILE%\\.gemini\\hooks\\pre-tool-use.mjs"')).toBe(true);
     });
     it('rejects non-OMC hooks correctly', () => {
         expect(isOmcHook('eslint --fix')).toBe(false);
@@ -73,7 +73,7 @@ describe('isOmcHook detection', () => {
         expect(isOmcHook('node ~/other-plugin/hooks/detector.mjs')).toBe(false);
     });
     it('uses case-insensitive matching', () => {
-        expect(isOmcHook('node ~/.claude/hooks/OMC-hook.mjs')).toBe(true);
+        expect(isOmcHook('node ~/.gemini/hooks/OMC-hook.mjs')).toBe(true);
         expect(isOmcHook('OH-MY-CLAUDECODE-detector.sh')).toBe(true);
     });
 });
@@ -103,7 +103,7 @@ describe('Safe Installer - Hook Conflict Detection', () => {
                         hooks: [
                             {
                                 type: 'command',
-                                command: 'node ~/.claude/hooks/beads-hook.mjs'
+                                command: 'node ~/.gemini/hooks/beads-hook.mjs'
                             }
                         ]
                     }
@@ -113,14 +113,14 @@ describe('Safe Installer - Hook Conflict Detection', () => {
         writeFileSync(TEST_SETTINGS_FILE, JSON.stringify(existingSettings, null, 2));
         const _options = {
             verbose: true,
-            skipClaudeCheck: true
+            skipGeminiCheck: true
         };
         // Simulate install logic (we'd need to mock or refactor install function for full test)
         // For now, test the detection logic directly
         const conflicts = detectConflicts(existingSettings.hooks);
         expect(conflicts).toHaveLength(1);
         expect(conflicts[0].eventType).toBe('PreToolUse');
-        expect(conflicts[0].existingCommand).toBe('node ~/.claude/hooks/beads-hook.mjs');
+        expect(conflicts[0].existingCommand).toBe('node ~/.gemini/hooks/beads-hook.mjs');
     });
     it('does not detect conflict when hook is OMC-owned', () => {
         const existingSettings = {
@@ -130,7 +130,7 @@ describe('Safe Installer - Hook Conflict Detection', () => {
                         hooks: [
                             {
                                 type: 'command',
-                                command: 'node "$HOME/.claude/hooks/pre-tool-use.mjs"'
+                                command: 'node "$HOME/.gemini/hooks/pre-tool-use.mjs"'
                             }
                         ]
                     }
@@ -148,7 +148,7 @@ describe('Safe Installer - Hook Conflict Detection', () => {
                         hooks: [
                             {
                                 type: 'command',
-                                command: 'node ~/.claude/hooks/beads-pre-tool-use.mjs'
+                                command: 'node ~/.gemini/hooks/beads-pre-tool-use.mjs'
                             }
                         ]
                     }
@@ -158,7 +158,7 @@ describe('Safe Installer - Hook Conflict Detection', () => {
                         hooks: [
                             {
                                 type: 'command',
-                                command: 'python ~/.claude/hooks/custom-post-tool.py'
+                                command: 'python ~/.gemini/hooks/custom-post-tool.py'
                             }
                         ]
                     }
@@ -168,7 +168,7 @@ describe('Safe Installer - Hook Conflict Detection', () => {
                         hooks: [
                             {
                                 type: 'command',
-                                command: 'node "$HOME/.claude/hooks/keyword-detector.mjs"'
+                                command: 'node "$HOME/.gemini/hooks/keyword-detector.mjs"'
                             }
                         ]
                     }

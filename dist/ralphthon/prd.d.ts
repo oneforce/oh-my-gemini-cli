@@ -6,11 +6,11 @@
  */
 import { type RalphthonPRD, type RalphthonStory, type RalphthonTask, type HardeningTask, type RalphthonConfig, type TaskStatus } from './types.js';
 /**
- * Get the path to the ralphthon PRD file in .omc
+ * Get the path to the ralphthon PRD file in .omg
  */
 export declare function getRalphthonPrdPath(directory: string): string;
 /**
- * Find ralphthon-prd.json (checks both root and .omc)
+ * Find ralphthon-prd.json (checks both root and .omg)
  */
 export declare function findRalphthonPrdPath(directory: string): string | null;
 /**

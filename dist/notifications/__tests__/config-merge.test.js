@@ -13,9 +13,9 @@ vi.mock("fs", async (importOriginal) => {
         readFileSync: vi.fn(actual.readFileSync),
     };
 });
-// Mock getClaudeConfigDir to return a predictable path
+// Mock getGeminiConfigDir to return a predictable path
 vi.mock("../../utils/paths.js", () => ({
-    getClaudeConfigDir: () => "/mock-claude-config",
+    getGeminiConfigDir: () => "/mock-gemini-config",
 }));
 import { getNotificationConfig, getTmuxTailLines } from "../config.js";
 describe("getNotificationConfig - file + env deep merge", () => {

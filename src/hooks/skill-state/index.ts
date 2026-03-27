@@ -13,7 +13,7 @@
  * 2. Read/write/clear functions for skill-active-state.json
  * 3. A check function for the Stop hook to determine if blocking is needed
  *
- * Fix for: https://github.com/Yeachan-Heo/oh-my-claudecode/issues/1033
+ * Fix for: https://github.com/Yeachan-Heo/oh-my-gemini-cli/issues/1033
  */
 
 import { writeModeState, readModeState, clearModeStateFile } from '../../lib/mode-state-io.js';
@@ -62,10 +62,10 @@ const PROTECTION_CONFIGS: Record<SkillProtectionLevel, SkillStateConfig> = {
  * Maps each skill name to its protection level.
  *
  * - 'none': Already has dedicated mode state (ralph, autopilot, etc.) or is
- *   instant/read-only (trace, hud, omc-help, etc.)
+ *   instant/read-only (trace, hud, omg-help, etc.)
  * - 'light': Quick utility skills
  * - 'medium': Review/planning skills that run multiple agents
- * - 'heavy': Long-running skills (deepinit, omc-setup)
+ * - 'heavy': Long-running skills (deepinit, omg-setup)
  *
  * IMPORTANT: When adding a new OMC skill, register it here with the
  * appropriate protection level. Unregistered skills default to 'none'
@@ -77,16 +77,16 @@ const SKILL_PROTECTION: Record<string, SkillProtectionLevel> = {
   ralph: 'none',
   ultrawork: 'none',
   team: 'none',
-  'omc-teams': 'none',
+  'omg-teams': 'none',
   ultraqa: 'none',
   cancel: 'none',
 
   // === Instant / read-only → no protection needed ===
   trace: 'none',
   hud: 'none',
-  'omc-doctor': 'none',
-  'omc-help': 'none',
-  'learn-about-omc': 'none',
+  'omg-doctor': 'none',
+  'omg-help': 'none',
+  'learn-about-omg': 'none',
   note: 'none',
 
   // === Light protection (simple shortcuts, 3 reinforcements) ===
@@ -95,17 +95,17 @@ const SKILL_PROTECTION: Record<string, SkillProtectionLevel> = {
   'configure-notifications': 'light',
 
   // === Medium protection (review/planning, 5 reinforcements) ===
-  'omc-plan': 'medium',
+  'omg-plan': 'medium',
   plan: 'medium',
   ralplan: 'none',  // Has first-class checkRalplan() enforcement; no skill-active needed
   'deep-interview': 'heavy',
   review: 'medium',
   'external-context': 'medium',
   'ai-slop-cleaner': 'medium',
-  sciomc: 'medium',
+  sciomg: 'medium',
   learner: 'medium',
-  'omc-setup': 'medium',
-  setup: 'medium',        // alias for omc-setup
+  'omg-setup': 'medium',
+  setup: 'medium',        // alias for omg-setup
   'mcp-setup': 'medium',
   'project-session-manager': 'medium',
   psm: 'medium',          // alias for project-session-manager
@@ -131,19 +131,19 @@ const SKILL_PROTECTION: Record<string, SkillProtectionLevel> = {
  * default to 'none' so the Stop hook does not block them.
  *
  * @param skillName - The normalized (prefix-stripped) skill name.
- * @param rawSkillName - The original skill name as invoked (e.g., 'oh-my-claudecode:plan'
- *   or 'plan'). When provided, only skills invoked with the 'oh-my-claudecode:' prefix
+ * @param rawSkillName - The original skill name as invoked (e.g., 'oh-my-gemini-cli:plan'
+ *   or 'plan'). When provided, only skills invoked with the 'oh-my-gemini-cli:' prefix
  *   are eligible for protection. This prevents project custom skills (e.g., a user's
- *   `.claude/skills/plan/`) from being confused with OMC built-in skills of the same name.
- *   See: https://github.com/Yeachan-Heo/oh-my-claudecode/issues/1581
+ *   `.gemini/skills/plan/`) from being confused with OMC built-in skills of the same name.
+ *   See: https://github.com/Yeachan-Heo/oh-my-gemini-cli/issues/1581
  */
 export function getSkillProtection(skillName: string, rawSkillName?: string): SkillProtectionLevel {
   // When rawSkillName is provided, only apply protection to OMC-prefixed skills.
   // Non-prefixed skills are project custom skills or other plugins — no protection.
-  if (rawSkillName != null && !rawSkillName.toLowerCase().startsWith('oh-my-claudecode:')) {
+  if (rawSkillName != null && !rawSkillName.toLowerCase().startsWith('oh-my-gemini-cli:')) {
     return 'none';
   }
-  const normalized = skillName.toLowerCase().replace(/^oh-my-claudecode:/, '');
+  const normalized = skillName.toLowerCase().replace(/^oh-my-gemini-cli:/, '');
   return SKILL_PROTECTION[normalized] ?? 'none';
 }
 
@@ -191,7 +191,7 @@ export function writeSkillActiveState(
 
   const config = PROTECTION_CONFIGS[protection];
   const now = new Date().toISOString();
-  const normalized = skillName.toLowerCase().replace(/^oh-my-claudecode:/, '');
+  const normalized = skillName.toLowerCase().replace(/^oh-my-gemini-cli:/, '');
 
   const state: SkillActiveState = {
     active: true,

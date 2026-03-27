@@ -73,7 +73,7 @@ export declare function cleanupModeStates(directory: string, sessionId?: string)
  */
 export declare function cleanupMissionState(directory: string, sessionId?: string): number;
 /**
- * Export session summary to .omc/sessions/
+ * Export session summary to .omg/sessions/
  */
 export declare function exportSessionSummary(directory: string, metrics: SessionMetrics): void;
 /**

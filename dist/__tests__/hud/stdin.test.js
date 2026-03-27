@@ -5,8 +5,8 @@ function makeStdin(overrides = {}) {
         cwd: '/tmp/worktree',
         transcript_path: '/tmp/worktree/session.jsonl',
         model: {
-            id: 'claude-sonnet',
-            display_name: 'Claude Sonnet',
+            id: 'gemini-sonnet',
+            display_name: 'Gemini Sonnet',
         },
         context_window: {
             context_window_size: 1000,

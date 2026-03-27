@@ -34,7 +34,7 @@ export interface BridgeWorkerPermissions {
   maxFileSize: number;      // max bytes per file write
 }
 
-/** Mirrors the JSON structure of {cwd}/.omc/state/team/{team}/tasks/{id}.json */
+/** Mirrors the JSON structure of {cwd}/.omg/state/team/{team}/tasks/{id}.json */
 export interface TaskFile {
   id: string;
   subject: string;
@@ -102,7 +102,7 @@ export interface McpWorkerMember {
 export interface HeartbeatData {
   workerName: string;
   teamName: string;
-  provider: 'codex' | 'gemini' | 'claude';
+  provider: 'codex' | 'gemini' | 'gemini';
   pid: number;
   lastPollAt: string;       // ISO timestamp of last poll cycle
   currentTaskId?: string;   // task being executed, if any
@@ -125,7 +125,7 @@ export interface ConfigProbeResult {
 /** Sidecar mapping task IDs to execution modes */
 export interface TaskModeMap {
   teamName: string;
-  taskModes: Record<string, 'mcp_codex' | 'mcp_gemini' | 'claude_worker'>;
+  taskModes: Record<string, 'mcp_codex' | 'mcp_gemini' | 'gemini_worker'>;
 }
 
 /** Failure sidecar for a task */
@@ -137,7 +137,7 @@ export interface TaskFailureSidecar {
 }
 
 /** Worker backend type */
-export type WorkerBackend = 'claude-native' | 'mcp-codex' | 'mcp-gemini' | 'tmux-claude' | 'tmux-codex' | 'tmux-gemini';
+export type WorkerBackend = 'gemini-native' | 'mcp-codex' | 'mcp-gemini' | 'tmux-gemini' | 'tmux-codex' | 'tmux-gemini';
 
 /** Worker capability tag */
 export type WorkerCapability =
@@ -252,7 +252,7 @@ export interface WorkerInfo {
   name: string;
   index: number;
   role: string;
-  worker_cli?: 'codex' | 'claude';
+  worker_cli?: 'codex' | 'gemini';
   assigned_tasks: string[];
   pid?: number;
   pane_id?: string;

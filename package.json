@@ -1,7 +1,7 @@
 {
-  "name": "oh-my-claude-sisyphus",
+  "name": "oh-my-gemini-cli",
   "version": "4.9.1",
-  "description": "Multi-agent orchestration system for Claude Code - Inspired by oh-my-opencode",
+  "description": "Multi-agent orchestration system for Gemini Code - Inspired by oh-my-opencode",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -12,9 +12,9 @@
     }
   },
   "bin": {
-    "oh-my-claudecode": "bridge/cli.cjs",
-    "omc": "bridge/cli.cjs",
-    "omc-cli": "bridge/cli.cjs"
+    "oh-my-gemini-cli": "bridge/cli.cjs",
+    "omg": "bridge/cli.cjs",
+    "omg-cli": "bridge/cli.cjs"
   },
   "files": [
     "dist",
@@ -32,7 +32,7 @@
     "skills",
     "templates",
     "docs",
-    ".claude-plugin",
+    ".gemini-plugin",
     ".mcp.json",
     "README.md",
     "LICENSE"
@@ -68,7 +68,7 @@
     "prepublishOnly": "npm run build && npm run compose-docs"
   },
   "dependencies": {
-    "@anthropic-ai/claude-agent-sdk": "^0.1.0",
+    "@anthropic-ai/gemini-agent-sdk": "^0.1.0",
     "@ast-grep/napi": "^0.31.0",
     "@modelcontextprotocol/sdk": "^1.26.0",
     "@types/better-sqlite3": "^7.6.13",
@@ -101,23 +101,23 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Yeachan-Heo/oh-my-claudecode.git"
+    "url": "git+https://github.com/Yeachan-Heo/oh-my-gemini-cli.git"
   },
-  "homepage": "https://github.com/Yeachan-Heo/oh-my-claudecode#readme",
+  "homepage": "https://github.com/Yeachan-Heo/oh-my-gemini-cli#readme",
   "bugs": {
-    "url": "https://github.com/Yeachan-Heo/oh-my-claudecode/issues"
+    "url": "https://github.com/Yeachan-Heo/oh-my-gemini-cli/issues"
   },
   "author": "Yeachan Heo",
   "license": "MIT",
   "keywords": [
-    "claude",
-    "claude-code",
+    "gemini",
+    "gemini-code",
     "ai",
     "agent",
     "multi-agent",
     "orchestration",
-    "omc",
-    "claudecode",
+    "omg",
+    "gemini-cli",
     "anthropic",
     "llm"
   ],

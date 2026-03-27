@@ -97,21 +97,21 @@ describe('Builtin Skills', () => {
         'deep-dive',
         'deep-interview',
         'deepinit',
-        'omc-doctor',
+        'omg-doctor',
         'external-context',
         'hud',
         'learner',
         'mcp-setup',
-        'omc-setup',
-        'omc-teams',
-        'omc-plan',
-        'omc-reference',
+        'omg-setup',
+        'omg-teams',
+        'omg-plan',
+        'omg-reference',
         'project-session-manager',
         'psm',
         'ralph',
         'ralplan',
         'release',
-        'sciomc',
+        'sciomg',
         'setup',
         'skill',
         'team',
@@ -161,7 +161,7 @@ describe('Builtin Skills', () => {
       const skill = getBuiltinSkill('trace');
       expect(skill).toBeDefined();
       expect(skill?.name).toBe('trace');
-      expect(skill?.template).toContain('Claude built-in team mode');
+      expect(skill?.template).toContain('Gemini built-in team mode');
       expect(skill?.template).toContain('3 tracer lanes by default');
       expect(skill?.template).toContain('Ranked Hypotheses');
       expect(skill?.template).toContain('trace_timeline');
@@ -172,10 +172,10 @@ describe('Builtin Skills', () => {
       expect(skill).toBeDefined();
       expect(skill?.name).toBe('deep-dive');
       expect(skill?.pipeline).toEqual({
-        steps: ['deep-dive', 'omc-plan', 'autopilot'],
-        nextSkill: 'omc-plan',
+        steps: ['deep-dive', 'omg-plan', 'autopilot'],
+        nextSkill: 'omg-plan',
         nextSkillArgs: '--consensus --direct',
-        handoff: '.omc/specs/deep-dive-{slug}.md',
+        handoff: '.omg/specs/deep-dive-{slug}.md',
       });
       // Verify 3-point injection mechanism
       expect(skill?.template).toContain('3-Point Injection');
@@ -185,7 +185,7 @@ describe('Builtin Skills', () => {
       // Verify per-lane critical unknowns (B3 fix)
       expect(skill?.template).toContain('Per-Lane Critical Unknowns');
       // Verify pipeline handoff is fully wired (B1 fix)
-      expect(skill?.template).toContain('Skill("oh-my-claudecode:autopilot")');
+      expect(skill?.template).toContain('Skill("oh-my-gemini-cli:autopilot")');
       expect(skill?.template).toContain('consensus plan as Phase 0+1 output');
       // Verify untrusted data guard (NB1 fix)
       expect(skill?.template).toContain('trace-context');
@@ -198,25 +198,25 @@ describe('Builtin Skills', () => {
 
 
 
-    it('should expose pipeline metadata for deep-interview handoff into omc-plan', () => {
+    it('should expose pipeline metadata for deep-interview handoff into omg-plan', () => {
       const skill = getBuiltinSkill('deep-interview');
       expect(skill?.pipeline).toEqual({
-        steps: ['deep-interview', 'omc-plan', 'autopilot'],
-        nextSkill: 'omc-plan',
+        steps: ['deep-interview', 'omg-plan', 'autopilot'],
+        nextSkill: 'omg-plan',
         nextSkillArgs: '--consensus --direct',
-        handoff: '.omc/specs/deep-interview-{slug}.md',
+        handoff: '.omg/specs/deep-interview-{slug}.md',
       });
       expect(skill?.template).toContain('## Skill Pipeline');
-      expect(skill?.template).toContain('Pipeline: `deep-interview → omc-plan → autopilot`');
-      expect(skill?.template).toContain('Skill("oh-my-claudecode:omc-plan")');
+      expect(skill?.template).toContain('Pipeline: `deep-interview → omg-plan → autopilot`');
+      expect(skill?.template).toContain('Skill("oh-my-gemini-cli:omg-plan")');
       expect(skill?.template).toContain('`--consensus --direct`');
-      expect(skill?.template).toContain('`.omc/specs/deep-interview-{slug}.md`');
+      expect(skill?.template).toContain('`.omg/specs/deep-interview-{slug}.md`');
       expect(skill?.argumentHint).toContain('--autoresearch');
-      expect(skill?.template).toContain('zero-learning-curve setup lane for `omc autoresearch`');
+      expect(skill?.template).toContain('zero-learning-curve setup lane for `omg autoresearch`');
       expect(skill?.template).toContain('autoresearch --mission "<mission>" --eval "<evaluator>"');
     });
 
-    it('rewrites built-in skill command examples to plugin-safe bridge invocations when omc is unavailable', () => {
+    it('rewrites built-in skill command examples to plugin-safe bridge invocations when omg is unavailable', () => {
       process.env.CLAUDE_PLUGIN_ROOT = '/plugin-root';
       process.env.PATH = '';
       clearSkillsCache();
@@ -232,17 +232,17 @@ describe('Builtin Skills', () => {
         .toContain('node "$CLAUDE_PLUGIN_ROOT"/bridge/cli.cjs ask {{ARGUMENTS}}');
     });
 
-    it('should expose pipeline metadata for omc-plan handoff into autopilot', () => {
-      const skill = getBuiltinSkill('omc-plan');
+    it('should expose pipeline metadata for omg-plan handoff into autopilot', () => {
+      const skill = getBuiltinSkill('omg-plan');
       expect(skill?.pipeline).toEqual({
-        steps: ['deep-interview', 'omc-plan', 'autopilot'],
+        steps: ['deep-interview', 'omg-plan', 'autopilot'],
         nextSkill: 'autopilot',
-        handoff: '.omc/plans/ralplan-*.md',
+        handoff: '.omg/plans/ralplan-*.md',
       });
       expect(skill?.template).toContain('## Skill Pipeline');
       expect(skill?.template).toContain('Next skill: `autopilot`');
-      expect(skill?.template).toContain('Skill("oh-my-claudecode:autopilot")');
-      expect(skill?.template).toContain('`.omc/plans/ralplan-*.md`');
+      expect(skill?.template).toContain('Skill("oh-my-gemini-cli:autopilot")');
+      expect(skill?.template).toContain('`.omg/plans/ralplan-*.md`');
     });
 
     it('should expose review mode guidance for ai-slop-cleaner', () => {
@@ -260,20 +260,20 @@ describe('Builtin Skills', () => {
       expect(skill?.template).toContain('Reviewer pass');
     });
 
-    it('should require explicit tmux prerequisite checks for omc-teams', () => {
-      const skill = getBuiltinSkill('omc-teams');
+    it('should require explicit tmux prerequisite checks for omg-teams', () => {
+      const skill = getBuiltinSkill('omg-teams');
       expect(skill).toBeDefined();
       expect(skill?.template).toContain('command -v tmux >/dev/null 2>&1');
       expect(skill?.template).toContain('Do **not** say tmux is missing');
       expect(skill?.template).toContain('tmux capture-pane -pt <pane-id> -S -20');
     });
 
-    it('should document allowed omc-teams agent types and native team fallback', () => {
-      const skill = getBuiltinSkill('omc-teams');
+    it('should document allowed omg-teams agent types and native team fallback', () => {
+      const skill = getBuiltinSkill('omg-teams');
       expect(skill).toBeDefined();
-      expect(skill?.template).toContain('/omc-teams` only supports **`claude`**, **`codex`**, and **`gemini`**');
+      expect(skill?.template).toContain('/omg-teams` only supports **`gemini`**, **`codex`**, and **`gemini`**');
       expect(skill?.template).toContain('unsupported type such as `expert`');
-      expect(skill?.template).toContain('/oh-my-claudecode:team');
+      expect(skill?.template).toContain('/oh-my-gemini-cli:team');
     });
 
     it('should be case-insensitive', () => {
@@ -307,13 +307,13 @@ describe('Builtin Skills', () => {
       expect(names).toContain('configure-notifications');
       expect(names).toContain('ralph');
       expect(names).toContain('ultrawork');
-      expect(names).toContain('omc-plan');
-      expect(names).toContain('omc-reference');
+      expect(names).toContain('omg-plan');
+      expect(names).toContain('omg-reference');
       expect(names).toContain('deepinit');
       expect(names).toContain('release');
-      expect(names).toContain('omc-doctor');
+      expect(names).toContain('omg-doctor');
       expect(names).toContain('hud');
-      expect(names).toContain('omc-setup');
+      expect(names).toContain('omg-setup');
       expect(names).toContain('setup');
       expect(names).toContain('trace');
       expect(names).toContain('visual-verdict');

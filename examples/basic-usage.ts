@@ -1,18 +1,18 @@
 /**
  * Basic Usage Example
  *
- * This example demonstrates how to use Oh-My-ClaudeCode
- * with the Claude Agent SDK.
+ * This example demonstrates how to use Oh-My-GeminiCLI
+ * with the Gemini Agent SDK.
  */
 
-// Note: In real usage, import from 'oh-my-claudecode'
+// Note: In real usage, import from 'oh-my-gemini-cli'
 import { createOmcSession, enhancePrompt } from '../src/index.js';
 
-// For demonstration - in real usage, import from '@anthropic-ai/claude-agent-sdk'
-// import { query } from '@anthropic-ai/claude-agent-sdk';
+// For demonstration - in real usage, import from '@anthropic-ai/gemini-agent-sdk'
+// import { query } from '@anthropic-ai/gemini-agent-sdk';
 
 async function main() {
-  console.log('=== Oh-My-ClaudeCode Example ===\n');
+  console.log('=== Oh-My-GeminiCLI Example ===\n');
 
   // Create a OMC session
   const session = createOmcSession({
@@ -52,11 +52,11 @@ async function main() {
   console.log('Enhanced prompt:');
   console.log(session.processPrompt(searchPrompt) + '\n');
 
-  // Example 4: Using with Claude Agent SDK (pseudo-code)
-  console.log('Example 4: Using with Claude Agent SDK');
+  // Example 4: Using with Gemini Agent SDK (pseudo-code)
+  console.log('Example 4: Using with Gemini Agent SDK');
   console.log(`
-// Real usage with Claude Agent SDK:
-import { query } from '@anthropic-ai/claude-agent-sdk';
+// Real usage with Gemini Agent SDK:
+import { query } from '@anthropic-ai/gemini-agent-sdk';
 
 const session = createOmcSession();
 

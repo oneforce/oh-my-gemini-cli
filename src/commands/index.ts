@@ -7,7 +7,7 @@
 
 import { readFileSync, existsSync, readdirSync } from 'fs';
 import { join } from 'path';
-import { getClaudeConfigDir } from '../utils/paths.js';
+import { getGeminiConfigDir } from '../utils/paths.js';
 
 export interface CommandInfo {
   name: string;
@@ -26,7 +26,7 @@ export interface ExpandedCommand {
  * Get the commands directory path
  */
 export function getCommandsDir(): string {
-  return join(getClaudeConfigDir(), 'commands');
+  return join(getGeminiConfigDir(), 'commands');
 }
 
 /**
@@ -121,7 +121,7 @@ export function listCommands(): string[] {
  *
  * @example
  * ```typescript
- * import { expandCommand } from 'oh-my-claudecode';
+ * import { expandCommand } from 'oh-my-gemini-cli';
  *
  * const prompt = expandCommand('ralph', 'Build a REST API');
  * // Returns the full ralph template with "Build a REST API" substituted
@@ -150,8 +150,8 @@ export function expandCommand(name: string, args: string = ''): ExpandedCommand 
  *
  * @example
  * ```typescript
- * import { expandCommandPrompt } from 'oh-my-claudecode';
- * import { query } from '@anthropic-ai/claude-agent-sdk';
+ * import { expandCommandPrompt } from 'oh-my-gemini-cli';
+ * import { query } from '@anthropic-ai/gemini-agent-sdk';
  *
  * const prompt = expandCommandPrompt('ultrawork', 'Refactor the auth module');
  *

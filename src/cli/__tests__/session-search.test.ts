@@ -19,15 +19,15 @@ function writeTranscript(filePath: string, entries: Array<Record<string, unknown
 describe('session search cli command', () => {
   const repoRoot = process.cwd();
   let tempRoot: string;
-  let claudeDir: string;
+  let geminiDir: string;
 
   beforeEach(() => {
-    tempRoot = mkdtempSync(join(tmpdir(), 'omc-session-search-cli-'));
-    claudeDir = join(tempRoot, 'claude');
-    process.env.CLAUDE_CONFIG_DIR = claudeDir;
-    process.env.OMC_STATE_DIR = join(tempRoot, 'omc-state');
+    tempRoot = mkdtempSync(join(tmpdir(), 'omg-session-search-cli-'));
+    geminiDir = join(tempRoot, 'gemini');
+    process.env.CLAUDE_CONFIG_DIR = geminiDir;
+    process.env.OMC_STATE_DIR = join(tempRoot, 'omg-state');
 
-    writeTranscript(join(claudeDir, 'projects', encodeProjectPath(repoRoot), 'session-current.jsonl'), [
+    writeTranscript(join(geminiDir, 'projects', encodeProjectPath(repoRoot), 'session-current.jsonl'), [
       {
         sessionId: 'session-current',
         cwd: repoRoot,

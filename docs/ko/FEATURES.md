@@ -1,6 +1,6 @@
 # 개발자 API 레퍼런스
 
-> oh-my-claudecode 개발자 및 기여자를 위한 내부 API 문서입니다.
+> oh-my-gemini-cli 개발자 및 기여자를 위한 내부 API 문서입니다.
 
 ## 목차
 1. [Notepad Wisdom 시스템](#notepad-wisdom-시스템)
@@ -15,7 +15,7 @@
 
 ## Notepad Wisdom 시스템
 
-작업을 실행하는 에이전트를 위한 계획 범위 지식 캡처 시스템입니다. 각 계획은 `.omc/notepads/{plan-name}/` 경로에 자체 노트패드 디렉토리를 가지며, 네 개의 마크다운 파일로 구성됩니다:
+작업을 실행하는 에이전트를 위한 계획 범위 지식 캡처 시스템입니다. 각 계획은 `.omg/notepads/{plan-name}/` 경로에 자체 노트패드 디렉토리를 가지며, 네 개의 마크다운 파일로 구성됩니다:
 
 - **learnings.md**: 패턴, 관례, 성공적인 접근 방식
 - **decisions.md**: 아키텍처 선택과 근거
@@ -344,7 +344,7 @@ if (result.success && result.context) {
 
   // Task 위임으로 계속 진행
   Task({
-    subagent_type: "oh-my-claudecode:executor",
+    subagent_type: "oh-my-gemini-cli:executor",
     model: "sonnet",
     prompt: result.context.continuationPrompt
   });
@@ -446,8 +446,8 @@ updateValidation(directory: string, updates: Partial<AutopilotValidation>): bool
 incrementAgentCount(directory: string, count?: number): boolean
 
 // 경로
-getSpecPath(directory: string): string  // .omc/autopilot/spec.md
-getPlanPath(directory: string): string  // .omc/plans/autopilot-impl.md
+getSpecPath(directory: string): string  // .omg/autopilot/spec.md
+getPlanPath(directory: string): string  // .omg/plans/autopilot-impl.md
 ```
 
 ### 프롬프트 생성
@@ -562,7 +562,7 @@ if (validationStatus?.allApproved) {
 
 ### 상태 영속화
 
-모든 상태는 `.omc/state/autopilot-state.json`에 영속화되며 다음 정보를 포함합니다:
+모든 상태는 `.omg/state/autopilot-state.json`에 영속화되며 다음 정보를 포함합니다:
 
 - 활성 상태 및 현재 단계
 - 원본 사용자 아이디어

@@ -2,7 +2,7 @@
  * Think Mode Switcher
  *
  * Handles model switching to high-reasoning variants when think mode is activated.
- * Supports Claude, GPT, and Gemini model families.
+ * Supports Gemini, GPT, and Gemini model families.
  *
  * Ported from oh-my-opencode's think-mode hook.
  */
@@ -11,7 +11,7 @@ import type { ThinkingConfig } from './types.js';
 import {
   CLAUDE_FAMILY_DEFAULTS,
   CLAUDE_FAMILY_HIGH_VARIANTS,
-  getClaudeHighVariantFromModel,
+  getGeminiHighVariantFromModel,
 } from '../../config/models.js';
 
 /**
@@ -39,10 +39,10 @@ function normalizeModelId(modelId: string): string {
 
 /**
  * Map of model IDs to their high-reasoning variants.
- * Claude variants come from centralized family defaults.
+ * Gemini variants come from centralized family defaults.
  */
 const HIGH_VARIANT_MAP: Record<string, string> = {
-  // Claude canonical families
+  // Gemini canonical families
   [CLAUDE_FAMILY_DEFAULTS.SONNET]: CLAUDE_FAMILY_HIGH_VARIANTS.SONNET,
   [CLAUDE_FAMILY_DEFAULTS.OPUS]: CLAUDE_FAMILY_HIGH_VARIANTS.OPUS,
   [CLAUDE_FAMILY_DEFAULTS.HAIKU]: CLAUDE_FAMILY_HIGH_VARIANTS.HAIKU,
@@ -98,8 +98,8 @@ export const THINKING_CONFIGS: Record<string, ThinkingConfig> = {
  * Models capable of thinking mode by provider.
  */
 const THINKING_CAPABLE_MODELS: Record<string, readonly string[]> = {
-  anthropic: ['claude'],
-  'amazon-bedrock': ['claude', 'anthropic'],
+  anthropic: ['gemini'],
+  'amazon-bedrock': ['gemini', 'anthropic'],
   google: ['gemini-2', 'gemini-3'],
   openai: ['gpt-4', 'gpt-5', 'o1', 'o3'],
 };
@@ -117,11 +117,11 @@ export function getHighVariant(modelId: string): string | null {
     return null;
   }
 
-  // Resolve Claude families to canonical high variants.
-  const claudeHighBase = getClaudeHighVariantFromModel(base);
-  if (claudeHighBase) return prefix + claudeHighBase;
+  // Resolve Gemini families to canonical high variants.
+  const geminiHighBase = getGeminiHighVariantFromModel(base);
+  if (geminiHighBase) return prefix + geminiHighBase;
 
-  // Look up exact high variant for non-Claude models
+  // Look up exact high variant for non-Gemini models
   const highBase = HIGH_VARIANT_MAP[base];
   if (!highBase) return null;
 
@@ -145,7 +145,7 @@ function resolveProvider(providerId: string, modelId: string): string {
   // GitHub Copilot is a proxy - infer actual provider from model name
   if (providerId === 'github-copilot') {
     const modelLower = modelId.toLowerCase();
-    if (modelLower.includes('claude')) return 'anthropic';
+    if (modelLower.includes('gemini')) return 'anthropic';
     if (modelLower.includes('gemini')) return 'google';
     if (modelLower.includes('gpt') || modelLower.includes('o1') || modelLower.includes('o3')) {
       return 'openai';
@@ -199,10 +199,10 @@ export function getThinkingConfig(
 }
 
 /**
- * Get Claude-specific thinking configuration.
- * This is used by Claude Code for extended thinking.
+ * Get Gemini-specific thinking configuration.
+ * This is used by Gemini Code for extended thinking.
  */
-export function getClaudeThinkingConfig(budgetTokens: number = 64000) {
+export function getGeminiThinkingConfig(budgetTokens: number = 64000) {
   return {
     thinking: {
       type: 'enabled' as const,

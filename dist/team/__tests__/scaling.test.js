@@ -10,18 +10,18 @@ describe('scaleUp duplicate worker guard', () => {
             await rm(cwd, { recursive: true, force: true });
     });
     it('refuses to spawn a duplicate worker identity when next_worker_index collides', async () => {
-        cwd = await mkdtemp(join(tmpdir(), 'omc-scaling-duplicate-'));
+        cwd = await mkdtemp(join(tmpdir(), 'omg-scaling-duplicate-'));
         const teamName = 'demo-team';
-        const root = join(cwd, '.omc', 'state', 'team', teamName);
+        const root = join(cwd, '.omg', 'state', 'team', teamName);
         await mkdir(root, { recursive: true });
         await writeFile(join(root, 'config.json'), JSON.stringify({
             name: teamName,
             task: 'demo',
-            agent_type: 'claude',
+            agent_type: 'gemini',
             worker_launch_mode: 'interactive',
             worker_count: 1,
             max_workers: 20,
-            workers: [{ name: 'worker-1', index: 1, role: 'claude', assigned_tasks: [] }],
+            workers: [{ name: 'worker-1', index: 1, role: 'gemini', assigned_tasks: [] }],
             created_at: new Date().toISOString(),
             tmux_session: 'demo-session:0',
             next_task_id: 2,
@@ -32,7 +32,7 @@ describe('scaleUp duplicate worker guard', () => {
             resize_hook_target: null,
             team_state_root: root,
         }, null, 2), 'utf-8');
-        const result = await scaleUp(teamName, 1, 'claude', [{ subject: 'demo', description: 'demo task' }], cwd, { OMC_TEAM_SCALING_ENABLED: '1' });
+        const result = await scaleUp(teamName, 1, 'gemini', [{ subject: 'demo', description: 'demo task' }], cwd, { OMC_TEAM_SCALING_ENABLED: '1' });
         expect(result.ok).toBe(false);
         if (result.ok)
             return;

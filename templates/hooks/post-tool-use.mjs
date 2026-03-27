@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // OMC Post-Tool-Use Hook (Node.js)
 // Processes <remember> tags from Task agent output
-// Saves to .omc/notepad.md for compaction-resilient memory
+// Saves to .omg/notepad.md for compaction-resilient memory
 
 import { existsSync, readFileSync, mkdirSync, writeFileSync } from 'fs';
 import { join, dirname } from 'path';
@@ -27,11 +27,11 @@ const NOTEPAD_TEMPLATE = '# Notepad\n' +
 
 // Initialize notepad.md if needed
 function initNotepad(directory) {
-  const omcDir = join(directory, '.omc');
-  const notepadPath = join(omcDir, 'notepad.md');
+  const omgDir = join(directory, '.omg');
+  const notepadPath = join(omgDir, 'notepad.md');
 
-  if (!existsSync(omcDir)) {
-    try { mkdirSync(omcDir, { recursive: true }); } catch {}
+  if (!existsSync(omgDir)) {
+    try { mkdirSync(omgDir, { recursive: true }); } catch {}
   }
 
   if (!existsSync(notepadPath)) {
@@ -57,13 +57,13 @@ function getInvokedSkillName(toolInput) {
 }
 
 function activateState(directory, stateName, state, sessionId) {
-  const localDir = join(directory, '.omc', 'state');
+  const localDir = join(directory, '.omg', 'state');
   if (!existsSync(localDir)) {
     try { mkdirSync(localDir, { recursive: true }); } catch {}
   }
   try { writeFileSync(join(localDir, `${stateName}-state.json`), JSON.stringify(state, null, 2)); } catch {}
 
-  const globalDir = join(homedir(), '.omc', 'state');
+  const globalDir = join(homedir(), '.omg', 'state');
   if (!existsSync(globalDir)) {
     try { mkdirSync(globalDir, { recursive: true }); } catch {}
   }

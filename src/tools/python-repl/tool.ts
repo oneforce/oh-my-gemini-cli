@@ -117,7 +117,7 @@ function getNextExecutionCount(sessionId: string): number {
 // =============================================================================
 
 /**
- * Format execution result into a readable string for Claude.
+ * Format execution result into a readable string for Gemini.
  */
 function formatExecuteResult(
   result: ExecuteResult,
@@ -507,7 +507,7 @@ async function handleInterrupt(
  * Main handler for the Python REPL tool.
  *
  * @param input - Validated input from the tool call
- * @returns Formatted string output for Claude
+ * @returns Formatted string output for Gemini
  *
  * @example
  * ```typescript

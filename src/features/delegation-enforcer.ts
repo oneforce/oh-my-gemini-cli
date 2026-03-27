@@ -4,21 +4,21 @@
  * Middleware that ensures model parameter is always present in Task/Agent calls.
  * Automatically injects the default model from agent definitions when not specified.
  *
- * This solves the problem where Claude Code doesn't automatically apply models
+ * This solves the problem where Gemini Code doesn't automatically apply models
  * from agent definitions - every Task call must explicitly pass the model parameter.
  *
- * For non-Claude providers (CC Switch, LiteLLM, etc.), forceInherit is auto-enabled
+ * For non-Gemini providers (CC Switch, LiteLLM, etc.), forceInherit is auto-enabled
  * by the config loader (issue #1201), which causes this enforcer to strip model
  * parameters so agents inherit the user's configured model instead of receiving
- * Claude-specific tier names (sonnet/opus/haiku) that the provider won't recognize.
+ * Gemini-specific tier names (sonnet/opus/haiku) that the provider won't recognize.
  */
 
 import { getAgentDefinitions } from '../agents/definitions.js';
 import { normalizeDelegationRole } from './delegation-routing/types.js';
 import { loadConfig } from '../config/loader.js';
-import { resolveClaudeFamily } from '../config/models.js';
+import { resolveGeminiFamily } from '../config/models.js';
 
-/** Map Claude model family to CC-supported alias */
+/** Map Gemini model family to CC-supported alias */
 const FAMILY_TO_ALIAS: Record<string, string> = {
   SONNET: 'sonnet',
   OPUS: 'opus',
@@ -27,12 +27,12 @@ const FAMILY_TO_ALIAS: Record<string, string> = {
 
 /** Normalize a model ID to a CC-supported alias (sonnet/opus/haiku) if possible */
 export function normalizeToCcAlias(model: string): string {
-  const family = resolveClaudeFamily(model);
+  const family = resolveGeminiFamily(model);
   return family ? (FAMILY_TO_ALIAS[family] ?? model) : model;
 }
 
 /**
- * Agent input structure from Claude Agent SDK
+ * Agent input structure from Gemini Agent SDK
  */
 export interface AgentInput {
   description: string;
@@ -65,10 +65,10 @@ function isDelegationToolName(toolName: string): boolean {
 }
 
 function canonicalizeSubagentType(subagentType: string): string {
-  const hasPrefix = subagentType.startsWith('oh-my-claudecode:');
-  const rawAgentType = subagentType.replace(/^oh-my-claudecode:/, '');
+  const hasPrefix = subagentType.startsWith('oh-my-gemini-cli:');
+  const rawAgentType = subagentType.replace(/^oh-my-gemini-cli:/, '');
   const canonicalAgentType = normalizeDelegationRole(rawAgentType);
-  return hasPrefix ? `oh-my-claudecode:${canonicalAgentType}` : canonicalAgentType;
+  return hasPrefix ? `oh-my-gemini-cli:${canonicalAgentType}` : canonicalAgentType;
 }
 
 /**
@@ -85,7 +85,7 @@ export function enforceModel(agentInput: AgentInput): EnforcementResult {
   const canonicalSubagentType = canonicalizeSubagentType(agentInput.subagent_type);
 
   // If forceInherit is enabled, skip model injection entirely so agents
-  // inherit the user's Claude Code model setting (issue #1135)
+  // inherit the user's Gemini Code model setting (issue #1135)
   const config = loadConfig();
   if (config.routing?.forceInherit) {
     const { model: _existing, ...rest } = agentInput;
@@ -99,7 +99,7 @@ export function enforceModel(agentInput: AgentInput): EnforcementResult {
   }
 
   // If model is already specified, normalize it to CC-supported aliases
-  // before passing through. Full IDs like 'claude-sonnet-4-6' cause 400
+  // before passing through. Full IDs like 'gemini-sonnet-4-6' cause 400
   // errors on Bedrock/Vertex. (issue #1415)
   if (agentInput.model) {
     const normalizedModel = normalizeToCcAlias(agentInput.model);
@@ -111,7 +111,7 @@ export function enforceModel(agentInput: AgentInput): EnforcementResult {
     };
   }
 
-  const agentType = canonicalSubagentType.replace(/^oh-my-claudecode:/, '');
+  const agentType = canonicalSubagentType.replace(/^oh-my-gemini-cli:/, '');
   const agentDefs = getAgentDefinitions({ config });
   const agentDef = agentDefs[agentType];
 
@@ -148,7 +148,7 @@ export function enforceModel(agentInput: AgentInput): EnforcementResult {
     };
   }
 
-  // Normalize model to Claude Code's supported aliases (sonnet/opus/haiku).
+  // Normalize model to Gemini Code's supported aliases (sonnet/opus/haiku).
   // Full IDs cause 400 errors on Bedrock/Vertex. (issue #1201, #1415)
   const normalizedModel = normalizeToCcAlias(resolvedModel);
 
@@ -225,7 +225,7 @@ export function processPreToolUse(
  * Get model for an agent type (for testing/debugging)
  */
 export function getModelForAgent(agentType: string): string {
-  const normalizedType = normalizeDelegationRole(agentType.replace(/^oh-my-claudecode:/, ''));
+  const normalizedType = normalizeDelegationRole(agentType.replace(/^oh-my-gemini-cli:/, ''));
   const agentDefs = getAgentDefinitions({ config: loadConfig() });
   const agentDef = agentDefs[normalizedType];
 

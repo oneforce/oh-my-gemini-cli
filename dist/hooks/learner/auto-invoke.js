@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import os from 'os';
-import { getClaudeConfigDir } from '../../utils/paths.js';
+import { getGeminiConfigDir } from '../../utils/paths.js';
 import { atomicWriteJson } from '../../lib/atomic-write.js';
 const DEFAULT_CONFIG = {
     enabled: true,
@@ -10,10 +10,10 @@ const DEFAULT_CONFIG = {
     cooldownMs: 30000,
 };
 /**
- * Load auto-invocation config from ~/.claude/.omc-config.json
+ * Load auto-invocation config from ~/.gemini/.omg-config.json
  */
 export function loadInvocationConfig() {
-    const configPath = path.join(getClaudeConfigDir(), '.omc-config.json');
+    const configPath = path.join(getGeminiConfigDir(), '.omg-config.json');
     try {
         if (!fs.existsSync(configPath)) {
             return { ...DEFAULT_CONFIG };
@@ -137,7 +137,7 @@ export function getInvocationStats(state) {
  * Save invocation history to disk for analytics
  */
 export function saveInvocationHistory(state) {
-    const historyDir = path.join(os.homedir(), '.omc', 'analytics', 'invocations');
+    const historyDir = path.join(os.homedir(), '.omg', 'analytics', 'invocations');
     const historyFile = path.join(historyDir, `${state.sessionId}.json`);
     // Use atomic write to prevent corruption from concurrent sessions (Bug #11 fix)
     atomicWriteJson(historyFile, {
@@ -153,7 +153,7 @@ export function saveInvocationHistory(state) {
  * Load invocation history from disk
  */
 export function loadInvocationHistory(sessionId) {
-    const historyFile = path.join(os.homedir(), '.omc', 'analytics', 'invocations', `${sessionId}.json`);
+    const historyFile = path.join(os.homedir(), '.omg', 'analytics', 'invocations', `${sessionId}.json`);
     try {
         if (!fs.existsSync(historyFile)) {
             return null;
@@ -177,7 +177,7 @@ export function loadInvocationHistory(sessionId) {
  * Get aggregated invocation analytics across all sessions
  */
 export function getAggregatedStats() {
-    const historyDir = path.join(os.homedir(), '.omc', 'analytics', 'invocations');
+    const historyDir = path.join(os.homedir(), '.omg', 'analytics', 'invocations');
     try {
         if (!fs.existsSync(historyDir)) {
             return {

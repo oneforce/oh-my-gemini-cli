@@ -4,7 +4,7 @@
  * Unified handler for persistent work modes: ultrawork, ralph, and todo-continuation.
  * This hook intercepts Stop events and enforces work continuation based on:
  * 1. Active ultrawork mode with pending todos
- * 2. Active ralph loop (until cancelled via /oh-my-claudecode:cancel)
+ * 2. Active ralph loop (until cancelled via /oh-my-gemini-cli:cancel)
  * 3. Any pending todos (general enforcement)
  *
  * Priority order: Ralph > Ultrawork > Todo Continuation
@@ -13,7 +13,7 @@ import { existsSync, readFileSync, unlinkSync, statSync, openSync, readSync, clo
 import { atomicWriteJsonSync } from '../../lib/atomic-write.js';
 import { join } from 'path';
 import { homedir } from 'os';
-import { getClaudeConfigDir } from '../../utils/paths.js';
+import { getGeminiConfigDir } from '../../utils/paths.js';
 import { readUltraworkState, writeUltraworkState, incrementReinforcement, deactivateUltrawork, getUltraworkPersistenceMessage } from '../ultrawork/index.js';
 import { resolveToWorktreeRoot, resolveSessionStatePath, getOmcRoot } from '../../lib/worktree-paths.js';
 import { readModeState } from '../../lib/mode-state-io.js';
@@ -163,11 +163,11 @@ export function resetTodoContinuationAttempts(sessionId) {
     todoContinuationAttempts.delete(sessionId);
 }
 /**
- * Read the session-idle notification cooldown in seconds from ~/.omc/config.json.
+ * Read the session-idle notification cooldown in seconds from ~/.omg/config.json.
  * Default: 60 seconds. 0 = disabled (no cooldown).
  */
 export function getIdleNotificationCooldownSeconds() {
-    const configPath = join(homedir(), '.omc', 'config.json');
+    const configPath = join(homedir(), '.omg', 'config.json');
     try {
         if (!existsSync(configPath))
             return 60;
@@ -289,11 +289,11 @@ function isAwaitingConfirmation(state) {
  * Check for architect approval in session transcript
  */
 function checkArchitectApprovalInTranscript(sessionId) {
-    const claudeDir = getClaudeConfigDir();
+    const geminiDir = getGeminiConfigDir();
     const possiblePaths = [
-        join(claudeDir, 'sessions', sessionId, 'transcript.md'),
-        join(claudeDir, 'sessions', sessionId, 'messages.json'),
-        join(claudeDir, 'transcripts', `${sessionId}.md`)
+        join(geminiDir, 'sessions', sessionId, 'transcript.md'),
+        join(geminiDir, 'sessions', sessionId, 'messages.json'),
+        join(geminiDir, 'transcripts', `${sessionId}.md`)
     ];
     for (const transcriptPath of possiblePaths) {
         if (existsSync(transcriptPath)) {
@@ -314,11 +314,11 @@ function checkArchitectApprovalInTranscript(sessionId) {
  * Check for architect rejection in session transcript
  */
 function checkArchitectRejectionInTranscript(sessionId) {
-    const claudeDir = getClaudeConfigDir();
+    const geminiDir = getGeminiConfigDir();
     const possiblePaths = [
-        join(claudeDir, 'sessions', sessionId, 'transcript.md'),
-        join(claudeDir, 'sessions', sessionId, 'messages.json'),
-        join(claudeDir, 'transcripts', `${sessionId}.md`)
+        join(geminiDir, 'sessions', sessionId, 'transcript.md'),
+        join(geminiDir, 'sessions', sessionId, 'messages.json'),
+        join(geminiDir, 'transcripts', `${sessionId}.md`)
     ];
     for (const transcriptPath of possiblePaths) {
         if (existsSync(transcriptPath)) {
@@ -522,7 +522,7 @@ CRITICAL INSTRUCTIONS:
 1. Review your progress and the original task
 ${prdInstruction}
 3. Continue from where you left off
-4. When FULLY complete (after ${state.critic_mode === 'codex' ? 'Codex critic' : state.critic_mode === 'critic' ? 'Critic' : 'Architect'} verification), run \`/oh-my-claudecode:cancel\` to cleanly exit and clean up state files. If cancel fails, retry with \`/oh-my-claudecode:cancel --force\`.
+4. When FULLY complete (after ${state.critic_mode === 'codex' ? 'Codex critic' : state.critic_mode === 'critic' ? 'Critic' : 'Architect'} verification), run \`/oh-my-gemini-cli:cancel\` to cleanly exit and clean up state files. If cancel fails, retry with \`/oh-my-gemini-cli:cancel --force\`.
 5. Do NOT stop until the task is truly done
 
 ${newState.prompt ? `Original task: ${newState.prompt}` : ''}
@@ -681,7 +681,7 @@ async function checkTeamPipeline(sessionId, directory, cancelInProgress) {
 
 The team pipeline is active in phase "${phase}". Continue working on the team workflow.
 Do not stop until the pipeline reaches a terminal state (complete/failed/cancelled).
-When done, run \`/oh-my-claudecode:cancel\` to cleanly exit.
+When done, run \`/oh-my-gemini-cli:cancel\` to cleanly exit.
 
 </team-pipeline-continuation>
 
@@ -766,7 +766,7 @@ async function checkRalplan(sessionId, directory, cancelInProgress) {
 
 The ralplan consensus workflow is active. Continue the Planner/Architect/Critic loop.
 Do not stop until consensus is reached or the workflow completes.
-When done, run \`/oh-my-claudecode:cancel\` to cleanly exit.
+When done, run \`/oh-my-gemini-cli:cancel\` to cleanly exit.
 
 </ralplan-continuation>
 
@@ -882,8 +882,8 @@ export async function checkPersistentModes(sessionId, directory, stopContext // 
 ) {
     const workingDir = resolveToWorktreeRoot(directory);
     // CRITICAL: Never block context-limit/critical-context stops.
-    // Blocking these causes a deadlock where Claude Code cannot compact or exit.
-    // See: https://github.com/Yeachan-Heo/oh-my-claudecode/issues/213
+    // Blocking these causes a deadlock where Gemini Code cannot compact or exit.
+    // See: https://github.com/Yeachan-Heo/oh-my-gemini-cli/issues/213
     if (isCriticalContextStop(stopContext)) {
         return {
             shouldBlock: false,
@@ -920,10 +920,10 @@ export async function checkPersistentModes(sessionId, directory, stopContext // 
         };
     }
     // CRITICAL: Never block rate-limit stops.
-    // When the API returns 429 / quota-exhausted, Claude Code stops the session.
+    // When the API returns 429 / quota-exhausted, Gemini Code stops the session.
     // Blocking these stops creates an infinite retry loop: the hook injects a
-    // continuation prompt → Claude hits the rate limit again → stops again → loops.
-    // Fix for: https://github.com/Yeachan-Heo/oh-my-claudecode/issues/777
+    // continuation prompt → Gemini hits the rate limit again → stops again → loops.
+    // Fix for: https://github.com/Yeachan-Heo/oh-my-gemini-cli/issues/777
     if (isRateLimitStop(stopContext)) {
         return {
             shouldBlock: false,
@@ -1019,7 +1019,7 @@ export async function checkPersistentModes(sessionId, directory, stopContext // 
     };
 }
 /**
- * Create hook output for Claude Code.
+ * Create hook output for Gemini Code.
  * Returns `continue: false` when `shouldBlock` is true to hard-block the stop event.
  * Returns `continue: true` for terminal states, escape hatches, and errors.
  */

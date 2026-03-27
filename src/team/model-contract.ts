@@ -4,7 +4,7 @@ import { validateTeamName } from './team-name.js';
 import { normalizeToCcAlias } from '../features/delegation-enforcer.js';
 import { isBedrock, isVertexAI, isProviderSpecificModelId } from '../config/models.js';
 
-export type CliAgentType = 'claude' | 'codex' | 'gemini';
+export type CliAgentType = 'gemini' | 'codex' | 'gemini';
 
 export interface CliAgentContract {
   agentType: CliAgentType;
@@ -119,7 +119,7 @@ export function resolveCliBinaryPath(binary: string): string {
   }
 
   if (!isTrustedPrefix(resolvedPath)) {
-    console.warn(`[omc:cli-security] CLI binary '${binary}' resolved to non-standard path: ${resolvedPath}`);
+    console.warn(`[omg:cli-security] CLI binary '${binary}' resolved to non-standard path: ${resolvedPath}`);
   }
 
   resolvedPathCache.set(binary, resolvedPath);
@@ -151,16 +151,16 @@ export const _testInternals = {
 };
 
 const CONTRACTS: Record<CliAgentType, CliAgentContract> = {
-  claude: {
-    agentType: 'claude',
-    binary: 'claude',
-    installInstructions: 'Install Claude CLI: https://claude.ai/download',
+  gemini: {
+    agentType: 'gemini',
+    binary: 'gemini',
+    installInstructions: 'Install Gemini CLI: https://gemini.ai/download',
     buildLaunchArgs(model?: string, extraFlags: string[] = []): string[] {
       const args = ['--dangerously-skip-permissions'];
       if (model) {
         // Provider-specific model IDs (Bedrock, Vertex) must be passed as-is.
-        // Normalizing them to aliases like "sonnet" causes Claude Code to expand
-        // them to Anthropic API names (claude-sonnet-4-6) which are invalid on
+        // Normalizing them to aliases like "sonnet" causes Gemini Code to expand
+        // them to Anthropic API names (gemini-sonnet-4-6) which are invalid on
         // these providers. (issue #1695)
         const resolved = isProviderSpecificModelId(model) ? model : normalizeToCcAlias(model);
         args.push('--model', resolved);
@@ -369,22 +369,22 @@ export function isPromptModeAgent(agentType: CliAgentType): boolean {
 }
 
 /**
- * Resolve the active model for Claude team workers on Bedrock/Vertex.
+ * Resolve the active model for Gemini team workers on Bedrock/Vertex.
  *
  * When running on a non-standard provider (Bedrock, Vertex), workers need
  * the provider-specific model ID passed explicitly via --model. Without it,
- * Claude Code falls back to its built-in default (claude-sonnet-4-6) which
+ * Gemini Code falls back to its built-in default (gemini-sonnet-4-6) which
  * is invalid on these providers.
  *
  * Resolution order:
  *   1. ANTHROPIC_MODEL / CLAUDE_MODEL env vars (user's explicit setting)
  *   2. Provider tier-specific env vars (CLAUDE_CODE_BEDROCK_SONNET_MODEL, etc.)
- *   3. undefined — let Claude Code handle its own default
+ *   3. undefined — let Gemini Code handle its own default
  *
  * Returns undefined when not on Bedrock/Vertex (standard Anthropic API
  * handles bare aliases fine).
  */
-export function resolveClaudeWorkerModel(
+export function resolveGeminiWorkerModel(
   env: NodeJS.ProcessEnv = process.env,
 ): string | undefined {
   // Only needed for non-standard providers
@@ -408,9 +408,9 @@ export function resolveClaudeWorkerModel(
   }
 
   // OMC tier env vars
-  const omcModel = env.OMC_MODEL_MEDIUM || '';
-  if (omcModel) {
-    return omcModel;
+  const omgModel = env.OMC_MODEL_MEDIUM || '';
+  if (omgModel) {
+    return omgModel;
   }
 
   return undefined;

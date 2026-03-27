@@ -29,15 +29,15 @@ describe('Notepad Module', () => {
             expect(content).toContain(MANUAL_HEADER);
             expect(content).toContain('Auto-managed by OMC');
         });
-        it('should create .omc directory if not exists', () => {
-            const omcDir = join(testDir, '.omc');
-            expect(existsSync(omcDir)).toBe(false);
+        it('should create .omg directory if not exists', () => {
+            const omgDir = join(testDir, '.omg');
+            expect(existsSync(omgDir)).toBe(false);
             initNotepad(testDir);
-            expect(existsSync(omcDir)).toBe(true);
+            expect(existsSync(omgDir)).toBe(true);
         });
         it('should not overwrite existing notepad', () => {
-            const omcDir = join(testDir, '.omc');
-            mkdirSync(omcDir, { recursive: true });
+            const omgDir = join(testDir, '.omg');
+            mkdirSync(omgDir, { recursive: true });
             const notepadPath = getNotepadPath(testDir);
             const existingContent = '# Existing content\nTest data';
             writeFileSync(notepadPath, existingContent);

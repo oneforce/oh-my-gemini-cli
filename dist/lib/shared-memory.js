@@ -4,7 +4,7 @@
  * Filesystem-based key-value store for cross-session memory sync
  * between agents in /team and /pipeline workflows.
  *
- * Storage: .omc/state/shared-memory/{namespace}/{key}.json
+ * Storage: .omg/state/shared-memory/{namespace}/{key}.json
  *
  * Each entry is a JSON file containing:
  * - key: string identifier
@@ -15,7 +15,7 @@
  * - ttl: optional time-to-live in seconds
  * - expiresAt: optional ISO timestamp (computed from ttl)
  *
- * @see https://github.com/anthropics/oh-my-claudecode/issues/1119
+ * @see https://github.com/anthropics/oh-my-gemini-cli/issues/1119
  */
 import { existsSync, mkdirSync, readFileSync, writeFileSync, unlinkSync, readdirSync, renameSync } from 'fs';
 import { join } from 'path';
@@ -23,17 +23,17 @@ import { getOmcRoot } from './worktree-paths.js';
 // ---------------------------------------------------------------------------
 // Config
 // ---------------------------------------------------------------------------
-const CONFIG_FILE_NAME = '.omc-config.json';
+const CONFIG_FILE_NAME = '.omg-config.json';
 /**
  * Check if shared memory is enabled via config.
  *
- * Reads `agents.sharedMemory.enabled` from ~/.claude/.omc-config.json.
+ * Reads `agents.sharedMemory.enabled` from ~/.gemini/.omg-config.json.
  * Defaults to true when the config key is absent (opt-out rather than opt-in
  * once the feature ships, but tools check this gate).
  */
 export function isSharedMemoryEnabled() {
     try {
-        const configPath = join(process.env.HOME || process.env.USERPROFILE || '', '.claude', CONFIG_FILE_NAME);
+        const configPath = join(process.env.HOME || process.env.USERPROFILE || '', '.gemini', CONFIG_FILE_NAME);
         if (!existsSync(configPath))
             return true; // default enabled
         const raw = JSON.parse(readFileSync(configPath, 'utf-8'));
@@ -77,8 +77,8 @@ function validateKey(key) {
 /** Get the directory path for a namespace. */
 function getNamespaceDir(namespace, worktreeRoot) {
     validateNamespace(namespace);
-    const omcRoot = getOmcRoot(worktreeRoot);
-    return join(omcRoot, SHARED_MEMORY_DIR, namespace);
+    const omgRoot = getOmcRoot(worktreeRoot);
+    return join(omgRoot, SHARED_MEMORY_DIR, namespace);
 }
 /** Get the file path for a specific key within a namespace. */
 function getEntryPath(namespace, key, worktreeRoot) {
@@ -227,8 +227,8 @@ export function deleteEntry(namespace, key, worktreeRoot) {
  * Returns the count of entries removed.
  */
 export function cleanupExpired(namespace, worktreeRoot) {
-    const omcRoot = getOmcRoot(worktreeRoot);
-    const sharedMemDir = join(omcRoot, SHARED_MEMORY_DIR);
+    const omgRoot = getOmcRoot(worktreeRoot);
+    const sharedMemDir = join(omgRoot, SHARED_MEMORY_DIR);
     if (!existsSync(sharedMemDir))
         return { removed: 0, namespaces: [] };
     const namespacesToClean = [];
@@ -287,8 +287,8 @@ export function cleanupExpired(namespace, worktreeRoot) {
  * List all namespaces that have shared memory entries.
  */
 export function listNamespaces(worktreeRoot) {
-    const omcRoot = getOmcRoot(worktreeRoot);
-    const sharedMemDir = join(omcRoot, SHARED_MEMORY_DIR);
+    const omgRoot = getOmcRoot(worktreeRoot);
+    const sharedMemDir = join(omgRoot, SHARED_MEMORY_DIR);
     if (!existsSync(sharedMemDir))
         return [];
     try {

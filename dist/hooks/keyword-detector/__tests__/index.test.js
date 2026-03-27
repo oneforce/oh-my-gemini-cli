@@ -507,8 +507,8 @@ World`);
                 expect(ccgMatch).toBeDefined();
                 expect(ccgMatch?.keyword).toMatch(/ccg/i);
             });
-            it('should detect "claude-codex-gemini" keyword', () => {
-                const result = detectKeywordsWithType('use claude-codex-gemini to build this');
+            it('should detect "gemini-codex-gemini" keyword', () => {
+                const result = detectKeywordsWithType('use gemini-codex-gemini to build this');
                 const ccgMatch = result.find((r) => r.type === 'ccg');
                 expect(ccgMatch).toBeDefined();
             });
@@ -662,7 +662,7 @@ World`);
         });
         describe('multiple keyword conflict resolution', () => {
             it('should return cancel over everything', () => {
-                const result = getPrimaryKeyword('cancelomc ralph ultrawork');
+                const result = getPrimaryKeyword('cancelomg ralph ultrawork');
                 expect(result?.type).toBe('cancel');
             });
             it('should return ralph over ultrawork', () => {
@@ -710,7 +710,7 @@ World`);
             expect(getAllKeywords('ulw ralph fix errors')).toEqual(['ralph', 'ultrawork']);
         });
         it('should return cancel exclusively when present', () => {
-            expect(getAllKeywords('cancelomc ralph ultrawork')).toEqual(['cancel']);
+            expect(getAllKeywords('cancelomg ralph ultrawork')).toEqual(['cancel']);
         });
         it('should not detect deprecated ultrapilot keyword (#1131)', () => {
             const result = getAllKeywords('autopilot ultrapilot build');
@@ -758,7 +758,7 @@ World`);
             expect(ralphIdx).toBeLessThan(ccgIdx);
         });
         it('should not return ccg when cancel is present', () => {
-            const result = getAllKeywords('cancelomc ccg build');
+            const result = getAllKeywords('cancelomg ccg build');
             expect(result).toEqual(['cancel']);
             expect(result).not.toContain('ccg');
         });
@@ -767,7 +767,7 @@ World`);
             expect(primary?.type).toBe('ralph');
         });
         it('should return cancel over codex/gemini', () => {
-            expect(getAllKeywords('cancelomc ask codex')).toEqual(['cancel']);
+            expect(getAllKeywords('cancelomg ask codex')).toEqual(['cancel']);
         });
         it('should return empty array for no keywords', () => {
             expect(getAllKeywords('regular text')).toEqual([]);
@@ -785,7 +785,7 @@ World`);
             expect(result).toEqual(['code-review', 'security-review', 'ultrathink']);
         });
         // Team keyword detection disabled — team is now explicit-only via /team skill
-        // to prevent infinite spawning when Claude workers receive prompts containing "team".
+        // to prevent infinite spawning when Gemini workers receive prompts containing "team".
         it('should NOT detect team keyword (explicit-only mode)', () => {
             const result = getAllKeywords('team build the API');
             expect(result).not.toContain('team');
@@ -825,7 +825,7 @@ World`);
             expect(result).not.toContain('swarm');
         });
         it('should not detect cancel alongside team', () => {
-            const result = getAllKeywords('cancelomc team');
+            const result = getAllKeywords('cancelomg team');
             expect(result).toEqual(['cancel']);
             expect(result).not.toContain('team');
         });
@@ -989,7 +989,7 @@ World`);
             expect(result.keywords).toContain('ralph');
         });
         it('should not gate when cancel is present', () => {
-            const result = applyRalplanGate(['cancel'], 'cancelomc ralph fix this');
+            const result = applyRalplanGate(['cancel'], 'cancelomg ralph fix this');
             expect(result.gateApplied).toBe(false);
         });
         it('should not gate when ralplan is already present', () => {

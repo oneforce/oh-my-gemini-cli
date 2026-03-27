@@ -93,7 +93,7 @@ export function detectEditErrorInOutput(output) {
     return detectEditError(output);
 }
 /**
- * Create unified recovery hook for Claude Code
+ * Create unified recovery hook for Gemini Code
  *
  * This hook provides a single entry point for all recovery mechanisms.
  */

@@ -2,13 +2,13 @@
 /**
  * OMC HUD - Main Entry Point
  *
- * Statusline command that visualizes oh-my-claudecode state.
- * Receives stdin JSON from Claude Code and outputs formatted statusline.
+ * Statusline command that visualizes oh-my-gemini-cli state.
+ * Receives stdin JSON from Gemini Code and outputs formatted statusline.
  */
 import { readStdin, writeStdinCache, readStdinCache, getContextPercent, getModelName, stabilizeContextPercent, } from "./stdin.js";
 import { parseTranscript } from "./transcript.js";
 import { readHudState, readHudConfig, getRunningTasks, writeHudState, initializeHUDState, } from "./state.js";
-import { readRalphStateForHud, readUltraworkStateForHud, readPrdStateForHud, readAutopilotStateForHud, } from "./omc-state.js";
+import { readRalphStateForHud, readUltraworkStateForHud, readPrdStateForHud, readAutopilotStateForHud, } from "./omg-state.js";
 import { getUsage } from "./usage-api.js";
 import { executeCustomProvider } from "./custom-rate-provider.js";
 import { render } from "./render.js";
@@ -100,7 +100,7 @@ async function main(watchMode = false, skipInit = false) {
         if (!skipInit) {
             await initializeHUDState();
         }
-        // Read stdin from Claude Code
+        // Read stdin from Gemini Code
         const previousStdinCache = readStdinCache();
         let stdin = await readStdin();
         if (stdin) {
@@ -119,7 +119,7 @@ async function main(watchMode = false, skipInit = false) {
         }
         else {
             // Non-watch invocation with no stdin - suggest setup
-            console.log("[OMC] run /omc-setup to install properly");
+            console.log("[OMC] run /omg-setup to install properly");
             return;
         }
         const cwd = resolveToWorktreeRoot(stdin.cwd || undefined);
@@ -170,12 +170,12 @@ async function main(watchMode = false, skipInit = false) {
             ? await executeCustomProvider(config.rateLimitsProvider)
             : null;
         // Read OMC version and update check cache
-        let omcVersion = null;
+        let omgVersion = null;
         let updateAvailable = null;
         try {
-            omcVersion = getRuntimePackageVersion();
-            if (omcVersion === 'unknown')
-                omcVersion = null;
+            omgVersion = getRuntimePackageVersion();
+            if (omgVersion === 'unknown')
+                omgVersion = null;
         }
         catch (error) {
             // Ignore version detection errors
@@ -185,11 +185,11 @@ async function main(watchMode = false, skipInit = false) {
         }
         // Async file read to avoid blocking event loop (Issue #1273)
         try {
-            const updateCacheFile = join(homedir(), '.omc', 'update-check.json');
+            const updateCacheFile = join(homedir(), '.omg', 'update-check.json');
             await access(updateCacheFile);
             const content = await readFile(updateCacheFile, 'utf-8');
             const cached = JSON.parse(content);
-            if (cached?.latestVersion && omcVersion && compareVersions(omcVersion, cached.latestVersion) < 0) {
+            if (cached?.latestVersion && omgVersion && compareVersions(omgVersion, cached.latestVersion) < 0) {
                 updateAvailable = cached.latestVersion;
             }
         }
@@ -203,15 +203,15 @@ async function main(watchMode = false, skipInit = false) {
         let sessionSummary = null;
         const sessionSummaryEnabled = config.elements.sessionSummary ?? false;
         if (sessionSummaryEnabled && resolvedTranscriptPath && currentSessionId) {
-            const omcStateDir = join(getOmcRoot(cwd), 'state');
-            sessionSummary = readSessionSummary(omcStateDir, currentSessionId);
+            const omgStateDir = join(getOmcRoot(cwd), 'state');
+            sessionSummary = readSessionSummary(omgStateDir, currentSessionId);
             // Debounce: only spawn script if cache is absent or older than 60 seconds.
             // This prevents spawning a child process on every HUD poll (every ~1s).
             // The child script still checks turn-count freshness internally.
             const shouldSpawn = !sessionSummary?.generatedAt
                 || (Date.now() - new Date(sessionSummary.generatedAt).getTime() > 60_000);
             if (shouldSpawn) {
-                spawnSessionSummaryScript(resolvedTranscriptPath, omcStateDir, currentSessionId);
+                spawnSessionSummaryScript(resolvedTranscriptPath, omgStateDir, currentSessionId);
             }
         }
         const missionBoardEnabled = config.missionBoard?.enabled ?? config.elements.missionBoard ?? false;
@@ -241,7 +241,7 @@ async function main(watchMode = false, skipInit = false) {
             sessionHealth: await calculateSessionHealth(sessionStart, contextPercent),
             lastRequestTokenUsage: transcriptData.lastRequestTokenUsage || null,
             sessionTotalTokens: transcriptData.sessionTotalTokens ?? null,
-            omcVersion,
+            omgVersion,
             updateAvailable,
             toolCallCount: transcriptData.toolCallCount,
             agentCallCount: transcriptData.agentCallCount,
@@ -267,9 +267,9 @@ async function main(watchMode = false, skipInit = false) {
         if (config.contextLimitWarning.autoCompact &&
             context.contextPercent >= config.contextLimitWarning.threshold) {
             try {
-                const omcStateDir = join(getOmcRoot(cwd), 'state');
-                mkdirSync(omcStateDir, { recursive: true });
-                const triggerFile = join(omcStateDir, 'compact-requested.json');
+                const omgStateDir = join(getOmcRoot(cwd), 'state');
+                mkdirSync(omgStateDir, { recursive: true });
+                const triggerFile = join(omgStateDir, 'compact-requested.json');
                 writeFileSync(triggerFile, JSON.stringify({
                     requestedAt: new Date().toISOString(),
                     contextPercent: context.contextPercent,
@@ -309,7 +309,7 @@ async function main(watchMode = false, skipInit = false) {
                 error.message.includes("MODULE_NOT_FOUND") ||
                 error.message.includes("Cannot find module"));
         if (isInstallError) {
-            console.log("[OMC] run /omc-setup to install properly");
+            console.log("[OMC] run /omg-setup to install properly");
         }
         else {
             // Output fallback message to stdout for status line visibility
@@ -319,8 +319,8 @@ async function main(watchMode = false, skipInit = false) {
         }
     }
 }
-// Export for programmatic use (e.g., omc hud --watch loop)
+// Export for programmatic use (e.g., omg hud --watch loop)
 export { main };
-// Auto-run (unconditional so dynamic import() via omc-hud.mjs wrapper works correctly)
+// Auto-run (unconditional so dynamic import() via omg-hud.mjs wrapper works correctly)
 main();
 //# sourceMappingURL=index.js.map

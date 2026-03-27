@@ -4,7 +4,7 @@
  * Provides utilities for managing background task execution,
  * similar to oh-my-opencode's Background Task Manager.
  *
- * In Claude Code, background execution is controlled via:
+ * In Gemini Code, background execution is controlled via:
  * - Bash tool's `run_in_background` parameter
  * - Task tool's `run_in_background` parameter
  * - TaskOutput tool for retrieving results

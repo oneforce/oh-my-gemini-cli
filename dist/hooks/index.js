@@ -1,13 +1,13 @@
 /**
- * Hooks Module for Oh-My-ClaudeCode
+ * Hooks Module for Oh-My-GeminiCLI
  *
- * This module provides the TypeScript bridge for Claude Code's native shell hook system.
+ * This module provides the TypeScript bridge for Gemini Code's native shell hook system.
  * Shell scripts call these TypeScript functions for complex logic processing.
  *
  * Architecture:
- * - Claude Code runs shell scripts on hook events (UserPromptSubmit, Stop, etc.)
+ * - Gemini Code runs shell scripts on hook events (UserPromptSubmit, Stop, etc.)
  * - Shell scripts invoke Node.js bridge for complex processing
- * - Bridge returns JSON response that shell passes back to Claude Code
+ * - Bridge returns JSON response that shell passes back to Gemini Code
  */
 export { 
 // Keyword detection
@@ -32,13 +32,13 @@ export {
 processHook } from './bridge.js';
 export { 
 // Think Mode
-createThinkModeHook, detectThinkKeyword, detectUltrathinkKeyword, extractPromptText as extractThinkPromptText, removeCodeBlocks as removeThinkCodeBlocks, getHighVariant, isAlreadyHighVariant, getThinkingConfig, getClaudeThinkingConfig, clearThinkModeState, getThinkModeState, isThinkModeActive, processThinkMode, shouldActivateThinkMode, shouldActivateUltrathink, THINKING_CONFIGS } from './think-mode/index.js';
+createThinkModeHook, detectThinkKeyword, detectUltrathinkKeyword, extractPromptText as extractThinkPromptText, removeCodeBlocks as removeThinkCodeBlocks, getHighVariant, isAlreadyHighVariant, getThinkingConfig, getGeminiThinkingConfig, clearThinkModeState, getThinkModeState, isThinkModeActive, processThinkMode, shouldActivateThinkMode, shouldActivateUltrathink, THINKING_CONFIGS } from './think-mode/index.js';
 export { 
 // Rules Injector
 createRulesInjectorHook, getRulesForPath, findProjectRoot, findRuleFiles, parseRuleFrontmatter, shouldApplyRule, createContentHash, isDuplicateByRealPath, isDuplicateByContentHash, loadInjectedRules, saveInjectedRules, clearInjectedRules, RULES_INJECTOR_STORAGE, PROJECT_MARKERS, PROJECT_RULE_SUBDIRS, PROJECT_RULE_FILES, USER_RULE_DIR, RULE_EXTENSIONS, TRACKED_TOOLS } from './rules-injector/index.js';
 export { 
 // OMC Orchestrator
-createOmcOrchestratorHook, isAllowedPath, isWriteEditTool, getGitDiffStats, formatFileChanges, buildVerificationReminder, buildOrchestratorReminder, buildBoulderContinuation, checkBoulderContinuation, processOrchestratorPreTool, processOrchestratorPostTool, HOOK_NAME as OMC_ORCHESTRATOR_HOOK_NAME, ALLOWED_PATH_PREFIX, WRITE_EDIT_TOOLS, DIRECT_WORK_REMINDER, ORCHESTRATOR_DELEGATION_REQUIRED, BOULDER_CONTINUATION_PROMPT, VERIFICATION_REMINDER, SINGLE_TASK_DIRECTIVE } from './omc-orchestrator/index.js';
+createOmcOrchestratorHook, isAllowedPath, isWriteEditTool, getGitDiffStats, formatFileChanges, buildVerificationReminder, buildOrchestratorReminder, buildBoulderContinuation, checkBoulderContinuation, processOrchestratorPreTool, processOrchestratorPostTool, HOOK_NAME as OMC_ORCHESTRATOR_HOOK_NAME, ALLOWED_PATH_PREFIX, WRITE_EDIT_TOOLS, DIRECT_WORK_REMINDER, ORCHESTRATOR_DELEGATION_REQUIRED, BOULDER_CONTINUATION_PROMPT, VERIFICATION_REMINDER, SINGLE_TASK_DIRECTIVE } from './omg-orchestrator/index.js';
 export { 
 // Auto Slash Command
 createAutoSlashCommandHook, processSlashCommand, detectSlashCommand, extractPromptText as extractSlashPromptText, parseSlashCommand, removeCodeBlocks as removeSlashCodeBlocks, isExcludedCommand, executeSlashCommand, findCommand, discoverAllCommands, listAvailableCommands, HOOK_NAME as AUTO_SLASH_COMMAND_HOOK_NAME, AUTO_SLASH_COMMAND_TAG_OPEN, AUTO_SLASH_COMMAND_TAG_CLOSE, SLASH_COMMAND_PATTERN, EXCLUDED_COMMANDS } from './auto-slash-command/index.js';

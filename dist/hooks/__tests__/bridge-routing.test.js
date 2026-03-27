@@ -145,7 +145,7 @@ describe('processHook - Routing Matrix', () => {
                 });
                 expect(keywordResult.continue).toBe(true);
                 expect(keywordResult.message).toContain('[RALPH + ULTRAWORK MODE ACTIVATED]');
-                const sessionDir = join(tempDir, '.omc', 'state', 'sessions', sessionId);
+                const sessionDir = join(tempDir, '.omg', 'state', 'sessions', sessionId);
                 const ralphState = JSON.parse(readFileSync(join(sessionDir, 'ralph-state.json'), 'utf-8'));
                 const ultraworkState = JSON.parse(readFileSync(join(sessionDir, 'ultrawork-state.json'), 'utf-8'));
                 expect(ralphState.active).toBe(true);
@@ -172,13 +172,13 @@ describe('processHook - Routing Matrix', () => {
                 const input = {
                     sessionId,
                     toolName: 'Skill',
-                    toolInput: { skill: 'oh-my-claudecode:ralph' },
+                    toolInput: { skill: 'oh-my-gemini-cli:ralph' },
                     directory: tempDir,
                 };
                 const result = await processHook('post-tool-use', input);
                 expect(result.continue).toBe(true);
-                const ralphPath = join(tempDir, '.omc', 'state', 'sessions', sessionId, 'ralph-state.json');
-                const ultraworkPath = join(tempDir, '.omc', 'state', 'sessions', sessionId, 'ultrawork-state.json');
+                const ralphPath = join(tempDir, '.omg', 'state', 'sessions', sessionId, 'ralph-state.json');
+                const ultraworkPath = join(tempDir, '.omg', 'state', 'sessions', sessionId, 'ultrawork-state.json');
                 expect(existsSync(ralphPath)).toBe(true);
                 expect(existsSync(ultraworkPath)).toBe(true);
                 const ralphState = JSON.parse(readFileSync(ralphPath, 'utf-8'));
@@ -197,7 +197,7 @@ describe('processHook - Routing Matrix', () => {
             try {
                 execFileSync('git', ['init'], { cwd: tempDir, stdio: 'pipe' });
                 const sessionId = 'confirm-ralph-session';
-                const sessionDir = join(tempDir, '.omc', 'state', 'sessions', sessionId);
+                const sessionDir = join(tempDir, '.omg', 'state', 'sessions', sessionId);
                 mkdirSync(sessionDir, { recursive: true });
                 writeFileSync(join(sessionDir, 'ralph-state.json'), JSON.stringify({
                     active: true,
@@ -221,7 +221,7 @@ describe('processHook - Routing Matrix', () => {
                 const result = await processHook('pre-tool-use', {
                     sessionId,
                     toolName: 'Skill',
-                    toolInput: { skill: 'oh-my-claudecode:ralph' },
+                    toolInput: { skill: 'oh-my-gemini-cli:ralph' },
                     directory: tempDir,
                 });
                 expect(result.continue).toBe(true);
@@ -255,7 +255,7 @@ describe('processHook - Routing Matrix', () => {
             const sessionId = 'team-stage-enforced';
             try {
                 execFileSync('git', ['init'], { cwd: tempDir, stdio: 'pipe' });
-                const teamStateDir = join(tempDir, '.omc', 'state', 'sessions', sessionId);
+                const teamStateDir = join(tempDir, '.omg', 'state', 'sessions', sessionId);
                 mkdirSync(teamStateDir, { recursive: true });
                 writeFileSync(join(teamStateDir, 'team-state.json'), JSON.stringify({ active: true, stage: 'team-exec', session_id: sessionId }, null, 2));
                 const result = await processHook('persistent-mode', {
@@ -277,7 +277,7 @@ describe('processHook - Routing Matrix', () => {
             const sessionId = 'team-stage-auth-bypass';
             try {
                 execFileSync('git', ['init'], { cwd: tempDir, stdio: 'pipe' });
-                const teamStateDir = join(tempDir, '.omc', 'state', 'sessions', sessionId);
+                const teamStateDir = join(tempDir, '.omg', 'state', 'sessions', sessionId);
                 mkdirSync(teamStateDir, { recursive: true });
                 writeFileSync(join(teamStateDir, 'team-state.json'), JSON.stringify({ active: true, stage: 'team-exec', session_id: sessionId }, null, 2));
                 const result = await processHook('persistent-mode', {
@@ -298,10 +298,10 @@ describe('processHook - Routing Matrix', () => {
             const sessionId = 'ralplan-team-double-block';
             try {
                 execFileSync('git', ['init'], { cwd: tempDir, stdio: 'pipe' });
-                const sessionStateDir = join(tempDir, '.omc', 'state', 'sessions', sessionId);
+                const sessionStateDir = join(tempDir, '.omg', 'state', 'sessions', sessionId);
                 mkdirSync(sessionStateDir, { recursive: true });
                 writeFileSync(join(sessionStateDir, 'ralplan-state.json'), JSON.stringify({ active: true, session_id: sessionId, current_phase: 'ralplan' }, null, 2));
-                const globalStateDir = join(tempDir, '.omc', 'state');
+                const globalStateDir = join(tempDir, '.omg', 'state');
                 mkdirSync(globalStateDir, { recursive: true });
                 writeFileSync(join(globalStateDir, 'team-state.json'), JSON.stringify({ active: true, stage: 'team-exec' }, null, 2));
                 const result = await processHook('persistent-mode', {
@@ -347,7 +347,7 @@ describe('processHook - Routing Matrix', () => {
     // --------------------------------------------------------------------------
     describe('input normalization', () => {
         it('should normalize snake_case tool_name to camelCase toolName', async () => {
-            // Send snake_case input (as Claude Code would)
+            // Send snake_case input (as Gemini Code would)
             const rawInput = {
                 session_id: 'test-session',
                 tool_name: 'Bash',
@@ -590,7 +590,7 @@ describe('processHook - Routing Matrix', () => {
         });
         it('snake_case input should be normalized and pass validation', async () => {
             const spy = vi.spyOn(console, 'error').mockImplementation(() => { });
-            // Raw snake_case input as Claude Code would send
+            // Raw snake_case input as Gemini Code would send
             const rawInput = {
                 session_id: 'test-session-xyz',
                 cwd: '/tmp/test-routing',
@@ -677,7 +677,7 @@ describe('processHook - Routing Matrix', () => {
     // --------------------------------------------------------------------------
     // Regression #858 — snake_case fields must reach handlers after normalization
     //
-    // processHook() normalizes Claude Code's snake_case payload (session_id,
+    // processHook() normalizes Gemini Code's snake_case payload (session_id,
     // cwd, tool_name, tool_input) to camelCase before routing.  The handlers
     // for session-end, pre-compact, setup-init, setup-maintenance, and
     // permission-request all expect the original snake_case field names, so
@@ -778,7 +778,7 @@ describe('processHook - Routing Matrix', () => {
                 const result = await processHook('pre-compact', rawInput);
                 expect(result.continue).toBe(true);
                 // If cwd reached the handler, it will have created the checkpoint dir
-                const checkpointDir = join(tempDir, '.omc', 'state', 'checkpoints');
+                const checkpointDir = join(tempDir, '.omg', 'state', 'checkpoints');
                 expect(existsSync(checkpointDir)).toBe(true);
             }
             finally {
@@ -834,7 +834,7 @@ describe('processHook - Routing Matrix', () => {
                 const stop = await processHook('subagent-stop', stopInput);
                 expect(stop.continue).toBe(true);
                 flushPendingWrites();
-                const trackingPath = join(tempDir, '.omc', 'state', 'subagent-tracking.json');
+                const trackingPath = join(tempDir, '.omg', 'state', 'subagent-tracking.json');
                 expect(existsSync(trackingPath)).toBe(true);
                 const tracking = JSON.parse(readFileSync(trackingPath, 'utf-8'));
                 const agent = tracking.agents.find((a) => a.agent_id === 'agent-858');

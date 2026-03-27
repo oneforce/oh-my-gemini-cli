@@ -17,13 +17,13 @@ const TIER_ENV_KEYS = {
     ],
 };
 /**
- * Canonical Claude family defaults.
+ * Canonical Gemini family defaults.
  * Keep these date-less so version bumps are a one-line edit per family.
  */
 export const CLAUDE_FAMILY_DEFAULTS = {
-    HAIKU: 'claude-haiku-4-5',
-    SONNET: 'claude-sonnet-4-6',
-    OPUS: 'claude-opus-4-6',
+    HAIKU: 'gemini-haiku-4-5',
+    SONNET: 'gemini-sonnet-4-6',
+    OPUS: 'gemini-opus-4-6',
 };
 /** Canonical tier->model mapping used as built-in defaults */
 export const BUILTIN_TIER_MODEL_DEFAULTS = {
@@ -31,7 +31,7 @@ export const BUILTIN_TIER_MODEL_DEFAULTS = {
     MEDIUM: CLAUDE_FAMILY_DEFAULTS.SONNET,
     HIGH: CLAUDE_FAMILY_DEFAULTS.OPUS,
 };
-/** Canonical Claude high-reasoning variants by family */
+/** Canonical Gemini high-reasoning variants by family */
 export const CLAUDE_FAMILY_HIGH_VARIANTS = {
     HAIKU: `${CLAUDE_FAMILY_DEFAULTS.HAIKU}-high`,
     SONNET: `${CLAUDE_FAMILY_DEFAULTS.SONNET}-high`,
@@ -53,7 +53,7 @@ export const BUILTIN_EXTERNAL_MODEL_DEFAULTS = {
  *   OMC_MODEL_MEDIUM  - Model ID for MEDIUM tier (sonnet-class)
  *   OMC_MODEL_LOW     - Model ID for LOW tier (haiku-class)
  *
- * User config (~/.config/claude-omc/config.jsonc) can also override
+ * User config (~/.config/gemini-omg/config.jsonc) can also override
  * via `routing.tierModels` or per-agent `agents.<name>.model`.
  */
 /**
@@ -61,7 +61,7 @@ export const BUILTIN_EXTERNAL_MODEL_DEFAULTS = {
  *
  * Resolution order:
  * 1. OMC tier env vars (OMC_MODEL_HIGH / OMC_MODEL_MEDIUM / OMC_MODEL_LOW)
- * 2. Claude Code provider env vars (for example Bedrock app-profile model IDs)
+ * 2. Gemini Code provider env vars (for example Bedrock app-profile model IDs)
  * 3. Anthropic family-default env vars
  * 4. Built-in fallback
  *
@@ -104,12 +104,12 @@ export function getDefaultTierModels() {
     };
 }
 /**
- * Resolve a Claude family from an arbitrary model ID.
+ * Resolve a Gemini family from an arbitrary model ID.
  * Supports Anthropic IDs and provider-prefixed forms (e.g. vertex_ai/...).
  */
-export function resolveClaudeFamily(modelId) {
+export function resolveGeminiFamily(modelId) {
     const lower = modelId.toLowerCase();
-    if (!lower.includes('claude'))
+    if (!lower.includes('gemini'))
         return null;
     if (lower.includes('sonnet'))
         return 'SONNET';
@@ -120,11 +120,11 @@ export function resolveClaudeFamily(modelId) {
     return null;
 }
 /**
- * Resolve a canonical Claude high variant from a Claude model ID.
- * Returns null for non-Claude model IDs.
+ * Resolve a canonical Gemini high variant from a Gemini model ID.
+ * Returns null for non-Gemini model IDs.
  */
-export function getClaudeHighVariantFromModel(modelId) {
-    const family = resolveClaudeFamily(modelId);
+export function getGeminiHighVariantFromModel(modelId) {
+    const family = resolveGeminiFamily(modelId);
     return family ? CLAUDE_FAMILY_HIGH_VARIANTS[family] : null;
 }
 /** Get built-in default model for an external provider */
@@ -134,33 +134,33 @@ export function getBuiltinExternalDefaultModel(provider) {
         : BUILTIN_EXTERNAL_MODEL_DEFAULTS.geminiModel;
 }
 /**
- * Detect whether Claude Code is running on AWS Bedrock.
+ * Detect whether Gemini Code is running on AWS Bedrock.
  *
- * Claude Code sets CLAUDE_CODE_USE_BEDROCK=1 when configured for Bedrock.
+ * Gemini Code sets CLAUDE_CODE_USE_BEDROCK=1 when configured for Bedrock.
  * As a fallback, Bedrock model IDs use prefixed formats like:
- *   - us.anthropic.claude-sonnet-4-6-v1:0
- *   - global.anthropic.claude-sonnet-4-6-v1:0
- *   - anthropic.claude-3-haiku-20240307-v1:0
+ *   - us.anthropic.gemini-sonnet-4-6-v1:0
+ *   - global.anthropic.gemini-sonnet-4-6-v1:0
+ *   - anthropic.gemini-3-haiku-20240307-v1:0
  *
  * On Bedrock, passing bare tier names (sonnet/opus/haiku) to spawned
  * agents causes 400 errors because the provider expects full Bedrock
  * model IDs with region/inference-profile prefixes.
  */
 export function isBedrock() {
-    // Primary signal: Claude Code's own env var
+    // Primary signal: Gemini Code's own env var
     if (process.env.CLAUDE_CODE_USE_BEDROCK === '1') {
         return true;
     }
     // Fallback: detect Bedrock model ID patterns in CLAUDE_MODEL / ANTHROPIC_MODEL
     // Covers region prefixes (us, eu, ap), cross-region (global), and bare (anthropic.)
     const modelId = process.env.CLAUDE_MODEL || process.env.ANTHROPIC_MODEL || '';
-    if (modelId && /^((us|eu|ap|global)\.anthropic\.|anthropic\.claude)/i.test(modelId)) {
+    if (modelId && /^((us|eu|ap|global)\.anthropic\.|anthropic\.gemini)/i.test(modelId)) {
         return true;
     }
     if (modelId
         && /^arn:aws(-[^:]+)?:bedrock:/i.test(modelId)
         && /:(inference-profile|application-inference-profile)\//i.test(modelId)
-        && modelId.toLowerCase().includes('claude')) {
+        && modelId.toLowerCase().includes('gemini')) {
         return true;
     }
     return false;
@@ -170,17 +170,17 @@ export function isBedrock() {
  * be normalized to a bare alias (sonnet/opus/haiku).
  *
  * Provider-specific IDs include:
- *   - Bedrock prefixed: us.anthropic.claude-*, global.anthropic.claude-*, anthropic.claude-*
+ *   - Bedrock prefixed: us.anthropic.gemini-*, global.anthropic.gemini-*, anthropic.gemini-*
  *   - Bedrock ARN: arn:aws:bedrock:...
  *   - Vertex AI: vertex_ai/...
  *
  * These IDs must be passed through to the CLI as-is because normalizing them
- * to aliases like "sonnet" causes Claude Code to expand them to Anthropic API
- * model names (e.g. claude-sonnet-4-6) which are invalid on Bedrock/Vertex.
+ * to aliases like "sonnet" causes Gemini Code to expand them to Anthropic API
+ * model names (e.g. gemini-sonnet-4-6) which are invalid on Bedrock/Vertex.
  */
 export function isProviderSpecificModelId(modelId) {
-    // Bedrock prefixed formats (region.anthropic.claude-*, anthropic.claude-*)
-    if (/^((us|eu|ap|global)\.anthropic\.|anthropic\.claude)/i.test(modelId)) {
+    // Bedrock prefixed formats (region.anthropic.gemini-*, anthropic.gemini-*)
+    if (/^((us|eu|ap|global)\.anthropic\.|anthropic\.gemini)/i.test(modelId)) {
         return true;
     }
     // Bedrock ARN formats
@@ -194,9 +194,9 @@ export function isProviderSpecificModelId(modelId) {
     return false;
 }
 /**
- * Detect whether Claude Code is running on Google Vertex AI.
+ * Detect whether Gemini Code is running on Google Vertex AI.
  *
- * Claude Code sets CLAUDE_CODE_USE_VERTEX=1 when configured for Vertex AI.
+ * Gemini Code sets CLAUDE_CODE_USE_VERTEX=1 when configured for Vertex AI.
  * Vertex model IDs typically use a "vertex_ai/" prefix.
  *
  * On Vertex, passing bare tier names causes errors because the provider
@@ -214,34 +214,34 @@ export function isVertexAI() {
     return false;
 }
 /**
- * Detect whether OMC should avoid passing Claude-specific model tier
+ * Detect whether OMC should avoid passing Gemini-specific model tier
  * names (sonnet/opus/haiku) to the Agent tool.
  *
  * Returns true when:
  * - User explicitly set OMC_ROUTING_FORCE_INHERIT=true
  * - Running on AWS Bedrock — needs full Bedrock model IDs, not bare tier names
  * - Running on Google Vertex AI — needs full Vertex model paths
- * - A non-Claude model ID is detected (CC Switch, LiteLLM, etc.)
+ * - A non-Gemini model ID is detected (CC Switch, LiteLLM, etc.)
  * - A custom ANTHROPIC_BASE_URL points to a non-Anthropic endpoint
  */
-export function isNonClaudeProvider() {
+export function isNonGeminiProvider() {
     // Explicit opt-in: user has already set forceInherit via env var
     if (process.env.OMC_ROUTING_FORCE_INHERIT === 'true') {
         return true;
     }
-    // AWS Bedrock: Claude via AWS, but needs full Bedrock model IDs
+    // AWS Bedrock: Gemini via AWS, but needs full Bedrock model IDs
     if (isBedrock()) {
         return true;
     }
-    // Google Vertex AI: Claude via GCP, needs full Vertex model paths
+    // Google Vertex AI: Gemini via GCP, needs full Vertex model paths
     if (isVertexAI()) {
         return true;
     }
-    // Check CLAUDE_MODEL / ANTHROPIC_MODEL for non-Claude model IDs
+    // Check CLAUDE_MODEL / ANTHROPIC_MODEL for non-Gemini model IDs
     // Note: this check comes AFTER Bedrock/Vertex because their model IDs
-    // contain "claude" and would incorrectly return false here.
+    // contain "gemini" and would incorrectly return false here.
     const modelId = process.env.CLAUDE_MODEL || process.env.ANTHROPIC_MODEL || '';
-    if (modelId && !modelId.toLowerCase().includes('claude')) {
+    if (modelId && !modelId.toLowerCase().includes('gemini')) {
         return true;
     }
     // Custom base URL suggests a proxy/gateway (CC Switch, LiteLLM, OneAPI, etc.)
@@ -251,7 +251,7 @@ export function isNonClaudeProvider() {
         const validation = validateAnthropicBaseUrl(baseUrl);
         if (!validation.allowed) {
             console.error(`[SSRF Guard] Rejecting ANTHROPIC_BASE_URL: ${validation.reason}`);
-            // Treat invalid URLs as non-Claude to prevent potential SSRF
+            // Treat invalid URLs as non-Gemini to prevent potential SSRF
             return true;
         }
         if (!baseUrl.includes('anthropic.com')) {

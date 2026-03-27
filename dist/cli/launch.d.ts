@@ -1,12 +1,12 @@
 /**
- * Native tmux shell launch for omc
- * Launches Claude Code with tmux session management
+ * Native tmux shell launch for omg
+ * Launches Gemini Code with tmux session management
  */
 /**
  * Extract the OMC-specific --notify flag from launch args.
  * --notify false  → disable notifications (OMC_NOTIFY=0)
  * --notify true   → enable notifications (default)
- * This flag must be stripped before passing args to Claude CLI.
+ * This flag must be stripped before passing args to Gemini CLI.
  */
 export declare function extractNotifyFlag(args: string[]): {
     notifyEnabled: boolean;
@@ -22,7 +22,7 @@ export declare function extractNotifyFlag(args: string[]): {
  *   --openclaw=0      -> disable OpenClaw
  *
  * Does NOT consume the next positional arg (no space-separated value).
- * This flag is stripped before passing args to Claude CLI.
+ * This flag is stripped before passing args to Gemini CLI.
  */
 export declare function extractOpenClawFlag(args: string[]): {
     openclawEnabled: boolean;
@@ -38,7 +38,7 @@ export declare function extractOpenClawFlag(args: string[]): {
  *   --telegram=0      -> disable
  *
  * Does NOT consume the next positional arg (no space-separated value).
- * This flag is stripped before passing args to Claude CLI.
+ * This flag is stripped before passing args to Gemini CLI.
  */
 export declare function extractTelegramFlag(args: string[]): {
     telegramEnabled: boolean | undefined;
@@ -54,7 +54,7 @@ export declare function extractTelegramFlag(args: string[]): {
  *   --discord=0      -> disable
  *
  * Does NOT consume the next positional arg (no space-separated value).
- * This flag is stripped before passing args to Claude CLI.
+ * This flag is stripped before passing args to Gemini CLI.
  */
 export declare function extractDiscordFlag(args: string[]): {
     discordEnabled: boolean | undefined;
@@ -70,7 +70,7 @@ export declare function extractDiscordFlag(args: string[]): {
  *   --slack=0      -> disable
  *
  * Does NOT consume the next positional arg (no space-separated value).
- * This flag is stripped before passing args to Claude CLI.
+ * This flag is stripped before passing args to Gemini CLI.
  */
 export declare function extractSlackFlag(args: string[]): {
     slackEnabled: boolean | undefined;
@@ -86,20 +86,20 @@ export declare function extractSlackFlag(args: string[]): {
  *   --webhook=0      -> disable
  *
  * Does NOT consume the next positional arg (no space-separated value).
- * This flag is stripped before passing args to Claude CLI.
+ * This flag is stripped before passing args to Gemini CLI.
  */
 export declare function extractWebhookFlag(args: string[]): {
     webhookEnabled: boolean | undefined;
     remainingArgs: string[];
 };
 /**
- * Normalize Claude launch arguments
+ * Normalize Gemini launch arguments
  * Maps --madmax/--yolo to --dangerously-skip-permissions
  * All other flags pass through unchanged
  */
-export declare function normalizeClaudeLaunchArgs(args: string[]): string[];
+export declare function normalizeGeminiLaunchArgs(args: string[]): string[];
 /**
- * preLaunch: Prepare environment before Claude starts
+ * preLaunch: Prepare environment before Gemini starts
  * Currently a placeholder - can be extended for:
  * - Session state initialization
  * - Environment setup
@@ -108,22 +108,22 @@ export declare function normalizeClaudeLaunchArgs(args: string[]): string[];
 export declare function preLaunch(_cwd: string, _sessionId: string): Promise<void>;
 /**
  * Check if args contain --print or -p flag.
- * When in print mode, Claude outputs to stdout and must not be wrapped in tmux
+ * When in print mode, Gemini outputs to stdout and must not be wrapped in tmux
  * (which would capture stdout and prevent piping to the parent process).
  */
 export declare function isPrintMode(args: string[]): boolean;
 /**
- * runClaude: Launch Claude CLI (blocks until exit)
+ * runGemini: Launch Gemini CLI (blocks until exit)
  * Handles 3 scenarios:
- * 1. inside-tmux: Launch claude in current pane
- * 2. outside-tmux: Create new tmux session with claude
- * 3. direct: tmux not available, run claude directly
+ * 1. inside-tmux: Launch gemini in current pane
+ * 2. outside-tmux: Create new tmux session with gemini
+ * 3. direct: tmux not available, run gemini directly
  *
  * When --print/-p is present, always runs direct to preserve stdout piping.
  */
-export declare function runClaude(cwd: string, args: string[], sessionId: string): void;
+export declare function runGemini(cwd: string, args: string[], sessionId: string): void;
 /**
- * postLaunch: Cleanup after Claude exits
+ * postLaunch: Cleanup after Gemini exits
  * Currently a placeholder - can be extended for:
  * - Session cleanup
  * - State finalization

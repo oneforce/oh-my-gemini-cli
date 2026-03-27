@@ -4,7 +4,7 @@
  */
 import { readFileSync, existsSync, readdirSync } from 'fs';
 import { join } from 'path';
-import { getClaudeConfigDir } from '../../utils/paths.js';
+import { getGeminiConfigDir } from '../../utils/paths.js';
 import { isOmcHook } from '../../installer/index.js';
 import { colors } from '../utils/formatting.js';
 import { listBuiltinSkillNames } from '../../features/builtin-skills/skills.js';
@@ -50,15 +50,15 @@ function collectHooksFromSettings(settingsPath) {
     return conflicts;
 }
 /**
- * Check for hook conflicts in both profile-level (~/.claude/settings.json)
- * and project-level (./.claude/settings.json).
+ * Check for hook conflicts in both profile-level (~/.gemini/settings.json)
+ * and project-level (./.gemini/settings.json).
  *
- * Claude Code settings precedence: project > profile > defaults.
+ * Gemini Code settings precedence: project > profile > defaults.
  * We check both levels so the diagnostic is complete.
  */
 export function checkHookConflicts() {
-    const profileSettingsPath = join(getClaudeConfigDir(), 'settings.json');
-    const projectSettingsPath = join(process.cwd(), '.claude', 'settings.json');
+    const profileSettingsPath = join(getGeminiConfigDir(), 'settings.json');
+    const projectSettingsPath = join(process.cwd(), '.gemini', 'settings.json');
     const profileHooks = collectHooksFromSettings(profileSettingsPath);
     const projectHooks = collectHooksFromSettings(projectSettingsPath);
     // Deduplicate by event+command (same hook in both levels should appear once)
@@ -104,10 +104,10 @@ function checkFileForOmcMarkers(filePath) {
 }
 /**
  * Find companion CLAUDE-*.md files in the config directory.
- * These are files like CLAUDE-omc.md that users create as part of a
- * file-split pattern to keep OMC config separate from their own CLAUDE.md.
+ * These are files like CLAUDE-omg.md that users create as part of a
+ * file-split pattern to keep OMC config separate from their own GEMINI.md.
  */
-function findCompanionClaudeMdFiles(configDir) {
+function findCompanionGeminiMdFiles(configDir) {
     try {
         return readdirSync(configDir)
             .filter(f => /^CLAUDE-.+\.md$/i.test(f))
@@ -118,58 +118,58 @@ function findCompanionClaudeMdFiles(configDir) {
     }
 }
 /**
- * Check CLAUDE.md for OMC markers and user content.
- * Also checks companion files (CLAUDE-omc.md, etc.) for the file-split pattern
+ * Check GEMINI.md for OMC markers and user content.
+ * Also checks companion files (CLAUDE-omg.md, etc.) for the file-split pattern
  * where users keep OMC config in a separate file.
  */
-export function checkClaudeMdStatus() {
-    const configDir = getClaudeConfigDir();
-    const claudeMdPath = join(configDir, 'CLAUDE.md');
-    if (!existsSync(claudeMdPath)) {
+export function checkGeminiMdStatus() {
+    const configDir = getGeminiConfigDir();
+    const geminiMdPath = join(configDir, 'GEMINI.md');
+    if (!existsSync(geminiMdPath)) {
         return null;
     }
     try {
-        // Check the main CLAUDE.md first
-        const mainResult = checkFileForOmcMarkers(claudeMdPath);
+        // Check the main GEMINI.md first
+        const mainResult = checkFileForOmcMarkers(geminiMdPath);
         if (!mainResult)
             return null;
         if (mainResult.hasMarkers) {
             return {
                 hasMarkers: true,
                 hasUserContent: mainResult.hasUserContent,
-                path: claudeMdPath
+                path: geminiMdPath
             };
         }
         // No markers in main file - check companion files (file-split pattern)
-        const companions = findCompanionClaudeMdFiles(configDir);
+        const companions = findCompanionGeminiMdFiles(configDir);
         for (const companionPath of companions) {
             const companionResult = checkFileForOmcMarkers(companionPath);
             if (companionResult?.hasMarkers) {
                 return {
                     hasMarkers: true,
                     hasUserContent: mainResult.hasUserContent,
-                    path: claudeMdPath,
+                    path: geminiMdPath,
                     companionFile: companionPath
                 };
             }
         }
-        // No markers in main or companions - check if CLAUDE.md references a companion
-        const content = readFileSync(claudeMdPath, 'utf-8');
+        // No markers in main or companions - check if GEMINI.md references a companion
+        const content = readFileSync(geminiMdPath, 'utf-8');
         const companionRefPattern = /CLAUDE-[^\s)]+\.md/i;
         const refMatch = content.match(companionRefPattern);
         if (refMatch) {
-            // CLAUDE.md references a companion file but it doesn't have markers yet
+            // GEMINI.md references a companion file but it doesn't have markers yet
             return {
                 hasMarkers: false,
                 hasUserContent: mainResult.hasUserContent,
-                path: claudeMdPath,
+                path: geminiMdPath,
                 companionFile: join(configDir, refMatch[0])
             };
         }
         return {
             hasMarkers: false,
             hasUserContent: mainResult.hasUserContent,
-            path: claudeMdPath
+            path: geminiMdPath
         };
     }
     catch (_error) {
@@ -193,7 +193,7 @@ export function checkEnvFlags() {
  * false positives for user's custom skills.
  */
 export function checkLegacySkills() {
-    const legacySkillsDir = join(getClaudeConfigDir(), 'skills');
+    const legacySkillsDir = join(getGeminiConfigDir(), 'skills');
     if (!existsSync(legacySkillsDir))
         return [];
     const collisions = [];
@@ -218,7 +218,7 @@ export function checkLegacySkills() {
  */
 export function checkConfigIssues() {
     const unknownFields = [];
-    const configPath = join(getClaudeConfigDir(), '.omc-config.json');
+    const configPath = join(getGeminiConfigDir(), '.omg-config.json');
     if (!existsSync(configPath)) {
         return { unknownFields };
     }
@@ -227,8 +227,8 @@ export function checkConfigIssues() {
         // Known top-level fields from the current config surfaces:
         // - PluginConfig (src/shared/types.ts)
         // - OMCConfig (src/features/auto-update.ts)
-        // - direct .omc-config.json readers/writers (notifications, auto-invoke,
-        //   delegation enforcement, omc-setup team config)
+        // - direct .omg-config.json readers/writers (notifications, auto-invoke,
+        //   delegation enforcement, omg-setup team config)
         // - preserved legacy compatibility keys that still appear in user configs
         const knownFields = new Set([
             // PluginConfig fields
@@ -238,7 +238,7 @@ export function checkConfigIssues() {
             'permissions',
             'magicKeywords',
             'routing',
-            // OMCConfig fields (from auto-update.ts / omc-setup)
+            // OMCConfig fields (from auto-update.ts / omg-setup)
             'silentAutoUpdate',
             'configuredAt',
             'configVersion',
@@ -278,7 +278,7 @@ export function checkConfigIssues() {
  */
 export function runConflictCheck() {
     const hookConflicts = checkHookConflicts();
-    const claudeMdStatus = checkClaudeMdStatus();
+    const geminiMdStatus = checkGeminiMdStatus();
     const legacySkills = checkLegacySkills();
     const envFlags = checkEnvFlags();
     const configIssues = checkConfigIssues();
@@ -289,14 +289,14 @@ export function runConflictCheck() {
         envFlags.disableOmc || // OMC is disabled
         envFlags.skipHooks.length > 0 || // Hooks are being skipped
         configIssues.unknownFields.length > 0 || // Unknown config fields
-        mcpRegistrySync.claudeMissing.length > 0 ||
-        mcpRegistrySync.claudeMismatched.length > 0 ||
+        mcpRegistrySync.geminiMissing.length > 0 ||
+        mcpRegistrySync.geminiMismatched.length > 0 ||
         mcpRegistrySync.codexMissing.length > 0 ||
         mcpRegistrySync.codexMismatched.length > 0;
     // Note: Missing OMC markers is informational (normal for fresh install), not a conflict
     return {
         hookConflicts,
-        claudeMdStatus,
+        geminiMdStatus,
         legacySkills,
         envFlags,
         configIssues,
@@ -314,7 +314,7 @@ export function formatReport(report, json) {
     // Human-readable format
     const lines = [];
     lines.push('');
-    lines.push(colors.bold('🔍 Oh-My-ClaudeCode Conflict Diagnostic'));
+    lines.push(colors.bold('🔍 Oh-My-GeminiCLI Conflict Diagnostic'));
     lines.push(colors.gray('━'.repeat(60)));
     lines.push('');
     // Hook conflicts
@@ -333,35 +333,35 @@ export function formatReport(report, json) {
         lines.push(`  ${colors.gray('No hooks configured')}`);
         lines.push('');
     }
-    // CLAUDE.md status
-    if (report.claudeMdStatus) {
-        lines.push(colors.bold('📄 CLAUDE.md Status'));
+    // GEMINI.md status
+    if (report.geminiMdStatus) {
+        lines.push(colors.bold('📄 GEMINI.md Status'));
         lines.push('');
-        if (report.claudeMdStatus.hasMarkers) {
-            if (report.claudeMdStatus.companionFile) {
+        if (report.geminiMdStatus.hasMarkers) {
+            if (report.geminiMdStatus.companionFile) {
                 lines.push(`  ${colors.green('✓')} OMC markers found in companion file`);
-                lines.push(`    ${colors.gray(`Companion: ${report.claudeMdStatus.companionFile}`)}`);
+                lines.push(`    ${colors.gray(`Companion: ${report.geminiMdStatus.companionFile}`)}`);
             }
             else {
                 lines.push(`  ${colors.green('✓')} OMC markers present`);
             }
-            if (report.claudeMdStatus.hasUserContent) {
+            if (report.geminiMdStatus.hasUserContent) {
                 lines.push(`  ${colors.green('✓')} User content preserved outside markers`);
             }
         }
         else {
             lines.push(`  ${colors.yellow('⚠')} No OMC markers found`);
-            lines.push(`    ${colors.gray('Run /oh-my-claudecode:omc-setup to add markers')}`);
-            if (report.claudeMdStatus.hasUserContent) {
+            lines.push(`    ${colors.gray('Run /oh-my-gemini-cli:omg-setup to add markers')}`);
+            if (report.geminiMdStatus.hasUserContent) {
                 lines.push(`  ${colors.blue('ℹ')} User content present - will be preserved`);
             }
         }
-        lines.push(`  ${colors.gray(`Path: ${report.claudeMdStatus.path}`)}`);
+        lines.push(`  ${colors.gray(`Path: ${report.geminiMdStatus.path}`)}`);
         lines.push('');
     }
     else {
-        lines.push(colors.bold('📄 CLAUDE.md Status'));
-        lines.push(`  ${colors.gray('No CLAUDE.md found')}`);
+        lines.push(colors.bold('📄 GEMINI.md Status'));
+        lines.push(`  ${colors.gray('No GEMINI.md found')}`);
         lines.push('');
     }
     // Environment flags
@@ -395,7 +395,7 @@ export function formatReport(report, json) {
     if (report.configIssues.unknownFields.length > 0) {
         lines.push(colors.bold('⚙️  Configuration Issues'));
         lines.push('');
-        lines.push(`  ${colors.yellow('⚠')} Unknown fields in .omc-config.json:`);
+        lines.push(`  ${colors.yellow('⚠')} Unknown fields in .omg-config.json:`);
         for (const field of report.configIssues.unknownFields) {
             lines.push(`    - ${field}`);
         }
@@ -415,16 +415,16 @@ export function formatReport(report, json) {
     else {
         lines.push(`  ${colors.green('✓')} Registry servers: ${report.mcpRegistrySync.serverNames.join(', ')}`);
         lines.push(`    ${colors.gray(`Registry: ${report.mcpRegistrySync.registryPath}`)}`);
-        lines.push(`    ${colors.gray(`Claude MCP: ${report.mcpRegistrySync.claudeConfigPath}`)}`);
+        lines.push(`    ${colors.gray(`Gemini MCP: ${report.mcpRegistrySync.geminiConfigPath}`)}`);
         lines.push(`    ${colors.gray(`Codex: ${report.mcpRegistrySync.codexConfigPath}`)}`);
-        if (report.mcpRegistrySync.claudeMissing.length > 0) {
-            lines.push(`  ${colors.yellow('⚠')} Missing from Claude MCP config: ${report.mcpRegistrySync.claudeMissing.join(', ')}`);
+        if (report.mcpRegistrySync.geminiMissing.length > 0) {
+            lines.push(`  ${colors.yellow('⚠')} Missing from Gemini MCP config: ${report.mcpRegistrySync.geminiMissing.join(', ')}`);
         }
-        else if (report.mcpRegistrySync.claudeMismatched.length > 0) {
-            lines.push(`  ${colors.yellow('⚠')} Mismatched in Claude MCP config: ${report.mcpRegistrySync.claudeMismatched.join(', ')}`);
+        else if (report.mcpRegistrySync.geminiMismatched.length > 0) {
+            lines.push(`  ${colors.yellow('⚠')} Mismatched in Gemini MCP config: ${report.mcpRegistrySync.geminiMismatched.join(', ')}`);
         }
         else {
-            lines.push(`  ${colors.green('✓')} Claude MCP config is in sync`);
+            lines.push(`  ${colors.green('✓')} Gemini MCP config is in sync`);
         }
         if (report.mcpRegistrySync.codexMissing.length > 0) {
             lines.push(`  ${colors.yellow('⚠')} Missing from Codex config.toml: ${report.mcpRegistrySync.codexMissing.join(', ')}`);
@@ -441,7 +441,7 @@ export function formatReport(report, json) {
     lines.push(colors.gray('━'.repeat(60)));
     if (report.hasConflicts) {
         lines.push(`${colors.yellow('⚠')} Potential conflicts detected`);
-        lines.push(`${colors.gray('Review the issues above and run /oh-my-claudecode:omc-setup if needed')}`);
+        lines.push(`${colors.gray('Review the issues above and run /oh-my-gemini-cli:omg-setup if needed')}`);
     }
     else {
         lines.push(`${colors.green('✓')} No conflicts detected`);

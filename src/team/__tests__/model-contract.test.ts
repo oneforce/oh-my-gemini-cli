@@ -13,7 +13,7 @@ import {
   resolveCliBinaryPath,
   clearResolvedPathCache,
   validateCliBinaryPath,
-  resolveClaudeWorkerModel,
+  resolveGeminiWorkerModel,
   _testInternals,
 } from '../model-contract.js';
 
@@ -41,11 +41,11 @@ describe('model-contract', () => {
 
     it('resolveCliBinaryPath resolves and caches paths', () => {
       const mockSpawnSync = vi.mocked(spawnSync);
-      mockSpawnSync.mockReturnValue({ status: 0, stdout: '/usr/local/bin/claude\n', stderr: '', pid: 0, output: [], signal: null });
+      mockSpawnSync.mockReturnValue({ status: 0, stdout: '/usr/local/bin/gemini\n', stderr: '', pid: 0, output: [], signal: null });
 
       clearResolvedPathCache();
-      expect(resolveCliBinaryPath('claude')).toBe('/usr/local/bin/claude');
-      expect(resolveCliBinaryPath('claude')).toBe('/usr/local/bin/claude');
+      expect(resolveCliBinaryPath('gemini')).toBe('/usr/local/bin/gemini');
+      expect(resolveCliBinaryPath('gemini')).toBe('/usr/local/bin/gemini');
       expect(mockSpawnSync).toHaveBeenCalledTimes(1);
       clearResolvedPathCache();
     });
@@ -54,22 +54,22 @@ describe('model-contract', () => {
       const mockSpawnSync = vi.mocked(spawnSync);
       expect(() => resolveCliBinaryPath('../evil')).toThrow('Invalid CLI binary name');
 
-      mockSpawnSync.mockReturnValue({ status: 0, stdout: '/tmp/evil/claude\n', stderr: '', pid: 0, output: [], signal: null });
+      mockSpawnSync.mockReturnValue({ status: 0, stdout: '/tmp/evil/gemini\n', stderr: '', pid: 0, output: [], signal: null });
       clearResolvedPathCache();
-      expect(() => resolveCliBinaryPath('claude')).toThrow('untrusted location');
+      expect(() => resolveCliBinaryPath('gemini')).toThrow('untrusted location');
       clearResolvedPathCache();
       mockSpawnSync.mockRestore();
     });
 
     it('validateCliBinaryPath returns compatibility result object', () => {
       const mockSpawnSync = vi.mocked(spawnSync);
-      mockSpawnSync.mockReturnValue({ status: 0, stdout: '/usr/local/bin/claude\n', stderr: '', pid: 0, output: [], signal: null });
+      mockSpawnSync.mockReturnValue({ status: 0, stdout: '/usr/local/bin/gemini\n', stderr: '', pid: 0, output: [], signal: null });
 
       clearResolvedPathCache();
-      expect(validateCliBinaryPath('claude')).toEqual({
+      expect(validateCliBinaryPath('gemini')).toEqual({
         valid: true,
-        binary: 'claude',
-        resolvedPath: '/usr/local/bin/claude',
+        binary: 'gemini',
+        resolvedPath: '/usr/local/bin/gemini',
       });
 
       mockSpawnSync.mockReturnValue({ status: 1, stdout: '', stderr: 'not found', pid: 0, output: [], signal: null });
@@ -84,17 +84,17 @@ describe('model-contract', () => {
 
     it('exposes compatibility test internals for path policy', () => {
       expect(_testInternals.UNTRUSTED_PATH_PATTERNS.some(p => p.test('/tmp/evil'))).toBe(true);
-      expect(_testInternals.UNTRUSTED_PATH_PATTERNS.some(p => p.test('/usr/local/bin/claude'))).toBe(false);
+      expect(_testInternals.UNTRUSTED_PATH_PATTERNS.some(p => p.test('/usr/local/bin/gemini'))).toBe(false);
       const prefixes = _testInternals.getTrustedPrefixes();
       expect(prefixes).toContain('/usr/local/bin');
       expect(prefixes).toContain('/usr/bin');
     });
   });
   describe('getContract', () => {
-    it('returns contract for claude', () => {
-      const c = getContract('claude');
-      expect(c.agentType).toBe('claude');
-      expect(c.binary).toBe('claude');
+    it('returns contract for gemini', () => {
+      const c = getContract('gemini');
+      expect(c.agentType).toBe('gemini');
+      expect(c.binary).toBe('gemini');
     });
     it('returns contract for codex', () => {
       const c = getContract('codex');
@@ -112,8 +112,8 @@ describe('model-contract', () => {
   });
 
   describe('buildLaunchArgs', () => {
-    it('claude includes --dangerously-skip-permissions', () => {
-      const args = buildLaunchArgs('claude', { teamName: 't', workerName: 'w', cwd: '/tmp' });
+    it('gemini includes --dangerously-skip-permissions', () => {
+      const args = buildLaunchArgs('gemini', { teamName: 't', workerName: 'w', cwd: '/tmp' });
       expect(args).toContain('--dangerously-skip-permissions');
     });
     it('codex includes --dangerously-bypass-approvals-and-sandbox', () => {
@@ -132,31 +132,31 @@ describe('model-contract', () => {
       expect(args).toContain('--model');
       expect(args).toContain('gpt-4');
     });
-    it('normalizes full Claude model ID to alias for claude agent (issue #1415)', () => {
-      const args = buildLaunchArgs('claude', { teamName: 't', workerName: 'w', cwd: '/tmp', model: 'claude-sonnet-4-6' });
+    it('normalizes full Gemini model ID to alias for gemini agent (issue #1415)', () => {
+      const args = buildLaunchArgs('gemini', { teamName: 't', workerName: 'w', cwd: '/tmp', model: 'gemini-sonnet-4-6' });
       expect(args).toContain('--model');
       expect(args).toContain('sonnet');
-      expect(args).not.toContain('claude-sonnet-4-6');
+      expect(args).not.toContain('gemini-sonnet-4-6');
     });
-    it('passes Bedrock model ID through without normalization for claude agent (issue #1695)', () => {
-      const args = buildLaunchArgs('claude', { teamName: 't', workerName: 'w', cwd: '/tmp', model: 'us.anthropic.claude-opus-4-6-v1:0' });
+    it('passes Bedrock model ID through without normalization for gemini agent (issue #1695)', () => {
+      const args = buildLaunchArgs('gemini', { teamName: 't', workerName: 'w', cwd: '/tmp', model: 'us.anthropic.gemini-opus-4-6-v1:0' });
       expect(args).toContain('--model');
-      expect(args).toContain('us.anthropic.claude-opus-4-6-v1:0');
+      expect(args).toContain('us.anthropic.gemini-opus-4-6-v1:0');
       expect(args).not.toContain('opus');
     });
     it('passes Bedrock ARN model ID through without normalization (issue #1695)', () => {
-      const arn = 'arn:aws:bedrock:us-east-2:123456789012:inference-profile/global.anthropic.claude-sonnet-4-6-v1:0';
-      const args = buildLaunchArgs('claude', { teamName: 't', workerName: 'w', cwd: '/tmp', model: arn });
+      const arn = 'arn:aws:bedrock:us-east-2:123456789012:inference-profile/global.anthropic.gemini-sonnet-4-6-v1:0';
+      const args = buildLaunchArgs('gemini', { teamName: 't', workerName: 'w', cwd: '/tmp', model: arn });
       expect(args).toContain('--model');
       expect(args).toContain(arn);
     });
     it('passes Vertex AI model ID through without normalization (issue #1695)', () => {
-      const args = buildLaunchArgs('claude', { teamName: 't', workerName: 'w', cwd: '/tmp', model: 'vertex_ai/claude-sonnet-4-6@20250514' });
+      const args = buildLaunchArgs('gemini', { teamName: 't', workerName: 'w', cwd: '/tmp', model: 'vertex_ai/gemini-sonnet-4-6@20250514' });
       expect(args).toContain('--model');
-      expect(args).toContain('vertex_ai/claude-sonnet-4-6@20250514');
+      expect(args).toContain('vertex_ai/gemini-sonnet-4-6@20250514');
       expect(args).not.toContain('sonnet');
     });
-    it('does not normalize non-Claude models for codex/gemini agents', () => {
+    it('does not normalize non-Gemini models for codex/gemini agents', () => {
       const args = buildLaunchArgs('codex', { teamName: 't', workerName: 'w', cwd: '/tmp', model: 'gpt-4o' });
       expect(args).toContain('gpt-4o');
     });
@@ -171,38 +171,38 @@ describe('model-contract', () => {
     });
 
     it('propagates allowlisted model selection env vars into worker startup env', () => {
-      const env = getWorkerEnv('my-team', 'worker-1', 'claude', {
-        ANTHROPIC_MODEL: 'claude-opus-4-1',
-        CLAUDE_MODEL: 'claude-sonnet-4-5',
+      const env = getWorkerEnv('my-team', 'worker-1', 'gemini', {
+        ANTHROPIC_MODEL: 'gemini-opus-4-1',
+        CLAUDE_MODEL: 'gemini-sonnet-4-5',
         ANTHROPIC_BASE_URL: 'https://example-gateway.invalid',
         CLAUDE_CODE_USE_BEDROCK: '1',
-        CLAUDE_CODE_BEDROCK_OPUS_MODEL: 'us.anthropic.claude-opus-4-6-v1:0',
-        CLAUDE_CODE_BEDROCK_SONNET_MODEL: 'us.anthropic.claude-sonnet-4-6-v1:0',
-        CLAUDE_CODE_BEDROCK_HAIKU_MODEL: 'us.anthropic.claude-haiku-4-5-v1:0',
-        ANTHROPIC_DEFAULT_OPUS_MODEL: 'claude-opus-4-6-custom',
-        ANTHROPIC_DEFAULT_SONNET_MODEL: 'claude-sonnet-4-6-custom',
-        ANTHROPIC_DEFAULT_HAIKU_MODEL: 'claude-haiku-4-5-custom',
-        OMC_MODEL_HIGH: 'claude-opus-4-6-override',
-        OMC_MODEL_MEDIUM: 'claude-sonnet-4-6-override',
-        OMC_MODEL_LOW: 'claude-haiku-4-5-override',
+        CLAUDE_CODE_BEDROCK_OPUS_MODEL: 'us.anthropic.gemini-opus-4-6-v1:0',
+        CLAUDE_CODE_BEDROCK_SONNET_MODEL: 'us.anthropic.gemini-sonnet-4-6-v1:0',
+        CLAUDE_CODE_BEDROCK_HAIKU_MODEL: 'us.anthropic.gemini-haiku-4-5-v1:0',
+        ANTHROPIC_DEFAULT_OPUS_MODEL: 'gemini-opus-4-6-custom',
+        ANTHROPIC_DEFAULT_SONNET_MODEL: 'gemini-sonnet-4-6-custom',
+        ANTHROPIC_DEFAULT_HAIKU_MODEL: 'gemini-haiku-4-5-custom',
+        OMC_MODEL_HIGH: 'gemini-opus-4-6-override',
+        OMC_MODEL_MEDIUM: 'gemini-sonnet-4-6-override',
+        OMC_MODEL_LOW: 'gemini-haiku-4-5-override',
         OMC_EXTERNAL_MODELS_DEFAULT_CODEX_MODEL: 'gpt-5',
         OMC_GEMINI_DEFAULT_MODEL: 'gemini-2.5-pro',
         ANTHROPIC_API_KEY: 'should-not-be-forwarded',
       });
 
-      expect(env.ANTHROPIC_MODEL).toBe('claude-opus-4-1');
-      expect(env.CLAUDE_MODEL).toBe('claude-sonnet-4-5');
+      expect(env.ANTHROPIC_MODEL).toBe('gemini-opus-4-1');
+      expect(env.CLAUDE_MODEL).toBe('gemini-sonnet-4-5');
       expect(env.ANTHROPIC_BASE_URL).toBe('https://example-gateway.invalid');
       expect(env.CLAUDE_CODE_USE_BEDROCK).toBe('1');
-      expect(env.CLAUDE_CODE_BEDROCK_OPUS_MODEL).toBe('us.anthropic.claude-opus-4-6-v1:0');
-      expect(env.CLAUDE_CODE_BEDROCK_SONNET_MODEL).toBe('us.anthropic.claude-sonnet-4-6-v1:0');
-      expect(env.CLAUDE_CODE_BEDROCK_HAIKU_MODEL).toBe('us.anthropic.claude-haiku-4-5-v1:0');
-      expect(env.ANTHROPIC_DEFAULT_OPUS_MODEL).toBe('claude-opus-4-6-custom');
-      expect(env.ANTHROPIC_DEFAULT_SONNET_MODEL).toBe('claude-sonnet-4-6-custom');
-      expect(env.ANTHROPIC_DEFAULT_HAIKU_MODEL).toBe('claude-haiku-4-5-custom');
-      expect(env.OMC_MODEL_HIGH).toBe('claude-opus-4-6-override');
-      expect(env.OMC_MODEL_MEDIUM).toBe('claude-sonnet-4-6-override');
-      expect(env.OMC_MODEL_LOW).toBe('claude-haiku-4-5-override');
+      expect(env.CLAUDE_CODE_BEDROCK_OPUS_MODEL).toBe('us.anthropic.gemini-opus-4-6-v1:0');
+      expect(env.CLAUDE_CODE_BEDROCK_SONNET_MODEL).toBe('us.anthropic.gemini-sonnet-4-6-v1:0');
+      expect(env.CLAUDE_CODE_BEDROCK_HAIKU_MODEL).toBe('us.anthropic.gemini-haiku-4-5-v1:0');
+      expect(env.ANTHROPIC_DEFAULT_OPUS_MODEL).toBe('gemini-opus-4-6-custom');
+      expect(env.ANTHROPIC_DEFAULT_SONNET_MODEL).toBe('gemini-sonnet-4-6-custom');
+      expect(env.ANTHROPIC_DEFAULT_HAIKU_MODEL).toBe('gemini-haiku-4-5-custom');
+      expect(env.OMC_MODEL_HIGH).toBe('gemini-opus-4-6-override');
+      expect(env.OMC_MODEL_MEDIUM).toBe('gemini-sonnet-4-6-override');
+      expect(env.OMC_MODEL_LOW).toBe('gemini-haiku-4-5-override');
       expect(env.OMC_EXTERNAL_MODELS_DEFAULT_CODEX_MODEL).toBe('gpt-5');
       expect(env.OMC_GEMINI_DEFAULT_MODEL).toBe('gemini-2.5-pro');
       expect(env.ANTHROPIC_API_KEY).toBeUndefined();
@@ -236,8 +236,8 @@ describe('model-contract', () => {
   });
 
   describe('parseCliOutput', () => {
-    it('claude returns trimmed output', () => {
-      expect(parseCliOutput('claude', '  hello  ')).toBe('hello');
+    it('gemini returns trimmed output', () => {
+      expect(parseCliOutput('gemini', '  hello  ')).toBe('hello');
     });
     it('codex extracts result from JSONL', () => {
       const jsonl = JSON.stringify({ type: 'result', output: 'the answer' });
@@ -316,8 +316,8 @@ describe('model-contract', () => {
       expect(c.promptModeFlag).toBe('-i');
     });
 
-    it('claude does not support prompt mode', () => {
-      expect(isPromptModeAgent('claude')).toBe(false);
+    it('gemini does not support prompt mode', () => {
+      expect(isPromptModeAgent('gemini')).toBe(false);
     });
 
     it('codex supports prompt mode (positional argument, no flag)', () => {
@@ -338,33 +338,33 @@ describe('model-contract', () => {
     });
 
     it('getPromptModeArgs returns empty array for non-prompt-mode agents', () => {
-      expect(getPromptModeArgs('claude', 'Read inbox')).toEqual([]);
+      expect(getPromptModeArgs('gemini', 'Read inbox')).toEqual([]);
     });
   });
 
-  describe('resolveClaudeWorkerModel (issue #1695)', () => {
+  describe('resolveGeminiWorkerModel (issue #1695)', () => {
     it('returns undefined when not on Bedrock or Vertex', () => {
       vi.stubEnv('CLAUDE_CODE_USE_BEDROCK', '');
       vi.stubEnv('CLAUDE_CODE_USE_VERTEX', '');
       vi.stubEnv('ANTHROPIC_MODEL', '');
       vi.stubEnv('CLAUDE_MODEL', '');
-      expect(resolveClaudeWorkerModel()).toBeUndefined();
+      expect(resolveGeminiWorkerModel()).toBeUndefined();
       vi.unstubAllEnvs();
     });
 
     it('returns ANTHROPIC_MODEL on Bedrock when set', () => {
       vi.stubEnv('CLAUDE_CODE_USE_BEDROCK', '1');
-      vi.stubEnv('ANTHROPIC_MODEL', 'us.anthropic.claude-sonnet-4-5-20250929-v1:0');
+      vi.stubEnv('ANTHROPIC_MODEL', 'us.anthropic.gemini-sonnet-4-5-20250929-v1:0');
       vi.stubEnv('CLAUDE_MODEL', '');
-      expect(resolveClaudeWorkerModel()).toBe('us.anthropic.claude-sonnet-4-5-20250929-v1:0');
+      expect(resolveGeminiWorkerModel()).toBe('us.anthropic.gemini-sonnet-4-5-20250929-v1:0');
       vi.unstubAllEnvs();
     });
 
     it('returns CLAUDE_MODEL on Bedrock when ANTHROPIC_MODEL is not set', () => {
       vi.stubEnv('CLAUDE_CODE_USE_BEDROCK', '1');
       vi.stubEnv('ANTHROPIC_MODEL', '');
-      vi.stubEnv('CLAUDE_MODEL', 'us.anthropic.claude-opus-4-6-v1:0');
-      expect(resolveClaudeWorkerModel()).toBe('us.anthropic.claude-opus-4-6-v1:0');
+      vi.stubEnv('CLAUDE_MODEL', 'us.anthropic.gemini-opus-4-6-v1:0');
+      expect(resolveGeminiWorkerModel()).toBe('us.anthropic.gemini-opus-4-6-v1:0');
       vi.unstubAllEnvs();
     });
 
@@ -372,8 +372,8 @@ describe('model-contract', () => {
       vi.stubEnv('CLAUDE_CODE_USE_BEDROCK', '1');
       vi.stubEnv('ANTHROPIC_MODEL', '');
       vi.stubEnv('CLAUDE_MODEL', '');
-      vi.stubEnv('CLAUDE_CODE_BEDROCK_SONNET_MODEL', 'us.anthropic.claude-sonnet-4-6-v1:0');
-      expect(resolveClaudeWorkerModel()).toBe('us.anthropic.claude-sonnet-4-6-v1:0');
+      vi.stubEnv('CLAUDE_CODE_BEDROCK_SONNET_MODEL', 'us.anthropic.gemini-sonnet-4-6-v1:0');
+      expect(resolveGeminiWorkerModel()).toBe('us.anthropic.gemini-sonnet-4-6-v1:0');
       vi.unstubAllEnvs();
     });
 
@@ -383,16 +383,16 @@ describe('model-contract', () => {
       vi.stubEnv('CLAUDE_MODEL', '');
       vi.stubEnv('CLAUDE_CODE_BEDROCK_SONNET_MODEL', '');
       vi.stubEnv('ANTHROPIC_DEFAULT_SONNET_MODEL', '');
-      vi.stubEnv('OMC_MODEL_MEDIUM', 'us.anthropic.claude-sonnet-4-5-20250929-v1:0');
-      expect(resolveClaudeWorkerModel()).toBe('us.anthropic.claude-sonnet-4-5-20250929-v1:0');
+      vi.stubEnv('OMC_MODEL_MEDIUM', 'us.anthropic.gemini-sonnet-4-5-20250929-v1:0');
+      expect(resolveGeminiWorkerModel()).toBe('us.anthropic.gemini-sonnet-4-5-20250929-v1:0');
       vi.unstubAllEnvs();
     });
 
     it('returns ANTHROPIC_MODEL on Vertex when set', () => {
       vi.stubEnv('CLAUDE_CODE_USE_BEDROCK', '');
       vi.stubEnv('CLAUDE_CODE_USE_VERTEX', '1');
-      vi.stubEnv('ANTHROPIC_MODEL', 'vertex_ai/claude-sonnet-4-6@20250514');
-      expect(resolveClaudeWorkerModel()).toBe('vertex_ai/claude-sonnet-4-6@20250514');
+      vi.stubEnv('ANTHROPIC_MODEL', 'vertex_ai/gemini-sonnet-4-6@20250514');
+      expect(resolveGeminiWorkerModel()).toBe('vertex_ai/gemini-sonnet-4-6@20250514');
       vi.unstubAllEnvs();
     });
 
@@ -403,17 +403,17 @@ describe('model-contract', () => {
       vi.stubEnv('CLAUDE_CODE_BEDROCK_SONNET_MODEL', '');
       vi.stubEnv('ANTHROPIC_DEFAULT_SONNET_MODEL', '');
       vi.stubEnv('OMC_MODEL_MEDIUM', '');
-      expect(resolveClaudeWorkerModel()).toBeUndefined();
+      expect(resolveGeminiWorkerModel()).toBeUndefined();
       vi.unstubAllEnvs();
     });
 
     it('detects Bedrock from model ID pattern even without CLAUDE_CODE_USE_BEDROCK', () => {
       vi.stubEnv('CLAUDE_CODE_USE_BEDROCK', '');
       vi.stubEnv('CLAUDE_CODE_USE_VERTEX', '');
-      vi.stubEnv('ANTHROPIC_MODEL', 'us.anthropic.claude-sonnet-4-5-20250929-v1:0');
+      vi.stubEnv('ANTHROPIC_MODEL', 'us.anthropic.gemini-sonnet-4-5-20250929-v1:0');
       vi.stubEnv('CLAUDE_MODEL', '');
       // isBedrock() detects Bedrock from the model ID pattern
-      expect(resolveClaudeWorkerModel()).toBe('us.anthropic.claude-sonnet-4-5-20250929-v1:0');
+      expect(resolveGeminiWorkerModel()).toBe('us.anthropic.gemini-sonnet-4-5-20250929-v1:0');
       vi.unstubAllEnvs();
     });
   });

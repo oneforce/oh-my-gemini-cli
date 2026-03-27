@@ -1,7 +1,7 @@
 /**
  * Hook Notification Config Reader
  *
- * Reads omc_config.hook.json for user-customizable message templates.
+ * Reads omg_config.hook.json for user-customizable message templates.
  * Follows the OpenClaw config reader pattern (file-based, cached).
  */
 import type { HookNotificationConfig } from "./hook-config-types.js";
@@ -29,8 +29,8 @@ export declare function resolveEventTemplate(hookConfig: HookNotificationConfig 
  * Merge hook config event enabled/disabled flags into a NotificationConfig.
  *
  * Hook config takes precedence for event gating:
- * - hook event `enabled: false` overrides `.omc-config.json` event `enabled: true`
- * - Platform credentials are NOT affected (they stay in .omc-config.json)
+ * - hook event `enabled: false` overrides `.omg-config.json` event `enabled: true`
+ * - Platform credentials are NOT affected (they stay in .omg-config.json)
  */
 export declare function mergeHookConfigIntoNotificationConfig(hookConfig: HookNotificationConfig, notifConfig: NotificationConfig): NotificationConfig;
 //# sourceMappingURL=hook-config.d.ts.map

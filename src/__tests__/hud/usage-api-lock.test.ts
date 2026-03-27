@@ -1,8 +1,8 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { EventEmitter } from 'events';
 
-const CLAUDE_CONFIG_DIR = '/tmp/test-claude';
-const CACHE_PATH = `${CLAUDE_CONFIG_DIR}/plugins/oh-my-claudecode/.usage-cache.json`;
+const CLAUDE_CONFIG_DIR = '/tmp/test-gemini';
+const CACHE_PATH = `${CLAUDE_CONFIG_DIR}/plugins/oh-my-gemini-cli/.usage-cache.json`;
 const LOCK_PATH = `${CACHE_PATH}.lock`;
 
 function createFsMock(initialFiles: Record<string, string>) {
@@ -105,7 +105,7 @@ describe('getUsage lock failure fallback', () => {
     }) as typeof process.kill;
 
     vi.doMock('../../utils/paths.js', () => ({
-      getClaudeConfigDir: () => CLAUDE_CONFIG_DIR,
+      getGeminiConfigDir: () => CLAUDE_CONFIG_DIR,
     }));
     vi.doMock('../../utils/ssrf-guard.js', () => ({
       validateAnthropicBaseUrl: () => ({ allowed: true }),
@@ -151,7 +151,7 @@ describe('getUsage lock failure fallback', () => {
     }) as typeof process.kill;
 
     vi.doMock('../../utils/paths.js', () => ({
-      getClaudeConfigDir: () => CLAUDE_CONFIG_DIR,
+      getGeminiConfigDir: () => CLAUDE_CONFIG_DIR,
     }));
     vi.doMock('../../utils/ssrf-guard.js', () => ({
       validateAnthropicBaseUrl: () => ({ allowed: true }),
@@ -212,7 +212,7 @@ describe('getUsage lock behavior', () => {
     let requestSawLock = false;
 
     vi.doMock('../../utils/paths.js', () => ({
-      getClaudeConfigDir: () => CLAUDE_CONFIG_DIR,
+      getGeminiConfigDir: () => CLAUDE_CONFIG_DIR,
     }));
     vi.doMock('../../utils/ssrf-guard.js', () => ({
       validateAnthropicBaseUrl: () => ({ allowed: true }),

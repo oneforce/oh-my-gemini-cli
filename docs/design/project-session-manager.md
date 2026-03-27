@@ -2,12 +2,12 @@
 
 > **Skill Name:** `project-session-manager` (alias: `psm`)
 > **Version:** 1.0.0
-> **Author:** oh-my-claudecode
+> **Author:** oh-my-gemini-cli
 > **Status:** Design Draft
 
 ## Executive Summary
 
-Project Session Manager (PSM) automates the creation and management of isolated development environments using git worktrees and tmux sessions with Claude Code. It enables parallel work across multiple tasks, projects, and repositories while maintaining clean separation and easy context switching.
+Project Session Manager (PSM) automates the creation and management of isolated development environments using git worktrees and tmux sessions with Gemini Code. It enables parallel work across multiple tasks, projects, and repositories while maintaining clean separation and easy context switching.
 
 ---
 
@@ -33,7 +33,7 @@ Project Session Manager (PSM) automates the creation and management of isolated 
 
 ### Current Pain Points
 
-1. **Context Switching Overhead**: Switching between tasks requires stashing changes, switching branches, and losing Claude Code context
+1. **Context Switching Overhead**: Switching between tasks requires stashing changes, switching branches, and losing Gemini Code context
 2. **PR Review Isolation**: Reviewing PRs often contaminates the working directory
 3. **Parallel Work Limitation**: Can only work on one task at a time per repository
 4. **Session Management**: Manual tmux session creation is tedious and inconsistent
@@ -43,7 +43,7 @@ Project Session Manager (PSM) automates the creation and management of isolated 
 
 PSM provides a unified interface to:
 - Create isolated worktrees with a single command
-- Spawn pre-configured tmux sessions with Claude Code
+- Spawn pre-configured tmux sessions with Gemini Code
 - Track and manage all active sessions
 - Automate cleanup of completed work
 
@@ -54,54 +54,54 @@ PSM provides a unified interface to:
 ### 2.1 PR Review
 
 ```bash
-# Review PR #123 from oh-my-claudecode repo
-/psm review omc#123
+# Review PR #123 from oh-my-gemini-cli repo
+/psm review omg#123
 
 # Review PR from any GitHub URL
-/psm review https://github.com/anthropics/claude-code/pull/456
+/psm review https://github.com/anthropics/gemini-code/pull/456
 
 # Review with specific focus
-/psm review omc#123 --focus "security implications"
+/psm review omg#123 --focus "security implications"
 ```
 
 **What happens:**
 1. Fetches PR branch
-2. Creates worktree at `~/.psm/worktrees/omc/pr-123`
-3. Spawns tmux session `psm:omc:pr-123`
-4. Launches Claude Code with PR context pre-loaded
+2. Creates worktree at `~/.psm/worktrees/omg/pr-123`
+3. Spawns tmux session `psm:omg:pr-123`
+4. Launches Gemini Code with PR context pre-loaded
 5. Opens diff in editor (optional)
 
 ### 2.2 Issue Fixing
 
 ```bash
 # Fix issue #42
-/psm fix omc#42
+/psm fix omg#42
 
 # Fix with branch name override
-/psm fix omc#42 --branch fix/auth-timeout
+/psm fix omg#42 --branch fix/auth-timeout
 
 # Fix from issue URL
-/psm fix https://github.com/anthropics/claude-code/issues/789
+/psm fix https://github.com/anthropics/gemini-code/issues/789
 ```
 
 **What happens:**
 1. Fetches issue details via `gh`
 2. Creates feature branch from main
-3. Creates worktree at `~/.psm/worktrees/omc/issue-42`
+3. Creates worktree at `~/.psm/worktrees/omg/issue-42`
 4. Spawns tmux session with issue context
-5. Pre-populates Claude Code with issue description
+5. Pre-populates Gemini Code with issue description
 
 ### 2.3 Feature Development
 
 ```bash
 # Start new feature
-/psm feature omc "add-webhook-support"
+/psm feature omg "add-webhook-support"
 
 # Feature from existing branch
-/psm feature omc --branch feature/webhooks
+/psm feature omg --branch feature/webhooks
 
 # Feature with specific base
-/psm feature omc "dark-mode" --base develop
+/psm feature omg "dark-mode" --base develop
 ```
 
 **What happens:**
@@ -114,13 +114,13 @@ PSM provides a unified interface to:
 
 ```bash
 # Prepare release
-/psm release omc v3.5.0
+/psm release omg v3.5.0
 
 # Release candidate
-/psm release omc v3.5.0-rc1 --draft
+/psm release omg v3.5.0-rc1 --draft
 
 # Hotfix release
-/psm release omc v3.4.1 --hotfix --base v3.4.0
+/psm release omg v3.4.1 --hotfix --base v3.4.0
 ```
 
 **What happens:**
@@ -136,19 +136,19 @@ PSM provides a unified interface to:
 /psm list
 
 # List sessions for specific project
-/psm list omc
+/psm list omg
 
 # Attach to existing session
-/psm attach omc:pr-123
+/psm attach omg:pr-123
 
 # Detach current session (return to main)
 /psm detach
 
 # Kill specific session
-/psm kill omc:pr-123
+/psm kill omg:pr-123
 
 # Kill all sessions for project
-/psm kill omc --all
+/psm kill omg --all
 
 # Cleanup completed sessions
 /psm cleanup
@@ -161,7 +161,7 @@ PSM provides a unified interface to:
 
 ```bash
 # Switch to another session (detach current, attach target)
-/psm switch omc:feature-auth
+/psm switch omg:feature-auth
 
 # Switch with session picker (fzf)
 /psm switch
@@ -192,7 +192,7 @@ PSM provides a unified interface to:
 | Flag | Description | Default |
 |------|-------------|---------|
 | `--project`, `-p` | Project identifier or path | Current directory |
-| `--no-claude` | Skip Claude Code launch | false |
+| `--no-gemini` | Skip Gemini Code launch | false |
 | `--no-tmux` | Use current terminal | false |
 | `--editor`, `-e` | Open in editor after | false |
 | `--verbose`, `-v` | Verbose output | false |
@@ -204,13 +204,13 @@ PSM supports multiple reference formats:
 
 ```bash
 # Short alias (requires ~/.psm/projects.json config)
-omc#123
+omg#123
 
 # Full GitHub reference
-anthropics/claude-code#123
+anthropics/gemini-code#123
 
 # GitHub URL
-https://github.com/anthropics/claude-code/pull/123
+https://github.com/anthropics/gemini-code/pull/123
 
 # Local path
 /path/to/repo#123
@@ -225,14 +225,14 @@ https://github.com/anthropics/claude-code/pull/123
 // ~/.psm/projects.json
 {
   "aliases": {
-    "omc": {
-      "repo": "anthropics/oh-my-claudecode",
-      "local": "~/Workspace/oh-my-claudecode",
+    "omg": {
+      "repo": "anthropics/oh-my-gemini-cli",
+      "local": "~/Workspace/oh-my-gemini-cli",
       "default_base": "main"
     },
     "cc": {
-      "repo": "anthropics/claude-code",
-      "local": "~/Workspace/claude-code",
+      "repo": "anthropics/gemini-code",
+      "local": "~/Workspace/gemini-code",
       "default_base": "main"
     },
     "myapp": {
@@ -258,7 +258,7 @@ https://github.com/anthropics/claude-code/pull/123
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │                    PSM Skill Entry Point                     │
-│                   /oh-my-claudecode:psm                      │
+│                   /oh-my-gemini-cli:psm                      │
 └─────────────────────────────────────────────────────────────┘
                               │
               ┌───────────────┼───────────────┐
@@ -276,15 +276,15 @@ https://github.com/anthropics/claude-code/pull/123
               │               │               │
               ▼               ▼               ▼
     ┌─────────────────┐ ┌─────────────┐ ┌─────────────────┐
-    │ Worktree Manager│ │Tmux Manager │ │ Claude Launcher │
-    │   (git cmd)     │ │ (tmux cmd)  │ │  (claude cmd)   │
+    │ Worktree Manager│ │Tmux Manager │ │ Gemini Launcher │
+    │   (git cmd)     │ │ (tmux cmd)  │ │  (gemini cmd)   │
     └─────────────────┘ └─────────────┘ └─────────────────┘
               │               │               │
               └───────────────┼───────────────┘
                               ▼
     ┌─────────────────────────────────────────────────────────┐
     │                    Integration Layer                     │
-    │  (gh CLI, git, tmux, claude, omc skills, Clawdbot)       │
+    │  (gh CLI, git, tmux, gemini, omg skills, Clawdbot)       │
     └─────────────────────────────────────────────────────────┘
 ```
 
@@ -297,11 +297,11 @@ https://github.com/anthropics/claude-code/pull/123
       │                  │                  │                  │
       │                  │                  │                  │
       ▼                  ▼                  ▼                  ▼
-  - Fetch refs      - Claude active    - Session saved    - Worktree kept
+  - Fetch refs      - Gemini active    - Session saved    - Worktree kept
   - Create worktree - Tmux attached    - Tmux running     - PR merged
   - Create branch   - Work in progress - Can resume       - Ready for GC
   - Start tmux
-  - Launch claude
+  - Launch gemini
 ```
 
 ### 4.3 Data Flow
@@ -338,7 +338,7 @@ User Command
      ▼
 ┌─────────────────┐
 │ Launch Tmux +   │
-│ Claude Code     │
+│ Gemini Code     │
 └─────────────────┘
 ```
 
@@ -361,23 +361,23 @@ User Command
 ├── logs/                    # Session logs
 │   └── psm.log
 └── worktrees/               # Default worktree location
-    ├── omc/                 # Per-project worktrees
+    ├── omg/                 # Per-project worktrees
     │   ├── pr-123/
     │   ├── issue-42/
     │   └── feature-auth/
-    └── claude-code/
+    └── gemini-code/
         └── pr-456/
 ```
 
 ### 5.2 Per-Session Directory
 
 ```
-~/.psm/worktrees/omc/pr-123/
+~/.psm/worktrees/omg/pr-123/
 ├── .git                     # Git worktree link
 ├── .psm-session.json        # Session metadata
-├── .psm-context.md          # Pre-loaded Claude context
+├── .psm-context.md          # Pre-loaded Gemini context
 ├── <project files>          # Actual code
-└── .omc/                    # OMC state (if applicable)
+└── .omg/                    # OMC state (if applicable)
 ```
 
 ### 5.3 Session Metadata File
@@ -385,22 +385,22 @@ User Command
 ```json
 // .psm-session.json
 {
-  "id": "omc:pr-123",
+  "id": "omg:pr-123",
   "type": "review",
-  "project": "omc",
+  "project": "omg",
   "ref": "pr-123",
   "branch": "feature/add-hooks",
   "base": "main",
   "created_at": "2024-01-26T10:30:00Z",
   "last_accessed": "2024-01-26T14:45:00Z",
-  "tmux_session": "psm:omc:pr-123",
-  "worktree_path": "~/.psm/worktrees/omc/pr-123",
-  "source_repo": "~/Workspace/oh-my-claudecode",
+  "tmux_session": "psm:omg:pr-123",
+  "worktree_path": "~/.psm/worktrees/omg/pr-123",
+  "source_repo": "~/Workspace/oh-my-gemini-cli",
   "github": {
     "pr_number": 123,
     "pr_title": "Add webhook support",
     "pr_author": "contributor",
-    "pr_url": "https://github.com/anthropics/oh-my-claudecode/pull/123"
+    "pr_url": "https://github.com/anthropics/oh-my-gemini-cli/pull/123"
   },
   "state": "active",
   "notes": []
@@ -417,11 +417,11 @@ Format: `psm:<project>:<type>-<identifier>`
 
 | Type | Pattern | Example |
 |------|---------|---------|
-| PR Review | `psm:<proj>:pr-<num>` | `psm:omc:pr-123` |
-| Issue Fix | `psm:<proj>:issue-<num>` | `psm:omc:issue-42` |
-| Feature | `psm:<proj>:feat-<name>` | `psm:omc:feat-auth` |
-| Release | `psm:<proj>:rel-<ver>` | `psm:omc:rel-v3.5.0` |
-| Generic | `psm:<proj>:<name>` | `psm:omc:experiment` |
+| PR Review | `psm:<proj>:pr-<num>` | `psm:omg:pr-123` |
+| Issue Fix | `psm:<proj>:issue-<num>` | `psm:omg:issue-42` |
+| Feature | `psm:<proj>:feat-<name>` | `psm:omg:feat-auth` |
+| Release | `psm:<proj>:rel-<ver>` | `psm:omg:rel-v3.5.0` |
+| Generic | `psm:<proj>:<name>` | `psm:omg:experiment` |
 
 ### 6.2 Worktree Directory Names
 
@@ -463,7 +463,7 @@ steps:
         - commit_history
         - related_issues
   - spawn_tmux_session
-  - launch_claude_with_context:
+  - launch_gemini_with_context:
       initial_prompt: |
         You are reviewing PR #{{pr_number}}: {{pr_title}}
 
@@ -493,7 +493,7 @@ steps:
         - related_code_search
         - similar_issues
   - spawn_tmux_session
-  - launch_claude_with_context:
+  - launch_gemini_with_context:
       initial_prompt: |
         You are fixing issue #{{issue_number}}: {{issue_title}}
 
@@ -520,7 +520,7 @@ steps:
         - related_components
         - coding_standards
   - spawn_tmux_session
-  - launch_claude_with_context:
+  - launch_gemini_with_context:
       initial_prompt: |
         You are developing feature: {{feature_name}}
 
@@ -546,7 +546,7 @@ steps:
         - version_files
         - release_checklist
   - spawn_tmux_session
-  - launch_claude_with_context:
+  - launch_gemini_with_context:
       initial_prompt: |
         You are preparing release {{version}}
 
@@ -572,26 +572,26 @@ steps:
 {
   "version": 1,
   "sessions": {
-    "omc:pr-123": {
-      "id": "omc:pr-123",
+    "omg:pr-123": {
+      "id": "omg:pr-123",
       "state": "active",
       "created_at": "2024-01-26T10:30:00Z",
       "last_accessed": "2024-01-26T14:45:00Z",
-      "worktree": "~/.psm/worktrees/omc/pr-123",
-      "tmux": "psm:omc:pr-123",
+      "worktree": "~/.psm/worktrees/omg/pr-123",
+      "tmux": "psm:omg:pr-123",
       "type": "review",
       "metadata": {
         "pr_number": 123,
         "pr_merged": false
       }
     },
-    "omc:issue-42": {
-      "id": "omc:issue-42",
+    "omg:issue-42": {
+      "id": "omg:issue-42",
       "state": "detached",
       "created_at": "2024-01-25T09:00:00Z",
       "last_accessed": "2024-01-25T18:00:00Z",
-      "worktree": "~/.psm/worktrees/omc/issue-42",
-      "tmux": "psm:omc:issue-42",
+      "worktree": "~/.psm/worktrees/omg/issue-42",
+      "tmux": "psm:omg:issue-42",
       "type": "fix",
       "metadata": {
         "issue_number": 42,
@@ -775,13 +775,13 @@ interface ClawdbotPSMIntegration {
 
 ```bash
 # VSCode
-/psm review omc#123 --editor vscode
+/psm review omg#123 --editor vscode
 
 # Cursor
-/psm review omc#123 --editor cursor
+/psm review omg#123 --editor cursor
 
 # Neovim
-/psm review omc#123 --editor nvim
+/psm review omg#123 --editor nvim
 ```
 
 Opens editor in worktree directory alongside tmux session.
@@ -791,7 +791,7 @@ Opens editor in worktree directory alongside tmux session.
 PSM status in OMC HUD statusline:
 
 ```
-[psm:omc:pr-123] 📋 Review | 🕐 2h active | 📁 ~/.psm/worktrees/omc/pr-123
+[psm:omg:pr-123] 📋 Review | 🕐 2h active | 📁 ~/.psm/worktrees/omg/pr-123
 ```
 
 ---
@@ -830,14 +830,14 @@ PSM status in OMC HUD statusline:
 ### 11.3 Conflict Resolution
 
 ```
-User runs: /psm review omc#123
+User runs: /psm review omg#123
 
 Existing session found!
 
 Options:
   [A] Attach to existing session (recommended)
   [R] Recreate (destroys existing worktree)
-  [C] Create parallel (omc:pr-123-2)
+  [C] Create parallel (omg:pr-123-2)
   [Q] Quit
 ```
 
@@ -942,7 +942,7 @@ interface PSMPlugin {
 │   /psm repair           Fix corrupted state               │
 ├────────────────────────────────────────────────────────────┤
 │ REFERENCES                                                 │
-│   omc#123               Project alias + number            │
+│   omg#123               Project alias + number            │
 │   org/repo#123          Full GitHub reference             │
 │   https://...           GitHub URL                        │
 └────────────────────────────────────────────────────────────┘
@@ -959,7 +959,7 @@ interface PSMPlugin {
   "worktree_root": "~/.psm/worktrees",
   "defaults": {
     "editor": "cursor",
-    "launch_claude": true,
+    "launch_gemini": true,
     "launch_tmux": true,
     "shallow_clone_depth": 100
   },
@@ -976,7 +976,7 @@ interface PSMPlugin {
     "default_layout": "main-vertical",
     "status_bar": true
   },
-  "claude": {
+  "gemini": {
     "auto_context": true,
     "context_template": "default",
     "model": "opus"
@@ -998,30 +998,30 @@ interface PSMPlugin {
 ## Appendix C: Example Session Transcript
 
 ```bash
-$ /psm review omc#123
+$ /psm review omg#123
 
-🔍 Fetching PR #123 from oh-my-claudecode...
+🔍 Fetching PR #123 from oh-my-gemini-cli...
    Title: "Add webhook support for external integrations"
    Author: @contributor
    Changed: 12 files (+450, -23)
 
-📁 Creating worktree at ~/.psm/worktrees/omc/pr-123...
+📁 Creating worktree at ~/.psm/worktrees/omg/pr-123...
    Branch: feature/webhook-support
    Base: main
 
-🖥️  Creating tmux session: psm:omc:pr-123...
+🖥️  Creating tmux session: psm:omg:pr-123...
 
-🤖 Launching Claude Code with PR context...
+🤖 Launching Gemini Code with PR context...
 
 ✅ Session ready!
 
-   Session ID: omc:pr-123
-   Worktree:   ~/.psm/worktrees/omc/pr-123
-   Tmux:       psm:omc:pr-123
+   Session ID: omg:pr-123
+   Worktree:   ~/.psm/worktrees/omg/pr-123
+   Tmux:       psm:omg:pr-123
 
    Commands:
-     /psm attach omc:pr-123  - Reattach later
-     /psm kill omc:pr-123    - End session
+     /psm attach omg:pr-123  - Reattach later
+     /psm kill omg:pr-123    - End session
      /psm cleanup            - Clean when PR merged
 
 Attaching to session...

@@ -5,7 +5,7 @@ import { join } from 'path';
 import process from 'process';
 
 const PROVIDER_BINARIES = {
-  claude: 'claude',
+  gemini: 'gemini',
   codex: 'codex',
   gemini: 'gemini',
 };
@@ -13,7 +13,7 @@ const SHOULD_USE_WINDOWS_SHELL = process.platform === 'win32';
 
 /**
  * Build CLI args for a given provider.
- * - claude: `claude -p <prompt>`
+ * - gemini: `gemini -p <prompt>`
  * - codex: `codex exec --dangerously-bypass-approvals-and-sandbox <prompt>`
  * - gemini: `gemini -p <prompt> --yolo`
  */
@@ -35,9 +35,9 @@ const ASK_ORIGINAL_TASK_ENV = 'OMC_ASK_ORIGINAL_TASK';
 const ASK_ORIGINAL_TASK_ENV_ALIAS = 'OMX_ASK_ORIGINAL_TASK';
 
 function usage() {
-  console.error('Usage: omc ask <claude|codex|gemini> "<prompt>"');
-  console.error('Legacy direct usage: node scripts/run-provider-advisor.js <claude|codex|gemini> <prompt...>');
-  console.error('                 or: node scripts/run-provider-advisor.js claude --print "<prompt>"');
+  console.error('Usage: omg ask <gemini|codex|gemini> "<prompt>"');
+  console.error('Legacy direct usage: node scripts/run-provider-advisor.js <gemini|codex|gemini> <prompt...>');
+  console.error('                 or: node scripts/run-provider-advisor.js gemini --print "<prompt>"');
   console.error('                 or: node scripts/run-provider-advisor.js gemini --prompt "<prompt>"');
 }
 
@@ -163,7 +163,7 @@ function resolveOriginalTask(prompt) {
 
 async function writeArtifact({ provider, originalTask, finalPrompt, rawOutput, exitCode }) {
   const root = process.cwd();
-  const artifactDir = join(root, '.omc', 'artifacts', 'ask');
+  const artifactDir = join(root, '.omg', 'artifacts', 'ask');
   const slug = slugify(originalTask);
   const timestamp = timestampToken();
   const artifactPath = join(artifactDir, `${provider}-${slug}-${timestamp}.md`);

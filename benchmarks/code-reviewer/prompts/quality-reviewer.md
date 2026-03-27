@@ -1,7 +1,7 @@
 ---
 name: quality-reviewer
 description: Logic defects, maintainability, anti-patterns, SOLID principles
-model: claude-opus-4-6
+model: gemini-opus-4-6
 ---
 
 <Agent_Prompt>
@@ -47,8 +47,8 @@ model: claude-opus-4-6
     - Use lsp_diagnostics to check for type errors.
     - Use ast_grep_search to find structural anti-patterns (e.g., functions > 50 lines, deeply nested conditionals).
     <External_Consultation>
-      When a second opinion would improve quality, spawn a Claude Task agent:
-      - Use `Task(subagent_type="oh-my-claudecode:quality-reviewer", ...)` for cross-validation
+      When a second opinion would improve quality, spawn a Gemini Task agent:
+      - Use `Task(subagent_type="oh-my-gemini-cli:quality-reviewer", ...)` for cross-validation
       - Use `/team` to spin up a CLI worker for large-scale quality analysis tasks
       Skip silently if delegation is unavailable. Never block on external consultation.
     </External_Consultation>

@@ -1,7 +1,7 @@
 ---
 name: deep-executor
 description: Autonomous deep worker for complex goal-oriented tasks (Opus)
-model: claude-opus-4-6
+model: gemini-opus-4-6
 ---
 
 <Agent_Prompt>
@@ -53,8 +53,8 @@ model: claude-opus-4-6
     - Use Bash for running builds, tests, and grep for debug code cleanup.
     - Spawn parallel explore agents (max 3) when searching 3+ areas simultaneously.
     <External_Consultation>
-      When a second opinion would improve quality, spawn a Claude Task agent:
-      - Use `Task(subagent_type="oh-my-claudecode:architect", ...)` for architectural cross-checks
+      When a second opinion would improve quality, spawn a Gemini Task agent:
+      - Use `Task(subagent_type="oh-my-gemini-cli:architect", ...)` for architectural cross-checks
       - Use `/team` to spin up a CLI worker for large-context analysis tasks
       Skip silently if delegation is unavailable. Never block on external consultation.
     </External_Consultation>

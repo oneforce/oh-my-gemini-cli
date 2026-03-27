@@ -90,7 +90,7 @@ export const MANUAL_HEADER = "## MANUAL";
 // ============================================================================
 
 /**
- * Get the path to notepad.md in .omc subdirectory
+ * Get the path to notepad.md in .omg subdirectory
  */
 export function getNotepadPath(directory: string): string {
   return join(getOmcRoot(directory), NOTEPAD_FILENAME);
@@ -100,10 +100,10 @@ export function getNotepadPath(directory: string): string {
  * Initialize notepad.md if it doesn't exist
  */
 export function initNotepad(directory: string): boolean {
-  const omcDir = getOmcRoot(directory);
-  if (!existsSync(omcDir)) {
+  const omgDir = getOmcRoot(directory);
+  if (!existsSync(omgDir)) {
     try {
-      mkdirSync(omcDir, { recursive: true });
+      mkdirSync(omgDir, { recursive: true });
     } catch {
       return false;
     }

@@ -68,7 +68,7 @@ export interface CompactCheckpoint {
 }
 export interface HookOutput {
     continue: boolean;
-    /** System message for context injection (Claude Code compatible) */
+    /** System message for context injection (Gemini Code compatible) */
     systemMessage?: string;
 }
 /**

@@ -13,10 +13,10 @@ describe('session-start template guard for same-root parallel sessions (#1744)',
   let fakeProject: string;
 
   beforeEach(() => {
-    tempDir = mkdtempSync(join(tmpdir(), 'omc-session-start-template-'));
+    tempDir = mkdtempSync(join(tmpdir(), 'omg-session-start-template-'));
     fakeHome = join(tempDir, 'home');
     fakeProject = join(tempDir, 'project');
-    mkdirSync(join(fakeProject, '.omc', 'state'), { recursive: true });
+    mkdirSync(join(fakeProject, '.omg', 'state'), { recursive: true });
   });
 
   afterEach(() => {
@@ -45,7 +45,7 @@ describe('session-start template guard for same-root parallel sessions (#1744)',
   it('warns and suppresses conflicting same-root restore for a different active session', () => {
     const now = new Date().toISOString();
     writeFileSync(
-      join(fakeProject, '.omc', 'state', 'ultrawork-state.json'),
+      join(fakeProject, '.omg', 'state', 'ultrawork-state.json'),
       JSON.stringify({
         active: true,
         session_id: 'session-a',
@@ -71,7 +71,7 @@ describe('session-start template guard for same-root parallel sessions (#1744)',
 
   it('still restores ultrawork for the owning session', () => {
     writeFileSync(
-      join(fakeProject, '.omc', 'state', 'ultrawork-state.json'),
+      join(fakeProject, '.omg', 'state', 'ultrawork-state.json'),
       JSON.stringify({
         active: true,
         session_id: 'session-owner',
@@ -95,9 +95,9 @@ describe('session-start template guard for same-root parallel sessions (#1744)',
   });
 
   it('does not warn for global fallback state from a different normalized project path', () => {
-    mkdirSync(join(fakeHome, '.omc', 'state'), { recursive: true });
+    mkdirSync(join(fakeHome, '.omg', 'state'), { recursive: true });
     writeFileSync(
-      join(fakeHome, '.omc', 'state', 'ultrawork-state.json'),
+      join(fakeHome, '.omg', 'state', 'ultrawork-state.json'),
       JSON.stringify({
         active: true,
         session_id: 'session-a',

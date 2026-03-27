@@ -4,7 +4,7 @@
  * Verifies that the Windows hook-patching logic correctly rewrites
  * sh+find-node.sh commands to the run.cjs wrapper with shell-expanded
  * CLAUDE_PLUGIN_ROOT segments so that
- * Claude Code UI bug #17088 (false "hook error" labels on MSYS2/Git Bash)
+ * Gemini Code UI bug #17088 (false "hook error" labels on MSYS2/Git Bash)
  * is avoided.
  */
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
@@ -32,7 +32,7 @@ describe('patchHooksJsonForWindows', () => {
   let hooksJsonPath: string;
 
   beforeEach(() => {
-    pluginRoot = mkdtempSync(join(tmpdir(), 'omc-win-patch-'));
+    pluginRoot = mkdtempSync(join(tmpdir(), 'omg-win-patch-'));
     hooksDir = join(pluginRoot, 'hooks');
     mkdirSync(hooksDir, { recursive: true });
     hooksJsonPath = join(hooksDir, 'hooks.json');

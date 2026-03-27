@@ -44,7 +44,7 @@ export declare function setEnvironmentVariables(): string[];
  *
  * The sh->find-node.sh->node chain introduced in v4.3.4 (issue #892) is only
  * needed on Unix where nvm/fnm may not expose `node` on PATH in non-interactive
- * shells.  On Windows (MSYS2 / Git Bash) the same chain triggers Claude Code UI
+ * shells.  On Windows (MSYS2 / Git Bash) the same chain triggers Gemini Code UI
  * bug #17088, which mislabels every successful hook as an error.
  *
  * This function reads the plugin's hooks.json and rewrites every command of the
@@ -62,7 +62,7 @@ export declare function patchHooksJsonForWindows(pluginRoot: string): void;
  */
 export declare function processSetupInit(input: SetupInput): Promise<HookOutput>;
 /**
- * Prune old state files from .omc/state directory
+ * Prune old state files from .omg/state directory
  */
 export declare function pruneOldStateFiles(directory: string, maxAgeDays?: number): number;
 /**

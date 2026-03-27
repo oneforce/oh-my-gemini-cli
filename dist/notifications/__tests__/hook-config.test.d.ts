@@ -1,5 +1,5 @@
 /**
- * Tests for hook notification config reader (omc_config.hook.json).
+ * Tests for hook notification config reader (omg_config.hook.json).
  *
  * Covers:
  * - File missing → null

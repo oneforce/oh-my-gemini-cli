@@ -5,9 +5,9 @@ import { afterEach, describe, expect, it } from 'vitest';
 import { readMissionBoardState, recordMissionAgentStart, recordMissionAgentStop, refreshMissionBoardState, } from '../../hud/mission-board.js';
 const tempDirs = [];
 function makeTempDir() {
-    const dir = mkdtempSync(join(tmpdir(), 'omc-mission-board-'));
+    const dir = mkdtempSync(join(tmpdir(), 'omg-mission-board-'));
     tempDirs.push(dir);
-    mkdirSync(join(dir, '.omc', 'state'), { recursive: true });
+    mkdirSync(join(dir, '.omg', 'state'), { recursive: true });
     return dir;
 }
 afterEach(() => {
@@ -23,7 +23,7 @@ describe('mission board state tracking', () => {
         recordMissionAgentStart(cwd, {
             sessionId: 'sess-1234',
             agentId: 'agent-1',
-            agentType: 'oh-my-claudecode:executor',
+            agentType: 'oh-my-gemini-cli:executor',
             parentMode: 'ultrawork',
             taskDescription: 'Implement mission board renderer',
             at: '2026-03-09T07:00:00.000Z',
@@ -52,12 +52,12 @@ describe('mission board state tracking', () => {
         recordMissionAgentStart(cwd, {
             sessionId: 'sess-merge',
             agentId: 'agent-9',
-            agentType: 'oh-my-claudecode:architect',
+            agentType: 'oh-my-gemini-cli:architect',
             parentMode: 'ralph',
             taskDescription: 'Review mission board architecture',
             at: '2026-03-09T07:00:00.000Z',
         });
-        const teamRoot = join(cwd, '.omc', 'state', 'team', 'demo');
+        const teamRoot = join(cwd, '.omg', 'state', 'team', 'demo');
         mkdirSync(join(teamRoot, 'tasks'), { recursive: true });
         mkdirSync(join(teamRoot, 'workers', 'worker-1'), { recursive: true });
         mkdirSync(join(teamRoot, 'workers', 'worker-2'), { recursive: true });
@@ -131,13 +131,13 @@ describe('mission board state tracking', () => {
         expect(teamMission?.agents[1]?.completedSummary).toContain('Added mission board tests');
         expect(teamMission?.timeline.some((entry) => entry.kind === 'handoff')).toBe(true);
         expect(teamMission?.timeline.some((entry) => entry.kind === 'completion')).toBe(true);
-        const persisted = JSON.parse(readFileSync(join(cwd, '.omc', 'state', 'mission-state.json'), 'utf-8'));
+        const persisted = JSON.parse(readFileSync(join(cwd, '.omg', 'state', 'mission-state.json'), 'utf-8'));
         expect(persisted.missions.some((mission) => mission.source === 'session')).toBe(true);
         expect(persisted.missions.some((mission) => mission.source === 'team')).toBe(true);
     });
     it('marks team missions blocked when failures or blocked workers are present', () => {
         const cwd = makeTempDir();
-        const teamRoot = join(cwd, '.omc', 'state', 'team', 'blocked-demo');
+        const teamRoot = join(cwd, '.omg', 'state', 'team', 'blocked-demo');
         mkdirSync(join(teamRoot, 'tasks'), { recursive: true });
         mkdirSync(join(teamRoot, 'workers', 'worker-1'), { recursive: true });
         writeFileSync(join(teamRoot, 'config.json'), JSON.stringify({
@@ -168,7 +168,7 @@ describe('mission board state tracking', () => {
     });
     it('deduplicates duplicate team worker rows when refreshing mission board state', () => {
         const cwd = makeTempDir();
-        const teamRoot = join(cwd, '.omc', 'state', 'team', 'dedupe-demo');
+        const teamRoot = join(cwd, '.omg', 'state', 'team', 'dedupe-demo');
         mkdirSync(join(teamRoot, 'tasks'), { recursive: true });
         mkdirSync(join(teamRoot, 'workers', 'worker-1'), { recursive: true });
         writeFileSync(join(teamRoot, 'config.json'), JSON.stringify({

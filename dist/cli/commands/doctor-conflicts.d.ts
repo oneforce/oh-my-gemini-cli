@@ -9,7 +9,7 @@ export interface ConflictReport {
         command: string;
         isOmc: boolean;
     }[];
-    claudeMdStatus: {
+    geminiMdStatus: {
         hasMarkers: boolean;
         hasUserContent: boolean;
         path: string;
@@ -30,19 +30,19 @@ export interface ConflictReport {
     hasConflicts: boolean;
 }
 /**
- * Check for hook conflicts in both profile-level (~/.claude/settings.json)
- * and project-level (./.claude/settings.json).
+ * Check for hook conflicts in both profile-level (~/.gemini/settings.json)
+ * and project-level (./.gemini/settings.json).
  *
- * Claude Code settings precedence: project > profile > defaults.
+ * Gemini Code settings precedence: project > profile > defaults.
  * We check both levels so the diagnostic is complete.
  */
 export declare function checkHookConflicts(): ConflictReport['hookConflicts'];
 /**
- * Check CLAUDE.md for OMC markers and user content.
- * Also checks companion files (CLAUDE-omc.md, etc.) for the file-split pattern
+ * Check GEMINI.md for OMC markers and user content.
+ * Also checks companion files (CLAUDE-omg.md, etc.) for the file-split pattern
  * where users keep OMC config in a separate file.
  */
-export declare function checkClaudeMdStatus(): ConflictReport['claudeMdStatus'];
+export declare function checkGeminiMdStatus(): ConflictReport['geminiMdStatus'];
 /**
  * Check environment flags that affect OMC behavior
  */

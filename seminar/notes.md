@@ -1,4 +1,4 @@
-# Speaker Notes: oh-my-claudecode Seminar
+# Speaker Notes: oh-my-gemini-cli Seminar
 
 ## Time Allocation (60 minutes total)
 | Section | Time | Slides |
@@ -29,7 +29,7 @@
 ### Talking Points
 
 **The Current State Pain**
-- "Right now, when you use Claude Code or similar tools, you're essentially getting a very smart intern. They can do anything you ask, but YOU have to manage the workflow."
+- "Right now, when you use Gemini Code or similar tools, you're essentially getting a very smart intern. They can do anything you ask, but YOU have to manage the workflow."
 - "You find yourself saying things like: 'First search for the authentication code. Now analyze it. Now write a test. Now run the test. Now fix the error. Now check if there are similar patterns elsewhere.'"
 - "It's like conducting an orchestra where you have to tell each musician exactly when to play each note. Exhausting."
 
@@ -43,7 +43,7 @@
 - "What if the AI could run multiple specialists in parallel, route tasks to the right model tier, and persist until verification passes?"
 
 **The Reveal**
-- "That's exactly what oh-my-claudecode does. It transforms Claude Code from a single generalist assistant into a coordinated team of 28 specialists."
+- "That's exactly what oh-my-gemini-cli does. It transforms Gemini Code from a single generalist assistant into a coordinated team of 28 specialists."
 - "Today, I'm going to show you how this changes everything about AI-assisted development."
 
 ### Transition
@@ -72,18 +72,18 @@
 
 **The Conductor Metaphor** (Slide 4)
 - "Think about an orchestra conductor. They don't play the violin, the timpani, or the trumpet. They COORDINATE the specialists who do."
-- "That's the shift OMC makes. Claude becomes the conductor, and 28 specialized agents are the orchestra."
-- "When you say 'build a feature,' Claude doesn't do it all personally. It delegates: Explorer finds relevant code, Architect designs the solution, Executor implements, QA Tester verifies."
+- "That's the shift OMC makes. Gemini becomes the conductor, and 28 specialized agents are the orchestra."
+- "When you say 'build a feature,' Gemini doesn't do it all personally. It delegates: Explorer finds relevant code, Architect designs the solution, Executor implements, QA Tester verifies."
 
 **Before vs After** (Slide 5)
-- "BEFORE: 'Claude, search for auth code.' [wait] 'Now analyze it.' [wait] 'Now write tests.' [wait] You're the project manager micromanaging every step."
+- "BEFORE: 'Gemini, search for auth code.' [wait] 'Now analyze it.' [wait] 'Now write tests.' [wait] You're the project manager micromanaging every step."
 - "AFTER: 'Build authentication for the API.' OMC automatically: explores codebase, analyzes requirements, generates plan, implements in parallel, writes tests, verifies. You're the product owner stating the goal."
 - "This isn't a minor improvement. This is a 10x workflow change."
 
 **Architecture Flow** (Slide 6)
 - "Here's how it works end-to-end:"
 - "1. You speak naturally: 'Fix all TypeScript errors'"
-- "2. Claude detects intent: This is a parallel execution task"
+- "2. Gemini detects intent: This is a parallel execution task"
 - "3. Routes to skill: Ultrawork mode activates"
 - "4. Delegates to agents: Multiple executor agents spawn in parallel"
 - "5. Results verified: Architect agent confirms all errors resolved"
@@ -332,7 +332,7 @@
 - "DATA SCIENCE: scientist, scientist-high (analysis, ML)"
 
 **The 3-Tier System** (Slide 25)
-- "Each domain has up to three tiers corresponding to Claude model versions:"
+- "Each domain has up to three tiers corresponding to Gemini model versions:"
 - "HAIKU (LOW): Fast, cheap, perfect for simple tasks. 'Find the definition of this function' - why use Opus?"
 - "SONNET (MEDIUM): Balanced reasoning and cost. 'Implement this feature with error handling' - the sweet spot."
 - "OPUS (HIGH): Maximum reasoning power. 'Debug this race condition' or 'Architect this system' - when quality matters most."
@@ -564,11 +564,11 @@ Narrate:
 - "  Which mode is active"
 - "  How many agents are working"
 - "  What each agent is doing"
-- "Installation: `/oh-my-claudecode:hud setup` - adds to your shell prompt"
+- "Installation: `/oh-my-gemini-cli:hud setup` - adds to your shell prompt"
 
 **Notepad Wisdom** (Slide 36)
 - "OMC learns from every session via the notepad system:"
-- "Location: `.omc/notepads/{plan-name}/`"
+- "Location: `.omg/notepads/{plan-name}/`"
 - "  learnings.md - Technical patterns discovered"
 - "  decisions.md - Architectural choices and rationale"
 - "  issues.md - Known problems and workarounds"
@@ -581,7 +581,7 @@ Narrate:
 - "OMC tracks token usage per session:"
 - "See exactly how much each mode costs"
 - "Compare ultrawork vs  for your workload"
-- "Audit logs at `.omc/logs/delegation-audit.jsonl`"
+- "Audit logs at `.omg/logs/delegation-audit.jsonl`"
 - "Know your costs before they surprise you."
 
 ### Transition
@@ -599,7 +599,7 @@ Narrate:
 "Getting started is three commands and takes under 2 minutes."
 
 ### Key Points
-- Requires Claude Code CLI installed
+- Requires Gemini Code CLI installed
 - Three-step installation
 - One-time setup wizard
 - Works immediately after setup
@@ -607,20 +607,20 @@ Narrate:
 **Talking Points**
 
 **Prerequisites** (Slide 38)
-- "You need Claude Code installed: `npm install -g claude-code`"
-- "You need a Claude subscription (Pro or Team) or an API key"
+- "You need Gemini Code installed: `npm install -g gemini-code`"
+- "You need a Gemini subscription (Pro or Team) or an API key"
 - "That's it. No Docker, no databases, no complex dependencies."
 
 **Installation** (Slide 39)
 ```bash
 # Step 1: Install OMC
-npm install -g oh-my-claudecode
+npm install -g oh-my-gemini-cli
 
 # Step 2: Run setup wizard
-claude-code "/oh-my-claudecode:omc-setup"
+gemini-code "/oh-my-gemini-cli:omg-setup"
 
 # Step 3: Start using it
-claude-code "autopilot: build me a todo app"
+gemini-code "autopilot: build me a todo app"
 ```
 
 **What Setup Does** (Slide 40)
@@ -656,13 +656,13 @@ claude-code "autopilot: build me a todo app"
 **Talking Points**
 
 **The Big Picture** (Slide 41)
-- "OMC transforms Claude Code from a single assistant into a coordinated team."
+- "OMC transforms Gemini Code from a single assistant into a coordinated team."
 - "You go from micromanaging every step to stating goals and getting results."
 - "The five execution modes cover everything: greenfield (autopilot), parallel (ultrawork/ultrapilot), batch (swarm), sequential (pipeline), budget ()."
 - "28 agents with 3-tier model routing save you 30-50% on costs while getting work done faster."
 
 **Resources** (Slide 42)
-- "GitHub: github.com/Yeachan-Heo/oh-my-claudecode"
+- "GitHub: github.com/Yeachan-Heo/oh-my-gemini-cli"
 - "Documentation: Full guides in the repo README"
 - "Community: Join discussions, share your experiences"
 - "Contributing: It's MIT licensed - PRs welcome"
@@ -684,30 +684,30 @@ Prepare answers for these likely questions:
 ### 1. "How much does it cost?"
 
 **Answer:**
-"OMC itself is completely free - it's MIT licensed open-source. What you pay for is the Claude API usage.
+"OMC itself is completely free - it's MIT licensed open-source. What you pay for is the Gemini API usage.
 
 You need either:
-- A Claude Pro subscription ($20/month) which includes API access
-- Or a Claude Team subscription with API credits
+- A Gemini Pro subscription ($20/month) which includes API access
+- Or a Gemini Team subscription with API credits
 - Or direct API access via Anthropic
 
-The key cost benefit: OMC's smart model routing saves you 30-50% on token costs compared to manually using Claude. For example, simple searches use Haiku (super cheap), complex debugging uses Opus (expensive but necessary). Without OMC, everything might default to Opus.
+The key cost benefit: OMC's smart model routing saves you 30-50% on token costs compared to manually using Gemini. For example, simple searches use Haiku (super cheap), complex debugging uses Opus (expensive but necessary). Without OMC, everything might default to Opus.
 
 Ecomode specifically optimizes for cost - in our benchmarks, it reduces costs by 40-60% compared to ultrawork mode while still completing the work effectively."
 
 ### 2. "Can I use it with other AI models?"
 
 **Answer:**
-"Currently OMC is designed specifically for Claude Code and leverages Claude's three model tiers - Haiku, Sonnet, and Opus.
+"Currently OMC is designed specifically for Gemini Code and leverages Gemini's three model tiers - Haiku, Sonnet, and Opus.
 
-The architecture relies on Claude's specific capabilities for the multi-agent orchestration. We don't support GPT-4, Gemini, or other models at this time.
+The architecture relies on Gemini's specific capabilities for the multi-agent orchestration. We don't support GPT-4, Gemini, or other models at this time.
 
 That said, it's open-source. If there's community interest in adapting it to other providers, we'd welcome contributions. The core orchestration logic could theoretically work with any provider that offers multiple model tiers."
 
-### 3. "How is this different from just using Claude Code?"
+### 3. "How is this different from just using Gemini Code?"
 
 **Answer:**
-"Great question. Without OMC, Claude Code gives you one very smart generalist assistant. You tell it every step: 'search for this, analyze that, now implement this, now test that.'
+"Great question. Without OMC, Gemini Code gives you one very smart generalist assistant. You tell it every step: 'search for this, analyze that, now implement this, now test that.'
 
 With OMC, you get 28 specialized agents orchestrated automatically. You state the goal - 'build authentication' - and OMC:
 - Automatically explores your codebase for patterns
@@ -718,16 +718,16 @@ With OMC, you get 28 specialized agents orchestrated automatically. You state th
 
 It's the difference between hiring one person who does everything sequentially versus coordinating a specialized team working in parallel.
 
-Real-world impact: Tasks that took 30 minutes of back-and-forth with Claude Code now take 5 minutes of autonomous execution with OMC."
+Real-world impact: Tasks that took 30 minutes of back-and-forth with Gemini Code now take 5 minutes of autonomous execution with OMC."
 
 ### 4. "What about security? Is my code safe?"
 
 **Answer:**
-"OMC runs entirely locally via Claude Code. Your code never leaves your machine except through the normal Claude API calls that you'd be making anyway.
+"OMC runs entirely locally via Gemini Code. Your code never leaves your machine except through the normal Gemini API calls that you'd be making anyway.
 
 Additionally, OMC includes a security-reviewer agent that can audit code for common vulnerabilities. You can invoke it explicitly: '/pipeline security' runs a security audit pipeline.
 
-The notepad wisdom system stores data locally in `.omc/notepads/`. Nothing is sent to external servers.
+The notepad wisdom system stores data locally in `.omg/notepads/`. Nothing is sent to external servers.
 
 For maximum security, you can review the code - it's fully open-source on GitHub. Every agent prompt is visible."
 
@@ -736,25 +736,25 @@ For maximum security, you can review the code - it's fully open-source on GitHub
 **Answer:**
 "Absolutely. Agent customization is a first-class feature.
 
-Place custom agent definitions in `~/.claude/agents/{agent-name}.md` and they'll override the defaults.
+Place custom agent definitions in `~/.gemini/agents/{agent-name}.md` and they'll override the defaults.
 
 For example, if you want a specialized Python testing agent:
 ```markdown
-# ~/.claude/agents/pytest-specialist.md
+# ~/.gemini/agents/pytest-specialist.md
 You are an expert in pytest and Python testing best practices.
 Focus on: fixtures, parametrization, mocking with pytest-mock.
 ```
 
-Then invoke: `Task(subagent_type="oh-my-claudecode:pytest-specialist")`
+Then invoke: `Task(subagent_type="oh-my-gemini-cli:pytest-specialist")`
 
-You can also customize execution modes, delegation categories, and model routing rules via the config file at `~/.claude/.omc-config.json`.
+You can also customize execution modes, delegation categories, and model routing rules via the config file at `~/.gemini/.omg-config.json`.
 
 Power users go deep on customization. Casual users never need to touch it."
 
 ### 6. "Does it work with any programming language?"
 
 **Answer:**
-"Yes. OMC works with any language that Claude Code supports - which is basically all mainstream languages.
+"Yes. OMC works with any language that Gemini Code supports - which is basically all mainstream languages.
 
 Some agents have special optimizations:
 - build-fixer has deep TypeScript integration
@@ -809,7 +809,7 @@ The Architect verification step is the final check - a separate Opus-powered age
 
 The planning interviews require human input. The execution modes assume iterative refinement. The architect verification is designed for development-time quality checks.
 
-For CI/CD, you'd use Claude Code's built-in capabilities or traditional CI tools.
+For CI/CD, you'd use Gemini Code's built-in capabilities or traditional CI tools.
 
 That said, some teams use OMC-generated tests in their CI pipeline. The tests themselves are standard - jest, pytest, etc. - they just happened to be generated via OMC.
 

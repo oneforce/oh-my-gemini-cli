@@ -14,7 +14,7 @@ describe('planning/artifacts', () => {
 
   beforeEach(() => {
     testDir = mkdtempSync(join(tmpdir(), 'artifacts-test-'));
-    plansDir = join(testDir, '.omc', 'plans');
+    plansDir = join(testDir, '.omg', 'plans');
     mkdirSync(plansDir, { recursive: true });
   });
 
@@ -94,14 +94,14 @@ describe('planning/artifacts', () => {
     it('extracts team launch hint with worker count and agent type', () => {
       writeFileSync(
         join(plansDir, 'prd-feature.md'),
-        '# PRD\n\nRun: omc team 3:claude "implement auth"\n'
+        '# PRD\n\nRun: omg team 3:gemini "implement auth"\n'
       );
       const result = readApprovedExecutionLaunchHint(testDir, 'team');
       expect(result).not.toBeNull();
       expect(result!.mode).toBe('team');
       expect(result!.task).toBe('implement auth');
       expect(result!.workerCount).toBe(3);
-      expect(result!.agentType).toBe('claude');
+      expect(result!.agentType).toBe('gemini');
       expect(result!.linkedRalph).toBe(false);
       expect(result!.sourcePath).toContain('prd-feature.md');
     });
@@ -109,7 +109,7 @@ describe('planning/artifacts', () => {
     it('extracts team launch hint without worker spec', () => {
       writeFileSync(
         join(plansDir, 'prd-feature.md'),
-        '# PRD\n\nRun: omc team "implement the feature"\n'
+        '# PRD\n\nRun: omg team "implement the feature"\n'
       );
       const result = readApprovedExecutionLaunchHint(testDir, 'team');
       expect(result).not.toBeNull();
@@ -121,7 +121,7 @@ describe('planning/artifacts', () => {
     it('detects --linked-ralph flag', () => {
       writeFileSync(
         join(plansDir, 'prd-feature.md'),
-        '# PRD\n\nomc team 2:codex "fix the bug" --linked-ralph\n'
+        '# PRD\n\nomg team 2:codex "fix the bug" --linked-ralph\n'
       );
       const result = readApprovedExecutionLaunchHint(testDir, 'team');
       expect(result).not.toBeNull();
@@ -131,7 +131,7 @@ describe('planning/artifacts', () => {
     it('extracts ralph launch hint', () => {
       writeFileSync(
         join(plansDir, 'prd-feature.md'),
-        '# PRD\n\nomc ralph "do the work"\n'
+        '# PRD\n\nomg ralph "do the work"\n'
       );
       const result = readApprovedExecutionLaunchHint(testDir, 'ralph');
       expect(result).not.toBeNull();
@@ -142,15 +142,15 @@ describe('planning/artifacts', () => {
     it('returns null for ralph mode when only team command present', () => {
       writeFileSync(
         join(plansDir, 'prd-feature.md'),
-        '# PRD\n\nomc team 3:claude "implement auth"\n'
+        '# PRD\n\nomg team 3:gemini "implement auth"\n'
       );
       const result = readApprovedExecutionLaunchHint(testDir, 'ralph');
       expect(result).toBeNull();
     });
 
     it('uses the latest PRD when multiple exist', () => {
-      writeFileSync(join(plansDir, 'prd-aaa.md'), '# Old PRD\n\nomc team "old task"\n');
-      writeFileSync(join(plansDir, 'prd-zzz.md'), '# New PRD\n\nomc team "new task"\n');
+      writeFileSync(join(plansDir, 'prd-aaa.md'), '# Old PRD\n\nomg team "old task"\n');
+      writeFileSync(join(plansDir, 'prd-zzz.md'), '# New PRD\n\nomg team "new task"\n');
       const result = readApprovedExecutionLaunchHint(testDir, 'team');
       expect(result!.task).toBe('new task');
     });

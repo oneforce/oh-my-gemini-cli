@@ -14,7 +14,7 @@ vi.mock('../../lib/file-lock.js', () => ({
 }));
 // Mock dependencies that touch filesystem / keychain / network
 vi.mock('../../utils/paths.js', () => ({
-    getClaudeConfigDir: () => '/tmp/test-claude',
+    getGeminiConfigDir: () => '/tmp/test-gemini',
 }));
 vi.mock('fs', async (importOriginal) => {
     const actual = await importOriginal();
@@ -209,16 +209,16 @@ describe('getUsage routing', () => {
             const cmd = String(command);
             if (cmd.includes(`-a "${username}"`)) {
                 return JSON.stringify({
-                    claudeAiOauth: {
+                    geminiAiOauth: {
                         accessToken: 'fresh-token',
                         refreshToken: 'fresh-refresh',
                         expiresAt: oneHourFromNow,
                     },
                 });
             }
-            if (cmd.includes('find-generic-password -s "Claude Code-credentials" -w')) {
+            if (cmd.includes('find-generic-password -s "Gemini Code-credentials" -w')) {
                 return JSON.stringify({
-                    claudeAiOauth: {
+                    geminiAiOauth: {
                         accessToken: 'stale-token',
                         refreshToken: 'stale-refresh',
                         expiresAt: oneHourAgo,
@@ -251,8 +251,8 @@ describe('getUsage routing', () => {
                 weeklyResetsAt: null,
             },
         });
-        expect(execSyncMock).toHaveBeenCalledWith(`/usr/bin/security find-generic-password -s "Claude Code-credentials" -a "${username}" -w 2>/dev/null`, { encoding: 'utf-8', timeout: 2000 });
-        expect(execSyncMock).not.toHaveBeenCalledWith('/usr/bin/security find-generic-password -s "Claude Code-credentials" -w 2>/dev/null', { encoding: 'utf-8', timeout: 2000 });
+        expect(execSyncMock).toHaveBeenCalledWith(`/usr/bin/security find-generic-password -s "Gemini Code-credentials" -a "${username}" -w 2>/dev/null`, { encoding: 'utf-8', timeout: 2000 });
+        expect(execSyncMock).not.toHaveBeenCalledWith('/usr/bin/security find-generic-password -s "Gemini Code-credentials" -w 2>/dev/null', { encoding: 'utf-8', timeout: 2000 });
         expect(httpsModule.default.request).toHaveBeenCalledTimes(1);
         expect(httpsModule.default.request.mock.calls[0][0].headers.Authorization).toBe('Bearer fresh-token');
     });
@@ -265,16 +265,16 @@ describe('getUsage routing', () => {
             const cmd = String(command);
             if (cmd.includes(`-a "${username}"`)) {
                 return JSON.stringify({
-                    claudeAiOauth: {
+                    geminiAiOauth: {
                         accessToken: 'expired-user-token',
                         refreshToken: 'expired-user-refresh',
                         expiresAt: oneHourAgo,
                     },
                 });
             }
-            if (cmd.includes('find-generic-password -s "Claude Code-credentials" -w')) {
+            if (cmd.includes('find-generic-password -s "Gemini Code-credentials" -w')) {
                 return JSON.stringify({
-                    claudeAiOauth: {
+                    geminiAiOauth: {
                         accessToken: 'fresh-legacy-token',
                         refreshToken: 'fresh-legacy-refresh',
                         expiresAt: oneHourFromNow,
@@ -390,7 +390,7 @@ describe('getUsage routing', () => {
             const file = String(path);
             if (file.endsWith('settings.json')) {
                 return JSON.stringify({
-                    omcHud: {
+                    omgHud: {
                         usageApiPollIntervalMs: 180_000,
                     },
                 });
@@ -435,7 +435,7 @@ describe('getUsage routing', () => {
             const file = String(path);
             if (file.endsWith('settings.json')) {
                 return JSON.stringify({
-                    omcHud: {
+                    omgHud: {
                         usageApiPollIntervalMs: 60_000,
                     },
                 });
@@ -483,7 +483,7 @@ describe('getUsage routing', () => {
             const file = String(path);
             if (file.endsWith('settings.json')) {
                 return JSON.stringify({
-                    omcHud: {
+                    omgHud: {
                         usageApiPollIntervalMs: 60_000,
                     },
                 });
@@ -533,7 +533,7 @@ describe('getUsage routing', () => {
             const file = String(path);
             if (file.endsWith('settings.json')) {
                 return JSON.stringify({
-                    omcHud: {
+                    omgHud: {
                         usageApiPollIntervalMs: 60_000,
                     },
                 });

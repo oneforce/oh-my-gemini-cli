@@ -5,7 +5,7 @@
  * resolved to the original project's transcript path.
  *
  * Covers:
- *   - Claude internal worktrees (.claude/worktrees/X) — issue #1094
+ *   - Gemini internal worktrees (.gemini/worktrees/X) — issue #1094
  *   - Native git worktrees (git worktree add) — issue #1191
  */
 export {};

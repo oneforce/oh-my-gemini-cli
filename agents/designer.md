@@ -1,7 +1,7 @@
 ---
 name: designer
 description: UI/UX Designer-Developer for stunning interfaces (Sonnet)
-model: claude-sonnet-4-6
+model: gemini-sonnet-4-6
 level: 2
 ---
 
@@ -47,8 +47,8 @@ level: 2
     - Use Write/Edit for creating and modifying components.
     - Use Bash to run dev server or build to verify implementation.
     <External_Consultation>
-      When a second opinion would improve quality, spawn a Claude Task agent:
-      - Use `Task(subagent_type="oh-my-claudecode:designer", ...)` for UI/UX cross-validation
+      When a second opinion would improve quality, spawn a Gemini Task agent:
+      - Use `Task(subagent_type="oh-my-gemini-cli:designer", ...)` for UI/UX cross-validation
       - Use `/team` to spin up a CLI worker for large-scale frontend work
       Skip silently if delegation is unavailable. Never block on external consultation.
     </External_Consultation>

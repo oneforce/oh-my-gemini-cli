@@ -1,6 +1,6 @@
 # Performance Monitoring Guide
 
-Comprehensive guide to monitoring, debugging, and optimizing Claude Code and oh-my-claudecode performance.
+Comprehensive guide to monitoring, debugging, and optimizing Gemini Code and oh-my-gemini-cli performance.
 
 ---
 
@@ -21,7 +21,7 @@ Comprehensive guide to monitoring, debugging, and optimizing Claude Code and oh-
 
 ## Overview
 
-oh-my-claudecode provides comprehensive monitoring capabilities for tracking agent performance, token usage, costs, and identifying bottlenecks in multi-agent workflows. This guide covers both built-in tools and external resources for monitoring Claude's performance.
+oh-my-gemini-cli provides comprehensive monitoring capabilities for tracking agent performance, token usage, costs, and identifying bottlenecks in multi-agent workflows. This guide covers both built-in tools and external resources for monitoring Gemini's performance.
 
 ### What You Can Monitor
 
@@ -46,7 +46,7 @@ The Agent Observatory provides real-time visibility into all running agents, the
 The observatory is automatically displayed in the HUD when agents are running. You can also query it programmatically:
 
 ```typescript
-import { getAgentObservatory } from 'oh-my-claudecode/hooks/subagent-tracker';
+import { getAgentObservatory } from 'oh-my-gemini-cli/hooks/subagent-tracker';
 
 const obs = getAgentObservatory(process.cwd());
 console.log(obs.header);  // "Agent Observatory (3 active, 85% efficiency)"
@@ -84,21 +84,21 @@ Agent Observatory (3 active, 85% efficiency)
 
 ### Session-End Summaries
 
-The legacy analytics workflow described in older docs (`omc-analytics`, `omc cost`, `omc backfill`, and the `analytics` HUD preset) is no longer part of current `dev`.
+The legacy analytics workflow described in older docs (`omg-analytics`, `omg cost`, `omg backfill`, and the `analytics` HUD preset) is no longer part of current `dev`.
 
 The supported monitoring surfaces on current builds are:
 
 - **Agent Observatory** in the HUD / API
-- **Session Replay** logs in `.omc/state/agent-replay-*.jsonl`
-- **Session-end summaries** in `.omc/sessions/<sessionId>.json`
+- **Session Replay** logs in `.omg/state/agent-replay-*.jsonl`
+- **Session-end summaries** in `.omg/sessions/<sessionId>.json`
 - **Session-end notifications** emitted through configured callbacks
 
 #### Supported Inspection Commands
 
 ```bash
-omc hud
-tail -20 .omc/state/agent-replay-*.jsonl
-ls .omc/sessions/*.json
+omg hud
+tail -20 .omg/state/agent-replay-*.jsonl
+ls .omg/sessions/*.json
 ```
 
 #### HUD Display
@@ -107,7 +107,7 @@ Use a supported preset such as `focused` or `full` for agent and context visibil
 
 ```json
 {
-  "omcHud": {
+  "omgHud": {
     "preset": "focused"
   }
 }
@@ -136,7 +136,7 @@ Session replay records agent lifecycle events as JSONL for post-session analysis
 
 #### Replay Files
 
-Replay data is stored at: `.omc/state/agent-replay-{sessionId}.jsonl`
+Replay data is stored at: `.omg/state/agent-replay-{sessionId}.jsonl`
 
 Each line is a JSON event:
 ```json
@@ -148,7 +148,7 @@ Each line is a JSON event:
 #### Analyzing Replay Data
 
 ```typescript
-import { getReplaySummary } from 'oh-my-claudecode/hooks/subagent-tracker/session-replay';
+import { getReplaySummary } from 'oh-my-gemini-cli/hooks/subagent-tracker/session-replay';
 
 const summary = getReplaySummary(process.cwd(), sessionId);
 
@@ -181,11 +181,11 @@ The replay system automatically identifies bottlenecks:
 
 ### Configuration
 
-Edit `~/.claude/settings.json`:
+Edit `~/.gemini/settings.json`:
 
 ```json
 {
-  "omcHud": {
+  "omgHud": {
     "preset": "focused",
     "elements": {
       "agents": true,
@@ -219,7 +219,7 @@ Edit `~/.claude/settings.json`:
 3. **Review tool_usage** in agent state
 
 ```typescript
-import { getAgentPerformance } from 'oh-my-claudecode/hooks/subagent-tracker';
+import { getAgentPerformance } from 'oh-my-gemini-cli/hooks/subagent-tracker';
 
 const perf = getAgentPerformance(process.cwd(), agentId);
 console.log('Tool timings:', perf.tool_timings);
@@ -231,7 +231,7 @@ console.log('Bottleneck:', perf.bottleneck);
 When multiple agents modify the same file:
 
 ```typescript
-import { detectFileConflicts } from 'oh-my-claudecode/hooks/subagent-tracker';
+import { detectFileConflicts } from 'oh-my-gemini-cli/hooks/subagent-tracker';
 
 const conflicts = detectFileConflicts(process.cwd());
 conflicts.forEach(c => {
@@ -250,7 +250,7 @@ OMC automatically detects problematic agents:
 | `file_conflict` | Multiple agents on file | Warning |
 
 ```typescript
-import { suggestInterventions } from 'oh-my-claudecode/hooks/subagent-tracker';
+import { suggestInterventions } from 'oh-my-gemini-cli/hooks/subagent-tracker';
 
 const interventions = suggestInterventions(process.cwd());
 interventions.forEach(i => {
@@ -263,7 +263,7 @@ interventions.forEach(i => {
 Track how well your parallel agents are performing:
 
 ```typescript
-import { calculateParallelEfficiency } from 'oh-my-claudecode/hooks/subagent-tracker';
+import { calculateParallelEfficiency } from 'oh-my-gemini-cli/hooks/subagent-tracker';
 
 const eff = calculateParallelEfficiency(process.cwd());
 console.log(`Efficiency: ${eff.score}%`);
@@ -279,7 +279,7 @@ console.log(`Active: ${eff.active}, Stale: ${eff.stale}, Total: ${eff.total}`);
 Clean up agents that exceed the timeout threshold:
 
 ```typescript
-import { cleanupStaleAgents } from 'oh-my-claudecode/hooks/subagent-tracker';
+import { cleanupStaleAgents } from 'oh-my-gemini-cli/hooks/subagent-tracker';
 
 const cleaned = cleanupStaleAgents(process.cwd());
 console.log(`Cleaned ${cleaned} stale agents`);
@@ -289,21 +289,21 @@ console.log(`Cleaned ${cleaned} stale agents`);
 
 ## External Resources
 
-### Claude Performance Tracking Platforms
+### Gemini Performance Tracking Platforms
 
 #### MarginLab.ai
 
-[MarginLab.ai](https://marginlab.ai) provides external performance tracking for Claude models:
+[MarginLab.ai](https://marginlab.ai) provides external performance tracking for Gemini models:
 
-- **SWE-Bench-Pro daily tracking**: Monitor Claude's performance on software engineering benchmarks
+- **SWE-Bench-Pro daily tracking**: Monitor Gemini's performance on software engineering benchmarks
 - **Statistical significance testing**: Detect performance degradation with confidence intervals
-- **Historical trends**: Track Claude's capabilities over time
-- **Model comparison**: Compare performance across Claude model versions
+- **Historical trends**: Track Gemini's capabilities over time
+- **Model comparison**: Compare performance across Gemini model versions
 
 #### Usage
 
 Visit the platform to:
-1. View current Claude model benchmark scores
+1. View current Gemini model benchmark scores
 2. Check historical performance trends
 3. Set up alerts for significant performance changes
 4. Compare across model versions (Opus, Sonnet, Haiku)
@@ -312,13 +312,13 @@ Visit the platform to:
 
 | Resource | Description | Link |
 |----------|-------------|------|
-| Claude Code Discord | Community support and tips | [discord.gg/anthropic](https://discord.gg/anthropic) |
-| OMC GitHub Issues | Bug reports and feature requests | [GitHub Issues](https://github.com/Yeachan-Heo/oh-my-claudecode/issues) |
-| Anthropic Documentation | Official Claude documentation | [docs.anthropic.com](https://docs.anthropic.com) |
+| Gemini Code Discord | Community support and tips | [discord.gg/anthropic](https://discord.gg/anthropic) |
+| OMC GitHub Issues | Bug reports and feature requests | [GitHub Issues](https://github.com/Yeachan-Heo/oh-my-gemini-cli/issues) |
+| Anthropic Documentation | Official Gemini documentation | [docs.anthropic.com](https://docs.anthropic.com) |
 
 ### Model Performance Benchmarks
 
-Track Claude's performance across standard benchmarks:
+Track Gemini's performance across standard benchmarks:
 
 | Benchmark | What It Measures | Where to Track |
 |-----------|-----------------|----------------|
@@ -334,7 +334,7 @@ Track Claude's performance across standard benchmarks:
 
 ```bash
 # Set up budget warnings in HUD
-/oh-my-claudecode:hud
+/oh-my-gemini-cli:hud
 # Select "focused" or "full"
 ```
 
@@ -352,10 +352,10 @@ Session replay is automatically enabled. Review replays after complex workflows:
 
 ```bash
 # Find replay files
-ls .omc/state/agent-replay-*.jsonl
+ls .omg/state/agent-replay-*.jsonl
 
 # View recent events
-tail -20 .omc/state/agent-replay-*.jsonl
+tail -20 .omg/state/agent-replay-*.jsonl
 ```
 
 ### 4. Set Cost Limits
@@ -378,7 +378,7 @@ if (summary.bottlenecks.length > 0) {
 Periodically clean up old replay files and stale agent state:
 
 ```typescript
-import { cleanupReplayFiles } from 'oh-my-claudecode/hooks/subagent-tracker/session-replay';
+import { cleanupReplayFiles } from 'oh-my-gemini-cli/hooks/subagent-tracker/session-replay';
 
 cleanupReplayFiles(process.cwd()); // Keeps last 10 sessions
 ```
@@ -419,13 +419,13 @@ cleanupReplayFiles(process.cwd()); // Keeps last 10 sessions
 
 ### Missing Session-End Summaries
 
-**Symptoms**: No `.omc/sessions/*.json` files after a session finishes
+**Symptoms**: No `.omg/sessions/*.json` files after a session finishes
 
 **Solutions**:
 1. End the session normally so the `session-end` hook runs
-2. Verify HUD / hooks are installed: `/oh-my-claudecode:hud setup`
-3. Check the current workspace `.omc/sessions/` directory
-4. Review `.omc/state/agent-replay-*.jsonl` if you need timing/activity evidence instead
+2. Verify HUD / hooks are installed: `/oh-my-gemini-cli:hud setup`
+3. Check the current workspace `.omg/sessions/` directory
+4. Review `.omg/state/agent-replay-*.jsonl` if you need timing/activity evidence instead
 
 ### Stale Agent State
 
@@ -433,8 +433,8 @@ cleanupReplayFiles(process.cwd()); // Keeps last 10 sessions
 
 **Solutions**:
 1. Run `cleanupStaleAgents(cwd)` programmatically
-2. Delete `.omc/state/subagent-tracking.json` to reset
-3. Check for orphaned lock files: `.omc/state/subagent-tracker.lock`
+2. Delete `.omg/state/subagent-tracking.json` to reset
+3. Check for orphaned lock files: `.omg/state/subagent-tracker.lock`
 
 ---
 
@@ -442,11 +442,11 @@ cleanupReplayFiles(process.cwd()); // Keeps last 10 sessions
 
 | File | Purpose | Format |
 |------|---------|--------|
-| `.omc/state/subagent-tracking.json` | Current agent states | JSON |
-| `.omc/state/agent-replay-{id}.jsonl` | Session event timeline | JSONL |
-| `.omc/state/token-tracking.jsonl` | Token usage log | JSONL |
-| `.omc/state/analytics-summary-{id}.json` | Cached session summaries | JSON |
-| `.omc/state/subagent-tracker.lock` | Concurrent access lock | Text |
+| `.omg/state/subagent-tracking.json` | Current agent states | JSON |
+| `.omg/state/agent-replay-{id}.jsonl` | Session event timeline | JSONL |
+| `.omg/state/token-tracking.jsonl` | Token usage log | JSONL |
+| `.omg/state/analytics-summary-{id}.json` | Cached session summaries | JSON |
+| `.omg/state/subagent-tracker.lock` | Concurrent access lock | Text |
 
 ---
 

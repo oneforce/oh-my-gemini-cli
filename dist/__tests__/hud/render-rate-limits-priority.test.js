@@ -33,7 +33,7 @@ function makeContext(overrides = {}) {
         pendingPermission: null,
         thinkingState: null,
         sessionHealth: null,
-        omcVersion: '4.7.0',
+        omgVersion: '4.7.0',
         updateAvailable: null,
         toolCallCount: 0,
         agentCallCount: 0,
@@ -51,7 +51,7 @@ function makeConfig(overrides = {}) {
         elements: {
             ...DEFAULT_HUD_CONFIG.elements,
             rateLimits: true,
-            omcLabel: false,
+            omgLabel: false,
             contextBar: false,
             agents: false,
             backgroundTasks: false,

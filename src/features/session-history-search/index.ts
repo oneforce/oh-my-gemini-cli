@@ -33,8 +33,8 @@ interface SearchableEntry {
   texts: string[];
 }
 
-function getClaudeConfigDir(): string {
-  return process.env.CLAUDE_CONFIG_DIR || join(homedir(), '.claude');
+function getGeminiConfigDir(): string {
+  return process.env.CLAUDE_CONFIG_DIR || join(homedir(), '.gemini');
 }
 
 function compactWhitespace(text: string): string {
@@ -89,8 +89,8 @@ function getMainRepoRoot(projectRoot: string): string | null {
   }
 }
 
-function getClaudeWorktreeParent(projectRoot: string): string | null {
-  const marker = `${normalize('/.claude/worktrees/')}`;
+function getGeminiWorktreeParent(projectRoot: string): string | null {
+  const marker = `${normalize('/.gemini/worktrees/')}`;
   const normalizedRoot = normalize(projectRoot);
   const idx = normalizedRoot.indexOf(marker);
   if (idx === -1) return null;
@@ -146,38 +146,38 @@ function uniqueSortedTargets(targets: SearchTarget[]): SearchTarget[] {
 }
 
 function buildCurrentProjectTargets(projectRoot: string): SearchTarget[] {
-  const claudeDir = getClaudeConfigDir();
+  const geminiDir = getGeminiConfigDir();
   const projectRoots = new Set<string>([projectRoot]);
   const mainRepoRoot = getMainRepoRoot(projectRoot);
   if (mainRepoRoot) projectRoots.add(mainRepoRoot);
-  const claudeWorktreeParent = getClaudeWorktreeParent(projectRoot);
-  if (claudeWorktreeParent) projectRoots.add(claudeWorktreeParent);
+  const geminiWorktreeParent = getGeminiWorktreeParent(projectRoot);
+  if (geminiWorktreeParent) projectRoots.add(geminiWorktreeParent);
 
   const targets: SearchTarget[] = [];
 
   for (const root of projectRoots) {
-    const encodedDir = join(claudeDir, 'projects', encodeProjectPath(root));
+    const encodedDir = join(geminiDir, 'projects', encodeProjectPath(root));
     for (const filePath of listJsonlFiles(encodedDir)) {
       targets.push({ filePath, sourceType: 'project-transcript' });
     }
   }
 
-  const legacyTranscriptsDir = join(claudeDir, 'transcripts');
+  const legacyTranscriptsDir = join(geminiDir, 'transcripts');
   for (const filePath of listJsonlFiles(legacyTranscriptsDir)) {
     targets.push({ filePath, sourceType: 'legacy-transcript' });
   }
 
-  const omcRoot = getOmcRoot(projectRoot);
-  const sessionSummariesDir = join(omcRoot, 'sessions');
+  const omgRoot = getOmcRoot(projectRoot);
+  const sessionSummariesDir = join(omgRoot, 'sessions');
   for (const filePath of listJsonlFiles(sessionSummariesDir)) {
-    targets.push({ filePath, sourceType: 'omc-session-summary' });
+    targets.push({ filePath, sourceType: 'omg-session-summary' });
   }
 
-  const replayDir = join(omcRoot, 'state');
+  const replayDir = join(omgRoot, 'state');
   if (existsSync(replayDir)) {
     for (const filePath of listJsonlFiles(replayDir)) {
       if (filePath.includes('agent-replay-') && filePath.endsWith('.jsonl')) {
-        targets.push({ filePath, sourceType: 'omc-session-replay' });
+        targets.push({ filePath, sourceType: 'omg-session-replay' });
       }
     }
   }
@@ -186,14 +186,14 @@ function buildCurrentProjectTargets(projectRoot: string): SearchTarget[] {
 }
 
 function buildAllProjectTargets(): SearchTarget[] {
-  const claudeDir = getClaudeConfigDir();
+  const geminiDir = getGeminiConfigDir();
   const targets: SearchTarget[] = [];
 
-  for (const filePath of listJsonlFiles(join(claudeDir, 'projects'))) {
+  for (const filePath of listJsonlFiles(join(geminiDir, 'projects'))) {
     targets.push({ filePath, sourceType: 'project-transcript' });
   }
 
-  for (const filePath of listJsonlFiles(join(claudeDir, 'transcripts'))) {
+  for (const filePath of listJsonlFiles(join(geminiDir, 'transcripts'))) {
     targets.push({ filePath, sourceType: 'legacy-transcript' });
   }
 
@@ -339,7 +339,7 @@ function buildJsonArtifactEntry(entry: Record<string, unknown>, sourceType: Sear
         ? entry.timestamp
         : undefined;
 
-  const entryType = sourceType === 'omc-session-summary' ? 'session-summary' : 'session-replay';
+  const entryType = sourceType === 'omg-session-summary' ? 'session-summary' : 'session-replay';
 
   return {
     sessionId,
@@ -351,11 +351,11 @@ function buildJsonArtifactEntry(entry: Record<string, unknown>, sourceType: Sear
 }
 
 function buildSearchableEntry(entry: Record<string, unknown>, sourceType: SearchTarget['sourceType']): SearchableEntry | null {
-  if (sourceType === 'project-transcript' || sourceType === 'legacy-transcript' || sourceType === 'omc-session-replay') {
-    return buildTranscriptEntry(entry) ?? (sourceType === 'omc-session-replay' ? buildJsonArtifactEntry(entry, sourceType) : null);
+  if (sourceType === 'project-transcript' || sourceType === 'legacy-transcript' || sourceType === 'omg-session-replay') {
+    return buildTranscriptEntry(entry) ?? (sourceType === 'omg-session-replay' ? buildJsonArtifactEntry(entry, sourceType) : null);
   }
 
-  if (sourceType === 'omc-session-summary') {
+  if (sourceType === 'omg-session-summary') {
     return buildJsonArtifactEntry(entry, sourceType);
   }
 
@@ -414,7 +414,7 @@ async function collectMatchesFromFile(
   const matches: SessionHistoryMatch[] = [];
   const fileMtime = existsSync(target.filePath) ? statSync(target.filePath).mtimeMs : 0;
 
-  if (target.sourceType === 'omc-session-summary' && target.filePath.endsWith('.json')) {
+  if (target.sourceType === 'omg-session-summary' && target.filePath.endsWith('.json')) {
     try {
       const payload = JSON.parse(await import('fs/promises').then((fs) => fs.readFile(target.filePath, 'utf-8')));
       const entry = buildSearchableEntry(payload as Record<string, unknown>, target.sourceType);
@@ -521,7 +521,7 @@ export async function searchSessionHistory(
 
   const currentProjectRoots = [currentProjectRoot]
     .concat(getMainRepoRoot(currentProjectRoot) ?? [])
-    .concat(getClaudeWorktreeParent(currentProjectRoot) ?? [])
+    .concat(getGeminiWorktreeParent(currentProjectRoot) ?? [])
     .filter((value, index, arr): value is string => Boolean(value) && arr.indexOf(value) === index);
 
   const targets = scopeMode === 'all'

@@ -35,9 +35,9 @@ export const THINKING_PART_TYPES = [
 export const THINKING_MODEL_PATTERNS = [
   "thinking",
   "-high",
-  "claude-sonnet-4",
-  "claude-opus-4",
-  "claude-3"
+  "gemini-sonnet-4",
+  "gemini-opus-4",
+  "gemini-3"
 ] as const;
 
 /**

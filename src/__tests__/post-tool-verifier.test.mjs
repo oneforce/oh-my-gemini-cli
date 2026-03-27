@@ -1,6 +1,6 @@
 /**
  * Tests for post-tool-verifier.mjs failure detection
- * Covers issue #696: false positive "permission denied" from Claude Code temp CWD errors on macOS
+ * Covers issue #696: false positive "permission denied" from Gemini Code temp CWD errors on macOS
  */
 
 import { describe, it, expect } from 'vitest';
@@ -33,26 +33,26 @@ function withTempDir(fn) {
 }
 
 describe('detectBashFailure', () => {
-  describe('Claude Code temp CWD false positives (issue #696)', () => {
+  describe('Gemini Code temp CWD false positives (issue #696)', () => {
     it('should not flag macOS temp CWD permission error as a failure', () => {
-      const output = 'zsh:1: permission denied: /var/folders/xx/yyyyyyy/T/claude-abc123def-cwd';
+      const output = 'zsh:1: permission denied: /var/folders/xx/yyyyyyy/T/gemini-abc123def-cwd';
       expect(detectBashFailure(output)).toBe(false);
     });
 
     it('should not flag temp CWD error with different session id', () => {
-      const output = 'zsh:1: permission denied: /var/folders/ab/cdefgh/T/claude-xyz789-cwd';
+      const output = 'zsh:1: permission denied: /var/folders/ab/cdefgh/T/gemini-xyz789-cwd';
       expect(detectBashFailure(output)).toBe(false);
     });
 
     it('should not flag temp CWD error with different zsh line numbers', () => {
-      const output = 'zsh:42: permission denied: /var/folders/ab/cdefgh/T/claude-abc000-cwd';
+      const output = 'zsh:42: permission denied: /var/folders/ab/cdefgh/T/gemini-abc000-cwd';
       expect(detectBashFailure(output)).toBe(false);
     });
 
     it('should not flag output that contains only a temp CWD error line', () => {
       const output = [
         'some normal output',
-        'zsh:1: permission denied: /var/folders/xx/yyyyy/T/claude-abc123-cwd',
+        'zsh:1: permission denied: /var/folders/xx/yyyyy/T/gemini-abc123-cwd',
         'more normal output',
       ].join('\n');
       expect(detectBashFailure(output)).toBe(false);
@@ -65,7 +65,7 @@ describe('detectBashFailure', () => {
 
     it('should flag real permission denied even when temp CWD noise is also present', () => {
       const output = [
-        'zsh:1: permission denied: /var/folders/xx/yyyyy/T/claude-abc123-cwd',
+        'zsh:1: permission denied: /var/folders/xx/yyyyy/T/gemini-abc123-cwd',
         'rm: /protected/file: permission denied',
       ].join('\n');
       expect(detectBashFailure(output)).toBe(true);
@@ -181,15 +181,15 @@ describe('isNonZeroExitWithOutput (issue #960)', () => {
 });
 
 describe('detectWriteFailure', () => {
-  describe('Claude Code temp CWD false positives (issue #696)', () => {
+  describe('Gemini Code temp CWD false positives (issue #696)', () => {
     it('should not flag macOS temp CWD permission error as a write failure', () => {
-      const output = 'zsh:1: permission denied: /var/folders/xx/yyyyyyy/T/claude-abc123def-cwd';
+      const output = 'zsh:1: permission denied: /var/folders/xx/yyyyyyy/T/gemini-abc123def-cwd';
       expect(detectWriteFailure(output)).toBe(false);
     });
 
     it('should not flag temp CWD error alongside successful write output', () => {
       const output = [
-        'zsh:1: permission denied: /var/folders/xx/yyyyy/T/claude-abc123-cwd',
+        'zsh:1: permission denied: /var/folders/xx/yyyyy/T/gemini-abc123-cwd',
         'File written successfully.',
       ].join('\n');
       expect(detectWriteFailure(output)).toBe(false);
@@ -378,11 +378,11 @@ describe('OMC_QUIET hook message suppression (issue #1646)', () => {
       .toContain('produced valid output');
 
     const taskSummary = withTempDir((tempDir) => {
-      mkdirSync(join(tempDir, '.omc', 'state'), { recursive: true });
+      mkdirSync(join(tempDir, '.omg', 'state'), { recursive: true });
       writeFileSync(
-        join(tempDir, '.omc', 'state', 'subagent-tracking.json'),
+        join(tempDir, '.omg', 'state', 'subagent-tracking.json'),
         JSON.stringify({
-          agents: [{ status: 'running', agent_type: 'oh-my-claudecode:executor' }],
+          agents: [{ status: 'running', agent_type: 'oh-my-gemini-cli:executor' }],
           total_completed: 1,
           total_failed: 0,
         }),

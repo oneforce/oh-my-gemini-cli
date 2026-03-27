@@ -172,7 +172,7 @@ async function delegateWithThinking(
   const thinkingTokens = getCategoryThinkingBudgetTokens(category);
 
   // Use thinking budget in API call
-  const response = await claudeAPI.call({
+  const response = await geminiAPI.call({
     prompt: taskPrompt,
     thinking: {
       type: 'enabled',

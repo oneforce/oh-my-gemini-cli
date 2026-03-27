@@ -158,7 +158,7 @@ export async function saveModeSummary(directory) {
  */
 function readTodoSummary(directory) {
     const todoPaths = [
-        join(directory, ".claude", "todos.json"),
+        join(directory, ".gemini", "todos.json"),
         join(getOmcRoot(directory), "state", "todos.json"),
     ];
     for (const todoPath of todoPaths) {
@@ -185,7 +185,7 @@ function readTodoSummary(directory) {
 }
 /**
  * Get summary of active and recent background jobs from SQLite DB
- * Queries .omc/state/jobs.db for Codex/Gemini job statuses
+ * Queries .omg/state/jobs.db for Codex/Gemini job statuses
  */
 async function getActiveJobsSummary(directory) {
     try {

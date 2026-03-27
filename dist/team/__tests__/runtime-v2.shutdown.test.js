@@ -7,7 +7,7 @@ import { createWorkerWorktree } from '../git-worktree.js';
 describe('shutdownTeamV2 detached worktree cleanup', () => {
     let repoDir;
     beforeEach(() => {
-        repoDir = mkdtempSync(join(tmpdir(), 'omc-runtime-v2-shutdown-'));
+        repoDir = mkdtempSync(join(tmpdir(), 'omg-runtime-v2-shutdown-'));
         execFileSync('git', ['init'], { cwd: repoDir, stdio: 'pipe' });
         execFileSync('git', ['config', 'user.email', 'test@example.com'], { cwd: repoDir, stdio: 'pipe' });
         execFileSync('git', ['config', 'user.name', 'Test User'], { cwd: repoDir, stdio: 'pipe' });
@@ -20,12 +20,12 @@ describe('shutdownTeamV2 detached worktree cleanup', () => {
     });
     it('removes dormant team-created worktrees during normal shutdown', async () => {
         const teamName = 'shutdown-team';
-        const teamRoot = join(repoDir, '.omc', 'state', 'team', teamName);
+        const teamRoot = join(repoDir, '.omg', 'state', 'team', teamName);
         mkdirSync(teamRoot, { recursive: true });
         writeFileSync(join(teamRoot, 'config.json'), JSON.stringify({
             name: teamName,
             task: 'demo',
-            agent_type: 'claude',
+            agent_type: 'gemini',
             worker_launch_mode: 'interactive',
             worker_count: 0,
             max_workers: 20,

@@ -2,7 +2,7 @@
  * Teleport Command - Quick worktree creation for development
  *
  * Creates a git worktree for working on issues/PRs/features in isolation.
- * Default worktree location: ~/Workspace/omc-worktrees/
+ * Default worktree location: ~/Workspace/omg-worktrees/
  */
 import chalk from 'chalk';
 import { execSync, execFileSync } from 'child_process';
@@ -11,10 +11,10 @@ import { homedir } from 'os';
 import { join, basename, isAbsolute, relative } from 'path';
 import { parseRemoteUrl, getProvider } from '../../providers/index.js';
 // Default worktree root directory
-const DEFAULT_WORKTREE_ROOT = join(homedir(), 'Workspace', 'omc-worktrees');
+const DEFAULT_WORKTREE_ROOT = join(homedir(), 'Workspace', 'omg-worktrees');
 /**
  * Parse a reference string into components
- * Supports: omc#123, owner/repo#123, #123, URLs, feature names
+ * Supports: omg#123, owner/repo#123, #123, URLs, feature names
  */
 function parseRef(ref) {
     // GitHub PR URL: github.com/owner/repo/pull/N
@@ -132,7 +132,7 @@ function parseRef(ref) {
             number: parseInt(fullRefMatch[3], 10),
         };
     }
-    // alias#123 format (e.g., omc#123)
+    // alias#123 format (e.g., omg#123)
     const aliasMatch = ref.match(/^([a-zA-Z][a-zA-Z0-9_-]*)#(\d+)$/);
     if (aliasMatch) {
         return {

@@ -2,11 +2,11 @@
  * OMC HUD - Usage API
  *
  * Fetches rate limit usage from Anthropic's OAuth API.
- * Based on claude-hud implementation by jarrodwatts.
+ * Based on gemini-hud implementation by jarrodwatts.
  *
  * Authentication:
- * - macOS: Reads from Keychain "Claude Code-credentials"
- * - Linux/fallback: Reads from ~/.claude/.credentials.json
+ * - macOS: Reads from Keychain "Gemini Code-credentials"
+ * - Linux/fallback: Reads from ~/.gemini/.credentials.json
  *
  * API: api.anthropic.com/api/oauth/usage
  * Response: { five_hour: { utilization }, seven_day: { utilization } }

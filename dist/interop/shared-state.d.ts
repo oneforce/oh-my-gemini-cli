@@ -1,22 +1,22 @@
 /**
  * Shared State Management for Cross-Tool Interoperability
  *
- * Manages shared state files at .omc/state/interop/ for communication
- * between OMC (Claude Code) and OMX (Codex CLI).
+ * Manages shared state files at .omg/state/interop/ for communication
+ * between OMC (Gemini Code) and OMX (Codex CLI).
  *
  * Uses atomic writes for safety and supports task/message passing.
  */
 export interface InteropConfig {
     sessionId: string;
     createdAt: string;
-    omcCwd: string;
+    omgCwd: string;
     omxCwd?: string;
     status: 'active' | 'completed' | 'failed';
 }
 export interface SharedTask {
     id: string;
-    source: 'omc' | 'omx';
-    target: 'omc' | 'omx';
+    source: 'omg' | 'omx';
+    target: 'omg' | 'omx';
     type: 'analyze' | 'implement' | 'review' | 'test' | 'custom';
     description: string;
     context?: Record<string, unknown>;
@@ -29,8 +29,8 @@ export interface SharedTask {
 }
 export interface SharedMessage {
     id: string;
-    source: 'omc' | 'omx';
-    target: 'omc' | 'omx';
+    source: 'omg' | 'omx';
+    target: 'omg' | 'omx';
     content: string;
     metadata?: Record<string, unknown>;
     timestamp: string;
@@ -44,7 +44,7 @@ export declare function getInteropDir(cwd: string): string;
  * Initialize an interop session
  * Creates the interop directory and session config
  */
-export declare function initInteropSession(sessionId: string, omcCwd: string, omxCwd?: string): InteropConfig;
+export declare function initInteropSession(sessionId: string, omgCwd: string, omxCwd?: string): InteropConfig;
 /**
  * Read interop configuration
  */
@@ -57,8 +57,8 @@ export declare function addSharedTask(cwd: string, task: Omit<SharedTask, 'id' |
  * Read all shared tasks
  */
 export declare function readSharedTasks(cwd: string, filter?: {
-    source?: 'omc' | 'omx';
-    target?: 'omc' | 'omx';
+    source?: 'omg' | 'omx';
+    target?: 'omg' | 'omx';
     status?: SharedTask['status'];
 }): SharedTask[];
 /**
@@ -73,8 +73,8 @@ export declare function addSharedMessage(cwd: string, message: Omit<SharedMessag
  * Read shared messages
  */
 export declare function readSharedMessages(cwd: string, filter?: {
-    source?: 'omc' | 'omx';
-    target?: 'omc' | 'omx';
+    source?: 'omg' | 'omx';
+    target?: 'omg' | 'omx';
     unreadOnly?: boolean;
 }): SharedMessage[];
 /**

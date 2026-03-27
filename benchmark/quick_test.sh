@@ -36,7 +36,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # Quick test configuration
 TEST_LIMIT=5
-MODEL="claude-sonnet-4-6-20260217"
+MODEL="gemini-sonnet-4-6-20260217"
 TIMEOUT="180"  # 3 minutes per instance for quick test
 
 # Parse arguments
@@ -61,7 +61,7 @@ while [[ $# -gt 0 ]]; do
             echo ""
             echo "Options:"
             echo "  --limit N       Number of instances to test (default: 5)"
-            echo "  --model MODEL   Claude model to use (default: claude-sonnet-4-6-20260217)"
+            echo "  --model MODEL   Gemini model to use (default: gemini-sonnet-4-6-20260217)"
             echo "  --timeout SECS  Timeout per instance (default: 180)"
             echo "  -h, --help      Show this help message"
             exit 0
@@ -91,7 +91,7 @@ echo ""
 # Step 2: Run quick OMC test
 log_step "Step 2/2: Quick OMC test ($TEST_LIMIT instances)..."
 echo ""
-"$SCRIPT_DIR/run_omc.sh" --limit $TEST_LIMIT --model "$MODEL" --timeout $TIMEOUT
+"$SCRIPT_DIR/run_omg.sh" --limit $TEST_LIMIT --model "$MODEL" --timeout $TIMEOUT
 OMC_STATUS=$?
 echo ""
 
@@ -110,7 +110,7 @@ if [ $VANILLA_STATUS -eq 0 ] && [ $OMC_STATUS -eq 0 ]; then
     echo ""
     log_info "Results:"
     log_info "  Vanilla: $SCRIPT_DIR/predictions/vanilla/"
-    log_info "  OMC:     $SCRIPT_DIR/predictions/omc/"
+    log_info "  OMC:     $SCRIPT_DIR/predictions/omg/"
     echo ""
     log_info "Time: ${MINUTES}m ${SECONDS}s"
     echo ""

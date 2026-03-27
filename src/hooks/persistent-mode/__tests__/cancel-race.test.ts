@@ -6,7 +6,7 @@ import { execFileSync } from 'child_process';
 import { checkPersistentModes } from '../index.js';
 
 function makeRalphSession(tempDir: string, sessionId: string): string {
-  const stateDir = join(tempDir, '.omc', 'state', 'sessions', sessionId);
+  const stateDir = join(tempDir, '.omg', 'state', 'sessions', sessionId);
   mkdirSync(stateDir, { recursive: true });
 
   writeFileSync(
@@ -32,8 +32,8 @@ function makeRalphSession(tempDir: string, sessionId: string): string {
 
 describe('persistent-mode cancel race guard (issue #921)', () => {
   it.each([
-    '/oh-my-claudecode:cancel',
-    '/oh-my-claudecode:cancel --force'
+    '/oh-my-gemini-cli:cancel',
+    '/oh-my-gemini-cli:cancel --force'
   ])('should not re-enforce while explicit cancel prompt is "%s"', async (cancelPrompt: string) => {
     const sessionId = `session-921-${cancelPrompt.includes('force') ? 'force' : 'normal'}`;
     const tempDir = mkdtempSync(join(tmpdir(), 'persistent-cancel-race-'));

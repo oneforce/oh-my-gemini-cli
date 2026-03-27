@@ -6,7 +6,7 @@
  * processPreToolUse integration in bridge.ts
  */
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { processOrchestratorPreTool, isAllowedPath, isSourceFile, isWriteEditTool, clearEnforcementCache, } from '../hooks/omc-orchestrator/index.js';
+import { processOrchestratorPreTool, isAllowedPath, isSourceFile, isWriteEditTool, clearEnforcementCache, } from '../hooks/omg-orchestrator/index.js';
 // Mock fs module
 vi.mock('fs', async () => {
     const actual = await vi.importActual('fs');
@@ -114,18 +114,18 @@ describe('delegation-enforcement-levels', () => {
             // Local config exists with 'off', global has 'strict'
             mockExistsSync.mockImplementation((p) => {
                 const s = String(p);
-                if (/[\\/]tmp[\\/]test-project[\\/]\.omc[\\/]config\.json$/.test(s))
+                if (/[\\/]tmp[\\/]test-project[\\/]\.omg[\\/]config\.json$/.test(s))
                     return true;
-                if (/[\\/]mock[\\/]home[\\/]\.claude[\\/]\.omc-config\.json$/.test(s))
+                if (/[\\/]mock[\\/]home[\\/]\.gemini[\\/]\.omg-config\.json$/.test(s))
                     return true;
                 return false;
             });
             mockReadFileSync.mockImplementation((p) => {
                 const s = String(p);
-                if (/[\\/]tmp[\\/]test-project[\\/]\.omc[\\/]config\.json$/.test(s)) {
+                if (/[\\/]tmp[\\/]test-project[\\/]\.omg[\\/]config\.json$/.test(s)) {
                     return JSON.stringify({ delegationEnforcementLevel: 'off' });
                 }
-                if (/[\\/]mock[\\/]home[\\/]\.claude[\\/]\.omc-config\.json$/.test(s)) {
+                if (/[\\/]mock[\\/]home[\\/]\.gemini[\\/]\.omg-config\.json$/.test(s)) {
                     return JSON.stringify({ delegationEnforcementLevel: 'strict' });
                 }
                 return '';
@@ -138,13 +138,13 @@ describe('delegation-enforcement-levels', () => {
         it('falls back to global config when no local config', () => {
             mockExistsSync.mockImplementation((p) => {
                 const s = String(p);
-                if (/[\\/]mock[\\/]home[\\/]\.claude[\\/]\.omc-config\.json$/.test(s))
+                if (/[\\/]mock[\\/]home[\\/]\.gemini[\\/]\.omg-config\.json$/.test(s))
                     return true;
                 return false;
             });
             mockReadFileSync.mockImplementation((p) => {
                 const s = String(p);
-                if (/[\\/]mock[\\/]home[\\/]\.claude[\\/]\.omc-config\.json$/.test(s)) {
+                if (/[\\/]mock[\\/]home[\\/]\.gemini[\\/]\.omg-config\.json$/.test(s)) {
                     return JSON.stringify({ delegationEnforcementLevel: 'strict' });
                 }
                 return '';
@@ -157,7 +157,7 @@ describe('delegation-enforcement-levels', () => {
         it('falls back to warn on invalid enforcement level in config', () => {
             mockExistsSync.mockImplementation((p) => {
                 const s = String(p);
-                if (/[\\/]tmp[\\/]test-project[\\/]\.omc[\\/]config\.json$/.test(s))
+                if (/[\\/]tmp[\\/]test-project[\\/]\.omg[\\/]config\.json$/.test(s))
                     return true;
                 return false;
             });
@@ -172,7 +172,7 @@ describe('delegation-enforcement-levels', () => {
         it('falls back to warn on malformed JSON config', () => {
             mockExistsSync.mockImplementation((p) => {
                 const s = String(p);
-                if (/[\\/]tmp[\\/]test-project[\\/]\.omc[\\/]config\.json$/.test(s))
+                if (/[\\/]tmp[\\/]test-project[\\/]\.omg[\\/]config\.json$/.test(s))
                     return true;
                 return false;
             });
@@ -187,7 +187,7 @@ describe('delegation-enforcement-levels', () => {
         it('supports enforcementLevel key as alternative', () => {
             mockExistsSync.mockImplementation((p) => {
                 const s = String(p);
-                if (/[\\/]tmp[\\/]test-project[\\/]\.omc[\\/]config\.json$/.test(s))
+                if (/[\\/]tmp[\\/]test-project[\\/]\.omg[\\/]config\.json$/.test(s))
                     return true;
                 return false;
             });
@@ -204,7 +204,7 @@ describe('delegation-enforcement-levels', () => {
         function setEnforcement(level) {
             mockExistsSync.mockImplementation((p) => {
                 const s = String(p);
-                if (/[\\/]\.omc[\\/]config\.json$/.test(s))
+                if (/[\\/]\.omg[\\/]config\.json$/.test(s))
                     return true;
                 return false;
             });
@@ -257,9 +257,9 @@ describe('delegation-enforcement-levels', () => {
         });
         describe('allowed paths always continue', () => {
             const allowedPaths = [
-                '.omc/plans/test.md',
-                '.claude/settings.json',
-                'docs/CLAUDE.md',
+                '.omg/plans/test.md',
+                '.gemini/settings.json',
+                'docs/GEMINI.md',
                 'AGENTS.md',
             ];
             it.each(allowedPaths)('allows %s regardless of enforcement level', (filePath) => {
@@ -355,7 +355,7 @@ describe('delegation-enforcement-levels', () => {
             const entry = {
                 timestamp: new Date().toISOString(),
                 tool: 'Write',
-                filePath: '.omc/plans/test.md',
+                filePath: '.omg/plans/test.md',
                 decision: 'allowed',
                 reason: 'allowed_path',
             };
@@ -438,7 +438,7 @@ describe('delegation-enforcement-levels', () => {
             // before any HUD tracking happens
             mockExistsSync.mockImplementation((p) => {
                 const s = String(p);
-                if (/[\\/]\.omc[\\/]config\.json$/.test(s))
+                if (/[\\/]\.omg[\\/]config\.json$/.test(s))
                     return true;
                 return false;
             });
@@ -456,7 +456,7 @@ describe('delegation-enforcement-levels', () => {
         it('blocks propagated from enforcement', async () => {
             mockExistsSync.mockImplementation((p) => {
                 const s = String(p);
-                if (/[\\/]\.omc[\\/]config\.json$/.test(s))
+                if (/[\\/]\.omg[\\/]config\.json$/.test(s))
                     return true;
                 return false;
             });
@@ -501,15 +501,15 @@ describe('delegation-enforcement-levels', () => {
     });
     // ─── Helper function unit tests ───
     describe('isAllowedPath', () => {
-        it('returns true for .omc/ paths', () => {
-            expect(isAllowedPath('.omc/plans/test.md')).toBe(true);
+        it('returns true for .omg/ paths', () => {
+            expect(isAllowedPath('.omg/plans/test.md')).toBe(true);
         });
-        it('returns true for .claude/ paths', () => {
-            expect(isAllowedPath('.claude/settings.json')).toBe(true);
+        it('returns true for .gemini/ paths', () => {
+            expect(isAllowedPath('.gemini/settings.json')).toBe(true);
         });
-        it('returns true for CLAUDE.md', () => {
-            expect(isAllowedPath('CLAUDE.md')).toBe(true);
-            expect(isAllowedPath('docs/CLAUDE.md')).toBe(true);
+        it('returns true for GEMINI.md', () => {
+            expect(isAllowedPath('GEMINI.md')).toBe(true);
+            expect(isAllowedPath('docs/GEMINI.md')).toBe(true);
         });
         it('returns true for AGENTS.md', () => {
             expect(isAllowedPath('AGENTS.md')).toBe(true);
@@ -521,38 +521,38 @@ describe('delegation-enforcement-levels', () => {
             expect(isAllowedPath('')).toBe(true);
         });
         // Traversal bypass prevention
-        it('rejects .omc/../src/file.ts traversal', () => {
-            expect(isAllowedPath('.omc/../src/file.ts')).toBe(false);
+        it('rejects .omg/../src/file.ts traversal', () => {
+            expect(isAllowedPath('.omg/../src/file.ts')).toBe(false);
         });
-        it('rejects .claude/../src/file.ts traversal', () => {
-            expect(isAllowedPath('.claude/../src/file.ts')).toBe(false);
+        it('rejects .gemini/../src/file.ts traversal', () => {
+            expect(isAllowedPath('.gemini/../src/file.ts')).toBe(false);
         });
         it('rejects bare .. traversal', () => {
             expect(isAllowedPath('../secret.ts')).toBe(false);
         });
         // Windows backslash paths
-        it('handles Windows-style .omc paths', () => {
-            expect(isAllowedPath('.omc\\plans\\test.md')).toBe(true);
+        it('handles Windows-style .omg paths', () => {
+            expect(isAllowedPath('.omg\\plans\\test.md')).toBe(true);
         });
-        it('rejects Windows traversal .omc\\..\\src\\file.ts', () => {
-            expect(isAllowedPath('.omc\\..\\src\\file.ts')).toBe(false);
+        it('rejects Windows traversal .omg\\..\\src\\file.ts', () => {
+            expect(isAllowedPath('.omg\\..\\src\\file.ts')).toBe(false);
         });
-        // Nested .omc in non-root position (should be rejected for relative paths)
-        it('rejects foo/.omc/bar.ts as relative path', () => {
-            expect(isAllowedPath('foo/.omc/bar.ts')).toBe(false);
+        // Nested .omg in non-root position (should be rejected for relative paths)
+        it('rejects foo/.omg/bar.ts as relative path', () => {
+            expect(isAllowedPath('foo/.omg/bar.ts')).toBe(false);
         });
         // Windows mixed-separator edge cases
-        it('rejects mixed separator traversal .omc\\..\\..\\secret', () => {
-            expect(isAllowedPath('.omc\\..\\..\\secret')).toBe(false);
+        it('rejects mixed separator traversal .omg\\..\\..\\secret', () => {
+            expect(isAllowedPath('.omg\\..\\..\\secret')).toBe(false);
         });
-        it('rejects double-dot with mixed separators .omc/..\\src', () => {
-            expect(isAllowedPath('.omc/..\\src')).toBe(false);
+        it('rejects double-dot with mixed separators .omg/..\\src', () => {
+            expect(isAllowedPath('.omg/..\\src')).toBe(false);
         });
         it('rejects UNC paths as not relative to project', () => {
-            expect(isAllowedPath('\\\\server\\share\\.omc\\file')).toBe(false);
+            expect(isAllowedPath('\\\\server\\share\\.omg\\file')).toBe(false);
         });
         it('rejects absolute Windows drive paths without worktree root', () => {
-            expect(isAllowedPath('C:\\repo\\.omc\\file')).toBe(false);
+            expect(isAllowedPath('C:\\repo\\.omg\\file')).toBe(false);
         });
     });
     describe('isSourceFile', () => {

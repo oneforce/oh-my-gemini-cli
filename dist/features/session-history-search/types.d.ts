@@ -14,7 +14,7 @@ export interface SessionHistoryMatch {
     timestamp?: string;
     projectPath?: string;
     sourcePath: string;
-    sourceType: 'project-transcript' | 'legacy-transcript' | 'omc-session-summary' | 'omc-session-replay';
+    sourceType: 'project-transcript' | 'legacy-transcript' | 'omg-session-summary' | 'omg-session-replay';
     line: number;
     role?: string;
     entryType?: string;

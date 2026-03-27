@@ -2,8 +2,8 @@
  * Configuration Loader
  *
  * Handles loading and merging configuration from multiple sources:
- * - User config: ~/.config/claude-omc/config.jsonc
- * - Project config: .claude/omc.jsonc
+ * - User config: ~/.config/gemini-omg/config.jsonc
+ * - Project config: .gemini/omg.jsonc
  * - Environment variables
  */
 
@@ -15,7 +15,7 @@ import { parseJsonc } from "../utils/jsonc.js";
 import {
   getDefaultTierModels,
   BUILTIN_EXTERNAL_MODEL_DEFAULTS,
-  isNonClaudeProvider,
+  isNonGeminiProvider,
 } from "./models.js";
 
 /**
@@ -34,7 +34,7 @@ export function buildDefaultConfig(): PluginConfig {
 
   return {
     agents: {
-      omc: { model: defaultTierModels.HIGH },
+      omg: { model: defaultTierModels.HIGH },
       explore: { model: defaultTierModels.LOW },
       analyst: { model: defaultTierModels.HIGH },
       planner: { model: defaultTierModels.HIGH },
@@ -143,11 +143,11 @@ export function buildDefaultConfig(): PluginConfig {
     // Delegation routing configuration (opt-in feature for external model routing)
     delegationRouting: {
       enabled: false,
-      defaultProvider: "claude",
+      defaultProvider: "gemini",
       roles: {},
     },
     planOutput: {
-      directory: ".omc/plans",
+      directory: ".omg/plans",
       filenameTemplate: "{{name}}.md",
     },
     startupCodebaseMap: {
@@ -173,8 +173,8 @@ export function getConfigPaths(): { user: string; project: string } {
   const userConfigDir = getConfigDir();
 
   return {
-    user: join(userConfigDir, "claude-omc", "config.jsonc"),
-    project: join(process.cwd(), ".claude", "omc.jsonc"),
+    user: join(userConfigDir, "gemini-omg", "config.jsonc"),
+    project: join(process.cwd(), ".gemini", "omg.jsonc"),
   };
 }
 
@@ -356,7 +356,7 @@ export function loadEnvConfig(): Partial<PluginConfig> {
     if (
       policy === "provider_chain" ||
       policy === "cross_provider" ||
-      policy === "claude_only"
+      policy === "gemini_only"
     ) {
       externalModelsFallback.onModelFailure = policy;
     }
@@ -383,10 +383,10 @@ export function loadEnvConfig(): Partial<PluginConfig> {
 
   if (process.env.OMC_DELEGATION_ROUTING_DEFAULT_PROVIDER) {
     const provider = process.env.OMC_DELEGATION_ROUTING_DEFAULT_PROVIDER;
-    if (["claude", "codex", "gemini"].includes(provider)) {
+    if (["gemini", "codex", "gemini"].includes(provider)) {
       config.delegationRouting = {
         ...config.delegationRouting,
-        defaultProvider: provider as "claude" | "codex" | "gemini",
+        defaultProvider: provider as "gemini" | "codex" | "gemini",
       };
     }
   }
@@ -421,14 +421,14 @@ export function loadConfig(): PluginConfig {
 
   // Auto-enable forceInherit for non-standard providers (issues #1201, #1025)
   // Only auto-enable if user hasn't explicitly set it via config or env var.
-  // Triggers for: CC Switch / LiteLLM (non-Claude model IDs), custom
+  // Triggers for: CC Switch / LiteLLM (non-Gemini model IDs), custom
   // ANTHROPIC_BASE_URL, AWS Bedrock (CLAUDE_CODE_USE_BEDROCK=1), and
-  // Google Vertex AI (CLAUDE_CODE_USE_VERTEX=1). Passing Claude-specific
+  // Google Vertex AI (CLAUDE_CODE_USE_VERTEX=1). Passing Gemini-specific
   // tier names (sonnet/opus/haiku) causes 400 errors on these platforms.
   if (
     config.routing?.forceInherit !== true &&
     process.env.OMC_ROUTING_FORCE_INHERIT === undefined &&
-    isNonClaudeProvider()
+    isNonGeminiProvider()
   ) {
     config.routing = {
       ...config.routing,
@@ -448,7 +448,7 @@ const OMC_STARTUP_COMPACTABLE_SECTIONS = [
 function looksLikeOmcGuidance(content: string): boolean {
   return (
     content.includes("<guidance_schema_contract>") &&
-    /oh-my-(claudecode|codex)/i.test(content) &&
+    /oh-my-(gemini-cli|codex)/i.test(content) &&
     OMC_STARTUP_COMPACTABLE_SECTIONS.some(
       (section) =>
         content.includes(`<${section}>`) && content.includes(`</${section}>`),
@@ -485,7 +485,7 @@ export function compactOmcStartupGuidance(content: string): string {
 }
 
 /**
- * Find and load AGENTS.md or CLAUDE.md files for context injection
+ * Find and load AGENTS.md or GEMINI.md files for context injection
  */
 export function findContextFiles(startDir?: string): string[] {
   const files: string[] = [];
@@ -494,9 +494,9 @@ export function findContextFiles(startDir?: string): string[] {
   // Files to look for
   const contextFileNames = [
     "AGENTS.md",
-    "CLAUDE.md",
-    ".claude/CLAUDE.md",
-    ".claude/AGENTS.md",
+    "GEMINI.md",
+    ".gemini/GEMINI.md",
+    ".gemini/AGENTS.md",
   ];
 
   // Search in current directory and parent directories
@@ -522,7 +522,7 @@ export function findContextFiles(startDir?: string): string[] {
 }
 
 /**
- * Load context from AGENTS.md/CLAUDE.md files
+ * Load context from AGENTS.md/GEMINI.md files
  */
 export function loadContextFromFiles(files: string[]): string {
   const contexts: string[] = [];
@@ -545,14 +545,14 @@ export function loadContextFromFiles(files: string[]): string {
 export function generateConfigSchema(): object {
   return {
     $schema: "http://json-schema.org/draft-07/schema#",
-    title: "Oh-My-ClaudeCode Configuration",
+    title: "Oh-My-GeminiCLI Configuration",
     type: "object",
     properties: {
       agents: {
         type: "object",
         description: "Agent model and feature configuration",
         properties: {
-          omc: {
+          omg: {
             type: "object",
             properties: {
               model: {
@@ -711,7 +711,7 @@ export function generateConfigSchema(): object {
             type: "boolean",
             default: false,
             description:
-              "Force all agents to inherit the parent model, bypassing OMC model routing. When true, no model parameter is passed to Task/Agent calls, so agents use the user's Claude Code model setting. Auto-enabled for non-Claude providers (CC Switch, custom ANTHROPIC_BASE_URL), AWS Bedrock, and Google Vertex AI.",
+              "Force all agents to inherit the parent model, bypassing OMC model routing. When true, no model parameter is passed to Task/Agent calls, so agents use the user's Gemini Code model setting. Auto-enabled for non-Gemini providers (CC Switch, custom ANTHROPIC_BASE_URL), AWS Bedrock, and Google Vertex AI.",
           },
         },
       },
@@ -770,7 +770,7 @@ export function generateConfigSchema(): object {
             properties: {
               onModelFailure: {
                 type: "string",
-                enum: ["provider_chain", "cross_provider", "claude_only"],
+                enum: ["provider_chain", "cross_provider", "gemini_only"],
                 default: "provider_chain",
                 description: "Fallback strategy when a model fails",
               },
@@ -802,8 +802,8 @@ export function generateConfigSchema(): object {
           },
           defaultProvider: {
             type: "string",
-            enum: ["claude", "codex", "gemini"],
-            default: "claude",
+            enum: ["gemini", "codex", "gemini"],
+            default: "gemini",
             description:
               "Default provider for delegation routing when no specific role mapping exists",
           },
@@ -815,7 +815,7 @@ export function generateConfigSchema(): object {
               properties: {
                 provider: {
                   type: "string",
-                  enum: ["claude", "codex", "gemini"],
+                  enum: ["gemini", "codex", "gemini"],
                 },
                 tool: { type: "string", enum: ["Task"] },
                 model: { type: "string" },

@@ -87,7 +87,7 @@ function getNextExecutionCount(sessionId) {
 // OUTPUT FORMATTING
 // =============================================================================
 /**
- * Format execution result into a readable string for Claude.
+ * Format execution result into a readable string for Gemini.
  */
 function formatExecuteResult(result, sessionId, executionLabel, executionCount) {
     const lines = [];
@@ -395,7 +395,7 @@ async function handleInterrupt(sessionId, socketPath, gracePeriodMs = 5000) {
  * Main handler for the Python REPL tool.
  *
  * @param input - Validated input from the tool call
- * @returns Formatted string output for Claude
+ * @returns Formatted string output for Gemini
  *
  * @example
  * ```typescript

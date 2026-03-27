@@ -7,7 +7,7 @@
 
 ## Purpose
 
-This directory defines all agents available in oh-my-claudecode:
+This directory defines all agents available in oh-my-gemini-cli:
 
 - **18 base agents** with default model assignments
 - **Tiered variants** (LOW/MEDIUM/HIGH) for smart routing
@@ -18,7 +18,7 @@ This directory defines all agents available in oh-my-claudecode:
 
 | File | Description |
 |------|-------------|
-| `definitions.ts` | **Main registry** - `getAgentDefinitions()`, `omcSystemPrompt` |
+| `definitions.ts` | **Main registry** - `getAgentDefinitions()`, `omgSystemPrompt` |
 | `architect.ts` | Architecture & debugging expert (Opus) |
 | `executor.ts` | Focused task implementation (Sonnet) |
 | `explore.ts` | Fast codebase search (Haiku) |
@@ -169,7 +169,7 @@ export const newAgentHigh: AgentConfig = {
 3. Add to `definitions.ts` (import + registry)
 4. Export from `index.ts`
 5. Update `docs/REFERENCE.md` (Agents section, count)
-6. Update `docs/CLAUDE.md` (Agent Selection Guide)
+6. Update `docs/GEMINI.md` (Agent Selection Guide)
 7. Update root `/AGENTS.md` (Agent Summary if applicable)
 
 #### When Modifying an Agent
@@ -178,7 +178,7 @@ export const newAgentHigh: AgentConfig = {
 2. Update prompt template (`agents/*.md`) if changing behavior
 3. Update tiered variants (`-low`, `-medium`, `-high`) if applicable
 4. Update `docs/REFERENCE.md` if changing agent description/capabilities
-5. Update `docs/CLAUDE.md` (Agent Tool Matrix) if changing tool assignments
+5. Update `docs/GEMINI.md` (Agent Tool Matrix) if changing tool assignments
 
 #### When Removing an Agent
 

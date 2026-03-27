@@ -82,14 +82,14 @@ export function getPrdPath(directory: string): string {
 }
 
 /**
- * Get the path to the prd.json in .omc subdirectory
+ * Get the path to the prd.json in .omg subdirectory
  */
 export function getOmcPrdPath(directory: string): string {
   return join(getOmcRoot(directory), PRD_FILENAME);
 }
 
 /**
- * Find prd.json in a directory (checks both root and .omc)
+ * Find prd.json in a directory (checks both root and .omg)
  */
 export function findPrdPath(directory: string): string | null {
   const rootPath = getPrdPath(directory);
@@ -97,9 +97,9 @@ export function findPrdPath(directory: string): string | null {
     return rootPath;
   }
 
-  const omcPath = getOmcPrdPath(directory);
-  if (existsSync(omcPath)) {
-    return omcPath;
+  const omgPath = getOmcPrdPath(directory);
+  if (existsSync(omgPath)) {
+    return omgPath;
   }
 
   return null;
@@ -133,14 +133,14 @@ export function readPrd(directory: string): PRD | null {
  * Write PRD to disk
  */
 export function writePrd(directory: string, prd: PRD): boolean {
-  // Prefer writing to existing location, or .omc by default
+  // Prefer writing to existing location, or .omg by default
   let prdPath = findPrdPath(directory);
 
   if (!prdPath) {
-    const omcDir = getOmcRoot(directory);
-    if (!existsSync(omcDir)) {
+    const omgDir = getOmcRoot(directory);
+    if (!existsSync(omgDir)) {
       try {
-        mkdirSync(omcDir, { recursive: true });
+        mkdirSync(omgDir, { recursive: true });
       } catch {
         return false;
       }
@@ -428,7 +428,7 @@ ${story.acceptanceCriteria.map((c, i) => `${i + 1}. ${c}`).join('\n')}
 2. Verify ALL acceptance criteria are met
 3. Run quality checks (tests, typecheck, lint)
 4. When complete, mark story as passes: true in prd.json
-5. If ALL stories are done, run \`/oh-my-claudecode:cancel\` to cleanly exit ralph mode and clean up all state files
+5. If ALL stories are done, run \`/oh-my-gemini-cli:cancel\` to cleanly exit ralph mode and clean up all state files
 
 </current-story>
 

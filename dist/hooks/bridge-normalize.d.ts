@@ -1,8 +1,8 @@
 /**
  * Hook Input Normalization
  *
- * Handles snake_case -> camelCase field mapping for Claude Code hook inputs.
- * Claude Code sends snake_case fields: tool_name, tool_input, tool_response,
+ * Handles snake_case -> camelCase field mapping for Gemini Code hook inputs.
+ * Gemini Code sends snake_case fields: tool_name, tool_input, tool_response,
  * session_id, cwd, hook_event_name. This module normalizes them to camelCase
  * with snake_case-first fallback.
  *
@@ -128,7 +128,7 @@ declare const KNOWN_FIELDS: Set<string>;
 /** Check if input is already camelCase-normalized and can skip Zod parsing */
 declare function isAlreadyCamelCase(obj: Record<string, unknown>): boolean;
 /**
- * Normalize hook input from Claude Code's snake_case format to the
+ * Normalize hook input from Gemini Code's snake_case format to the
  * camelCase HookInput interface used internally.
  *
  * Validates the input structure with Zod, then maps snake_case to camelCase.

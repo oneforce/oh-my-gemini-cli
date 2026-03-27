@@ -32,7 +32,7 @@ import {
 } from '../../features/rate-limit-wait/index.js';
 
 describe('Rate Limit Wait Integration Tests', () => {
-  const testDir = join(tmpdir(), 'omc-integration-test-' + Date.now());
+  const testDir = join(tmpdir(), 'omg-integration-test-' + Date.now());
 
   beforeEach(() => {
     vi.clearAllMocks();
@@ -125,10 +125,10 @@ describe('Rate Limit Wait Integration Tests', () => {
   });
 
   describe('Scenario: tmux pane analysis accuracy', () => {
-    it('should correctly identify Claude Code rate limit message', () => {
+    it('should correctly identify Gemini Code rate limit message', () => {
       const realWorldContent = `
 ╭─────────────────────────────────────────────────────────────────╮
-│  Claude Code                                                     │
+│  Gemini Code                                                     │
 ╰─────────────────────────────────────────────────────────────────╯
 
 You've reached your usage limit for the 5-hour period.
@@ -144,7 +144,7 @@ What would you like to do?
 
       const result = analyzePaneContent(realWorldContent);
 
-      expect(result.hasClaudeCode).toBe(true);
+      expect(result.hasGeminiCLI).toBe(true);
       expect(result.hasRateLimitMessage).toBe(true);
       expect(result.isBlocked).toBe(true);
       expect(result.rateLimitType).toBe('five_hour');
@@ -153,7 +153,7 @@ What would you like to do?
 
     it('should correctly identify weekly rate limit message', () => {
       const weeklyLimitContent = `
-Claude Code v1.0.0
+Gemini Code v1.0.0
 
 ⚠️  Weekly usage limit reached
 
@@ -168,15 +168,15 @@ Enter choice: `;
 
       const result = analyzePaneContent(weeklyLimitContent);
 
-      expect(result.hasClaudeCode).toBe(true);
+      expect(result.hasGeminiCLI).toBe(true);
       expect(result.hasRateLimitMessage).toBe(true);
       expect(result.isBlocked).toBe(true);
       expect(result.rateLimitType).toBe('weekly');
     });
 
-    it('should NOT flag normal Claude Code output as blocked', () => {
+    it('should NOT flag normal Gemini Code output as blocked', () => {
       const normalContent = `
-Claude Code
+Gemini Code
 
 > What would you like to build today?
 
@@ -191,7 +191,7 @@ Just describe what you need!
 
       const result = analyzePaneContent(normalContent);
 
-      expect(result.hasClaudeCode).toBe(true);
+      expect(result.hasGeminiCLI).toBe(true);
       expect(result.hasRateLimitMessage).toBe(false);
       expect(result.isBlocked).toBe(false);
     });
@@ -207,9 +207,9 @@ $ `;
 
       const result = analyzePaneContent(unrelatedContent);
 
-      expect(result.hasClaudeCode).toBe(false);
+      expect(result.hasGeminiCLI).toBe(false);
       expect(result.hasRateLimitMessage).toBe(true);
-      expect(result.isBlocked).toBe(false); // No Claude context
+      expect(result.isBlocked).toBe(false); // No Gemini context
     });
 
     it('should handle edge case: old rate limit message scrolled up', () => {
@@ -259,11 +259,11 @@ Assistant: I can help with more tasks.
             id: '%0',
             session: 'dev',
             windowIndex: 0,
-            windowName: 'claude',
+            windowName: 'gemini',
             paneIndex: 0,
             isActive: true,
             analysis: {
-              hasClaudeCode: true,
+              hasGeminiCLI: true,
               hasRateLimitMessage: true,
               isBlocked: true,
               rateLimitType: 'five_hour',
@@ -375,7 +375,7 @@ Assistant: I can help with more tasks.
   describe('Scenario: Confidence scoring', () => {
     it('should give higher confidence for multiple indicators', () => {
       const highConfidenceContent = `
-Claude Code
+Gemini Code
 Rate limit reached
 5-hour usage limit
 [1] Continue
@@ -383,7 +383,7 @@ Rate limit reached
 `;
 
       const lowConfidenceContent = `
-Claude
+Gemini
 rate limit
 `;
 
@@ -395,7 +395,7 @@ rate limit
 
     it('should require minimum confidence to mark as blocked', () => {
       const ambiguousContent = `
-some claude reference
+some gemini reference
 limit mentioned
 `;
 

@@ -2,12 +2,12 @@
 """
 SWE-bench Results Comparison Tool
 
-Compare evaluation results between vanilla Claude Code and OMC-enhanced runs.
+Compare evaluation results between vanilla Gemini Code and OMC-enhanced runs.
 Generates detailed comparison reports in multiple formats.
 
 Usage:
-    python compare_results.py --vanilla results/vanilla/ --omc results/omc/
-    python compare_results.py --vanilla results/vanilla/ --omc results/omc/ --output comparison/
+    python compare_results.py --vanilla results/vanilla/ --omg results/omg/
+    python compare_results.py --vanilla results/vanilla/ --omg results/omg/ --output comparison/
 """
 
 import argparse
@@ -126,7 +126,7 @@ def load_results(results_dir: Path) -> dict[str, Any]:
 
 def compare_results(
     vanilla_results: dict[str, Any],
-    omc_results: dict[str, Any]
+    omg_results: dict[str, Any]
 ) -> dict[str, Any]:
     """
     Compare vanilla and OMC results.
@@ -142,14 +142,14 @@ def compare_results(
         "improvements": {},
         "regressions": {},
         "per_instance": {},
-        "categories": defaultdict(lambda: {"vanilla": 0, "omc": 0})
+        "categories": defaultdict(lambda: {"vanilla": 0, "omg": 0})
     }
 
     # Overall comparison
     vanilla_pass = vanilla_results.get("passed", 0)
-    omc_pass = omc_results.get("passed", 0)
+    omg_pass = omg_results.get("passed", 0)
     vanilla_total = vanilla_results.get("total", 0)
-    omc_total = omc_results.get("total", 0)
+    omg_total = omg_results.get("total", 0)
 
     comparison["overall"] = {
         "vanilla": {
@@ -164,81 +164,81 @@ def compare_results(
             "total_time_seconds": vanilla_results.get("metadata", {}).get("total_time_seconds", 0),
             "total_cost_usd": vanilla_results.get("metadata", {}).get("total_cost_usd", 0),
         },
-        "omc": {
-            "total": omc_total,
-            "passed": omc_pass,
-            "failed": omc_results.get("failed", 0),
-            "pass_rate": omc_results.get("pass_rate", 0),
-            "avg_tokens": omc_results.get("metadata", {}).get("avg_tokens", 0),
-            "avg_time_seconds": omc_results.get("metadata", {}).get("avg_time_seconds", 0),
-            "avg_cost_usd": omc_results.get("metadata", {}).get("avg_cost_usd", 0),
-            "total_tokens": omc_results.get("metadata", {}).get("total_tokens", 0),
-            "total_time_seconds": omc_results.get("metadata", {}).get("total_time_seconds", 0),
-            "total_cost_usd": omc_results.get("metadata", {}).get("total_cost_usd", 0),
+        "omg": {
+            "total": omg_total,
+            "passed": omg_pass,
+            "failed": omg_results.get("failed", 0),
+            "pass_rate": omg_results.get("pass_rate", 0),
+            "avg_tokens": omg_results.get("metadata", {}).get("avg_tokens", 0),
+            "avg_time_seconds": omg_results.get("metadata", {}).get("avg_time_seconds", 0),
+            "avg_cost_usd": omg_results.get("metadata", {}).get("avg_cost_usd", 0),
+            "total_tokens": omg_results.get("metadata", {}).get("total_tokens", 0),
+            "total_time_seconds": omg_results.get("metadata", {}).get("total_time_seconds", 0),
+            "total_cost_usd": omg_results.get("metadata", {}).get("total_cost_usd", 0),
         },
         "delta": {
-            "pass_rate": omc_results.get("pass_rate", 0) - vanilla_results.get("pass_rate", 0),
-            "passed": omc_pass - vanilla_pass,
+            "pass_rate": omg_results.get("pass_rate", 0) - vanilla_results.get("pass_rate", 0),
+            "passed": omg_pass - vanilla_pass,
         }
     }
 
     # Calculate relative improvements
     if vanilla_pass > 0:
         comparison["overall"]["delta"]["pass_improvement_pct"] = (
-            (omc_pass - vanilla_pass) / vanilla_pass * 100
+            (omg_pass - vanilla_pass) / vanilla_pass * 100
         )
     else:
-        comparison["overall"]["delta"]["pass_improvement_pct"] = 100.0 if omc_pass > 0 else 0.0
+        comparison["overall"]["delta"]["pass_improvement_pct"] = 100.0 if omg_pass > 0 else 0.0
 
     vanilla_tokens = vanilla_results.get("metadata", {}).get("avg_tokens", 0)
-    omc_tokens = omc_results.get("metadata", {}).get("avg_tokens", 0)
+    omg_tokens = omg_results.get("metadata", {}).get("avg_tokens", 0)
     if vanilla_tokens > 0:
         comparison["overall"]["delta"]["token_change_pct"] = (
-            (omc_tokens - vanilla_tokens) / vanilla_tokens * 100
+            (omg_tokens - vanilla_tokens) / vanilla_tokens * 100
         )
 
     vanilla_time = vanilla_results.get("metadata", {}).get("avg_time_seconds", 0)
-    omc_time = omc_results.get("metadata", {}).get("avg_time_seconds", 0)
+    omg_time = omg_results.get("metadata", {}).get("avg_time_seconds", 0)
     if vanilla_time > 0:
         comparison["overall"]["delta"]["time_change_pct"] = (
-            (omc_time - vanilla_time) / vanilla_time * 100
+            (omg_time - vanilla_time) / vanilla_time * 100
         )
 
     # Per-instance comparison
     all_instances = set(vanilla_results.get("instances", {}).keys()) | \
-                   set(omc_results.get("instances", {}).keys())
+                   set(omg_results.get("instances", {}).keys())
 
     improvements = []
     regressions = []
 
     for instance_id in all_instances:
         vanilla_inst = vanilla_results.get("instances", {}).get(instance_id, {})
-        omc_inst = omc_results.get("instances", {}).get(instance_id, {})
+        omg_inst = omg_results.get("instances", {}).get(instance_id, {})
 
         vanilla_status = vanilla_inst.get("status", "missing")
-        omc_status = omc_inst.get("status", "missing")
+        omg_status = omg_inst.get("status", "missing")
 
         vanilla_passed = vanilla_status == "passed"
-        omc_passed = omc_status == "passed"
+        omg_passed = omg_status == "passed"
 
         inst_comparison = {
             "instance_id": instance_id,
             "vanilla_status": vanilla_status,
-            "omc_status": omc_status,
+            "omg_status": omg_status,
             "vanilla_tokens": vanilla_inst.get("tokens_total", 0),
-            "omc_tokens": omc_inst.get("tokens_total", 0),
+            "omg_tokens": omg_inst.get("tokens_total", 0),
             "vanilla_time": vanilla_inst.get("time_seconds", 0),
-            "omc_time": omc_inst.get("time_seconds", 0),
+            "omg_time": omg_inst.get("time_seconds", 0),
         }
 
         # Categorize change
-        if not vanilla_passed and omc_passed:
+        if not vanilla_passed and omg_passed:
             inst_comparison["change"] = "improvement"
             improvements.append(instance_id)
-        elif vanilla_passed and not omc_passed:
+        elif vanilla_passed and not omg_passed:
             inst_comparison["change"] = "regression"
             regressions.append(instance_id)
-        elif vanilla_passed and omc_passed:
+        elif vanilla_passed and omg_passed:
             inst_comparison["change"] = "both_pass"
         else:
             inst_comparison["change"] = "both_fail"
@@ -251,8 +251,8 @@ def compare_results(
             repo = instance_id.split("__")[0]
             if vanilla_passed:
                 comparison["categories"][repo]["vanilla"] += 1
-            if omc_passed:
-                comparison["categories"][repo]["omc"] += 1
+            if omg_passed:
+                comparison["categories"][repo]["omg"] += 1
 
     comparison["improvements"] = {
         "count": len(improvements),
@@ -273,7 +273,7 @@ def generate_markdown_report(comparison: dict[str, Any]) -> str:
     """Generate a detailed Markdown comparison report."""
     overall = comparison["overall"]
     vanilla = overall["vanilla"]
-    omc = overall["omc"]
+    omg = overall["omg"]
     delta = overall["delta"]
 
     lines = [
@@ -288,10 +288,10 @@ def generate_markdown_report(comparison: dict[str, Any]) -> str:
     # Summary interpretation
     if delta["pass_rate"] > 0:
         lines.append(f"OMC improved pass rate by **{delta['pass_rate']:.1f} percentage points** "
-                    f"({vanilla['pass_rate']:.1f}% -> {omc['pass_rate']:.1f}%).")
+                    f"({vanilla['pass_rate']:.1f}% -> {omg['pass_rate']:.1f}%).")
     elif delta["pass_rate"] < 0:
         lines.append(f"OMC decreased pass rate by **{abs(delta['pass_rate']):.1f} percentage points** "
-                    f"({vanilla['pass_rate']:.1f}% -> {omc['pass_rate']:.1f}%).")
+                    f"({vanilla['pass_rate']:.1f}% -> {omg['pass_rate']:.1f}%).")
     else:
         lines.append("Pass rates are identical between vanilla and OMC.")
 
@@ -304,10 +304,10 @@ def generate_markdown_report(comparison: dict[str, Any]) -> str:
         "",
         "| Metric | Vanilla | OMC | Delta |",
         "|--------|---------|-----|-------|",
-        f"| Total Instances | {vanilla['total']} | {omc['total']} | - |",
-        f"| Passed | {vanilla['passed']} | {omc['passed']} | {delta['passed']:+d} |",
-        f"| Failed | {vanilla['failed']} | {omc['failed']} | {omc['failed'] - vanilla['failed']:+d} |",
-        f"| **Pass Rate** | **{vanilla['pass_rate']:.2f}%** | **{omc['pass_rate']:.2f}%** | **{delta['pass_rate']:+.2f}pp** |",
+        f"| Total Instances | {vanilla['total']} | {omg['total']} | - |",
+        f"| Passed | {vanilla['passed']} | {omg['passed']} | {delta['passed']:+d} |",
+        f"| Failed | {vanilla['failed']} | {omg['failed']} | {omg['failed'] - vanilla['failed']:+d} |",
+        f"| **Pass Rate** | **{vanilla['pass_rate']:.2f}%** | **{omg['pass_rate']:.2f}%** | **{delta['pass_rate']:+.2f}pp** |",
         "",
         "## Resource Usage",
         "",
@@ -318,15 +318,15 @@ def generate_markdown_report(comparison: dict[str, Any]) -> str:
     # Token comparison
     token_change = delta.get("token_change_pct", 0)
     token_change_str = f"{token_change:+.1f}%" if token_change else "N/A"
-    lines.append(f"| Avg Tokens/Instance | {vanilla['avg_tokens']:,.0f} | {omc['avg_tokens']:,.0f} | {token_change_str} |")
+    lines.append(f"| Avg Tokens/Instance | {vanilla['avg_tokens']:,.0f} | {omg['avg_tokens']:,.0f} | {token_change_str} |")
 
     # Time comparison
     time_change = delta.get("time_change_pct", 0)
     time_change_str = f"{time_change:+.1f}%" if time_change else "N/A"
-    lines.append(f"| Avg Time/Instance | {vanilla['avg_time_seconds']:.1f}s | {omc['avg_time_seconds']:.1f}s | {time_change_str} |")
+    lines.append(f"| Avg Time/Instance | {vanilla['avg_time_seconds']:.1f}s | {omg['avg_time_seconds']:.1f}s | {time_change_str} |")
 
     # Cost comparison
-    lines.append(f"| Total Cost | ${vanilla['total_cost_usd']:.2f} | ${omc['total_cost_usd']:.2f} | ${omc['total_cost_usd'] - vanilla['total_cost_usd']:+.2f} |")
+    lines.append(f"| Total Cost | ${vanilla['total_cost_usd']:.2f} | ${omg['total_cost_usd']:.2f} | ${omg['total_cost_usd'] - vanilla['total_cost_usd']:+.2f} |")
 
     lines.extend([
         "",
@@ -369,8 +369,8 @@ def generate_markdown_report(comparison: dict[str, Any]) -> str:
         ])
 
         for repo, counts in sorted(comparison["categories"].items()):
-            delta_count = counts["omc"] - counts["vanilla"]
-            lines.append(f"| {repo} | {counts['vanilla']} | {counts['omc']} | {delta_count:+d} |")
+            delta_count = counts["omg"] - counts["vanilla"]
+            lines.append(f"| {repo} | {counts['vanilla']} | {counts['omg']} | {delta_count:+d} |")
 
     lines.extend([
         "",
@@ -385,8 +385,8 @@ def generate_markdown_report(comparison: dict[str, Any]) -> str:
 def generate_csv(comparison: dict[str, Any], output_file: Path):
     """Generate CSV file with per-instance comparison data."""
     fieldnames = [
-        "instance_id", "vanilla_status", "omc_status", "change",
-        "vanilla_tokens", "omc_tokens", "vanilla_time", "omc_time"
+        "instance_id", "vanilla_status", "omg_status", "change",
+        "vanilla_tokens", "omg_tokens", "vanilla_time", "omg_time"
     ]
 
     with open(output_file, "w", newline="") as f:
@@ -397,12 +397,12 @@ def generate_csv(comparison: dict[str, Any], output_file: Path):
             writer.writerow({
                 "instance_id": inst_id,
                 "vanilla_status": inst_data["vanilla_status"],
-                "omc_status": inst_data["omc_status"],
+                "omg_status": inst_data["omg_status"],
                 "change": inst_data["change"],
                 "vanilla_tokens": inst_data["vanilla_tokens"],
-                "omc_tokens": inst_data["omc_tokens"],
+                "omg_tokens": inst_data["omg_tokens"],
                 "vanilla_time": inst_data["vanilla_time"],
-                "omc_time": inst_data["omc_time"],
+                "omg_time": inst_data["omg_time"],
             })
 
     logger.info(f"CSV saved to {output_file}")
@@ -415,14 +415,14 @@ def main():
         epilog="""
 Examples:
     # Basic comparison
-    python compare_results.py --vanilla results/vanilla/ --omc results/omc/
+    python compare_results.py --vanilla results/vanilla/ --omg results/omg/
 
     # With custom output directory
-    python compare_results.py --vanilla results/vanilla/ --omc results/omc/ \\
+    python compare_results.py --vanilla results/vanilla/ --omg results/omg/ \\
         --output comparison/
 
     # Generate all formats
-    python compare_results.py --vanilla results/vanilla/ --omc results/omc/ \\
+    python compare_results.py --vanilla results/vanilla/ --omg results/omg/ \\
         --output comparison/ --all-formats
         """
     )
@@ -431,11 +431,11 @@ Examples:
         "--vanilla",
         type=Path,
         required=True,
-        help="Path to vanilla Claude Code results directory"
+        help="Path to vanilla Gemini Code results directory"
     )
 
     parser.add_argument(
-        "--omc",
+        "--omg",
         type=Path,
         required=True,
         help="Path to OMC-enhanced results directory"
@@ -476,8 +476,8 @@ Examples:
         logger.error(f"Vanilla results directory not found: {args.vanilla}")
         return 1
 
-    if not args.omc.exists():
-        logger.error(f"OMC results directory not found: {args.omc}")
+    if not args.omg.exists():
+        logger.error(f"OMC results directory not found: {args.omg}")
         return 1
 
     # Create output directory
@@ -487,12 +487,12 @@ Examples:
     logger.info(f"Loading vanilla results from {args.vanilla}")
     vanilla_results = load_results(args.vanilla)
 
-    logger.info(f"Loading OMC results from {args.omc}")
-    omc_results = load_results(args.omc)
+    logger.info(f"Loading OMC results from {args.omg}")
+    omg_results = load_results(args.omg)
 
     # Compare
     logger.info("Comparing results...")
-    comparison = compare_results(vanilla_results, omc_results)
+    comparison = compare_results(vanilla_results, omg_results)
 
     # Generate outputs
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -521,7 +521,7 @@ Examples:
     print("COMPARISON COMPLETE")
     print("=" * 60)
     print(f"Vanilla Pass Rate: {comparison['overall']['vanilla']['pass_rate']:.2f}%")
-    print(f"OMC Pass Rate:     {comparison['overall']['omc']['pass_rate']:.2f}%")
+    print(f"OMC Pass Rate:     {comparison['overall']['omg']['pass_rate']:.2f}%")
     print(f"Delta:             {delta['pass_rate']:+.2f} percentage points")
     print(f"\nImprovements:      {comparison['improvements']['count']}")
     print(f"Regressions:       {comparison['regressions']['count']}")

@@ -16,8 +16,8 @@ async function loadExecutor() {
 }
 describe('auto slash aliases + skill guidance', () => {
     beforeEach(() => {
-        tempConfigDir = join(tmpdir(), `omc-auto-slash-config-${Date.now()}-${Math.random().toString(36).slice(2)}`);
-        tempProjectDir = join(tmpdir(), `omc-auto-slash-project-${Date.now()}-${Math.random().toString(36).slice(2)}`);
+        tempConfigDir = join(tmpdir(), `omg-auto-slash-config-${Date.now()}-${Math.random().toString(36).slice(2)}`);
+        tempProjectDir = join(tmpdir(), `omg-auto-slash-project-${Date.now()}-${Math.random().toString(36).slice(2)}`);
         mkdirSync(tempConfigDir, { recursive: true });
         mkdirSync(tempProjectDir, { recursive: true });
         process.env.CLAUDE_CONFIG_DIR = tempConfigDir;
@@ -65,10 +65,10 @@ Deep interview body`);
         writeFileSync(join(tempConfigDir, 'skills', 'deep-interview', 'SKILL.md'), `---
 name: deep-interview
 description: Deep interview
-pipeline: [deep-interview, omc-plan, autopilot]
-next-skill: omc-plan
+pipeline: [deep-interview, omg-plan, autopilot]
+next-skill: omg-plan
 next-skill-args: --consensus --direct
-handoff: .omc/specs/deep-interview-{slug}.md
+handoff: .omg/specs/deep-interview-{slug}.md
 ---
 
 Deep interview body`);
@@ -80,10 +80,10 @@ Deep interview body`);
         });
         expect(result.success).toBe(true);
         expect(result.replacementText).toContain('## Skill Pipeline');
-        expect(result.replacementText).toContain('Pipeline: `deep-interview → omc-plan → autopilot`');
+        expect(result.replacementText).toContain('Pipeline: `deep-interview → omg-plan → autopilot`');
         expect(result.replacementText).toContain('Next skill arguments: `--consensus --direct`');
-        expect(result.replacementText).toContain('Skill("oh-my-claudecode:omc-plan")');
-        expect(result.replacementText).toContain('`.omc/specs/deep-interview-{slug}.md`');
+        expect(result.replacementText).toContain('Skill("oh-my-gemini-cli:omg-plan")');
+        expect(result.replacementText).toContain('`.omg/specs/deep-interview-{slug}.md`');
     });
     it('discovers project-local compatibility skills from .agents/skills', async () => {
         mkdirSync(join(tempProjectDir, '.agents', 'skills', 'compat-skill', 'templates'), { recursive: true });
@@ -112,10 +112,10 @@ Compatibility body`);
         writeFileSync(join(tempConfigDir, 'skills', 'deep-interview', 'SKILL.md'), `---
 name: deep-interview
 description: Deep interview
-pipeline: [deep-interview, omc-plan, autopilot]
-next-skill: omc-plan
+pipeline: [deep-interview, omg-plan, autopilot]
+next-skill: omg-plan
 next-skill-args: --consensus --direct
-handoff: .omc/specs/deep-interview-{slug}.md
+handoff: .omg/specs/deep-interview-{slug}.md
 ---
 
 Deep interview body`);
@@ -131,7 +131,7 @@ Deep interview body`);
         expect(result.replacementText).toContain('Mission seed from invocation: `improve startup performance`');
         expect(result.replacementText).not.toContain('## Skill Pipeline');
     });
-    it('renders plugin-safe autoresearch guidance when omc is unavailable in slash mode', async () => {
+    it('renders plugin-safe autoresearch guidance when omg is unavailable in slash mode', async () => {
         process.env.CLAUDE_PLUGIN_ROOT = '/plugin-root';
         process.env.PATH = '';
         mkdirSync(join(tempConfigDir, 'skills', 'deep-interview'), { recursive: true });

@@ -162,12 +162,12 @@ export function recordSessionMetrics(directory, input) {
  */
 export function cleanupTransientState(directory) {
     let filesRemoved = 0;
-    const omcDir = getOmcRoot(directory);
-    if (!fs.existsSync(omcDir)) {
+    const omgDir = getOmcRoot(directory);
+    if (!fs.existsSync(omgDir)) {
         return filesRemoved;
     }
     // Remove transient agent tracking
-    const trackingPath = path.join(omcDir, 'state', 'subagent-tracking.json');
+    const trackingPath = path.join(omgDir, 'state', 'subagent-tracking.json');
     if (fs.existsSync(trackingPath)) {
         try {
             fs.unlinkSync(trackingPath);
@@ -178,7 +178,7 @@ export function cleanupTransientState(directory) {
         }
     }
     // Clean stale checkpoints (older than 24 hours)
-    const checkpointsDir = path.join(omcDir, 'checkpoints');
+    const checkpointsDir = path.join(omgDir, 'checkpoints');
     if (fs.existsSync(checkpointsDir)) {
         const now = Date.now();
         const oneDayAgo = now - 24 * 60 * 60 * 1000;
@@ -197,7 +197,7 @@ export function cleanupTransientState(directory) {
             // Ignore cleanup errors
         }
     }
-    // Remove .tmp files in .omc/
+    // Remove .tmp files in .omg/
     const removeTmpFiles = (dir) => {
         try {
             const entries = fs.readdirSync(dir, { withFileTypes: true });
@@ -216,9 +216,9 @@ export function cleanupTransientState(directory) {
             // Ignore errors
         }
     };
-    removeTmpFiles(omcDir);
+    removeTmpFiles(omgDir);
     // Remove transient state files that accumulate across sessions
-    const stateDir = path.join(omcDir, 'state');
+    const stateDir = path.join(omgDir, 'state');
     if (fs.existsSync(stateDir)) {
         const transientPatterns = [
             /^agent-replay-.*\.jsonl$/,
@@ -531,7 +531,7 @@ async function cleanupSessionOwnedTeams(directory, sessionId) {
                 const legacyConfig = config;
                 const sessionName = typeof legacyConfig.tmuxSession === 'string' && legacyConfig.tmuxSession.trim() !== ''
                     ? legacyConfig.tmuxSession.trim()
-                    : `omc-team-${teamName}`;
+                    : `omg-team-${teamName}`;
                 const leaderPaneId = typeof legacyConfig.leaderPaneId === 'string' && legacyConfig.leaderPaneId.trim() !== ''
                     ? legacyConfig.leaderPaneId.trim()
                     : undefined;
@@ -552,7 +552,7 @@ async function cleanupSessionOwnedTeams(directory, sessionId) {
     return { attempted, cleaned, failed };
 }
 /**
- * Export session summary to .omc/sessions/
+ * Export session summary to .omg/sessions/
  */
 export function exportSessionSummary(directory, metrics) {
     const sessionsDir = path.join(getOmcRoot(directory), 'sessions');
@@ -581,13 +581,13 @@ export function exportSessionSummary(directory, metrics) {
  * Process session end
  */
 export async function processSessionEnd(input) {
-    // Normalize cwd to the git worktree root so .omc/state/ is always resolved
-    // from the repo root, even when Claude Code is running from a subdirectory (issue #891).
+    // Normalize cwd to the git worktree root so .omg/state/ is always resolved
+    // from the repo root, even when Gemini Code is running from a subdirectory (issue #891).
     const directory = resolveToWorktreeRoot(input.cwd);
     // Record and export session metrics to disk
     const metrics = recordSessionMetrics(directory, input);
     exportSessionSummary(directory, metrics);
-    // Best-effort cleanup for tmux-backed team workers owned by this Claude Code
+    // Best-effort cleanup for tmux-backed team workers owned by this Gemini Code
     // session. This does not fix upstream signal-forwarding behavior, but it
     // meaningfully reduces orphaned panes/windows when SessionEnd runs normally.
     await cleanupSessionOwnedTeams(directory, input.session_id);
@@ -671,7 +671,7 @@ export async function processSessionEnd(input) {
     // will settle naturally. Awaiting them would defeat the fire-and-forget
     // optimization and risk hitting the hook timeout (#1700).
     void Promise.allSettled(fireAndForget);
-    // Return simple response - metrics are persisted to .omc/sessions/
+    // Return simple response - metrics are persisted to .omg/sessions/
     return { continue: true };
 }
 /**

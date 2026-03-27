@@ -94,12 +94,12 @@ jobs:
       - name: Check version consistency
         run: |
           PKG_VERSION=$(node -p "require('./package.json').version")
-          PLUGIN_VERSION=$(node -p "require('./.claude-plugin/plugin.json').version")
-          MARKET_VERSION=$(node -p "require('./.claude-plugin/marketplace.json').version")
+          PLUGIN_VERSION=$(node -p "require('./.gemini-plugin/plugin.json').version")
+          MARKET_VERSION=$(node -p "require('./.gemini-plugin/marketplace.json').version")
           
           echo "package.json:              $PKG_VERSION"
-          echo ".claude-plugin/plugin.json: $PLUGIN_VERSION"
-          echo ".claude-plugin/marketplace.json: $MARKET_VERSION"
+          echo ".gemini-plugin/plugin.json: $PLUGIN_VERSION"
+          echo ".gemini-plugin/marketplace.json: $MARKET_VERSION"
           
           if [ "$PKG_VERSION" != "$PLUGIN_VERSION" ] || [ "$PKG_VERSION" != "$MARKET_VERSION" ]; then
             echo ""
@@ -138,33 +138,33 @@ jobs:
           echo "📦 Creating tarball..."
           npm pack
           
-          TARBALL=$(ls -t oh-my-claude-sisyphus-*.tgz | head -1)
+          TARBALL=$(ls -t oh-my-gemini-sisyphus-*.tgz | head -1)
           echo "📦 Tarball: $TARBALL"
           
           echo "📦 Testing global install from tarball..."
           npm install -g ./$TARBALL
           
-          echo "🔍 Checking omc command..."
-          which omc
+          echo "🔍 Checking omg command..."
+          which omg
           
-          echo "🔍 Testing omc --version..."
-          omc --version
+          echo "🔍 Testing omg --version..."
+          omg --version
           
-          VERSION_OUTPUT=$(omc --version 2>&1)
+          VERSION_OUTPUT=$(omg --version 2>&1)
           if [ $? -ne 0 ]; then
-            echo "❌ omc --version failed!"
+            echo "❌ omg --version failed!"
             echo "$VERSION_OUTPUT"
             exit 1
           fi
           
-          echo "✅ omc --version: $VERSION_OUTPUT"
+          echo "✅ omg --version: $VERSION_OUTPUT"
           
-          echo "🔍 Testing omc --help..."
-          omc --help
+          echo "🔍 Testing omg --help..."
+          omg --help
           
-          HELP_OUTPUT=$(omc --help 2>&1)
+          HELP_OUTPUT=$(omg --help 2>&1)
           if [ $? -ne 0 ]; then
-            echo "❌ omc --help failed!"
+            echo "❌ omg --help failed!"
             echo "$HELP_OUTPUT"
             exit 1
           fi

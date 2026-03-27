@@ -21,7 +21,7 @@ Only the Expertise section should be updated during improvement cycles.
 
 ### Core Principle
 
-Reusable skills are not code snippets to copy-paste, but **principles and decision-making heuristics** that teach Claude HOW TO THINK about a class of problems.
+Reusable skills are not code snippets to copy-paste, but **principles and decision-making heuristics** that teach Gemini HOW TO THINK about a class of problems.
 
 **The difference:**
 - BAD (mimicking): "When you see ConnectionResetError, add this try/except block"
@@ -109,8 +109,8 @@ This classification ensures expertise can be updated independently without desta
 
 ### Step 4: Save Location
 
-- **User-level**: ~/.claude/skills/omc-learned/ - Rare. Only for truly portable insights.
-- **Project-level**: .omc/skills/ - Default. Version-controlled with repo.
+- **User-level**: ~/.gemini/skills/omg-learned/ - Rare. Only for truly portable insights.
+- **Project-level**: .omg/skills/ - Default. Version-controlled with repo.
 
 ### Skill Body Template
 
@@ -127,15 +127,15 @@ What goes wrong if you don't know this? What symptom led you here?
 How do you know when this skill applies? What are the signs?
 
 ## The Approach
-The decision-making heuristic, not just code. How should Claude THINK about this?
+The decision-making heuristic, not just code. How should Gemini THINK about this?
 
 ## Example (Optional)
 If code helps, show it - but as illustration of the principle, not copy-paste material.
 ```
 
-**Key**: A skill is REUSABLE if Claude can apply it to NEW situations, not just identical ones.
+**Key**: A skill is REUSABLE if Gemini can apply it to NEW situations, not just identical ones.
 
 ## Related Commands
 
-- /oh-my-claudecode:note - Save quick notes that survive compaction (less formal than skills)
-- /oh-my-claudecode:ralph - Start a development loop with learning capture
+- /oh-my-gemini-cli:note - Save quick notes that survive compaction (less formal than skills)
+- /oh-my-gemini-cli:ralph - Start a development loop with learning capture

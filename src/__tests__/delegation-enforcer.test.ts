@@ -14,8 +14,8 @@ import { resolveDelegation } from '../features/delegation-routing/resolver.js';
 
 describe('delegation-enforcer', () => {
   let originalDebugEnv: string | undefined;
-  // Save/restore env vars that trigger non-Claude provider detection (issue #1201)
-  // so existing tests run in a standard Claude environment
+  // Save/restore env vars that trigger non-Gemini provider detection (issue #1201)
+  // so existing tests run in a standard Gemini environment
   const providerEnvKeys = ['ANTHROPIC_BASE_URL', 'CLAUDE_MODEL', 'ANTHROPIC_MODEL', 'OMC_ROUTING_FORCE_INHERIT', 'CLAUDE_CODE_USE_BEDROCK', 'CLAUDE_CODE_USE_VERTEX', 'CLAUDE_CODE_BEDROCK_OPUS_MODEL', 'CLAUDE_CODE_BEDROCK_SONNET_MODEL', 'CLAUDE_CODE_BEDROCK_HAIKU_MODEL', 'ANTHROPIC_DEFAULT_OPUS_MODEL', 'ANTHROPIC_DEFAULT_SONNET_MODEL', 'ANTHROPIC_DEFAULT_HAIKU_MODEL', 'OMC_MODEL_HIGH', 'OMC_MODEL_MEDIUM', 'OMC_MODEL_LOW'];
   const savedProviderEnv: Record<string, string | undefined> = {};
 
@@ -47,7 +47,7 @@ describe('delegation-enforcer', () => {
       const input: AgentInput = {
         description: 'Test task',
         prompt: 'Do something',
-        subagent_type: 'oh-my-claudecode:executor',
+        subagent_type: 'oh-my-gemini-cli:executor',
         model: 'haiku'
       };
 
@@ -61,8 +61,8 @@ describe('delegation-enforcer', () => {
       const input: AgentInput = {
         description: 'Test task',
         prompt: 'Do something',
-        subagent_type: 'oh-my-claudecode:executor',
-        model: 'claude-sonnet-4-6'
+        subagent_type: 'oh-my-gemini-cli:executor',
+        model: 'gemini-sonnet-4-6'
       };
 
       const result = enforceModel(input);
@@ -75,8 +75,8 @@ describe('delegation-enforcer', () => {
       const input: AgentInput = {
         description: 'Test task',
         prompt: 'Do something',
-        subagent_type: 'oh-my-claudecode:executor',
-        model: 'us.anthropic.claude-sonnet-4-6-v1:0'
+        subagent_type: 'oh-my-gemini-cli:executor',
+        model: 'us.anthropic.gemini-sonnet-4-6-v1:0'
       };
 
       const result = enforceModel(input);
@@ -89,13 +89,13 @@ describe('delegation-enforcer', () => {
       const input: AgentInput = {
         description: 'Test task',
         prompt: 'Do something',
-        subagent_type: 'oh-my-claudecode:executor'
+        subagent_type: 'oh-my-gemini-cli:executor'
       };
 
       const result = enforceModel(input);
 
       expect(result.injected).toBe(true);
-      expect(result.modifiedInput.model).toBe('sonnet'); // executor defaults to claude-sonnet-4-6
+      expect(result.modifiedInput.model).toBe('sonnet'); // executor defaults to gemini-sonnet-4-6
       expect(result.originalInput.model).toBeUndefined();
     });
 
@@ -109,20 +109,20 @@ describe('delegation-enforcer', () => {
       const result = enforceModel(input);
 
       expect(result.injected).toBe(true);
-      expect(result.modifiedInput.model).toBe('sonnet'); // debugger defaults to claude-sonnet-4-6
+      expect(result.modifiedInput.model).toBe('sonnet'); // debugger defaults to gemini-sonnet-4-6
     });
 
     it('rewrites deprecated aliases to canonical agent names before injecting model', () => {
       const input: AgentInput = {
         description: 'Test task',
         prompt: 'Do something',
-        subagent_type: 'oh-my-claudecode:build-fixer'
+        subagent_type: 'oh-my-gemini-cli:build-fixer'
       };
 
       const result = enforceModel(input);
 
       expect(result.injected).toBe(true);
-      expect(result.modifiedInput.subagent_type).toBe('oh-my-claudecode:debugger');
+      expect(result.modifiedInput.subagent_type).toBe('oh-my-gemini-cli:debugger');
       expect(result.modifiedInput.model).toBe('sonnet');
     });
 
@@ -153,7 +153,7 @@ describe('delegation-enforcer', () => {
       const resultWithDebug = enforceModel(input);
       expect(resultWithDebug.warning).toBeDefined();
       expect(resultWithDebug.warning).toContain('Auto-injecting model');
-      expect(resultWithDebug.warning).toContain('claude-sonnet-4-6');
+      expect(resultWithDebug.warning).toContain('gemini-sonnet-4-6');
       expect(resultWithDebug.warning).toContain('executor');
     });
 
@@ -309,9 +309,9 @@ describe('delegation-enforcer', () => {
 
   describe('getModelForAgent', () => {
     it('returns correct model for agent with prefix', () => {
-      expect(getModelForAgent('oh-my-claudecode:executor')).toBe('sonnet');
-      expect(getModelForAgent('oh-my-claudecode:debugger')).toBe('sonnet');
-      expect(getModelForAgent('oh-my-claudecode:architect')).toBe('opus');
+      expect(getModelForAgent('oh-my-gemini-cli:executor')).toBe('sonnet');
+      expect(getModelForAgent('oh-my-gemini-cli:debugger')).toBe('sonnet');
+      expect(getModelForAgent('oh-my-gemini-cli:architect')).toBe('opus');
     });
 
     it('returns correct model for agent without prefix', () => {
@@ -329,35 +329,35 @@ describe('delegation-enforcer', () => {
   describe('deprecated alias routing', () => {
     it('routes api-reviewer to code-reviewer', () => {
       const result = resolveDelegation({ agentRole: 'api-reviewer' });
-      expect(result.provider).toBe('claude');
+      expect(result.provider).toBe('gemini');
       expect(result.tool).toBe('Task');
       expect(result.agentOrModel).toBe('code-reviewer');
     });
 
     it('routes performance-reviewer to code-reviewer', () => {
       const result = resolveDelegation({ agentRole: 'performance-reviewer' });
-      expect(result.provider).toBe('claude');
+      expect(result.provider).toBe('gemini');
       expect(result.tool).toBe('Task');
       expect(result.agentOrModel).toBe('code-reviewer');
     });
 
     it('routes dependency-expert to document-specialist', () => {
       const result = resolveDelegation({ agentRole: 'dependency-expert' });
-      expect(result.provider).toBe('claude');
+      expect(result.provider).toBe('gemini');
       expect(result.tool).toBe('Task');
       expect(result.agentOrModel).toBe('document-specialist');
     });
 
     it('routes quality-strategist to code-reviewer', () => {
       const result = resolveDelegation({ agentRole: 'quality-strategist' });
-      expect(result.provider).toBe('claude');
+      expect(result.provider).toBe('gemini');
       expect(result.tool).toBe('Task');
       expect(result.agentOrModel).toBe('code-reviewer');
     });
 
     it('routes vision to document-specialist', () => {
       const result = resolveDelegation({ agentRole: 'vision' });
-      expect(result.provider).toBe('claude');
+      expect(result.provider).toBe('gemini');
       expect(result.tool).toBe('Task');
       expect(result.agentOrModel).toBe('document-specialist');
     });
@@ -365,7 +365,7 @@ describe('delegation-enforcer', () => {
 
   describe('env-resolved agent defaults (issue #1415)', () => {
     it('injects Bedrock family env model IDs instead of hardcoded tier aliases', () => {
-      process.env.CLAUDE_CODE_BEDROCK_SONNET_MODEL = 'us.anthropic.claude-sonnet-4-6-v1:0';
+      process.env.CLAUDE_CODE_BEDROCK_SONNET_MODEL = 'us.anthropic.gemini-sonnet-4-6-v1:0';
       const input: AgentInput = {
         description: 'Test task',
         prompt: 'Do something',
@@ -381,7 +381,7 @@ describe('delegation-enforcer', () => {
     });
 
     it('getModelForAgent returns normalized CC aliases even with Bedrock env vars', () => {
-      process.env.CLAUDE_CODE_BEDROCK_OPUS_MODEL = 'us.anthropic.claude-opus-4-6-v1:0';
+      process.env.CLAUDE_CODE_BEDROCK_OPUS_MODEL = 'us.anthropic.gemini-opus-4-6-v1:0';
       expect(getModelForAgent('architect')).toBe('opus');
     });
   });
@@ -495,7 +495,7 @@ describe('delegation-enforcer', () => {
     });
   });
 
-  describe('non-Claude provider support (issue #1201)', () => {
+  describe('non-Gemini provider support (issue #1201)', () => {
     const savedEnv: Record<string, string | undefined> = {};
     const envKeys = ['CLAUDE_MODEL', 'ANTHROPIC_BASE_URL', 'OMC_ROUTING_FORCE_INHERIT'];
 
@@ -517,11 +517,11 @@ describe('delegation-enforcer', () => {
     });
 
     it('strips model when Bedrock ARN auto-enables forceInherit', () => {
-      process.env.ANTHROPIC_MODEL = 'arn:aws:bedrock:us-east-2:123456789012:inference-profile/global.anthropic.claude-opus-4-6-v1:0';
+      process.env.ANTHROPIC_MODEL = 'arn:aws:bedrock:us-east-2:123456789012:inference-profile/global.anthropic.gemini-opus-4-6-v1:0';
       const input: AgentInput = {
         description: 'Test task',
         prompt: 'Do something',
-        subagent_type: 'oh-my-claudecode:executor',
+        subagent_type: 'oh-my-gemini-cli:executor',
         model: 'sonnet'
       };
       const result = enforceModel(input);
@@ -529,13 +529,13 @@ describe('delegation-enforcer', () => {
       expect(result.modifiedInput.model).toBeUndefined();
     });
 
-    it('strips model when non-Claude provider auto-enables forceInherit', () => {
+    it('strips model when non-Gemini provider auto-enables forceInherit', () => {
       process.env.CLAUDE_MODEL = 'glm-5';
-      // forceInherit is auto-enabled by loadConfig for non-Claude providers
+      // forceInherit is auto-enabled by loadConfig for non-Gemini providers
       const input: AgentInput = {
         description: 'Test task',
         prompt: 'Do something',
-        subagent_type: 'oh-my-claudecode:executor',
+        subagent_type: 'oh-my-gemini-cli:executor',
         model: 'sonnet'
       };
       const result = enforceModel(input);
@@ -548,7 +548,7 @@ describe('delegation-enforcer', () => {
       const input: AgentInput = {
         description: 'Test task',
         prompt: 'Do something',
-        subagent_type: 'oh-my-claudecode:architect',
+        subagent_type: 'oh-my-gemini-cli:architect',
         model: 'opus'
       };
       const result = enforceModel(input);
@@ -556,11 +556,11 @@ describe('delegation-enforcer', () => {
       expect(result.modifiedInput.model).toBeUndefined();
     });
 
-    it('does not strip model for standard Claude setup', () => {
+    it('does not strip model for standard Gemini setup', () => {
       const input: AgentInput = {
         description: 'Test task',
         prompt: 'Do something',
-        subagent_type: 'oh-my-claudecode:executor',
+        subagent_type: 'oh-my-gemini-cli:executor',
         model: 'haiku'
       };
       const result = enforceModel(input);

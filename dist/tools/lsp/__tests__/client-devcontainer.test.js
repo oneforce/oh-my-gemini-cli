@@ -22,7 +22,7 @@ describe('LspClient devcontainer support', () => {
     let lastDidOpenUri;
     let nextRenameResult;
     beforeEach(() => {
-        workspaceRoot = mkdtempSync(join(tmpdir(), 'omc-lsp-client-'));
+        workspaceRoot = mkdtempSync(join(tmpdir(), 'omg-lsp-client-'));
         mkdirSync(join(workspaceRoot, 'src'), { recursive: true });
         filePath = join(workspaceRoot, 'src', 'index.ts');
         writeFileSync(filePath, 'export const value = 1;\n');

@@ -169,7 +169,7 @@ describe('followup-planner', () => {
 
     beforeEach(() => {
       testDir = mkdtempSync(join(tmpdir(), 'followup-planner-test-'));
-      plansDir = join(testDir, '.omc', 'plans');
+      plansDir = join(testDir, '.omg', 'plans');
       mkdirSync(plansDir, { recursive: true });
     });
 
@@ -185,7 +185,7 @@ describe('followup-planner', () => {
     it('returns null when only PRD exists (no test spec)', () => {
       writeFileSync(
         join(plansDir, 'prd-feature.md'),
-        '# PRD\n\nomc team 3:claude "implement auth"\n'
+        '# PRD\n\nomg team 3:gemini "implement auth"\n'
       );
       const result = resolveApprovedTeamFollowupContext(testDir, 'do the task');
       expect(result).toBeNull();
@@ -201,7 +201,7 @@ describe('followup-planner', () => {
     it('returns context with hint when planning is complete and hint exists', () => {
       writeFileSync(
         join(plansDir, 'prd-feature.md'),
-        '# PRD\n\nomc team 3:claude "implement auth"\n'
+        '# PRD\n\nomg team 3:gemini "implement auth"\n'
       );
       writeFileSync(join(plansDir, 'test-spec-feature.md'), '# Test Spec');
       const result = resolveApprovedTeamFollowupContext(testDir, 'do the task');
@@ -209,7 +209,7 @@ describe('followup-planner', () => {
       expect(result!.hint.mode).toBe('team');
       expect(result!.hint.task).toBe('implement auth');
       expect(result!.hint.workerCount).toBe(3);
-      expect(result!.launchCommand).toContain('omc team');
+      expect(result!.launchCommand).toContain('omg team');
     });
   });
 });

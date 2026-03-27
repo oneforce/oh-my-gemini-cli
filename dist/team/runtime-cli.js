@@ -70,19 +70,19 @@ export async function checkWatchdogFailedMarker(stateRoot, startTime) {
     }
     return { failed: false };
 }
-export async function writeResultArtifact(output, finishedAt, jobId = process.env.OMC_JOB_ID, omcJobsDir = process.env.OMC_JOBS_DIR) {
-    if (!jobId || !omcJobsDir)
+export async function writeResultArtifact(output, finishedAt, jobId = process.env.OMC_JOB_ID, omgJobsDir = process.env.OMC_JOBS_DIR) {
+    if (!jobId || !omgJobsDir)
         return;
-    const resultPath = join(omcJobsDir, `${jobId}-result.json`);
+    const resultPath = join(omgJobsDir, `${jobId}-result.json`);
     const tmpPath = `${resultPath}.tmp`;
     await writeFile(tmpPath, JSON.stringify({ ...output, finishedAt }), 'utf-8');
     await rename(tmpPath, resultPath);
 }
 async function writePanesFile(jobId, paneIds, leaderPaneId, sessionName, ownsWindow) {
-    const omcJobsDir = process.env.OMC_JOBS_DIR;
-    if (!jobId || !omcJobsDir)
+    const omgJobsDir = process.env.OMC_JOBS_DIR;
+    if (!jobId || !omgJobsDir)
         return;
-    const panesPath = join(omcJobsDir, `${jobId}-panes.json`);
+    const panesPath = join(omgJobsDir, `${jobId}-panes.json`);
     await writeFile(panesPath + '.tmp', JSON.stringify({ paneIds: [...paneIds], leaderPaneId, sessionName, ownsWindow }));
     await rename(panesPath + '.tmp', panesPath);
 }
@@ -141,7 +141,7 @@ async function main() {
     }
     const { teamName, agentTypes, tasks, cwd, newWindow = false, pollIntervalMs = 5000, sentinelGateTimeoutMs = 30_000, sentinelGatePollIntervalMs = 250, } = input;
     const workerCount = input.workerCount ?? agentTypes.length;
-    const stateRoot = join(cwd, `.omc/state/team/${teamName}`);
+    const stateRoot = join(cwd, `.omg/state/team/${teamName}`);
     const config = {
         teamName,
         workerCount,
@@ -243,7 +243,7 @@ async function main() {
         process.stderr.write(`[runtime-cli] startTeam failed: ${err}\n`);
         process.exit(1);
     }
-    // Persist pane IDs so MCP server can clean up explicitly via omc_run_team_cleanup.
+    // Persist pane IDs so MCP server can clean up explicitly via omg_run_team_cleanup.
     const jobId = process.env.OMC_JOB_ID;
     const expectedTaskCount = tasks.length;
     let mismatchStreak = 0;

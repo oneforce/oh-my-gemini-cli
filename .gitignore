@@ -1,10 +1,10 @@
 node_modules/
 *.log
 .DS_Store
-.omc/
-.omc/
+.omg/
+.omg/
 .idea/
-.claude/
+.gemini/
 
 # Windows reserved names (prevent accidental creation)
 nul

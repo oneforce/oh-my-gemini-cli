@@ -8,7 +8,7 @@ describe('flow-tracer', () => {
     let testDir;
     beforeEach(() => {
         testDir = join(tmpdir(), `flow-tracer-test-${Date.now()}-${Math.random().toString(36).slice(2)}`);
-        mkdirSync(join(testDir, '.omc', 'state'), { recursive: true });
+        mkdirSync(join(testDir, '.omg', 'state'), { recursive: true });
         resetSessionStartTimes();
     });
     afterEach(() => {
@@ -68,12 +68,12 @@ describe('flow-tracer', () => {
     });
     describe('recordSkillInvoked', () => {
         it('should record skill_invoked event with skill name', () => {
-            recordSkillInvoked(testDir, 'sess-inv1', 'oh-my-claudecode:plan');
+            recordSkillInvoked(testDir, 'sess-inv1', 'oh-my-gemini-cli:plan');
             const events = readReplayEvents(testDir, 'sess-inv1');
             expect(events).toHaveLength(1);
             expect(events[0].event).toBe('skill_invoked');
             expect(events[0].agent).toBe('system');
-            expect(events[0].skill_name).toBe('oh-my-claudecode:plan');
+            expect(events[0].skill_name).toBe('oh-my-gemini-cli:plan');
         });
     });
     describe('recordModeChange', () => {

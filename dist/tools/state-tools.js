@@ -20,10 +20,10 @@ const EXECUTION_MODES = [
 const STATE_TOOL_MODES = [
     ...EXECUTION_MODES,
     'ralplan',
-    'omc-teams',
+    'omg-teams',
     'deep-interview'
 ];
-const EXTRA_STATE_ONLY_MODES = ['ralplan', 'omc-teams', 'deep-interview'];
+const EXTRA_STATE_ONLY_MODES = ['ralplan', 'omg-teams', 'deep-interview'];
 const CANCEL_SIGNAL_TTL_MS = 30_000;
 function readTeamNamesFromStateFile(statePath) {
     if (!existsSync(statePath))

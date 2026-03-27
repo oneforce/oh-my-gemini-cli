@@ -78,18 +78,18 @@ Commands:
   status                 Show current session info
 
 Reference formats:
-  omc#123               Project alias + number
+  omg#123               Project alias + number
   owner/repo#123        Full GitHub reference
   https://...           GitHub URL
   #123                  Number only (uses current repo)
 
 Examples:
-  psm review omc#123
-  psm fix Yeachan-Heo/oh-my-claudecode#42
-  psm feature omc add-webhooks
+  psm review omg#123
+  psm fix Yeachan-Heo/oh-my-gemini-cli#42
+  psm feature omg add-webhooks
   psm list
-  psm attach omc:pr-123
-  psm kill omc:pr-123
+  psm attach omg:pr-123
+  psm kill omg:pr-123
   psm cleanup
 EOF
 }
@@ -97,7 +97,7 @@ EOF
 # Command: review
 cmd_review() {
     local ref="$1"
-    local no_claude="${2:-false}"
+    local no_gemini="${2:-false}"
     local no_tmux="${3:-false}"
 
     log_info "Parsing reference: $ref"
@@ -209,10 +209,10 @@ cmd_review() {
         else
             log_success "Tmux session created: $session_name"
 
-            # Launch Claude Code
-            if [[ "$no_claude" != "true" ]]; then
-                log_info "Launching Claude Code..."
-                psm_launch_claude "$session_name"
+            # Launch Gemini Code
+            if [[ "$no_gemini" != "true" ]]; then
+                log_info "Launching Gemini Code..."
+                psm_launch_gemini "$session_name"
             fi
         fi
     fi
@@ -249,7 +249,7 @@ cmd_review() {
 # Command: fix
 cmd_fix() {
     local ref="$1"
-    local no_claude="${2:-false}"
+    local no_gemini="${2:-false}"
 
     log_info "Parsing reference: $ref"
 
@@ -352,8 +352,8 @@ cmd_fix() {
     log_info "Creating tmux session..."
     psm_create_tmux_session "$session_name" "$worktree_path"
 
-    if [[ "$no_claude" != "true" ]]; then
-        psm_launch_claude "$session_name"
+    if [[ "$no_gemini" != "true" ]]; then
+        psm_launch_gemini "$session_name"
     fi
 
     # Create metadata
@@ -423,7 +423,7 @@ cmd_feature() {
     local session_id="${project}:feat-${safe_name}"
 
     psm_create_tmux_session "$session_name" "$worktree_path"
-    psm_launch_claude "$session_name"
+    psm_launch_gemini "$session_name"
 
     psm_add_session "$session_id" "feature" "$project" "feat-${safe_name}" "$branch_name" "$base" "$session_name" "$worktree_path" "$local_path" "{}"
 

@@ -7,7 +7,7 @@ vi.mock('../installer/index.js', async () => {
     return {
         ...actual,
         install: vi.fn(),
-        HOOKS_DIR: '/tmp/omc-test-hooks',
+        HOOKS_DIR: '/tmp/omg-test-hooks',
         isProjectScopedPlugin: vi.fn(),
         checkNodeVersion: vi.fn(),
     };

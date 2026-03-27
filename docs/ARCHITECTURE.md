@@ -1,10 +1,10 @@
 # Architecture
 
-> How oh-my-claudecode orchestrates multi-agent workflows.
+> How oh-my-gemini-cli orchestrates multi-agent workflows.
 
 ## Overview
 
-oh-my-claudecode enables Claude Code to orchestrate specialized agents through a skill-based routing system.
+oh-my-gemini-cli enables Gemini Code to orchestrate specialized agents through a skill-based routing system.
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────┐
@@ -17,7 +17,7 @@ oh-my-claudecode enables Claude Code to orchestrate specialized agents through a
        │                                │                              │
        ▼                                ▼                              ▼
 ┌─────────────┐              ┌──────────────────┐           ┌─────────────────┐
-│  "ultrawork │              │   CLAUDE.md      │           │ SKILL ACTIVATED │
+│  "ultrawork │              │   GEMINI.md      │           │ SKILL ACTIVATED │
 │   refactor  │─────────────▶│   Auto-Routing   │──────────▶│                 │
 │   the API"  │              │                  │           │ ultrawork +     │
 └─────────────┘              │ Task Type:       │           │ default +       │
@@ -70,7 +70,7 @@ Work is delegated through the Task tool with intelligent model routing:
 
 ```typescript
 Task(
-  subagent_type="oh-my-claudecode:executor",
+  subagent_type="oh-my-gemini-cli:executor",
   model="sonnet",
   prompt="Implement feature..."
 )
@@ -108,17 +108,17 @@ Skills compose in layers:
 State files follow standardized locations:
 
 **Local Project State:**
-- `.omc/state/{name}.json` - Session state (pipeline, team)
-- `.omc/notepads/{plan-name}/` - Plan-scoped wisdom capture
+- `.omg/state/{name}.json` - Session state (pipeline, team)
+- `.omg/notepads/{plan-name}/` - Plan-scoped wisdom capture
 
 **Global State:**
-- `~/.omc/state/{name}.json` - User preferences and global config
+- `~/.omg/state/{name}.json` - User preferences and global config
 
 Legacy locations are auto-migrated on read.
 
 ## Hooks
 
-oh-my-claudecode includes 31 hooks in `src/hooks/` for lifecycle events:
+oh-my-gemini-cli includes 31 hooks in `src/hooks/` for lifecycle events:
 
 | Event | Purpose |
 |-------|---------|
@@ -149,4 +149,4 @@ Evidence must be fresh (within 5 minutes) and include actual command output.
 - **Complete Reference**: See [REFERENCE.md](./REFERENCE.md)
 - **Internal API**: See [FEATURES.md](./FEATURES.md)
 - **User Guide**: See [README.md](../README.md)
-- **Skills Reference**: See CLAUDE.md in your project
+- **Skills Reference**: See GEMINI.md in your project

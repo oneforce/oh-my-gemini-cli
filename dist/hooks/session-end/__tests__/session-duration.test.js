@@ -11,7 +11,7 @@ import { getSessionStartTime, recordSessionMetrics } from '../index.js';
  */
 let tmpDir;
 function stateDir() {
-    return path.join(tmpDir, '.omc', 'state');
+    return path.join(tmpDir, '.omg', 'state');
 }
 function writeState(filename, state) {
     const dir = stateDir();
@@ -30,7 +30,7 @@ function makeInput(overrides) {
     };
 }
 beforeEach(() => {
-    tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'omc-duration-test-'));
+    tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'omg-duration-test-'));
 });
 afterEach(() => {
     fs.rmSync(tmpDir, { recursive: true, force: true });

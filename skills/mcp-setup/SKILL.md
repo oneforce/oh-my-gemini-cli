@@ -6,11 +6,11 @@ level: 2
 
 # MCP Setup
 
-Configure Model Context Protocol (MCP) servers to extend Claude Code's capabilities with external tools like web search, file system access, and GitHub integration.
+Configure Model Context Protocol (MCP) servers to extend Gemini Code's capabilities with external tools like web search, file system access, and GitHub integration.
 
 ## Overview
 
-MCP servers provide additional tools that Claude Code agents can use. This skill helps you configure popular MCP servers using the `claude mcp add` command-line interface.
+MCP servers provide additional tools that Gemini Code agents can use. This skill helps you configure popular MCP servers using the `gemini mcp add` command-line interface.
 
 ## Step 1: Show Available MCP Servers
 
@@ -58,33 +58,33 @@ Do you have a GitHub Personal Access Token?
 
 ## Step 3: Add MCP Servers Using CLI
 
-Use the `claude mcp add` command to configure each MCP server. The CLI automatically handles settings.json updates and merging.
+Use the `gemini mcp add` command to configure each MCP server. The CLI automatically handles settings.json updates and merging.
 
 ### Context7 Configuration:
 ```bash
-claude mcp add context7 -- npx -y @upstash/context7-mcp
+gemini mcp add context7 -- npx -y @upstash/context7-mcp
 ```
 
 ### Exa Web Search Configuration:
 ```bash
-claude mcp add -e EXA_API_KEY=<user-provided-key> exa -- npx -y exa-mcp-server
+gemini mcp add -e EXA_API_KEY=<user-provided-key> exa -- npx -y exa-mcp-server
 ```
 
 ### Filesystem Configuration:
 ```bash
-claude mcp add filesystem -- npx -y @modelcontextprotocol/server-filesystem <allowed-directories>
+gemini mcp add filesystem -- npx -y @modelcontextprotocol/server-filesystem <allowed-directories>
 ```
 
 ### GitHub Configuration:
 
 **Option 1: Docker (local)**
 ```bash
-claude mcp add -e GITHUB_PERSONAL_ACCESS_TOKEN=<user-provided-token> github -- docker run -i --rm -e GITHUB_PERSONAL_ACCESS_TOKEN ghcr.io/github/github-mcp-server
+gemini mcp add -e GITHUB_PERSONAL_ACCESS_TOKEN=<user-provided-token> github -- docker run -i --rm -e GITHUB_PERSONAL_ACCESS_TOKEN ghcr.io/github/github-mcp-server
 ```
 
 **Option 2: HTTP (remote)**
 ```bash
-claude mcp add --transport http github https://api.githubcopilot.com/mcp/
+gemini mcp add --transport http github https://api.githubcopilot.com/mcp/
 ```
 
 > Note: Docker option requires Docker installed. HTTP option is simpler but may have different capabilities.
@@ -95,7 +95,7 @@ After configuration, verify the MCP servers are properly set up:
 
 ```bash
 # List configured MCP servers
-claude mcp list
+gemini mcp list
 ```
 
 This will display all configured MCP servers and their status.
@@ -109,9 +109,9 @@ CONFIGURED SERVERS:
 [List the servers that were configured]
 
 NEXT STEPS:
-1. Restart Claude Code for changes to take effect
+1. Restart Gemini Code for changes to take effect
 2. The configured MCP tools will be available to all agents
-3. Run `claude mcp list` to verify configuration
+3. Run `gemini mcp list` to verify configuration
 
 USAGE TIPS:
 - Context7: Ask about library documentation (e.g., "How do I use React hooks?")
@@ -120,15 +120,15 @@ USAGE TIPS:
 - GitHub: Interact with GitHub repos, issues, and PRs
 
 TROUBLESHOOTING:
-- If MCP servers don't appear, run `claude mcp list` to check status
+- If MCP servers don't appear, run `gemini mcp list` to check status
 - Ensure you have Node.js 18+ installed for npx-based servers
 - For GitHub Docker option, ensure Docker is installed and running
-- Run /oh-my-claudecode:omc-doctor to diagnose issues
+- Run /oh-my-gemini-cli:omg-doctor to diagnose issues
 
 MANAGING MCP SERVERS:
-- Add more servers: /oh-my-claudecode:mcp-setup or `claude mcp add ...`
-- List servers: `claude mcp list`
-- Remove a server: `claude mcp remove <server-name>`
+- Add more servers: /oh-my-gemini-cli:mcp-setup or `gemini mcp add ...`
+- List servers: `gemini mcp list`
+- Remove a server: `gemini mcp remove <server-name>`
 ```
 
 ## Custom MCP Server
@@ -143,24 +143,24 @@ Ask for:
 5. Environment variables (optional, key=value pairs)
 6. HTTP headers (optional, for http transport only)
 
-Then construct and run the appropriate `claude mcp add` command:
+Then construct and run the appropriate `gemini mcp add` command:
 
 **For stdio servers:**
 ```bash
 # Without environment variables
-claude mcp add <server-name> -- <command> [args...]
+gemini mcp add <server-name> -- <command> [args...]
 
 # With environment variables
-claude mcp add -e KEY1=value1 -e KEY2=value2 <server-name> -- <command> [args...]
+gemini mcp add -e KEY1=value1 -e KEY2=value2 <server-name> -- <command> [args...]
 ```
 
 **For HTTP servers:**
 ```bash
 # Basic HTTP server
-claude mcp add --transport http <server-name> <url>
+gemini mcp add --transport http <server-name> <url>
 
 # HTTP server with headers
-claude mcp add --transport http --header "Authorization: Bearer <token>" <server-name> <url>
+gemini mcp add --transport http --header "Authorization: Bearer <token>" <server-name> <url>
 ```
 
 ## Common Issues
@@ -168,19 +168,19 @@ claude mcp add --transport http --header "Authorization: Bearer <token>" <server
 ### MCP Server Not Loading
 - Ensure Node.js 18+ is installed
 - Check that npx is available in PATH
-- Run `claude mcp list` to verify server status
+- Run `gemini mcp list` to verify server status
 - Check server logs for errors
 
 ### API Key Issues
 - Exa: Verify key at https://dashboard.exa.ai
 - GitHub: Ensure token has required scopes (repo, read:org)
-- Re-run `claude mcp add` with correct credentials if needed
+- Re-run `gemini mcp add` with correct credentials if needed
 
 ### Agents Still Using Built-in Tools
-- Restart Claude Code after configuration
+- Restart Gemini Code after configuration
 - The built-in websearch will be deprioritized when exa is configured
-- Run `claude mcp list` to confirm servers are active
+- Run `gemini mcp list` to confirm servers are active
 
 ### Removing or Updating a Server
-- Remove: `claude mcp remove <server-name>`
+- Remove: `gemini mcp remove <server-name>`
 - Update: Remove the old server, then add it again with new configuration

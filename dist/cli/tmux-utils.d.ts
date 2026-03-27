@@ -1,8 +1,8 @@
 /**
- * tmux utility functions for omc native shell launch
- * Adapted from oh-my-codex patterns for omc
+ * tmux utility functions for omg native shell launch
+ * Adapted from oh-my-codex patterns for omg
  */
-export type ClaudeLaunchPolicy = 'inside-tmux' | 'outside-tmux' | 'direct';
+export type GeminiLaunchPolicy = 'inside-tmux' | 'outside-tmux' | 'direct';
 export interface TmuxPaneSnapshot {
     paneId: string;
     currentCommand: string;
@@ -13,9 +13,9 @@ export interface TmuxPaneSnapshot {
  */
 export declare function isTmuxAvailable(): boolean;
 /**
- * Check if claude CLI is available on the system
+ * Check if gemini CLI is available on the system
  */
-export declare function isClaudeAvailable(): boolean;
+export declare function isGeminiAvailable(): boolean;
 /**
  * Resolve launch policy based on environment and args
  * - inside-tmux: Already in tmux session, split pane for HUD
@@ -23,11 +23,11 @@ export declare function isClaudeAvailable(): boolean;
  * - direct: tmux not available, run directly
  * - direct: print mode requested so stdout can flow to parent process
  */
-export declare function resolveLaunchPolicy(env?: NodeJS.ProcessEnv, args?: string[]): ClaudeLaunchPolicy;
+export declare function resolveLaunchPolicy(env?: NodeJS.ProcessEnv, args?: string[]): GeminiLaunchPolicy;
 /**
  * Build tmux session name from directory, git branch, and UTC timestamp
- * Format: omc-{dir}-{branch}-{utctimestamp}
- * e.g.  omc-myproject-dev-20260221143052
+ * Format: omg-{dir}-{branch}-{utctimestamp}
+ * e.g.  omg-myproject-dev-20260221143052
  */
 export declare function buildTmuxSessionName(cwd: string): string;
 /**

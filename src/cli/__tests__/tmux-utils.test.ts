@@ -87,10 +87,10 @@ describe('resolveLaunchPolicy', () => {
 describe('wrapWithLoginShell', () => {
   it('wraps command with login shell using $SHELL', () => {
     vi.stubEnv('SHELL', '/bin/zsh');
-    const result = wrapWithLoginShell('claude --print');
+    const result = wrapWithLoginShell('gemini --print');
     expect(result).toContain('/bin/zsh');
     expect(result).toContain('-lc');
-    expect(result).toContain('claude --print');
+    expect(result).toContain('gemini --print');
     expect(result).toMatch(/^exec /);
   });
 
@@ -117,12 +117,12 @@ describe('wrapWithLoginShell', () => {
 
   it('works with complex multi-statement commands', () => {
     vi.stubEnv('SHELL', '/bin/zsh');
-    const cmd = 'sleep 0.3; echo hello; claude --dangerously-skip-permissions';
+    const cmd = 'sleep 0.3; echo hello; gemini --dangerously-skip-permissions';
     const result = wrapWithLoginShell(cmd);
     expect(result).toContain('/bin/zsh');
     expect(result).toContain('-lc');
     expect(result).toContain('sleep 0.3');
-    expect(result).toContain('claude');
+    expect(result).toContain('gemini');
   });
 
   it('handles shells with unusual paths', () => {
@@ -135,7 +135,7 @@ describe('wrapWithLoginShell', () => {
   it('sources ~/.zshrc for zsh shells', () => {
     vi.stubEnv('SHELL', '/bin/zsh');
     vi.stubEnv('HOME', '/home/testuser');
-    const result = wrapWithLoginShell('claude');
+    const result = wrapWithLoginShell('gemini');
     expect(result).toContain('.zshrc');
     expect(result).toContain('/home/testuser/.zshrc');
   });
@@ -143,7 +143,7 @@ describe('wrapWithLoginShell', () => {
   it('sources ~/.bashrc for bash shells', () => {
     vi.stubEnv('SHELL', '/bin/bash');
     vi.stubEnv('HOME', '/home/testuser');
-    const result = wrapWithLoginShell('claude');
+    const result = wrapWithLoginShell('gemini');
     expect(result).toContain('.bashrc');
     expect(result).toContain('/home/testuser/.bashrc');
   });
@@ -159,15 +159,15 @@ describe('wrapWithLoginShell', () => {
   it('skips rc sourcing when HOME is not set', () => {
     vi.stubEnv('SHELL', '/bin/zsh');
     vi.stubEnv('HOME', '');
-    const result = wrapWithLoginShell('claude');
+    const result = wrapWithLoginShell('gemini');
     expect(result).not.toContain('.zshrc');
-    expect(result).toContain('claude');
+    expect(result).toContain('gemini');
   });
 
   it('uses conditional test before sourcing rc file', () => {
     vi.stubEnv('SHELL', '/bin/zsh');
     vi.stubEnv('HOME', '/home/testuser');
-    const result = wrapWithLoginShell('claude');
+    const result = wrapWithLoginShell('gemini');
     expect(result).toContain('[ -f');
     expect(result).toContain('] && .');
   });

@@ -17,7 +17,7 @@ describe('bridge-manager cleanup', () => {
 
   beforeEach(() => {
     originalXdgRuntimeDir = process.env.XDG_RUNTIME_DIR;
-    tmpRuntimeRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'omc-bridge-cleanup-'));
+    tmpRuntimeRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'omg-bridge-cleanup-'));
     fs.chmodSync(tmpRuntimeRoot, 0o700);
     process.env.XDG_RUNTIME_DIR = tmpRuntimeRoot;
     fs.mkdirSync(getRuntimeDir(), { recursive: true });

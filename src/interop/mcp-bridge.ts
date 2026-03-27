@@ -46,7 +46,7 @@ export function canUseOmxDirectWriteBridge(env: NodeJS.ProcessEnv = process.env)
 // ============================================================================
 
 export const interopSendTaskTool: ToolDefinition<{
-  target: z.ZodEnum<['omc', 'omx']>;
+  target: z.ZodEnum<['omg', 'omx']>;
   type: z.ZodEnum<['analyze', 'implement', 'review', 'test', 'custom']>;
   description: z.ZodString;
   context: z.ZodOptional<z.ZodRecord<z.ZodString, z.ZodUnknown>>;
@@ -56,7 +56,7 @@ export const interopSendTaskTool: ToolDefinition<{
   name: 'interop_send_task',
   description: 'Send a task to the other tool (OMC -> OMX or OMX -> OMC) for execution. The task will be queued in shared state for the target tool to pick up.',
   schema: {
-    target: z.enum(['omc', 'omx']).describe('Target tool to send the task to'),
+    target: z.enum(['omg', 'omx']).describe('Target tool to send the task to'),
     type: z.enum(['analyze', 'implement', 'review', 'test', 'custom']).describe('Type of task'),
     description: z.string().describe('Task description'),
     context: z.record(z.string(), z.unknown()).optional().describe('Additional context data'),
@@ -70,7 +70,7 @@ export const interopSendTaskTool: ToolDefinition<{
       const cwd = workingDirectory || process.cwd();
 
       // Determine source (opposite of target)
-      const source = target === 'omc' ? 'omx' : 'omc';
+      const source = target === 'omg' ? 'omx' : 'omg';
 
       const task = addSharedTask(cwd, {
         source,
@@ -111,7 +111,7 @@ export const interopSendTaskTool: ToolDefinition<{
 // ============================================================================
 
 export const interopReadResultsTool: ToolDefinition<{
-  source: z.ZodOptional<z.ZodEnum<['omc', 'omx']>>;
+  source: z.ZodOptional<z.ZodEnum<['omg', 'omx']>>;
   status: z.ZodOptional<z.ZodEnum<['pending', 'in_progress', 'completed', 'failed']>>;
   limit: z.ZodOptional<z.ZodNumber>;
   workingDirectory: z.ZodOptional<z.ZodString>;
@@ -119,7 +119,7 @@ export const interopReadResultsTool: ToolDefinition<{
   name: 'interop_read_results',
   description: 'Read task results from the shared interop state. Can filter by source tool and status.',
   schema: {
-    source: z.enum(['omc', 'omx']).optional().describe('Filter by source tool'),
+    source: z.enum(['omg', 'omx']).optional().describe('Filter by source tool'),
     status: z.enum(['pending', 'in_progress', 'completed', 'failed']).optional().describe('Filter by task status'),
     limit: z.number().optional().describe('Maximum number of tasks to return (default: 10)'),
     workingDirectory: z.string().optional().describe('Working directory (defaults to cwd)'),
@@ -131,7 +131,7 @@ export const interopReadResultsTool: ToolDefinition<{
       const cwd = workingDirectory || process.cwd();
 
       const tasks = readSharedTasks(cwd, {
-        source: source as 'omc' | 'omx' | undefined,
+        source: source as 'omg' | 'omx' | undefined,
         status: status as SharedTask['status'] | undefined,
       });
 
@@ -204,7 +204,7 @@ export const interopReadResultsTool: ToolDefinition<{
 // ============================================================================
 
 export const interopSendMessageTool: ToolDefinition<{
-  target: z.ZodEnum<['omc', 'omx']>;
+  target: z.ZodEnum<['omg', 'omx']>;
   content: z.ZodString;
   metadata: z.ZodOptional<z.ZodRecord<z.ZodString, z.ZodUnknown>>;
   workingDirectory: z.ZodOptional<z.ZodString>;
@@ -212,7 +212,7 @@ export const interopSendMessageTool: ToolDefinition<{
   name: 'interop_send_message',
   description: 'Send a message to the other tool for informational purposes or coordination.',
   schema: {
-    target: z.enum(['omc', 'omx']).describe('Target tool to send the message to'),
+    target: z.enum(['omg', 'omx']).describe('Target tool to send the message to'),
     content: z.string().describe('Message content'),
     metadata: z.record(z.string(), z.unknown()).optional().describe('Additional metadata'),
     workingDirectory: z.string().optional().describe('Working directory (defaults to cwd)'),
@@ -224,7 +224,7 @@ export const interopSendMessageTool: ToolDefinition<{
       const cwd = workingDirectory || process.cwd();
 
       // Determine source (opposite of target)
-      const source = target === 'omc' ? 'omx' : 'omc';
+      const source = target === 'omg' ? 'omx' : 'omg';
 
       const message = addSharedMessage(cwd, {
         source,
@@ -260,7 +260,7 @@ export const interopSendMessageTool: ToolDefinition<{
 // ============================================================================
 
 export const interopReadMessagesTool: ToolDefinition<{
-  source: z.ZodOptional<z.ZodEnum<['omc', 'omx']>>;
+  source: z.ZodOptional<z.ZodEnum<['omg', 'omx']>>;
   unreadOnly: z.ZodOptional<z.ZodBoolean>;
   limit: z.ZodOptional<z.ZodNumber>;
   markAsRead: z.ZodOptional<z.ZodBoolean>;
@@ -269,7 +269,7 @@ export const interopReadMessagesTool: ToolDefinition<{
   name: 'interop_read_messages',
   description: 'Read messages from the shared interop state. Can filter by source tool and read status.',
   schema: {
-    source: z.enum(['omc', 'omx']).optional().describe('Filter by source tool'),
+    source: z.enum(['omg', 'omx']).optional().describe('Filter by source tool'),
     unreadOnly: z.boolean().optional().describe('Show only unread messages (default: false)'),
     limit: z.number().optional().describe('Maximum number of messages to return (default: 10)'),
     markAsRead: z.boolean().optional().describe('Mark retrieved messages as read (default: false)'),
@@ -282,7 +282,7 @@ export const interopReadMessagesTool: ToolDefinition<{
       const cwd = workingDirectory || process.cwd();
 
       const messages = readSharedMessages(cwd, {
-        source: source as 'omc' | 'omx' | undefined,
+        source: source as 'omg' | 'omx' | undefined,
         unreadOnly,
       });
 
@@ -422,7 +422,7 @@ export const interopSendOmxMessageTool: ToolDefinition<{
   description: 'Send a message to an OMX team worker mailbox using the native omx format. Supports direct messages and broadcasts.',
   schema: {
     teamName: z.string().describe('OMX team name'),
-    fromWorker: z.string().describe('Sender worker name (e.g., "omc-bridge")'),
+    fromWorker: z.string().describe('Sender worker name (e.g., "omg-bridge")'),
     toWorker: z.string().describe('Target worker name (ignored if broadcast=true)'),
     body: z.string().describe('Message body'),
     broadcast: z.boolean().optional().describe('Broadcast to all workers (default: false)'),

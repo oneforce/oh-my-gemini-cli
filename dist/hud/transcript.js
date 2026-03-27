@@ -1,8 +1,8 @@
 /**
  * OMC HUD - Transcript Parser
  *
- * Parse JSONL transcript from Claude Code to extract agents and todos.
- * Based on claude-hud reference implementation.
+ * Parse JSONL transcript from Gemini Code to extract agents and todos.
+ * Based on gemini-hud reference implementation.
  *
  * Performance optimizations:
  * - Tail-based parsing: reads only the last ~500KB of large transcripts
@@ -17,7 +17,7 @@ const MAX_TAIL_BYTES = 512 * 1024; // 500KB - enough for recent activity
 const MAX_AGENT_MAP_SIZE = 100; // Cap agent tracking
 const _MIN_RUNNING_AGENTS_THRESHOLD = 10; // Early termination threshold
 /**
- * Tools known to require permission approval in Claude Code.
+ * Tools known to require permission approval in Gemini Code.
  * Only these tools will trigger the "APPROVE?" indicator.
  */
 const PERMISSION_TOOLS = [

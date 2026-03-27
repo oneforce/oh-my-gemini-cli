@@ -1,11 +1,11 @@
 ---
-title: Oh-My-ClaudeCode
+title: Oh-My-GeminiCLI
 subtitle: Multi-Agent Orchestration for Autonomous Development
 author: Yeachan Heo
 theme: night
 ---
 
-# Oh-My-ClaudeCode
+# Oh-My-GeminiCLI
 
 **Multi-Agent Orchestration for Autonomous Development**
 
@@ -24,7 +24,7 @@ What do you need?
 *Drop your idea in the chat!*
 
 ---
-# oh-my-claudecode: Multi-Agent Orchestration for Claude Code
+# oh-my-gemini-cli: Multi-Agent Orchestration for Gemini Code
 
 ## Zero learning curve. Maximum power.
 
@@ -46,7 +46,7 @@ Version 3.6.3
 | 0:54 | Getting Started |
 | 0:58 | Q&A |
 
-Note: This is a 60-minute seminar covering the complete oh-my-claudecode system. We'll focus on practical usage patterns.
+Note: This is a 60-minute seminar covering the complete oh-my-gemini-cli system. We'll focus on practical usage patterns.
 
 ---
 
@@ -60,7 +60,7 @@ Note: This is a 60-minute seminar covering the complete oh-my-claudecode system.
 - No persistence - AI gives up when tasks get hard <!-- .element: class="fragment" -->
 - Token waste - using expensive models for simple tasks <!-- .element: class="fragment" -->
 
-Note: These are real problems I faced building production applications with Claude Code. OMC was born from frustration with manually orchestrating AI-assisted development.
+Note: These are real problems I faced building production applications with Gemini Code. OMC was born from frustration with manually orchestrating AI-assisted development.
 
 ---
 <!-- .slide: data-background="#1a1a2e" -->
@@ -70,9 +70,9 @@ Note: These are real problems I faced building production applications with Clau
 
 ---
 
-## What is oh-my-claudecode?
+## What is oh-my-gemini-cli?
 
-**A multi-agent orchestration system for Claude Code**
+**A multi-agent orchestration system for Gemini Code**
 
 ```
                     +------------------+
@@ -81,7 +81,7 @@ Note: These are real problems I faced building production applications with Clau
                              |
                              v
                     +------------------+
-                    |  Claude (Conductor)  |
+                    |  Gemini (Conductor)  |
                     +--------+---------+
                              |
               +--------------+--------------+
@@ -101,7 +101,7 @@ Note: These are real problems I faced building production applications with Clau
 - 37 skills <!-- .element: class="fragment" -->
 - Zero configuration required <!-- .element: class="fragment" -->
 
-Note: OMC transforms Claude from a single performer into a conductor of an orchestra of specialized AI agents.
+Note: OMC transforms Gemini from a single performer into a conductor of an orchestra of specialized AI agents.
 
 ---
 
@@ -111,12 +111,12 @@ Note: OMC transforms Claude from a single performer into a conductor of an orche
 
 **Traditional AI Workflow:**
 ```
-User -> Claude -> [Does everything itself]
+User -> Gemini -> [Does everything itself]
 ```
 
 **OMC Workflow:**
 ```
-User -> Claude (Conductor) -> [Delegates to specialists]
+User -> Gemini (Conductor) -> [Delegates to specialists]
                                     |
                     +---------------+---------------+
                     |               |               |
@@ -124,9 +124,9 @@ User -> Claude (Conductor) -> [Delegates to specialists]
               (analysis)   (implementation)   (UI/UX)
 ```
 
-**Claude becomes an intelligent orchestrator** that delegates to the right specialist for each task.
+**Gemini becomes an intelligent orchestrator** that delegates to the right specialist for each task.
 
-Note: This is the core mental model. Claude stops being a generalist trying to do everything and becomes a smart coordinator.
+Note: This is the core mental model. Gemini stops being a generalist trying to do everything and becomes a smart coordinator.
 
 ---
 
@@ -296,7 +296,7 @@ I want a/an...
 ```
 autopilot: build a REST API with CRUD for inventory
 
-/oh-my-claudecode:autopilot Add OAuth2 authentication
+/oh-my-gemini-cli:autopilot Add OAuth2 authentication
 
 autopilot: create a CLI tool that tracks daily habits
 ```
@@ -685,13 +685,13 @@ Note: The tier system is central to OMC's cost efficiency. Always start low and 
 **Delegation Code:**
 ```javascript
 Task(
-  subagent_type="oh-my-claudecode:executor-low",
+  subagent_type="oh-my-gemini-cli:executor-low",
   model="haiku",
   prompt="Add validation to the login form"
 )
 ```
 
-Note: The model parameter is always passed explicitly - Claude Code doesn't auto-apply model from agent definitions.
+Note: The model parameter is always passed explicitly - Gemini Code doesn't auto-apply model from agent definitions.
 
 ---
 
@@ -896,7 +896,7 @@ Q3: What are your security requirements?
 [After user answers...]
 
 Creating implementation plan...
-Plan saved to: .omc/plans/auth-system.md
+Plan saved to: .omg/plans/auth-system.md
 ```
 
 Note: Planning mode uses an interactive interview to gather requirements before creating a detailed plan.
@@ -993,7 +993,7 @@ Note: Keywords are optional - natural language works fine. Keywords just give yo
 
 **Setup:**
 ```
-/oh-my-claudecode:hud setup
+/oh-my-gemini-cli:hud setup
 ```
 
 **Presets:**
@@ -1001,7 +1001,7 @@ Note: Keywords are optional - natural language works fine. Keywords just give yo
 - `focused` - Mode + progress (default)
 - `full` - Everything including cost
 
-Note: The HUD integrates with Claude Code's statusLine API to show real-time orchestration state.
+Note: The HUD integrates with Gemini Code's statusLine API to show real-time orchestration state.
 
 ---
 
@@ -1009,7 +1009,7 @@ Note: The HUD integrates with Claude Code's statusLine API to show real-time orc
 
 **Plan-scoped knowledge capture:**
 
-Location: `.omc/notepads/{plan-name}/`
+Location: `.omg/notepads/{plan-name}/`
 
 | File | Purpose | Example |
 |------|---------|---------|
@@ -1034,7 +1034,7 @@ Note: Wisdom persists across sessions - future work on the same plan gets this c
 **Track token usage and costs:**
 
 ```
-$ omc-analytics summary
+$ omg-analytics summary
 
 Session Summary (last 7 days)
 -----------------------------
@@ -1074,25 +1074,25 @@ Note: Analytics help you understand where tokens are going and optimize your usa
 
 **Method 1: Plugin Marketplace (Recommended)**
 ```bash
-/plugin marketplace add https://github.com/Yeachan-Heo/oh-my-claudecode
-/plugin install oh-my-claudecode
+/plugin marketplace add https://github.com/Yeachan-Heo/oh-my-gemini-cli
+/plugin install oh-my-gemini-cli
 ```
 
 **Method 2: NPM Global**
 ```bash
-npm install -g oh-my-claudecode
+npm install -g oh-my-gemini-cli
 ```
 
 **Method 3: Manual Git Clone**
 ```bash
-git clone https://github.com/Yeachan-Heo/oh-my-claudecode.git
-cd oh-my-claudecode
+git clone https://github.com/Yeachan-Heo/oh-my-gemini-cli.git
+cd oh-my-gemini-cli
 npm install && npm run build
 ```
 
 **Requirements:**
-- Claude Code CLI
-- Claude Max/Pro subscription OR Anthropic API key
+- Gemini Code CLI
+- Gemini Max/Pro subscription OR Anthropic API key
 - Node.js 20+
 
 Note: Plugin marketplace is the easiest - one command and you're done.
@@ -1103,13 +1103,13 @@ Note: Plugin marketplace is the easiest - one command and you're done.
 
 **Step 1: Install**
 ```bash
-/plugin marketplace add https://github.com/Yeachan-Heo/oh-my-claudecode
-/plugin install oh-my-claudecode
+/plugin marketplace add https://github.com/Yeachan-Heo/oh-my-gemini-cli
+/plugin install oh-my-gemini-cli
 ```
 
 **Step 2: Setup**
 ```bash
-/oh-my-claudecode:omc-setup
+/oh-my-gemini-cli:omg-setup
 ```
 (Configures defaults, HUD, preferences)
 
@@ -1126,15 +1126,15 @@ Note: Zero learning curve means you can start using OMC immediately after instal
 
 ## Configuration
 
-**Project-level:** `CLAUDE.md` in project root
-**Global:** `~/.claude/CLAUDE.md`
+**Project-level:** `GEMINI.md` in project root
+**Global:** `~/.gemini/GEMINI.md`
 
 **Key Settings:**
 
 ```json
-// ~/.claude/settings.json
+// ~/.gemini/settings.json
 {
-  "omc": {
+  "omg": {
     "defaultExecutionMode": "ultrawork",  // or ""
     "autopilot": {
       "maxIterations": 10,
@@ -1184,17 +1184,17 @@ Note: Matching the right mode to the task type is key to getting the most out of
 
 **GitHub Repository**
 ```
-github.com/Yeachan-Heo/oh-my-claudecode
+github.com/Yeachan-Heo/oh-my-gemini-cli
 ```
 
 **Website & Documentation**
 ```
-yeachan-heo.github.io/oh-my-claudecode-website
+yeachan-heo.github.io/oh-my-gemini-cli-website
 ```
 
 **NPM Package**
 ```
-npm install -g oh-my-claudecode
+npm install -g oh-my-gemini-cli
 ```
 
 **Documentation Directory**
@@ -1206,8 +1206,8 @@ npm install -g oh-my-claudecode
 
 **Getting Help**
 ```
-/oh-my-claudecode:omc-help    - Usage guide
-/oh-my-claudecode:omc-doctor  - Diagnose issues
+/oh-my-gemini-cli:omg-help    - Usage guide
+/oh-my-gemini-cli:omg-doctor  - Diagnose issues
 ```
 
 Note: The GitHub repo has all documentation, examples, and issue tracking.
@@ -1220,10 +1220,10 @@ Note: The GitHub repo has all documentation, examples, and issue tracking.
 
 | Question | Answer |
 |----------|--------|
-| Does OMC work with Claude API keys? | Yes, both Max/Pro subscription and API keys work |
-| Can I use OMC with other AI models? | No, OMC is specifically for Claude Code |
-| How do I stop a runaway autopilot? | Say "stop", "cancel", or `/oh-my-claudecode:cancel` |
-| Why is my HUD not showing? | Run `/oh-my-claudecode:hud setup` |
+| Does OMC work with Gemini API keys? | Yes, both Max/Pro subscription and API keys work |
+| Can I use OMC with other AI models? | No, OMC is specifically for Gemini Code |
+| How do I stop a runaway autopilot? | Say "stop", "cancel", or `/oh-my-gemini-cli:cancel` |
+| Why is my HUD not showing? | Run `/oh-my-gemini-cli:hud setup` |
 | Can I create custom agents? | Yes, add `.md` files to `agents/` directory |
 | Is there a cost limit? | No built-in limit, but  helps control costs |
 
@@ -1235,18 +1235,18 @@ Note: Thank you for attending! Feel free to reach out via GitHub issues for any 
 
 ## Thank You
 
-**oh-my-claudecode**
+**oh-my-gemini-cli**
 
 Zero learning curve. Maximum power.
 
 ```
-github.com/Yeachan-Heo/oh-my-claudecode
+github.com/Yeachan-Heo/oh-my-gemini-cli
 ```
 
 **Get Started Now:**
 ```
-/plugin marketplace add https://github.com/Yeachan-Heo/oh-my-claudecode
-/plugin install oh-my-claudecode
+/plugin marketplace add https://github.com/Yeachan-Heo/oh-my-gemini-cli
+/plugin install oh-my-gemini-cli
 autopilot: build something amazing
 ```
 
@@ -1338,7 +1338,7 @@ autopilot: build something amazing
 | Skill | Purpose | Trigger |
 |-------|---------|---------|
 | help | Show usage guide | `/help` |
-| omc-setup | Setup wizard | `/omc-setup` |
+| omg-setup | Setup wizard | `/omg-setup` |
 | ralph-init | Initialize PRD | `/ralph-init` |
 | release | Release workflow | `/release` |
 | review | Review plan | "review plan" |
@@ -1352,11 +1352,11 @@ autopilot: build something amazing
 
 | Shortcut | Full Command | Effect |
 |----------|--------------|--------|
-| `autopilot:` | `/oh-my-claudecode:autopilot` | Full autonomous mode |
-| `ralph:` | `/oh-my-claudecode:ralph` | Persistence mode |
-| `ulw` | `/oh-my-claudecode:ultrawork` | Parallel execution |
-| `eco:` | `/oh-my-claudecode:` | Token-efficient mode |
-| `plan` | `/oh-my-claudecode:plan` | Planning interview |
+| `autopilot:` | `/oh-my-gemini-cli:autopilot` | Full autonomous mode |
+| `ralph:` | `/oh-my-gemini-cli:ralph` | Persistence mode |
+| `ulw` | `/oh-my-gemini-cli:ultrawork` | Parallel execution |
+| `eco:` | `/oh-my-gemini-cli:` | Token-efficient mode |
+| `plan` | `/oh-my-gemini-cli:plan` | Planning interview |
 
 **Combinations:**
 ```

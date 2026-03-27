@@ -78,7 +78,7 @@ describe('mission board renderer', () => {
     it('inserts the mission board above existing HUD detail lines when enabled', async () => {
         const context = {
             contextPercent: 20,
-            modelName: 'claude-sonnet',
+            modelName: 'gemini-sonnet',
             ralph: null,
             ultrawork: null,
             prd: null,
@@ -94,7 +94,7 @@ describe('mission board renderer', () => {
             pendingPermission: null,
             thinkingState: null,
             sessionHealth: null,
-            omcVersion: '4.7.8',
+            omgVersion: '4.7.8',
             updateAvailable: null,
             toolCallCount: 0,
             agentCallCount: 0,
@@ -115,7 +115,7 @@ describe('mission board renderer', () => {
             },
             elements: {
                 ...DEFAULT_HUD_CONFIG.elements,
-                omcLabel: true,
+                omgLabel: true,
                 missionBoard: true,
                 rateLimits: false,
                 ralph: false,

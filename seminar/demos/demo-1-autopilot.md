@@ -21,7 +21,7 @@ cd ~/demo-workspace/bookstore-api
 ls -la  # Should be empty
 
 # Clear any previous OMC state
-rm -rf .omc
+rm -rf .omg
 ```
 
 ## The Command
@@ -109,7 +109,7 @@ bookstore-api/
 │   └── app.ts
 ├── tests/
 │   └── books.test.ts
-└── .omc/
+└── .omg/
     ├── plans/autopilot-bookstore-api.md
     └── notepads/autopilot-bookstore-api/
         └── learnings.md

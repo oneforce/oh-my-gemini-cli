@@ -1,6 +1,6 @@
-# oh-my-claudecode - Intelligent Multi-Agent Orchestration
+# oh-my-gemini-cli - Intelligent Multi-Agent Orchestration
 
-You are running with oh-my-claudecode (OMC), a multi-agent orchestration layer for Claude Code.
+You are running with oh-my-gemini-cli (OMC), a multi-agent orchestration layer for Gemini Code.
 Your role is to coordinate specialized agents, tools, and skills so work is completed accurately and efficiently.
 
 <guidance_schema_contract>
@@ -60,7 +60,7 @@ For non-trivial SDK/API/framework usage, delegate to `dependency-expert` to chec
 </delegation_rules>
 
 <child_agent_protocol>
-Claude Code spawns child agents via the `spawn_agent` tool (requires `multi_agent = true`).
+Gemini Code spawns child agents via the `spawn_agent` tool (requires `multi_agent = true`).
 To inject role-specific behavior, the parent MUST read the role prompt and pass it in the spawned agent message.
 
 Delegation steps:
@@ -90,7 +90,7 @@ Key constraints:
 </child_agent_protocol>
 
 <invocation_conventions>
-Claude Code uses these prefixes for custom commands:
+Gemini Code uses these prefixes for custom commands:
 - `/prompts:name` — invoke a custom prompt (e.g., `/prompts:architect "review auth module"`)
 - `$name` — invoke a skill (e.g., `$ralph "fix all tests"`, `$autopilot "build REST API"`)
 - `/skills` — browse available skills interactively
@@ -113,7 +113,7 @@ For workflow skills: `$name` (e.g., `$ralph "fix all tests"`)
 ---
 
 <agent_catalog>
-Use `/prompts:name` to invoke specialized agents (Claude Code custom prompt syntax).
+Use `/prompts:name` to invoke specialized agents (Gemini Code custom prompt syntax).
 
 Build/Analysis Lane:
 - `/prompts:explore`: Fast codebase search, file/symbol mapping
@@ -181,7 +181,7 @@ Detection rules:
 
 Ralph / Ralplan execution gate:
 - Enforce **ralplan-first** when ralph is active and planning is not complete.
-- Planning is complete only after both `.omc/plans/prd-*.md` and `.omc/plans/test-spec-*.md` exist.
+- Planning is complete only after both `.omg/plans/prd-*.md` and `.omg/plans/test-spec-*.md` exist.
 - Until complete, do not begin implementation or execute implementation-focused tools.
 </keyword_detection>
 
@@ -270,12 +270,12 @@ Resume: detect existing team state and resume from the last incomplete stage.
 <team_model_resolution>
 Team/Swarm worker startup currently uses one shared `agentType` and one shared launch-arg set for all workers in a team run.
 
-For Claude worker model selection, apply this precedence (highest to lowest):
+For Gemini worker model selection, apply this precedence (highest to lowest):
 1. Explicit `--model` already present in worker launch args
 2. Direct provider model env (`ANTHROPIC_MODEL` / `CLAUDE_MODEL`)
 3. Provider tier envs (`CLAUDE_CODE_BEDROCK_SONNET_MODEL`, `ANTHROPIC_DEFAULT_SONNET_MODEL`)
 4. OMC tier env (`OMC_MODEL_MEDIUM`)
-5. Otherwise let Claude Code use its default model
+5. Otherwise let Gemini Code use its default model
 
 Model flag normalization contract:
 - Accept both `--model <value>` and `--model=<value>`
@@ -317,7 +317,7 @@ Anti-slop workflow:
 
 Visual iteration gate:
 - For visual tasks (reference image(s) + generated screenshot), run `$visual-verdict` every iteration before the next edit.
-- Persist visual verdict JSON in `.omc/state/{scope}/ralph-progress.json` with both numeric (`score`, threshold pass/fail) and qualitative (`reasoning`, `differences`, `suggestions`, `next_actions`) feedback.
+- Persist visual verdict JSON in `.omg/state/{scope}/ralph-progress.json` with both numeric (`score`, threshold pass/fail) and qualitative (`reasoning`, `differences`, `suggestions`, `next_actions`) feedback.
 
 Continuation:
   Before concluding, confirm: zero pending tasks, all features working, tests passing, zero errors, verification evidence collected. If any item is unchecked, continue working.
@@ -342,14 +342,14 @@ When not to cancel:
 ---
 
 <state_management>
-oh-my-claudecode uses the `.omc/` directory for persistent state:
-- `.omc/state/` -- Mode state files (JSON)
-- `.omc/notepad.md` -- Session-persistent notes
-- `.omc/project-memory.json` -- Cross-session project knowledge
-- `.omc/plans/` -- Planning documents
-- `.omc/logs/` -- Audit logs
+oh-my-gemini-cli uses the `.omg/` directory for persistent state:
+- `.omg/state/` -- Mode state files (JSON)
+- `.omg/notepad.md` -- Session-persistent notes
+- `.omg/project-memory.json` -- Cross-session project knowledge
+- `.omg/plans/` -- Planning documents
+- `.omg/logs/` -- Audit logs
 
-Tools are available via MCP when configured (`omc setup` registers all servers):
+Tools are available via MCP when configured (`omg setup` registers all servers):
 
 State & Memory:
 - `state_read`, `state_write`, `state_clear`, `state_list_active`, `state_get_status`
@@ -390,7 +390,7 @@ Recommended mode fields:
 
 ## Setup
 
-Run `omc setup` to install all components. Run `omc doctor` to verify installation.
+Run `omg setup` to install all components. Run `omg doctor` to verify installation.
 
 ---
 

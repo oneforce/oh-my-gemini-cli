@@ -12,7 +12,7 @@ export interface ApprovedExecutionLaunchHint {
     sourcePath: string;
 }
 /**
- * Read planning artifacts from .omc/plans/ directory.
+ * Read planning artifacts from .omg/plans/ directory.
  * Returns paths to all PRD and test-spec files found.
  */
 export declare function readPlanningArtifacts(cwd: string): PlanningArtifacts;

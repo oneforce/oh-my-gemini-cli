@@ -2,8 +2,8 @@
 /**
  * OMC HUD - Main Entry Point
  *
- * Statusline command that visualizes oh-my-claudecode state.
- * Receives stdin JSON from Claude Code and outputs formatted statusline.
+ * Statusline command that visualizes oh-my-gemini-cli state.
+ * Receives stdin JSON from Gemini Code and outputs formatted statusline.
  */
 /**
  * Main HUD entry point

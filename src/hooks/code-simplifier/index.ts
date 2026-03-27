@@ -4,7 +4,7 @@
  * Intercepts Stop events to automatically delegate recently modified files
  * to the code-simplifier agent for cleanup and simplification.
  *
- * Opt-in via ~/.omc/config.json: { "codeSimplifier": { "enabled": true } }
+ * Opt-in via ~/.omg/config.json: { "codeSimplifier": { "enabled": true } }
  * Default: disabled (opt-in only)
  */
 
@@ -40,11 +40,11 @@ const DEFAULT_MAX_FILES = 10;
 export const TRIGGER_MARKER_FILENAME = 'code-simplifier-triggered.marker';
 
 /**
- * Read the global OMC config from ~/.omc/config.json.
+ * Read the global OMC config from ~/.omg/config.json.
  * Returns null if the file does not exist or cannot be parsed.
  */
 export function readOmcConfig(): OmcGlobalConfig | null {
-  const configPath = join(homedir(), '.omc', 'config.json');
+  const configPath = join(homedir(), '.omg', 'config.json');
 
   if (!existsSync(configPath)) {
     return null;
@@ -132,7 +132,7 @@ export function clearTriggerMarker(stateDir: string): void {
 }
 
 /**
- * Build the message injected into Claude's context when code-simplifier triggers.
+ * Build the message injected into Gemini's context when code-simplifier triggers.
  */
 export function buildSimplifierMessage(files: string[]): string {
   const fileList = files.map((f) => `  - ${f}`).join('\n');
@@ -142,7 +142,7 @@ export function buildSimplifierMessage(files: string[]): string {
 
 ${fileList}
 
-Use: Task(subagent_type="oh-my-claudecode:code-simplifier", prompt="Simplify the recently modified files:\\n${fileArgs}")`;
+Use: Task(subagent_type="oh-my-gemini-cli:code-simplifier", prompt="Simplify the recently modified files:\\n${fileArgs}")`;
 }
 
 /**

@@ -9,35 +9,35 @@ level: 2
 
 `psm` is the compatibility alias for this canonical skill entrypoint.
 
-> **Quick Start:** For simple worktree creation without tmux sessions, use `omc teleport`:
+> **Quick Start:** For simple worktree creation without tmux sessions, use `omg teleport`:
 > ```bash
-> omc teleport #123          # Create worktree for issue/PR
-> omc teleport my-feature    # Create worktree for feature
-> omc teleport list          # List worktrees
+> omg teleport #123          # Create worktree for issue/PR
+> omg teleport my-feature    # Create worktree for feature
+> omg teleport list          # List worktrees
 > ```
 > See [Teleport Command](#teleport-command) below for details.
 
-Automate isolated development environments using git worktrees and tmux sessions with Claude Code. Enables parallel work across multiple tasks, projects, and repositories.
+Automate isolated development environments using git worktrees and tmux sessions with Gemini Code. Enables parallel work across multiple tasks, projects, and repositories.
 
-Canonical slash command: `/oh-my-claudecode:project-session-manager` (alias: `/oh-my-claudecode:psm`).
+Canonical slash command: `/oh-my-gemini-cli:project-session-manager` (alias: `/oh-my-gemini-cli:psm`).
 
 ## Commands
 
 | Command | Description | Example |
 |---------|-------------|---------|
-| `review <ref>` | PR review session | `/psm review omc#123` |
-| `fix <ref>` | Issue fix session | `/psm fix omc#42` |
-| `feature <proj> <name>` | Feature development | `/psm feature omc add-webhooks` |
+| `review <ref>` | PR review session | `/psm review omg#123` |
+| `fix <ref>` | Issue fix session | `/psm fix omg#42` |
+| `feature <proj> <name>` | Feature development | `/psm feature omg add-webhooks` |
 | `list [project]` | List active sessions | `/psm list` |
-| `attach <session>` | Attach to session | `/psm attach omc:pr-123` |
-| `kill <session>` | Kill session | `/psm kill omc:pr-123` |
+| `attach <session>` | Attach to session | `/psm attach omg:pr-123` |
+| `kill <session>` | Kill session | `/psm kill omg:pr-123` |
 | `cleanup` | Clean merged/closed | `/psm cleanup` |
 | `status` | Current session info | `/psm status` |
 
 ## Project References
 
 Supported formats:
-- **Alias**: `omc#123` (requires `~/.psm/projects.json`)
+- **Alias**: `omg#123` (requires `~/.psm/projects.json`)
 - **Full**: `owner/repo#123`
 - **URL**: `https://github.com/owner/repo/pull/123`
 - **Current**: `#123` (uses current directory's repo)
@@ -49,9 +49,9 @@ Supported formats:
 ```json
 {
   "aliases": {
-    "omc": {
-      "repo": "Yeachan-Heo/oh-my-claudecode",
-      "local": "~/Workspace/oh-my-claudecode",
+    "omg": {
+      "repo": "Yeachan-Heo/oh-my-gemini-cli",
+      "local": "~/Workspace/oh-my-gemini-cli",
       "default_base": "main"
     }
   },
@@ -156,9 +156,9 @@ The Jira CLI handles authentication separately from PSM.
 
 | Type | Tmux Session | Worktree Dir |
 |------|--------------|--------------|
-| PR Review | `psm:omc:pr-123` | `~/.psm/worktrees/omc/pr-123` |
-| Issue Fix | `psm:omc:issue-42` | `~/.psm/worktrees/omc/issue-42` |
-| Feature | `psm:omc:feat-auth` | `~/.psm/worktrees/omc/feat-auth` |
+| PR Review | `psm:omg:pr-123` | `~/.psm/worktrees/omg/pr-123` |
+| Issue Fix | `psm:omg:issue-42` | `~/.psm/worktrees/omg/issue-42` |
+| Feature | `psm:omg:feat-auth` | `~/.psm/worktrees/omg/feat-auth` |
 
 ---
 
@@ -171,7 +171,7 @@ When the user invokes a PSM command, follow this protocol:
 Parse `{{ARGUMENTS}}` to determine:
 1. **Subcommand**: review, fix, feature, list, attach, kill, cleanup, status
 2. **Reference**: project#number, URL, or session ID
-3. **Options**: --branch, --base, --no-claude, --no-tmux, etc.
+3. **Options**: --branch, --base, --no-gemini, --no-tmux, etc.
 
 ### Subcommand: `review <ref>`
 
@@ -248,20 +248,20 @@ Parse `{{ARGUMENTS}}` to determine:
    tmux new-session -d -s "psm:$project_alias:pr-$pr_number" -c "$worktree_path"
    ```
 
-8. **Launch Claude Code** (unless --no-claude):
+8. **Launch Gemini Code** (unless --no-gemini):
    ```bash
-   tmux send-keys -t "psm:$project_alias:pr-$pr_number" "claude" Enter
+   tmux send-keys -t "psm:$project_alias:pr-$pr_number" "gemini" Enter
    ```
 
 9. **Output session info**:
    ```
    Session ready!
 
-     ID: omc:pr-123
-     Worktree: ~/.psm/worktrees/omc/pr-123
-     Tmux: psm:omc:pr-123
+     ID: omg:pr-123
+     Worktree: ~/.psm/worktrees/omg/pr-123
+     Tmux: psm:omg:pr-123
 
-   To attach: tmux attach -t psm:omc:pr-123
+   To attach: tmux attach -t psm:omg:pr-123
    ```
 
 ### Subcommand: `fix <ref>`
@@ -293,7 +293,7 @@ Parse `{{ARGUMENTS}}` to determine:
 
 5. **Create session metadata** (similar to review, type="fix")
 
-6. **Update registry, create tmux, launch claude** (same as review)
+6. **Update registry, create tmux, launch gemini** (same as review)
 
 ### Subcommand: `feature <project> <name>`
 
@@ -317,7 +317,7 @@ Parse `{{ARGUMENTS}}` to determine:
    git worktree add "$worktree_path" "$branch_name"
    ```
 
-4. **Create session, tmux, launch claude** (same pattern)
+4. **Create session, tmux, launch gemini** (same pattern)
 
 ### Subcommand: `list [project]`
 
@@ -346,8 +346,8 @@ Parse `{{ARGUMENTS}}` to determine:
 
    ID                 | Type    | Status   | Worktree
    -------------------|---------|----------|---------------------------
-   omc:pr-123        | review  | active   | ~/.psm/worktrees/omc/pr-123
-   omc:issue-42      | fix     | detached | ~/.psm/worktrees/omc/issue-42
+   omg:pr-123        | review  | active   | ~/.psm/worktrees/omg/pr-123
+   omg:issue-42      | fix     | detached | ~/.psm/worktrees/omg/issue-42
    ```
 
 ### Subcommand: `attach <session>`
@@ -419,9 +419,9 @@ Parse `{{ARGUMENTS}}` to determine:
 5. **Report**:
    ```
    Cleanup complete:
-     Removed: omc:pr-123 (merged)
-     Removed: omc:issue-42 (closed)
-     Kept: omc:feat-auth (active)
+     Removed: omg:pr-123 (merged)
+     Removed: omg:issue-42 (closed)
+     Kept: omg:feat-auth (active)
    ```
 
 ### Subcommand: `status`
@@ -443,7 +443,7 @@ Parse `{{ARGUMENTS}}` to determine:
 
 3. **Show status**:
    ```
-   Current Session: omc:pr-123
+   Current Session: omg:pr-123
    Type: review
    PR: #123 - Add webhook support
    Branch: feature/webhooks
@@ -463,25 +463,25 @@ Parse `{{ARGUMENTS}}` to determine:
 
 ## Teleport Command
 
-The `omc teleport` command provides a lightweight alternative to full PSM sessions. It creates git worktrees without tmux session management — ideal for quick, isolated development.
+The `omg teleport` command provides a lightweight alternative to full PSM sessions. It creates git worktrees without tmux session management — ideal for quick, isolated development.
 
 ### Usage
 
 ```bash
 # Create worktree for an issue or PR
-omc teleport #123
-omc teleport owner/repo#123
-omc teleport https://github.com/owner/repo/issues/42
+omg teleport #123
+omg teleport owner/repo#123
+omg teleport https://github.com/owner/repo/issues/42
 
 # Create worktree for a feature
-omc teleport my-feature
+omg teleport my-feature
 
 # List existing worktrees
-omc teleport list
+omg teleport list
 
 # Remove a worktree
-omc teleport remove issue/my-repo-123
-omc teleport remove --force feat/my-repo-my-feature
+omg teleport remove issue/my-repo-123
+omg teleport remove --force feat/my-repo-my-feature
 ```
 
 ### Options
@@ -489,14 +489,14 @@ omc teleport remove --force feat/my-repo-my-feature
 | Flag | Description | Default |
 |------|-------------|---------|
 | `--worktree` | Create worktree (default, kept for compatibility) | `true` |
-| `--path <path>` | Custom worktree root directory | `~/Workspace/omc-worktrees/` |
+| `--path <path>` | Custom worktree root directory | `~/Workspace/omg-worktrees/` |
 | `--base <branch>` | Base branch to create from | `main` |
 | `--json` | Output as JSON | `false` |
 
 ### Worktree Layout
 
 ```
-~/Workspace/omc-worktrees/
+~/Workspace/omg-worktrees/
 ├── issue/
 │   └── my-repo-123/        # Issue worktrees
 ├── pr/
@@ -511,7 +511,7 @@ omc teleport remove --force feat/my-repo-my-feature
 |---------|-----|----------|
 | Git worktree | Yes | Yes |
 | Tmux session | Yes | No |
-| Claude Code launch | Yes | No |
+| Gemini Code launch | Yes | No |
 | Session registry | Yes | No |
 | Auto-cleanup | Yes | No |
 | Project aliases | Yes | No (uses current repo) |
@@ -543,9 +543,9 @@ if [[ ! -f ~/.psm/projects.json ]]; then
   cat > ~/.psm/projects.json << 'EOF'
 {
   "aliases": {
-    "omc": {
-      "repo": "Yeachan-Heo/oh-my-claudecode",
-      "local": "~/Workspace/oh-my-claudecode",
+    "omg": {
+      "repo": "Yeachan-Heo/oh-my-gemini-cli",
+      "local": "~/Workspace/oh-my-gemini-cli",
       "default_base": "main"
     }
   },

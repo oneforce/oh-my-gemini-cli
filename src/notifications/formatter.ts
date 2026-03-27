@@ -144,12 +144,12 @@ export function formatSessionEnd(payload: NotificationPayload): string {
 
 /**
  * Format session-idle notification message.
- * Sent when Claude stops and no persistent mode is blocking (truly idle).
+ * Sent when Gemini stops and no persistent mode is blocking (truly idle).
  */
 export function formatSessionIdle(payload: NotificationPayload): string {
   const lines = [`# Session Idle`, ""];
 
-  lines.push(`Claude has finished and is waiting for input.`);
+  lines.push(`Gemini has finished and is waiting for input.`);
   lines.push("");
 
   if (payload.reason) {
@@ -267,7 +267,7 @@ export function formatAgentCall(payload: NotificationPayload): string {
 
 /**
  * Format ask-user-question notification message.
- * Notifies the user that Claude is waiting for input.
+ * Notifies the user that Gemini is waiting for input.
  */
 export function formatAskUserQuestion(payload: NotificationPayload): string {
   const lines = [`# Input Needed`, ""];
@@ -277,7 +277,7 @@ export function formatAskUserQuestion(payload: NotificationPayload): string {
     lines.push("");
   }
 
-  lines.push(`Claude is waiting for your response.`);
+  lines.push(`Gemini is waiting for your response.`);
   lines.push("");
   lines.push(buildFooter(payload, true));
 

@@ -28,6 +28,6 @@ export declare function checkWatchdogFailedMarker(stateRoot: string, startTime: 
     failed: boolean;
     reason?: string;
 }>;
-export declare function writeResultArtifact(output: CliOutput, finishedAt: string, jobId?: string | undefined, omcJobsDir?: string | undefined): Promise<void>;
+export declare function writeResultArtifact(output: CliOutput, finishedAt: string, jobId?: string | undefined, omgJobsDir?: string | undefined): Promise<void>;
 export {};
 //# sourceMappingURL=runtime-cli.d.ts.map

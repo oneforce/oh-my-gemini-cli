@@ -14,7 +14,7 @@ import { getSessionStartTime, recordSessionMetrics, type SessionEndInput } from 
 let tmpDir: string;
 
 function stateDir(): string {
-  return path.join(tmpDir, '.omc', 'state');
+  return path.join(tmpDir, '.omg', 'state');
 }
 
 function writeState(filename: string, state: Record<string, unknown>): void {
@@ -36,7 +36,7 @@ function makeInput(overrides?: Partial<SessionEndInput>): SessionEndInput {
 }
 
 beforeEach(() => {
-  tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'omc-duration-test-'));
+  tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'omg-duration-test-'));
 });
 
 afterEach(() => {

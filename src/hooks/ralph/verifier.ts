@@ -8,14 +8,14 @@
  * 1. Ralph claims task is complete
  * 2. System enters verification mode
  * 3. Architect agent is invoked to verify the work
- * 4. If architect approves -> truly complete, use /oh-my-claudecode:cancel to exit
+ * 4. If architect approves -> truly complete, use /oh-my-gemini-cli:cancel to exit
  * 5. If architect finds flaws -> continue ralph with architect feedback
  */
 
 import { existsSync, readFileSync, writeFileSync, unlinkSync, mkdirSync } from 'fs';
 import { join } from 'path';
 import { resolveSessionStatePath, ensureSessionStateDir, getOmcRoot } from '../../lib/worktree-paths.js';
-import { formatOmcCliInvocation } from '../../utils/omc-cli-rendering.js';
+import { formatOmcCliInvocation } from '../../utils/omg-cli-rendering.js';
 import type { UserStory } from './prd.js';
 import type { RalphCriticMode } from './loop.js';
 
@@ -254,7 +254,7 @@ ${getVerificationAgentStep(state.critic_mode)}
    - Are tests passing (if applicable)?
 
 3. **Based on ${criticLabel}'s response:**
-   - If APPROVED: Output \`${approvalTag}\`, then run \`/oh-my-claudecode:cancel\` to cleanly exit
+   - If APPROVED: Output \`${approvalTag}\`, then run \`/oh-my-gemini-cli:cancel\` to cleanly exit
    - If REJECTED: Continue working on the identified issues
 
 </ralph-verification>
@@ -286,7 +286,7 @@ ${state.original_task}
 1. Address ALL issues identified by ${criticLabel}
 2. Do NOT claim completion again until issues are fixed
 3. When truly done, another ${criticLabel} verification will be triggered
-4. After ${criticLabel} approves, run \`/oh-my-claudecode:cancel\` to cleanly exit
+4. After ${criticLabel} approves, run \`/oh-my-gemini-cli:cancel\` to cleanly exit
 
 Continue working now.
 

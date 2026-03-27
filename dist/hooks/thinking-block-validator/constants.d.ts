@@ -21,7 +21,7 @@ export declare const THINKING_PART_TYPES: readonly ["thinking", "reasoning"];
  * Model patterns that support extended thinking
  * Aligns with think-mode/switcher.ts patterns
  */
-export declare const THINKING_MODEL_PATTERNS: readonly ["thinking", "-high", "claude-sonnet-4", "claude-opus-4", "claude-3"];
+export declare const THINKING_MODEL_PATTERNS: readonly ["thinking", "-high", "gemini-sonnet-4", "gemini-opus-4", "gemini-3"];
 /**
  * Default thinking content for synthetic blocks
  */

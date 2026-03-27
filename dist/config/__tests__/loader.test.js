@@ -33,7 +33,7 @@ describe("loadConfig() — auto-forceInherit for non-standard providers", () => 
         restore(saved);
     });
     it("auto-enables forceInherit for global. Bedrock inference profile with [1m] suffix", () => {
-        process.env.ANTHROPIC_MODEL = "global.anthropic.claude-sonnet-4-6[1m]";
+        process.env.ANTHROPIC_MODEL = "global.anthropic.gemini-sonnet-4-6[1m]";
         const config = loadConfig();
         expect(config.routing?.forceInherit).toBe(true);
     });
@@ -43,13 +43,13 @@ describe("loadConfig() — auto-forceInherit for non-standard providers", () => 
         expect(config.routing?.forceInherit).toBe(true);
     });
     it("auto-enables forceInherit for us. Bedrock region prefix", () => {
-        process.env.ANTHROPIC_MODEL = "us.anthropic.claude-opus-4-6-v1";
+        process.env.ANTHROPIC_MODEL = "us.anthropic.gemini-opus-4-6-v1";
         const config = loadConfig();
         expect(config.routing?.forceInherit).toBe(true);
     });
     it("auto-enables forceInherit for Bedrock inference-profile ARN model IDs", () => {
         process.env.ANTHROPIC_MODEL =
-            "arn:aws:bedrock:us-east-2:123456789012:inference-profile/global.anthropic.claude-opus-4-6-v1:0";
+            "arn:aws:bedrock:us-east-2:123456789012:inference-profile/global.anthropic.gemini-opus-4-6-v1:0";
         const config = loadConfig();
         expect(config.routing?.forceInherit).toBe(true);
     });
@@ -59,7 +59,7 @@ describe("loadConfig() — auto-forceInherit for non-standard providers", () => 
         expect(config.routing?.forceInherit).toBe(true);
     });
     it("does NOT auto-enable forceInherit for standard Anthropic API usage", () => {
-        process.env.ANTHROPIC_MODEL = "claude-sonnet-4-6";
+        process.env.ANTHROPIC_MODEL = "gemini-sonnet-4-6";
         const config = loadConfig();
         expect(config.routing?.forceInherit).toBe(false);
     });
@@ -70,7 +70,7 @@ describe("loadConfig() — auto-forceInherit for non-standard providers", () => 
     it("respects explicit OMC_ROUTING_FORCE_INHERIT=false even on Bedrock", () => {
         // When user explicitly sets the var (even to false), auto-detection is skipped.
         // This matches the guard: process.env.OMC_ROUTING_FORCE_INHERIT === undefined
-        process.env.ANTHROPIC_MODEL = "global.anthropic.claude-sonnet-4-6[1m]";
+        process.env.ANTHROPIC_MODEL = "global.anthropic.gemini-sonnet-4-6[1m]";
         process.env.OMC_ROUTING_FORCE_INHERIT = "false";
         const config = loadConfig();
         // env var is defined → auto-detection skipped → remains at default (false)
@@ -78,35 +78,35 @@ describe("loadConfig() — auto-forceInherit for non-standard providers", () => 
     });
     it("maps Bedrock family env vars into agent defaults and routing tiers", () => {
         process.env.CLAUDE_CODE_BEDROCK_OPUS_MODEL =
-            "us.anthropic.claude-opus-4-6-v1:0";
+            "us.anthropic.gemini-opus-4-6-v1:0";
         process.env.CLAUDE_CODE_BEDROCK_SONNET_MODEL =
-            "us.anthropic.claude-sonnet-4-6-v1:0";
+            "us.anthropic.gemini-sonnet-4-6-v1:0";
         process.env.CLAUDE_CODE_BEDROCK_HAIKU_MODEL =
-            "us.anthropic.claude-haiku-4-5-v1:0";
+            "us.anthropic.gemini-haiku-4-5-v1:0";
         const config = loadConfig();
-        expect(config.agents?.architect?.model).toBe("us.anthropic.claude-opus-4-6-v1:0");
-        expect(config.agents?.executor?.model).toBe("us.anthropic.claude-sonnet-4-6-v1:0");
-        expect(config.agents?.explore?.model).toBe("us.anthropic.claude-haiku-4-5-v1:0");
-        expect(config.routing?.tierModels?.HIGH).toBe("us.anthropic.claude-opus-4-6-v1:0");
-        expect(config.routing?.tierModels?.MEDIUM).toBe("us.anthropic.claude-sonnet-4-6-v1:0");
-        expect(config.routing?.tierModels?.LOW).toBe("us.anthropic.claude-haiku-4-5-v1:0");
+        expect(config.agents?.architect?.model).toBe("us.anthropic.gemini-opus-4-6-v1:0");
+        expect(config.agents?.executor?.model).toBe("us.anthropic.gemini-sonnet-4-6-v1:0");
+        expect(config.agents?.explore?.model).toBe("us.anthropic.gemini-haiku-4-5-v1:0");
+        expect(config.routing?.tierModels?.HIGH).toBe("us.anthropic.gemini-opus-4-6-v1:0");
+        expect(config.routing?.tierModels?.MEDIUM).toBe("us.anthropic.gemini-sonnet-4-6-v1:0");
+        expect(config.routing?.tierModels?.LOW).toBe("us.anthropic.gemini-haiku-4-5-v1:0");
     });
     it("supports Anthropic family-default env vars for tiered routing defaults", () => {
-        process.env.ANTHROPIC_DEFAULT_OPUS_MODEL = "claude-opus-4-6-custom";
-        process.env.ANTHROPIC_DEFAULT_SONNET_MODEL = "claude-sonnet-4-6-custom";
-        process.env.ANTHROPIC_DEFAULT_HAIKU_MODEL = "claude-haiku-4-5-custom";
+        process.env.ANTHROPIC_DEFAULT_OPUS_MODEL = "gemini-opus-4-6-custom";
+        process.env.ANTHROPIC_DEFAULT_SONNET_MODEL = "gemini-sonnet-4-6-custom";
+        process.env.ANTHROPIC_DEFAULT_HAIKU_MODEL = "gemini-haiku-4-5-custom";
         const config = loadConfig();
-        expect(config.agents?.architect?.model).toBe("claude-opus-4-6-custom");
-        expect(config.agents?.executor?.model).toBe("claude-sonnet-4-6-custom");
-        expect(config.agents?.explore?.model).toBe("claude-haiku-4-5-custom");
+        expect(config.agents?.architect?.model).toBe("gemini-opus-4-6-custom");
+        expect(config.agents?.executor?.model).toBe("gemini-sonnet-4-6-custom");
+        expect(config.agents?.explore?.model).toBe("gemini-haiku-4-5-custom");
     });
 });
 describe("startup context compaction", () => {
     it("compacts only OMC-style guidance in loadContextFromFiles while preserving key sections", () => {
-        const tempDir = mkdtempSync(join(tmpdir(), "omc-loader-context-"));
+        const tempDir = mkdtempSync(join(tmpdir(), "omg-loader-context-"));
         try {
-            const omcAgentsPath = join(tempDir, "AGENTS.md");
-            const omcGuidance = `# oh-my-claudecode - Intelligent Multi-Agent Orchestration
+            const omgAgentsPath = join(tempDir, "AGENTS.md");
+            const omgGuidance = `# oh-my-gemini-cli - Intelligent Multi-Agent Orchestration
 
 <guidance_schema_contract>
 schema
@@ -133,14 +133,14 @@ schema
 <verification>
 - verify this stays
 </verification>`;
-            writeFileSync(omcAgentsPath, omcGuidance);
-            const loaded = loadContextFromFiles([omcAgentsPath]);
+            writeFileSync(omgAgentsPath, omgGuidance);
+            const loaded = loadContextFromFiles([omgAgentsPath]);
             expect(loaded).toContain("<operating_principles>");
             expect(loaded).toContain("<verification>");
             expect(loaded).not.toContain("<agent_catalog>");
             expect(loaded).not.toContain("<skills>");
             expect(loaded).not.toContain("<team_compositions>");
-            expect(loaded.length).toBeLessThan(omcGuidance.length + `## Context from ${omcAgentsPath}\n\n`.length - 40);
+            expect(loaded.length).toBeLessThan(omgGuidance.length + `## Context from ${omgAgentsPath}\n\n`.length - 40);
         }
         finally {
             rmSync(tempDir, { recursive: true, force: true });
@@ -169,16 +169,16 @@ describe("plan output configuration", () => {
     it("includes plan output defaults", () => {
         const config = loadConfig();
         expect(config.planOutput).toEqual({
-            directory: ".omc/plans",
+            directory: ".omg/plans",
             filenameTemplate: "{{name}}.md",
         });
     });
     it("loads plan output overrides from project config", () => {
-        const tempDir = mkdtempSync(join(tmpdir(), "omc-plan-output-"));
+        const tempDir = mkdtempSync(join(tmpdir(), "omg-plan-output-"));
         try {
-            const claudeDir = join(tempDir, ".claude");
-            require("node:fs").mkdirSync(claudeDir, { recursive: true });
-            writeFileSync(join(claudeDir, "omc.jsonc"), JSON.stringify({
+            const geminiDir = join(tempDir, ".gemini");
+            require("node:fs").mkdirSync(geminiDir, { recursive: true });
+            writeFileSync(join(geminiDir, "omg.jsonc"), JSON.stringify({
                 planOutput: {
                     directory: "docs/plans",
                     filenameTemplate: "plan-{{name}}.md",

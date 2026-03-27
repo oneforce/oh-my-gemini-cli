@@ -137,7 +137,7 @@ export async function teamReadConfig(teamName, cwd) {
         return canonicalizeTeamConfigWorkers({
             name: manifest.name,
             task: manifest.task,
-            agent_type: 'claude',
+            agent_type: 'gemini',
             policy: manifest.policy,
             governance: manifest.governance,
             worker_launch_mode: manifest.policy.worker_launch_mode,

@@ -27,7 +27,7 @@ describe('devcontainer LSP helpers', () => {
   let workspaceRoot: string;
 
   beforeEach(() => {
-    workspaceRoot = mkdtempSync(join(tmpdir(), 'omc-devcontainer-'));
+    workspaceRoot = mkdtempSync(join(tmpdir(), 'omg-devcontainer-'));
     delete process.env.OMC_LSP_CONTAINER_ID;
     vi.resetModules();
   });

@@ -786,7 +786,7 @@ export class LspClientManager {
   /**
    * Register process exit/signal handlers to kill all spawned LSP server processes.
    * Prevents orphaned language server processes (e.g. kotlin-language-server)
-   * when the MCP bridge process exits or a claude session ends.
+   * when the MCP bridge process exits or a gemini session ends.
    */
   private registerCleanupHandlers(): void {
     const forceKillAll = () => {
@@ -1062,7 +1062,7 @@ export class LspClientManager {
   }
 }
 
-const LSP_CLIENT_MANAGER_KEY = '__omcLspClientManager';
+const LSP_CLIENT_MANAGER_KEY = '__omgLspClientManager';
 type GlobalWithLspClientManager = typeof globalThis & {
   [LSP_CLIENT_MANAGER_KEY]?: LspClientManager;
 };

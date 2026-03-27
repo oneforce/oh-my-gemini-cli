@@ -1,7 +1,7 @@
 import { isCliAvailable, type CliAgentType } from '../../team/model-contract.js';
 
 export interface SkillRuntimeAvailability {
-  claude: boolean;
+  gemini: boolean;
   codex: boolean;
   gemini: boolean;
 }
@@ -10,7 +10,7 @@ export function detectSkillRuntimeAvailability(
   detector: (agentType: CliAgentType) => boolean = isCliAvailable,
 ): SkillRuntimeAvailability {
   return {
-    claude: detector('claude'),
+    gemini: detector('gemini'),
     codex: detector('codex'),
     gemini: detector('gemini'),
   };
@@ -27,13 +27,13 @@ function renderDeepInterviewRuntimeGuidance(availability: SkillRuntimeAvailabili
 
   return [
     '## Provider-Aware Execution Recommendations',
-    'When Phase 5 presents post-interview execution choices, keep the Claude-only defaults above and add these Codex variants because Codex CLI is available:',
+    'When Phase 5 presents post-interview execution choices, keep the Gemini-only defaults above and add these Codex variants because Codex CLI is available:',
     '',
-    '- `/ralplan --architect codex "<spec or task>"` — Codex handles the architect pass; best for implementation-heavy design review; higher cost than Claude-only ralplan.',
-    '- `/ralplan --critic codex "<spec or task>"` — Codex handles the critic pass; cheaper than moving the full loop off Claude; strong second-opinion review.',
+    '- `/ralplan --architect codex "<spec or task>"` — Codex handles the architect pass; best for implementation-heavy design review; higher cost than Gemini-only ralplan.',
+    '- `/ralplan --critic codex "<spec or task>"` — Codex handles the critic pass; cheaper than moving the full loop off Gemini; strong second-opinion review.',
     '- `/ralph --critic codex "<spec or task>"` — Ralph still executes normally, but final verification goes through the Codex critic; smallest multi-provider upgrade.',
     '',
-    'If Codex becomes unavailable, briefly note that and fall back to the Claude-only recommendations already listed in Phase 5.',
+    'If Codex becomes unavailable, briefly note that and fall back to the Gemini-only recommendations already listed in Phase 5.',
   ].join('\n');
 }
 

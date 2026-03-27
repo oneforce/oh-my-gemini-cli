@@ -198,7 +198,7 @@ export async function teamReadConfig(teamName: string, cwd: string): Promise<Tea
     return canonicalizeTeamConfigWorkers({
       name: manifest.name,
       task: manifest.task,
-      agent_type: 'claude',
+      agent_type: 'gemini',
       policy: manifest.policy,
       governance: manifest.governance,
       worker_launch_mode: manifest.policy.worker_launch_mode,
